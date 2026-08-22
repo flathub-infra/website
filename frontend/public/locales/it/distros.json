@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "Aggiungi il repository Flathub",
-      "text": "<text>Flathub è il posto migliore per scaricare le app Flatpak. Per abilitarlo, esegui:</text> <code></code>"
+      "text": "<text>Flathub è il posto migliore per ottenere le applicazioni Flatpak. Per abilitarlo, scarica e installa il <filelink>file del repository Flathub</filelink> oppure esegui:</text> <code></code>"
     },
     "step-4": {
       "name": "Riavvia",
@@ -123,7 +123,7 @@
     },
     "step-2": {
       "name": "Aggiungi il repository Flathub",
-      "text": "<text>Flathub è il posto migliore per scaricare le app Flatpak. Per abilitarlo, esegui:</text> <code></code>"
+      "text": "<text>Flathub è il posto migliore per ottenere le applicazioni Flatpak. Per abilitarlo, scarica e installa il <filelink>file del repository Flathub</filelink> oppure esegui:</text> <code></code>"
     }
   },
   "arch": {
@@ -281,7 +281,7 @@
     },
     "step-2": {
       "name": "Aggiungi il repository Flathub",
-      "text": "<text>Flathub è il posto migliore per scaricare le app Flatpak. Per abilitarlo, esegui:</text> <code></code>"
+      "text": "<text>Flathub è il posto migliore per ottenere le applicazioni Flatpak. Per abilitarlo, scarica e installa il <filelink>file del repository Flathub</filelink> oppure esegui:</text> <code></code>"
     },
     "distroName": "NixOS"
   },
@@ -319,7 +319,7 @@
     },
     "step-3": {
       "name": "Aggiungi il repository Flathub",
-      "text": "<text>Flathub è il posto migliore per scaricare le app Flatpak. Per abilitarlo, esegui:</text> <code></code>"
+      "text": "<text>Flathub è il posto migliore per ottenere le applicazioni Flatpak. Per abilitarlo, scarica e installa il <filelink>file del repository Flathub</filelink> oppure esegui:</text> <code></code>"
     },
     "distroName": "Pardus"
   },
@@ -425,5 +425,24 @@
   "vanilla_os": {
     "distroName": "Vanilla OS",
     "introduction": "<header>Flatpak è installato di default su Vanilla OS.</header> <text>Puoi usare l'app Software o navigare su <link>Flathub</link> per installare le app.</text> <text>Se per qualche motivo Flathub non è disponibile, puoi configurarlo manualmente usando il seguente comando:</text> <code></code>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Installa Flatpak",
+      "text": "<text>Un pacchetto Flatpak è disponibile su SlackBuilds. Per installarlo (assumendo che tu utilizzi Sbopkg/sqg), crea prima il file di coda ed esegui quanto segue come root:</text> <codeQueue></codeQueue> <text>Quindi compilalo. Carica il file di coda, premi 'Q' e attendi:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Aggiungi il repository Flathub",
+      "text": "<text>Flathub è il posto migliore per ottenere le applicazioni Flatpak. Per abilitarlo, esegui:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Riavvia",
+      "text": "<text>Per completare la configurazione, riavvia il sistema. Ora non ti resta che <link>installare le applicazioni</link>!</text> <text>Nota: l'installazione grafica delle applicazioni Flatpak potrebbe non essere possibile su Slackware.</text>"
+    }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak è installato di default su T2 SDE a partire dalla versione 26.6: non è necessaria alcuna configurazione!</header> <text>Flatpak è preconfigurato con il repository Flathub e include strumenti di integrazione desktop che consentono di installare le applicazioni da Flathub con un solo clic.</text> <text>Non devi fare altro che <link>installare le applicazioni</link>!</text>"
   }
 }

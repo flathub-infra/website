@@ -112,7 +112,7 @@
   "terms-and-conditions": "Termini e Condizioni",
   "transaction-summary-updated": "Ultimo aggiornamento:",
   "stripe-error-expired_card": "La carta è scaduta. Controlla la data di scadenza o usa un'altra carta.",
-  "acknowledgements-block": "<p>Flathub non sarebbe stato possibile senza il generoso supporto delle seguenti organizzazioni e individui.</p>",
+  "acknowledgements-block": "<p>Flathub non sarebbe possibile senza il generoso sostegno della più ampia comunità di Flatpak e Flathub. Ringraziamo tutti i collaboratori, gli sponsor e le organizzazioni, passati e presenti, il cui supporto e le cui infrastrutture hanno permesso a Flathub di continuare a funzionare.</p>",
   "vcs_browser": "Sfoglia il codice sorgente",
   "entry-confirmation-prompt": "Inserisci “{text}” per continuare.",
   "transaction-summary-type": "Tipo:",
@@ -337,12 +337,12 @@
   "app-already-exists": "Esiste già una app con questo ID.",
   "arch": "Architettura",
   "safe": "Sicura",
-  "probably-safe": "Probabilmente sicura",
-  "unsafe": "Insicura",
+  "probably-safe": "Basso rischio",
+  "unsafe": "Alto rischio",
   "no-permissions": "Nessun permesso",
   "can-access-system-devices": "Ha accesso a dispositivi di sistema che richiedono permessi elevati",
   "release-link-no-changelog": "Note di rilascio",
-  "potentially-unsafe": "Potenzialmente insicura",
+  "potentially-unsafe": "Rischio medio",
   "has-network-access": "Ha accesso alla rete",
   "uses-system-services": "Usa servizi di sistema",
   "uses-session-services": "Usa servizi di sessione",
@@ -401,7 +401,8 @@
     "light": "Chiaro",
     "dark": "Scuro",
     "general-runtime-not-eol": "Runtime non a fine vita",
-    "failing-x-checks": "Fallimento {count, plural, one {# check} altro {# checks}}"
+    "failing-x-checks": "Fallito {count, plural, one {# check} altri {# checks}}",
+    "stats-by-category": "Stato di revisione delle linee guida per categoria"
   },
   "audio-video-editing": "Montaggio Audio e Video",
   "appname-is-safety-rating-1": "{appName} è sicuro",
@@ -618,8 +619,8 @@
   "kind-purchase-app": "Acquista {appName}",
   "apps-by-tag": "App per tag “{tag}”",
   "mobile-apps": "App mobile",
-  "favorite": "Preferito",
-  "favorite-apps": "Preferiti",
+  "favorite": "Segnalibro",
+  "favorite-apps": "Segnalibri",
   "quality": {
     "banner-preview": "Anteprima del banner",
     "banner-preview-description": "Per sperimentare facilmente il tuo banner, usa <preview>l'anteprima del banner</preview>",
@@ -673,9 +674,9 @@
   "can-talk-to-non-portal-service": "Può richiedere dati da servizi al di fuori di portal e ottenere autorizzazioni aggiuntive",
   "developed-by": "sviluppato da {developer}",
   "unverified-tooltip": "La proprietà dell'ID dell'app <appid></appid> non è stata verificata e potrebbe trattarsi di un pacchetto della community",
-  "install-all-favorites": "Installa tutti i preferiti",
-  "install-all-favorites-description": "Copia questo comando per installare tutte le tue app preferite contemporaneamente:",
-  "no-favorites-yet": "Non hai ancora nessuna app preferita. Inizia ad aggiungerne qualcuna cliccando sull'icona dei segnalibri sulle app che ti piacciono!",
+  "install-all-favorites": "Installa tutti i segnalibri",
+  "install-all-favorites-description": "Copia questo comando per installare tutte le app salvate nei preferiti in una sola volta:",
+  "no-favorites-yet": "Non hai ancora aggiunto app ai preferiti. Inizia ad aggiungerne qualcuna cliccando sull'icona del segnalibro sulle app che ti piacciono!",
   "vending": {
     "purchase-not-available": "Questa applicazione non è disponibile per l'acquisto."
   },
@@ -761,5 +762,109 @@
     "none-language": "Non contiene parolacce o linguaggio volgare",
     "none-social": "Nessuna funzionalità social",
     "none-money": "Non contiene pubblicità né transazioni monetarie"
-  }
+  },
+  "contribute-flathub": "Contribuisci a Flathub",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Anno nuovo, nuovi flussi di lavoro",
+      "description": "App per prendere appunti, gestire attività e pianificare"
+    },
+    "free-software-favorites": {
+      "header": "Scelte dello staff",
+      "description": "Le app che adoriamo al momento"
+    },
+    "spring-creativity": {
+      "header": "Scatena la creatività",
+      "description": "App essenziali per disegnare, modificare foto e progettazione digitale"
+    },
+    "fresh-desktop-releases": {
+      "header": "Crea app native",
+      "description": "Sviluppa app perfettamente integrate nel tuo sistema"
+    },
+    "staying-connected": {
+      "header": "Restiamo in contatto",
+      "description": "App essenziali per la collaborazione e la comunicazione"
+    },
+    "summer-travel": {
+      "header": "Pronti per le vacanze",
+      "description": "App per mappe, trasporti pubblici, meteo e pianificazione dei viaggi"
+    },
+    "back-to-learning": {
+      "header": "Più intelligenti ogni giorno",
+      "description": "App per aiutarti a studiare, fare ricerche e scrivere"
+    },
+    "winter-comforts": {
+      "description": "Ottime app per leggere, guardare film e giocare"
+    },
+    "tools-for-developers": {
+      "header": "Elementi essenziali per lo sviluppo web",
+      "description": "Creare siti web è più divertente con queste app"
+    },
+    "take-better-notes": {
+      "header": "Prendi appunti migliori",
+      "description": "Trova il tuo nuovo strumento preferito per prendere appunti"
+    },
+    "get-focused": {
+      "header": "Concentrati",
+      "description": "Ottime app per la gestione delle attività"
+    },
+    "make-some-noise": {
+      "header": "Fatevi sentire",
+      "description": "App per creare e produrre musica"
+    },
+    "get-to-work": {
+      "header": "Mettiti al lavoro",
+      "description": "App essenziali per l'ufficio"
+    }
+  },
+  "trending-apps-description": "Le applicazioni Linux che hanno registrato il maggior numero di installazioni su Flathub nelle ultime due settimane.",
+  "popular-apps-description": "Le applicazioni Linux più installate su Flathub nell'ultimo mese.",
+  "verified-apps-description": "App su Flathub la cui identità dello sviluppatore è stata verificata.",
+  "audio-and-video-description": "Lettori musicali, editor video, strumenti per podcasting e applicazioni multimediali per Linux.",
+  "developer-tools-description": "IDE, editor di codice, terminali e utility per sviluppatori per Linux.",
+  "games-description": "Giochi, emulatori e lanciatori di giochi per Linux.",
+  "graphics-and-photography-description": "Editor di immagini, strumenti di illustrazione e app di fotografia per Linux.",
+  "networking-description": "Browser web, client di posta elettronica, strumenti VPN e altre applicazioni di rete per Linux.",
+  "productivity-description": "Suite per ufficio, app per prendere appunti, gestione dei progetti e applicazioni per la produttività per Linux.",
+  "utilities-description": "Utility di sistema, file manager, calcolatrici e strumenti di uso quotidiano per Linux.",
+  "science-description": "Calcolo scientifico, analisi dei dati e applicazioni di ricerca per Linux.",
+  "education-description": "App per l'apprendimento, strumenti linguistici e software educativo per Linux.",
+  "system-description": "Strumenti di gestione, monitoraggio e amministrazione del sistema per Linux.",
+  "health-fitness-description": "App per la salute e il fitness per Linux.",
+  "moderation-summary-changes": "Riepilogo delle modifiche",
+  "moderation-manifest-source-origin": "Applica le modifiche alla sorgente",
+  "moderation-manifest-complexity": "Gestire la complessità del packaging",
+  "moderation-manifest-source-and-complexity": "Revisione della complessità e dell'origine del manifest",
+  "moderation-manifest-complexity-explanation": "Queste modifiche alla ricetta descrivono l'ampiezza e la struttura del pacchetto, non i rischi per la sicurezza o comportamenti malevoli.",
+  "moderation-manifest-complexity-ambiguity": "Alcuni moduli non hanno potuto essere associati in modo univoco; esamina attentamente le modifiche alla ricetta interessate.",
+  "moderation-manifest-complexity-modules": "Moduli interessati",
+  "moderation-manifest-complexity-events": "Modifiche alla ricetta",
+  "moderation-manifest-complexity-modules-truncated": "Visualizzati {shown} su {total} moduli interessati.",
+  "moderation-manifest-complexity-events-truncated": "Visualizzate {shown} su {total} modifiche alle ricette.",
+  "moderation-manifest-added": "Aggiunto",
+  "moderation-manifest-removed": "Rimosso",
+  "moderation-random-review": "Selezionato casualmente per una revisione umana",
+  "moderation-build-changes": "Modifiche alla build",
+  "moderation-build-log": "Registro di costruzione",
+  "manual-verification": "Contrassegna come verificato manualmente",
+  "user-id": "ID utente Flathub",
+  "unverified-app-disclaimer-package": "Questo pacchetto fornito dalla comunità non è verificato, affiliato o supportato da {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "lo sviluppatore dell'app",
+  "health-fitness": "Salute e fitness",
+  "more-healthfitness": "Altri contenuti su salute e fitness",
+  "dns-verification-main-instruction": "Verifica il tuo diritto di utilizzare l'ID app <bold>{id}</bold> pubblicando un record DNS TXT per <bold>{domain}</bold>.",
+  "dns-validation-instruction": "Aggiungi il seguente record DNS senza rimuovere eventuali record TXT esistenti. La propagazione delle modifiche DNS può richiedere del tempo.",
+  "dns-record-value": "Valore",
+  "dns-record-not-found": "Non è stato trovato alcun record TXT presso {record}.",
+  "dns-token-not-present": "I record TXT presso {record} non contengono il token di verifica.",
+  "dns-lookup-failed": "Impossibile recuperare i record TXT per {record}.",
+  "app-is-currently-verified-by-dns": "La tua app è attualmente verificata tramite il controllo DNS di <domain></domain>",
+  "verified-dns-tooltip": "La proprietà dell'ID app <appid></appid> è stata verificata tramite il controllo DNS di <domain></domain>",
+  "dns-verification": "Verifica DNS",
+  "upload-token-create-failed": "Impossibile creare il token di caricamento. Riprova.",
+  "os-version-distribution": "Distribuzione delle versioni del sistema operativo (ultimi 30 giorni)",
+  "flatpak-version-distribution": "Distribuzione delle versioni Flatpak (ultimi 30 giorni)",
+  "os-flatpak-version-distribution": "Versione Flatpak per sistema operativo (ultimi 30 giorni)",
+  "share": "Condividere",
+  "founding-supporters": "Sostenitori fondatori"
 }
