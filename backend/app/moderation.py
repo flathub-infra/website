@@ -34,6 +34,7 @@ from .emails import EmailCategory
 from .login_info import LoginStatusDep, ModeratorDep
 from .moderation_constants import should_skip_review
 from .types import ModerationRequestType
+from .verification import is_appid_runtime
 
 router = APIRouter(prefix="/moderation")
 logger = logging.getLogger(__name__)
@@ -1186,6 +1187,10 @@ def submit_review_request(
                         .all()
                     )
                     direct_upload_app_ids = {app.app_id for app in direct_upload_apps}
+            skip_missing_candidate_app_ids = direct_upload_app_ids | {
+                app_id for app_id in candidate_app_ids if is_appid_runtime(app_id)
+            }
+
             manifest_pairs = ostree_manifest.collect_manifest_pairs(
                 candidate_repo_url=(
                     f"https://dl.flathub.org/build-repo/{review_request.build_id}"
@@ -1193,7 +1198,7 @@ def submit_review_request(
                 published_repo_url=config.settings.repo_url,
                 refs=candidate_refs,
                 timeout_seconds=config.settings.ostree_manifest_timeout_seconds,
-                skip_missing_candidate_app_ids=direct_upload_app_ids,
+                skip_missing_candidate_app_ids=skip_missing_candidate_app_ids,
             )
             manifest_groups = ostree_manifest.group_identical_manifest_pairs(
                 manifest_pairs

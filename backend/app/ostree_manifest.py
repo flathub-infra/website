@@ -451,7 +451,7 @@ def collect_manifest_pairs(
                 if candidate_manifest is None:
                     if item.app_id in skip_missing_candidate_app_ids:
                         logger.warning(
-                            "Candidate OSTree manifest is missing for direct-upload app",
+                            "Candidate OSTree manifest is missing for exempt app",
                             extra={
                                 "app_id": item.app_id,
                                 "ref_name": item.ref_name,

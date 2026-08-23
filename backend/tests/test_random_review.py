@@ -1759,6 +1759,43 @@ def test_direct_upload_app_allows_missing_candidate_manifest(monkeypatch):
     assert harness.emails == []
 
 
+def test_runtime_generated_app_allows_missing_candidate_manifest(monkeypatch):
+    app_id = "org.freedesktop.Platform.ClInfo"
+    assert moderation.is_appid_runtime(app_id)
+    assert moderation.should_skip_review(app_id)
+    harness = CallbackHarness(
+        monkeypatch,
+        app_ids=(app_id,),
+        skipped=(app_id,),
+        enabled=False,
+        manifest_enabled=True,
+        build_refs=[
+            {
+                "ref_name": f"app/{app_id}/x86_64/24.08",
+                "commit": "a" * 64,
+            }
+        ],
+    )
+    captured = {}
+
+    def collect_manifest_pairs(**kwargs):
+        captured.update(kwargs)
+        return ()
+
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        collect_manifest_pairs,
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert captured["skip_missing_candidate_app_ids"] == {app_id}
+    assert harness.db.session.persisted == []
+    assert harness.emails == []
+
+
 @pytest.mark.parametrize(
     "error",
     [
