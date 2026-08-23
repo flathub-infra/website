@@ -32,15 +32,6 @@
     @apply border-border;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply text-balance;
-  }
-
   p {
     @apply mb-4;
     @apply text-flathub-dark-gunmetal;
