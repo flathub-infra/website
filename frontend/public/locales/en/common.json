@@ -55,7 +55,7 @@
     "works-well-on-large-screens": "Works well on large screens",
     "may-not-work-well-on-mobile": "May not work well on mobile devices",
     "works-well-on-mobile": "Works well on mobile devices",
-    "total-installs": "Total Installs",
+    "total-installs": "{count} Total Installs",
     "age-rating": "Age Rating"
   },
   "license": "License",

@@ -103,8 +103,9 @@ const StatsModal = ({
       size="xl"
     >
       <div className="flex justify-end pb-2 text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-        {stats.installs_total.toLocaleString(getIntlLocale(locale))}{" "}
-        {t("sub-header.total-installs")}
+        {t("sub-header.total-installs", {
+          count: stats.installs_total.toLocaleString(getIntlLocale(locale)),
+        })}
       </div>
       <Tabs tabs={tabs} tabsIdentifier="stats-modal" />
     </Modal>
