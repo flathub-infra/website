@@ -275,8 +275,8 @@ importers:
         specifier: ^10.3.5
         version: 10.3.5(eslint@9.39.2(jiti@2.7.0))(storybook@10.5.8(@types/react@19.2.18)(prettier@3.8.3)(react@19.2.8))(typescript@5.9.3)
       globals:
-        specifier: ^17.6.0
-        version: 17.6.0
+        specifier: ^17.11.0
+        version: 17.11.0
       msw:
         specifier: ^2.15.0
         version: 2.15.0(@types/node@26.1.1)(typescript@5.9.3)
@@ -4678,8 +4678,8 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  baseline-browser-mapping@2.11.16:
-    resolution: {integrity: sha512-H/bNPUFHewJHyCTdjn1n3Pit5+2GmWT6mmeHImPX+8MA9NA6b67jO4gYmi4jTbCJb2otq34KMZnovndDPqJwhQ==}
+  baseline-browser-mapping@2.11.17:
+    resolution: {integrity: sha512-KAUDn1OSS0fmPlGO+NOUMRcOQ/b/shUBH3OgkG73mPgdf+JD/BQ6fHboGxNOxnUmlwcq+lLq3dTkayRPuSfXwg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -5608,8 +5608,8 @@ packages:
     resolution: {integrity: sha512-ob/2LcVVaVGCYN+r14cnwnoDPUufjiYgSqRhiFD0Q1iI4Odora5RE8Iv1D24hAz5oMophRGkGz+yuvQmmUMnMw==}
     engines: {node: '>=18'}
 
-  globals@17.6.0:
-    resolution: {integrity: sha512-sepffkT8stwnIYbsMBpoCHJuJM5l98FUF2AnE07hfvE0m/qp3R586hw4jF4uadbhvg1ooIdzuu7CsfD2jzCaNA==}
+  globals@17.11.0:
+    resolution: {integrity: sha512-Z2I8hM+PbJDXQDq3Icgpzv+mPdwr68iZUU9d5WW4FuXfDUQfkZaZuvjMv42/5crNyw154+9+VWXbYrUgDXbxNw==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -11826,7 +11826,7 @@ snapshots:
 
   baseline-browser-mapping@2.11.12: {}
 
-  baseline-browser-mapping@2.11.16: {}
+  baseline-browser-mapping@2.11.17: {}
 
   bidi-js@1.0.3:
     dependencies:
@@ -11868,7 +11868,7 @@ snapshots:
 
   browserslist@4.28.8:
     dependencies:
-      baseline-browser-mapping: 2.11.16
+      baseline-browser-mapping: 2.11.17
       caniuse-lite: 1.0.30001809
       electron-to-chromium: 1.5.412
       node-releases: 2.0.53
@@ -12975,7 +12975,7 @@ snapshots:
 
   globals@16.4.0: {}
 
-  globals@17.6.0: {}
+  globals@17.11.0: {}
 
   globalthis@1.0.4:
     dependencies:
