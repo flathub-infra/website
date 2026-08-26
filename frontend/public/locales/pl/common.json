@@ -744,7 +744,7 @@
     "works-well-on-large-screens": "Działa bez zarzutu na dużych ekranach",
     "may-not-work-well-on-mobile": "Może nie działać poprawnie na urządzeniach mobilnych",
     "works-well-on-mobile": "Działa poprawnie na urządzeniach mobilnych",
-    "total-installs": "Łączna liczba instalacji",
+    "total-installs": "{count} instalacji łącznie",
     "age-rating": "Kategoria wiekowa"
   },
   "content-rating": {

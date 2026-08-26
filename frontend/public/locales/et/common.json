@@ -742,8 +742,8 @@
     "desktop-support": "Töölauaseadmete tugi",
     "works-well-on-large-screens": "Toimib hästi suurtel ekraanidel",
     "may-not-work-well-on-mobile": "Ei pruugi nutiseadmetes hästi toimida",
-    "works-well-on-mobile": "Toimib nutiseadmetes hästi",
-    "total-installs": "paigaldust kokku",
+    "works-well-on-mobile": "Toimib kenasti nutiseadmetes",
+    "total-installs": "Kokku {count} paigaldust",
     "age-rating": "Vanusepiirang"
   },
   "quality-moderation-excluded": "Selle rakenduse puhul ei kohaldata kvaliteedikontrolle",
@@ -757,7 +757,7 @@
     "category-money": "Raha",
     "unknown": "Teave on lisamata",
     "none-violence": "Ei sisalda vägivalda",
-    "none-drugs": "Ei sisalda viiteid narkootikumidele",
+    "none-drugs": "Ei sisalda viiteid mõnuainetele või narkootikumidele",
     "none-sex": "Ei sisalda seksuaalset sisu või alastust",
     "none-language": "Ei sisalda roppu või ebasobilikku teksti",
     "none-social": "Ei sisalda sotsiaalset funktsionaalsust",
@@ -792,7 +792,7 @@
   "curated-app-selection-themes": {
     "get-to-work": {
       "header": "Kui on vaja tööle asuda",
-      "description": "Olulised kontorirakendused"
+      "description": "Olulised kontori- ja tarberakendused"
     },
     "make-some-noise": {
       "header": "Mõnikord tahaks müra teha",
@@ -832,7 +832,7 @@
     },
     "summer-travel": {
       "header": "Vahva puhkus ootab",
-      "description": "Kaardid, ühistransport, ilmaennustus, reiside plaanimine ning muud liikumsega seotud rakendused"
+      "description": "Kaardid, ühistransport, ilmaennustus, reiside plaanimine ning muud liikumisega seotud rakendused"
     },
     "staying-connected": {
       "header": "Suhtle täitsa vabalt",
