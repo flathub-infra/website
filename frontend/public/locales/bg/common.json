@@ -730,7 +730,7 @@
   "sub-header": {
     "download": "Изтегляне",
     "installed-runtime-size": "Инсталиран размер на средата за изпълнение",
-    "total-installs": "инсталирания общо",
+    "total-installs": "Общо {count} инсталирания",
     "size-on-disk": "Размер върху диска",
     "amount-to-download": "Размер за изтегляне от интернет",
     "downloads-per-month": "Изтегляния на месец",

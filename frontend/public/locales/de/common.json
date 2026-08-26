@@ -743,7 +743,7 @@
     "works-well-on-large-screens": "Funktioniert gut auf großen Bildschirmen",
     "may-not-work-well-on-mobile": "Funktioniert unter Umständen nicht gut auf mobilen Geräten",
     "works-well-on-mobile": "Funktioniert gut auf mobilen Geräten",
-    "total-installs": "Summe Installiert",
+    "total-installs": "{count} installiert",
     "age-rating": "Altersfreigabe"
   },
   "quality-moderation-excluded": "Diese App ist von Qualitätskontrollen ausgeschlossen",
@@ -854,5 +854,7 @@
   "moderation-random-review": "Zufällig zur menschlichen Überprüfung ausgewählt",
   "dns-verification-main-instruction": "Verifiziere dein Recht, die App-ID <bold>{id}</bold> zu verwenden, indem du einen DNS-TXT-Eintrag für <bold>{domain}</bold> veröffentlichst.",
   "dns-lookup-failed": "Die Abfrage der TXT-Einträge für {record} ist fehlgeschlagen.",
-  "verified-dns-tooltip": "Der Besitz der App-Kennung <appid></appid> wurde durch die DNS-Kontrolle von <domain></domain> verifiziert"
+  "verified-dns-tooltip": "Der Besitz der App-Kennung <appid></appid> wurde durch die DNS-Kontrolle von <domain></domain> verifiziert",
+  "moderation-manifest-removed": "Entfernt",
+  "moderation-manifest-added": "Hinzugefügt"
 }

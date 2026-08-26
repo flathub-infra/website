@@ -709,7 +709,7 @@
     "works-well-on-large-screens": "يعمل جيدًا على الشاشات الكبيرة",
     "may-not-work-well-on-mobile": "قد لا يعمل جيدًا على أجهزة الجوّال",
     "works-well-on-mobile": "يعمل جيدًا على أجهزة الجوّال",
-    "total-installs": "إجمالي التثبيتات",
+    "total-installs": "إجمالي {count} تثبيت",
     "age-rating": "التصنيف العمري"
   },
   "content-rating": {

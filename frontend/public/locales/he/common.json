@@ -504,7 +504,7 @@
     "works-well-on-large-screens": "עובד מצוין על מסכים גדולים",
     "may-not-work-well-on-mobile": "אולי לא עובד טוב על מכשירים ניידים",
     "works-well-on-mobile": "עובד היטב על מכשירים ניידים",
-    "total-installs": "סך כל ההתקנות",
+    "total-installs": "{count} התקנות בסך הכול",
     "age-rating": "דירוג גיל",
     "download": "הורדה"
   },
@@ -516,7 +516,11 @@
   "contribute-flathub": "תרומה ל־Flathub",
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
-      "header": "שנה חדשה, שגרות חדשות"
+      "header": "שנה חדשה, שגרות חדשות",
+      "description": "יישומונים לכתיבת פתקיות, לעקוב אחר משימות ולתכנן תוכניות"
+    },
+    "free-software-favorites": {
+      "header": "בחירת הצוות"
     }
   }
 }
