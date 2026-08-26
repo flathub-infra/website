@@ -298,7 +298,7 @@ export default function AppPicksClient() {
         info.permissions.some((a) => a === Permission["quality-moderation"])
       }
     >
-      <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+      <div className="mx-auto my-0 w-11/12 max-w-[1400px]">
         {queryAppsOfTheWeek.isPending || queryQualityApps.isPending ? (
           <Spinner size="m" />
         ) : queryAppsOfTheWeek.isError || queryQualityApps.isError ? (
