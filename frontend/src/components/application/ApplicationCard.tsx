@@ -140,6 +140,7 @@ export const ApplicationCard = ({
           iconUrl={application.icon}
           appName={application.name}
           priority={priority}
+          quality={100}
           size={96}
         />
       </div>
