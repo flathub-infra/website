@@ -978,7 +978,10 @@ async def _build_year_in_review_base(year: int) -> dict | None:
     async def _fetch_stats_async(date):
         cache_key = f"stats:date:{date.isoformat()}"
         try:
-            cached_value = await redis_conn.get(cache_key)
+            cached_value = cast(
+                "bytes | str | None",
+                await asyncio.to_thread(redis_conn.get, cache_key),
+            )
         except Exception:
             logger.exception("Failed to read cached stats for %s", date)
             cached_value = None
@@ -1000,7 +1003,12 @@ async def _build_year_in_review_base(year: int) -> dict | None:
             try:
                 today = utils.utcnow().date()
                 ttl_seconds = 60 * 60 if date.year == today.year else 60 * 60 * 24 * 7
-                await redis_conn.set(cache_key, orjson.dumps(data), ex=ttl_seconds)
+                await asyncio.to_thread(
+                    redis_conn.set,
+                    cache_key,
+                    orjson.dumps(data),
+                    ex=ttl_seconds,
+                )
             except Exception:
                 # If caching fails, just proceed without cache
                 logger.exception("Failed to cache stats for %s", date)
