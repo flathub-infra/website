@@ -8,7 +8,7 @@ import {
 } from "date-fns"
 import {
   DesktopAppstream,
-  getAppOfTheDayAppPicksAppOfTheDayDateGet,
+  getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet,
   getAppstreamAppstreamAppIdGet,
 } from "src/codegen"
 import { AppOfTheDay } from "../application/AppOfTheDay"
@@ -29,9 +29,11 @@ export const AppOfTheDayChanger = ({ selectableApps, day }) => {
     queryKey: ["app-of-the-day", day],
     queryFn: async () => {
       try {
-        const response = await getAppOfTheDayAppPicksAppOfTheDayDateGet(
-          formatISO(day, { representation: "date" }),
-        )
+        const response =
+          await getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet(
+            formatISO(day, { representation: "date" }),
+            { withCredentials: true },
+          )
 
         const getAppsOfTheDay = response.data
 

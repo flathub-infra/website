@@ -314,6 +314,36 @@ async def get_curated_app_selections(
 
 
 @router.get(
+    "/admin/app-of-the-day/{date}",
+    tags=["app-picks"],
+    responses={
+        200: {"description": "App of the day"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
+@cache.private
+async def get_app_of_the_day_admin(
+    date: AppPickDate,
+    _moderator: QualityModeratorDep,
+) -> AppOfTheDay:
+    """Returns the app of the day for the admin page, bypassing shared caches"""
+    with get_db("writer") as db:
+        app_of_the_day = models.AppOfTheDay.by_date(db, date)
+
+        if app_of_the_day is None:
+            return AppOfTheDay(app_id="tv.kodi.Kodi", day=date)
+
+        app = models.App.by_appid(db, app_of_the_day.app_id)
+        if app and app.excluded_from_app_picks:
+            return AppOfTheDay(app_id="tv.kodi.Kodi", day=date)
+
+        return AppOfTheDay(app_id=app_of_the_day.app_id, day=date)
+
+
+@router.get(
     "/admin/apps-of-the-week/{date}",
     tags=["app-picks"],
     responses={
