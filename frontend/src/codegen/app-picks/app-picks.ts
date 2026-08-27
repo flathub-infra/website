@@ -659,6 +659,227 @@ export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
 }
 
 /**
+ * Returns the app of the day for the admin page, bypassing shared caches
+ * @summary Get App Of The Day Admin
+ */
+export const getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet = (
+  date: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<AppOfTheDay>> => {
+  return axios.get(`/app-picks/admin/app-of-the-day/${date}`, options)
+}
+
+export const getGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetQueryKey = (
+  date: string,
+) => {
+  return [`/app-picks/admin/app-of-the-day/${date}`] as const
+}
+
+export const getGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+    >,
+    TError = AxiosError<void>,
+  >(
+    date: string,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetQueryKey(date)
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+      >
+    > = ({ signal }) =>
+      getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet(date, {
+        signal,
+        ...axiosOptions,
+      })
+
+    return {
+      queryKey,
+      queryFn,
+      enabled: date !== null && date !== undefined,
+      ...queryOptions,
+    } as UseQueryOptions<
+      Awaited<
+        ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+    >
+  >
+export type GetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetQueryError =
+  AxiosError<void>
+
+export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get App Of The Day Admin
+ */
+
+export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
+  TData = Awaited<
+    ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+  >,
+  TError = AxiosError<void>,
+>(
+  date: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetQueryOptions(
+      date,
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
  * Returns apps of the week for the admin page, bypassing CDN cache
  * @summary Get App Of The Week Admin
  */
