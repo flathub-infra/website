@@ -18,7 +18,7 @@
     "@react-email/tailwind": "^2.0.7",
     "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
-    "hono": "^4.13.3",
+    "hono": "^4.13.4",
     "nodemailer": "9.0.5",
     "react": "19.2.8",
     "react-dom": "19.2.8",
@@ -28,12 +28,12 @@
   "devDependencies": {
     "@react-email/ui": "6.9.2",
     "@types/html-to-text": "^9.0.4",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.3.0",
     "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/swagger-ui-dist": "^3.30.6",
-    "eslint": "^10.9.0",
+    "eslint": "^10.9.1",
     "prettier": "3.8.4",
     "tsx": "^4.23.12",
     "typescript": "^7.0.2"

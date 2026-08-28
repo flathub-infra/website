@@ -32,4 +32,5 @@ export const ErrorDetail = {
   flat_manager_not_configured: "flat_manager_not_configured",
   is_runtime: "is_runtime",
   runtime_cannot_be_archived: "runtime_cannot_be_archived",
+  not_uploader: "not_uploader",
 } as const
