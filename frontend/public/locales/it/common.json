@@ -466,7 +466,7 @@
   "no-permissions-description": "L'app è completamente sandboxata",
   "user-settings": "Impostazioni utente",
   "build-x": "Costruito {build_ago}",
-  "invalid-appid": "ID app non valido",
+  "invalid-appid": "Id app non valido",
   "confirm": "Conferma",
   "archive-app": "Archivia questa app",
   "archive": "Archivio",
@@ -665,7 +665,7 @@
   "country-statistics": "Statistiche nazionali",
   "download": {
     "install-x": "Installa “{x}”",
-    "fallback-instructions": "<opening>Apertura di \"{name}\" nel tuo gestore software…</opening><support>Se non succede nulla, forse il tuo sistema non supporta gli URL <i>flatpak+https</i>.</support><listPrefix>In tal caso puoi:</listPrefix><ol><li>Scaricare il file <link>.flatpakref</link></li><li>Quindi eseguirlo dal tuo file manager</li></ol><setupLine><linkSetup>Istruzioni per installare Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Apertura di \"{name}\" nel tuo gestore software…</opening><support>Se non succede nulla, forse il tuo sistema non supporta gli url <i>flatpak+https</i>.</support><listPrefix>In tal caso puoi:</listPrefix><ol><li>Scaricare il file <link>.flatpakref</link></li><li>Quindi eseguirlo dal tuo file manager</li></ol><setupLine><linkSetup>Istruzioni per installare Flatpak</linkSetup></setupLine>"
   },
   "uses-privileged-socket": "Utilizza un socket privilegiato",
   "socket-may-allow-extra-permissions": "Utilizza un socket che consente di ottenere permessi extra",
@@ -704,7 +704,7 @@
     "works-well-on-large-screens": "Funziona bene su schermi grandi",
     "may-not-work-well-on-mobile": "Potrebbe non funzionare correttamente sui dispositivi mobili",
     "works-well-on-mobile": "Funziona bene sui dispositivi mobili",
-    "total-installs": "Installazioni totali",
+    "total-installs": "{count} Installazioni totali",
     "age-rating": "Classificazione per età"
   },
   "quality-moderation-excluded": "Questa app è esclusa dai controlli di qualità",
@@ -794,7 +794,8 @@
       "description": "App per aiutarti a studiare, fare ricerche e scrivere"
     },
     "winter-comforts": {
-      "description": "Ottime app per leggere, guardare film e giocare"
+      "description": "Ottime app per leggere, guardare film e giocare",
+      "header": "Mettiti comodo"
     },
     "tools-for-developers": {
       "header": "Elementi essenziali per lo sviluppo web",
@@ -866,5 +867,6 @@
   "flatpak-version-distribution": "Distribuzione delle versioni Flatpak (ultimi 30 giorni)",
   "os-flatpak-version-distribution": "Versione Flatpak per sistema operativo (ultimi 30 giorni)",
   "share": "Condividere",
-  "founding-supporters": "Sostenitori fondatori"
+  "founding-supporters": "Sostenitori fondatori",
+  "manage": "Gestisci"
 }

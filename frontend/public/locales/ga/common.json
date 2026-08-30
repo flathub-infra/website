@@ -743,7 +743,7 @@
     "works-well-on-large-screens": "Oibríonn go maith ar scáileáin mhóra",
     "may-not-work-well-on-mobile": "B’fhéidir nach n-oibreoidh sé go maith ar ghléasanna soghluaiste",
     "works-well-on-mobile": "Oibríonn go maith ar ghléasanna soghluaiste",
-    "total-installs": "Suiteálacha Iomlána",
+    "total-installs": "{count} Suiteálacha Iomlána",
     "age-rating": "Rátáil Aois"
   },
   "quality-moderation-excluded": "Tá an aip seo eisiata ó sheiceálacha cáilíochta",

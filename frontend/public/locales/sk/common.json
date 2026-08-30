@@ -54,7 +54,7 @@
     "works-well-on-large-screens": "Funguje dobre na veľkých obrazovkách",
     "may-not-work-well-on-mobile": "Nemusí dobre fungovať na mobilných zariadeniach",
     "works-well-on-mobile": "Funguje dobre na mobilných zariadeniach",
-    "total-installs": "Inštalácií celkom",
+    "total-installs": "Celkom {count} inštalácií",
     "age-rating": "Vhodné od veku"
   },
   "license": "Licencia",

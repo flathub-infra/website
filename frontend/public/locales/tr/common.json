@@ -676,5 +676,9 @@
   "install-all-favorites": "Tüm Favorileri Yükle",
   "install-all-favorites-description": "Tüm favori uygulamalarınızı aynı anda yüklemek için bu komutu kopyalayın:",
   "no-favorites-yet": "Henüz favori uygulamanız yok. Beğendiğiniz uygulamaların yer imlerine tıklayarak favori uygulamalarınızı eklemeye başlayın!",
-  "see-all-results": "Tüm sonuçları gör"
+  "see-all-results": "Tüm sonuçları gör",
+  "app-information": "Uygulama Bilgisi",
+  "sub-header": {
+    "download": "İndir"
+  }
 }
