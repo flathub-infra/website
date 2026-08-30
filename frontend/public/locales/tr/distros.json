@@ -78,8 +78,13 @@
   },
   "arch": {
     "step-1": {
-      "name": "Flatpak yükle"
-    }
+      "name": "Flatpak yükle",
+      "text": "<text>Flatpak'ı Arch'a yüklemek için Terminal uygulamasını açın ve şunu çalıştırın:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Yeniden başlat"
+    },
+    "distroName": "Arch"
   },
   "debian": {
     "distroName": "Debian",
@@ -97,6 +102,11 @@
     },
     "step-3": {
       "name": "Yeniden başlat"
+    }
+  },
+  "nixos": {
+    "step-2": {
+      "name": "Flathub deposunu ekle"
     }
   }
 }

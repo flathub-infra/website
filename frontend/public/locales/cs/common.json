@@ -743,7 +743,7 @@
     "works-well-on-large-screens": "Funguje dobře na velkých obrazovkách",
     "may-not-work-well-on-mobile": "Nemusí skvěle fungovat na mobilních zařízeních",
     "works-well-on-mobile": "Funguje skvěle na mobilních zařízeních",
-    "total-installs": "Instalací celkem",
+    "total-installs": "{count} instalací celkem",
     "age-rating": "Věkové hodnocení"
   },
   "quality-moderation-excluded": "Tato aplikace je vyloučena z kontrol kvality",
