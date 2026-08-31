@@ -1,4 +1,4 @@
-import { FunctionComponent, type JSX } from "react"
+import { FunctionComponent, type JSX, type ReactNode } from "react"
 
 import { AppstreamListItem } from "../../types/Appstream"
 
@@ -23,6 +23,9 @@ interface Props {
   showRuntime?: boolean
   showEolBadge?: boolean
   customButtons?: JSX.Element
+  renderItemAction?: (
+    application: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
+  ) => ReactNode
 }
 
 const Header = ({
@@ -73,6 +76,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   showRuntime = false,
   showEolBadge = false,
   customButtons,
+  renderItemAction,
 }) => {
   const t = useTranslations()
   const searchParams = useSearchParams()
@@ -120,21 +124,31 @@ const ApplicationCollection: FunctionComponent<Props> = ({
       />
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
-        {applications.map((app, index) => (
-          <div key={app.id} className="flex flex-col gap-2">
-            <ApplicationCard
-              application={app}
-              link={link}
-              variant={variant}
-              showId={showId}
-              showRuntime={showRuntime}
-              priority={index < 6}
-              endAdornment={
-                showEolBadge && app.is_eol ? <EolBadge /> : undefined
-              }
-            />
-          </div>
-        ))}
+        {applications.map((app, index) => {
+          const itemAction = renderItemAction?.(app)
+
+          return (
+            <div key={app.id} className="relative flex flex-col gap-2">
+              <ApplicationCard
+                application={app}
+                link={link}
+                variant={variant}
+                showId={showId}
+                showRuntime={showRuntime}
+                priority={index < 6}
+                className={itemAction ? "pe-16" : undefined}
+                endAdornment={
+                  showEolBadge && app.is_eol ? <EolBadge /> : undefined
+                }
+              />
+              {itemAction && (
+                <div className="absolute end-3 top-1/2 z-10 -translate-y-1/2">
+                  {itemAction}
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
 
       {totalPages && <Pagination pages={pages} currentPage={page ?? 1} />}
