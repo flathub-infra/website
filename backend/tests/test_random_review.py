@@ -164,6 +164,8 @@ class CallbackHarness:
         current_values=None,
         current_summaries=None,
         build_summary=None,
+        build_summary_metadata=None,
+        current_summary_metadata=None,
         enabled=True,
         rate=0.5,
         secret="test-random-review-secret",
@@ -189,6 +191,11 @@ class CallbackHarness:
         self.current_values = current_values
         self.current_summaries = current_summaries or {}
         self.build_summary = build_summary or {}
+        self.build_summary_metadata = build_summary_metadata or {"xa.sparse-cache": {}}
+        self.current_summary_metadata = current_summary_metadata or {
+            "xa.sparse-cache": {}
+        }
+        self.summary_fetch_calls = []
         self.build_id = 42
         self.job_id = 7
         self.target_repo = target_repo
@@ -266,7 +273,21 @@ class CallbackHarness:
         monkeypatch.setattr(
             moderation.summary,
             "parse_summary",
-            lambda content, db: (self.build_summary, None, None),
+            lambda content, db: (
+                self.build_summary,
+                None,
+                self.build_summary_metadata,
+            ),
+        )
+        monkeypatch.setattr(
+            moderation.summary,
+            "parse_summary_metadata",
+            lambda content: self.current_summary_metadata,
+        )
+        monkeypatch.setattr(
+            moderation.summary,
+            "fetch_summary_bytes",
+            self.fetch_summary_bytes,
         )
         monkeypatch.setattr(moderation, "get_db", self.get_db)
         monkeypatch.setattr(
@@ -282,6 +303,10 @@ class CallbackHarness:
             "_upsert_manifest_analysis_observations",
             self.upsert_manifest_analysis_observations,
         )
+
+    def fetch_summary_bytes(self, url):
+        self.summary_fetch_calls.append(url)
+        return b"summary"
 
     def upsert_manifest_analysis_observations(self, session, observations):
         assert session is self.db.session
@@ -721,6 +746,243 @@ def test_extra_data_origin_request_suppresses_random_selection(monkeypatch):
     assert request_data["current_values"]["extra-data"] == ["https://downloads.example"]
     assert request.request_type == ModerationRequestType.SUMMARY
     assert request.is_new_submission is False
+
+
+def _eol_metadata(branch_values):
+    return {
+        "xa.sparse-cache": {
+            f"app/org.example.App/x86_64/{branch}": values
+            for branch, values in branch_values.items()
+        }
+    }
+
+
+def _eol_branch_value(field, value):
+    if value is None:
+        return {"stable": {}}
+    if field == "eol-rebase":
+        value = f"app/{value}/x86_64/stable"
+        field = "eolr"
+    return {"stable": {field: value}}
+
+
+def _build_refs(*branches):
+    return [
+        {
+            "ref_name": f"app/org.example.App/x86_64/{branch}",
+            "commit": "a" * 64,
+        }
+        for branch in branches
+    ]
+
+
+def _summary_request_data(harness):
+    result = harness.call()
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.SUMMARY
+    assert request.is_new_submission is False
+    return json.loads(request.request_data)
+
+
+def _eol_harness(monkeypatch, current=None, candidate=None, **kwargs):
+    options = {
+        "enabled": False,
+        "current_values": _unchanged_values(),
+        "current_summary_metadata": _eol_metadata(current or {}),
+        "build_summary_metadata": _eol_metadata(candidate or {}),
+        **kwargs,
+    }
+    return CallbackHarness(monkeypatch, **options)
+
+
+@pytest.mark.parametrize(
+    ("field", "old_value", "new_value"),
+    [
+        pytest.param("eol", None, "New message", id="eol-add"),
+        pytest.param("eol", "Old message", None, id="eol-remove"),
+        pytest.param("eol", "Old message", "New message", id="eol-message-replace"),
+        pytest.param("eol-rebase", None, "org.example.New", id="eol-rebase-add"),
+        pytest.param("eol-rebase", "org.example.New", None, id="eol-rebase-remove"),
+        pytest.param(
+            "eol-rebase",
+            "org.example.OldTarget",
+            "org.example.NewTarget",
+            id="eol-rebase-target-replace",
+        ),
+    ],
+)
+def test_eol_transition_creates_summary_request(
+    monkeypatch, field, old_value, new_value
+):
+    harness = _eol_harness(
+        monkeypatch,
+        current=_eol_branch_value(field, old_value),
+        candidate=_eol_branch_value(field, new_value),
+    )
+
+    assert _summary_request_data(harness) == {
+        "keys": {field: [] if new_value is None else [f"stable: {new_value}"]},
+        "current_values": {
+            field: [] if old_value is None else [f"stable: {old_value}"]
+        },
+    }
+
+
+def test_initial_submission_skips_eol_gate(monkeypatch):
+    harness = _eol_harness(
+        monkeypatch,
+        candidate={"stable": {"eol": "New message"}},
+        current_values=None,
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    assert harness.db.session.persisted[0].request_type == ModerationRequestType.APPDATA
+    assert harness.summary_fetch_calls == []
+
+
+def test_unchanged_eol_state_creates_no_request(monkeypatch):
+    metadata = {"stable": {"eol": "Same message"}}
+    harness = _eol_harness(monkeypatch, current=metadata, candidate=metadata)
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+
+
+def test_published_summary_not_fetched_for_skip_listed_app(monkeypatch):
+    harness = _eol_harness(
+        monkeypatch,
+        candidate={"stable": {"eol": "New message"}},
+        skipped=("org.example.App",),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+    assert harness.summary_fetch_calls == []
+
+
+def test_published_summary_fetched_once_across_apps(monkeypatch):
+    harness = _eol_harness(
+        monkeypatch,
+        current={"stable": {"eol": "Old message"}},
+        candidate={"stable": {"eol": "New message"}},
+        app_ids=("org.example.App", "org.example.Other"),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert harness.summary_fetch_calls == ["https://published.example/repo/summary"]
+
+
+def test_mixed_branch_eol_state_creates_no_request(monkeypatch):
+    metadata = {
+        "stable": {"eolr": "app/org.example.New/x86_64/stable"},
+        "beta": {"eol": "Beta message"},
+    }
+    harness = _eol_harness(
+        monkeypatch,
+        current=metadata,
+        candidate=metadata,
+        build_refs=_build_refs("stable", "beta"),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+
+
+def test_partial_eol_change_keeps_branch_qualified_values(monkeypatch):
+    harness = _eol_harness(
+        monkeypatch,
+        current={"beta": {"eol": "Shared message"}},
+        candidate={
+            "stable": {"eol": "Shared message"},
+            "beta": {"eol": "Shared message"},
+        },
+        build_refs=_build_refs("stable", "beta"),
+    )
+
+    request_data = _summary_request_data(harness)
+    assert request_data == {
+        "keys": {
+            "eol": [
+                "beta: Shared message",
+                "stable: Shared message",
+            ]
+        },
+        "current_values": {"eol": ["beta: Shared message"]},
+    }
+
+
+def test_direct_eol_to_rebase_creates_one_summary_request(monkeypatch):
+    harness = _eol_harness(
+        monkeypatch,
+        current={"stable": {"eol": "Old message"}},
+        candidate=_eol_branch_value("eol-rebase", "org.example.New"),
+    )
+
+    request_data = _summary_request_data(harness)
+    assert request_data == {
+        "keys": {
+            "eol": [],
+            "eol-rebase": ["stable: org.example.New"],
+        },
+        "current_values": {
+            "eol": ["stable: Old message"],
+            "eol-rebase": [],
+        },
+    }
+
+
+def test_eol_and_permission_changes_merge_into_summary_request(monkeypatch):
+    harness = _eol_harness(
+        monkeypatch,
+        current={"stable": {"eol": "Old message"}},
+        candidate={"stable": {"eol": "New message"}},
+        current_summaries={
+            "org.example.App": {"metadata": {"permissions": {"shared": ["network"]}}}
+        },
+        build_summary={
+            "org.example.App": {
+                "metadata": {"permissions": {"shared": ["network", "ipc"]}}
+            }
+        },
+    )
+
+    request_data = _summary_request_data(harness)
+    assert request_data == {
+        "keys": {
+            "eol": ["stable: New message"],
+            "shared": ["ipc", "network"],
+        },
+        "current_values": {
+            "eol": ["stable: Old message"],
+            "shared": ["network"],
+        },
+    }
+
+
+def test_empty_eol_message_is_preserved(monkeypatch):
+    harness = _eol_harness(
+        monkeypatch,
+        candidate={"stable": {"eol": ""}},
+    )
+
+    request_data = _summary_request_data(harness)
+    assert request_data == {
+        "keys": {"eol": ["stable: "]},
+        "current_values": {"eol": []},
+    }
 
 
 def test_permission_only_request_is_summary(monkeypatch):

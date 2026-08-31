@@ -98,6 +98,32 @@ def _extra_data_moderation_values(
     )
 
 
+def _eol_moderation_values(
+    metadata: dict[str, Any],
+    valid_app_branches: dict[str, set[str]],
+) -> dict[str, dict[str, list[str]]]:
+    values = {app_id: {"eol": [], "eol-rebase": []} for app_id in valid_app_branches}
+    if not isinstance(metadata.get("xa.sparse-cache"), dict):
+        return values
+
+    eol_rebases, eol_messages = summary.parse_eol_data(metadata)
+    for app_id_and_branch, message in eol_messages.items():
+        app_id, _, branch = app_id_and_branch.partition(":")
+        if branch in valid_app_branches.get(app_id, set()):
+            values[app_id]["eol"].append(f"{branch}: {message}")
+
+    for target_app_id, old_app_ids in eol_rebases.items():
+        for app_id_and_branch in old_app_ids:
+            app_id, _, branch = app_id_and_branch.partition(":")
+            if branch in valid_app_branches.get(app_id, set()):
+                values[app_id]["eol-rebase"].append(f"{branch}: {target_app_id}")
+
+    for app_values in values.values():
+        app_values["eol"] = sorted(set(app_values["eol"]))
+        app_values["eol-rebase"] = sorted(set(app_values["eol-rebase"]))
+    return values
+
+
 def _canonical_random_review_identity(
     build_metadata: dict[str, Any], build_refs: list[dict[str, Any]]
 ) -> bytes:
@@ -1369,7 +1395,9 @@ def submit_review_request(
         # If the summary file is not a binary file, something also went wrong
         raise HTTPException(status_code=500, detail="invalid_summary_file")
     with get_db("writer") as db:
-        build_summary, _, _ = summary.parse_summary(r.content, db)
+        build_summary, _, build_summary_top_metadata = summary.parse_summary(
+            r.content, db
+        )
 
     sentry_context = {"build_summary": build_summary}
 
@@ -1377,7 +1405,37 @@ def submit_review_request(
 
     app_ids = list(build_appstream.keys())
     direct_upload_apps_by_id = {}
-    apps_by_id = {}
+    valid_build_branches: dict[str, set[str]] = {}
+    for build_ref in build_refs:
+        ref_parts = build_ref.get("ref_name", "").split("/")
+        if len(ref_parts) == 4 and ref_parts[0] == "app" and ref_parts[1] in app_ids:
+            valid_build_branches.setdefault(ref_parts[1], set()).add(ref_parts[3])
+    build_eol_values_by_app: dict[str, dict[str, list[str]]] | None = None
+    current_eol_values_by_app: dict[str, dict[str, list[str]]] | None = None
+
+    def _build_eol_values_by_app() -> dict[str, dict[str, list[str]]]:
+        nonlocal build_eol_values_by_app
+        if build_eol_values_by_app is None:
+            build_eol_values_by_app = _eol_moderation_values(
+                build_summary_top_metadata, valid_build_branches
+            )
+        return build_eol_values_by_app
+
+    def _current_eol_values_by_app() -> dict[str, dict[str, list[str]]]:
+        nonlocal current_eol_values_by_app
+        if current_eol_values_by_app is None:
+            _build_eol_values_by_app()
+            published_summary = summary.fetch_summary_bytes(
+                f"{config.settings.repo_url}/summary"
+            )
+            if not isinstance(published_summary, bytes):
+                raise HTTPException(
+                    status_code=500, detail="invalid_published_summary_file"
+                )
+            current_eol_values_by_app = _eol_moderation_values(
+                summary.parse_summary_metadata(published_summary), valid_build_branches
+            )
+        return current_eol_values_by_app
 
     if app_ids:
         with get_db("writer") as db:
@@ -1646,6 +1704,18 @@ def submit_review_request(
                 if current_arches != build_arches:
                     summary_current_values["arches"] = list(current_arches)
                     summary_keys["arches"] = list(build_arches)
+
+        if not is_new_submission:
+            build_eol_values_app = _build_eol_values_by_app().get(
+                app_id, {"eol": [], "eol-rebase": []}
+            )
+            current_eol_values_app = _current_eol_values_by_app().get(
+                app_id, {"eol": [], "eol-rebase": []}
+            )
+            for field in ("eol", "eol-rebase"):
+                if current_eol_values_app[field] != build_eol_values_app[field]:
+                    summary_current_values[field] = current_eol_values_app[field]
+                    summary_keys[field] = build_eol_values_app[field]
 
         if len(summary_keys) > 0:
             summary_keys = sort_lists_in_dict(summary_keys)

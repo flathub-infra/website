@@ -180,22 +180,26 @@ def parse_metadata(ini: str):
         return None
 
 
+def _unpack_summary(summary):
+    summary_data = GLib.Bytes.new(summary) if isinstance(summary, bytes) else summary
+    data = GLib.Variant.new_from_bytes(
+        GLib.VariantType.new(OSTree.SUMMARY_GVARIANT_STRING), summary_data, True
+    )
+    return data.unpack()
+
+
+def parse_summary_metadata(summary) -> dict[str, Any]:
+    _, metadata = _unpack_summary(summary)
+    return metadata
+
+
 def parse_summary(summary, sqldb):
     summary_dict: dict[str, Any] = defaultdict(
         lambda: {"arches": set(), "branch": "stable"}
     )
     updated_at_dict = {}
 
-    if isinstance(summary, bytes):
-        summary_data = GLib.Bytes.new(summary)
-    else:
-        summary_data = summary
-
-    data = GLib.Variant.new_from_bytes(
-        GLib.VariantType.new(OSTree.SUMMARY_GVARIANT_STRING), summary_data, True
-    )
-
-    refs, metadata = data.unpack()
+    refs, metadata = _unpack_summary(summary)
     xa_cache = metadata["xa.cache"]
 
     last_updated_updates = {}
