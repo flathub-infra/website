@@ -95,7 +95,7 @@ const ReviewCard: FunctionComponent<Props> = ({
             rel="noreferrer"
             className="text-sm no-underline hover:underline"
           >
-            Created github issue issue
+            Created GitHub issue
           </a>
         )}
       </>
