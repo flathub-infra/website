@@ -38,20 +38,10 @@ const ReviewCard: FunctionComponent<Props> = ({
   const request =
     requests.find((groupedRequest) => !groupedRequest.handled_at) ?? requests[0]
 
-  const [modalState, setModalState] = useState<"approve" | "reject">("approve")
   const [modalVisible, setModalVisible] = useState(false)
 
   const [comment, setComment] = useState<string | undefined>(undefined)
   const [issueUrl, setIssueUrl] = useState<string>()
-
-  const modalTitle = modalState === "reject" ? "Reject" : "Approve"
-
-  const confirmText =
-    modalState === "reject"
-      ? "Reject"
-      : comment
-        ? "Approve With Comment"
-        : "Approve"
 
   const [error, setError] = useState<string>("")
 
@@ -70,7 +60,7 @@ const ReviewCard: FunctionComponent<Props> = ({
   })
 
   const confirm = () => {
-    mutation.mutate({ approve: modalState === "approve", comment: comment })
+    mutation.mutate({ approve: false, comment: comment })
     setModalVisible(false)
     setComment(undefined)
   }
@@ -137,7 +127,6 @@ const ReviewCard: FunctionComponent<Props> = ({
           variant="destructive"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           onClick={() => {
-            setModalState("reject")
             setModalVisible(true)
           }}
         >
@@ -145,20 +134,9 @@ const ReviewCard: FunctionComponent<Props> = ({
         </Button>
         <Button
           size="lg"
-          variant="secondary"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           onClick={() => {
-            setModalState("approve")
-            setModalVisible(true)
-          }}
-        >
-          Approve With Comment
-        </Button>
-        <Button
-          size="lg"
-          className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
-          onClick={() => {
-            mutation.mutate({ approve: true, comment })
+            mutation.mutate({ approve: true })
           }}
         >
           Approve
@@ -173,21 +151,19 @@ const ReviewCard: FunctionComponent<Props> = ({
     <>
       <Modal
         shown={modalVisible}
-        title={modalTitle}
+        title="Reject"
         onClose={cancel}
         cancelButton={{ onClick: cancel }}
         submitButton={{
           onClick: confirm,
-          label: confirmText,
-          disabled: modalState === "reject" && !comment?.trim(),
+          label: "Reject",
+          disabled: !comment?.trim(),
         }}
       >
         <Textarea
           className="h-40"
           value={comment}
-          placeholder={
-            modalState === "reject" ? "Comment" : "Comment (optional)"
-          }
+          placeholder="Comment"
           onInput={(e) => setComment((e.target as HTMLTextAreaElement).value)}
         />
       </Modal>
