@@ -32,8 +32,6 @@ from app.models import (
     OidcAuthorizationCode,
     OidcClient,
     OidcRefreshToken,
-    Role,
-    RoleName,
 )
 from app.oidc import (
     ensure_oidc_subject,
@@ -633,11 +631,8 @@ def test_utcnow_is_naive():
     assert now.tzinfo is None
 
 
-def _make_user(user_id=1, oidc_subject="sub-1", with_oidc_role=True, **kwargs):
-    user = FlathubUser(id=user_id, oidc_subject=oidc_subject, **kwargs)
-    if with_oidc_role:
-        user.roles = [Role(id=5, name=RoleName.OIDC.value)]
-    return user
+def _make_user(user_id=1, oidc_subject="sub-1", **kwargs):
+    return FlathubUser(id=user_id, oidc_subject=oidc_subject, **kwargs)
 
 
 def _make_logged_in_login(user_id=1):
@@ -1196,33 +1191,6 @@ def test_authorize_disabled_user_is_denied(authorize_client, disabled_field):
     valid_client = _make_client()
     user = _make_user()
     setattr(user, disabled_field, True)
-    added = []
-    get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
-
-    try:
-        authorize_client.app.dependency_overrides[login_state] = lambda: (
-            _make_logged_in_login()
-        )
-        with (
-            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
-            patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
-        ):
-            response = authorize_client.get(
-                "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
-            )
-    finally:
-        authorize_client.app.dependency_overrides.clear()
-
-    assert response.status_code == 302
-    assert REDIRECT_URI in response.headers["location"]
-    assert "error=access_denied" in response.headers["location"]
-    assert added == []
-    ensure_subject.assert_not_called()
-
-
-def test_authorize_user_without_oidc_role_is_denied(authorize_client):
-    valid_client = _make_client()
-    user = _make_user(with_oidc_role=False)
     added = []
     get_db_mock = _mock_db_ctx(client_obj=valid_client, user=user, added=added)
 
@@ -2263,36 +2231,6 @@ def test_token_disabled_user_returns_invalid_grant(token_client, disabled_field)
     ensure_subject.assert_not_called()
 
 
-def test_token_user_without_oidc_role_returns_invalid_grant(token_client):
-    client_obj = _make_token_client()
-    auth_code_row = _make_auth_code_row()
-    user = _make_user(with_oidc_role=False)
-    added = []
-    get_db_mock = _mock_token_db(
-        client_obj=client_obj, auth_code_row=auth_code_row, user_obj=user, added=added
-    )
-
-    with (
-        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
-        patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
-    ):
-        response = token_client.post(
-            "/oidc/token",
-            data={
-                "grant_type": "authorization_code",
-                "code": "test-code",
-                "redirect_uri": TOKEN_REDIRECT_URI,
-                "client_id": "test-client",
-                "client_secret": CLIENT_SECRET,
-            },
-        )
-
-    assert response.status_code == 400
-    assert response.json() == {"error": "invalid_grant"}
-    assert added == []
-    ensure_subject.assert_not_called()
-
-
 def test_token_code_replay(token_client):
     client_obj = _make_token_client()
     get_db_mock = _mock_token_db(client_obj=client_obj, auth_code_row=None)
@@ -2971,34 +2909,6 @@ def test_refresh_grant_disabled_user(token_client, disabled_field):
     ensure_subject.assert_not_called()
 
 
-def test_refresh_grant_user_without_oidc_role(token_client):
-    client_obj = _make_token_client(
-        refresh_tokens_enabled=True,
-        allowed_scopes=["openid", "profile", "email", "offline_access"],
-    )
-    rt_row = _RefreshTokenRow()
-    user = _make_user(with_oidc_role=False)
-    get_db_mock = _mock_refresh_db(client_obj=client_obj, rt_row=rt_row, user_obj=user)
-
-    with (
-        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
-        patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
-    ):
-        response = token_client.post(
-            "/oidc/token",
-            data={
-                "grant_type": "refresh_token",
-                "refresh_token": "old-refresh-token",
-                "client_id": "test-client",
-                "client_secret": CLIENT_SECRET,
-            },
-        )
-
-    assert response.status_code == 400
-    assert response.json() == {"error": "invalid_grant"}
-    ensure_subject.assert_not_called()
-
-
 def test_refresh_grant_missing_token(token_client):
     client_obj = _make_token_client(
         refresh_tokens_enabled=True,
@@ -3457,31 +3367,6 @@ def test_userinfo_disabled_user_returns_invalid_token(
     access_token_obj = _make_access_token_obj(scope="openid profile email")
     user = _make_user(display_name="Test User")
     setattr(user, disabled_field, True)
-    get_db_mock, _session = _mock_userinfo_db(
-        access_token_obj=access_token_obj, user_obj=user
-    )
-
-    with (
-        patch("app.routes.oidc.get_db", side_effect=get_db_mock),
-        patch("app.routes.oidc.ensure_oidc_subject") as ensure_subject,
-    ):
-        response = client.get(
-            "/oidc/userinfo",
-            headers={"Authorization": f"Bearer {USERINFO_TOKEN}"},
-        )
-
-    assert response.status_code == 401
-    assert response.content == b""
-    assert response.headers["WWW-Authenticate"] == (
-        'Bearer realm="oidc/userinfo", error="invalid_token"'
-    )
-    ensure_subject.assert_not_called()
-
-
-def test_userinfo_user_without_oidc_role_returns_invalid_token(client, monkeypatch):
-    enable_oidc(monkeypatch)
-    access_token_obj = _make_access_token_obj(scope="openid profile email")
-    user = _make_user(display_name="Test User", with_oidc_role=False)
     get_db_mock, _session = _mock_userinfo_db(
         access_token_obj=access_token_obj, user_obj=user
     )

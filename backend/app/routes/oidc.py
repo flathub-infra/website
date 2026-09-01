@@ -212,10 +212,6 @@ def _error_redirect(
     return RedirectResponse(url=location, status_code=302)
 
 
-def _user_can_use_oidc(user: models.FlathubUser) -> bool:
-    return models.RoleName.OIDC.value in user.role_list()
-
-
 def _issue_authorization_code(
     client_id: str,
     redirect_uri: str,
@@ -250,7 +246,7 @@ def _issue_authorization_code(
             return _error_redirect(redirect_uri, "consent_required", state)
 
         user = db.session.get(models.FlathubUser, user_id)
-        if user is None or user.login_disabled or not _user_can_use_oidc(user):
+        if user is None or user.login_disabled:
             return _error_redirect(redirect_uri, "access_denied", state)
         ensure_oidc_subject(db, user)
         db.session.add(
@@ -413,7 +409,7 @@ def authorize(
             raise HTTPException(status_code=400, detail="invalid_redirect_uri")
         client_trusted = client.trusted
         user = db.session.get(models.FlathubUser, login.user.id)
-        if user is None or user.login_disabled or not _user_can_use_oidc(user):
+        if user is None or user.login_disabled:
             return _error_redirect(redirect_uri, "access_denied", state)
 
     if not client_trusted or "consent" in prompt_values:
@@ -880,8 +876,6 @@ def _handle_authorization_code_grant(
         user = db.session.get(models.FlathubUser, row.user_id)
         if user is None or user.login_disabled:
             raise OidcTokenError("invalid_grant")
-        if not _user_can_use_oidc(user):
-            raise OidcTokenError("invalid_grant")
         subject = ensure_oidc_subject(db, user)
 
         id_token = _sign_id_token(client_id, subject, now, nonce=row.nonce)
@@ -989,8 +983,6 @@ def _handle_refresh_token_grant(
 
         user = db.session.get(models.FlathubUser, row.user_id)
         if user is None or user.login_disabled:
-            raise OidcTokenError("invalid_grant")
-        if not _user_can_use_oidc(user):
             raise OidcTokenError("invalid_grant")
         subject = ensure_oidc_subject(db, user)
 
@@ -1104,8 +1096,6 @@ def _userinfo(request: Request, access_token: str | None):
 
         user = db.session.get(models.FlathubUser, access_token_obj.user_id)
         if user is None or user.login_disabled:
-            raise OidcBearerError("invalid_token")
-        if not _user_can_use_oidc(user):
             raise OidcBearerError("invalid_token")
 
         subject = ensure_oidc_subject(db, user)
