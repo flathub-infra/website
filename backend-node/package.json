@@ -23,7 +23,7 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-email": "6.9.3",
-    "zod": "^4.4.3"
+    "zod": "^4.5.2"
   },
   "devDependencies": {
     "@react-email/ui": "6.9.3",
