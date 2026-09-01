@@ -17,6 +17,7 @@ export interface OidcClientResult {
   enabled: boolean
   refresh_tokens_enabled: boolean
   require_pkce: boolean
+  trusted: boolean
   created_at: string
   updated_at: OidcClientResultUpdatedAt
   secret_rotated_at: OidcClientResultSecretRotatedAt

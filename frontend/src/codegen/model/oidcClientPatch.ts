@@ -18,4 +18,5 @@ export interface OidcClientPatch {
   allowed_scopes?: OidcClientPatchAllowedScopes
   refresh_tokens_enabled?: OidcClientPatchRefreshTokensEnabled
   require_pkce?: OidcClientPatchRequirePkce
+  trusted?: boolean
 }

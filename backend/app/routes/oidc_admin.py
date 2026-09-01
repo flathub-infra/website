@@ -25,6 +25,7 @@ class OidcClientResult(BaseModel):
     enabled: bool
     refresh_tokens_enabled: bool
     require_pkce: bool
+    trusted: bool
     created_at: datetime
     updated_at: datetime | None
     secret_rotated_at: datetime | None
@@ -42,6 +43,7 @@ class OidcClientCreate(BaseModel):
     allowed_scopes: list[str]
     refresh_tokens_enabled: bool = False
     require_pkce: bool = True
+    trusted: bool = False
 
 
 class OidcClientPatch(BaseModel):
@@ -51,6 +53,7 @@ class OidcClientPatch(BaseModel):
     allowed_scopes: list[str] | None = None
     refresh_tokens_enabled: bool | None = None
     require_pkce: bool | None = None
+    trusted: bool | None = None
 
 
 def register_to_app(app: FastAPI):
@@ -91,6 +94,7 @@ def _client_result(db, client: models.OidcClient) -> OidcClientResult:
         enabled=client.enabled,
         refresh_tokens_enabled=client.refresh_tokens_enabled,
         require_pkce=client.require_pkce,
+        trusted=client.trusted,
         created_at=client.created_at,
         updated_at=client.updated_at,
         secret_rotated_at=client.secret_rotated_at,
@@ -117,6 +121,7 @@ def _client_details(client: models.OidcClient) -> dict[str, object]:
         "allowed_scopes": list(client.allowed_scopes),
         "refresh_tokens_enabled": client.refresh_tokens_enabled,
         "require_pkce": client.require_pkce,
+        "trusted": client.trusted,
     }
 
 
@@ -161,6 +166,7 @@ def create_oidc_client(
             allowed_scopes=allowed_scopes,
             refresh_tokens_enabled=request.refresh_tokens_enabled,
             require_pkce=request.require_pkce,
+            trusted=request.trusted,
             created_by_user_id=login.user.id,
         )
         db.session.add(client)
@@ -174,7 +180,11 @@ def create_oidc_client(
         http_request,
         login.user.id,
         models.AuditEventType.OIDC_CLIENT_CREATED,
-        details={"client_id": client_id, "name": request.name},
+        details={
+            "client_id": client_id,
+            "name": request.name,
+            "trusted": request.trusted,
+        },
     )
 
     return result
@@ -210,6 +220,7 @@ def update_oidc_client(
             "allowed_scopes",
             "refresh_tokens_enabled",
             "require_pkce",
+            "trusted",
         ):
             if field in values and values[field] is None:
                 raise HTTPException(status_code=422, detail=f"{field} cannot be null")
@@ -230,6 +241,7 @@ def update_oidc_client(
         client.allowed_scopes = allowed_scopes
         client.refresh_tokens_enabled = refresh_tokens_enabled
         client.require_pkce = values.get("require_pkce", client.require_pkce)
+        client.trusted = values.get("trusted", client.trusted)
         after = _client_details(client)
         audit_name = client.name
         changed = (

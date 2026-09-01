@@ -36,6 +36,7 @@ function emptyCreateForm(): OidcClientCreate {
     allowed_scopes: ["openid"],
     refresh_tokens_enabled: false,
     require_pkce: true,
+    trusted: false,
   }
 }
 
@@ -106,6 +107,7 @@ export default function OidcClientsClient() {
       allowed_scopes: [...detail.allowed_scopes],
       refresh_tokens_enabled: detail.refresh_tokens_enabled,
       require_pkce: detail.require_pkce,
+      trusted: detail.trusted,
     })
     setUpdateSuccess(false)
   }, [detail?.client_id, detail?.updated_at])
@@ -534,6 +536,22 @@ export default function OidcClientsClient() {
                         />
                         Require PKCE
                       </label>
+                      <label
+                        className="flex items-center gap-2 text-sm"
+                        htmlFor="edit-trusted"
+                      >
+                        <Checkbox
+                          id="edit-trusted"
+                          checked={editForm.trusted === true}
+                          onCheckedChange={(checked) =>
+                            setEditForm((current) => ({
+                              ...current,
+                              trusted: checked === true,
+                            }))
+                          }
+                        />
+                        Trusted client (skip consent)
+                      </label>
                     </div>
                     <div className="flex flex-wrap items-center gap-3">
                       <Button type="submit" disabled={updateMutation.isPending}>
@@ -737,6 +755,22 @@ export default function OidcClientsClient() {
                 }
               />
               Require PKCE
+            </label>
+            <label
+              className="flex items-center gap-2 text-sm"
+              htmlFor="create-trusted"
+            >
+              <Checkbox
+                id="create-trusted"
+                checked={createForm.trusted === true}
+                onCheckedChange={(checked) =>
+                  setCreateForm((current) => ({
+                    ...current,
+                    trusted: checked === true,
+                  }))
+                }
+              />
+              Trusted client (skip consent)
             </label>
           </div>
           {createError && (

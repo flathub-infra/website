@@ -38,6 +38,7 @@ class OidcClientRecord(Protocol):
     enabled: bool
     refresh_tokens_enabled: bool
     require_pkce: bool
+    trusted: bool
 
 
 def generate_token(num_bytes: int = TOKEN_BYTES) -> str:

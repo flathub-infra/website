@@ -454,6 +454,7 @@ def test_oidc_client_has_refresh_tokens_enabled():
     column_names = {c.name for c in OidcClient.__table__.columns}
     assert "refresh_tokens_enabled" in column_names
     assert "require_pkce" in column_names
+    assert "trusted" in column_names
 
 
 def test_oidc_refresh_token_lifetime_config_default():
@@ -568,6 +569,7 @@ def _make_client(
     refresh_tokens_enabled=False,
     allowed_scopes=None,
     require_pkce=None,
+    trusted=False,
 ):
     client = OidcClient(
         id=1,
@@ -579,6 +581,7 @@ def _make_client(
         enabled=enabled,
         refresh_tokens_enabled=refresh_tokens_enabled,
         require_pkce=require_pkce,
+        trusted=trusted,
     )
     return client
 
@@ -1106,6 +1109,88 @@ def test_authorize_authenticated_issues_code(authorize_client):
     assert authz_code.scope == "openid profile email"
 
 
+def test_authorize_trusted_client_issues_code_without_consent(authorize_client):
+    trusted_client = _make_client(trusted=True)
+    user = _make_user()
+    added = []
+    get_db_mock = _mock_db_ctx(client_obj=trusted_client, user=user, added=added)
+
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.ensure_oidc_subject", return_value="sub-1"),
+            patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
+        ):
+            response = authorize_client.get(
+                "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert response.headers["location"].startswith(REDIRECT_URI)
+    assert "code=test-auth-code" in response.headers["location"]
+    assert len(added) == 1
+
+
+def test_authorize_rechecks_trust_before_issuing_code(authorize_client):
+    trusted_client = _make_client(trusted=True)
+    untrusted_client = _make_client()
+    user = _make_user()
+    added = []
+    get_db_mock = _mock_db_ctx_split(
+        replica_client=trusted_client,
+        writer_clients=[trusted_client, untrusted_client],
+        user=user,
+        added=added,
+    )
+
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with (
+            patch("app.routes.oidc.get_db", side_effect=get_db_mock),
+            patch("app.routes.oidc.generate_token", return_value="test-auth-code"),
+        ):
+            response = authorize_client.get(
+                "/oidc/authorize", params=AUTHORIZE_PARAMS, follow_redirects=False
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert response.headers["location"] == (
+        f"{REDIRECT_URI}?error=consent_required&state=test-state"
+    )
+    assert added == []
+
+
+def test_authorize_trusted_client_honors_explicit_consent_prompt(authorize_client):
+    trusted_client = _make_client(trusted=True)
+    user = _make_user()
+    get_db_mock = _mock_db_ctx(client_obj=trusted_client, user=user)
+
+    try:
+        authorize_client.app.dependency_overrides[login_state] = lambda: (
+            _make_logged_in_login()
+        )
+        with patch("app.routes.oidc.get_db", side_effect=get_db_mock):
+            response = authorize_client.get(
+                "/oidc/authorize",
+                params={**AUTHORIZE_PARAMS, "prompt": "consent"},
+                follow_redirects=False,
+            )
+    finally:
+        authorize_client.app.dependency_overrides.clear()
+
+    assert response.status_code == 302
+    assert response.headers["location"] == "https://flathub.org/oidc/consent"
+
+
 @pytest.mark.parametrize("disabled_field", ["deleted", "banned"])
 def test_authorize_disabled_user_is_denied(authorize_client, disabled_field):
     valid_client = _make_client()
@@ -1220,7 +1305,13 @@ def test_authorize_state_preserved(authorize_client):
     assert "state=custom-state-42" in location
 
 
-def _mock_db_ctx_split(replica_client=None, writer_client=None, user=None, added=None):
+def _mock_db_ctx_split(
+    replica_client=None,
+    writer_client=None,
+    user=None,
+    added=None,
+    writer_clients=None,
+):
     replica_session = MagicMock()
     replica_query = MagicMock()
     replica_query.first.return_value = replica_client
@@ -1232,7 +1323,10 @@ def _mock_db_ctx_split(replica_client=None, writer_client=None, user=None, added
 
     writer_session = MagicMock()
     writer_query = MagicMock()
-    writer_query.first.return_value = writer_client
+    if writer_clients is None:
+        writer_query.first.return_value = writer_client
+    else:
+        writer_query.first.side_effect = writer_clients
     writer_session.query.return_value.filter.return_value = writer_query
     writer_session.merge.return_value = user or _make_user()
     writer_session.get.return_value = user or _make_user()
@@ -3498,6 +3592,7 @@ def test_authorization_code_failure_burns_code_in_postgres():
                     enabled boolean NOT NULL,
                     refresh_tokens_enabled boolean NOT NULL,
                     require_pkce boolean NOT NULL,
+                    trusted boolean NOT NULL,
                     created_at timestamp NOT NULL DEFAULT now(),
                     updated_at timestamp NOT NULL DEFAULT now(),
                     created_by_user_id integer REFERENCES flathubuser(id) ON DELETE SET NULL,
@@ -3534,11 +3629,11 @@ def test_authorization_code_failure_burns_code_in_postgres():
                 INSERT INTO oidcclient (
                     id, client_id, client_secret_hash, name, redirect_uris,
                     allowed_scopes, enabled, refresh_tokens_enabled,
-                    require_pkce, created_at
+                    require_pkce, trusted, created_at
                 ) VALUES (
                     1, 'test-client', :secret_hash, 'Test Client',
                     '["https://test-client.example.com/oauth2/callback"]'::jsonb,
-                    '["openid"]'::jsonb, true, false, true, :created_at
+                    '["openid"]'::jsonb, true, false, true, false, :created_at
                 )
                 """
             ),

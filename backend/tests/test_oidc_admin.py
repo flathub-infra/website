@@ -32,6 +32,7 @@ VALID_CLIENT = {
     "allowed_scopes": ["openid", "profile"],
     "refresh_tokens_enabled": False,
     "require_pkce": True,
+    "trusted": False,
 }
 
 
@@ -84,6 +85,7 @@ def _create_tables(connection):
             allowed_scopes jsonb NOT NULL, enabled boolean NOT NULL DEFAULT true,
             refresh_tokens_enabled boolean NOT NULL DEFAULT false,
             require_pkce boolean NOT NULL DEFAULT true,
+            trusted boolean NOT NULL DEFAULT false,
             created_at timestamp NOT NULL DEFAULT now(), updated_at timestamp NOT NULL DEFAULT now(),
             created_by_user_id integer REFERENCES flathubuser(id) ON DELETE SET NULL,
             secret_rotated_at timestamp
@@ -266,7 +268,7 @@ def test_create_list_get_patch_rotate_and_secret_invalidation(admin_api):
         client.get(f"/admin/oidc-clients/{client_id}"),
         client.patch(
             f"/admin/oidc-clients/{client_id}",
-            json={"name": "Updated client", "description": "Updated"},
+            json={"name": "Updated client", "description": "Updated", "trusted": True},
         ),
     ):
         _assert_secret_hash_absent(response)
@@ -274,6 +276,8 @@ def test_create_list_get_patch_rotate_and_secret_invalidation(admin_api):
         client.get(f"/admin/oidc-clients/{client_id}").json()["name"]
         == "Updated client"
     )
+    assert client.get(f"/admin/oidc-clients/{client_id}").json()["trusted"] is True
+    assert _stored_client(Session, client_id).trusted is True
 
     old_hash = _stored_client(Session, client_id).client_secret_hash
     response = client.post(f"/admin/oidc-clients/{client_id}/rotate-secret")

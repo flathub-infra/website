@@ -14,4 +14,5 @@ export interface OidcClientCreate {
   allowed_scopes: string[]
   refresh_tokens_enabled?: boolean
   require_pkce?: boolean
+  trusted?: boolean
 }

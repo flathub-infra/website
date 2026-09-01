@@ -34,6 +34,7 @@ export const getListOidcClientsAdminOidcClientsGetResponseMock =
       enabled: faker.datatype.boolean(),
       refresh_tokens_enabled: faker.datatype.boolean(),
       require_pkce: faker.datatype.boolean(),
+      trusted: faker.datatype.boolean(),
       created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
       updated_at: faker.helpers.arrayElement([
         faker.date.past().toISOString().slice(0, 19) + "Z",
@@ -66,6 +67,7 @@ export const getCreateOidcClientAdminOidcClientsPostResponseMock = (
   enabled: faker.datatype.boolean(),
   refresh_tokens_enabled: faker.datatype.boolean(),
   require_pkce: faker.datatype.boolean(),
+  trusted: faker.datatype.boolean(),
   created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
   updated_at: faker.helpers.arrayElement([
     faker.date.past().toISOString().slice(0, 19) + "Z",
@@ -100,6 +102,7 @@ export const getGetOidcClientAdminOidcClientsClientIdGetResponseMock = (
   enabled: faker.datatype.boolean(),
   refresh_tokens_enabled: faker.datatype.boolean(),
   require_pkce: faker.datatype.boolean(),
+  trusted: faker.datatype.boolean(),
   created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
   updated_at: faker.helpers.arrayElement([
     faker.date.past().toISOString().slice(0, 19) + "Z",
@@ -133,6 +136,7 @@ export const getUpdateOidcClientAdminOidcClientsClientIdPatchResponseMock = (
   enabled: faker.datatype.boolean(),
   refresh_tokens_enabled: faker.datatype.boolean(),
   require_pkce: faker.datatype.boolean(),
+  trusted: faker.datatype.boolean(),
   created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
   updated_at: faker.helpers.arrayElement([
     faker.date.past().toISOString().slice(0, 19) + "Z",
@@ -166,6 +170,7 @@ export const getDisableOidcClientAdminOidcClientsClientIdDeleteResponseMock = (
   enabled: faker.datatype.boolean(),
   refresh_tokens_enabled: faker.datatype.boolean(),
   require_pkce: faker.datatype.boolean(),
+  trusted: faker.datatype.boolean(),
   created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
   updated_at: faker.helpers.arrayElement([
     faker.date.past().toISOString().slice(0, 19) + "Z",
@@ -200,6 +205,7 @@ export const getRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostRe
     enabled: faker.datatype.boolean(),
     refresh_tokens_enabled: faker.datatype.boolean(),
     require_pkce: faker.datatype.boolean(),
+    trusted: faker.datatype.boolean(),
     created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
     updated_at: faker.helpers.arrayElement([
       faker.date.past().toISOString().slice(0, 19) + "Z",

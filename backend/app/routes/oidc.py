@@ -225,6 +225,7 @@ def _issue_authorization_code(
     code_challenge: str | None,
     code_challenge_method: str | None,
     user_id: int,
+    skip_consent: bool = False,
 ):
     code = generate_token()
     expires_at = utils.utcnow() + timedelta(
@@ -245,6 +246,8 @@ def _issue_authorization_code(
             return _error_redirect(redirect_uri, "invalid_scope", state)
         if "offline_access" in set(scope.split()) and not client.refresh_tokens_enabled:
             return _error_redirect(redirect_uri, "invalid_scope", state)
+        if skip_consent and not client.trusted:
+            return _error_redirect(redirect_uri, "consent_required", state)
 
         user = db.session.get(models.FlathubUser, user_id)
         if user is None or user.login_disabled or not _user_can_use_oidc(user):
@@ -408,28 +411,41 @@ def authorize(
             raise HTTPException(status_code=400, detail="invalid_client")
         if not redirect_uri_allowed(redirect_uri, client.redirect_uris):
             raise HTTPException(status_code=400, detail="invalid_redirect_uri")
+        client_trusted = client.trusted
         user = db.session.get(models.FlathubUser, login.user.id)
         if user is None or user.login_disabled or not _user_can_use_oidc(user):
             return _error_redirect(redirect_uri, "access_denied", state)
 
-    if "none" in prompt_values:
-        return _error_redirect(redirect_uri, "consent_required", state)
-    request.session["oidc_consent"] = {
-        "client_id": client_id,
-        "redirect_uri": redirect_uri,
-        "response_type": response_type,
-        "prompt": prompt,
-        "scope": scope,
-        "state": state,
-        "nonce": nonce,
-        "code_challenge": code_challenge,
-        "code_challenge_method": code_challenge_method,
-        "user_id": login.user.id,
-        "created_at": utils.utcnow().timestamp(),
-        "csrf_token": generate_token(),
-    }
-    consent_url = config.settings.oidc_issuer.rstrip("/") + "/oidc/consent"
-    return RedirectResponse(url=consent_url, status_code=302)
+    if not client_trusted or "consent" in prompt_values:
+        if "none" in prompt_values:
+            return _error_redirect(redirect_uri, "consent_required", state)
+        request.session["oidc_consent"] = {
+            "client_id": client_id,
+            "redirect_uri": redirect_uri,
+            "response_type": response_type,
+            "prompt": prompt,
+            "scope": scope,
+            "state": state,
+            "nonce": nonce,
+            "code_challenge": code_challenge,
+            "code_challenge_method": code_challenge_method,
+            "user_id": login.user.id,
+            "created_at": utils.utcnow().timestamp(),
+            "csrf_token": generate_token(),
+        }
+        consent_url = config.settings.oidc_issuer.rstrip("/") + "/oidc/consent"
+        return RedirectResponse(url=consent_url, status_code=302)
+    return _issue_authorization_code(
+        client_id,
+        redirect_uri,
+        scope,
+        state,
+        nonce,
+        code_challenge,
+        code_challenge_method,
+        login.user.id,
+        skip_consent=True,
+    )
 
 
 def _get_pending_consent(request: Request, login: LoginStatusDep):
