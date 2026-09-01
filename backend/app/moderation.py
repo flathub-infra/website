@@ -12,7 +12,7 @@ import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from github import Github, GithubException
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, Field, model_validator
 from sqlalchemy import Table, func, not_, or_
 from sqlalchemy.dialects.postgresql import insert
 
@@ -2203,11 +2203,11 @@ class Review(BaseModel):
     approve: bool
     comment: str | None = None
 
-    @field_validator("comment")
-    def reject_requires_comment(cls, v, values):
-        if v is None and not values["approve"]:
+    @model_validator(mode="after")
+    def reject_requires_comment(self):
+        if not self.approve and (self.comment is None or not self.comment.strip()):
             raise ValueError("rejecting a request requires a comment")
-        return v
+        return self
 
 
 class ReviewResponse(BaseModel):

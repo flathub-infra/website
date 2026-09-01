@@ -179,7 +179,7 @@ const ReviewCard: FunctionComponent<Props> = ({
         submitButton={{
           onClick: confirm,
           label: confirmText,
-          disabled: modalState === "reject" && !comment,
+          disabled: modalState === "reject" && !comment?.trim(),
         }}
       >
         <Textarea

@@ -1243,6 +1243,18 @@ def test_random_request_marker_parser_rejects_malformed_data():
     )
 
 
+@pytest.mark.parametrize("comment", [None, "", "   ", "\t"])
+def test_rejection_requires_nonblank_comment(comment):
+    with pytest.raises(ValidationError, match="rejecting a request requires a comment"):
+        moderation.Review(approve=False, comment=comment)
+
+
+def test_rejection_accepts_nonblank_comment():
+    assert moderation.Review(approve=False, comment="Not acceptable").comment == (
+        "Not acceptable"
+    )
+
+
 def test_rejection_issue_includes_reviewer_comment(monkeypatch):
     created = {}
 
