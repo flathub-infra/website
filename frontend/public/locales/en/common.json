@@ -209,7 +209,7 @@
   "moderation-manifest-added": "Added",
   "moderation-manifest-removed": "Removed",
   "moderation-appstream": "Appstream",
-  "moderation-random-review": "Randomly selected for human review",
+  "moderation-random-review": "Randomly selected for review",
   "moderation-key": "Key",
   "moderation-old-value": "Old Value",
   "moderation-new-value": "New Value",
