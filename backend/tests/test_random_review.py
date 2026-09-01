@@ -1243,7 +1243,7 @@ def test_random_request_marker_parser_rejects_malformed_data():
     )
 
 
-def test_random_rejection_issue_uses_review_reason(monkeypatch):
+def test_rejection_issue_includes_reviewer_comment(monkeypatch):
     created = {}
 
     class FakeRepo:
@@ -1275,13 +1275,15 @@ def test_random_rejection_issue_uses_review_reason(monkeypatch):
 
     moderation.create_github_build_rejection_issue(request)
 
-    assert created["title"] == "Random human review for build 123 rejected"
-    assert "Randomly selected for human review" in created["body"]
-    assert "Old value" not in created["body"]
-    assert "New value" not in created["body"]
+    assert created["title"] == "Change in build 123 rejected"
+    assert created["body"] == (
+        "A change in [build 123](https://flathub.org/builds/123) has been reviewed by "
+        "the Flathub team (@flathub/build-moderation), and rejected for the "
+        "following reason:\n\n> Not acceptable\n"
+    )
 
 
-def test_manifest_rejection_issue_formats_source_data(monkeypatch):
+def test_manifest_rejection_issue_excludes_moderation_details(monkeypatch):
     created = {}
 
     class FakeRepo:
@@ -1354,25 +1356,12 @@ def test_manifest_rejection_issue_formats_source_data(monkeypatch):
 
     moderation.create_github_build_rejection_issue(request)
 
-    assert "New source: `https://github.com/foo/bar`" in created["body"]
-    assert 'modules["app"].sources[0].url' in created["body"]
-    assert (
-        "Previous source no longer used: `https://github.com/foo/old`"
-        in created["body"]
+    assert created["title"] == "Change in build 123 rejected"
+    assert created["body"] == (
+        "A change in [build 123](https://flathub.org/builds/123) has been reviewed by "
+        "the Flathub team (@flathub/build-moderation), and rejected for the "
+        "following reason:\n\n> Not acceptable\n"
     )
-    assert "aarch64, x86_64" in created["body"]
-    assert "| Field |" not in created["body"]
-    assert "New value" not in created["body"]
-    assert "## Manifest packaging complexity" in created["body"]
-    assert "not a security-risk or malicious-change assessment" in created["body"]
-    assert "module_match_ambiguous" in created["body"]
-    assert "Showing 1 of 26 events" in created["body"]
-    assert "Showing 1 of 51 modules" in created["body"]
-
-    request.request_data = json.dumps({"findings": [], "complexity": complexity})
-    moderation.create_github_build_rejection_issue(request)
-    assert "## Manifest packaging complexity" in created["body"]
-    assert "## Manifest source origin changes" not in created["body"]
 
 
 def test_random_review_missing_secret_fails_only_when_selection_needed(monkeypatch):

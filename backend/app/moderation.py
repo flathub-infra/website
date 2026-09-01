@@ -402,84 +402,13 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     except GithubException:
         pass
 
-    request_data = json.loads(request.request_data)
-    is_random_review = _is_random_review_request(request)
-    title = (
-        f"Random human review for build {build_id} rejected"
-        if is_random_review
-        else f"Change in build {build_id} rejected"
-    )
+    title = f"Change in build {build_id} rejected"
     body = (
-        (
-            f"Build [{build_id}]({build_log_url}) was randomly selected for human review and rejected by the Flathub team (@flathub/build-moderation) for the following reason:\n"
-        )
-        if is_random_review
-        else (
-            f"A change in [build {build_id}]({build_log_url}) has been reviewed by the Flathub team (@flathub/build-moderation), and rejected for the following reason:\n"
-        )
+        f"A change in [build {build_id}]({build_log_url}) has been reviewed by "
+        "the Flathub team (@flathub/build-moderation), and rejected for the "
+        "following reason:\n"
     )
     body += f"\n{quoted_comment}\n"
-
-    if is_random_review:
-        body += f"\n## Review reason\n\n{_RANDOM_REVIEW_MARKER}\n"
-    elif request.request_type == ModerationRequestType.MANIFEST:
-        complexity = request_data.get("complexity")
-        if complexity:
-            body += "\n## Manifest packaging complexity\n"
-            score = complexity["score_units"] / 2
-            score_text = (
-                "20+"
-                if complexity["score_units"] == 40
-                and complexity["raw_score_units"] > 40
-                else f"{score:g}"
-            )
-            threshold = complexity["threshold_units"] / 2
-            body += (
-                "\nThis build was selected because its packaging recipe changed broadly or structurally. "
-                "This score is not a security-risk or malicious-change assessment.\n"
-            )
-            body += f"\n- Score: **{score_text}** / threshold **{threshold:g}**\n"
-            body += f"- Band: **{complexity['score_band']}**\n"
-            breakdown = complexity["score_breakdown"]
-            body += (
-                f"- Breakdown units: structural {breakdown['structural_units']}, "
-                f"recipe {breakdown['recipe_units']}, breadth {breakdown['breadth_units']}, "
-                f"ambiguity {breakdown['ambiguity_units']}\n"
-            )
-            body += f"- Architectures: {', '.join(complexity['affected_arches']) or 'none'}\n"
-            for module in complexity["touched_modules"]:
-                body += f"- Module: `{module}`\n"
-            for event in complexity["events"]:
-                body += f"- `{event['kind']}` at `{event['location']}`"
-                if event.get("magnitude") is not None:
-                    body += f" (magnitude {event['magnitude']})"
-                body += "\n"
-            if complexity["events_truncated"]:
-                body += (
-                    f"- Showing {len(complexity['events'])} of "
-                    f"{complexity['total_event_count']} events\n"
-                )
-            if complexity["touched_modules_truncated"]:
-                body += (
-                    f"- Showing {len(complexity['touched_modules'])} of "
-                    f"{complexity['total_touched_module_count']} modules\n"
-                )
-        if request_data["findings"]:
-            body += "\n## Manifest source changes\n"
-            for finding in request_data["findings"]:
-                body += f"\n### Architectures: {', '.join(finding['arches'])}\n"
-                for source in finding["origins_added"]:
-                    body += f"\n- New source: `{source}`\n"
-                    for location in finding["locations_by_origin"].get(source, []):
-                        body += f"  - Source location: `{location}`\n"
-                for source in finding["origins_removed"]:
-                    body += f"\n- Previous source no longer used: `{source}`\n"
-    else:
-        body += "\n## Changes\n| Field | Old value | New value |\n| --- | --- | --- |\n"
-        for field in request_data["keys"]:
-            old_val = request_data["current_values"].get(field)
-            new_val = request_data["keys"][field]
-            body += f"| {field} | {old_val} | {new_val} |\n"
 
     ret = repo.create_issue(title=title, body=body)
 
