@@ -108,7 +108,7 @@
     "msw": "^2.15.0",
     "msw-storybook-addon": "^2.0.7",
     "openapi3-ts": "^4.6.0",
-    "orval": "8.21.0",
+    "orval": "8.22.0",
     "playwright": "^1.62.1",
     "postcss": "^8.5.26",
     "prettier": "^3.8.3",
