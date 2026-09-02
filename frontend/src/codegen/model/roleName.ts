@@ -12,5 +12,4 @@ export const RoleName = {
   moderator: "moderator",
   "quality-moderator": "quality-moderator",
   uploader: "uploader",
-  oidc: "oidc",
 } as const

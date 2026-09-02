@@ -10,6 +10,7 @@ import type { OidcClientPatchName } from "./oidcClientPatchName"
 import type { OidcClientPatchRedirectUris } from "./oidcClientPatchRedirectUris"
 import type { OidcClientPatchRefreshTokensEnabled } from "./oidcClientPatchRefreshTokensEnabled"
 import type { OidcClientPatchRequirePkce } from "./oidcClientPatchRequirePkce"
+import type { OidcClientPatchTrusted } from "./oidcClientPatchTrusted"
 
 export interface OidcClientPatch {
   name?: OidcClientPatchName
@@ -18,5 +19,5 @@ export interface OidcClientPatch {
   allowed_scopes?: OidcClientPatchAllowedScopes
   refresh_tokens_enabled?: OidcClientPatchRefreshTokensEnabled
   require_pkce?: OidcClientPatchRequirePkce
-  trusted?: boolean
+  trusted?: OidcClientPatchTrusted
 }
