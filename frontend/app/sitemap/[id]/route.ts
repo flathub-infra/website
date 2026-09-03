@@ -23,7 +23,7 @@ export async function GET(
 
   // Chunk 0 = static pages
   if (id === 0) {
-    return new Response(buildSitemapXml(buildStaticEntries()), {
+    return new Response(buildSitemapXml(await buildStaticEntries()), {
       headers: xmlHeaders,
     })
   }

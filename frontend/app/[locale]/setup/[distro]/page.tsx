@@ -41,8 +41,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { distro } = await params
-  const cleanedDistro = distro.replaceAll("%20", " ")
+  const { distro, locale } = await params
+  const cleanedDistro = decodeURIComponent(distro)
   const instructions = await fetchSetupInstructions()
   const t = await getTranslations()
 
@@ -63,18 +63,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const translatedDistroName = t(distroData.translatedNameKey)
+  const canonicalDistro = distroData.slug ?? distroData.name
+  const canonicalUrl = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/setup/${encodeURIComponent(canonicalDistro)}`
 
   return {
     title: t("distribution-flathub-setup", {
       distribution: translatedDistroName || cleanedDistro,
     }),
     description: t("setup-flathub-description"),
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: t("distribution-flathub-setup", {
+        distribution: translatedDistroName || cleanedDistro,
+      }),
+      description: t("setup-flathub-description"),
+      url: canonicalUrl,
+      images: [
+        {
+          url: distroData.logo,
+          alt: t("app-logo", { app_name: translatedDistroName }),
+        },
+      ],
+    },
   }
 }
 
 export default async function DistroSetupPage({ params }: Props) {
   const { distro, locale } = await params
-  const cleanedDistro = distro.replaceAll("%20", " ")
+  const cleanedDistro = decodeURIComponent(distro)
   const instructions = await fetchSetupInstructions()
 
   let distroData = instructions.find(
