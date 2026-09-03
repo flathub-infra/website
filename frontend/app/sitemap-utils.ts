@@ -1,5 +1,6 @@
 import { languages } from "src/localize"
 import { getApiBaseUrl } from "src/utils/api-url"
+import { fetchSetupInstructions } from "src/distro-setup"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_BASE_URI || "https://flathub.org"
 
@@ -17,7 +18,6 @@ export const staticPages = [
   "/consultants",
   "/badges",
   "/feeds",
-  "/apps/search",
   "/terms-and-conditions",
   "/privacy-policy",
 ]
@@ -96,8 +96,21 @@ ${entries}
 </sitemapindex>`
 }
 
-export function buildStaticEntries(): string[] {
-  return staticPages.map((page) => buildUrlEntry(page))
+export async function buildStaticEntries(): Promise<string[]> {
+  const setupInstructions = await fetchSetupInstructions()
+  const distroPages = setupInstructions.map(
+    (instruction) =>
+      `/setup/${encodeURIComponent(instruction.slug ?? instruction.name)}`,
+  )
+  const maxYear = new Date().getFullYear() - 1
+  const yearPages = Array.from(
+    { length: 6 },
+    (_, index) => `/year-in-review/${maxYear - index}`,
+  )
+
+  return [...staticPages, ...distroPages, ...yearPages].map((page) =>
+    buildUrlEntry(page),
+  )
 }
 
 export function buildAppEntries(appIds: string[]): string[] {
