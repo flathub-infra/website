@@ -1757,7 +1757,9 @@ class Transaction(Base):
         """
         if self.status != "success":
             return
-        row = self.rows(db)[0]
+        row = next(iter(self.rows(db)), None)
+        if row is None:
+            return
         if row.kind != "purchase":
             # Nothing to do, this wasn't an application purchase
             return
