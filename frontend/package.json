@@ -106,7 +106,7 @@
     "eslint-plugin-storybook": "^10.3.5",
     "globals": "^17.11.0",
     "msw": "^2.15.0",
-    "msw-storybook-addon": "^2.0.7",
+    "msw-storybook-addon": "^3.0.0",
     "openapi3-ts": "^4.6.0",
     "orval": "8.22.0",
     "playwright": "^1.62.1",
