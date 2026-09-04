@@ -36,10 +36,10 @@
     @apply mb-4;
     @apply text-flathub-dark-gunmetal;
     @apply leading-7;
+  }
 
-    @media (prefers-color-scheme: dark) {
-      @apply text-flathub-spanish-gray;
-    }
+  .dark p {
+    @apply text-flathub-gray-x11;
   }
 
   main {
@@ -65,10 +65,10 @@
 
   a {
     @apply text-flathub-celestial-blue-dark;
+  }
 
-    @media (prefers-color-scheme: dark) {
-      @apply text-flathub-celestial-blue;
-    }
+  .dark a {
+    @apply text-flathub-celestial-blue;
   }
 
   mark {
