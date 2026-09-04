@@ -257,7 +257,9 @@ async def mark_stale_by_pattern(pattern: str) -> int:
                         cache_entry = orjson.loads(cached_data)
                         if isinstance(cache_entry, dict):
                             cache_entry["is_stale"] = True
-                            await redis.set(key, orjson.dumps(cache_entry))
+                            await redis.set(
+                                key, orjson.dumps(cache_entry), keepttl=True
+                            )
                             marked_count += 1
                 except Exception:
                     logger.exception("Error marking key %s as stale", key)
