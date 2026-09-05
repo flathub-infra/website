@@ -253,7 +253,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "Zweryfikuj swoje prawo do użycia identyfikatora aplikacji <appid></appid> logując się na konto <loginname></loginname> (lub, jeśli <orgname></orgname> jest organizacją, na konto z dostępem do niej) na stronie <loginprovider></loginprovider>.",
   "browse": "Przeglądaj",
   "setup-flathub": "Skonfiguruj Flathub",
-  "setup-flathub-description": "Skonfiguruj Flathub, aby instalować i aktualizować aplikacje na Twoim systemie.",
+  "setup-flathub-description": "Postępuj zgodnie z instrukcjami dla swojej dystrybucji systemu Linux, aby zainstalować Flatpak, dodać repozytorium Flathub i rozpocząć instalowanie aplikacji.",
   "apps": "Aplikacje",
   "count-desktop-apps": "Wszystkie aplikacje na komputer",
   "rss-apps": "Potrzebujesz aplikacji do kanałów RSS? Znajdziesz idealną dla siebie na <link>Flathubie</link>.",
@@ -301,7 +301,7 @@
   "moderation-rejected-by": "Odrzucona przez {handledBy} w dniu {handledAt} ({handledAtRel})",
   "runtime-distribution": "Użycie środowisk uruchomieniowych",
   "flathub-index-description": "Pobierz najnowsze wersje wszystkich swoich ulubionych aplikacji dla dowolnej dystrybucji Linuksa",
-  "find-your-distribution": "Znajdź swoją dystrybucję",
+  "find-your-distribution": "Znajdź swoją dystrybucję…",
   "no-results-found": "Nie znaleziono wyników",
   "distribution-flathub-setup": "Konfiguracja Flathub dla {distribution}",
   "app-eol": "Ta aplikacja nie jest już dostępna na Flathubie",
@@ -792,7 +792,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "Nowy rok, nowa organizacja pracy",
-      "description": "Aplikacje do robienia notatek, śledzenia zadań i planowania"
+      "description": "Aplikacje na nowy początek, bez względu na to, jak pracujesz"
     },
     "free-software-favorites": {
       "header": "Wybór redakcji",
@@ -800,7 +800,7 @@
     },
     "spring-creativity": {
       "header": "Pokaż swoją kreatywność",
-      "description": "Niezbędne aplikacje do rysowania, edycji zdjęć i projektowania cyfrowego"
+      "description": "Pracuj ze zdjęciami, dźwiękiem, wideo i nie tylko"
     },
     "fresh-desktop-releases": {
       "header": "Tworzenie aplikacji natywnych",
@@ -808,18 +808,18 @@
     },
     "staying-connected": {
       "header": "Pozostań w kontakcie",
-      "description": "Niezbędne aplikacje do współpracy i komunikacji"
+      "description": "Aplikacje do rozmawiania, dzielenia się chwilami i bycia razem"
     },
     "summer-travel": {
       "header": "Czas na wakacje",
-      "description": "Aplikacje z mapami, informacjami o transporcie publicznym, pogodą i planowaniem podróży"
+      "description": "Aplikacje wszędzie tam, dokąd zaprowadzi Cię kolejna podróż"
     },
     "back-to-learning": {
-      "description": "Aplikacje ułatwiające naukę, poszukiwanie informacji i pisanie",
+      "description": "Aplikacje do poszerzania horyzontów, nauki i budowania wiedzy",
       "header": "Rozwijaj się każdego dnia"
     },
     "winter-comforts": {
-      "description": "Świetne aplikacje do czytania, oglądania filmów i grania w gry",
+      "description": "Aplikacje, które pomogą Ci się zrelaksować i zresetować",
       "header": "Czas na relaks"
     },
     "tools-for-developers": {
@@ -828,18 +828,18 @@
     },
     "take-better-notes": {
       "header": "Rób lepsze notatki",
-      "description": "Znajdź swoje nowe ulubione narzędzie do robienia notatek"
+      "description": "Nowe narzędzia do zapisywania najlepszych pomysłów"
     },
     "get-focused": {
       "header": "Skoncentruj się",
-      "description": "Świetne aplikacje do zarządzania zadaniami"
+      "description": "Wszystko, czego potrzebujesz, aby utrzymać skupienie"
     },
     "make-some-noise": {
-      "description": "Aplikacje do tworzenia i produkcji muzyki",
+      "description": "Aplikacje do tworzenia, odtwarzania i odkrywania dźwięku",
       "header": "Zrób trochę hałasu"
     },
     "get-to-work": {
-      "description": "Niezbędne aplikacje biurowe",
+      "description": "Aplikacje, które pomagają działać efektywnie",
       "header": "Czas na pracę"
     }
   },
@@ -854,7 +854,7 @@
   "dns-lookup-failed": "Nie udało się wyszukać rekordów TXT dla {record}.",
   "app-is-currently-verified-by-dns": "Twoja aplikacja jest obecnie zweryfikowana poprzez kontrolę DNS <domain></domain>",
   "verified-dns-tooltip": "Prawo własności do identyfikatora aplikacji <appid></appid> zostało zweryfikowane poprzez kontrolę DNS domeny <domain></domain>",
-  "moderation-random-review": "Wybrana losowo do weryfikacji przez człowieka",
+  "moderation-random-review": "Wybrana losowo do weryfikacji",
   "moderation-summary-changes": "Podsumowanie zmian",
   "moderation-manifest-source-origin": "Zmiany w źródle manifestu",
   "moderation-manifest-source-and-complexity": "Przegląd źródła i złożoności manifestu",

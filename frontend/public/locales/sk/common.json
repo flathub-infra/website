@@ -448,7 +448,6 @@
   "music": "Hudba",
   "browse": "Prehľadávať",
   "setup-flathub": "Nastaviť Flathub",
-  "setup-flathub-description": "Nastavte Flathub na inštaláciu a aktualizáciu aplikácií vo vašom systéme.",
   "tags-colon": "Štítky:",
   "flos": "Slobodný softvér",
   "filters": "Filtre",
@@ -457,7 +456,6 @@
   "flathub-index-description": "Získajte najnovšie verzie všetkých vašich obľúbených aplikácií pre ľubovoľnú linuxovú distribúciu",
   "app-eol": "Táto aplikácia už nie je na Flathube k dispozícii",
   "distribution-flathub-setup": "Nastavenie Flathubu pre {distribution}",
-  "find-your-distribution": "Nájdite svoju distribúciu",
   "no-results-found": "Nenašli sa žiadne výsledky",
   "desktop-application": "Počítačová aplikácia",
   "console-application": "Terminálová aplikácia",
@@ -792,7 +790,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "Nový rok, nové pracovné postupy",
-      "description": "Aplikácie na poznámky, sledovanie úloh a plánovanie"
+      "description": "Aplikácie pre nový začiatok, bez ohľadu na to, ako pracujete"
     },
     "free-software-favorites": {
       "header": "Výber redaktorov",
@@ -800,7 +798,7 @@
     },
     "spring-creativity": {
       "header": "Buďte kreatívni",
-      "description": "Nevyhnutné aplikácie na kreslenie, úpravu fotografií a digitálny dizajn"
+      "description": "Pracujte s obrázkami, zvukom, videom a ďalšími"
     },
     "fresh-desktop-releases": {
       "header": "Vytvárajte natívne aplikácie",
@@ -808,19 +806,19 @@
     },
     "staying-connected": {
       "header": "Zostaňte v kontakte",
-      "description": "Nevyhnutné aplikácie na spoluprácu a komunikáciu"
+      "description": "Aplikácie na zdieľanie, rozprávanie a spoločné trávenie času"
     },
     "summer-travel": {
       "header": "Pripravení na dovolenku",
-      "description": "Aplikácie na mapy, dopravu, počasie a plánovanie ciest"
+      "description": "Aplikácie pre vaše ďalšie cesty, kamkoľvek vás zavedú"
     },
     "back-to-learning": {
       "header": "Chytrejší každý deň",
-      "description": "Aplikácie, ktoré vám pomôžu študovať, skúmať a písať"
+      "description": "Aplikácie na objavovanie, učenie sa a tvorbu znalostí"
     },
     "winter-comforts": {
       "header": "Užite si pohodu",
-      "description": "Skvelé aplikácie na čítanie, pozeranie filmov a hranie hier"
+      "description": "Aplikácie na relaxáciu a odpútanie sa od každodenných starostí"
     },
     "tools-for-developers": {
       "header": "Nevyhnutnosti pre webových vývojárov",
@@ -828,19 +826,19 @@
     },
     "take-better-notes": {
       "header": "Píšte lepšie poznámky",
-      "description": "Nájdite svoj nový obľúbený nástroj na písanie poznámok"
+      "description": "Nové nástroje na zaznamenávanie vašich najlepších nápadov"
     },
     "get-focused": {
       "header": "Sústreďte sa",
-      "description": "Skvelé aplikácie na správu úloh"
+      "description": "Všetko, čo potrebujete na udržanie sa v sústredení"
     },
     "make-some-noise": {
       "header": "Urobte trochu hluku",
-      "description": "Aplikácie na tvorbu a produkciu hudby"
+      "description": "Aplikácie na tvorbu, prehrávanie a objavovanie zvuku"
     },
     "get-to-work": {
       "header": "Pustite sa do práce",
-      "description": "Nevyhnutné kancelárske aplikácie"
+      "description": "Aplikácie, ktoré vám pomôžu vybaviť veci"
     }
   },
   "unverified-app-disclaimer-package": "Tento balík, ktorý poskytla komunita, nie je overený, pridružený ani podporovaný {developer}.",
@@ -854,7 +852,7 @@
   "app-is-currently-verified-by-dns": "Vaša aplikácia je momentálne overená prostredníctvom kontroly DNS domény <domain></domain>",
   "verified-dns-tooltip": "Vlastníctvo ID aplikácie <appid></appid> bolo overené prostredníctvom kontroly DNS domény <domain></domain>",
   "dns-verification": "Overenie DNS",
-  "moderation-random-review": "Náhodne vybraté na ľudskú kontrolu",
+  "moderation-random-review": "Náhodne vybraté na kontrolu",
   "moderation-summary-changes": "Zmeny súhrnu",
   "moderation-manifest-source-origin": "Zmeny zdroja manifestu",
   "moderation-manifest-complexity": "Zložitosť balenia manifestu",
@@ -868,5 +866,7 @@
   "moderation-manifest-added": "Pridané",
   "moderation-manifest-removed": "Odstránené",
   "moderation-build-log": "Záznam zostavy",
-  "moderation-build-changes": "Zmeny zostavy"
+  "moderation-build-changes": "Zmeny zostavy",
+  "setup-flathub-description": "Postupujte podľa krokov pre vašu linuxovú distribúciu na inštaláciu Flatpaku, pridanie repozitára Flathub a začnite inštalovať aplikácie.",
+  "find-your-distribution": "Nájdite svoju distribúciu…"
 }

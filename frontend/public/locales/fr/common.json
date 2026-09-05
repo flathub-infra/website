@@ -239,7 +239,7 @@
   "verification": "Validation",
   "apps": "Apps",
   "count-desktop-apps": "Nombre total d'apps de bureau",
-  "setup-flathub-description": "Configurez Flathub pour installer et mettre à jour les logiciels sur votre système.",
+  "setup-flathub-description": "Suivez les étapes pour votre distribution Linux afin d'installer Flatpak, ajouter le dépôt Flathub et commencer à installer des apps.",
   "rss-apps": "Vous avez besoin d'une application RSS ? Vous en trouverez d'excellentes sur <link>Flathub</link>.",
   "no-apps": "Aucune app à afficher.",
   "apps-by-developer": "Apps par {developer}",
@@ -303,7 +303,7 @@
   "flathub-index-description": "Obtenez les dernières versions de tous vos logiciels préférés, quelle que soit votre distribution Linux",
   "app-eol": "Cette application n'est plus disponible sur Flathub",
   "distribution-flathub-setup": "Configuration de Flathub sous {distribution}",
-  "find-your-distribution": "Rechercher votre distribution",
+  "find-your-distribution": "Rechercher votre distribution…",
   "no-results-found": "Aucun résultat trouvé",
   "desktop-application": "App de bureau",
   "console-application": "App en ligne de commande",
@@ -839,8 +839,8 @@
       "description": "Apps pour créer et produire de la musique"
     },
     "get-to-work": {
-      "header": "Aller travailler",
-      "description": "Apps de bureau essentielles"
+      "header": "Au travail",
+      "description": "Apps essentielles pour le bureau"
     }
   },
   "unverified-app-disclaimer-package": "Ce paquetage est fourni par la communauté n’est pas vérifié, affilié ni pris en charge par {developer}.",
@@ -853,7 +853,7 @@
   "dns-lookup-failed": "Échec de la recherche d’enregistrements TXT pour {record}.",
   "app-is-currently-verified-by-dns": "Votre app est actuellement vérifiée via le contrôle DNS de <domain></domain>",
   "dns-verification": "Vérification DNS",
-  "moderation-random-review": "Sélectionné au hasard pour examen par humain",
+  "moderation-random-review": "Sélectionné au hasard pour examen",
   "verified-dns-tooltip": "La propriété de l’ID d’application <appid></appid> a été vérifié via le contrôle DNS de <domain></domain>",
   "moderation-summary-changes": "Résumé modifications",
   "moderation-manifest-complexity-explanation": "Ces modifications de recette décrivent l’ampleur et la structure de l’empaquetage, pas le risque de sécurité ni un comportement malveillant.",
@@ -863,5 +863,10 @@
   "moderation-manifest-complexity-modules-truncated": "Montrant {shown} de {total} des modules touchés.",
   "moderation-manifest-complexity-events-truncated": "Montrant {shown} de {total} des changements de recette.",
   "moderation-manifest-added": "Ajouté",
-  "moderation-manifest-removed": "Retiré"
+  "moderation-manifest-removed": "Retiré",
+  "moderation-manifest-source-origin": "Modifications de source du manifeste",
+  "moderation-manifest-complexity": "Complexité d'empaquetage du manifeste",
+  "moderation-manifest-source-and-complexity": "Revue source et complexité du manifeste",
+  "moderation-build-changes": "Modifications de build",
+  "moderation-build-log": "Journal de build"
 }
