@@ -331,7 +331,7 @@
   "direct-upload-description": "Uygulamanızı kendi sürekli entegrasyon ortamınızda oluşturun ve doğrudan Flathub'a yükleyin.",
   "app-eol": "Bu uygulama artık Flathub'da yok",
   "distribution-flathub-setup": "{distribution} Flathub Kurulumu",
-  "find-your-distribution": "Dağıtımınızı bulun",
+  "find-your-distribution": "Kendi dağıtımınızı bulun…",
   "no-results-found": "Hiçbir sonuç bulunamadı",
   "arch": "Mimari",
   "uses-session-services": "Oturum hizmetlerini kullanır",
@@ -359,9 +359,9 @@
   "publisher-agreement-accept": "Yayıncı Gönderim Sözleşmesini kabul ediyorum",
   "no-user-device-access": "Kullanıcı aygıtı erişimi yok",
   "safe": "Güvenli",
-  "probably-safe": "Muhtemelen güvenli",
-  "unsafe": "Güvensiz",
-  "potentially-unsafe": "Güvensiz olabilir",
+  "probably-safe": "Düşük Riskli",
+  "unsafe": "Yüksek Riskli",
+  "potentially-unsafe": "Orta Riskli",
   "no-permissions": "İzin yok",
   "has-network-access": "Ağ erişimi var",
   "uses-system-services": "Sistem hizmetlerini kullanır",
@@ -679,6 +679,82 @@
   "see-all-results": "Tüm sonuçları gör",
   "app-information": "Uygulama Bilgisi",
   "sub-header": {
-    "download": "İndir"
+    "download": "İndir",
+    "size-on-disk": "Diskteki boyutu",
+    "installed-runtime-size": "Yüklü Çalışma Zamanı Boyutu",
+    "appname-works-best-on-specific-hardware": "{appName}, belirli donanımlarda en iyi şekilde çalışır",
+    "appname-works-on-all-devices": "{appName} tüm cihazlarda çalışır",
+    "mobile-support": "Mobil desteği",
+    "desktop-support": "Masaüstü desteği",
+    "works-well-on-large-screens": "Geniş ekranlarda sorunsuz çalışır",
+    "may-not-work-well-on-mobile": "Mobil cihazlarda iyi çalışmayabilir",
+    "works-well-on-mobile": "Mobil cihazlarda sorunsuz çalışır",
+    "total-installs": "{count} Toplam Yükleme",
+    "age-rating": "Yaş Derecelendirmesi",
+    "desktop-only": "Sadece Masaüstü",
+    "desktop-and-mobile": "Masaüstü & Mobil",
+    "downloads-per-month": "İndirmeler/Ay",
+    "amount-to-download": "İnternetten indirilecek miktar",
+    "free": "Özgür"
+  },
+  "contribute-flathub": "Flathub projesine katkıda bulunun",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "description": "Not almak, görevleri takip etmek ve plan yapmak için uygulamalar"
+    },
+    "free-software-favorites": {
+      "header": "Ekibin Seçtikleri",
+      "description": "Şu anda sevdiğimiz uygulamalar"
+    },
+    "summer-travel": {
+      "description": "Harita, ulaşım, hava ve seyahat planlama uygulamaları"
+    },
+    "back-to-learning": {
+      "description": "Çalışmanıza, araştırma yapmanıza ve yazmanıza yardımcı olacak uygulamalar"
+    },
+    "winter-comforts": {
+      "description": "Okumak, film izlemek ve oyun oynamak için harika uygulamalar"
+    },
+    "tools-for-developers": {
+      "header": "Web Geliştiriciliği Temelleri",
+      "description": "Web sitesi oluşturmak bu uygulamalarla daha eğlenceli"
+    },
+    "take-better-notes": {
+      "description": "Yeni favori not alma aracınızı keşfedin"
+    },
+    "get-focused": {
+      "description": "Görev yönetimi için harika uygulamalar"
+    },
+    "make-some-noise": {
+      "header": "Ses Çıkarın",
+      "description": "Müzik oluşturma ve prodüksiyon uygulamaları"
+    },
+    "get-to-work": {
+      "description": "Temel ofis uygulamaları"
+    }
+  },
+  "trending-apps-description": "Son iki hafta içinde Flathub'da en çok yüklenen Linux uygulamaları.",
+  "popular-apps-description": "Geçtiğimiz ay Flathub'da en çok yüklenen Linux uygulamaları.",
+  "verified-apps-description": "Geliştirici kimliği doğrulanmış olan Flathub uygulamaları.",
+  "audio-and-video-description": "Linux için müzik oynatıcıları,video düzenleyicileri, podcast araçları ve multimedya uygulamaları.",
+  "content-rating": {
+    "subtitle": "{appName} , {age} yaşlar için uygundur",
+    "category-violence": "Şiddet",
+    "category-sex": "Çıplaklık",
+    "category-social": "Sosyal",
+    "category-money": "Para",
+    "unknown": "Bilgi sağlanmadı",
+    "none-violence": "Şiddet içermez",
+    "none-drugs": "Alkole atıf içermez",
+    "none-sex": "Cinsel içerik veya çıplaklık içermez",
+    "none-language": "Küfür veya kaba sözler içermez",
+    "none-social": "Sosyal özellikler içermez",
+    "none-money": "Reklam veya parasal işlem içermez",
+    "category-drugs": "Alkol",
+    "category-language": "Küfür"
+  },
+  "special-code-description": "Bu uygulama özel bir lisans altında geliştirilmiştir. Kaynak kodu herkese açık olmayabilir.",
+  "year-in-review-banner": {
+    "title": "Flathub {year} Yıl Sonu Özeti"
   }
 }

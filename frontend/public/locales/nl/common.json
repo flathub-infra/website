@@ -734,7 +734,7 @@
     "downloads-per-month": "Downloads per maand",
     "mobile-support": "Onder­steuning voor mobiel",
     "desktop-support": "Onder­steuning voor desktop",
-    "total-installs": "Totaal aantal installaties",
+    "total-installs": "{count} installaties in totaal",
     "size-on-disk": "Grootte op schijf",
     "installed-runtime-size": "Grootte van geïnstalleerde runtime",
     "appname-works-on-all-devices": "{appName} werkt op alle apparaten",
@@ -782,5 +782,10 @@
   "os-flatpak-version-distribution": "Flatpak-versie per besturings­systeem (afgelopen 30 dagen)",
   "upload-token-create-failed": "Het is niet gelukt om een upload­token aan te maken. Probeer het nog eens.",
   "manage": "Beheren",
-  "contribute-flathub": "Bij­dragen aan Flathub"
+  "contribute-flathub": "Bij­dragen aan Flathub",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Nieuw jaar, nieuwe werk­processen"
+    }
+  }
 }
