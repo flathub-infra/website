@@ -128,7 +128,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
           const itemAction = renderItemAction?.(app)
 
           return (
-            <div key={app.id} className="relative flex flex-col gap-2">
+            <div key={app.id} className="flex flex-col gap-1">
               <ApplicationCard
                 application={app}
                 link={link}
@@ -136,13 +136,12 @@ const ApplicationCollection: FunctionComponent<Props> = ({
                 showId={showId}
                 showRuntime={showRuntime}
                 priority={index < 6}
-                className={itemAction ? "pe-12" : undefined}
                 endAdornment={
                   showEolBadge && app.is_eol ? <EolBadge /> : undefined
                 }
               />
               {itemAction && (
-                <div className="absolute end-2 top-2 z-10">{itemAction}</div>
+                <div className="flex justify-end px-1">{itemAction}</div>
               )}
             </div>
           )

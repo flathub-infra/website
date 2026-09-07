@@ -63,11 +63,12 @@ export const WithItemActions = () => {
       renderItemAction={(app) => (
         <Button
           variant="ghost"
-          size="icon"
+          size="sm"
           className="text-flathub-sonic-silver hover:bg-destructive/10 hover:text-destructive active:bg-destructive/15 active:text-destructive focus-visible:text-destructive dark:text-flathub-spanish-gray dark:hover:text-destructive"
           aria-label={`Remove ${app.name} from bookmarks`}
         >
           <BookmarkMinus className="size-4" />
+          Remove bookmark
         </Button>
       )}
     />

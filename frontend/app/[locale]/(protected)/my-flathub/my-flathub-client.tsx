@@ -77,7 +77,7 @@ const RemoveFavoriteButton = ({
       ref={buttonRef}
       data-remove-favorite
       variant="ghost"
-      size="icon"
+      size="sm"
       className="text-flathub-sonic-silver hover:bg-destructive/10 hover:text-destructive active:bg-destructive/15 active:text-destructive focus-visible:text-destructive disabled:pointer-events-auto dark:text-flathub-spanish-gray dark:hover:text-destructive"
       title={label}
       aria-label={label}
@@ -89,6 +89,7 @@ const RemoveFavoriteButton = ({
       ) : (
         <BookmarkMinus className="size-4" />
       )}
+      {t("remove-bookmark")}
     </Button>
   )
 }
