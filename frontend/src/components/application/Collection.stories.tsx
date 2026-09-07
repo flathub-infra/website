@@ -1,6 +1,8 @@
 import { Meta } from "@storybook/nextjs-vite"
 import Collection from "./Collection"
 import { faker } from "@faker-js/faker"
+import { BookmarkMinus } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default {
   title: "Components/Application/Collection",
@@ -36,5 +38,38 @@ export const WithEolApps = () => {
 
   return (
     <Collection applications={myApps} title={"Apps with EOL"} showEolBadge />
+  )
+}
+
+export const WithItemActions = () => {
+  const myApps = [
+    {
+      id: "tv.kodi.Kodi",
+      icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
+      name: "Kodi",
+      summary: "An available app with full AppStream metadata.",
+    },
+    {
+      id: "org.example.Unavailable",
+      name: "org.example.Unavailable",
+    },
+  ]
+
+  return (
+    <Collection
+      applications={myApps}
+      title="Bookmarks"
+      variant="nested"
+      renderItemAction={(app) => (
+        <Button
+          variant="ghost"
+          size="icon"
+          className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+          aria-label={`Remove ${app.name} from bookmarks`}
+        >
+          <BookmarkMinus />
+        </Button>
+      )}
+    />
   )
 }
