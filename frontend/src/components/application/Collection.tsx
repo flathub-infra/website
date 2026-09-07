@@ -136,15 +136,13 @@ const ApplicationCollection: FunctionComponent<Props> = ({
                 showId={showId}
                 showRuntime={showRuntime}
                 priority={index < 6}
-                className={itemAction ? "pe-16" : undefined}
+                className={itemAction ? "pe-12" : undefined}
                 endAdornment={
                   showEolBadge && app.is_eol ? <EolBadge /> : undefined
                 }
               />
               {itemAction && (
-                <div className="absolute end-3 top-1/2 z-10 -translate-y-1/2">
-                  {itemAction}
-                </div>
+                <div className="absolute end-2 top-2 z-10">{itemAction}</div>
               )}
             </div>
           )

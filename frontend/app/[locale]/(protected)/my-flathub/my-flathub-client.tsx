@@ -78,16 +78,16 @@ const RemoveFavoriteButton = ({
       data-remove-favorite
       variant="ghost"
       size="icon"
-      className="text-destructive hover:bg-destructive/10 hover:text-destructive disabled:pointer-events-auto"
+      className="text-flathub-sonic-silver hover:bg-destructive/10 hover:text-destructive active:bg-destructive/15 active:text-destructive focus-visible:text-destructive disabled:pointer-events-auto dark:text-flathub-spanish-gray dark:hover:text-destructive"
       title={label}
       aria-label={label}
       disabled={removeMutation.isPending}
       onClick={() => removeMutation.mutate({ appId })}
     >
       {removeMutation.isPending ? (
-        <Loader2 className="animate-spin" />
+        <Loader2 className="size-4 animate-spin" />
       ) : (
-        <BookmarkMinus />
+        <BookmarkMinus className="size-4" />
       )}
     </Button>
   )

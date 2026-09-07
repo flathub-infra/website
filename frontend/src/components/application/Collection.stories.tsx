@@ -64,10 +64,10 @@ export const WithItemActions = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+          className="text-flathub-sonic-silver hover:bg-destructive/10 hover:text-destructive active:bg-destructive/15 active:text-destructive focus-visible:text-destructive dark:text-flathub-spanish-gray dark:hover:text-destructive"
           aria-label={`Remove ${app.name} from bookmarks`}
         >
-          <BookmarkMinus />
+          <BookmarkMinus className="size-4" />
         </Button>
       )}
     />
