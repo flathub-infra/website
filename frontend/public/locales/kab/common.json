@@ -315,7 +315,8 @@
     "free": "Baṭel",
     "downloads-per-month": "Isadaren/Ayyur",
     "size-on-disk": "Tiddi ɣef uḍebsi",
-    "desktop-only": "Aselkim kan"
+    "desktop-only": "Aselkim kan",
+    "appname-works-on-all-devices": "{appName} iteddu deg yibenkan akk"
   },
   "app-id": "Asulay n wesnas",
   "popular-apps": "Isnasen iɣerfanen",
@@ -326,5 +327,13 @@
   "year-in-review": {
     "select-year": "Fren aseggas",
     "new-apps": "Isnasen imaynuten"
-  }
+  },
+  "content-rating": {
+    "category-social": "Imetti"
+  },
+  "dns-record-value": "Azal",
+  "moderation-manifest-added": "Yettwarna",
+  "moderation-manifest-removed": "Yettwakkes",
+  "developed-by": "yesnefla-t {developer}",
+  "os-flatpak-version-distribution": "Lqem n Flatpak s unagraw n wammud (30 n wussan ineggura)"
 }
