@@ -58,7 +58,7 @@
   "retry-or-go-home": "Yeniden denemek veya <link>ana sayfaya</link> dönmek isteyebilirsiniz.",
   "reporting-issues": "Sorunları bildirme",
   "acknowledgements": "Teşekkürler",
-  "acknowledgements-block": "<p>Aşağıdaki kuruluşların ve kişilerin cömert desteği olmadan Flathub mümkün olmazdı.</p>",
+  "acknowledgements-block": "<p>Flathub, geniş Flatpak ve Flathub topluluğunun cömert desteği olmadan var olamazdı. Desteği ve altyapısı sayesinde Flathub’ın çalışmaya devam etmesini sağlayan geçmişteki ve şimdiki tüm katkıda bulunanlara, sponsorlara ve kuruluşlara teşekkür ederiz.</p>",
   "official-badges": "Flathub Resmi Rozetleri",
   "badges-block": "Flathubʼda uygulamanızı tanıtmak için bu rozetleri kullanabilirsiniz",
   "badges-description": "Uygulamanızı Flathubʼda tanıtmak için resmi rozetler",
@@ -435,7 +435,8 @@
     "dark": "Koyu Tema",
     "problems": "Eğer rehber hakkında özel olarak bir soru sormak isterseniz, istediğiniz zaman <link>şikayet</link> oluşturabilirsiniz.",
     "general-runtime-not-eol": "Runtime desteği hâlâ devam ediyor",
-    "failing-x-checks": "Başarısız {count, plural, one {# check} other {# checks}}"
+    "failing-x-checks": "Başarısız {count, plural, one {# check} other {# checks}}",
+    "stats-by-category": "Kategoriye göre kılavuz inceleme durumu"
   },
   "user-data-subfolder-x": "Kullanıcı veri alt klasörleri {folder}",
   "desktop-folder": "Masaüstü klasörü",
@@ -700,37 +701,47 @@
   "contribute-flathub": "Flathub projesine katkıda bulunun",
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
-      "description": "Not almak, görevleri takip etmek ve plan yapmak için uygulamalar"
+      "description": "Nasıl çalışırsanız çalışın, yeni bir başlangıç için uygulamalar",
+      "header": "Yeni Yıl, Yeni İş Akışları"
     },
     "free-software-favorites": {
       "header": "Ekibin Seçtikleri",
       "description": "Şu anda sevdiğimiz uygulamalar"
     },
     "summer-travel": {
-      "description": "Harita, ulaşım, hava ve seyahat planlama uygulamaları"
+      "description": "Bir sonraki seyahatiniz sizi nereye götürürse götürsün, yanınızda olacak uygulamalar"
     },
     "back-to-learning": {
-      "description": "Çalışmanıza, araştırma yapmanıza ve yazmanıza yardımcı olacak uygulamalar"
+      "description": "Bilgiyi keşfetmeye, öğrenmeye ve üretmeye yönelik uygulamalar"
     },
     "winter-comforts": {
-      "description": "Okumak, film izlemek ve oyun oynamak için harika uygulamalar"
+      "description": "Rahatlamak ve kafanı boşaltmak için uygulamalar"
     },
     "tools-for-developers": {
       "header": "Web Geliştiriciliği Temelleri",
       "description": "Web sitesi oluşturmak bu uygulamalarla daha eğlenceli"
     },
     "take-better-notes": {
-      "description": "Yeni favori not alma aracınızı keşfedin"
+      "description": "En iyi fikirlerinizi kaydetmeye yönelik yeni araçlar",
+      "header": "Daha İyi Notlar Alın"
     },
     "get-focused": {
-      "description": "Görev yönetimi için harika uygulamalar"
+      "description": "Akışta kalmanız için ihtiyacınız olan her şey",
+      "header": "Odaklanın"
     },
     "make-some-noise": {
-      "header": "Ses Çıkarın",
-      "description": "Müzik oluşturma ve prodüksiyon uygulamaları"
+      "header": "Biraz Ses Çıkarın",
+      "description": "Ses oluşturmaya, dinlemeye ve keşfetmeye yönelik uygulamalar"
     },
     "get-to-work": {
-      "description": "Temel ofis uygulamaları"
+      "description": "İşlerinizi halletmenize yardımcı olan uygulamalar",
+      "header": "İş Başına!"
+    },
+    "spring-creativity": {
+      "description": "Görüntüler, sesler, videolar ve daha fazlasıyla çalışın"
+    },
+    "fresh-desktop-releases": {
+      "description": "Sisteminizde tam uyum sağlayan uygulamalar geliştirin"
     }
   },
   "trending-apps-description": "Son iki hafta içinde Flathub'da en çok yüklenen Linux uygulamaları.",
@@ -755,6 +766,80 @@
   },
   "special-code-description": "Bu uygulama özel bir lisans altında geliştirilmiştir. Kaynak kodu herkese açık olmayabilir.",
   "year-in-review-banner": {
-    "title": "Flathub {year} Yıl Sonu Özeti"
-  }
+    "title": "Flathub {year} Yıl Sonu Özeti",
+    "description": "Yılın en popüler uygulamalarını ve trendlerini yeniden keşfedin"
+  },
+  "manage": "Yönet",
+  "games-description": "Linux için oyunlar, emülatörler ve oyun başlatıcıları.",
+  "moderation-summary-changes": "Değişikliklerin Özeti",
+  "moderation-manifest-source-origin": "Manifest kaynağı değişiklikleri",
+  "moderation-manifest-complexity": "Manifest paketleme karmaşıklığı",
+  "moderation-manifest-source-and-complexity": "Manifest kaynağı ve karmaşık inceleme",
+  "year-in-review": {
+    "trending-categories": "Trend Kategoriler",
+    "trending-categories-description": "Bu yıl en fazla büyüme kaydeden kategoriler",
+    "year-over-year-growth": "Bir önceki yıla göre büyüme",
+    "hidden-gems": "Gizli Hazineler",
+    "hidden-gems-description": "Popülerliği artan uygulamalar",
+    "platform-downloads": "Platform indirmeleri",
+    "x-growth": "+{percentage}% büyüme",
+    "geographic-insights": "Coğrafi Analizler",
+    "countries-reached": "Ulaşılan Ülkeler",
+    "fastest-growing-regions": "En Hızlı Büyüyen Bölgeler",
+    "top-countries": "Öne Çıkan Ülkeler",
+    "title": "{year} Yıl Sonu Özeti",
+    "description": "Flathub’da büyüme ve yeniliklerle dolu bir yılı kutluyoruz",
+    "select-year": "Yıl Seçin",
+    "category-highlights": "Kategori Öne Çıkanları",
+    "most-popular": "En Popüler",
+    "most-popular-description": "Bu yıl en çok indirilen uygulama",
+    "total-downloads": "Toplam İndirme",
+    "new-apps": "Yeni Uygulamalar",
+    "total-apps": "Toplam Uygulamalar",
+    "app-updates": "Uygulama Güncellemeleri",
+    "top-apps": "En Popüler Uygulamalar",
+    "top-games": "En Popüler Oyunlar",
+    "top-game-stores": "En Popüler Oyun Mağazaları",
+    "top-game-utilities": "En Popüler Oyun Araçları"
+  },
+  "networking-description": "Linux için web tarayıcıları, e-posta istemcileri, VPN araçları ve diğer ağ uygulamaları.",
+  "productivity-description": "Linux için ofis paketleri, not alma, proje yönetimi ve üretkenlik uygulamaları.",
+  "utilities-description": "Linux için sistem yardımcıları, dosya yöneticileri, hesap makineleri ve günlük kullanım araçları.",
+  "science-description": "Linux için bilimsel hesaplama, veri analizi ve araştırma uygulamaları.",
+  "education-description": "Linux için öğrenme uygulamaları, dil araçları ve eğitim yazılımları.",
+  "system-description": "Linux için sistem yönetimi, izleme ve yönetici araçları.",
+  "health-fitness-description": "Linux için sağlık ve fitness uygulamaları.",
+  "quality-moderation-excluded": "Bu uygulama kalite kontrollerinin kapsamı dışındadır",
+  "moderation-manifest-complexity-ambiguity": "Bazı modüllerin eşleşmesi kesin olarak belirlenemedi; etkilenen tarif değişikliklerini dikkatlice gözden geçirin.",
+  "moderation-manifest-complexity-modules": "Etkilenen modüller",
+  "moderation-manifest-complexity-events": "Tarif değişiklikleri",
+  "moderation-manifest-complexity-modules-truncated": "{total} adet etkilenen modülden {shown} tanesi gösteriliyor.",
+  "moderation-manifest-complexity-events-truncated": "{total} tarif değişikliğinden {shown} tanesi gösteriliyor.",
+  "moderation-manifest-added": "Eklendi",
+  "moderation-manifest-removed": "Kaldırıldı",
+  "moderation-random-review": "İnceleme için rastgele seçildi",
+  "moderation-build-log": "Derleme günlüğü",
+  "manual-verification": "Manuel doğrulanmış olarak işaretle",
+  "user-id": "Flathub Kullanıcı ID",
+  "default-account": "Varsayılan",
+  "set-as-default": "Varsayılan Olarak Ayarla",
+  "default-account-changed": "Varsayılan hesap başarıyla değiştirildi",
+  "unverified-app-disclaimer-unknown-developer": "uygulama geliştiricisi",
+  "or-enter-custom-amount": "Ya da istediğiniz tutarı girin",
+  "payment-details": "Ödeme Detayları",
+  "health-fitness": "Sağlık & Fitness",
+  "more-healthfitness": "Daha Fazla Sağlık & Fitness",
+  "dns-record-value": "Değer",
+  "dns-record-not-found": "{record} adresinde herhangi bir TXT kaydı bulunamadı.",
+  "dns-token-not-present": "{record} adresindeki TXT kayıtları, doğrulama jetonunu içermiyor.",
+  "dns-lookup-failed": "{record} için TXT kayıtları aranırken hata oluştu.",
+  "app-is-currently-verified-by-dns": "Uygulamanız şu anda <domain></domain> adresinin DNS kontrolü yoluyla doğrulanmıştır.",
+  "vending": {
+    "purchase-not-available": "Bu uygulama satın alınamaz."
+  },
+  "moderation-build-changes": "Derleme Değişiklikleri",
+  "share": "Paylaş",
+  "developer-tools-description": "Linux için IDE'ler, kod editörleri, terminaller ve geliştirici araçları.",
+  "graphics-and-photography-description": "Linux için resim düzenleyicileri, illüstrasyon araçları ve fotoğrafçılık uygulamaları.",
+  "moderation-manifest-complexity-explanation": "Bu tarif değişiklikleri, güvenlik riski veya kötü niyetli davranışları değil, paketleme kapsamını ve yapısını açıklamaktadır."
 }

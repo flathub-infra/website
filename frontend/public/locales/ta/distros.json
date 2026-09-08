@@ -425,5 +425,24 @@
   "vanilla_os": {
     "distroName": "வெண்ணிலா ஓஎச்",
     "introduction": "<header>Flatpak ஆனது வெண்ணிலா OS இல் இயல்பாக நிறுவப்பட்டுள்ளது.</header> <text>நீங்கள் மென்பொருள் பயன்பாட்டைப் பயன்படுத்தலாம் அல்லது பயன்பாடுகளை நிறுவ <link>Flathub</link> ஐ உலாவலாம்.</text> <text>சில காரணங்களால் Flathub கிடைக்கவில்லை என்றால், பின்வரும் கட்டளையைப் பயன்படுத்தி அதை கைமுறையாக உள்ளமைக்கலாம்:</code> <code>"
+  },
+  "slackware": {
+    "distroName": "ச்லாக்வேர்",
+    "step-1": {
+      "name": "Flatpak ஐ நிறுவவும்",
+      "text": "<text>ஒரு Flatpak தொகுப்பு SlackBuilds இல் கிடைக்கிறது. அதை நிறுவ (நீங்கள் Sbopkg/sqg ஐப் பயன்படுத்துகிறீர்கள் என்று வைத்துக்கொள்வோம்), முதலில் வரிசை கோப்பை உருவாக்கி பின்வருவனவற்றை ரூட்டாக இயக்கவும்:</text> <codeQueue></codeQueue> <text>பின் அதை தொகுக்கவும். வரிசை கோப்பை ஏற்றி, 'Q' ஐ அழுத்தி, காத்திருக்கவும்:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "கூட்டு the Flathub களஞ்சியம்",
+      "text": "<text>Flathub is the best place பெறுநர் get Flatpak apps. பெறுநர் enable it, run:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "மறுதொடக்கம்",
+      "text": "<text>To complete setup, மறுதொடக்கம் your system. Now அனைத்தும் you have பெறுநர் do is <link>install apps</link>!</text> <text>Note: graphical நிறுவல் of Flatpak apps சி-வைகாசி not be possible with Slackware.</text>"
+    }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak T2 SDE இல் பதிப்பு 26.6 முதல் இயல்பாக நிறுவப்பட்டுள்ளது — எந்த அமைப்பும் தேவையில்லை!</header> <text>Flathub களஞ்சியத்துடன் Flatpak முன்பே கட்டமைக்கப்பட்டுள்ளது மற்றும் Flathub இலிருந்து 1-கிளிக் நிறுவலை அனுமதிக்க டெச்க்டாப் ஒருங்கிணைப்பு கருவிகள் சேர்க்கப்பட்டுள்ளன."
   }
 }
