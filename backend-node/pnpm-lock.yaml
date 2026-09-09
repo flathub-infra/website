@@ -18,8 +18,8 @@ importers:
         specifier: 0.6.1
         version: 0.6.1(hono@4.13.7)
       '@hono/zod-openapi':
-        specifier: ^1.6.2
-        version: 1.6.2(hono@4.13.7)(zod@4.5.4)
+        specifier: ^1.6.3
+        version: 1.6.3(hono@4.13.7)(zod@4.5.4)
       '@react-email/render':
         specifier: 2.1.0
         version: 2.1.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -501,8 +501,8 @@ packages:
     peerDependencies:
       hono: '>=4.0.0'
 
-  '@hono/zod-openapi@1.6.2':
-    resolution: {integrity: sha512-ktnBqVgvIlopiiB9ab6hqoYefhcb0DUZU5QJ1F5UtDu8w6+cIORENz93sTZT6G0mQNes0/TbbadfrOpdehioPA==}
+  '@hono/zod-openapi@1.6.3':
+    resolution: {integrity: sha512-VYR82Y60plu8g3pN60OUXMVKpmxh3R04Qs++3DY9vtwZ9/sA/BRY0PcRIR+Z37/3itWtM7pYwT9bKiH9JhqV6Q==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       hono: '>=4.10.0'
@@ -2058,7 +2058,7 @@ snapshots:
     dependencies:
       hono: 4.13.7
 
-  '@hono/zod-openapi@1.6.2(hono@4.13.7)(zod@4.5.4)':
+  '@hono/zod-openapi@1.6.3(hono@4.13.7)(zod@4.5.4)':
     dependencies:
       '@asteasolutions/zod-to-openapi': 9.1.0(zod@4.5.4)
       '@hono/zod-validator': 0.9.1(hono@4.13.7)(zod@4.5.4)
