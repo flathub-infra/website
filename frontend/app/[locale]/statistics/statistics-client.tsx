@@ -759,10 +759,25 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
       _share:
         grandTotal > 0 ? Math.round((rowTotal / grandTotal) * 1000) / 10 : 0,
     }
-    for (const fpVer of fpVersions) {
-      row[fpVer] =
-        rowTotal > 0 ? Math.round(((fp[fpVer] ?? 0) / rowTotal) * 1000) / 10 : 0
+
+    const shares = fpVersions.map((fpVer) =>
+      rowTotal > 0 ? Math.round(((fp[fpVer] ?? 0) / rowTotal) * 1000) / 10 : 0,
+    )
+    if (rowTotal > 0 && shares.length > 0) {
+      // Independent one-decimal rounding can make a stack slightly over or under 100%.
+      const largestShareIndex = shares.reduce(
+        (largestIndex, share, index) =>
+          share > shares[largestIndex] ? index : largestIndex,
+        0,
+      )
+      const roundingError =
+        Math.round((100 - shares.reduce((sum, share) => sum + share, 0)) * 10) /
+        10
+      shares[largestShareIndex] += roundingError
     }
+    fpVersions.forEach((fpVer, index) => {
+      row[fpVer] = shares[index]
+    })
     return row
   })
 
@@ -785,6 +800,7 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
               type="number"
               unit="%"
               domain={[0, 100]}
+              tickFormatter={(value) => String(Math.round(Number(value)))}
             />
             <YAxis
               type="category"
