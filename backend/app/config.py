@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     meilisearch_key: str | None = None
     search_hybrid_enabled: bool = False
     search_hybrid_semantic_ratio: float = Field(default=0.3, ge=0.0, le=1.0)
+    search_hybrid_ranking_score_threshold: float | None = Field(
+        default=0.835, ge=0.0, le=1.0
+    )
     search_hybrid_embedder: str = "apps-fireworks-qwen3"
     search_embedding_url: str = "https://api.fireworks.ai/inference/v1/embeddings"
     search_embedding_model: str = "fireworks/qwen3-embedding-8b"

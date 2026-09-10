@@ -841,6 +841,7 @@ def _log_search_timing(
         extra={
             "search_mode": mode,
             "semantic_ratio": config.settings.search_hybrid_semantic_ratio,
+            "ranking_score_threshold": config.settings.search_hybrid_ranking_score_threshold,
             "processing_time_ms": response.processingTimeMs,
             "end_to_end_duration_ms": end_to_end_duration_ms,
             "result_count": len(response.hits),
@@ -877,6 +878,10 @@ def search_apps_post(
                 "semanticRatio": config.settings.search_hybrid_semantic_ratio,
             },
         }
+        if config.settings.search_hybrid_ranking_score_threshold is not None:
+            hybrid_options["rankingScoreThreshold"] = (
+                config.settings.search_hybrid_ranking_score_threshold
+            )
         try:
             raw_response = client.index(HYBRID_APPS_INDEX).search(
                 searchquery.query, hybrid_options

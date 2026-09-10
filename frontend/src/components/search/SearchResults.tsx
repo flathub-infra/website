@@ -20,6 +20,7 @@ interface Props {
   isLoadingMore: boolean
   isInitialLoading: boolean
   fetchNextPage: () => void
+  recommendations: AppsIndex[]
 }
 
 export const SearchResults: FunctionComponent<Props> = ({
@@ -29,6 +30,7 @@ export const SearchResults: FunctionComponent<Props> = ({
   isLoadingMore,
   isInitialLoading,
   fetchNextPage,
+  recommendations,
 }) => {
   const t = useTranslations()
 
@@ -64,6 +66,24 @@ export const SearchResults: FunctionComponent<Props> = ({
             </div>
           ))}
       </div>
+
+      {recommendations.length > 0 && (
+        <section className="mt-8" aria-labelledby="popular-apps-heading">
+          <h2 id="popular-apps-heading" className="mb-4 text-xl font-bold">
+            {t("popular-apps")}
+          </h2>
+          <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
+            {recommendations.map((app, index) => (
+              <div key={app.app_id} className="flex flex-col gap-2">
+                <ApplicationCard
+                  application={mapAppsIndexToAppstreamListItem(app)}
+                  priority={index < 6}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Load More Button */}
       {hasNextPage && (

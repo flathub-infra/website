@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { SearchPanel } from "../../../../src/components/search/SearchPanel"
 import { usePostSearchSearchPost } from "../../../../src/codegen"
@@ -48,27 +48,46 @@ const SearchClient = (): JSX.Element => {
     MeilisearchResponseAppsIndex,
     "hits"
   > | null>(null)
+  const [searchMetadataKey, setSearchMetadataKey] = useState<string | null>(
+    null,
+  )
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [isInitialLoading, setIsInitialLoading] = useState(true)
+  const [recommendations, setRecommendations] = useState<AppsIndex[]>([])
+  const [isRecommendationsLoading, setIsRecommendationsLoading] =
+    useState(false)
+  const [recommendationKey, setRecommendationKey] = useState<string | null>(
+    null,
+  )
+  const searchRequestId = useRef(0)
+  const searchKey = JSON.stringify([q, selectedFilters, locale])
 
   const search = usePostSearchSearchPost()
+  const recommendationSearch = usePostSearchSearchPost()
 
-  const hasNextPage = searchMetadata
-    ? currentPage < searchMetadata.totalPages
+  const activeSearchMetadata =
+    searchMetadataKey === searchKey ? searchMetadata : null
+  const hasNextPage = activeSearchMetadata
+    ? currentPage < activeSearchMetadata.totalPages
     : false
 
-  const resetSearch = useCallback(() => {
+  const resetSearch = () => {
     setCurrentPage(1)
     setAllHits([])
     setSearchMetadata(null)
+    setSearchMetadataKey(null)
     setIsLoadingMore(false)
     setIsInitialLoading(true)
-  }, [])
+    setRecommendations([])
+    setIsRecommendationsLoading(false)
+    setRecommendationKey(null)
+  }
 
-  const fetchNextPage = useCallback(() => {
+  const fetchNextPage = () => {
     if (hasNextPage && !search.isPending && !isLoadingMore) {
       setIsLoadingMore(true)
       const nextPage = currentPage + 1
+      const requestId = searchRequestId.current
 
       search.mutate(
         {
@@ -84,32 +103,28 @@ const SearchClient = (): JSX.Element => {
         },
         {
           onSuccess: (res) => {
+            if (requestId !== searchRequestId.current) {
+              return
+            }
             const { hits, ...metadata } = res.data
             setAllHits((prev) => [...prev, ...hits])
             setSearchMetadata(metadata)
+            setSearchMetadataKey(searchKey)
             setCurrentPage(nextPage)
             setIsLoadingMore(false)
           },
           onError: () => {
+            if (requestId !== searchRequestId.current) {
+              return
+            }
             setIsLoadingMore(false)
           },
         },
       )
     }
-  }, [
-    hasNextPage,
-    search,
-    isLoadingMore,
-    currentPage,
-    q,
-    selectedFilters,
-    locale,
-  ])
+  }
 
-  // Reset and perform initial search when query or filters change
-  useEffect(() => {
-    resetSearch()
-
+  const performInitialSearch = (requestId: number) => {
     search.mutate(
       {
         data: {
@@ -124,6 +139,9 @@ const SearchClient = (): JSX.Element => {
       },
       {
         onSuccess: (res) => {
+          if (requestId !== searchRequestId.current) {
+            return
+          }
           if (q.length > 0) {
             trackSiteSearch({
               keyword: q,
@@ -134,14 +152,64 @@ const SearchClient = (): JSX.Element => {
           const { hits, ...metadata } = res.data
           setAllHits(hits)
           setSearchMetadata(metadata)
+          setSearchMetadataKey(searchKey)
           setCurrentPage(1)
           setIsInitialLoading(false)
+
+          if (q.trim() && metadata.totalHits === 0) {
+            setIsRecommendationsLoading(true)
+            recommendationSearch.mutate(
+              {
+                data: {
+                  query: "",
+                  filters: selectedFilters,
+                  hits_per_page: 6,
+                  page: 1,
+                },
+                params: {
+                  locale: locale,
+                },
+              },
+              {
+                onSuccess: (recommendationResponse) => {
+                  if (requestId !== searchRequestId.current) {
+                    return
+                  }
+                  setRecommendations(recommendationResponse.data.hits)
+                  setRecommendationKey(searchKey)
+                  setIsRecommendationsLoading(false)
+                },
+                onError: () => {
+                  if (requestId !== searchRequestId.current) {
+                    return
+                  }
+                  setIsRecommendationsLoading(false)
+                },
+              },
+            )
+          }
         },
         onError: () => {
+          if (requestId !== searchRequestId.current) {
+            return
+          }
           setIsInitialLoading(false)
         },
       },
     )
+  }
+
+  const retrySearch = () => {
+    const requestId = ++searchRequestId.current
+    resetSearch()
+    performInitialSearch(requestId)
+  }
+
+  // Reset and perform initial search when query or filters change
+  useEffect(() => {
+    const requestId = ++searchRequestId.current
+    resetSearch()
+    performInitialSearch(requestId)
     // eslint-disable-next-line react-compiler/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, selectedFilters, locale])
@@ -154,12 +222,18 @@ const SearchClient = (): JSX.Element => {
           selectedFilters={selectedFilters}
           setSelectedFilters={setSelectedFilters}
           query={q}
-          allHits={allHits}
-          searchMetadata={searchMetadata}
+          allHits={searchMetadataKey === searchKey ? allHits : []}
+          searchMetadata={activeSearchMetadata}
           hasNextPage={hasNextPage}
           isLoadingMore={isLoadingMore}
-          isInitialLoading={isInitialLoading}
+          isInitialLoading={isInitialLoading || searchMetadataKey !== searchKey}
           fetchNextPage={fetchNextPage}
+          recommendations={
+            recommendationKey === searchKey ? recommendations : []
+          }
+          isRecommendationsLoading={isRecommendationsLoading}
+          clearFilters={() => setSelectedFilters([])}
+          retrySearch={retrySearch}
         />
       </div>
     </div>

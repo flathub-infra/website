@@ -6,6 +6,20 @@ import { useTranslations } from "next-intl"
 import { MeilisearchResponseAppsIndex } from "src/codegen"
 import { categoryToName, stringToCategory } from "src/types/Category"
 
+type SelectedFilter = {
+  filterType: string
+  value: string
+}
+
+type SearchFilterProps = {
+  results: UseMutationResult<
+    AxiosResponse<MeilisearchResponseAppsIndex, any>,
+    unknown
+  >
+  selectedFilters: SelectedFilter[]
+  setSelectedFilters: (filters: SelectedFilter[]) => void
+}
+
 const FilterFacette = ({
   label,
   count,
@@ -25,434 +39,154 @@ const FilterFacette = ({
   )
 }
 
-const SearchFilterCategories = ({
+const SearchFilterSection = ({
+  title,
+  filterType,
+  loadingCount,
   results,
   selectedFilters,
   setSelectedFilters,
-}: {
-  results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseAppsIndex, any>,
-    unknown
-  >
-  selectedFilters: {
-    filterType: string
-    value: string
-  }[]
-  setSelectedFilters
+}: SearchFilterProps & {
+  title: string
+  filterType: string
+  loadingCount: number
 }) => {
   const t = useTranslations()
+  const facetValues = results.data?.data.facetDistribution?.[filterType] ?? {}
+  const values = [
+    ...Object.keys(facetValues),
+    ...selectedFilters
+      .filter((filter) => filter.filterType === filterType)
+      .map((filter) => filter.value)
+      .filter((value) => !(value in facetValues)),
+  ]
+  if (
+    filterType === "is_free_license" ||
+    filterType === "verification_verified"
+  ) {
+    values.sort(
+      (left, right) => Number(right === "true") - Number(left === "true"),
+    )
+  }
 
   return (
     <div className="flex flex-col gap-2">
-      <h2 className="text-lg font-bold">{t("categories")}</h2>
+      <h2 className="text-lg font-bold">{title}</h2>
       {results.isPending &&
-        [...new Array(10)].map((a, i) => {
-          return (
-            <div key={i} className={"blur-xs flex flex-col gap-2"}>
-              <FilterFacette
-                label={"Loading..."}
-                count={0}
-                checked={false}
-                onCheckedChange={() => {}}
-              />
-            </div>
-          )
-        })}
-
-      {results.isSuccess &&
-        results?.data?.data.facetDistribution.main_categories &&
-        Object.keys(results?.data?.data.facetDistribution.main_categories).map(
-          (category) => (
+        [...new Array(loadingCount)].map((_, index) => (
+          <div key={index} className="blur-xs flex flex-col gap-2">
             <FilterFacette
-              key={category}
-              label={categoryToName(stringToCategory(category), t)}
-              count={
-                results?.data.data.facetDistribution?.main_categories[category]
-              }
-              checked={selectedFilters.some(
-                (filter) =>
-                  filter.filterType === "main_categories" &&
-                  filter.value === category,
-              )}
-              onCheckedChange={(e) => {
-                if (e) {
+              label="Loading..."
+              count={0}
+              checked={false}
+              onCheckedChange={() => {}}
+            />
+          </div>
+        ))}
+      {results.isSuccess &&
+        values.map((value) => {
+          const checked = selectedFilters.some(
+            (filter) =>
+              filter.filterType === filterType && filter.value === value,
+          )
+          const label =
+            filterType === "main_categories"
+              ? categoryToName(stringToCategory(value), t)
+              : filterType === "is_free_license"
+                ? value === "true"
+                  ? t("flos")
+                  : t("proprietary")
+                : filterType === "verification_verified"
+                  ? value === "true"
+                    ? t("verified")
+                    : t("unverified")
+                  : filterType === "type"
+                    ? t(value)
+                    : value
+          return (
+            <FilterFacette
+              key={value}
+              label={label}
+              count={facetValues[value] ?? 0}
+              checked={checked}
+              onCheckedChange={(isChecked) => {
+                if (isChecked) {
                   setSelectedFilters([
                     ...selectedFilters,
-                    {
-                      filterType: "main_categories",
-                      value: category,
-                    },
+                    { filterType, value },
                   ])
-                } else {
-                  setSelectedFilters(
-                    selectedFilters.filter(
-                      (filter) =>
-                        !(
-                          filter.filterType === "main_categories" &&
-                          filter.value === category
-                        ),
-                    ),
-                  )
+                  return
                 }
-              }}
-            />
-          ),
-        )}
-    </div>
-  )
-}
-
-const SearchFilterFloss = ({
-  results,
-  selectedFilters,
-  setSelectedFilters,
-}: {
-  results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseAppsIndex, any>,
-    unknown
-  >
-  selectedFilters: {
-    filterType: string
-    value: string
-  }[]
-  setSelectedFilters
-}) => {
-  const t = useTranslations()
-
-  return (
-    <div className="flex flex-col gap-2">
-      <h2 className="text-lg font-bold">{t("license")}</h2>
-      {results.isPending &&
-        [...new Array(2)].map((a, i) => {
-          return (
-            <div key={i} className={"blur-xs flex flex-col gap-2"}>
-              <FilterFacette
-                label={"Loading..."}
-                count={0}
-                checked={false}
-                onCheckedChange={() => {}}
-              />
-            </div>
-          )
-        })}
-
-      {results.isSuccess &&
-        results?.data.data.facetDistribution?.is_free_license &&
-        Object.keys(results?.data.data.facetDistribution?.is_free_license)
-          .sort((a, b) => {
-            if (a === "true") {
-              return -1
-            }
-            if (b === "true") {
-              return 1
-            }
-            return 0
-          })
-          .map((license, i) => (
-            <FilterFacette
-              key={`${license}-${i}`}
-              label={license === "true" ? t("flos") : t("proprietary")}
-              count={
-                results?.data.data.facetDistribution?.is_free_license[license]
-              }
-              checked={selectedFilters.some(
-                (filter) =>
-                  filter.filterType === "is_free_license" &&
-                  filter.value === license,
-              )}
-              onCheckedChange={(e) => {
-                if (e) {
-                  setSelectedFilters([
-                    ...selectedFilters,
-                    {
-                      filterType: "is_free_license",
-                      value: license,
-                    },
-                  ])
-                } else {
-                  setSelectedFilters(
-                    selectedFilters.filter(
-                      (filter) =>
-                        !(
-                          filter.filterType === "is_free_license" &&
-                          filter.value === license
-                        ),
-                    ),
-                  )
-                }
-              }}
-            />
-          ))}
-    </div>
-  )
-}
-
-const SearchFilterVerified = ({
-  results,
-  selectedFilters,
-  setSelectedFilters,
-}: {
-  results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseAppsIndex, any>,
-    unknown
-  >
-  selectedFilters: {
-    filterType: string
-    value: string
-  }[]
-  setSelectedFilters
-}) => {
-  const t = useTranslations()
-
-  return (
-    <div className="flex flex-col gap-2">
-      <h2 className="text-lg font-bold">{t("verification")}</h2>
-      {results.isPending &&
-        [...new Array(2)].map((a, i) => {
-          return (
-            <div key={i} className={"blur-xs flex flex-col gap-2"}>
-              <FilterFacette
-                label={"Loading..."}
-                count={0}
-                checked={false}
-                onCheckedChange={() => {}}
-              />
-            </div>
-          )
-        })}
-
-      {results.isSuccess &&
-        results?.data.data.facetDistribution?.verification_verified &&
-        Object.keys(results?.data.data.facetDistribution?.verification_verified)
-          .sort((a, b) => {
-            if (a === "true") {
-              return -1
-            }
-            if (b === "true") {
-              return 1
-            }
-            return 0
-          })
-          .map((verified, i) => (
-            <FilterFacette
-              key={`${verified}-${i}`}
-              label={verified === "true" ? t("verified") : t("unverified")}
-              count={
-                results?.data.data.facetDistribution?.verification_verified[
-                  verified
-                ]
-              }
-              checked={selectedFilters.some(
-                (filter) =>
-                  filter.filterType === "verification_verified" &&
-                  filter.value === verified,
-              )}
-              onCheckedChange={(e) => {
-                if (e) {
-                  setSelectedFilters([
-                    ...selectedFilters,
-                    {
-                      filterType: "verification_verified",
-                      value: verified,
-                    },
-                  ])
-                } else {
-                  setSelectedFilters(
-                    selectedFilters.filter(
-                      (filter) =>
-                        !(
-                          filter.filterType === "verification_verified" &&
-                          filter.value === verified
-                        ),
-                    ),
-                  )
-                }
-              }}
-            />
-          ))}
-    </div>
-  )
-}
-
-const SearchFilterTypes = ({
-  results,
-  selectedFilters,
-  setSelectedFilters,
-}: {
-  results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseAppsIndex, any>,
-    unknown
-  >
-  selectedFilters: {
-    filterType: string
-    value: string
-  }[]
-  setSelectedFilters
-}) => {
-  const t = useTranslations()
-
-  return (
-    <div className="flex flex-col gap-2">
-      <h2 className="text-lg font-bold">{t("app-type")}</h2>
-      {results.isPending &&
-        [...new Array(1)].map((a, i) => {
-          return (
-            <div key={i} className={"blur-xs flex flex-col gap-2"}>
-              <FilterFacette
-                label={"Loading..."}
-                count={0}
-                checked={false}
-                onCheckedChange={() => {}}
-              />
-            </div>
-          )
-        })}
-
-      {results.isSuccess &&
-        results?.data.data.facetDistribution?.type &&
-        Object.keys(results?.data.data.facetDistribution?.type).map((type) => (
-          <FilterFacette
-            key={type}
-            label={t(type)}
-            count={results?.data.data.facetDistribution?.type[type]}
-            checked={selectedFilters.some(
-              (filter) => filter.filterType === "type" && filter.value === type,
-            )}
-            onCheckedChange={(e) => {
-              if (e) {
-                setSelectedFilters([
-                  ...selectedFilters,
-                  {
-                    filterType: "type",
-                    value: type,
-                  },
-                ])
-              } else {
                 setSelectedFilters(
                   selectedFilters.filter(
                     (filter) =>
-                      !(filter.filterType === "type" && filter.value === type),
+                      filter.filterType !== filterType ||
+                      filter.value !== value,
                   ),
                 )
-              }
-            }}
-          />
-        ))}
-    </div>
-  )
-}
-
-const SearchFilterArches = ({
-  results,
-  selectedFilters,
-  setSelectedFilters,
-}: {
-  results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseAppsIndex, any>,
-    unknown
-  >
-  selectedFilters: {
-    filterType: string
-    value: string
-  }[]
-  setSelectedFilters
-}) => {
-  const t = useTranslations()
-
-  return (
-    <div className="flex flex-col gap-2">
-      <h2 className="text-lg font-bold">{t("arch")}</h2>
-      {results.isPending &&
-        [...new Array(2)].map((a, i) => {
-          return (
-            <div key={i} className={"blur-xs flex flex-col gap-2"}>
-              <FilterFacette
-                label={"Loading..."}
-                count={0}
-                checked={false}
-                onCheckedChange={() => {}}
-              />
-            </div>
-          )
-        })}
-
-      {results.isSuccess &&
-        results?.data.data.facetDistribution?.arches &&
-        Object.keys(results?.data.data.facetDistribution?.arches).map(
-          (arch) => (
-            <FilterFacette
-              key={arch}
-              label={arch}
-              count={results?.data.data.facetDistribution?.arches[arch]}
-              checked={selectedFilters.some(
-                (filter) =>
-                  filter.filterType === "arches" && filter.value === arch,
-              )}
-              onCheckedChange={(e) => {
-                if (e) {
-                  setSelectedFilters([
-                    ...selectedFilters,
-                    {
-                      filterType: "arches",
-                      value: arch,
-                    },
-                  ])
-                } else {
-                  setSelectedFilters(
-                    selectedFilters.filter(
-                      (filter) =>
-                        !(
-                          filter.filterType === "arches" &&
-                          filter.value === arch
-                        ),
-                    ),
-                  )
-                }
               }}
             />
-          ),
-        )}
+          )
+        })}
     </div>
   )
 }
+
 export const SearchFilters = ({
   results,
   selectedFilters,
   setSelectedFilters,
-}: {
-  results: UseMutationResult<
-    AxiosResponse<MeilisearchResponseAppsIndex, any>,
-    unknown
-  >
-  selectedFilters: {
-    filterType: string
-    value: string
-  }[]
-  setSelectedFilters
-}) => {
+}: SearchFilterProps) => {
+  const t = useTranslations()
+
   return (
     <div className="flex min-w-[300px] flex-col gap-4">
-      <SearchFilterCategories
+      <SearchFilterSection
+        title={t("categories")}
+        filterType="main_categories"
+        loadingCount={10}
         results={results}
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
       />
-      <SearchFilterFloss
+      <SearchFilterSection
+        title={t("license")}
+        filterType="is_free_license"
+        loadingCount={2}
         results={results}
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
       />
-      <SearchFilterVerified
+      <SearchFilterSection
+        title={t("verification")}
+        filterType="verification_verified"
+        loadingCount={2}
         results={results}
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
       />
-      <SearchFilterTypes
+      {selectedFilters.some((filter) => filter.filterType === "runtime") && (
+        <SearchFilterSection
+          title={t("runtime")}
+          filterType="runtime"
+          loadingCount={1}
+          results={results}
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+        />
+      )}
+      <SearchFilterSection
+        title={t("app-type")}
+        filterType="type"
+        loadingCount={1}
         results={results}
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}
       />
-      <SearchFilterArches
+      <SearchFilterSection
+        title={t("arch")}
+        filterType="arches"
+        loadingCount={2}
         results={results}
         selectedFilters={selectedFilters}
         setSelectedFilters={setSelectedFilters}

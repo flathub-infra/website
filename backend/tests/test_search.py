@@ -292,9 +292,25 @@ def test_desktop_intent_search_uses_exact_hybrid_payload(search_module):
                     "embedder": "apps-fireworks-qwen3",
                     "semanticRatio": 0.3,
                 },
+                "rankingScoreThreshold": 0.835,
             },
         )
     ]
+
+
+def test_hybrid_search_applies_configured_ranking_score_threshold(
+    search_module, monkeypatch
+):
+    search, client = search_module
+    search.config.settings.search_hybrid_enabled = True
+    monkeypatch.setattr(
+        search.config.settings, "search_hybrid_ranking_score_threshold", 0.84
+    )
+
+    search.search_apps_post(search.SearchQuery(query="record my screen"), "en")
+
+    _, options = client.indices[search.HYBRID_APPS_INDEX].search_calls[0]
+    assert options["rankingScoreThreshold"] == 0.84
 
 
 def test_hybrid_error_retries_lexically_with_same_options(search_module):
@@ -311,7 +327,9 @@ def test_hybrid_error_retries_lexically_with_same_options(search_module):
     lexical_query, lexical_options = lexical.search_calls[0]
     assert lexical_query == hybrid_query == "compress pdf"
     assert lexical_options == {
-        key: value for key, value in hybrid_options.items() if key != "hybrid"
+        key: value
+        for key, value in hybrid_options.items()
+        if key not in {"hybrid", "rankingScoreThreshold"}
     }
 
     lexical.search_error = meilisearch.errors.MeilisearchTimeoutError("down")

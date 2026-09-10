@@ -4,7 +4,9 @@
     "locale": "en",
     "kind": "exploratory",
     "judgments": {
-      "org.gimp.GIMP": 3
+      "org.gimp.GIMP": 3,
+      "me.ahola.aphototoollibre": 2,
+      "com.github.maoschanz.drawing": 1
     }
   },
   {
@@ -12,7 +14,9 @@
     "locale": "en",
     "kind": "exploratory",
     "judgments": {
-      "com.obsproject.Studio": 3
+      "com.obsproject.Studio": 3,
+      "io.github.seadve.Kooha": 3,
+      "com.github.vkohaupt.vokoscreenNG": 3
     }
   },
   {
@@ -20,7 +24,9 @@
     "locale": "en",
     "kind": "exploratory",
     "judgments": {
-      "com.github.jeromerobert.pdfarranger": 3
+      "com.github.jeromerobert.pdfarranger": 3,
+      "br.eng.silas.qpdftools": 3,
+      "com.github.unrud.djpdf": 3
     }
   },
   {
@@ -28,7 +34,9 @@
     "locale": "en",
     "kind": "exploratory",
     "judgments": {
-      "org.gnome.gitlab.cheywood.Iotas": 3
+      "org.gnome.gitlab.cheywood.Iotas": 3,
+      "me.spaceinbox.swiftynotes": 3,
+      "io.github.olaproeis.Ferrite": 3
     }
   },
   {
@@ -36,7 +44,9 @@
     "locale": "en",
     "kind": "exploratory",
     "judgments": {
-      "io.dbeaver.DBeaverCommunity": 3
+      "io.dbeaver.DBeaverCommunity": 3,
+      "org.sqlitebrowser.sqlitebrowser": 3,
+      "net.sourceforge.squirrel_sql": 3
     }
   },
   {
@@ -44,7 +54,49 @@
     "locale": "en",
     "kind": "exploratory",
     "judgments": {
-      "org.tuxpaint.TuxPaint": 3
+      "org.tuxpaint.Tuxpaint": 3,
+      "org.sugarlabs.Paint": 2,
+      "org.cubocore.CorePaint": 1
+    }
+  },
+  {
+    "query": "edit videos",
+    "locale": "en",
+    "kind": "exploratory",
+    "judgments": {
+      "org.pitivi.Pitivi": 3,
+      "org.cutwire.Drift": 3,
+      "org.olivevideoeditor.Olive": 3
+    }
+  },
+  {
+    "query": "password manager",
+    "locale": "en",
+    "kind": "exploratory",
+    "judgments": {
+      "org.keepassxc.KeePassXC": 3,
+      "me.proton.Pass": 3,
+      "com.onepassword.OnePassword": 3
+    }
+  },
+  {
+    "query": "music player",
+    "locale": "en",
+    "kind": "exploratory",
+    "judgments": {
+      "org.strawberrymusicplayer.strawberry": 3,
+      "org.clementine_player.Clementine": 3,
+      "io.bassi.Amberol": 2
+    }
+  },
+  {
+    "query": "vector graphics editor",
+    "locale": "en",
+    "kind": "exploratory",
+    "judgments": {
+      "org.inkscape.Inkscape": 3,
+      "com.boxy_svg.BoxySVG": 3,
+      "io.github.lainsce.DotMatrix": 2
     }
   },
   {
@@ -78,5 +130,151 @@
     "judgments": {
       "org.gimp.GIMP": 3
     }
+  },
+  {
+    "query": "VLC",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.videolan.VLC": 3
+    }
+  },
+  {
+    "query": "Blender",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.blender.Blender": 3
+    }
+  },
+  {
+    "query": "Inkscape",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.inkscape.Inkscape": 3
+    }
+  },
+  {
+    "query": "LibreOffice",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.libreoffice.LibreOffice": 3
+    }
+  },
+  {
+    "query": "Discord",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "com.discordapp.Discord": 3
+    }
+  },
+  {
+    "query": "Spotify",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "com.spotify.Client": 3
+    }
+  },
+  {
+    "query": "OBS Studio",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "com.obsproject.Studio": 3
+    }
+  },
+  {
+    "query": "Kdenlive",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.kde.kdenlive": 3
+    }
+  },
+  {
+    "query": "Krita",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.kde.krita": 3
+    }
+  },
+  {
+    "query": "Thunderbird",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.mozilla.thunderbird": 3
+    }
+  },
+  {
+    "query": "KeePassXC",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.keepassxc.KeePassXC": 3
+    }
+  },
+  {
+    "query": "Bottles",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "com.usebottles.bottles": 3
+    }
+  },
+  {
+    "query": "Flatseal",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "com.github.tchx84.Flatseal": 3
+    }
+  },
+  {
+    "query": "Visual Studio Code",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "com.visualstudio.code": 3
+    }
+  },
+  {
+    "query": "Audacity",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.audacityteam.Audacity": 3
+    }
+  },
+  {
+    "query": "Shotcut",
+    "locale": "en",
+    "kind": "known-item",
+    "judgments": {
+      "org.shotcut.Shotcut": 3
+    }
+  },
+  {
+    "query": "sdfjksdfasdgasdg",
+    "locale": "en",
+    "kind": "no-match",
+    "judgments": {}
+  },
+  {
+    "query": "qzvwxjklmnp",
+    "locale": "en",
+    "kind": "no-match",
+    "judgments": {}
+  },
+  {
+    "query": "aaeeiioouuzz",
+    "locale": "en",
+    "kind": "no-match",
+    "judgments": {}
   }
 ]
