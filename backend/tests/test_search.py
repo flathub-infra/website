@@ -292,7 +292,7 @@ def test_desktop_intent_search_uses_exact_hybrid_payload(search_module):
                     "embedder": "apps-fireworks-qwen3",
                     "semanticRatio": 0.3,
                 },
-                "rankingScoreThreshold": 0.835,
+                "rankingScoreThreshold": 0.836,
             },
         )
     ]
