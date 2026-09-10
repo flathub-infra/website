@@ -144,9 +144,7 @@ export const SearchPanel = ({
                   : "could-not-find-match-for-search",
               )}
             </p>
-            {recommendations.length > 0 && (
-              <p>{t("trending-apps-description")}</p>
-            )}
+            {recommendations.length > 0 && <p>{t("other-apps-to-explore")}</p>}
             {isRecommendationsLoading && (
               <p role="status" aria-live="polite">
                 {t("loading")}
