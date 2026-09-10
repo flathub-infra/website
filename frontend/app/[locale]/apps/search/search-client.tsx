@@ -3,7 +3,10 @@
 import { useEffect, useState, useRef } from "react"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { SearchPanel } from "../../../../src/components/search/SearchPanel"
-import { usePostSearchSearchPost } from "../../../../src/codegen"
+import {
+  getTrendingLastTwoWeeksCollectionTrendingGet,
+  usePostSearchSearchPost,
+} from "../../../../src/codegen"
 import type { JSX } from "react"
 import { useSearchParams } from "next/navigation"
 import type {
@@ -63,7 +66,6 @@ const SearchClient = (): JSX.Element => {
   const searchKey = JSON.stringify([q, selectedFilters, locale])
 
   const search = usePostSearchSearchPost()
-  const recommendationSearch = usePostSearchSearchPost()
 
   const activeSearchMetadata =
     searchMetadataKey === searchKey ? searchMetadata : null
@@ -158,35 +160,25 @@ const SearchClient = (): JSX.Element => {
 
           if (q.trim() && metadata.totalHits === 0) {
             setIsRecommendationsLoading(true)
-            recommendationSearch.mutate(
-              {
-                data: {
-                  query: "",
-                  filters: selectedFilters,
-                  hits_per_page: 6,
-                  page: 1,
-                },
-                params: {
-                  locale: locale,
-                },
-              },
-              {
-                onSuccess: (recommendationResponse) => {
-                  if (requestId !== searchRequestId.current) {
-                    return
-                  }
-                  setRecommendations(recommendationResponse.data.hits)
-                  setRecommendationKey(searchKey)
-                  setIsRecommendationsLoading(false)
-                },
-                onError: () => {
-                  if (requestId !== searchRequestId.current) {
-                    return
-                  }
-                  setIsRecommendationsLoading(false)
-                },
-              },
-            )
+            getTrendingLastTwoWeeksCollectionTrendingGet({
+              page: 1,
+              per_page: 6,
+              locale,
+            })
+              .then((recommendationResponse) => {
+                if (requestId !== searchRequestId.current) {
+                  return
+                }
+                setRecommendations(recommendationResponse.data.hits)
+                setRecommendationKey(searchKey)
+                setIsRecommendationsLoading(false)
+              })
+              .catch(() => {
+                if (requestId !== searchRequestId.current) {
+                  return
+                }
+                setIsRecommendationsLoading(false)
+              })
           }
         },
         onError: () => {

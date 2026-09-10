@@ -145,13 +145,7 @@ export const SearchPanel = ({
               )}
             </p>
             {recommendations.length > 0 && (
-              <p>
-                {t(
-                  hasSelectedFilters
-                    ? "popular-apps-with-filters"
-                    : "popular-apps-to-explore",
-                )}
-              </p>
+              <p>{t("trending-apps-description")}</p>
             )}
             {isRecommendationsLoading && (
               <p role="status" aria-live="polite">
@@ -179,22 +173,6 @@ export const SearchPanel = ({
           fetchNextPage={fetchNextPage}
           recommendations={recommendations}
         />
-        {isNoMatch && (
-          <p>
-            {t.rich("request-new-app", {
-              forumLink: (chunks) => (
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  className="no-underline hover:underline"
-                  href="https://discourse.flathub.org/t/about-the-requests-category/22"
-                >
-                  {chunks}
-                </a>
-              ),
-            })}
-          </p>
-        )}
       </div>
     </>
   )
