@@ -89,8 +89,7 @@
   "donate": "Bağış Yap",
   "other-apps-by-developer": "{developer} tarafından geliştirilen diğer uygulamalar",
   "loading": "Yükleniyor…",
-  "could-not-find-match-for-search": "Aramanızla eşleşen hiçbir uygulama bulunamadı.",
-  "request-new-app": "Belirli bir uygulamayı arıyorsanız, topluluğa, onu Flathubʼda istediğinizi <forumLink>buradan</forumLink> bildirin.",
+  "could-not-find-match-for-search": "Aradığınız içeriği bulamadık.",
   "manifest": "Manifesto",
   "error-already-logged-in": "Seçilen hesap zaten oturum açtı.",
   "switch-language": "Dil Değiştir",
@@ -253,7 +252,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "<appid></appid> uygulama kimliğini kullanma hakkınızı <loginname></loginname> hesabına (veya <orgname></orgname> bir kuruluş ise, erişimi olan bir hesaba) <loginprovider></loginprovider> adresinden giriş yaparak doğrulayın.",
   "browse": "Göz at",
   "setup-flathub": "Flathub'ı Kurun",
-  "setup-flathub-description": "Sisteminize uygulamalar kurmak ve güncellemek için Flathubʼı kurun.",
+  "setup-flathub-description": "Flatpak'ı kurmak, Flathub deposunu eklemek ve uygulamaları kurmaya başlamak için kullandığınız Linux dağıtımına özgü adımları izleyin.",
   "apps": "Uygulamalar",
   "count-desktop-apps": "Toplam masaüstü uygulaması",
   "rss-apps": "Bir RSS uygulamasına mı ihtiyacınız var? <link>Flathub</link>'da size en uygun olanları bulun.",
@@ -619,8 +618,8 @@
   "total": "Toplam",
   "unauthorized": "Yetkisiz",
   "created": "Oluşturuldu",
-  "favorite": "Favori",
-  "favorite-apps": "Favoriler",
+  "favorite": "Yer İşareti",
+  "favorite-apps": "Yer İşaretleri",
   "mobile-apps": "Mobil Uygulamalar",
   "on-the-go": "Her an, her yerde",
   "more-mobile-apps": "Diğer mobil uygulamalar",
@@ -674,9 +673,9 @@
     "banner-preview": "Afiş önizlemesi",
     "banner-preview-description": "Afişinizi kolayca denemek için, <preview>afiş önizlemesini</preview> kullanın"
   },
-  "install-all-favorites": "Tüm Favorileri Yükle",
-  "install-all-favorites-description": "Tüm favori uygulamalarınızı aynı anda yüklemek için bu komutu kopyalayın:",
-  "no-favorites-yet": "Henüz favori uygulamanız yok. Beğendiğiniz uygulamaların yer imlerine tıklayarak favori uygulamalarınızı eklemeye başlayın!",
+  "install-all-favorites": "Tüm Yer İşaretlerini Yükle",
+  "install-all-favorites-description": "Tüm yer işareti eklenmiş uygulamalarınızı aynı anda yüklemek için bu komutu kopyalayın:",
+  "no-favorites-yet": "Henüz yer işaretli uygulamanız yok. Beğendiğiniz uygulamaların yer işareti ikonuna tıklayarak favori uygulamalarınızı eklemeye başlayın!",
   "see-all-results": "Tüm sonuçları gör",
   "app-information": "Uygulama Bilgisi",
   "sub-header": {
@@ -709,13 +708,15 @@
       "description": "Şu anda sevdiğimiz uygulamalar"
     },
     "summer-travel": {
-      "description": "Bir sonraki seyahatiniz sizi nereye götürürse götürsün, yanınızda olacak uygulamalar"
+      "description": "Bir sonraki seyahatiniz sizi nereye götürürse götürsün, yanınızda olacak uygulamalar",
+      "header": "Tatile Hazır"
     },
     "back-to-learning": {
       "description": "Bilgiyi keşfetmeye, öğrenmeye ve üretmeye yönelik uygulamalar"
     },
     "winter-comforts": {
-      "description": "Rahatlamak ve kafanı boşaltmak için uygulamalar"
+      "description": "Rahatlamak ve kafanı boşaltmak için uygulamalar",
+      "header": "Rahatlayın"
     },
     "tools-for-developers": {
       "header": "Web Geliştiriciliği Temelleri",
@@ -735,13 +736,17 @@
     },
     "get-to-work": {
       "description": "İşlerinizi halletmenize yardımcı olan uygulamalar",
-      "header": "İş Başına!"
+      "header": "İşe Başlayın"
     },
     "spring-creativity": {
       "description": "Görüntüler, sesler, videolar ve daha fazlasıyla çalışın"
     },
     "fresh-desktop-releases": {
-      "description": "Sisteminizde tam uyum sağlayan uygulamalar geliştirin"
+      "description": "Sisteminizde evinizde gibi hissettiren uygulamalar geliştirin"
+    },
+    "staying-connected": {
+      "description": "Paylaşım yapmak, sohbet etmek ve birlikte vakit geçirmek için uygulamalar",
+      "header": "İletişimde Kalın"
     }
   },
   "trending-apps-description": "Son iki hafta içinde Flathub'da en çok yüklenen Linux uygulamaları.",
@@ -794,13 +799,20 @@
     "most-popular": "En Popüler",
     "most-popular-description": "Bu yıl en çok indirilen uygulama",
     "total-downloads": "Toplam İndirme",
-    "new-apps": "Yeni Uygulamalar",
-    "total-apps": "Toplam Uygulamalar",
-    "app-updates": "Uygulama Güncellemeleri",
+    "new-apps": "Yeni Uygulama",
+    "total-apps": "Toplam Uygulama",
+    "app-updates": "Uygulama Güncellemesi",
     "top-apps": "En Popüler Uygulamalar",
     "top-games": "En Popüler Oyunlar",
     "top-game-stores": "En Popüler Oyun Mağazaları",
-    "top-game-utilities": "En Popüler Oyun Araçları"
+    "top-game-utilities": "En Popüler Oyun Araçları",
+    "most-improved": "En Çok Gelişim Gösteren",
+    "top-emulators": "En Popüler Emülatörler",
+    "biggest-growth-description": "Geçen yıla kıyasla en fazla yeni indirme sayısına ulaşan uygulama",
+    "newcomer-description": "Bu yıl yayınlanan en popüler uygulama",
+    "biggest-growth": "En Fazla Büyüme",
+    "most-improved-description": "Bir önceki yıla oranla en çok büyüme gösteren uygulama",
+    "downloads-vs-previous-year": "{year}'e Kıyasla"
   },
   "networking-description": "Linux için web tarayıcıları, e-posta istemcileri, VPN araçları ve diğer ağ uygulamaları.",
   "productivity-description": "Linux için ofis paketleri, not alma, proje yönetimi ve üretkenlik uygulamaları.",
@@ -841,5 +853,18 @@
   "share": "Paylaş",
   "developer-tools-description": "Linux için IDE'ler, kod editörleri, terminaller ve geliştirici araçları.",
   "graphics-and-photography-description": "Linux için resim düzenleyicileri, illüstrasyon araçları ve fotoğrafçılık uygulamaları.",
-  "moderation-manifest-complexity-explanation": "Bu tarif değişiklikleri, güvenlik riski veya kötü niyetli davranışları değil, paketleme kapsamını ve yapısını açıklamaktadır."
+  "moderation-manifest-complexity-explanation": "Bu tarif değişiklikleri, güvenlik riski veya kötü niyetli davranışları değil, paketleme kapsamını ve yapısını açıklamaktadır.",
+  "runtime": "Çalışma Zamanı",
+  "unverified-app-disclaimer-package": "Bu topluluk tarafından sağlanan paket; {developer} tarafından doğrulanmamıştır, {developer} ile herhangi bir bağlantısı yoktur ve {developer} tarafından desteklenmemektedir.",
+  "could-not-find-match-with-filters": "Bu filtrelere uygun bir sonuç bulamadık.",
+  "other-apps-to-explore": "İşte keşfedebileceğiniz diğer harika uygulamalar.",
+  "clear-filters": "Filtreleri temizle",
+  "dns-verification-main-instruction": "<bold>{id}</bold> uygulama kimliğini kullanma hakkınızı, <bold>{domain}</bold> için bir DNS TXT kaydı yayınlayarak doğrulayın.",
+  "dns-validation-instruction": "Mevcut TXT kayıtlarını silmeden aşağıdaki DNS kaydını ekleyin. DNS değişikliklerinin yayılması biraz zaman alabilir.",
+  "verified-dns-tooltip": "<appid></appid> uygulama kimliğinin sahipliği, <domain></domain> alan adının DNS kontrolü yoluyla doğrulanmıştır",
+  "dns-verification": "DNS doğrulaması",
+  "upload-token-create-failed": "Yükleme jetonu oluşturulamadı. Lütfen tekrar deneyin.",
+  "os-version-distribution": "İşletim Sistemi Sürüm Dağılımı (son 30 gün)",
+  "flatpak-version-distribution": "Flatpak Sürüm Dağılımı (son 30 gün)",
+  "os-flatpak-version-distribution": "İşletim Sistemine Göre Flatpak Sürümleri (son 30 gün)"
 }

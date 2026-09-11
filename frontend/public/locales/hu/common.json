@@ -116,7 +116,6 @@
   "save-card-for-reuse": "Kártya mentése újrafelhasználásra",
   "saved-cards": "Mentett kártyák",
   "manual-install-instructions": "A telepítés előtt kövesse a <distroguide>Linux-disztribúció telepítési útmutatóját</distroguide>",
-  "request-new-app": "Ha egy adott alkalmazást keres, tudassa a közösséggel, hogy szeretné, ha az elérhető lenne a Flathubon <forumLink>ide kattintva</forumLink>.",
   "languages-description": "Válasszon ki egy nyelvet a váltáshoz:",
   "app-install-error-try-again": "Nem sikerült telepíteni az alkalmazást. Próbáljon meg visszamenni az alkalmazásáruházba, és telepítse újra.",
   "transaction-history": "Tranzakcióelőzmények",

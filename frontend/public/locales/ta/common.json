@@ -177,7 +177,6 @@
   "popular-apps": "பிரபலமான செயலிகள்",
   "login-with-provider": "{provider} மூலம் உள்நுழை",
   "loading": "ஏற்றப்படுகிறது…",
-  "request-new-app": "நீங்கள் ஒரு குறிப்பிட்ட செயலியை தேடுகிறீர்களானால், அதை <forumLink>இங்கே </forumLink> Flathub இல் நீங்கள் விரும்புகிறீர்கள் என்பதை சமூகத்திற்குத் தெரியப்படுத்துங்கள்.",
   "delete-account-entry": "நான் எனது கணக்கை நீக்க விரும்புகிறேன்",
   "entry-confirmation-prompt": "தொடர \"{text}\" ஐ உள்ளிடவும்.",
   "transaction-summary-created": "உருவாக்கப்பட்ட தேதி:",

@@ -39,7 +39,6 @@
   "other-apps-by-developer": "Ostatní aplikace od vývojáře {developer}",
   "loading": "Načítání…",
   "could-not-find-match-for-search": "Nepodařilo se najít žádné aplikace odpovídající vašemu vyhledávání.",
-  "request-new-app": "Pokud hledáte konkrétní aplikaci a chcete ji získat na Flathubu, dejte komunitě vědět, že ji chcete <forumLink>zde</forumLink>.",
   "manifest": "Manifest aplikace",
   "popular": "Populární",
   "documentation": "Dokumentace",

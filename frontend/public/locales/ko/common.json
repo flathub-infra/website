@@ -170,7 +170,6 @@
   "login-provider-verification-enable-github-app": "인증을 계속하기 위해서 Flathub은 <orgname></orgname> 조직의 회원 등급을 읽을 수 있는 권한이 필요합니다. 이 권한은 GitHub 설정에서 <settingslink>을 부여할 수 있습니다</settingslink>.",
   "website-verification-main-instruction": "<bold>{domain}</bold>의 특정 페이지에 토큰을 배치하여 앱 ID <bold>{id}</bold>의 사용 권한을 확인합니다.",
   "downloads-over-time": "시간별 다운로드 수",
-  "request-new-app": "찾는 앱이 Flathub에 없다면 <forumLink>여기에서 요청</forumLink> 하세요.",
   "save-card-for-reuse": "재사용을 위해 카드 저장",
   "help": "지원",
   "user-device-access": "사용자 장치에 접근할 수 있습니다",

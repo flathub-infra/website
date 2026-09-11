@@ -86,7 +86,6 @@
   "other-apps-by-developer": "Otras aplicaciones de {developer}",
   "loading": "Cargando…",
   "could-not-find-match-for-search": "No se ha encontrado ninguna aplicación que coincida con su búsqueda.",
-  "request-new-app": "Si busca una aplicación concreta, comunique a la comunidad que la quiere en Flathub <forumLink>aquí</forumLink>.",
   "manifest": "Manifiesto",
   "languages-description": "Seleccione un idioma para cambiarlo:",
   "switch-language": "Cambiar idioma",

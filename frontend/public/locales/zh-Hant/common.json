@@ -110,7 +110,6 @@
   "other-apps-by-developer": "其他由 {developer} 開發的應用程式",
   "loading": "正在載入……",
   "could-not-find-match-for-search": "找不到與您的搜尋相符的任何應用程式。",
-  "request-new-app": "若您正在尋找特定的應用程式，請在<forumLink>此處</forumLink>讓社群知道您想要在 Flathub 上使用它。",
   "manifest": "Manifest",
   "languages-summary": "選擇您想要以什麼語言檢視網站。",
   "transaction-went-wrong": "這筆交易出了點問題。",
@@ -253,7 +252,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "透過登入 <loginprovider></loginprovider> 上的帳號 <loginname></loginname>（或者如果 <orgname></orgname> 是組織的話，那麼就是有權存取的帳號）驗證您使用應用程式 ID <appid></appid> 的權利。",
   "browse": "瀏覽",
   "setup-flathub": "設定 Flathub",
-  "setup-flathub-description": "設定 Flathub 以在您的系統上安裝與更新應用程式。",
+  "setup-flathub-description": "請依照您所使用的 Linux 發行版的步驟，安裝 Flatpak、新增 Flathub 軟體庫，然後開始安裝應用程式。",
   "apps": "應用程式",
   "count-desktop-apps": "桌面應用程式總數",
   "rss-apps": "您需要 RSS 應用程式嗎？在 <link>Flathub</link> 上尋找超棒的應用程式。",
@@ -303,7 +302,7 @@
   "flathub-index-description": "有了它，您可以在任何 Linux 發行版中取得您所愛用應用程式的最新版",
   "app-eol": "此應用程式不再於 Flathub 上提供",
   "distribution-flathub-setup": "{distribution} Flathub 設定",
-  "find-your-distribution": "尋找您的發行版",
+  "find-your-distribution": "尋找您的發行版…",
   "no-results-found": "找不到結果",
   "desktop-application": "桌面應用程式",
   "console-application": "命令列",
@@ -792,7 +791,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "新年，新工作流程",
-      "description": "用於記筆記、追蹤任務和定製計劃的應用程式"
+      "description": "無論您採用何種工作方式，這些應用程式都能助您重新開始"
     },
     "free-software-favorites": {
       "header": "員工精選",
@@ -800,7 +799,7 @@
     },
     "spring-creativity": {
       "header": "發揮創意",
-      "description": "繪圖、照片編輯和數位設計必備應用"
+      "description": "處理圖片、音訊、影片等內容"
     },
     "fresh-desktop-releases": {
       "header": "建置原生應用程式",
@@ -808,19 +807,19 @@
     },
     "staying-connected": {
       "header": "保持聯繫",
-      "description": "協作與通訊必備的應用程式"
+      "description": "用於分享、聊天和共度時光的應用程式"
     },
     "summer-travel": {
       "header": "準備好去度假了",
-      "description": "地圖、大眾運輸、天氣及行程規劃應用程式"
+      "description": "無論您的下一趟旅程將前往何處，這些應用程式都能派上用場"
     },
     "back-to-learning": {
       "header": "每天都更聰明",
-      "description": "幫助您學習、研究和寫作的應用程式"
+      "description": "用於探索、學習和創造知識的應用程式"
     },
     "winter-comforts": {
       "header": "讓自己舒適放鬆",
-      "description": "非常適合閱讀、看電影和玩遊戲的應用程式"
+      "description": "有助於放鬆身心、轉移注意力的應用程式"
     },
     "tools-for-developers": {
       "header": "網頁開發者必備",
@@ -828,19 +827,19 @@
     },
     "take-better-notes": {
       "header": "更有效地做筆記",
-      "description": "找到您最喜愛的新筆記工具"
+      "description": "捕捉您最佳靈感的全新工具"
     },
     "get-focused": {
       "header": "集中注意力",
-      "description": "優秀的任務管理應用程式"
+      "description": "保持專注所需的一切"
     },
     "make-some-noise": {
       "header": "製造一些噪音",
-      "description": "用於創作與製作音樂的應用程式"
+      "description": "用於創作、播放和探索聲音的應用程式"
     },
     "get-to-work": {
       "header": "開始工作",
-      "description": "必備的辦公室應用程式"
+      "description": "能協助您完成任務的應用程式"
     }
   },
   "unverified-app-disclaimer-package": "這是由社群提供的軟體包，未經 {developer} 驗證、亦非其附屬，且未獲其支援。",

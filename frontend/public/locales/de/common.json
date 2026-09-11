@@ -90,7 +90,6 @@
   "other-apps-by-developer": "Weitere Apps von {developer}",
   "loading": "Wird geladen…",
   "could-not-find-match-for-search": "Es konnten keine Apps gefunden werden, die deiner Suche entsprechen.",
-  "request-new-app": "Falls du nach einer bestimmten App suchst, melde <forumLink>hier</forumLink> der Community, dass du sie auf Flathub haben möchtest.",
   "manifest": "Manifest",
   "error-already-logged-in": "Das ausgewählte Konto ist bereits angemeldet.",
   "languages": "Sprachen",
