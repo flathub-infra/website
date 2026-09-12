@@ -553,7 +553,10 @@ class StripeWallet(WalletBase):
             if not transfer_group or not transfer_group.startswith(GROUP_PREFIX):
                 return None, None
 
-            group = int(transfer_group[len(GROUP_PREFIX) :])
+            try:
+                group = int(transfer_group[len(GROUP_PREFIX) :])
+            except (TypeError, ValueError):
+                return None, None
             with get_db("writer") as db:
                 stripe_txn = db.session.query(models.StripeTransaction).get(group)
                 if stripe_txn is None or stripe_txn.stripe_pi != p_id:
