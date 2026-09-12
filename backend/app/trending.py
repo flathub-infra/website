@@ -18,6 +18,8 @@ def calculate_trending_score(
     quality_passed_ratio: float,
     icon_quality_bonus: int,
     is_eol: bool,
+    is_new_app: bool = False,
+    icons_passed: bool = False,
 ) -> float:
     """Calculate an app's trending score from a prepared 21-day history."""
     if len(installs_over_days) != 21:
@@ -61,4 +63,8 @@ def calculate_trending_score(
             if is_eol:
                 adjusted_momentum *= Decimal("0.5")
 
-    return _normalize_trend(float(adjusted_momentum))
+    score = _normalize_trend(float(adjusted_momentum))
+    # Penalize the complete score, without improving negative scores.
+    if is_new_app and not icons_passed and score > 0:
+        score *= 0.1
+    return score

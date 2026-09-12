@@ -618,6 +618,9 @@ def test_update_zero_fills_trending_history_and_includes_last_date(monkeypatch):
         "by_appids_icon_quality_passed_count",
         lambda *_args: {},
     )
+    monkeypatch.setattr(
+        stats.models.QualityModeration, "by_appids_icon_status", lambda *_args: {}
+    )
 
     def capture_score(**kwargs):
         captured.update(kwargs)
@@ -635,7 +638,8 @@ def test_update_zero_fills_trending_history_and_includes_last_date(monkeypatch):
         stats.update(object())
 
     assert captured["installs_over_days"] == [3] + [0] * 9 + [-2] + [0] * 9 + [9]
-    assert "is_new_app" not in captured
+    assert captured["is_new_app"] is True
+    assert captured["icons_passed"] is False
 
 
 def test_popular_last_month(client, snapshot):

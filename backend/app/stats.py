@@ -571,6 +571,9 @@ def update(sqldb):
             sqldb, apps_with_stats
         )
     )
+    icon_status_batch = models.QualityModeration.by_appids_icon_status(
+        sqldb, apps_with_stats
+    )
 
     trending_apps: list = []
     for app_id in agg["per_day"]:
@@ -598,6 +601,8 @@ def update(sqldb):
             quality_passed_ratio=quality_passed_ratio,
             icon_quality_bonus=icon_quality_passed_count_batch.get(app_id, 0),
             is_eol=is_eol,
+            is_new_app=len(stats_dict_for_app) <= 14,
+            icons_passed=icon_status_batch.get(app_id, False),
         )
 
         trending_apps.append(
