@@ -2614,6 +2614,47 @@ class QualityModeration(Base):
         return {app_id: passed_count for app_id, passed_count in results}
 
     @classmethod
+    def by_appids_icon_status(cls, db, app_ids: list[str]) -> dict[str, bool]:
+        """Return whether each app passes all currently applicable icon guidelines."""
+        if not app_ids:
+            return {}
+
+        results = (
+            db.session.query(
+                App.app_id,
+                func.count(Guideline.id),
+                func.sum(func.cast(QualityModeration.passed, Integer)),
+            )
+            .select_from(App)
+            .filter(App.app_id.in_(app_ids))
+            .join(
+                Guideline,
+                and_(
+                    Guideline.guideline_category_id == "app-icon",
+                    Guideline.needed_to_pass_since <= utils.utcnow().date(),
+                    or_(
+                        App.is_fullscreen_app == False,
+                        App.is_fullscreen_app == Guideline.show_on_fullscreen_app,
+                    ),
+                ),
+            )
+            .outerjoin(
+                QualityModeration,
+                and_(
+                    QualityModeration.guideline_id == Guideline.id,
+                    QualityModeration.app_id == App.app_id,
+                ),
+            )
+            .group_by(App.app_id)
+            .all()
+        )
+
+        status = dict.fromkeys(app_ids, False)
+        for app_id, total, passed in results:
+            status[app_id] = total > 0 and total == (passed or 0)
+        return status
+
+    @classmethod
     def by_appid_summarized(cls, db, app_id: str) -> QualityModerationStatus:
         """
         Return a summary of the quality moderation status for an app
