@@ -96,7 +96,6 @@
   "languages-description": "Velg et språk for å bytte til det:",
   "switch-language": "Bytt språk",
   "could-not-find-match-for-search": "Fant ingen apper som samsvarer med søket.",
-  "request-new-app": "Hvis du ønsker å se en spesifikk app på Flathub, <forumLink>la fellesskapet få vite om det</forumLink>.",
   "previous-page": "Forrige side",
   "vending-onboard": "Opprett en Stripe Express-konto",
   "x-downloads": "{x} nedlastinger",

@@ -171,7 +171,6 @@
   "failed-to-load-refresh": "Neuspjelo učitavanje resursa. Pokušaj aktualizirati.",
   "authored-apps": "Tvoje aplikacije",
   "owned-apps": "Aplikacije u tvom vlasništvu",
-  "request-new-app": "Ako tražiš određenu aplikaciju, <forumLink>ovdje</forumLink> obavijesti zajednicu da je želiš na Flathubu.",
   "app-payment-information": "Programer aplikacije je postavio je minimalnu cijenu na {minvalue} i preferiranu cijenu na {recvalue}.",
   "require-payment": "Zatraži plaćanje",
   "no-more-transactions": "Nema daljnjih transakcija.",

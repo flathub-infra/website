@@ -57,7 +57,6 @@
   "other-apps-by-developer": "Aplikacione të tjera nga {developer}",
   "loading": "Po ngarkohet…",
   "could-not-find-match-for-search": "S’u gjet dot ndonjë aplikacion me përputhje me kërkimin tuaj.",
-  "request-new-app": "Nëse po kërkonit për një aplikacion specifik, bëjani të ditur bashkësisë se e doni në Flathub, <forumLink>këtu</forumLink>.",
   "manifest": "Manifest",
   "languages": "Gjuhë",
   "languages-summary": "Zgjidhni gjuhën në të cilën dëshironi të shihni sajtin.",

@@ -392,7 +392,6 @@
   "verify-app-id": "Verifiera App-ID",
   "app-id": "App-ID",
   "flathub-apps-for-linux": "Flathub - Appar för Linux",
-  "request-new-app": "Om du letar efter en specifik app kan du låta gemenskapen veta att du vill ha den på Flathub <forumLink>här</forumLink>.",
   "year-in-review-banner": {
     "title": "Flathubs årsöversikt {year}",
     "description": "Se tillbaka på årets populäraste appar och trender"

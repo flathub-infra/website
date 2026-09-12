@@ -72,7 +72,6 @@
   "other-apps-by-developer": "Altre app di {developer}",
   "loading": "Caricamento…",
   "could-not-find-match-for-search": "Impossibile trovare una corrispondenza per la ricerca.",
-  "request-new-app": "Se stai cercando un'app specifica, fai sapere alla comunità che la vuoi su Flathub <forumLink>qui</forumLink>.",
   "manifest": "Manifesto",
   "languages": "Lingue",
   "languages-description": "Seleziona una lingua per passare ad essa:",

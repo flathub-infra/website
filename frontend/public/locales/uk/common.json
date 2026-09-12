@@ -150,7 +150,6 @@
   "kind-donation": "Пожертва",
   "stripe-error-expired_card": "Термін дії картки закінчився. Перевірте термін дії або скористайтеся іншою карткою.",
   "stripe-api-error": "В API Stripe сталася помилка. Спробуйте ще раз пізніше.",
-  "request-new-app": "Якщо ви шукаєте конкретний застосунок, <forumLink>повідомте спільноті</forumLink>, що ви хотіли б бачити його на Flathub.",
   "confirm-selection": "Підтвердити вибір",
   "kind-purchase": "Купівля",
   "payment": "Оплата",

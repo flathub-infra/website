@@ -88,7 +88,6 @@
   "donate": "Lahjoita",
   "loading": "Ladataan…",
   "could-not-find-match-for-search": "Hakuehtojasi vastaavia sovelluksia ei löytynyt.",
-  "request-new-app": "Jos etsit jotain tiettyä sovellusta, <forumLink>kerro yhteisölle</forumLink>, että haluat sen Flathubiin.",
   "languages": "Kielet",
   "switch-language": "Vaihda kieli",
   "languages-description": "Valitse haluamasi kieli:",
@@ -303,7 +302,7 @@
   "no-results-found": "Tuloksia ei löytynyt",
   "app-eol": "Tämä sovellus ei ole enää saatavilla Flathubista",
   "distribution-flathub-setup": "{distribution} – Flathubin määritys",
-  "find-your-distribution": "Löydä jakelusi",
+  "find-your-distribution": "Löydä jakelusi…",
   "console-application": "Komentorivisovellus",
   "app-type": "Sovelluksen tyyppi",
   "desktop-application": "Työpöytäsovellus",
@@ -352,11 +351,11 @@
   "safe": "Turvallinen",
   "appname-is-safety-rating-1": "{appName} on turvallinen",
   "appname-is-safety-rating-2": "{appName} on luultavasti turvallinen",
-  "probably-safe": "Luultavasti turvallinen",
-  "unsafe": "Turvaton",
+  "probably-safe": "Matala riski",
+  "unsafe": "Korkea riski",
   "uses-system-services": "Käyttää järjestelmäpalveluja",
   "appname-is-safety-rating-4": "{appName} on turvaton",
-  "potentially-unsafe": "Mahdollisesti turvaton",
+  "potentially-unsafe": "Keskinkertainen riski",
   "no-permissions": "Ei oikeuksia",
   "software-developer-verified": "Ohjelmistokehittäjä on vahvistettu",
   "has-network-access": "Verkkoyhteydessä",
@@ -732,7 +731,7 @@
     "works-well-on-large-screens": "Toimii hyvin suurella näytöllä",
     "may-not-work-well-on-mobile": "Ei välttämättä toimi hyvin mobiililaitteilla",
     "works-well-on-mobile": "Toimii hyvin mobiililaitteilla",
-    "total-installs": "asennusta yhteensä",
+    "total-installs": "{count} asennusta yhteensä",
     "age-rating": "Ikäluokitus"
   },
   "quality-moderation-excluded": "Tämä sovellus ei kuulu laaduntarkistuksen piiriin",
@@ -773,7 +772,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "Uusi vuosi, uudet työnkulut",
-      "description": "Sovellukset muistiinpanoihin, tehtävien seuraamiseksi ja suunnitelmien tekemiseksi"
+      "description": "Sovelluksia työn tehokkaaseen aloittamiseen"
     },
     "free-software-favorites": {
       "header": "Henkilöstön valinnat",
@@ -781,7 +780,7 @@
     },
     "spring-creativity": {
       "header": "Vapauta luovuutesi",
-      "description": "Tärkeimmät sovellukset piirtämiseen, valokuvien muokkaamiseen ja digitaaliseen suunnitteluun"
+      "description": "Työskentele kuvien, äänen, videon ja muun median parissa"
     },
     "fresh-desktop-releases": {
       "header": "Rakenna natiivisovelluksia",
@@ -789,19 +788,19 @@
     },
     "staying-connected": {
       "header": "Pysy yhteydessä",
-      "description": "Tärkeimmät yhteistyö- ja yhteydenpitosovellukset"
+      "description": "Sovelluksia jakamiseen, keskusteluun ja yhdessäoloon"
     },
     "summer-travel": {
       "header": "Valmis lomaan",
-      "description": "Kartat, kulkeminen, sää ja matkasuunnittelun sovellukset"
+      "description": "Sovelluksia mukaan matkallesi"
     },
     "back-to-learning": {
       "header": "Päivittäistä oppimista",
-      "description": "Sovellukset opiskeluun, tutkimukseen ja kirjoittamiseen"
+      "description": "Sovelluksia opiskeluun ja tutkimukseen"
     },
     "winter-comforts": {
       "header": "Ole kotoisasti",
-      "description": "Loistavia sovelluksia lukemiseen, elokuvien katsomiseen ja pelien pelaamiseen"
+      "description": "Sovelluksia rentoutumiseen ja irrotteluun"
     },
     "tools-for-developers": {
       "header": "Web-kehittäjän tärkeimmät",
@@ -809,19 +808,19 @@
     },
     "take-better-notes": {
       "header": "Tee parempia muistiinpanoja",
-      "description": "Löydä uusi suosikkisovellus muistiipanojen tekemiseen"
+      "description": "Uusia työkaluja parhaiden ideoiden kirjaamiseksi"
     },
     "get-focused": {
       "header": "Keskity",
-      "description": "Erinomaisia sovelluksia tehtävienhallintaan"
+      "description": "Kaikki mitä tarvitset pysyäksesi ajan tasalla"
     },
     "make-some-noise": {
       "header": "Pidä hieman meteliä",
-      "description": "Sovellukset musiikin luomiseen ja tuottamiseen"
+      "description": "Sovelluksia äänen luomiseen, toistamiseen ja tutkimiseen"
     },
     "get-to-work": {
       "header": "Töiden pariin",
-      "description": "Tärkeimmät toimistosovellukset"
+      "description": "Sovelluksia joiden avulla saat asiat hoidetuksi"
     }
   },
   "manage": "Hallitse",
@@ -829,5 +828,15 @@
   "health-fitness": "Terveys ja kuntoilu",
   "manual-verification": "Merkitse manuaalisesti vahvistetuksi",
   "user-id": "Flathub-käyttäjätunniste",
-  "unverified-app-disclaimer-package": "Tämä yhteisön tarjoama paketti ei ole kehittäjän {developer} vahvistama, tukema tai yhteistyössä toteuttama."
+  "unverified-app-disclaimer-package": "Tämä yhteisön tarjoama paketti ei ole kehittäjän {developer} vahvistama, tukema tai yhteistyössä toteuttama.",
+  "dns-record-value": "Arvo",
+  "dns-verification": "DNS-vahvistus",
+  "moderation-manifest-removed": "Poistettu",
+  "moderation-manifest-added": "Lisätty",
+  "moderation-build-log": "Koostamisloki",
+  "app-is-currently-verified-by-dns": "Sovelluksesi on tällä hetkellä vahvistettu verkkotunnuksen <domain></domain> DNS-hallinnan kautta",
+  "dns-record-not-found": "TXT-tietuetta ei löytynyt verkkotunnuksesta {record}.",
+  "moderation-random-review": "Satunnaisesti valittu katselmointiin",
+  "share": "Jaa",
+  "more-healthfitness": "Lisää terveys- ja kuntoilusovelluksia"
 }

@@ -129,7 +129,6 @@
   "stripe-error-incorrect_number": "カード番号が間違っています。番号を確認するか、別のカードを使ってください。",
   "stripe-error-payment_intent_authentication_failure": "支払い方法の認証に失敗しました。別の支払い方法で再度お試しください。",
   "thank-you-for-your-purchase": "ご購入ありがとうございます！",
-  "request-new-app": "お探しのアプリがFlathubになければ、<forumLink>ここからリクエスト</forumLink> してください。",
   "app-install-error-try-again": "アプリをインストールできませんでした。アプリストアに戻り、再度インストールしてください。",
   "stripe-validation-error": "無効なカード情報です。",
   "stripe-error-processing_error": "カードの処理中にエラーが発生しました。再度お試しください。または別のカードを使ってください。",

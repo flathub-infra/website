@@ -132,7 +132,6 @@
   "submit-payment": "Vormista makse",
   "moderation-dev-description": "Flathubi meeskond peab mõned rakenduse metaandmete muudatused (näiteks nime või kirjelduse) üle vaatama. Praeguste ja varasemate läbivaatustaotluste olekuid saad vaadata siit.",
   "moderation-value": "Väärtus",
-  "request-new-app": "Kui otsid mingit kindlat rakendust ja seda siin ei leidu, siis anna <forumLink>siin</forumLink> kogukonnale teada, et soovid seda näha Flathubis.",
   "saved-cards": "Salvestatud kaardid",
   "retry-checkout": "Proovi ostu vormistamist uuesti",
   "checkout": "Maksma",
@@ -792,19 +791,19 @@
   "curated-app-selection-themes": {
     "get-to-work": {
       "header": "Kui on vaja tööle asuda",
-      "description": "Olulised kontori- ja tarberakendused"
+      "description": "Rakendused, mis aitavad sul tööd ära teha"
     },
     "make-some-noise": {
       "header": "Mõnikord tahaks müra teha",
-      "description": "Rakendused muusika kirjutamiseks ja tootmiseks"
+      "description": "Rakendused muusika loomiseks, esitamiseks ja uurimiseks"
     },
     "get-focused": {
       "header": "Fookus on oluline",
-      "description": "Suurepärased rakendused ülesannete halduseks"
+      "description": "Kõik mida vajad ajavoos püsimiseks"
     },
     "take-better-notes": {
       "header": "Selged märkmed",
-      "description": "Siit leiad oma lemmiku märkmete ülestähendamiseks"
+      "description": "Uued tarvikud parimate ideede ülestähendamiseks"
     },
     "tools-for-developers": {
       "header": "Veebiarenduse puhas kuld",
@@ -812,7 +811,7 @@
     },
     "new-year-new-workflows": {
       "header": "Uus aasta, uus töövoog",
-      "description": "Rakendused märkmete ülestähendamiseks, ülesannete halduseks ja plaanide tegemiseks"
+      "description": "Rakendused uue alguse jaoks, vaatamata sellele, kuidas sa töötad"
     },
     "free-software-favorites": {
       "header": "Meie tiimi valikud",
@@ -820,23 +819,23 @@
     },
     "spring-creativity": {
       "header": "Lase loomingul lennata",
-      "description": "Olulised rakendused joonistamiseks, fotode kohendamiseks ja digikunsti jaoks"
+      "description": "Tööta piltidega, helifailidega, videotega ja muu multimeediumiga"
     },
     "winter-comforts": {
       "header": "Tahaks olla mugavasti",
-      "description": "Head rakendused lugemiseks, filmide vaatamiseks ja mängimiseks"
+      "description": "Rakendused puhkamiseks ja meele vabastamiseks"
     },
     "back-to-learning": {
       "header": "Inimene õpib kogu elu",
-      "description": "Rakendused, mis aitavad õppida, uurida ja kirjutada"
+      "description": "Rakendused avastamiseks,õppimiseks ja teadmuse ülestähendamiseks"
     },
     "summer-travel": {
       "header": "Vahva puhkus ootab",
-      "description": "Kaardid, ühistransport, ilmaennustus, reiside plaanimine ning muud liikumisega seotud rakendused"
+      "description": "Rakendused aitamaks sind kui oled teel"
     },
     "staying-connected": {
       "header": "Suhtle täitsa vabalt",
-      "description": "Olulised koostöö- ja suhtlusrakendused"
+      "description": "Rakendused jagamiseks suhtlemiseks ja aja viitmiseks üheskoos"
     },
     "fresh-desktop-releases": {
       "header": "Loo süsteemiomast tarkvara",

@@ -152,7 +152,6 @@
   "badge-copyright": "<author>Jakub Steiner</author> се отказва от всичките авторски права, свързани с <badgeslink>значките на „Flathub“</badgeslink>. Публикувани от Чехия.",
   "purchase-apps-title": "Купуване на приложения",
   "thank-you-for-your-purchase": "Благодарим ви за покупката!",
-  "request-new-app": "Ако търсите приложение, което не е налично във „Flathub“, натиснете <forumLink>тук</forumLink>.",
   "purchase-terms-confirmation": "Прочетох Общите условия на „Flathub“ и се съгласявам да се откажа от изчакването на 14-дневния срок, свързан с това изтегляне.",
   "rss-feeds-description": "Ако се абонирате за нашите RSS новини, ще получавате актуална информация за „Flathub“!",
   "requires-attention": "Изисква внимание",
@@ -868,5 +867,9 @@
   "moderation-manifest-complexity-events-truncated": "Показване на {shown} от {total} промени в рецептата.",
   "moderation-manifest-added": "Добавени",
   "moderation-manifest-removed": "Премахнати",
-  "moderation-build-changes": "Промени в компилацията"
+  "moderation-build-changes": "Промени в компилацията",
+  "runtime": "Среда за изпълнение",
+  "clear-filters": "Изчистване на филтрите",
+  "could-not-find-match-with-filters": "Няма намерени резултати с тези филтри.",
+  "other-apps-to-explore": "Ето и други страхотни приложения, които да разгледате."
 }

@@ -59,7 +59,7 @@
   "install": "نصب",
   "donate": "اعانه",
   "donate-to": "اعانه به {project}",
-  "could-not-find-match-for-search": "کاره‌ای مطابق با جست‌وجویان پیدا نشد.",
+  "could-not-find-match-for-search": "نتوانستیم آن‌چه به دنبالش می‌گردید را بیابیم.",
   "other-apps-by-developer": "کاره‌های دیگر {developer}",
   "loading": "در حال بار کردن…",
   "languages": "زبان‌ها",
@@ -257,7 +257,6 @@
   "name": "نام",
   "user-settings": "تنظیمات کاربر",
   "no-file-system-access": "بدون دسترسی به سامانهٔ پرونده",
-  "request-new-app": "اگر دنبال کارهٔ خاصی هستید، از <forumLink>این‌جا</forumLink> به اجتماع بگویید که می‌خواهیدش.",
   "save-card-for-reuse": "ذخیرهٔ کارت برای استفادهٔ دوباره",
   "thank-you-for-your-purchase": "سپاس از خریدتان!",
   "verified": "تأیید شده",
@@ -868,5 +867,9 @@
   "moderation-manifest-added": "افزوده",
   "moderation-manifest-removed": "برداشته",
   "moderation-build-changes": "تغییرات ساخت",
-  "moderation-build-log": "گزارش ساخت"
+  "moderation-build-log": "گزارش ساخت",
+  "could-not-find-match-with-filters": "نتوانستیم گزینه‌ای مطابق با این پالایه‌ها بیابیم.",
+  "other-apps-to-explore": "برخی کاره‌های عالی دیگر برای کشف.",
+  "clear-filters": "پاک سازی پالایه‌ها",
+  "runtime": "زمان اجرا"
 }
