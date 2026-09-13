@@ -13,7 +13,6 @@
   "audio-and-video": "Fuaime & Fís",
   "graphics-and-photography": "Grafaicí & Grianghrafadóireacht",
   "manual-install-instructions": "Cinntigh go leanann tú an <distroguide>treoir socraithe le do dháileadh Linux</distroguide> roimh an tsuiteáil",
-  "request-new-app": "Má tá aip ar leith á cuardach agat, cuir in iúl don phobal gur mian leat é ar Flathub <forumLink>anseo</forumLink>.",
   "remove-saved-card": "Bain cárta sábháilte",
   "retry-checkout": "Déan triail as an tseiceáil",
   "save-card-for-reuse": "Sábháil cárta le haghaidh athúsáide",
@@ -273,7 +272,7 @@
   "other-apps-by-developer": "Aipeanna eile le {developer}",
   "more-apps-by-developer": "Tuilleadh aipeanna le {developer}",
   "loading": "Á lódáil…",
-  "could-not-find-match-for-search": "Níor féidir aon aipeanna a fháil a mheaitseálann do chuardach.",
+  "could-not-find-match-for-search": "Níorbh fhéidir linn an rud atá á lorg agat a aimsiú.",
   "manifest": "Léiriú",
   "languages": "Teangacha",
   "languages-summary": "Roghnaigh an teanga a theastaíonn uait an láithreán gréasáin a fheiceáil.",
@@ -457,12 +456,12 @@
   "music": "Ceol",
   "browse": "Brabhsáil",
   "setup-flathub": "Socraigh Flathub",
-  "setup-flathub-description": "Socraigh Flathub chun aipeanna a shuiteáil agus a nuashonrú ar do chóras.",
+  "setup-flathub-description": "Lean na céimeanna a bhaineann le do dháileadh Linux chun Flatpak a shuiteáil, an stórlann Flathub a chur leis, agus tús a chur le feidhmchláir a shuiteáil.",
   "tags-colon": "Clibeanna:",
   "flathub-the-linux-app-store": "Is é Flathub an App Store do Linux",
   "flathub-index-description": "Faigh na leaganacha is déanaí de na feidhmchláir is fearr leat, le haghaidh aon dáileadh Linux",
   "app-eol": "Níl an feidhmchlár seo ar fáil a thuilleadh ar Flathub",
-  "find-your-distribution": "Faigh do dháileadh",
+  "find-your-distribution": "Aimsigh do dháileadh…",
   "no-results-found": "Níl aon torthaí le fáil",
   "desktop-application": "Aip Deisce",
   "console-application": "Aip líne ordaithe",
@@ -799,31 +798,31 @@
       "description": "Aipeanna is breá linn faoi láthair"
     },
     "back-to-learning": {
-      "description": "Aipeanna chun cabhrú leat staidéar, taighde agus scríobh",
+      "description": "Aipeanna chun eolas a aimsiú, a fhoghlaim agus a chruthú",
       "header": "Níos Cliste Gach Lá"
     },
     "staying-connected": {
       "header": "Fan i dTeagmháil",
-      "description": "Aipeanna riachtanacha comhoibrithe agus cumarsáide"
+      "description": "Aipeanna chun rudaí a roinnt, chun comhrá a dhéanamh agus chun am a chaitheamh le chéile"
     },
     "new-year-new-workflows": {
       "header": "Bliain Nua, Sreabhanna Oibre Nua",
-      "description": "Aipeanna chun nótaí a thógáil, tascanna a rianú agus pleananna a dhéanamh"
+      "description": "Aipeanna le haghaidh tús úr, cibé bealach a oibríonn tú"
     },
     "make-some-noise": {
-      "description": "Aipeanna chun ceol a chruthú agus a léiriú",
+      "description": "Aipeanna chun fuaim a chruthú, a sheinm agus a iniúchadh",
       "header": "Déan roinnt torainn"
     },
     "winter-comforts": {
-      "description": "Aipeanna iontacha le haghaidh léitheoireachta, féachaint ar scannáin agus cluichí a imirt",
+      "description": "Aipeanna chun scíth a ligean agus d'intinn a thógáil den strus",
       "header": "Bí compordach"
     },
     "summer-travel": {
       "header": "Réidh le haghaidh Laethanta Saoire",
-      "description": "Aipeanna léarscáileanna, iompair phoiblí, aimsire agus pleanála turas"
+      "description": "Aipeanna don áit a dtabharfaidh do chéad turas eile thú"
     },
     "take-better-notes": {
-      "description": "Aimsigh d'uirlis nua is fearr leat chun nótaí a thógáil",
+      "description": "Uirlisí nua chun do chuid smaointe is fearr a ghabháil",
       "header": "Glac Nótaí Níos Fearr"
     },
     "fresh-desktop-releases": {
@@ -832,14 +831,14 @@
     },
     "get-focused": {
       "header": "Dírigh ar do chuspóir",
-      "description": "Aipeanna iontacha le haghaidh bainistíocht tascanna"
+      "description": "Gach rud a theastaíonn uait chun fanacht sa tsreabhadh"
     },
     "spring-creativity": {
       "header": "Bí Cruthaitheach",
-      "description": "Aipeanna riachtanacha le haghaidh líníochta, eagarthóireachta grianghraf agus dearadh digiteach"
+      "description": "Oibrigh le híomhánna, fuaim, físeán agus go leor eile"
     },
     "get-to-work": {
-      "description": "Aipeanna oifige riachtanacha",
+      "description": "Aipeanna a chabhraíonn leat rudaí a chur i gcrích",
       "header": "Téigh ag Obair"
     }
   },
@@ -868,5 +867,9 @@
   "moderation-manifest-added": "Cuireadh leis",
   "moderation-manifest-removed": "Bainte",
   "moderation-build-changes": "Athruithe Tógála",
-  "moderation-build-log": "Logáil tógála"
+  "moderation-build-log": "Logáil tógála",
+  "could-not-find-match-with-filters": "Níorbh fhéidir linn teacht ar mheaitseáil mhaith leis na scagairí seo.",
+  "other-apps-to-explore": "Seo roinnt aipeanna iontacha eile le fiosrú.",
+  "clear-filters": "Glan na scagairí",
+  "runtime": "Am rite"
 }

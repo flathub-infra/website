@@ -73,7 +73,6 @@
   "other-apps-by-developer": "Altres aplicacions de {developer}",
   "loading": "S'està carregant…",
   "could-not-find-match-for-search": "No s'ha pogut trobar cap aplicació que coincideixi amb la vostra cerca.",
-  "request-new-app": "Si esteu cercant una aplicació específica, feu saber a la comunitat que la voleu a Flathub <forumLink>aquí</forumLink>.",
   "manifest": "Manifest",
   "languages": "Idiomes",
   "languages-summary": "Trieu l'idioma en què voleu veure el lloc web.",

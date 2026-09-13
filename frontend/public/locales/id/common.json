@@ -90,8 +90,7 @@
   "other-apps-by-developer": "Aplikasi lainnya oleh {developer}",
   "loading": "Memuat…",
   "donate": "Donasi",
-  "could-not-find-match-for-search": "Tidak bisa menemukan aplikasi apa pun yang cocok dengan pencarian Anda.",
-  "request-new-app": "Jika Anda mencari aplikasi tertentu, beri tahu komunitas bahwa Anda menginginkannya di Flathub <forumLink>di sini</forumLink>.",
+  "could-not-find-match-for-search": "Kami tidak dapat menemukan yang Anda cari.",
   "manifest": "Manifes",
   "languages": "Bahasa",
   "languages-summary": "Pilih bahasa yang Anda inginkan untuk melihat situs web.",
@@ -282,7 +281,7 @@
   "app-eol": "Aplikasi ini tidak lagi tersedia di Flathub",
   "flathub-index-description": "Dapatkan versi terbaru dari semua aplikasi favorit Anda, untuk semua distribusi Linux",
   "distribution-flathub-setup": "Penyiapan Flathub {distribution}",
-  "find-your-distribution": "Temukan distribusi Anda",
+  "find-your-distribution": "Temukan distribusi Anda…",
   "no-results-found": "Tidak ada hasil yang ditemukan",
   "arch": "Arsitektur",
   "moderation-key": "Kunci",
@@ -318,7 +317,7 @@
   "emulators": "Emulator",
   "arcade": "Arkade",
   "card": "Kartu",
-  "setup-flathub-description": "Siapkan Flathub untuk memasang dan memmutakhirkan aplikasi di sistem Anda.",
+  "setup-flathub-description": "Ikuti langkah-langkah untuk distribusi Linux Anda guna memasang Flatpak, menambahkan repositori Flathub, dan mulai memasang aplikasi.",
   "filters": "Penyaring",
   "desktop-application": "Aplikasi Desktop",
   "console-application": "App Command-line",
@@ -743,7 +742,7 @@
     "works-well-on-large-screens": "Bekerja dengan baik di layar besar",
     "may-not-work-well-on-mobile": "Mungkin tidak bekerja dengan baik di perangkat seluler",
     "works-well-on-mobile": "Bekerja dengan baik di perangkat seluler",
-    "total-installs": "Total Instalasi",
+    "total-installs": "{count} Total Instalasi",
     "age-rating": "Rating Usia"
   },
   "trending-apps-description": "Aplikasi Linux yang paling banyak mendapatkan instalasi di Flathub selama dua minggu terakhir.",
@@ -792,7 +791,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "Tahun Baru, Alur Kerja Baru",
-      "description": "Aplikasi untuk mencatat, melacak tugas, dan membuat rencana"
+      "description": "Aplikasi untuk awal yang segar, apa pun cara Anda bekerja"
     },
     "free-software-favorites": {
       "header": "Pilihan Staf",
@@ -800,7 +799,7 @@
     },
     "spring-creativity": {
       "header": "Berkreasi",
-      "description": "Aplikasi penting untuk menggambar, mengedit foto, dan desain digital"
+      "description": "Bekerja dengan gambar, audio, video, dan lainnya"
     },
     "fresh-desktop-releases": {
       "header": "Membangun Aplikasi Native",
@@ -808,19 +807,19 @@
     },
     "staying-connected": {
       "header": "Tetap Terhubung",
-      "description": "Aplikasi kolaborasi dan komunikasi yang penting"
+      "description": "Aplikasi untuk berbagi, berbicara, dan menghabiskan waktu bersama"
     },
     "summer-travel": {
       "header": "Siap untuk Liburan",
-      "description": "Aplikasi peta, transit, cuaca, dan perencanaan perjalanan"
+      "description": "Aplikasi untuk ke mana pun perjalanan Anda berikutnya membawa Anda"
     },
     "back-to-learning": {
       "header": "Lebih Cerdas Setiap Hari",
-      "description": "Aplikasi untuk membantu Anda belajar, meneliti, dan menulis"
+      "description": "Aplikasi untuk menemukan, mempelajari, dan menciptakan pengetahuan"
     },
     "winter-comforts": {
       "header": "Bersantai",
-      "description": "Aplikasi hebat untuk membaca, menonton film, dan bermain game"
+      "description": "Aplikasi untuk bersantai dan mengalihkan pikiran"
     },
     "tools-for-developers": {
       "header": "Esensial untuk Pengembang Web",
@@ -828,22 +827,22 @@
     },
     "take-better-notes": {
       "header": "Catat Lebih Baik",
-      "description": "Temukan alat pencatat favorit baru Anda"
+      "description": "Alat baru untuk menangkap ide-ide terbaik Anda"
     },
     "get-focused": {
       "header": "Lebih Fokus",
-      "description": "Aplikasi hebat untuk manajemen tugas"
+      "description": "Semua yang Anda perlukan untuk tetap fokus"
     },
     "make-some-noise": {
       "header": "Buat Suasana Lebih Hidup",
-      "description": "Aplikasi untuk membuat dan memproduksi musik"
+      "description": "Aplikasi untuk membuat, memainkan, dan mengeksplorasi suara"
     },
     "get-to-work": {
       "header": "Bekerja",
-      "description": "Aplikasi kantor yang penting"
+      "description": "Aplikasi yang membantu Anda menyelesaikan pekerjaan"
     }
   },
-  "moderation-random-review": "Dipilih secara acak untuk ditinjau manusia",
+  "moderation-random-review": "Dipilih secara acak untuk ditinjau",
   "unverified-app-disclaimer-package": "Paket yang disediakan komunitas ini tidak diverifikasi oleh, berafiliasi dengan, atau didukung oleh {developer}.",
   "unverified-app-disclaimer-unknown-developer": "pengembang aplikasi",
   "dns-verification-main-instruction": "Verifikasi hak Anda untuk menggunakan app ID <bold>{id}</bold> dengan memublikasikan DNS TXT record untuk <bold>{domain}</bold>.",
@@ -868,5 +867,9 @@
   "moderation-manifest-added": "Ditambahkan",
   "moderation-manifest-removed": "Dihapus",
   "moderation-build-changes": "Perubahan Build",
-  "moderation-build-log": "Log build"
+  "moderation-build-log": "Log build",
+  "could-not-find-match-with-filters": "Kami tidak dapat menemukan kecocokan yang baik dengan filter ini.",
+  "other-apps-to-explore": "Berikut beberapa aplikasi hebat lainnya untuk dijelajahi.",
+  "clear-filters": "Hapus filter",
+  "runtime": "Runtime"
 }

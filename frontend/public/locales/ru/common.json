@@ -39,7 +39,6 @@
   "other-apps-by-developer": "Другие приложения от {developer}",
   "loading": "Загрузка…",
   "could-not-find-match-for-search": "Не удалось найти приложения по вашему запросу.",
-  "request-new-app": "Если вы ищете конкретное приложение, сообщите сообществу о том, что хотите видеть его на Flathub <forumLink>здесь</forumLink>.",
   "manifest": "Манифест",
   "popular": "Популярные",
   "documentation": "Документация",

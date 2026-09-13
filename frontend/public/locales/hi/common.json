@@ -120,7 +120,6 @@
   "moderation-appstream-changes": "Appstream परिवर्तन",
   "moderation-dev-description": "किसी ऐप के मेटाडेटा में कुछ बदलाव, जैसे उसका नाम या विवरण, की Flathub टीम द्वारा समीक्षा की जानी चाहिए। आप वर्तमान और पिछले समीक्षा अनुरोधों की स्थिति यहां देख सकते हैं।",
   "moderation-approved-by": "{handledBy} द्वारा {handledAt} पर स्वीकृत ({handledAtRel})",
-  "request-new-app": "यदि आप किसी विशिष्ट ऐप की खोज कर रहे हैं, तो समुदाय को बताएं कि आप इसे Flathub <forumLink>यहां</forumLink> पर चाहते हैं।",
   "no-saved-payment-methods": "दिखाने के लिए कोई सहेजी गई भुगतान विधि नहीं।",
   "remove-saved-card": "सहेजा गया कार्ड हटाएं",
   "transaction-summary-created": "निर्माण की तिथि:",
