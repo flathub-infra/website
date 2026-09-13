@@ -38,7 +38,7 @@ const Pagination: FunctionComponent<Props> = ({
     <nav
       role="navigation"
       aria-label="pagination"
-      className="mx-auto mt-12 flex h-12 w-min items-center space-x-2 text-xl"
+      className="mx-auto mt-12 flex w-fit max-w-full flex-wrap items-center justify-center gap-2 text-xl"
     >
       {pages
         .filter(
@@ -53,7 +53,7 @@ const Pagination: FunctionComponent<Props> = ({
           return (
             <React.Fragment key={`pagination-${index}`}>
               {index > 0 && array[index - 1] + 1 !== curr && (
-                <span aria-hidden className={`w-12 flex justify-center`}>
+                <span aria-hidden className="flex w-12 shrink-0 justify-center">
                   <EllipsisHorizontalIcon className="size-5" />
                   <span className="sr-only">{t("more-pages")}</span>
                 </span>
@@ -65,7 +65,7 @@ const Pagination: FunctionComponent<Props> = ({
                   className={clsx(
                     isActive &&
                       `bg-secondary text-flathub-white dark:bg-secondary`,
-                    "flex h-12 w-12 rounded-full duration-500 hover:cursor-pointer hover:opacity-50",
+                    "flex size-12 shrink-0 rounded-full duration-500 hover:cursor-pointer hover:opacity-50",
                   )}
                 >
                   <span className="m-auto">{curr}</span>
@@ -90,7 +90,7 @@ const Pagination: FunctionComponent<Props> = ({
                   aria-current={isActive ? "page" : undefined}
                   className={clsx(
                     isActive && `bg-secondary text-secondary-foreground`,
-                    "flex h-12 w-12 rounded-full duration-500 hover:cursor-pointer font-bold",
+                    "flex size-12 shrink-0 rounded-full duration-500 hover:cursor-pointer font-bold",
                     "hover:bg-secondary/50 hover:text-secondary-foreground",
                     "text-muted-foreground",
                   )}
