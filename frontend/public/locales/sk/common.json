@@ -197,7 +197,6 @@
   "docs-guidance": "<bold>Prehľadné dokumenty a návody</bold> – Rozsiahla <doclink>dokumentácia</doclink>, tisíce verejných <manifestlink>manifestov aplikácií</manifestlink> a rozsiahla komunita znamenajú, že vždy môžete získať pomoc",
   "integration": "<bold>Integrácia natívneho obchodu s aplikáciami</bold> – Zabudnite na sťahovanie z webu; Flathub poskytuje aplikácie a <updateslink>automatické aktualizácie</updateslink> používateľom v ich natívnom klientovi obchodu s aplikáciami, kde ich očakávajú",
   "could-not-find-match-for-search": "Nepodarilo sa nájsť žiadne aplikácie zodpovedajúce vášmu vyhľadávaniu.",
-  "request-new-app": "Ak hľadáte konkrétnu aplikáciu, dajte komunite vedieť, že ju chcete na Flathube <forumLink>tu</forumLink>.",
   "manifest": "Manifest aplikácie",
   "languages": "Jazyky",
   "languages-summary": "Vyberte jazyk, v ktorom by ste chceli zobraziť webové stránky Flathubu.",

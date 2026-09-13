@@ -228,7 +228,6 @@
   "verify-app": "অ্যাপ যাচাই করুন",
   "unverify": "যাচাই মুক্ত করুন",
   "app-is-currently-verified-by-login-provider": "আপনার অ্যাপটি বর্তমানে <loginprovider></loginprovider> এ আপনার অ্যাকাউন্টের সাথে আপনার লগইন <loginname></loginname> দ্বারা যাচাই করা হয়েছে",
-  "request-new-app": "আপনি যদি কোনো সুনির্দিষ্ট অ্যাপ অনুসন্ধান করে থাকেন, তাহলে কমিউনিটিকে <forumLink>এখানে</forumLink> জানান যে আপনি অ্যাপটি ফ্ল্যাটহাবে দেখতে চান।",
   "view-wallet": "ওয়ালেট দেখুন",
   "error": "ত্রুটি",
   "login-provider-verification-user-does-not-exist": "<requiredname></requiredname> অ্যাকাউন্টটি <loginprovider></loginprovider> –এ বিদ্যমান নেই৷ আপনাকে অবশ্যই এই অ্যাকাউন্টের নাম নিজের দাবি করতে হবে এবং আপনার অ্যাপ যাচাই করতে এটি ব্যবহার করতে হবে, অথবা উৎকৃষ্ট পন্থা হচ্ছে, আপনার নিয়ন্ত্রণ আছে এমন একটি অ্যাপ আইডি বেছে নিন। ভাল অ্যাপ আইডি সম্পর্কে তথ্যের জন্য <doclink>ফ্ল্যাটপ্যাক ডকুমেন্টেশন</doclink> দেখুন।",

@@ -175,7 +175,6 @@
   "proprietary-code-description": "Lo còdi font es pas public, se pòt pas auditar d’una manièra independenta e pòt èsser perilhós",
   "verification": "Verificacion",
   "find-your-distribution": "Trobatz vòstra distribucion",
-  "request-new-app": "Se cercatz una aplicacion en particular, avisatz la comunautat que la volètz installar sus Flathub <forumLink>aquí</forumLink>.",
   "login-provider-verification": "Verificacion del provesidor de session",
   "manual-install-instructions": "Asseguratz-vos de seguir la <distroguide>guida d’installacion per vòstra distribucion Linux</distroguide> abans l’installacion",
   "safe": "Segura",

@@ -58,7 +58,7 @@
   "retry-or-go-home": "Vous pouvez réessayer ou revenir à la page d''<link>accueil</link>.",
   "reporting-issues": "Signaler des problèmes",
   "acknowledgements": "Remerciements",
-  "acknowledgements-block": "<p>Flathub n'existerait pas sans le généreux soutien de la large communauté Flatpak et Flathub. Nous remercions tous les contributeurs, sponsors et organisations passés et présents dont le soutien et l’infrastructure ont permis à Flathub de fonctionner. </p>",
+  "acknowledgements-block": "<p>Flathub n'existerait pas sans le généreux soutien de la large communauté Flatpak et Flathub. Nous remercions tous les contributeurs, sponsors et organisations passés et présents dont le soutien et l’infrastructure ont permis à Flathub de fonctionner.</p>",
   "official-badges": "Badges officiels de Flathub",
   "badges-block": "Vous pouvez utiliser ces badges pour promouvoir votre app sur Flathub",
   "badges-description": "Des badges officiels pour promouvoir votre app sur Flathub",
@@ -90,7 +90,6 @@
   "other-apps-by-developer": "Autres apps par {developer}",
   "loading": "Chargement…",
   "could-not-find-match-for-search": "Aucune application ne correspond à votre recherche.",
-  "request-new-app": "Si vous recherchez une app spécifique, faites savoir à la communauté que vous la voulez sur Flathub <forumLink>ici</forumLink>.",
   "manifest": "Manifeste",
   "error-already-logged-in": "Le compte sélectionné est déjà connecté.",
   "languages": "Langues",
@@ -489,7 +488,7 @@
     "dark": "Sombre",
     "failing-x-checks": "Échec de {count, plural, one {# vérification} other {# vérifications}}",
     "general-runtime-not-eol": "Environnement d'exécution sous prise en charge",
-    "stats-by-category": "Statut de révision des directives par catégorie"
+    "stats-by-category": "Statut d'examen de directives par catégorie"
   },
   "app-listing-quality": "Qualité de référencement de l'application",
   "issued-to": "Délivré à",
@@ -765,108 +764,112 @@
   },
   "trending-apps-description": "Applications Linux ayant obtenu le plus grand nombre d’installations sur Flathub au cours des deux dernières semaines.",
   "popular-apps-description": "Les applications Linux les plus installées sur Flathub au cours du mois dernier.",
-  "verified-apps-description": "Apps sur Flathub dont l’identité du développeur a été vérifiée.",
+  "verified-apps-description": "Apps sur Flathub dont l’identité du développeur a été validée.",
   "audio-and-video-description": "Lecteurs de musique, éditeurs vidéo, outils de podcasting et applications multimédias pour Linux.",
-  "developer-tools-description": "EDIs (IDEs), éditeurs de code, terminaux et utilitaires pour développeurs sous Linux.",
+  "developer-tools-description": "IDE, éditeurs de code, terminaux et utilitaires pour développeurs sous Linux.",
   "games-description": "Jeux, émulateurs et lanceurs de jeu pour Linux.",
   "graphics-and-photography-description": "Éditeurs d’images, outils d’illustration et applications de photographie pour Linux.",
-  "networking-description": "Navigateurs web, clients de messagerie électronique, outils VPN et autres applications réseau pour Linux.",
-  "productivity-description": "Suites bureautique, prise de notes, gestion de projet et applications de productivité pour Linux.",
+  "networking-description": "Navigateurs Web, clients e-mail, outils VPN et autres apps réseau pour Linux.",
+  "productivity-description": "Suites de bureautique, prise de notes, gestion de projets et apps dédiées à la productivité, pour Linux.",
   "utilities-description": "Utilitaires système, gestionnaires de fichiers, calculatrices et outils quotidiens pour Linux.",
   "science-description": "Calcul scientifique, analyse de données et applications de recherche pour Linux.",
   "education-description": "Apps d’apprentissage, outils linguistiques et logiciels éducatifs pour Linux.",
   "system-description": "Gestion du système, surveillance et outils d’administration pour Linux.",
-  "os-version-distribution": "Répartition versions d'OS (30 derniers jours)",
-  "flatpak-version-distribution": "Distribution versions Flatpak (30 derniers jours)",
+  "os-version-distribution": "Distribution des versions d'OS (30 derniers jours)",
+  "flatpak-version-distribution": "Distribution des versions de Flatpak (30 derniers jours)",
   "os-flatpak-version-distribution": "Version Flatpak par OS (30 derniers jours)",
-  "share": "Partage(r)",
+  "share": "Partage",
   "founding-supporters": "Soutiens fondateurs",
-  "upload-token-create-failed": "Échec de création du jeton de téléversement. Veuillez réessayer.",
+  "upload-token-create-failed": "Échec de la création du jeton d'upload. Veuillez réessayer.",
   "health-fitness-description": "Des apps pour Linux qui vous aident à prendre soin de vous.",
   "health-fitness": "Santé et fitness",
   "contribute-flathub": "Contribuer à Flathub",
-  "manual-verification": "Marquer comme vérifié manuellement",
+  "manual-verification": "Marquer comme validée manuellement",
   "user-id": "ID utilisateur Flathub",
   "more-healthfitness": "Plus de santé et remise en forme",
   "manage": "Gérer",
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
-      "description": "Apps pour prise de notes, suivi de tâches et faire des plans",
-      "header": "Nouvelle année, nouveaux flux de travail"
+      "description": "Des apps pour une bonne reprise, quelle que soit votre façon de travailler",
+      "header": "Nouvelle année, nouveaux workflows"
     },
     "free-software-favorites": {
       "header": "Sélections de l'équipe",
       "description": "Apps que nous aimons en ce moment"
     },
     "spring-creativity": {
-      "header": "Être créatif",
-      "description": "Apps essentielles pour dessin, édition de photos et conception numérique"
+      "header": "Laissez libre cours à votre créativité",
+      "description": "Modifiez des images, du son, de la vidéo et plus encore"
     },
     "fresh-desktop-releases": {
-      "header": "Créer des apps natives",
-      "description": "Développez des apps qui se sentent à l’aise sur votre système"
+      "header": "Créez des apps natives",
+      "description": "Développez des apps qui s'intègrent parfaitement à votre système"
     },
     "staying-connected": {
-      "header": "Garder le contact",
-      "description": "Apps essentielles de collaboration et communication"
+      "header": "Gardez le contact",
+      "description": "Des apps pour échanger, discuter et passer du temps ensemble"
     },
     "summer-travel": {
-      "header": "Prêt pour les vacances",
-      "description": "Cartes, transports en commun, météo et planification de voyage"
+      "header": "Prêt·e pour les vacances",
+      "description": "Des apps pour votre prochain voyage, où que ce soit"
     },
     "back-to-learning": {
-      "header": "Plus intelligent chaque jour",
-      "description": "Apps pour aider à étudier, faire des recherches et écrire"
+      "header": "Plus intelligents, chaque jour",
+      "description": "Des apps qui vous aident à apprendre, découvrir et créer des savoirs"
     },
     "winter-comforts": {
-      "header": "Se mettre à l'aise",
-      "description": "Excellentes applications pour lire, regarder des films et jouer"
+      "header": "Installez-vous confortablement",
+      "description": "Des apps pour vous reposer et vous changer les idées"
     },
     "tools-for-developers": {
       "header": "Essentiels pour développeur Web",
       "description": "Créer des sites web est plus amusant avec ces apps"
     },
     "take-better-notes": {
-      "header": "Prendre de meilleures notes",
-      "description": "Trouvez votre nouvel outil de prise de notes préféré"
+      "header": "Une meilleure prise de notes",
+      "description": "De nouveaux outils pour consigner vos meilleures idées"
     },
     "get-focused": {
       "header": "Se concentrer",
-      "description": "Excellentes apps pour la gestion des tâches"
+      "description": "Tout ce dont vous avez besoin pour garder le rythme"
     },
     "make-some-noise": {
-      "header": "Faire du bruit",
-      "description": "Apps pour créer et produire de la musique"
+      "header": "Faites du bruit",
+      "description": "Des apps pour créer, lire, explorer et jouer avec la musique"
     },
     "get-to-work": {
       "header": "Au travail",
-      "description": "Apps essentielles pour le bureau"
+      "description": "Des apps qui vous aident à aller au bout des choses"
     }
   },
-  "unverified-app-disclaimer-package": "Ce paquetage est fourni par la communauté n’est pas vérifié, affilié ni pris en charge par {developer}.",
-  "unverified-app-disclaimer-unknown-developer": "le développeur de l'app",
-  "dns-verification-main-instruction": "Vérifiez votre droit d’utiliser l’ID d’app <bold>{id}</bold> en publiant un enregistrement TXT DNS pour <bold>{domain}</bold>.",
-  "dns-validation-instruction": "Ajouter l’enregistrement DNS suivant sans supprimer aucun enregistrement TXT existant. La propagation des modifications DNS peut prendre du temps.",
+  "unverified-app-disclaimer-package": "Ce package est fourni par la communauté. {developer} n'est pas affilié à ce package, ne le vérifie pas, et ne fournit pas d'assistance aux personnes qui l'utilisent.",
+  "unverified-app-disclaimer-unknown-developer": "Le développeur de l'app",
+  "dns-verification-main-instruction": "Confirmez que vous pouvez utiliser l'identifiant d'application <bold>{id}</bold> en publiant un enregistrement DNS TXT sur <bold>{domain}</bold>.",
+  "dns-validation-instruction": "Ajoutez cet enregistrement DNS sans supprimer les autres enregistrements TXT. La propagation des modifications DNS peut prendre un certain temps.",
   "dns-record-value": "Valeur",
   "dns-record-not-found": "Aucun enregistrement TXT n’a été trouvé dans {record}.",
-  "dns-token-not-present": "Les enregistrements TXT situés à l’emplacement {record} ne contiennent pas le jeton de vérification.",
+  "dns-token-not-present": "Les enregistrements TXT de {record} ne contiennent pas le jeton de vérification.",
   "dns-lookup-failed": "Échec de la recherche d’enregistrements TXT pour {record}.",
-  "app-is-currently-verified-by-dns": "Votre app est actuellement vérifiée via le contrôle DNS de <domain></domain>",
-  "dns-verification": "Vérification DNS",
+  "app-is-currently-verified-by-dns": "Votre app est actuellement validée grâce au contrôle du nom de domaine <domain></domain>",
+  "dns-verification": "Validation DNS",
   "moderation-random-review": "Sélectionné au hasard pour examen",
-  "verified-dns-tooltip": "La propriété de l’ID d’application <appid></appid> a été vérifié via le contrôle DNS de <domain></domain>",
-  "moderation-summary-changes": "Résumé modifications",
-  "moderation-manifest-complexity-explanation": "Ces modifications de recette décrivent l’ampleur et la structure de l’empaquetage, pas le risque de sécurité ni un comportement malveillant.",
-  "moderation-manifest-complexity-ambiguity": "Certains modules n’ont pas pu être appariés sans ambiguïté ; examinez attentivement les modifications de recette concernées.",
+  "verified-dns-tooltip": "La propriété de l'identifiant d'application <appid></appid> a été validée grâce au contrôle du nom de domaine <domain></domain>",
+  "moderation-summary-changes": "Modifications du résumé",
+  "moderation-manifest-complexity-explanation": "Ces modifications de recette décrivent l’ampleur et la structure de l’empaquetage, pas un risque de sécurité ni un comportement malveillant.",
+  "moderation-manifest-complexity-ambiguity": "Certains modules n'ont pas pu être associés sans ambiguïté ; examinez attentivement les modifications de recette concernées.",
   "moderation-manifest-complexity-modules": "Modules touchés",
   "moderation-manifest-complexity-events": "Changements de recette",
-  "moderation-manifest-complexity-modules-truncated": "Montrant {shown} de {total} des modules touchés.",
-  "moderation-manifest-complexity-events-truncated": "Montrant {shown} de {total} des changements de recette.",
+  "moderation-manifest-complexity-modules-truncated": "Affichage de {shown} sur {total} modules touchés.",
+  "moderation-manifest-complexity-events-truncated": "Affichage de {shown} sur {total} changements de recette.",
   "moderation-manifest-added": "Ajouté",
   "moderation-manifest-removed": "Retiré",
   "moderation-manifest-source-origin": "Modifications de source du manifeste",
   "moderation-manifest-complexity": "Complexité d'empaquetage du manifeste",
   "moderation-manifest-source-and-complexity": "Revue source et complexité du manifeste",
   "moderation-build-changes": "Modifications de build",
-  "moderation-build-log": "Journal de build"
+  "moderation-build-log": "Journal de build",
+  "could-not-find-match-with-filters": "Aucun résultat n'a pu être trouvé avec ces filtres.",
+  "other-apps-to-explore": "Voici d'autres apps fantastiques à découvrir.",
+  "clear-filters": "Effacer les filtres",
+  "runtime": "Environnement d'exécution"
 }

@@ -96,7 +96,7 @@
     },
     "step-2": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳場所。若要啟用它，請下載並安裝 <filelink>Flathub 儲存庫檔案</filelink>，或執行：</text> <code></code>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳場所。若要啟用它，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或執行：</text> <code></code>"
     }
   },
   "mageia": {
@@ -231,7 +231,7 @@
       "name": "安裝 Software Flatpak 外掛程式"
     },
     "step-3": {
-      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳場所。若要啟用它，請下載並安裝 <filelink>Flathub 儲存庫檔案</filelink>，或執行：</text> <code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳場所。若要啟用它，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
     }
   },
@@ -252,7 +252,7 @@
   },
   "nixos": {
     "step-2": {
-      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請下載並安裝 <filelink>Flathub 儲存庫檔案</filelink>，或執行：</text> <code></code>",
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用它，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
     },
     "step-3": {
@@ -443,6 +443,6 @@
   },
   "t2_sde": {
     "distroName": "T2 SDE",
-    "introduction": "<header>自版本 26.6 起，Flatpak 已預設安裝於 T2 SDE，不需要任何設定！</header> <text>Flatpak 已預先設定好 Flathub 倉庫，並內建桌面整合工具，讓您能從 Flathub 進行一鍵安裝。</text> <text>您只需要<link>安裝應用程式</link>！</text>"
+    "introduction": "<header>自版本 26.6 起，Flatpak 已預設安裝於 T2 SDE，不需要任何設定！</header> <text>Flatpak 已預先設定好 Flathub 軟體庫，並內建桌面整合工具，讓您能從 Flathub 進行一鍵安裝。</text> <text>您只需要<link>安裝應用程式</link>即可！</text>"
   }
 }

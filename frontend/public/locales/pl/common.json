@@ -153,7 +153,7 @@
   "delete-account-entry": "Chcę usunąć moje konto",
   "entry-confirmation-prompt": "Wprowadź “{text}” by kontynować.",
   "loading": "Wczytywanie…",
-  "could-not-find-match-for-search": "Nie znaleziono żadnych aplikacji pasujących do wyszukiwania.",
+  "could-not-find-match-for-search": "Nie udało nam się znaleźć tego, czego szukasz.",
   "manifest": "Manifest aplikacji",
   "languages": "Języki",
   "downloads": "Pobrania",
@@ -166,7 +166,6 @@
   "frequently-asked-questions": "Często zadawane pytania",
   "manual-install-instructions": "Przed instalacją upewnij się, że postępujesz zgodnie z <distroguide>instrukcją instalacji dla swojej dystrybucji Linuksa</distroguide>",
   "by": "od {developer}",
-  "request-new-app": "Jeśli szukasz konkretnej aplikacji, daj znać <forumLink>społeczności</forumLink>, że chcesz ją widzieć na Flathubie.",
   "owned-apps": "Posiadane aplikacje",
   "release-link": "Uzyskaj więcej informacji",
   "developer-settings": "Ustawienia developera",
@@ -387,7 +386,7 @@
   "desktop-folder": "Folder pulpitu",
   "templates-subfolder-x": "Podfolder szablonów {folder}",
   "proprietary-code-description": "Kod źródłowy nie jest dostępny publicznie, więc nie można go niezależnie skontrolować i może nie być bezpieczny",
-  "user-runtime-subfolder-x": "Podfolder runtime użytkownika {folder}",
+  "user-runtime-subfolder-x": "Podfolder środowiska uruchomieniowego użytkownika {folder}",
   "system-device-access": "Dostęp do urządzeń systemowych",
   "legacy-windowing-system": "Przestarzały system okien",
   "arbitrary-permissions": "Dowolne uprawnienia",
@@ -868,5 +867,9 @@
   "moderation-manifest-added": "Dodane",
   "moderation-manifest-removed": "Usunięte",
   "moderation-build-log": "Logi kompilacji",
-  "moderation-build-changes": "Zmiany kompilacji"
+  "moderation-build-changes": "Zmiany kompilacji",
+  "could-not-find-match-with-filters": "Nie udało nam się znaleźć wyników pasujących do tych filtrów.",
+  "other-apps-to-explore": "Oto kilka innych świetnych aplikacji, które warto wypróbować.",
+  "clear-filters": "Wyczyść filtry",
+  "runtime": "Środowisko uruchomieniowe"
 }

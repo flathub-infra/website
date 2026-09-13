@@ -96,7 +96,6 @@
   "also-available-as-svg": "还提供 <svglink>SVG 格式</svglink>",
   "manual-install-instructions": "在安装之前，请确保按照 Linux 发行版的<distroguide>设置指南</distroguide>进行操作",
   "app-install-error-try-again": "无法安装该应用。请尝试返回应用商店并再次安装。",
-  "request-new-app": "如果您在搜寻特定应用，请在<forumLink>这里</forumLink>让社区知道您想要它发布在 Flathub 上。",
   "languages-description": "请选择要切换的语言：",
   "switch-language": "切换语言",
   "status-new": "新建",
