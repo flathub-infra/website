@@ -39,7 +39,7 @@ const VerificationIcon: FunctionComponent<Props> = ({
             </button>
           </TooltipTrigger>
 
-          <TooltipContent side="right" className="max-w-xs">
+          <TooltipContent side="bottom" className="max-w-xs">
             {verificationStatus.method === "manual"
               ? t.rich("verified-manually-tooltip", {
                   appid: (chunks) => <b>{appId}</b>,
