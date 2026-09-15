@@ -20,8 +20,8 @@
     "dotenv": "^17.4.2",
     "hono": "^4.13.7",
     "nodemailer": "9.1.1",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
     "react-email": "6.9.5",
     "zod": "^4.5.4"
   },
