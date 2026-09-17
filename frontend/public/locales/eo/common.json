@@ -74,7 +74,7 @@
   "safe-to-close-page": "Estas sekure fermi ĉi tiun paĝon.",
   "other-apps-by-developer": "Aliaj programoj de {developer}",
   "manifest": "Manifesta dosiero",
-  "could-not-find-match-for-search": "Ne eblis trovi kongruajn programojn pri la serĉo.",
+  "could-not-find-match-for-search": "Ne eblis trovi tion, kion vi serĉas.",
   "switch-language": "Ŝanĝi lingvon",
   "languages-description": "Elektu uzotan fasadan lingvon:",
   "confirm-selection": "Konfirmu elekton",
@@ -252,7 +252,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "Konfirmu vian rajton uzi la programidentigilon <appid></appid> ensalutante en la konton <loginname></loginname> (aŭ, se <orgname></orgname> estas organizaĵo, konton havantan rajtojn pri ĝi) ĉe <loginprovider></loginprovider>.",
   "browse": "Foliumi",
   "setup-flathub": "Agordi Flathub",
-  "setup-flathub-description": "Agordu Flathub por instali kaj ĝisdatigi programojn en via sistemo.",
+  "setup-flathub-description": "Sekvu la paŝojn por via Linux-distribuo por instali Flatpak, agordi la deponejon Flathub, kaj ekinstali programojn.",
   "apps": "Programoj",
   "count-desktop-apps": "Nombro de komputilaj programoj",
   "apps-by-developer": "Programoj fare de {developer}",
@@ -301,7 +301,7 @@
   "runtime-distribution": "Distribuo de rultempa medio",
   "flathub-index-description": "Akiru la plej novajn versiojn de ĉiuj viaj ŝatataj programoj, por iu ajn Linux-distribuo",
   "distribution-flathub-setup": "Agordado de Flathub por {distribution}",
-  "find-your-distribution": "Serĉi vian Linux-distribuon",
+  "find-your-distribution": "Trovu vian distribuon…",
   "no-results-found": "Neniu rezulto troviĝis",
   "app-eol": "Ĉi tiu programo estas ne plu disponebla ĉe Flathub",
   "app-type": "Speco de programo",
@@ -734,7 +734,7 @@
     "desktop-support": "Subteno por tabla komputilo",
     "size-on-disk": "Grando ĉe disko",
     "downloads-per-month": "Nombro de elŝutoj en monato",
-    "total-installs": "Totala nombro de instaloj",
+    "total-installs": "{count} instaloj totale",
     "installed-runtime-size": "Instalita grando de rultempa medio",
     "works-well-on-large-screens": "Funkcias bone sur granda ekrano",
     "may-not-work-well-on-mobile": "Eble ne funkcias bone ĉe poŝaparato",
@@ -790,7 +790,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "Novan jaron, novan laborfluon",
-      "description": "Programoj por notoj, tasklistoj kaj planado"
+      "description": "Programoj por nova komenco, iel ajn vi funkcias"
     },
     "free-software-favorites": {
       "description": "Programoj amataj de ni nuntempe",
@@ -802,30 +802,30 @@
     },
     "take-better-notes": {
       "header": "Noti pli bone",
-      "description": "Trovu vian novan notilon"
+      "description": "Novaj iloj por registri viajn bonegaj ideojn"
     },
     "get-to-work": {
       "header": "Eklabori",
-      "description": "Esencaj programoj por la oficejo"
+      "description": "Programoj helpantaj vin plenumi farendaĵojn"
     },
     "back-to-learning": {
       "header": "Plikleriĝi ĉiutage",
-      "description": "Programoj por studi, esplori kaj verki"
+      "description": "Programoj por malkovri, lerni kaj krei scion"
     },
     "spring-creativity": {
       "header": "Ekkrei",
-      "description": "Esencaj programoj por desegni, redakti fotojn, kaj ciferece dezajni"
+      "description": "Prilaboru bildojn, sonoj, filmojn kaj pli"
     },
     "staying-connected": {
       "header": "Resti konektite",
-      "description": "Esencaj kunlaboriloj kaj komunikiloj"
+      "description": "Programoj por kunhavi, kunbabili kaj kunĝui"
     },
     "summer-travel": {
       "header": "Prete por ferioj",
-      "description": "Programoj pri mapoj, transporto, vetero kaj vojaĝoplanado"
+      "description": "Programoj por tie ajn, kie vi ekvojaĝos"
     },
     "winter-comforts": {
-      "description": "Bonegaj programoj por legi, spekti kaj ludi",
+      "description": "Programoj por malstreĉiĝi kaj distriĝi",
       "header": "Ekkomfortiĝi"
     },
     "tools-for-developers": {
@@ -834,10 +834,10 @@
     },
     "make-some-noise": {
       "header": "Ekbrui",
-      "description": "Programoj por krei kaj verki muzikon"
+      "description": "Programoj por verki, spekti kaj esplori sonojn"
     },
     "get-focused": {
-      "description": "Bonegaj programoj por administri taskojn",
+      "description": "Ĉio necesa por ekfokusiĝi",
       "header": "Enfokusiĝi"
     }
   },
@@ -853,5 +853,23 @@
   "dns-verification-main-instruction": "Konfirmi vian rajton uzi la programidentigilon <bold>{id}</bold> publikigante TXT-registron pri la DNS-nomregno <bold>{domain}</bold>.",
   "unverified-app-disclaimer-package": "Jen komunume provizata pako ne konfirmita, nek oficialigita, nek subtenata de {developer}.",
   "dns-validation-instruction": "Enmetu la jenan DNS-registron sen forigi ajnan ekzistantan TXT-registron. Vi eble atendu iomete por la propagado de ŝanĝoj pri DNS.",
-  "moderation-random-review": "Hazarde elektita por homa reviziado"
+  "moderation-random-review": "Hazarde elektita por reviziado",
+  "moderation-build-changes": "Ŝanĝoj pri konstruado",
+  "moderation-manifest-source-and-complexity": "Revizio de manifesta fonto kaj komplikeco",
+  "could-not-find-match-with-filters": "Ni ne povis trovi bonan rezulton kongruan kun tiuj filtriloj.",
+  "moderation-manifest-complexity-modules": "Tuŝitaj moduloj",
+  "moderation-manifest-complexity": "Komplikeco de manifesta pakado",
+  "moderation-manifest-removed": "Forigita",
+  "moderation-summary-changes": "Ŝanĝoj pri resumo",
+  "moderation-manifest-added": "Aldonita",
+  "moderation-build-log": "Protokolo pri konstruado",
+  "clear-filters": "Forigi filtrilojn",
+  "moderation-manifest-complexity-events": "Ŝanĝoj pri recepto",
+  "moderation-manifest-complexity-explanation": "Tiuj ŝanĝoj pri recepto temas pri vasto kaj strukturo de pakado, ne sekureca risko nek fikonduto.",
+  "moderation-manifest-complexity-ambiguity": "Kelkaj moduloj ne estis malambigue troveblaj; zorge reviziu la rilatajn ŝanĝojn pri recepto.",
+  "moderation-manifest-source-origin": "Ŝanĝoj pri manifesta fonto",
+  "moderation-manifest-complexity-events-truncated": "Montrante {shown} el {total} ŝanĝoj pri recepto.",
+  "moderation-manifest-complexity-modules-truncated": "Montrante {shown} el {total} tuŝitaj moduloj.",
+  "other-apps-to-explore": "Jen aliaj bonegaj esplorindaj programoj.",
+  "runtime": "Rultempa medio"
 }

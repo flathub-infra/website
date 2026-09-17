@@ -60,7 +60,7 @@
   "games": "Mängud",
   "audio-and-video": "Heli ja video",
   "loading": "Laadime andmeid…",
-  "could-not-find-match-for-search": "Sinu otsingusõna alusel ei leidu ühtegi rakendust.",
+  "could-not-find-match-for-search": "Kohe kuidagi ei õnnestunud leida, mida sa otsid.",
   "manifest": "Rakenduse kontrollfail",
   "donate": "Toeta arendajat",
   "donate-to": "Toeta {project} arendajat",
@@ -867,5 +867,9 @@
   "moderation-manifest-complexity": "Pakendamise keerukus rakenduse kontrollfailis",
   "moderation-manifest-source-and-complexity": "Lähtekood ja keerukus rakenduse kontrollfailis",
   "moderation-manifest-complexity-explanation": "Need kompileerimisjuhendi muudatused käsitlevad pakendamise ulatust ja struktuuri, mitte turvariski ega pahatahtlikku käitumist.",
-  "moderation-manifest-complexity-ambiguity": "Mõnede moodulite vastavust polnud üheselt võimalik tuvastada; vaata asjaomased kompileerimisjuhendi muudatused hoolikalt üle."
+  "moderation-manifest-complexity-ambiguity": "Mõnede moodulite vastavust polnud üheselt võimalik tuvastada; vaata asjaomased kompileerimisjuhendi muudatused hoolikalt üle.",
+  "could-not-find-match-with-filters": "Nendele filtritele ei leidunud sobivat vastet.",
+  "clear-filters": "Tühjenda filtrid",
+  "other-apps-to-explore": "Siin mõned muud suurepärased rakendused, millega saad tutvuda.",
+  "runtime": "Käitusteek"
 }
