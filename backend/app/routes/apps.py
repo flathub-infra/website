@@ -168,9 +168,14 @@ async def get_appstream(
         if not result:
             raise HTTPException(status_code=404, detail="App not found")
 
-        # Runtimes always carry EOL'd branches as newer ones supersede them, so
-        # they are never surfaced as EOL (e.g. the developer-portal EOL badge).
-        result["is_eol"] = app.is_eol and app.type != "runtime"
+        # Only show the EOL badge if no published branch is active.
+        result["is_eol"] = app.is_eol and (
+            not app.eol_branches
+            or all(
+                branch in app.eol_branches
+                for branch in (app.summary or {}).get("branches", {})
+            )
+        )
 
         # Return the correct union type
         if result.get("type") == "addon":
