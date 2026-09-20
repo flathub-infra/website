@@ -41,12 +41,22 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, appId } = await params
 
+  const cleanAppId = appId.endsWith(".flatpakref")
+    ? appId.slice(0, -".flatpakref".length)
+    : appId
+
+  if (!isValidAppId(cleanAppId)) {
+    notFound()
+  }
+
   const t = await getTranslations()
 
   try {
     const [response, eolMessageResponse] = await Promise.all([
-      getAppstreamAppstreamAppIdGet(appId, { locale }),
-      getEolMessageAppidEolMessageAppIdGet(appId).catch(() => ({ data: null })),
+      getAppstreamAppstreamAppIdGet(cleanAppId, { locale }),
+      getEolMessageAppidEolMessageAppIdGet(cleanAppId).catch(() => ({
+        data: null,
+      })),
     ])
     const app = response.data
     const isEol = !!eolMessageResponse.data

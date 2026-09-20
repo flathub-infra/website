@@ -5,7 +5,7 @@ export const ConditionalWrapper = ({ condition, wrapper, children }) =>
   condition ? wrapper(children) : children
 
 export const isValidAppId = (appId: string) => {
-  if (appId.length < 5) {
+  if (appId.length < 6) {
     return false
   }
   if (appId.length > 255) {
