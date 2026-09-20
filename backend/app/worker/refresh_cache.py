@@ -3,6 +3,7 @@ import logging
 
 import dramatiq
 from fastapi import Response
+from sqlalchemy import JSON
 
 from .. import cache, models
 from ..database import get_db
@@ -56,6 +57,13 @@ def _get_top_apps(limit: int = 1000) -> list[str]:
     with get_db("replica") as db:
         top_apps = (
             db.query(models.AppStats.app_id)
+            .join(models.App, models.App.app_id == models.AppStats.app_id)
+            # Install counts include runtime extensions without AppStream data.
+            .filter(
+                models.App.appstream.is_not(None),
+                models.App.appstream != JSON.NULL,
+                models.App.appstream != {},
+            )
             .order_by(models.AppStats.installs_total.desc())
             .limit(limit)
             .all()
