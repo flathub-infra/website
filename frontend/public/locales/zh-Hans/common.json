@@ -80,7 +80,7 @@
   "safe-to-close-page": "可以关闭该页面了。",
   "other-apps-by-developer": "{developer} 的其他应用",
   "loading": "正在加载…",
-  "could-not-find-match-for-search": "找不到与您的搜索匹配的任何应用。",
+  "could-not-find-match-for-search": "找不到您正在查找的内容。",
   "publish": "发布",
   "about-description": "Flathub 是获取与分发 Linux 应用的地方。Flathub 由 Flatpak 驱动，能让 Flathub 应用运行在几乎任何 Linux 发行版上。",
   "popular": "人气",
@@ -252,7 +252,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "通过登录 <loginprovider></loginprovider> 上的账号 <loginname></loginname>（或者，如果 <orgname></orgname> 是一个组织，则需登录具有访问权限的账号），验证您对应用 ID <appid></appid> 的使用权限。",
   "browse": "浏览",
   "setup-flathub": "设置 Flathub",
-  "setup-flathub-description": "设置 Flathub 以在您的系统上安装和更新应用。",
+  "setup-flathub-description": "照着适用于不同 Linux 发行版的步骤来安装 Flatpak，添加 Flathub 仓库并开始安装应用。",
   "apps": "应用",
   "count-desktop-apps": "桌面应用总数",
   "rss-apps": "需要 RSS 应用吗？在 <link>Flathub</link> 上查找优秀应用。",
@@ -791,7 +791,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "新年，新工作流程",
-      "description": "记笔记、跟踪任务和制定计划的应用"
+      "description": "新开始必备的应用，不管如何工作"
     },
     "free-software-favorites": {
       "header": "编辑精选",
@@ -799,7 +799,7 @@
     },
     "spring-creativity": {
       "header": "发挥创意",
-      "description": "绘图、编辑照片和数字设计的必备应用"
+      "description": "处理图像、音视频和更多内容的应用"
     },
     "fresh-desktop-releases": {
       "header": "构建原生应用",
@@ -807,7 +807,7 @@
     },
     "staying-connected": {
       "header": "保持联系",
-      "description": "协作和通信必备应用"
+      "description": "分享、交流和共度时光的应用"
     },
     "summer-travel": {
       "header": "假期准备",
@@ -815,11 +815,11 @@
     },
     "back-to-learning": {
       "header": "每日精进",
-      "description": "帮助您学习、研究和写作的应用"
+      "description": "发现、学习和创造知识的应用"
     },
     "winter-comforts": {
       "header": "乐享闲暇",
-      "description": "阅读、看电影和玩游戏的优质应用"
+      "description": "放松和转移注意力的应用"
     },
     "tools-for-developers": {
       "header": "Web 开发者必备",
@@ -827,19 +827,19 @@
     },
     "take-better-notes": {
       "header": "高效记笔记",
-      "description": "找到您最喜欢的新笔记工具"
+      "description": "抓住最佳想法的新工具"
     },
     "get-focused": {
       "header": "保持专注",
-      "description": "任务管理的优质应用"
+      "description": "保持专注所需的一切"
     },
     "make-some-noise": {
       "header": "奏响乐章",
-      "description": "音乐创作和制作应用"
+      "description": "创建、播放和探索声音的应用"
     },
     "get-to-work": {
       "header": "投入工作",
-      "description": "办公必备应用"
+      "description": "帮助你把事情完成的应用"
     }
   },
   "unverified-app-disclaimer-unknown-developer": "应用开发者",
@@ -867,5 +867,9 @@
   "moderation-manifest-added": "已添加",
   "moderation-manifest-removed": "已移除",
   "moderation-build-changes": "构建更改",
-  "moderation-build-log": "构建日志"
+  "moderation-build-log": "构建日志",
+  "could-not-find-match-with-filters": "找不到这些过滤器的好匹配。",
+  "other-apps-to-explore": "这里是一些其他可供探索的好应用。",
+  "clear-filters": "清除过滤器",
+  "runtime": "运行时"
 }

@@ -85,7 +85,7 @@
   "install": "Instalar",
   "other-apps-by-developer": "Otras aplicaciones de {developer}",
   "loading": "Cargando…",
-  "could-not-find-match-for-search": "No se ha encontrado ninguna aplicación que coincida con su búsqueda.",
+  "could-not-find-match-for-search": "No hemos podido encontrar lo que busca.",
   "manifest": "Manifiesto",
   "languages-description": "Seleccione un idioma para cambiarlo:",
   "switch-language": "Cambiar idioma",
@@ -252,7 +252,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "Verifique su derecho a usar el ID de la aplicación <appid></appid> iniciando la sesión en la cuenta <loginname></loginname> (o, si <orgname></orgname> es una organización, una cuenta con acceso a ella) en <loginprovider></loginprovider>.",
   "browse": "Navegar",
   "setup-flathub": "Configurar Flathub",
-  "setup-flathub-description": "Configure Flathub para instalar y actualizar aplicaciones en su sistema.",
+  "setup-flathub-description": "Siga los pasos correspondientes a su distribución de Linux para instalar Flatpak, añadir el repositorio de Flathub y empezar a instalar aplicaciones.",
   "apps": "Aplicaciones",
   "count-desktop-apps": "Total de aplicaciones de escritorio",
   "rss-apps": "¿Necesita una aplicación RSS? Encuentre las mejores en <link>Flathub</link>.",
@@ -302,7 +302,7 @@
   "flathub-index-description": "Obtenga las últimas versiones de todas sus aplicaciones favoritas, para cualquier distribución de Linux",
   "app-eol": "Esta aplicación ya no está disponible en Flathub",
   "distribution-flathub-setup": "{distribution} Configuración de Flathub",
-  "find-your-distribution": "Encuentre su distribución",
+  "find-your-distribution": "Encuentre su distribución…",
   "no-results-found": "No se ha encontrado ningún resultado",
   "desktop-application": "Aplicación de escritorio",
   "console-application": "Aplicación de consola",
@@ -487,7 +487,8 @@
     "light": "Claro",
     "dark": "Oscuro",
     "general-runtime-not-eol": "Tiempo de ejecución no al final de la vida útil",
-    "failing-x-checks": "Fallo {count, plural, one {# check} other {# checks}}"
+    "failing-x-checks": "Fallo {count, plural, one {# check} other {# checks}}",
+    "stats-by-category": "Estado de la revisión de las directrices por categoría"
   },
   "app-listing-quality": "Calidad de los listados de las aplicaciones",
   "moderation-build-id": "ID de la compilación",
@@ -739,10 +740,10 @@
     "works-well-on-large-screens": "Funciona bien en pantallas grandes",
     "may-not-work-well-on-mobile": "Puede no funcionar bien en dispositivos móviles",
     "works-well-on-mobile": "Funciona bien en dispositivos móviles",
-    "total-installs": "Instalaciones en total",
+    "total-installs": "{count} instalaciones totales",
     "free": "Libre",
     "installed-runtime-size": "Tamaño de Hora de Ejecución Instalada",
-    "age-rating": "Puntuación de Edad"
+    "age-rating": "Clasificación por edades"
   },
   "trending-apps-description": "Aplicaciones de Linux más instaladas en Flathub en las últimas dos semanas.",
   "popular-apps-description": "Las aplicaciones de Linux más instaladas en Flathub en el último mes.",
@@ -765,7 +766,7 @@
     "none-drugs": "No contiene ninguna referencia a drogas",
     "none-sex": "No contiene nudismo ni contenido sexual",
     "none-money": "No contiene anuncios ni transacciones monetarias",
-    "category-language": "Idioma Fuerte",
+    "category-language": "Lenguaje soez",
     "none-language": "No contiene ningún lenguaje obsceno o vulgar",
     "none-social": "Sin características sociales"
   },
@@ -775,7 +776,7 @@
   "utilities-description": "Utilidades del sistema, gestiones de archivo, calculadoras, y herramientas diarias para Linux.",
   "system-description": "Gestión de sistema, monitoreo, y herramientas de administración para Linux.",
   "health-fitness-description": "Aplicaciones de salud y estado físico para Linux.",
-  "health-fitness": "Salud y Estado Físico",
+  "health-fitness": "Salud y bienestar físico",
   "upload-token-create-failed": "Ha fallado al crear el vale de subida. Inténtelo de nuevo.",
   "os-version-distribution": "Versión de Distribución del SO (últ. 30 días)",
   "flatpak-version-distribution": "Versión de Distribución de Flatpak (últ. 30 días)",
@@ -788,19 +789,81 @@
   "manage": "Administrar",
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
-      "header": "Año Nuevo, Nuevos flujos de trabajo",
-      "description": "Aplicaciones para tomar notas, realizar tareas y hacer planes"
+      "header": "Año nuevo, nuevos flujos de trabajo",
+      "description": "Aplicaciones para empezar de cero, sea cual sea su forma de trabajar"
     },
     "free-software-favorites": {
       "header": "Selección del equipo",
       "description": "Aplicaciones que amamos ahora mismo"
     },
     "spring-creativity": {
-      "header": "Sé Creativo",
-      "description": "Aplicaciones esenciales para dibujar, editar fotos y diseño digital"
+      "header": "Sea creativo",
+      "description": "Trabaje con imágenes, audio, vídeo y mucho más"
     },
     "fresh-desktop-releases": {
-      "header": "Construir aplicaciones nativas"
+      "header": "Construir aplicaciones nativas",
+      "description": "Desarrolle aplicaciones que se adapten perfectamente a su sistema"
+    },
+    "staying-connected": {
+      "header": "Manténgase en contacto",
+      "description": "Aplicaciones para compartir, charlar y pasar tiempo juntos"
+    },
+    "summer-travel": {
+      "header": "Listos para las vacaciones",
+      "description": "Aplicaciones para dondequiera que le lleve su próximo viaje"
+    },
+    "back-to-learning": {
+      "header": "Cada día más inteligente",
+      "description": "Aplicaciones para descubrir, aprender y crear conocimientos"
+    },
+    "winter-comforts": {
+      "header": "Póngase cómodo",
+      "description": "Aplicaciones para relajarse y desconectar"
+    },
+    "tools-for-developers": {
+      "header": "Esenciales para desarrolladores web",
+      "description": "Crear páginas web es más divertido con estas aplicaciones"
+    },
+    "take-better-notes": {
+      "header": "Tome mejores apuntes",
+      "description": "Herramientas nuevas para plasmar sus mejores ideas"
+    },
+    "get-focused": {
+      "header": "Concéntrese",
+      "description": "Todo lo que necesita para mantener el ritmo"
+    },
+    "make-some-noise": {
+      "header": "Haga un poco de ruido",
+      "description": "Aplicaciones para crear, reproducir y explorar el sonido"
+    },
+    "get-to-work": {
+      "header": "Manos a la obra",
+      "description": "Aplicaciones que le ayudan a ser más productivo"
     }
-  }
+  },
+  "moderation-summary-changes": "Resumen de los cambios",
+  "moderation-manifest-source-origin": "Cambios en el código fuente del manifiesto",
+  "moderation-manifest-complexity": "Complejidad del empaquetado del manifiesto",
+  "moderation-manifest-complexity-explanation": "Estos cambios en la receta describen el alcance y la estructura del empaquetado, no un riesgo de seguridad ni un comportamiento malicioso.",
+  "moderation-manifest-complexity-ambiguity": "No se han podido asignar algunos módulos de forma inequívoca; revisa con atención los cambios afectados en la receta.",
+  "moderation-manifest-complexity-modules": "Módulos modificados",
+  "moderation-manifest-complexity-events": "Cambios en la receta",
+  "more-healthfitness": "Más sobre salud y bienestar físico",
+  "runtime": "Tiempo de ejecución",
+  "dns-verification": "Verificación del DNS",
+  "verified-dns-tooltip": "Se ha verificado la titularidad del ID de aplicación <appid></appid> mediante el control de DNS de <domain></domain>",
+  "app-is-currently-verified-by-dns": "Su aplicación está verificada actualmente mediante el control de DNS de <domain></domain>",
+  "dns-lookup-failed": "No se han podido consultar los registros TXT de {record}.",
+  "dns-token-not-present": "Los registros TXT de {record} no contienen el testigo de verificación.",
+  "dns-record-value": "Valor",
+  "clear-filters": "Limpiar filtros",
+  "could-not-find-match-with-filters": "No hemos podido encontrar ningún resultado que se ajuste a estos filtros.",
+  "other-apps-to-explore": "Aquí tiene otras aplicaciones geniales que puede descubrir.",
+  "moderation-build-log": "Registro de construcción",
+  "moderation-build-changes": "Cambios en la construcción",
+  "moderation-random-review": "Seleccionado al azar para su revisión",
+  "moderation-manifest-removed": "Eliminado",
+  "moderation-manifest-added": "Añadido",
+  "moderation-manifest-complexity-events-truncated": "Se muestran {shown} de {total} cambios en las recetas.",
+  "moderation-manifest-complexity-modules-truncated": "Se muestran {shown} de {total} módulos seleccionados."
 }

@@ -140,7 +140,7 @@
     },
     "step-2": {
       "name": "Añadir el repositorio Flathub",
-      "text": "<text>Flathub es el mejor lugar para obtener aplicaciones Flatpak. Para habilitarlo, ejecute:</text><code></code>"
+      "text": "<text>Flathub es el mejor lugar para obtener aplicaciones Flatpak. Para activarlo, descargue e instale el <filelink>archivo del repositorio de Flathub</filelink> o ejecute:</text> <code></code>"
     },
     "step-3": {
       "name": "Reiniciar",
