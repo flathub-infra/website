@@ -196,7 +196,7 @@
   "transparent": "<bold>Nezávislosť a otvorenosť</bold> – Sme komunitou vzniknutou zdola, ktorá spravuje to najlepšie, čo open‑source ekosystém ponúka",
   "docs-guidance": "<bold>Prehľadné dokumenty a návody</bold> – Rozsiahla <doclink>dokumentácia</doclink>, tisíce verejných <manifestlink>manifestov aplikácií</manifestlink> a rozsiahla komunita znamenajú, že vždy môžete získať pomoc",
   "integration": "<bold>Integrácia natívneho obchodu s aplikáciami</bold> – Zabudnite na sťahovanie z webu; Flathub poskytuje aplikácie a <updateslink>automatické aktualizácie</updateslink> používateľom v ich natívnom klientovi obchodu s aplikáciami, kde ich očakávajú",
-  "could-not-find-match-for-search": "Nepodarilo sa nájsť žiadne aplikácie zodpovedajúce vášmu vyhľadávaniu.",
+  "could-not-find-match-for-search": "Nepodarilo sa nájsť to, čo hľadáte.",
   "manifest": "Manifest aplikácie",
   "languages": "Jazyky",
   "languages-summary": "Vyberte jazyk, v ktorom by ste chceli zobraziť webové stránky Flathubu.",
@@ -867,5 +867,9 @@
   "moderation-build-log": "Záznam zostavy",
   "moderation-build-changes": "Zmeny zostavy",
   "setup-flathub-description": "Postupujte podľa krokov pre vašu linuxovú distribúciu na inštaláciu Flatpaku, pridanie repozitára Flathub a začnite inštalovať aplikácie.",
-  "find-your-distribution": "Nájdite svoju distribúciu…"
+  "find-your-distribution": "Nájdite svoju distribúciu…",
+  "could-not-find-match-with-filters": "S týmito filtrami sme nenašli žiadnu vhodnú zhodu.",
+  "other-apps-to-explore": "Tu sú ďalšie skvelé aplikácie, ktoré môžete preskúmať.",
+  "clear-filters": "Vymazať filtre",
+  "runtime": "Runtime"
 }

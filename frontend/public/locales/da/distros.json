@@ -3,14 +3,33 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "installer Flatpak",
-      "text": "<text>For at installer Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senere</strong> åben Terminalen.\nprogrammet og kør: </text>/ <code></code>"
+      "text": "<text>For at installer Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senere</strong> åben Terminalen.programmet og kør: </text>/ <code></code>"
     },
     "step-3": {
-      "name": "Tilføj Flathub repository"
+      "name": "Tilføj Flathub repository",
+      "text": "<text>Flathub er det bedste sted at hente Flatpak-programmer. For at aktivere det skal du downloade og installere <filelink>Flathub-repositoriefilen</filelink> eller køre:</text><code></code>"
     },
     "step-2": {
       "name": "Installer GNOME Software Flatpak plugin",
-      "text": "<text>GNOME Software plugin gør det muligt at installere programmer uden brug af en kommando linje. for at installere, kør:</text>\n<code>\n</code>\n<text>\n<strong>Note:\n</strong> Ubuntu distributes GNOME Software som en Snap i versioner 20.04 to 23.04, og skiftede det ud med\nApp Center in 23.10 og nyere—ingen af hvilke understøtter installering af Flatpak programmer. Installering af Flatpak plugin vil også installere en deb version af GNOME Software, hvilket resultere i to \"Software\" programmer bliver installeret at på den samme tid paa Ubuntu 20.04 to 23.04, og en enkelt nu \"Software\" app i Ubuntu 23.10 and nyere.</text>"
+      "text": "<text>GNOME Software plugin gør det muligt at installere programmer uden brug af en kommando linje. for at installere, kør:</text><code></code><text><strong>Note:</strong> Ubuntu distributes GNOME Software som en Snap i versioner 20.04 to 23.04, og skiftede det ud medApp Center in 23.10 og nyere—ingen af hvilke understøtter installering af Flatpak programmer. Installering af Flatpak plugin vil også installere en deb version af GNOME Software, hvilket resultere i to \"Software\" programmer bliver installeret at på den samme tid paa Ubuntu 20.04 to 23.04, og en enkelt nu \"Software\" app i Ubuntu 23.10 and nyere.</text>"
+    },
+    "step-4": {
+      "name": "Genstart",
+      "text": "<text>For at fuldføre opsætningen skal du ,genstarte dit system. Nu skal du bare<link>installere programmer</link>!</text>"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora",
+    "introduction": "<text>Flatpak er installeret som standard på Fedora Workstation, Fedora Silverblue og Fedora Kinoite. For at komme i gang skal du bare aktivere Flathub, som er den bedste måde at hente Flatpak-programmer på. Flathub er forudkonfigureret som en del af <repolink>Third-Party Repositories</repolink>. Alternativt kan du downloade og installere<filelink>Flathub-repositoriefilen</filelink>.</text><text>Nu skal du bare<applink>installere programmer</applink>!</text><text>Linkene ovenfor bør virke på standardinstallationer af GNOME og KDE Fedora, men hvis de af en eller anden grund fejler, kan du manuelt tilføjeFlathub-remoten ved at køre:</text><code></code>"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "Aktivér Flatpak via Software Manager",
+      "text": "<text>Flatpak er installeret som standard på Manjaro 20 eller nyere.</text><text>For at aktivere understøttelsen skal du gå til<strong>Software Manager</strong> (Tilføj/fjern programmer)</text><text>Klik på menuen med de tre streger [eller prikker afhængigt af skrivebordsmiljøet] til højre, og vælg \"Indstillinger\" i rullemenuen</text><text>Gå til fanen \"Flatpak\", og skub kontakten for at aktivere Flatpak-understøttelse (det er også muligt at aktivere kontrol for opdateringer, hvilket anbefales).</text>"
+    },
+    "step-2": {
+      "name": "Genstart"
     }
   }
 }

@@ -89,7 +89,7 @@
   "donate": "Spenden",
   "other-apps-by-developer": "Weitere Apps von {developer}",
   "loading": "Wird geladen…",
-  "could-not-find-match-for-search": "Es konnten keine Apps gefunden werden, die deiner Suche entsprechen.",
+  "could-not-find-match-for-search": "Wir konnten das, wonach du suchst, nicht finden.",
   "manifest": "Manifest",
   "error-already-logged-in": "Das ausgewählte Konto ist bereits angemeldet.",
   "languages": "Sprachen",
@@ -252,7 +252,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "Verifiziere dein Recht, die App-ID <appid></appid> zu verwenden, indem du dich bei dem Konto <loginname></loginname> (oder, wenn <orgname></orgname> eine Organisation ist, bei einem Konto mit Zugriff darauf) auf <loginprovider></loginprovider> anmeldest.",
   "browse": "Durchsuchen",
   "setup-flathub": "Flathub einrichten",
-  "setup-flathub-description": "Richte Flathub ein, um Apps auf deinem System zu installieren und zu aktualisieren.",
+  "setup-flathub-description": "Befolge die Anweisungen für deine Linux-Distribution, um Flatpak zu installieren, das Flathub-Repository hinzuzufügen und mit der Installation von Apps zu beginnen.",
   "apps": "Apps",
   "count-desktop-apps": "Desktop-Apps insgesamt",
   "apps-by-developer": "Apps von {developer}",
@@ -301,7 +301,7 @@
   "runtime-distribution": "Aufteilung der Runtimes",
   "flathub-index-description": "Hol dir die neuesten Versionen all deiner Lieblings-Apps für jede Linux-Distribution",
   "app-eol": "Diese Anwendung ist auf Flathub nicht mehr verfügbar",
-  "find-your-distribution": "Finde deine Distribution",
+  "find-your-distribution": "Finde deine Distribution …",
   "distribution-flathub-setup": "{distribution} Flathub-Einrichtung",
   "no-results-found": "Keine Ergebnisse gefunden",
   "new-app": "Neue App",
@@ -791,11 +791,11 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "Neues Jahr, neue Arbeitsabläufe",
-      "description": "Apps zum Erstellen von Notizen, zum Verfolgen von Aufgaben und zum Pläne machen"
+      "description": "Apps für einen Neuanfang, egal wie Sie arbeiten"
     },
     "spring-creativity": {
       "header": "Kreativ werden",
-      "description": "Unverzichtbare Apps zum Zeichnen, Bearbeiten von Fotos und für digitales Design"
+      "description": "Arbeiten mit Bildern, Audio, Video und vielem mehr"
     },
     "fresh-desktop-releases": {
       "header": "Native Apps bauen",
@@ -803,15 +803,15 @@
     },
     "summer-travel": {
       "header": "Bereit für den Urlaub",
-      "description": "Apps für Karten, öffentliche Verkehrsmittel, Wetter und Reiseplanung"
+      "description": "Apps für überall, wohin dich deine nächste Reise auch führen mag"
     },
     "back-to-learning": {
       "header": "Jeden Tag ein bisschen schlauer",
-      "description": "Apps, die Ihnen beim Lernen, Recherchieren und Schreiben helfen"
+      "description": "Apps zum Entdecken, Lernen und Erarbeiten von Wissen"
     },
     "winter-comforts": {
       "header": "Machen Sie es sich gemütlich",
-      "description": "Tolle Apps zum Lesen, Filme schauen und Spielen"
+      "description": "Apps zum Entspannen und um den Kopf frei zu bekommen"
     },
     "tools-for-developers": {
       "header": "Grundlagen für Webentwickler",
@@ -819,19 +819,19 @@
     },
     "take-better-notes": {
       "header": "Bessere Notizen machen",
-      "description": "Finden Sie Ihr neues Lieblingswerkzeug zum Notizen machen"
+      "description": "Neue Werkzeuge, um deine besten Ideen festzuhalten"
     },
     "get-focused": {
       "header": "Fokussieren Sie sich",
-      "description": "Tolle Apps für die Aufgabenverwaltung"
+      "description": "Alles, was du brauchst, um im Fluss zu bleiben"
     },
     "make-some-noise": {
-      "description": "Apps zum Komponieren und Produzieren von Musik",
+      "description": "Apps zum Erstellen, Abspielen und Entdecken von Klängen",
       "header": "Machen Sie Lärm"
     },
     "get-to-work": {
       "header": "An die Arbeit",
-      "description": "Unverzichtbare Büro-Apps"
+      "description": "Apps, die dir helfen, Dinge zu erledigen"
     },
     "free-software-favorites": {
       "header": "Empfehlungen der Redaktion",
@@ -839,7 +839,7 @@
     },
     "staying-connected": {
       "header": "Bleiben Sie in Kontakt",
-      "description": "Unverzichtbare Apps für Zusammenarbeit und Kommunikation"
+      "description": "Apps zum Teilen, Unterhalten und gemeinsamen Zeitverbringen"
     }
   },
   "unverified-app-disclaimer-package": "Dieses von der Gemeinschaft bereitgestellte Paket wurde von {developer} weder verifiziert, steht in keiner Verbindung zu oder wird von {developer} unterstützt.",
@@ -850,10 +850,26 @@
   "dns-token-not-present": "Die TXT-Einträge unter {record} enthalten kein Verifizierungstoken.",
   "app-is-currently-verified-by-dns": "Ihre App ist derzeit durch eine DNS-Überprüfung von <domain></domain> verifiziert",
   "dns-verification": "DNS-Verifizierung",
-  "moderation-random-review": "Zufällig zur menschlichen Überprüfung ausgewählt",
+  "moderation-random-review": "Zufällig zur Überprüfung ausgewählt",
   "dns-verification-main-instruction": "Verifiziere dein Recht, die App-ID <bold>{id}</bold> zu verwenden, indem du einen DNS-TXT-Eintrag für <bold>{domain}</bold> veröffentlichst.",
   "dns-lookup-failed": "Die Abfrage der TXT-Einträge für {record} ist fehlgeschlagen.",
   "verified-dns-tooltip": "Der Besitz der App-Kennung <appid></appid> wurde durch die DNS-Kontrolle von <domain></domain> verifiziert",
   "moderation-manifest-removed": "Entfernt",
-  "moderation-manifest-added": "Hinzugefügt"
+  "moderation-manifest-added": "Hinzugefügt",
+  "moderation-summary-changes": "Zusammenfassung der Änderungen",
+  "moderation-manifest-source-origin": "Änderungen an der Manifest-Quelle",
+  "moderation-manifest-complexity": "Komplexität der Manifest-Paketierung",
+  "moderation-manifest-source-and-complexity": "Überprüfung der Quelle und der Komplexität des Manifests",
+  "moderation-manifest-complexity-explanation": "Diese Rezepturänderungen beschreiben den Umfang und die Struktur der Verpackung, nicht jedoch Sicherheitsrisiken oder böswilliges Verhalten.",
+  "moderation-manifest-complexity-ambiguity": "Einige Module konnten nicht eindeutig zugeordnet werden; überprüfe die betroffenen Rezepturänderungen sorgfältig.",
+  "moderation-manifest-complexity-modules": "Betroffene Module",
+  "moderation-manifest-complexity-events": "Rezepturänderungen",
+  "moderation-manifest-complexity-modules-truncated": "{shown} von {total} betroffenen Modulen werden angezeigt.",
+  "moderation-manifest-complexity-events-truncated": "{shown} von {total} Rezepturänderungen werden angezeigt.",
+  "moderation-build-changes": "Build-Änderungen",
+  "moderation-build-log": "Build-Protokoll",
+  "could-not-find-match-with-filters": "Wir konnten mit diesen Filtern keine passenden Ergebnisse finden.",
+  "other-apps-to-explore": "Hier sind noch ein paar weitere tolle Apps, die du dir mal ansehen solltest.",
+  "clear-filters": "Filter löschen",
+  "runtime": "Laufzeit"
 }

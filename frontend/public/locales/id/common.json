@@ -563,7 +563,7 @@
   "app-of-the-day": "Aplikasi Hari Ini",
   "cannot-abandon-app": "Tidak dapat meninggalkan aplikasi",
   "archive-app": "Mengarsipkan aplikasi ini",
-  "invalid-appid": "ID aplikasi tidak valid",
+  "invalid-appid": "Id aplikasi tidak valid",
   "not-onboarded": "Silakan masuk terlebih dahulu",
   "not-logged-in": "Anda tidak masuk",
   "do-you-really-want-to-archive-app": "Apakah Anda yakin? Ini akan membatalkan token unggahan dan mengarsipkan aplikasi.",
@@ -618,7 +618,7 @@
   "apps-by-tag": "Apl berdasarkan tag “{tag}”",
   "quality": {
     "missing-brand-colors": "Warna brand hilang",
-    "banner-preview-description": "Untuk memudahkan eksperimen dengan spanduk, gunakan<preview>the banner preview</preview>",
+    "banner-preview-description": "Untuk memudahkan eksperimen dengan spanduk, gunakan <preview>pratinjau spanduk</preview>",
     "banner-preview": "Pratinjau spanduk"
   },
   "mobile-apps": "Aplikasi Mobile",
@@ -660,7 +660,7 @@
   },
   "download": {
     "install-x": "Pasang “{x}”",
-    "fallback-instructions": "<opening>Membuka “{name}” di pengelola perangkat lunak Anda…</opening><support>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung url <i>flatpak+https</i>.</support><listPrefix>Dalam hal itu, Anda dapat:</listPrefix><ol><li>Mengunduh <link>berkas .flatpakref</link></li><li>Kemudian jalankan dari pengelola berkas Anda</li></ol><setupLine><linkSetup>Petunjuk untuk memasang Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Membuka “{name}” di pengelola perangkat lunak Anda…</opening><support>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung <i>flatpak+https</i> urls.</support><listPrefix>Dalam hal ini anda dapat:</listPrefix><ol><li>Mengunduh melalui <link>.flatpakref file</link></li><li>Kemudian jalankan dari pengelola berkas Anda</li></ol><setupLine><linkSetup>Petunjuk untuk memasang Flatpak</linkSetup></setupLine>"
   },
   "count": "Jumlah",
   "country-statistics": "Statistik Negara",

@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "Lisää Flathub-ohjelmistolähde",
-      "text": "<text>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</text> <code></code>"
+      "text": "<text>Flathub on paras paikka josta saat Flatpak -sovelluksia. Käyttöönottoa varten, lataa ja asenna <filelink>Flathub-ohjelmistovarastotiedosto</filelink> tai aja:</text> <code></code>"
     },
     "step-4": {
       "name": "Käynnistä uudelleen",
@@ -29,7 +29,8 @@
       "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
     },
     "step-1": {
-      "name": "Ota Flatpak käyttöön sovellus hallinan kautta"
+      "name": "Ota Flatpak käyttöön sovellus hallinan kautta",
+      "text": "<text>Flatpak on Manjaro 20:ssä tai sitä uudemmassa julkaisussa valmiiksi asennettuna.</text> <text>Kytkeäksesi käyttötuen, suuntaa <strong>Ohjelmakeskukseen</strong> (Lisää/poista ohjelmia)</text> <text>Napsauta kolmoisviivavalikossa [tai pistevalikossa riippuen mikä työpöytäympäristö sinulla on käytössä] oikealla, ja sitten pudotusvalikosta valiten \"Asetukset\"</text> <text>Navigoi \"Flatpak\" -välilehteen ja liu'uta namiskaa kytkeäksesi Flatpak-tuen (voit myös kytkeä päivitysten tarkistamisen päälle, joka onkin suositeltavaa).</text>"
     }
   },
   "endless_os": {
@@ -91,7 +92,7 @@
     },
     "step-2": {
       "name": "Lisää Flathub-ohjelmistolähde",
-      "text": "<text>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön suorittamalla:</text> <code></code>"
+      "text": "<text>Flathub on paras paikka josta saat Flatpak -sovelluksia. Käyttöönottoa varten, lataa ja asenna <filelink>Flathub-ohjelmistovarastotiedosto </filelink> tai aja:</text> <code></code>"
     },
     "step-3": {
       "name": "Käynnistä uudelleen",
@@ -135,10 +136,12 @@
       "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
     },
     "step-1": {
-      "name": "Asenna Flatpak"
+      "name": "Asenna Flatpak",
+      "text": "<text>Flatpak on oletusarvoisesti asennettu valmiiksi Rocky Linux 8:aan ja sitä uudempiin, kun kyseessä on ohjelmistovalinnat, jotka sisältävät GNOME:n (graafinen käyttöliittymä, Workstation -työasema). Jos käytät tällaista järjestelmää, voit ohittaa tämän vaiheen. Jos haluat asentaa Flatpak-valmiuden Rocky Linuxiin, suorita seuraavat päätteessä:</text> <code></code>"
     },
     "step-2": {
-      "name": "Lisää Flathub-ohjelmistolähde"
+      "name": "Lisää Flathub-ohjelmistolähde",
+      "text": "<text>Flathub on paras paikka josta saat Flatpak -sovelluksia. Käyttöönottoa varten, lataa ja asenna <filelink>Flathub-ohjelmistovarastotiedosto</filelink> tai aja seuraavat päätteessä:</text> <code></code>"
     }
   },
   "centos": {
@@ -167,14 +170,20 @@
   "kubuntu": {
     "distroName": "Kubuntu",
     "step-1": {
-      "name": "Asenna Flatpak"
+      "name": "Asenna Flatpak",
+      "text": "<text>Asentaaksesi Flatpak-tuen Kubuntuun, avaa Discover-kauppa, mene asetuksiin, asenna Flatpak-taustaosa ja uudelleenkäynnistä Discover-kauppa.</text>"
     },
     "step-3": {
-      "name": "Lisää Flathub-ohjelmistolähde"
+      "name": "Lisää Flathub-ohjelmistolähde",
+      "text": "<text>Flathub on paras paikka josta saat Flatpak -sovelluksia. Käyttöönottoa varten, avaa Discover-kauppa, mene asetuksiin ja lisää Flathub-ohjelmavarasto.</text>"
     },
     "step-4": {
       "name": "Käynnistä uudelleen",
       "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
+    },
+    "step-2": {
+      "name": "Asenna Flatpak -järjestelmäasetusten lisäosa",
+      "text": "<text>Jos haluat sulauttaa Flatpak-tuen Plasman järjestelmäasetuksiin, avaa päätesovellus ja aja siinä:</text> <code></code>"
     }
   },
   "solus": {
@@ -188,7 +197,8 @@
     },
     "step-3": {
       "name": "Käynnistä uudelleen"
-    }
+    },
+    "introduction": "<text>Flatpak-tuki on sisällytetty Solus 4.7 ja sitä uudempiin julkaisuihin—mitään asennuksia ei tarvita! Flatpak-sovelluksia voidaan asentaa käyttäen GNOME Software -kauppaa ja/tai KDE Discover -kauppaa.</text> <text>Mikäli Flatpak ei ole asennettuna, seuraa allaolevia ohjeita.</text>"
   },
   "alpine": {
     "distroName": "Alpine",

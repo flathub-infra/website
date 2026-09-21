@@ -90,7 +90,7 @@
   "donate": "Doar",
   "other-apps-by-developer": "Outros aplicativos de {developer}",
   "loading": "Carregando…",
-  "could-not-find-match-for-search": "Não foi possível encontrar um aplicativo correspondendo à sua pesquisa.",
+  "could-not-find-match-for-search": "Não conseguimos encontrar o que você está procurando.",
   "manifest": "Manifesto",
   "switch-language": "Alterar idioma",
   "languages": "Idiomas",
@@ -260,7 +260,7 @@
   "setup-flathub": "Configurar o Flathub",
   "tags-colon": "Etiquetas:",
   "consultants-description": "Serviços de consultoria para envio de aplicativos ao Flathub.",
-  "setup-flathub-description": "Configure o Flathub para instalar e atualizar aplicativos em seu sistema.",
+  "setup-flathub-description": "Siga as etapas para a sua distribuição Linux para instalar o Flatpak, adicionar o repositório Flathub e começar a instalar aplicativos.",
   "role-playing": "RPG",
   "shooter": "Jogo de tiro",
   "strategy": "Estratégia",
@@ -299,7 +299,7 @@
   "moderation-dev-description": "Algumas alterações nos metadados de um aplicativo, como nome ou descrição, precisam ser revisadas pela equipe do Flathub. Você pode visualizar o status das solicitações de revisão atuais e anteriores aqui.",
   "moderation-rejected-by": "Rejeitado por {handledBy} em {handledAt} ({handledAtRel})",
   "distribution-flathub-setup": "{distribution} Configuração do Flathub",
-  "find-your-distribution": "Encontre sua distribuição",
+  "find-your-distribution": "Encontre sua distribuição…",
   "no-results-found": "Nenhum resultado encontrado",
   "runtime-distribution": "Distribuição de Runtime",
   "flathub-index-description": "Obtenha as versões mais recentes de todos os seus aplicativos favoritos, para qualquer distribuição Linux",
@@ -742,7 +742,7 @@
     "works-well-on-large-screens": "Funciona bem em telas grandes",
     "may-not-work-well-on-mobile": "Pode não funcionar bem em dispositivos móveis",
     "works-well-on-mobile": "Funciona bem em dispositivos móveis",
-    "total-installs": "instalações totais",
+    "total-installs": "{count} instalações totais",
     "age-rating": "Classificação etária"
   },
   "quality-moderation-excluded": "Este aplicativo está excluído das verificações de qualidade",
@@ -791,7 +791,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "Ano Novo, Novos Fluxos de Trabalho",
-      "description": "Aplicativos para tomar notas, acompanhar tarefas e fazer planos"
+      "description": "Aplicativos para um novo começo, seja qual for a seu trabalho"
     },
     "free-software-favorites": {
       "header": "Escolhas da Equipe",
@@ -799,7 +799,7 @@
     },
     "spring-creativity": {
       "header": "Deixe Sua Criatividade Voar",
-      "description": "Aplicativos essenciais para desenhar, editar fotos e design digital"
+      "description": "Trabalhe com imagens, áudios, vídeos e mais"
     },
     "fresh-desktop-releases": {
       "header": "Crie aplicativos nativos",
@@ -807,19 +807,19 @@
     },
     "staying-connected": {
       "header": "Mantenha Contato",
-      "description": "Aplicativos essenciais de colaboração e comunicação"
+      "description": "Aplicativos para compartilhar, conversar e passar tempo juntos"
     },
     "summer-travel": {
       "header": "Prontos para Viagens",
-      "description": "Aplicativos de mapas, trânsito, meteorologia e planejamento de viagem"
+      "description": "Aplicativos para onde quer que sua próxima viagem leve você"
     },
     "back-to-learning": {
       "header": "Aprendizado Diário",
-      "description": "Aplicativos que lhe ajudam a estudar, pesquisar e escrever"
+      "description": "Aplicativos para descobrir, apresentar e criar conhecimento"
     },
     "winter-comforts": {
       "header": "Acomode-se",
-      "description": "Ótimos aplicativos para leitura, assistir a filmes e jogar"
+      "description": "Aplicativos para relaxar e distrair a cabeça"
     },
     "tools-for-developers": {
       "header": "Essenciais para desenvolvedores web",
@@ -827,20 +827,49 @@
     },
     "take-better-notes": {
       "header": "Faça anotações melhores",
-      "description": "Encontre sua nova ferramenta favorita para tomar notas"
+      "description": "Novas ferramentas para capturar suas melhores ideias"
     },
     "get-focused": {
       "header": "Concentre-se",
-      "description": "Ótimos aplicativos para gestão de tarefas"
+      "description": "Tudo que você precisa para se manter no ritmo"
     },
     "make-some-noise": {
       "header": "Faça Barulho",
-      "description": "Aplicativos para criar e produzir música"
+      "description": "Aplicativos para criar, reproduzir e explorar som"
     },
     "get-to-work": {
       "header": "Vá Trabalhar",
-      "description": "Aplicativos essenciais para escritório"
+      "description": "Aplicativos que ajudam você a realizar tarefas"
     }
   },
-  "moderation-summary-changes": "Resumo das alterações"
+  "moderation-summary-changes": "Resumo das alterações",
+  "moderation-manifest-source-origin": "Alterações no código do manifesto",
+  "moderation-manifest-complexity": "Complexidade de empacotamento do manifesto",
+  "moderation-manifest-source-and-complexity": "Revisão do código e complexidade do manifesto",
+  "moderation-manifest-complexity-explanation": "Essas alterações na receita descrevem a abrangência e a estrutura do pacote, não riscos de segurança ou comportamento malicioso.",
+  "moderation-manifest-complexity-ambiguity": "Alguns módulos não puderam ser correspondidos de forma inequívoca; revise cuidadosamente as alterações na receita afetada.",
+  "moderation-manifest-complexity-modules": "Módulos modificados",
+  "moderation-manifest-complexity-events": "Alterações na receita",
+  "moderation-manifest-complexity-modules-truncated": "Mostrando {shown} de {total} módulos alterados.",
+  "moderation-manifest-complexity-events-truncated": "Mostrando {shown} de {total} alterações na receita.",
+  "moderation-manifest-added": "Adicionado",
+  "moderation-manifest-removed": "Removido",
+  "moderation-random-review": "Selecionado aleatoriamente para revisão",
+  "moderation-build-changes": "Alterações na construção",
+  "moderation-build-log": "Log de construção",
+  "unverified-app-disclaimer-package": "Este pacote fornecido pela comunidade não é verificado, afiliado ou apoiado por {developer}.",
+  "unverified-app-disclaimer-unknown-developer": "o desenvolvedor do aplicativo",
+  "could-not-find-match-with-filters": "Não conseguimos encontrar uma boa correspondência a estes filtros.",
+  "other-apps-to-explore": "Aqui estão alguns outros aplicativos incríveis para explorar.",
+  "clear-filters": "Limpar filtros",
+  "dns-verification-main-instruction": "Verifique seu direito de usar o ID do aplicativo <bold>{id}</bold> publicando um registro DNS TXT para <bold>{domain}</bold>.",
+  "dns-validation-instruction": "Adicione o seguinte registro DNS sem remover nenhum registro TXT existente. As alterações de DNS podem levar algum tempo para serem propagadas.",
+  "dns-record-value": "Valor",
+  "dns-record-not-found": "Nenhum registro TXT foi encontrado em {record}.",
+  "dns-token-not-present": "Os registros TXT em {record} não contêm o token de verificação.",
+  "dns-lookup-failed": "Falha ao consultar registros TXT para {record}.",
+  "app-is-currently-verified-by-dns": "Seu aplicativo está atualmente verificado por meio do controle de DNS de <domain></domain>",
+  "verified-dns-tooltip": "A propriedade do ID do aplicativo <appid></appid> foi verificada por meio do controle de DNS de <domain></domain>",
+  "dns-verification": "Verificação do DNS",
+  "runtime": "Runtime"
 }
