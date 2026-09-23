@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react"
+import { formatDistanceToNow } from "date-fns"
 import { keepPreviousData } from "@tanstack/react-query"
 import {
   useListPipelinesApiPipelinesGet,
@@ -17,6 +18,7 @@ import { cn } from "@/lib/utils"
 import type { PipelineRepoWithAll } from "./build-repo-filter"
 import type { PipelineStatusWithAll } from "./build-status-filter"
 
+const PAGE_SIZE = 50
 type StatusGroup = "in-progress" | "awaiting-publishing" | "completed"
 const groups: StatusGroup[] = [
   "in-progress",
@@ -55,17 +57,19 @@ function DashboardGroup({
   filters: DashboardFilters
 }) {
   const [offset, setOffset] = useState(0)
-  const [expanded, setExpanded] = useState(group !== "completed")
+  const [displayOffset, setDisplayOffset] = useState(0)
+  const [expanded, setExpanded] = useState(true)
   const filterKey = useMemo(() => JSON.stringify(filters), [filters])
   const [lastFilterKey, setLastFilterKey] = useState(filterKey)
   if (lastFilterKey !== filterKey) {
     setLastFilterKey(filterKey)
     setOffset(0)
+    setDisplayOffset(0)
   }
   const params: ListPipelinesApiPipelinesGetParams = {
     type: "build",
     group,
-    limit: 50,
+    limit: PAGE_SIZE,
     offset,
     app_id: filters.appId,
     app_id_match: "contains",
@@ -82,6 +86,22 @@ function DashboardGroup({
     },
   })
   const pipelines = query.data?.data
+  if (
+    !query.isPlaceholderData &&
+    pipelines &&
+    offset > 0 &&
+    pipelines.length === 0
+  ) {
+    setOffset(offset - PAGE_SIZE)
+  }
+  if (
+    !query.isPlaceholderData &&
+    pipelines &&
+    pipelines.length > 0 &&
+    displayOffset !== offset
+  ) {
+    setDisplayOffset(offset)
+  }
   return (
     <div className="space-y-3">
       <button
@@ -94,10 +114,20 @@ function DashboardGroup({
           </div>
           <h3 className="text-lg font-semibold">{labels[group]}</h3>
           <span className="text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full">
-            {pipelines?.length ?? 0}{" "}
-            {pipelines?.length === 1 ? "record" : "records"} on this page
+            {pipelines
+              ? `${pipelines.length} ${pipelines.length === 1 ? "record" : "records"} on this page`
+              : query.isPending
+                ? "Loading…"
+                : "—"}
           </span>
         </div>
+        <span className="text-xs text-muted-foreground">
+          {query.isFetching
+            ? "Refreshing…"
+            : query.dataUpdatedAt > 0
+              ? `Updated ${formatDistanceToNow(new Date(query.dataUpdatedAt), { addSuffix: true })}`
+              : null}
+        </span>
         {expanded ? (
           <ChevronUp className="h-5 w-5 text-muted-foreground" />
         ) : (
@@ -108,7 +138,7 @@ function DashboardGroup({
         <div role="alert" className="px-6 py-3 text-destructive">
           {pipelines
             ? "Refresh failed; showing the last loaded page."
-            : `Failed to load ${labels[group].toLowerCase()} builds.`}{" "}
+            : `Could not load ${labels[group].toLowerCase()} builds.`}{" "}
           <Button variant="outline" onClick={() => query.refetch()}>
             Retry
           </Button>
@@ -122,25 +152,33 @@ function DashboardGroup({
               <BuildTable pipelines={pipelines} />
             ) : (
               <p className="px-6 py-8 text-center rounded-lg bg-card border">
-                No builds in this category
+                {offset > 0
+                  ? "No builds on this page"
+                  : "No builds in this category"}
               </p>
             ))}
           {pipelines && (
             <div className="flex items-center justify-end gap-2 mt-3">
               <Button
                 variant="outline"
-                disabled={offset === 0}
-                onClick={() => setOffset(Math.max(0, offset - 50))}
+                disabled={
+                  offset === 0 || query.isFetching || query.isPlaceholderData
+                }
+                onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
               >
                 Previous
               </Button>
               <span className="text-sm text-muted-foreground">
-                Page {offset / 50 + 1}
+                Page {displayOffset / PAGE_SIZE + 1}
               </span>
               <Button
                 variant="outline"
-                disabled={pipelines.length < 50}
-                onClick={() => setOffset(offset + 50)}
+                disabled={
+                  pipelines.length < PAGE_SIZE ||
+                  query.isFetching ||
+                  query.isPlaceholderData
+                }
+                onClick={() => setOffset(offset + PAGE_SIZE)}
               >
                 Next
               </Button>

@@ -5,12 +5,13 @@ import { Link } from "src/i18n/navigation"
 import { ArrowLeftIcon } from "@radix-ui/react-icons"
 import { useGetPipelineApiPipelinesPipelineIdGet } from "../../../../src/codegen-pipeline"
 import { useQuery } from "@tanstack/react-query"
-import { formatDistanceStrict } from "date-fns"
+import { formatDistanceStrict, formatDistanceToNow } from "date-fns"
+import { UTCDate } from "@date-fns/utc"
+import Breadcrumbs from "src/components/Breadcrumbs"
+import { buildDuration } from "src/builds/pipeline-duration"
+import { BuildStatus } from "@/components/build/build-status"
 import Spinner from "../../../../src/components/Spinner"
-import {
-  getRepoBadgeVariant,
-  BuildCardContent,
-} from "../../../../@/components/build/build-card"
+import { getRepoBadgeVariant } from "../../../../@/components/build/build-card"
 import { Badge } from "../../../../@/components/ui/badge"
 import {
   Card,
@@ -21,13 +22,8 @@ import {
 import {
   Repeat2,
   ExternalLink,
-  DollarSign,
-  FileJson,
-  Activity,
   GitCommit,
   Rocket,
-  FileCode,
-  Link as LinkIcon,
   Download,
   GitPullRequest,
   ListChecks,
@@ -242,83 +238,85 @@ export default function BuildDetailClient({ pipelineId }: Props) {
   const primaryProblemStep = primaryProblemJob
     ? getProblemStep(primaryProblemJob)
     : null
+  const failureUrl = getPipelineFailureUrl(pipeline)
 
   return (
     <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      {/* Navigation */}
-      <div className="flex gap-3">
-        <Link href="/builds">
-          <Button variant="ghost" className="gap-2">
-            <ArrowLeftIcon className="h-4 w-4" />
-            Dashboard
-          </Button>
-        </Link>
-        <Link href={`/builds/apps/${app_id}`}>
-          <Button variant="outline" className="gap-2">
-            <Activity className="h-4 w-4" />
-            App Status
-          </Button>
-        </Link>
-      </div>
-
-      {/* Header */}
+      <Breadcrumbs
+        pages={[
+          { name: "Builds", href: "/builds", current: false },
+          { name: app_id, href: `/builds/apps/${app_id}`, current: false },
+          {
+            name: `Build ${build_id ?? pipelineId}`,
+            href: `/builds/${pipelineId}`,
+            current: true,
+          },
+        ]}
+      />
       <div className="space-y-4">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-          <div className="w-fit rounded-xl bg-primary/10 p-3 sm:w-auto">
-            <GitCommit className="h-7 w-7 text-primary sm:h-8 sm:w-8" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <h1 className="wrap-break-word text-4xl leading-tight font-extrabold sm:text-5xl">
-              {app_id}
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h1 className="wrap-break-word text-3xl font-bold">
+              <Link href={`/builds/apps/${app_id}`} className="hover:underline">
+                {app_id}
+              </Link>
             </h1>
-            <p className="mt-2 text-base text-muted-foreground sm:text-lg">
-              Build details and history
+            <p className="mt-1 text-muted-foreground">
+              Build {build_id ?? pipelineId}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2 sm:justify-end">
-            {repo && (
-              <Badge
-                variant={getRepoBadgeVariant(repo)}
-                className="text-sm font-bold px-3 py-1.5"
+          {((status === "failed" && failureUrl) || log_url) && (
+            <Button asChild>
+              <a
+                href={status === "failed" && failureUrl ? failureUrl : log_url!}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                {repo.toUpperCase()}
-              </Badge>
-            )}
-            <Badge variant="outline" className="gap-2 text-sm px-3 py-1.5">
-              <Rocket className="h-3.5 w-3.5" />
-              {triggered_by === "manual" ? "Manual" : "Webhook"}
+                {status === "failed" && failureUrl
+                  ? "View failed job"
+                  : "Build logs"}
+              </a>
+            </Button>
+          )}
+        </div>
+        <BuildStatus pipelineSummary={pipeline} />
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+          {repo && (
+            <Badge variant={getRepoBadgeVariant(repo)}>
+              {repo.toUpperCase()}
             </Badge>
-          </div>
+          )}
+          <span>{triggered_by === "manual" ? "Manual" : "Webhook"}</span>
+          <span>Duration: {buildDuration(pipeline)}</span>
+          {pipeline.started_at && (
+            <span title={new UTCDate(pipeline.started_at).toISOString()}>
+              Started{" "}
+              {formatDistanceToNow(new UTCDate(pipeline.started_at), {
+                addSuffix: true,
+              })}
+            </span>
+          )}
+          {pipeline.finished_at && (
+            <span title={new UTCDate(pipeline.finished_at).toISOString()}>
+              Finished{" "}
+              {formatDistanceToNow(new UTCDate(pipeline.finished_at), {
+                addSuffix: true,
+              })}
+            </span>
+          )}
+          {pipeline.published_at && (
+            <span title={new UTCDate(pipeline.published_at).toISOString()}>
+              Published{" "}
+              {formatDistanceToNow(new UTCDate(pipeline.published_at), {
+                addSuffix: true,
+              })}
+            </span>
+          )}
+          {total_cost !== undefined && total_cost !== null && (
+            <span>Cost ${total_cost.toFixed(4)}</span>
+          )}
         </div>
       </div>
-
-      {/* Build Progress Card */}
-      <Card className="border-2">
-        <CardHeader className="bg-muted/30 dark:bg-muted/20">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-              <Activity className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-            </div>
-            <CardTitle className="text-2xl font-bold">Build Progress</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <BuildCardContent pipelineSummary={pipeline} />
-        </CardContent>
-      </Card>
-
-      {status === "failed" && getPipelineFailureUrl(pipeline) && (
-        <Button variant="outline" asChild>
-          <a
-            href={getPipelineFailureUrl(pipeline)!}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Open failure details
-          </a>
-        </Button>
-      )}
-
       {reprocheckResult && (
         <Card
           className={
@@ -499,12 +497,9 @@ export default function BuildDetailClient({ pipelineId }: Props) {
                   )
 
                   return (
-                    <div
-                      key={job.id}
-                      className="rounded-xl border border-red-200 bg-background/80 p-4 dark:border-red-900/70"
-                    >
-                      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                        <div className="space-y-2">
+                    <div key={job.id} className="rounded-lg border p-3">
+                      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="space-y-1">
                           <div className="flex flex-wrap items-baseline gap-3">
                             <p className="leading-none font-semibold">
                               {job.name}
@@ -665,165 +660,78 @@ export default function BuildDetailClient({ pipelineId }: Props) {
         </Card>
       )}
 
-      {/* Job Links */}
-      <Card className="border-2">
-        <CardHeader className="bg-muted/30 dark:bg-muted/20">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
-              <LinkIcon className="h-5 w-5 text-green-600 dark:text-green-400" />
-            </div>
-            <CardTitle className="text-2xl font-bold">Related Jobs</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="pt-6">
-          <div className="space-y-3">
-            {log_url && (
-              <Button
-                variant="outline"
-                size="default"
-                asChild
-                className="w-full justify-start h-auto py-4 px-5 hover:bg-primary/5 transition-all group"
+      <details className="rounded-lg border bg-card">
+        <summary className="cursor-pointer px-4 py-3 font-semibold">
+          Related jobs and logs
+        </summary>
+        <div className="flex flex-col gap-2 border-t px-4 py-3 text-sm">
+          {log_url &&
+            status === "failed" &&
+            failureUrl &&
+            failureUrl !== log_url && (
+              <a
+                href={log_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
               >
-                <a
-                  href={log_url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="gap-3"
-                >
-                  <FileCode className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  <span className="font-semibold">Build Logs</span>
-                </a>
-              </Button>
+                Build logs
+              </a>
             )}
-            {build_id != null && (
-              <div className="rounded-lg border bg-muted/40 p-4">
-                <p className="text-xs font-medium text-muted-foreground">
-                  Build ID
-                </p>
-                <p className="mt-1 text-sm font-semibold">{build_id}</p>
-              </div>
-            )}
-            {commit_job_id && (
-              <Button
-                variant="outline"
-                size="default"
-                asChild
-                className="w-full justify-start h-auto py-4 px-5 hover:bg-primary/5 transition-all group"
-              >
-                <a
-                  href={`https://hub.flathub.org/status/${commit_job_id}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="gap-3"
-                >
-                  <GitCommit className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  <span className="font-semibold">Commit Job</span>
-                </a>
-              </Button>
-            )}
-            {publish_job_id && (
-              <Button
-                variant="outline"
-                size="default"
-                asChild
-                className="w-full justify-start h-auto py-4 px-5 hover:bg-primary/5 transition-all group"
-              >
-                <a
-                  href={`https://hub.flathub.org/status/${publish_job_id}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="gap-3"
-                >
-                  <Rocket className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  <span className="font-semibold">Publish Job</span>
-                </a>
-              </Button>
-            )}
-            {update_repo_job_id && (
-              <Button
-                variant="outline"
-                size="default"
-                asChild
-                className="w-full justify-start h-auto py-4 px-5 hover:bg-primary/5 transition-all group"
-              >
-                <a
-                  href={`https://hub.flathub.org/status/${update_repo_job_id}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="gap-3"
-                >
-                  <ExternalLink className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  <span className="font-semibold">Update Repo Job</span>
-                </a>
-              </Button>
-            )}
-            {repro_pipeline_id && (
-              <Button
-                variant="outline"
-                size="default"
-                asChild
-                className="w-full justify-start h-auto py-4 px-5 hover:bg-primary/5 transition-all group"
-              >
-                <Link href={`/builds/${repro_pipeline_id}`} className="gap-3">
-                  <Repeat2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  <span className="font-semibold">Reprocheck Pipeline</span>
-                </Link>
-              </Button>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Build Parameters */}
+          {commit_job_id != null && (
+            <a
+              href={`https://hub.flathub.org/status/${commit_job_id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Commit job
+            </a>
+          )}
+          {publish_job_id != null && (
+            <a
+              href={`https://hub.flathub.org/status/${publish_job_id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Publish job
+            </a>
+          )}
+          {update_repo_job_id != null && (
+            <a
+              href={`https://hub.flathub.org/status/${update_repo_job_id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline"
+            >
+              Update-repo job
+            </a>
+          )}
+          {repro_pipeline_id && (
+            <Link
+              href={`/builds/${repro_pipeline_id}`}
+              className="text-primary hover:underline"
+            >
+              Reprocheck pipeline
+            </Link>
+          )}
+          {build_id != null && (
+            <span className="text-muted-foreground">Build ID {build_id}</span>
+          )}
+        </div>
+      </details>
       {params && (
-        <Card className="border-2">
-          <CardHeader className="bg-muted/30 dark:bg-muted/20">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                <FileJson className="h-5 w-5 text-orange-600 dark:text-orange-400" />
-              </div>
-              <CardTitle className="text-2xl font-bold">
-                Build Parameters
-              </CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <details>
-              <summary className="cursor-pointer text-sm font-semibold text-primary hover:underline">
-                Show raw pipeline parameters
-              </summary>
-              <div className="mt-4 overflow-hidden rounded-xl border bg-muted/50">
-                <pre className="max-h-80 overflow-auto p-6 font-mono text-sm">
-                  {JSON.stringify(params, null, 2)}
-                </pre>
-              </div>
-            </details>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Cost Information */}
-      {total_cost !== undefined && total_cost !== null && (
-        <Card className="border-2">
-          <CardHeader className="bg-muted/30 dark:bg-muted/20">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
-                <DollarSign className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-              </div>
-              <CardTitle className="text-2xl font-bold">Build Cost</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="pt-6">
-            <div className="bg-emerald-50 dark:bg-emerald-950/30 p-6 rounded-xl border-2 border-emerald-200 dark:border-emerald-800">
-              <p className="text-4xl font-extrabold text-emerald-700 dark:text-emerald-300">
-                ${total_cost.toFixed(4)}
-              </p>
-              <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-2 font-medium">
-                Total infrastructure cost for this build
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        <details className="rounded-lg border bg-card">
+          <summary className="cursor-pointer px-4 py-3 text-sm font-semibold">
+            Build Parameters
+          </summary>
+          <div className="m-4 overflow-hidden rounded-xl border bg-muted/50">
+            <pre className="max-h-80 overflow-auto p-6 font-mono text-sm">
+              {JSON.stringify(params, null, 2)}
+            </pre>
+          </div>
+        </details>
       )}
     </div>
   )

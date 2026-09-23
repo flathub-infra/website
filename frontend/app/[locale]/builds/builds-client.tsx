@@ -11,6 +11,7 @@ import {
 import {
   BuildStatusFilter,
   PipelineStatusWithAll,
+  isPipelineStatusWithAll,
 } from "../../../@/components/build/build-status-filter"
 import { BuildStatusBanner } from "../../../@/components/build/build-status-banner"
 import { Input } from "../../../@/components/ui/input"
@@ -24,18 +25,6 @@ const repos: Record<PipelineRepoWithAll, true> = {
   stable: true,
   beta: true,
   test: true,
-}
-const statuses: Record<PipelineStatusWithAll, true> = {
-  all: true,
-  pending: true,
-  running: true,
-  failed: true,
-  cancelled: true,
-  published: true,
-  succeeded: true,
-  committed: true,
-  publishing: true,
-  superseded: true,
 }
 
 function utcDate(value: string): string | undefined {
@@ -54,9 +43,7 @@ function BuildsContent() {
   const repo = (
     Object.hasOwn(repos, repoValue) ? repoValue : "all"
   ) as PipelineRepoWithAll
-  const status = (
-    Object.hasOwn(statuses, statusValue) ? statusValue : "all"
-  ) as PipelineStatusWithAll
+  const status = isPipelineStatusWithAll(statusValue) ? statusValue : "all"
   const dateFrom = searchParams.get("dateFrom") || ""
   const dateTo = searchParams.get("dateTo") || ""
   const [searchInput, setSearchInput] = useState(appId)
@@ -94,7 +81,7 @@ function BuildsContent() {
           </div>
           <div className="min-w-0 flex-1">
             <h1 className="min-w-0 break-all text-3xl sm:text-5xl font-extrabold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
-              {appId || "Build Dashboard"}
+              Builds
             </h1>
             <p className="text-lg text-muted-foreground mt-3">
               Monitor build pipelines and deployment processes across all
@@ -104,91 +91,90 @@ function BuildsContent() {
         </div>
       </div>
       <BuildStatusBanner />
-      <Card className="p-6 bg-gradient-to-r from-muted/50 to-muted/30">
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 mb-2">
-            <Search className="h-5 w-5 text-muted-foreground" />
-            <h2 className="text-lg font-semibold">Search Builds</h2>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Input
-              aria-label="Search by app ID"
-              placeholder="Search by app ID"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") update({ appId: searchInput.trim() })
-              }}
-              className="flex-1 min-w-48"
-            />
-            <Button onClick={() => update({ appId: searchInput.trim() })}>
-              <Search className="h-4 w-4 mr-2" />
-              Search
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setSearchInput("")
-                setFromInput("")
-                setToInput("")
-                update({
-                  appId: "",
-                  repo: "",
-                  status: "",
-                  dateFrom: "",
-                  dateTo: "",
-                })
-              }}
-            >
-              <X className="h-4 w-4 mr-2" />
-              Clear Filters
-            </Button>
-          </div>
-          <div className="flex flex-wrap items-end gap-4">
-            <BuildRepoFilter
-              selectedRepoStatus={repo}
-              setSelectedRepoStatus={(value) => update({ repo: value })}
-            />
-            <BuildStatusFilter
-              selectedStatus={status}
-              setSelectedStatus={(value) => update({ status: value })}
-            />
-            <label htmlFor="builds-date-from" className="text-sm">
-              From (UTC)
-              <Input
-                id="builds-date-from"
-                type="datetime-local"
-                value={fromInput}
-                onChange={(e) => setFromInput(e.target.value)}
-              />
-            </label>
-            <label htmlFor="builds-date-to" className="text-sm">
-              To (UTC)
-              <Input
-                id="builds-date-to"
-                type="datetime-local"
-                value={toInput}
-                onChange={(e) => setToInput(e.target.value)}
-              />
-            </label>
-            <Button
-              variant="outline"
-              disabled={invalidDate}
-              onClick={() => update({ dateFrom: fromInput, dateTo: toInput })}
-            >
-              Apply dates
-            </Button>
-          </div>
-          {invalidDate && (
-            <p role="alert" className="text-destructive text-sm">
-              Enter valid UTC dates with From no later than To.
-            </p>
-          )}
+      <Card className="p-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <h2 className="sr-only">Search and filter builds</h2>
+          <Input
+            aria-label="Search by app ID"
+            placeholder="Search by app ID"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") update({ appId: searchInput.trim() })
+            }}
+            className="h-9 flex-1 min-w-48"
+          />
+          <Button onClick={() => update({ appId: searchInput.trim() })}>
+            <Search className="h-4 w-4 mr-2" />
+            Search
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setSearchInput("")
+              setFromInput("")
+              setToInput("")
+              update({
+                appId: "",
+                repo: "",
+                status: "",
+                dateFrom: "",
+                dateTo: "",
+              })
+            }}
+          >
+            <X className="h-4 w-4 mr-2" />
+            Clear Filters
+          </Button>
         </div>
+        <div className="flex flex-wrap items-center gap-3">
+          <BuildRepoFilter
+            selectedRepoStatus={repo}
+            className="h-9"
+            setSelectedRepoStatus={(value) => update({ repo: value })}
+          />
+          <BuildStatusFilter
+            selectedStatus={status}
+            className="h-9"
+            setSelectedStatus={(value) => update({ status: value })}
+          />
+          <label htmlFor="builds-date-from" className="sr-only">
+            From (UTC)
+          </label>
+          <Input
+            id="builds-date-from"
+            type="datetime-local"
+            value={fromInput}
+            onChange={(e) => setFromInput(e.target.value)}
+            className="h-9 w-52"
+          />
+          <label htmlFor="builds-date-to" className="sr-only">
+            To (UTC)
+          </label>
+          <Input
+            id="builds-date-to"
+            type="datetime-local"
+            value={toInput}
+            onChange={(e) => setToInput(e.target.value)}
+            className="h-9 w-52"
+          />
+          <Button
+            variant="outline"
+            disabled={invalidDate}
+            onClick={() => update({ dateFrom: fromInput, dateTo: toInput })}
+          >
+            Apply dates
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href="/builds/reproducible">Fleet reproducibility</Link>
+          </Button>
+        </div>
+        {invalidDate && (
+          <p role="alert" className="text-destructive text-sm">
+            Enter valid UTC dates with From no later than To.
+          </p>
+        )}
       </Card>
-      <Link href="/builds/reproducible" className="underline">
-        Fleet reproducibility
-      </Link>
       {invalidUrlDate ? (
         <p role="alert" className="text-destructive">
           Invalid date filter. Clear filters to load builds.

@@ -35,14 +35,19 @@ const repoColors: Record<PipelineRepoWithAll, string> = {
 export function BuildRepoFilter({
   selectedRepoStatus,
   setSelectedRepoStatus,
+  className,
 }: {
   selectedRepoStatus: PipelineRepoWithAll
   setSelectedRepoStatus: (status: PipelineRepoWithAll) => void
+  className?: string
 }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="flex gap-2 h-12 px-4 border-2">
+        <Button
+          variant="outline"
+          className={cn("flex gap-2 h-12 px-4 border-2", className)}
+        >
           <Filter className="h-5 w-5 text-muted-foreground" />
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold text-foreground">

@@ -1,6 +1,6 @@
 "use client"
 
-import { PipelineSummary } from "src/codegen-pipeline"
+import type { PipelineSummary } from "src/codegen-pipeline"
 import {
   XAxis,
   YAxis,
@@ -14,92 +14,100 @@ import {
 import { useMemo } from "react"
 import { formatDuration } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
+import { useLocale } from "next-intl"
+import { useTheme } from "next-themes"
+import { getIntlLocale } from "src/localize"
+import { primaryStroke, axisStroke } from "src/chartComponents"
+import { summarizeSeries, toDurationSeries } from "src/builds/pipeline-history"
 
 interface BuildTimeChartProps {
   builds: PipelineSummary[]
+  sampleLimit: number
 }
 
-interface ChartData {
-  date: string
-  duration: number
-  buildId: string
-  status: string
-}
-
-export function BuildTimeChart({ builds }: BuildTimeChartProps) {
+export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
+  const locale = useLocale()
+  const { resolvedTheme } = useTheme()
+  const lineColor = primaryStroke(resolvedTheme ?? "light")
+  const axisColor = axisStroke(resolvedTheme ?? "light")
   const chartData = useMemo(() => {
-    const buildsWithDuration = builds
-      .filter((build) => build.started_at && build.finished_at)
-      .sort(
-        (a, b) =>
-          new UTCDate(a.started_at!).getTime() -
-          new UTCDate(b.started_at!).getTime(),
+    const dateFormatter = new Intl.DateTimeFormat(
+      getIntlLocale(locale).toString(),
+      {
+        month: "short",
+        day: "numeric",
+        timeZone: "UTC",
+      },
+    )
+    const points = toDurationSeries(builds, (startedAt) =>
+      dateFormatter.format(startedAt),
+    )
+    if (
+      points.length > 0 &&
+      points[0].startedAt.slice(0, 10) ===
+        points[points.length - 1].startedAt.slice(0, 10)
+    ) {
+      const timeFormatter = new Intl.DateTimeFormat(
+        getIntlLocale(locale).toString(),
+        {
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          timeZone: "UTC",
+        },
       )
-      .map((build) => {
-        const start = new UTCDate(build.started_at!)
-        const end = new UTCDate(build.finished_at!)
-        const durationMs = end.getTime() - start.getTime()
-        const durationMinutes = Math.round(durationMs / 1000 / 60)
-
-        return {
-          date: start.toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          }),
-          duration: durationMinutes,
-          buildId: build.build_id?.toString() || "N/A",
-          status: build.status,
-        } as ChartData
-      })
-
-    return buildsWithDuration
-  }, [builds])
+      return toDurationSeries(builds, (startedAt) =>
+        timeFormatter.format(startedAt),
+      )
+    }
+    return points
+  }, [builds, locale])
 
   if (chartData.length === 0) {
     return (
-      <div className="text-center py-8 text-muted-foreground">
-        No build duration data available
-      </div>
+      <p className="text-sm text-muted-foreground">
+        No successful builds with recorded durations yet.
+      </p>
     )
   }
 
-  const avgDuration =
-    chartData.reduce((sum, item) => sum + item.duration, 0) / chartData.length
-  const maxDuration = Math.max(...chartData.map((item) => item.duration))
-  const minDuration = Math.min(...chartData.map((item) => item.duration))
-
-  const formatMinutes = (minutes: number) => {
-    return formatDuration({ minutes: Math.round(minutes) })
-  }
+  const { count, averageMinutes, maxMinutes, minMinutes } =
+    summarizeSeries(chartData)
+  const formatMinutes = (minutes: number) =>
+    formatDuration({ minutes: Math.round(minutes) })
 
   return (
     <div className="space-y-6">
-      {/* Stats */}
+      <p className="text-sm text-muted-foreground">
+        Successful builds: {count} of the last {sampleLimit} builds
+      </p>
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-muted p-3 rounded">
           <p className="text-xs text-muted-foreground">Average Duration</p>
-          <p className="text-lg font-semibold">{formatMinutes(avgDuration)}</p>
+          <p className="text-lg font-semibold">
+            {formatMinutes(averageMinutes)}
+          </p>
         </div>
         <div className="bg-muted p-3 rounded">
           <p className="text-xs text-muted-foreground">Max Duration</p>
-          <p className="text-lg font-semibold">{formatMinutes(maxDuration)}</p>
+          <p className="text-lg font-semibold">{formatMinutes(maxMinutes)}</p>
         </div>
         <div className="bg-muted p-3 rounded">
           <p className="text-xs text-muted-foreground">Min Duration</p>
-          <p className="text-lg font-semibold">{formatMinutes(minDuration)}</p>
+          <p className="text-lg font-semibold">{formatMinutes(minMinutes)}</p>
         </div>
       </div>
-
-      {/* Chart */}
       <div className="w-full h-80">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}
             margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
+            <CartesianGrid strokeDasharray="3 3" stroke={axisColor} />
+            <XAxis dataKey="date" stroke={axisColor} />
             <YAxis
+              stroke={axisColor}
               label={{
                 value: "Duration (minutes)",
                 angle: -90,
@@ -115,12 +123,12 @@ export function BuildTimeChart({ builds }: BuildTimeChartProps) {
             <Legend />
             <Line
               type="monotone"
-              dataKey="duration"
-              stroke="#3b82f6"
+              dataKey="durationMinutes"
+              stroke={lineColor}
               strokeWidth={2}
-              dot={{ fill: "#3b82f6", r: 4 }}
-              activeDot={{ r: 6 }}
-              name="Duration"
+              dot={count <= 30 ? { fill: lineColor, r: 4 } : false}
+              activeDot={{ r: 6, fill: lineColor }}
+              name="Successful build duration"
             />
           </LineChart>
         </ResponsiveContainer>

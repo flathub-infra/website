@@ -1,4 +1,4 @@
-import { PipelineSummary } from "src/codegen-pipeline"
+import { PipelineSummary, type PipelineStatus } from "src/codegen-pipeline"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Link } from "src/i18n/navigation"
@@ -8,6 +8,7 @@ import {
   CheckCircle,
   XCircle,
   Ban,
+  AlertCircle,
   Package,
   ArrowRight,
   GitCommit,
@@ -19,12 +20,13 @@ import { getRepoBadgeVariant } from "./build-card"
 import { cn } from "@/lib/utils"
 import { getPipelineFailureUrl } from "src/builds/pipeline-links"
 import { buildDuration } from "src/builds/pipeline-duration"
+import { getDashboardStatusLabel, getPipelineOutcome } from "./build-status"
 
 interface BuildTableProps {
   pipelines: PipelineSummary[]
 }
 
-function getStatusIcon(status: string) {
+function getStatusIcon(status: PipelineStatus) {
   const iconClass = "h-4 w-4"
   switch (status) {
     case "published":
@@ -41,19 +43,14 @@ function getStatusIcon(status: string) {
       return <Clock className={cn(iconClass, "text-gray-400")} />
     case "succeeded":
       return <CheckCircle className={cn(iconClass, "text-green-400")} />
+    case "superseded":
+      return <AlertCircle className={cn(iconClass, "text-yellow-500")} />
     default:
       return null
   }
 }
 
-function getStatusLabel(status: string): string {
-  if (status === "succeeded") {
-    return "committing"
-  }
-  return status
-}
-
-function getStatusColor(status: string): string {
+function getStatusColor(status: PipelineStatus): string {
   switch (status) {
     case "published":
     case "committed":
@@ -133,17 +130,22 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
               className="flex items-center gap-3 hover:underline"
             >
               {getStatusIcon(pipeline.status)}
-              <span className="capitalize text-sm font-semibold">
-                {getStatusLabel(pipeline.status)}
+              <span className="text-sm font-semibold">
+                {getDashboardStatusLabel(pipeline.status)}
               </span>
             </a>
           ) : (
             <div className="flex items-center gap-3">
               {getStatusIcon(pipeline.status)}
-              <span className="capitalize text-sm font-semibold">
-                {getStatusLabel(pipeline.status)}
+              <span className="text-sm font-semibold">
+                {getDashboardStatusLabel(pipeline.status)}
               </span>
             </div>
+          )}
+          {getPipelineOutcome(pipeline) && (
+            <p className="mt-1 text-xs text-muted-foreground">
+              {getPipelineOutcome(pipeline)}
+            </p>
           )}
         </td>
         <td className="px-6 py-4 font-medium max-w-xs">
@@ -190,7 +192,14 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
             <span className="text-muted-foreground text-xs">-</span>
           )}
         </td>
-        <td className="px-6 py-4 text-sm text-muted-foreground">
+        <td
+          className="px-6 py-4 text-sm text-muted-foreground"
+          title={
+            pipeline.started_at
+              ? new UTCDate(pipeline.started_at).toISOString()
+              : undefined
+          }
+        >
           {pipeline.started_at ? (
             pipeline.log_url ? (
               <a
@@ -250,15 +259,15 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
                   className="flex items-center gap-2 hover:underline"
                 >
                   {getStatusIcon(pipeline.status)}
-                  <span className="capitalize text-sm font-semibold">
-                    {getStatusLabel(pipeline.status)}
+                  <span className="text-sm font-semibold">
+                    {getDashboardStatusLabel(pipeline.status)}
                   </span>
                 </a>
               ) : (
                 <div className="flex items-center gap-2">
                   {getStatusIcon(pipeline.status)}
-                  <span className="capitalize text-sm font-semibold">
-                    {getStatusLabel(pipeline.status)}
+                  <span className="text-sm font-semibold">
+                    {getDashboardStatusLabel(pipeline.status)}
                   </span>
                 </div>
               )}
@@ -271,6 +280,11 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
                 </Badge>
               )}
             </div>
+            {getPipelineOutcome(pipeline) && (
+              <p className="text-xs text-muted-foreground">
+                {getPipelineOutcome(pipeline)}
+              </p>
+            )}
 
             <Link
               href={`/builds/apps/${pipeline.app_id}`}
@@ -280,7 +294,13 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
             </Link>
 
             <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>
+              <span
+                title={
+                  pipeline.started_at
+                    ? new UTCDate(pipeline.started_at).toISOString()
+                    : undefined
+                }
+              >
                 {pipeline.started_at ? (
                   pipeline.log_url ? (
                     <a

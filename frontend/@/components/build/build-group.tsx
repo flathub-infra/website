@@ -1,4 +1,4 @@
-import { PipelineSummary } from "src/codegen-pipeline"
+import { PipelineSummary, type PipelineStatus } from "src/codegen-pipeline"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -12,19 +12,22 @@ import {
   ExternalLink,
   Repeat2,
 } from "lucide-react"
+import { AlertCircle } from "lucide-react"
 import { formatDistanceToNow } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
 import { cn } from "@/lib/utils"
 import { getPipelineFailureUrl } from "src/builds/pipeline-links"
 import { buildDuration } from "src/builds/pipeline-duration"
+import { getDashboardStatusLabel, getPipelineOutcome } from "./build-status"
 
 interface BuildGroupProps {
   title: string
   builds: PipelineSummary[]
   repo: "stable" | "beta" | "test"
+  compactEmpty?: boolean
+  limit?: number
 }
-
-function getStatusIcon(status: string, size = "h-4 w-4") {
+function getStatusIcon(status: PipelineStatus, size = "h-4 w-4") {
   switch (status) {
     case "published":
       return <CheckCircle className={cn(size, "text-green-500")} />
@@ -37,21 +40,15 @@ function getStatusIcon(status: string, size = "h-4 w-4") {
       return <Clock className={cn(size, "text-blue-500 animate-pulse")} />
     case "committed":
       return <Package className={cn(size, "text-green-500")} />
+    case "superseded":
+      return <AlertCircle className={cn(size, "text-yellow-500")} />
     default:
       return null
   }
 }
 
-function getStatusLabel(status: string): string {
-  if (status === "succeeded") {
-    return "committing"
-  }
-
-  return status
-}
-
 function getStatusColor(
-  status: string,
+  status: PipelineStatus,
 ): "default" | "secondary" | "destructive" | "outline" {
   switch (status) {
     case "published":
@@ -67,8 +64,21 @@ function getStatusColor(
   }
 }
 
-export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
-  const displayBuilds = builds.slice(0, 10)
+export function BuildGroup({
+  title,
+  builds,
+  repo,
+  compactEmpty = false,
+  limit = 10,
+}: BuildGroupProps) {
+  const displayBuilds = builds.slice(0, limit)
+  if (compactEmpty && builds.length === 0) {
+    return (
+      <p className="rounded-lg border bg-card px-4 py-3 text-sm text-muted-foreground">
+        No {repo} builds in the last {limit} fetched builds
+      </p>
+    )
+  }
 
   if (builds.length === 0) {
     return (
@@ -88,9 +98,9 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle>{title}</CardTitle>
-          {builds.length > 10 && (
+          {builds.length > limit && (
             <span className="text-sm text-muted-foreground">
-              Showing 10 of {builds.length}
+              Showing {displayBuilds.length} of {builds.length}
             </span>
           )}
         </div>
@@ -134,20 +144,27 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
                       const badge = (
                         <>
                           <Badge variant={getStatusColor(build.status)}>
-                            {getStatusLabel(build.status)}
+                            {getDashboardStatusLabel(build.status)}
                           </Badge>
                         </>
                       )
                       return (
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-start gap-2">
                           {getStatusIcon(build.status)}
-                          {target ? (
-                            <a href={target} target="_blank" rel="noreferrer">
-                              {badge}
-                            </a>
-                          ) : (
-                            badge
-                          )}
+                          <div>
+                            {target ? (
+                              <a href={target} target="_blank" rel="noreferrer">
+                                {badge}
+                              </a>
+                            ) : (
+                              badge
+                            )}
+                            {getPipelineOutcome(build) && (
+                              <p className="mt-1 text-xs text-muted-foreground">
+                                {getPipelineOutcome(build)}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       )
                     })()}
@@ -168,7 +185,14 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
                       <span>-</span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-xs text-muted-foreground">
+                  <td
+                    className="px-4 py-3 text-xs text-muted-foreground"
+                    title={
+                      build.started_at
+                        ? new UTCDate(build.started_at).toISOString()
+                        : undefined
+                    }
+                  >
                     {build.started_at ? (
                       build.log_url ? (
                         <a

@@ -133,7 +133,7 @@ function StatusBadge({ status }: { status: PipelineStatus }) {
   )
 }
 
-function getStatusVariant(
+export function getStatusVariant(
   status: PipelineStatus,
 ): "default" | "secondary" | "destructive" | "outline" {
   switch (status) {
@@ -151,7 +151,7 @@ function getStatusVariant(
   }
 }
 
-function getStatusLabel(status: PipelineStatus): string {
+export function getStatusLabel(status: PipelineStatus): string {
   switch (status) {
     case "pending":
       return "Pending"
@@ -176,7 +176,7 @@ function getStatusLabel(status: PipelineStatus): string {
   }
 }
 
-function getStatusDescription(status: PipelineStatus): string {
+export function getStatusDescription(status: PipelineStatus): string {
   switch (status) {
     case "pending":
       return "Build is queued and waiting to start"
@@ -199,4 +199,30 @@ function getStatusDescription(status: PipelineStatus): string {
     default:
       return "Status information unavailable"
   }
+}
+
+const DASHBOARD_STATUS_LABELS: Record<PipelineStatus, string> = {
+  pending: "Pending",
+  running: "Building",
+  succeeded: "Committing",
+  committed: "Committed",
+  publishing: "Publishing",
+  published: "Published",
+  failed: "Failed",
+  cancelled: "Cancelled",
+  superseded: "Superseded",
+}
+
+export function getDashboardStatusLabel(status: PipelineStatus): string {
+  return DASHBOARD_STATUS_LABELS[status] ?? status
+}
+
+export function getPipelineOutcome(
+  pipeline: Pick<PipelineSummary, "status" | "repo">,
+): string | null {
+  if (pipeline.status !== "committed") return null
+  if (pipeline.repo === "stable" || pipeline.repo === "beta")
+    return "Awaiting publication"
+  if (pipeline.repo === "test") return "Test build ready"
+  return "Committed"
 }
