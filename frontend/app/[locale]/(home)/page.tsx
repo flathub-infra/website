@@ -45,6 +45,18 @@ const categoryRank = (category: MainCategory) => {
   return index === -1 ? categoryOrder.length : index
 }
 
+function emptyCollection(): MeilisearchResponseAppsIndex {
+  return {
+    hits: [],
+    query: "",
+    processingTimeMs: 0,
+    hitsPerPage: 0,
+    page: 1,
+    totalPages: 0,
+    totalHits: 0,
+  }
+}
+
 export async function generateStaticParams() {
   const params = staticLocales.map((locale) => ({
     locale: locale,
@@ -95,25 +107,33 @@ async function getCollections(locale: string) {
       page: 1,
       per_page: APPS_IN_PREVIEW_COUNT,
       locale,
-    }).then((r) => r.data),
+    })
+      .then((r) => r.data)
+      .catch(() => emptyCollection()),
     getPopularLastMonthCollectionPopularGet({
       page: 1,
       per_page: APPS_IN_PREVIEW_COUNT,
       locale,
-    }).then((r) => r.data),
+    })
+      .then((r) => r.data)
+      .catch(() => emptyCollection()),
     getRecentlyAddedCollectionRecentlyAddedGet({
       page: 1,
       per_page: APPS_IN_PREVIEW_COUNT,
       locale,
-    }).then((r) => r.data),
+    })
+      .then((r) => r.data)
+      .catch(() => emptyCollection()),
     getTrendingLastTwoWeeksCollectionTrendingGet({
       page: 1,
       per_page: APPS_IN_PREVIEW_COUNT,
       locale,
-    }).then((r) => r.data),
-    getMobileCollectionMobileGet({ page: 1, per_page: 6, locale }).then(
-      (r) => r.data,
-    ),
+    })
+      .then((r) => r.data)
+      .catch(() => emptyCollection()),
+    getMobileCollectionMobileGet({ page: 1, per_page: 6, locale })
+      .then((r) => r.data)
+      .catch(() => emptyCollection()),
   ])
 
   return results as [
@@ -129,19 +149,23 @@ async function getCategoryData(locale: string) {
   const categoryPromises = Object.keys(MainCategory)
     .filter((category) => category !== "game")
     .map(async (category: MainCategory) => {
-      const appsResult = await getCategoryCollectionCategoryCategoryGet(
-        category,
-        {
-          page: 1,
-          per_page: 6,
-          locale,
-          sort_by: AppSchemasSortBy.trending,
-        },
-      )
+      try {
+        const appsResult = await getCategoryCollectionCategoryCategoryGet(
+          category,
+          {
+            page: 1,
+            per_page: 6,
+            locale,
+            sort_by: AppSchemasSortBy.trending,
+          },
+        )
 
-      return {
-        category,
-        apps: appsResult.data,
+        return {
+          category,
+          apps: appsResult.data,
+        }
+      } catch {
+        return { category, apps: emptyCollection() }
       }
     })
 
@@ -156,39 +180,50 @@ async function getCategoryData(locale: string) {
 }
 
 async function getHeroBanner(dateString: string, locale: string) {
-  const [heroBannerAppsResponse, appOfTheDayResponse] = await Promise.all([
+  const [heroBannerAppsResult, appOfTheDayResult] = await Promise.allSettled([
     getAppOfTheWeekAppPicksAppsOfTheWeekDateGet(dateString),
     getAppOfTheDayAppPicksAppOfTheDayDateGet(dateString),
   ])
 
-  const heroBannerApps = heroBannerAppsResponse.data
-  const appOfTheDay = appOfTheDayResponse.data
+  const heroBannerApps =
+    heroBannerAppsResult.status === "fulfilled"
+      ? heroBannerAppsResult.value.data
+      : { apps: [] }
+  const appOfTheDay =
+    appOfTheDayResult.status === "fulfilled"
+      ? appOfTheDayResult.value.data
+      : null
 
   const allAppIds = [
     ...heroBannerApps.apps.map((app) => app.app_id),
-    appOfTheDay.app_id,
+    ...(appOfTheDay ? [appOfTheDay.app_id] : []),
   ]
 
-  const allAppstreams = await Promise.all(
+  const allAppstreamResults = await Promise.allSettled(
     allAppIds.map((appId) =>
       getAppstreamAppstreamAppIdGet(appId, { locale }).then((r) => r.data),
     ),
+  )
+  const allAppstreams = allAppstreamResults.flatMap((result) =>
+    result.status === "fulfilled" && "description" in result.value
+      ? [result.value as DesktopAppstream]
+      : [],
   )
 
   const appstreamMap = new Map(
     allAppstreams.map((appstream) => [appstream.id, appstream]),
   )
 
-  const heroBannerData = heroBannerApps.apps.map((app) => ({
-    app: app,
-    appstream: appstreamMap.get(app.app_id) as DesktopAppstream,
-  }))
+  const heroBannerData = heroBannerApps.apps.flatMap((app) => {
+    const appstream = appstreamMap.get(app.app_id)
+    return appstream ? [{ app, appstream }] : []
+  })
 
   return {
     heroBannerData,
-    appOfTheDayAppstream: appstreamMap.get(
-      appOfTheDay.app_id,
-    ) as DesktopAppstream,
+    appOfTheDayAppstream: appOfTheDay
+      ? appstreamMap.get(appOfTheDay.app_id)
+      : undefined,
   }
 }
 
@@ -200,7 +235,9 @@ async function getGameData(locale: string) {
       locale,
       exclude_subcategories: gameCategoryFilter,
       sort_by: AppSchemasSortBy.trending,
-    }).then((r) => r.data),
+    })
+      .then((r) => r.data)
+      .catch(() => emptyCollection()),
     getSubcategoryCollectionCategoryCategorySubcategoriesGet(
       MainCategory.game,
       {
@@ -210,7 +247,9 @@ async function getGameData(locale: string) {
         subcategory: ["emulator"],
         sort_by: AppSchemasSortBy.trending,
       },
-    ).then((r) => r.data),
+    )
+      .then((r) => r.data)
+      .catch(() => emptyCollection()),
     getSubcategoryCollectionCategoryCategorySubcategoriesGet(
       MainCategory.game,
       {
@@ -220,7 +259,9 @@ async function getGameData(locale: string) {
         subcategory: ["packageManager", "launcherStore"],
         sort_by: AppSchemasSortBy.trending,
       },
-    ).then((r) => r.data),
+    )
+      .then((r) => r.data)
+      .catch(() => emptyCollection()),
     getSubcategoryCollectionCategoryCategorySubcategoriesGet(
       MainCategory.game,
       {
@@ -230,7 +271,9 @@ async function getGameData(locale: string) {
         subcategory: ["utility", "network", "gameTool"],
         sort_by: AppSchemasSortBy.trending,
       },
-    ).then((r) => r.data),
+    )
+      .then((r) => r.data)
+      .catch(() => emptyCollection()),
   ])
 
   return results as [

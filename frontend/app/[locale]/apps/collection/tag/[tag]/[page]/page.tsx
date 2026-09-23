@@ -3,6 +3,7 @@ import { getKeywordCollectionKeywordGet } from "../../../../../../../src/codegen
 import { Metadata } from "next"
 import TagCollectionClient from "./tag-collection-client"
 import { getTranslations } from "next-intl/server"
+import { parsePositivePageNumber } from "@/utils/page-number"
 
 interface Props {
   params: Promise<{
@@ -32,9 +33,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function TagCollectionPage({ params }: Props) {
   const { locale, page, tag } = await params
 
-  const pageNum = parseInt(page)
+  const pageNum = parsePositivePageNumber(page)
 
-  if (isNaN(pageNum)) {
+  if (pageNum === null) {
     notFound()
   }
 

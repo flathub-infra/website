@@ -3,6 +3,7 @@ import { getRecentlyAddedCollectionRecentlyAddedGet } from "../../../../../../sr
 import { Metadata } from "next"
 import RecentlyAddedCollectionClient from "./recently-added-collection-client"
 import { getTranslations } from "next-intl/server"
+import { parsePositivePageNumber } from "@/utils/page-number"
 
 interface Props {
   params: Promise<{
@@ -34,9 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function RecentlyAddedCollectionPage({ params }: Props) {
   const { locale, page } = await params
 
-  const pageNum = parseInt(page)
+  const pageNum = parsePositivePageNumber(page)
 
-  if (isNaN(pageNum)) {
+  if (pageNum === null) {
     notFound()
   }
 

@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
+import { parsePositivePageNumber } from "@/utils/page-number"
 import {
   AppSchemasSortBy,
   getCategoryCollectionCategoryCategoryGet,
@@ -50,9 +51,9 @@ export default async function CategoryPagePaginated({
   const { locale, category: categoryParam, page: pageParam } = await params
 
   const category = stringToCategory(categoryParam)
-  const page = parseInt(pageParam)
+  const page = parsePositivePageNumber(pageParam)
 
-  if (!category) {
+  if (!category || page === null) {
     notFound()
   }
 

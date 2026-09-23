@@ -3,6 +3,7 @@ import { getTrendingLastTwoWeeksCollectionTrendingGet } from "../../../../../../
 import { Metadata } from "next"
 import TrendingCollectionClient from "./trending-collection-client"
 import { getTranslations } from "next-intl/server"
+import { parsePositivePageNumber } from "@/utils/page-number"
 
 interface Props {
   params: Promise<{
@@ -34,9 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function TrendingCollectionPage({ params }: Props) {
   const { locale, page } = await params
 
-  const pageNum = parseInt(page)
+  const pageNum = parsePositivePageNumber(page)
 
-  if (isNaN(pageNum)) {
+  if (pageNum === null) {
     notFound()
   }
 
