@@ -109,7 +109,7 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
                     Reproducibility
                   </th>
                 )}
-                <th className="px-4 py-3 text-right font-semibold">Actions</th>
+                <th className="px-4 py-3 text-right font-semibold">Details</th>
               </tr>
             </thead>
             <tbody className="divide-y">
