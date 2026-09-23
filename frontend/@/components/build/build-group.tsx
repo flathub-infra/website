@@ -195,19 +195,8 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
                   <td className="px-4 py-3 text-xs">{buildDuration(build)}</td>
                   {repo === "stable" && (
                     <td className="px-4 py-3 text-xs">
-                      <div className="flex flex-col items-start gap-1">
-                        {build.reprocheck_status_code === "42" &&
-                        build.repro_pipeline_id &&
-                        build.reprocheck_result_url ? (
-                          <a
-                            href={`https://builds.flathub.org/diffoscope/${build.repro_pipeline_id}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="hover:underline"
-                          >
-                            Unreproducible
-                          </a>
-                        ) : (
+                      {(() => {
+                        const badge = (
                           <Badge variant="secondary" className="gap-1">
                             <Repeat2 className="h-3 w-3" />
                             {build.reprocheck_status_code === "0"
@@ -220,16 +209,15 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
                                     ? "Unknown"
                                     : "No reprocheck"}
                           </Badge>
-                        )}
-                        {build.repro_pipeline_id && (
-                          <Link
-                            href={`/builds/${build.repro_pipeline_id}`}
-                            className="text-xs underline"
-                          >
-                            Reprocheck details
+                        )
+                        return build.repro_pipeline_id ? (
+                          <Link href={`/builds/${build.repro_pipeline_id}`}>
+                            {badge}
                           </Link>
-                        )}
-                      </div>
+                        ) : (
+                          badge
+                        )
+                      })()}
                     </td>
                   )}
                   <td className="px-4 py-3 text-right">
