@@ -43,7 +43,7 @@ interface HomeClientProps {
     app: { position: number; app_id: string; isFullscreen: boolean }
     appstream: DesktopAppstream
   }[]
-  appOfTheDayAppstream: DesktopAppstream
+  appOfTheDayAppstream: DesktopAppstream | undefined
   mobile: MeilisearchResponseAppsIndex
   games: MeilisearchResponseAppsIndex
   emulators: MeilisearchResponseAppsIndex

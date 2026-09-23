@@ -13,10 +13,9 @@ export const AppOfTheDay = ({
   appOfTheDay,
   className,
 }: {
-  appOfTheDay: Pick<
-    DesktopAppstream,
-    "id" | "name" | "branding" | "summary" | "icon"
-  >
+  appOfTheDay:
+    | Pick<DesktopAppstream, "id" | "name" | "branding" | "summary" | "icon">
+    | undefined
   className?: string
 }) => {
   const t = useTranslations()

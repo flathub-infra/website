@@ -3,6 +3,7 @@ import { getMobileCollectionMobileGet } from "../../../../../../src/codegen"
 import { Metadata } from "next"
 import MobileCollectionClient from "./mobile-collection-client"
 import { getTranslations } from "next-intl/server"
+import { parsePositivePageNumber } from "@/utils/page-number"
 
 interface Props {
   params: Promise<{
@@ -34,9 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function MobileCollectionPage({ params }: Props) {
   const { locale, page } = await params
 
-  const pageNum = parseInt(page)
+  const pageNum = parsePositivePageNumber(page)
 
-  if (isNaN(pageNum)) {
+  if (pageNum === null) {
     notFound()
   }
 

@@ -11,6 +11,7 @@ import {
 } from "../../../../../../../../src/types/Category"
 import SubcategoryPageClient from "./subcategory-page-client"
 import { getTranslations } from "next-intl/server"
+import { parsePositivePageNumber } from "@/utils/page-number"
 
 export const dynamic = "force-static"
 export const revalidate = 3600
@@ -48,9 +49,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function SubcategoryPage({ params }: Props) {
   const { locale, category, subcategory, page: pageParam } = await params
 
-  const page = parseInt(pageParam, 10)
+  const page = parsePositivePageNumber(pageParam)
 
-  if (isNaN(page) || page < 1) {
+  if (page === null) {
     notFound()
   }
 
