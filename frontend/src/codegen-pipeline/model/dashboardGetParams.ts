@@ -6,9 +6,9 @@
  */
 
 export type DashboardGetParams = {
-  status?: string | null
   app_id?: string | null
   target?: string | null
+  status?: string | null
   date_from?: string | null
   date_to?: string | null
 }

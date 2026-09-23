@@ -28,7 +28,6 @@ import {
   Rocket,
   FileCode,
   Link as LinkIcon,
-  AlertTriangle,
   Download,
   GitPullRequest,
   ListChecks,
@@ -41,7 +40,7 @@ import {
 import { getPipelineFailureUrl } from "src/builds/pipeline-links"
 
 type ReprocheckResult = {
-  message: string
+  message?: string
   status_code?: string
   timestamp?: string
   result_url?: string
@@ -59,18 +58,17 @@ function getReprocheckResult(
 ): ReprocheckResult | null {
   const result = params.reprocheck_result
 
-  if (!result || typeof result !== "object") {
+  if (!result || typeof result !== "object" || Array.isArray(result)) {
     return null
   }
 
   const reprocheckResult = result as Record<string, unknown>
 
-  if (typeof reprocheckResult.message !== "string") {
-    return null
-  }
-
   return {
-    message: reprocheckResult.message,
+    message:
+      typeof reprocheckResult.message === "string"
+        ? reprocheckResult.message
+        : undefined,
     status_code:
       typeof reprocheckResult.status_code === "string"
         ? reprocheckResult.status_code
@@ -321,27 +319,45 @@ export default function BuildDetailClient({ pipelineId }: Props) {
         </Button>
       )}
 
-      {status === "failed" && reprocheckResult && (
-        <Card className="border-2 border-red-200 bg-red-50/60 dark:border-red-900/70 dark:bg-red-950/20">
+      {reprocheckResult && (
+        <Card
+          className={
+            ["1", "42"].includes(reprocheckResult.status_code ?? "")
+              ? "border-2 border-red-200 bg-red-50/60 dark:border-red-900/70 dark:bg-red-950/20"
+              : "border-2"
+          }
+        >
           <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-red-200 p-2 dark:bg-red-900/50">
-                <AlertTriangle className="h-5 w-5 text-red-700 dark:text-red-300" />
+              <div className="rounded-lg bg-muted p-2">
+                <Repeat2 className="h-5 w-5" />
               </div>
               <CardTitle className="text-2xl font-bold">
-                Reprocheck Failure
+                Reproducibility
               </CardTitle>
             </div>
           </CardHeader>
           <CardContent className="space-y-6 pt-6">
             <div>
-              <p className="text-lg font-semibold text-red-900 dark:text-red-100">
-                Reprocheck failed: {reprocheckResult.message}
+              <p className="text-lg font-semibold">
+                {reprocheckResult.status_code === "0"
+                  ? "Reproducible"
+                  : reprocheckResult.status_code === "42"
+                    ? "Unreproducible"
+                    : reprocheckResult.status_code === "1"
+                      ? "Failed to rebuild"
+                      : "Unknown"}
+                {reprocheckResult.message && `: ${reprocheckResult.message}`}
               </p>
-              <p className="mt-2 text-sm text-red-800/80 dark:text-red-200/80">
-                The rebuilt app differs from the published app. Review the
-                diffoscope output to see which files changed.
-              </p>
+              {reprocheckResult.status_code !== "0" && (
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {reprocheckResult.status_code === "42"
+                    ? "The rebuilt app differs from the published app. Review the diffoscope output to see which files changed."
+                    : reprocheckResult.status_code === "1"
+                      ? "The app could not be rebuilt. Check the workflow logs for the cause."
+                      : "No conclusive reproducibility result is available."}
+                </p>
+              )}
             </div>
 
             <div className="grid gap-3 md:grid-cols-3">
@@ -381,17 +397,20 @@ export default function BuildDetailClient({ pipelineId }: Props) {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <Button variant="destructive" asChild>
-                <a
-                  href={`https://builds.flathub.org/diffoscope/${pipelineId}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="gap-2"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Open Diffoscope
-                </a>
-              </Button>
+              {reprocheckResult.status_code === "42" &&
+                reprocheckResult.result_url && (
+                  <Button variant="destructive" asChild>
+                    <a
+                      href={`https://builds.flathub.org/diffoscope/${pipelineId}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="gap-2"
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                      Open Diffoscope
+                    </a>
+                  </Button>
+                )}
               {reprocheckResult.result_url && (
                 <Button variant="outline" asChild>
                   <a
@@ -676,23 +695,13 @@ export default function BuildDetailClient({ pipelineId }: Props) {
                 </a>
               </Button>
             )}
-            {build_id && (
-              <Button
-                variant="outline"
-                size="default"
-                asChild
-                className="w-full justify-start h-auto py-4 px-5 hover:bg-primary/5 transition-all group"
-              >
-                <a
-                  href={`https://hub.flathub.org/status/${build_id}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="gap-3"
-                >
-                  <ExternalLink className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  <span className="font-semibold">Build Job</span>
-                </a>
-              </Button>
+            {build_id != null && (
+              <div className="rounded-lg border bg-muted/40 p-4">
+                <p className="text-xs font-medium text-muted-foreground">
+                  Build ID
+                </p>
+                <p className="mt-1 text-sm font-semibold">{build_id}</p>
+              </div>
             )}
             {commit_job_id && (
               <Button

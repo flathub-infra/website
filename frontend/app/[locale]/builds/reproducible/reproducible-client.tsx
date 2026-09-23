@@ -117,7 +117,9 @@ function FleetCategory({
                     )}
                   </td>
                   <td className="py-3">
-                    {unreproducible && entry.repro_pipeline_id ? (
+                    {unreproducible &&
+                    entry.repro_pipeline_id &&
+                    entry.result_url ? (
                       <a
                         className="underline"
                         href={`https://builds.flathub.org/diffoscope/${entry.repro_pipeline_id}`}

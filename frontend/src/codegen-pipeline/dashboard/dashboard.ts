@@ -21,13 +21,11 @@ import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
-  BuildsTableApiHtmxBuildsGetParams,
   DashboardGetParams,
   HTTPValidationError,
   ReproducibilityData,
   ReproducibleApiApiReproducibleGetParams,
   ReproducibleStatusReproducibleGetParams,
-  ReproducibleTableApiHtmxReproducibleGetParams,
   StatusBannerApiApiStatusBannerGet200,
 } from "../model"
 
@@ -376,9 +374,8 @@ export function useStatusBannerApiApiStatusBannerGet<
 export const dashboardGet = (
   params?: DashboardGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<string>> => {
+): Promise<AxiosResponse<unknown>> => {
   return axios.get(`https://builds.flathub.org/`, {
-    responseType: "text",
     ...options,
     params: { ...params, ...options?.params },
   })
@@ -390,7 +387,7 @@ export const getDashboardGetQueryKey = (params?: DashboardGetParams) => {
 
 export const getDashboardGetQueryOptions = <
   TData = Awaited<ReturnType<typeof dashboardGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   params?: DashboardGetParams,
   options?: {
@@ -418,11 +415,11 @@ export const getDashboardGetQueryOptions = <
 export type DashboardGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof dashboardGet>>
 >
-export type DashboardGetQueryError = AxiosError<HTTPValidationError>
+export type DashboardGetQueryError = AxiosError<void | HTTPValidationError>
 
 export function useDashboardGet<
   TData = Awaited<ReturnType<typeof dashboardGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   params: undefined | DashboardGetParams,
   options: {
@@ -445,7 +442,7 @@ export function useDashboardGet<
 }
 export function useDashboardGet<
   TData = Awaited<ReturnType<typeof dashboardGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   params?: DashboardGetParams,
   options?: {
@@ -468,7 +465,7 @@ export function useDashboardGet<
 }
 export function useDashboardGet<
   TData = Awaited<ReturnType<typeof dashboardGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   params?: DashboardGetParams,
   options?: {
@@ -487,7 +484,7 @@ export function useDashboardGet<
 
 export function useDashboardGet<
   TData = Awaited<ReturnType<typeof dashboardGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   params?: DashboardGetParams,
   options?: {
@@ -511,187 +508,13 @@ export function useDashboardGet<
 }
 
 /**
- * @summary Builds Table
- */
-export const buildsTableApiHtmxBuildsGet = (
-  params?: BuildsTableApiHtmxBuildsGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<string>> => {
-  return axios.get(`https://builds.flathub.org/api/htmx/builds`, {
-    responseType: "text",
-    ...options,
-    params: { ...params, ...options?.params },
-  })
-}
-
-export const getBuildsTableApiHtmxBuildsGetQueryKey = (
-  params?: BuildsTableApiHtmxBuildsGetParams,
-) => {
-  return [
-    `https://builds.flathub.org/api/htmx/builds`,
-    ...(params ? [params] : []),
-  ] as const
-}
-
-export const getBuildsTableApiHtmxBuildsGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: BuildsTableApiHtmxBuildsGetParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-        TError,
-        TData
-      >
-    >
-    axios?: AxiosRequestConfig
-  },
-) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
-
-  const queryKey =
-    queryOptions?.queryKey ?? getBuildsTableApiHtmxBuildsGetQueryKey(params)
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>
-  > = ({ signal }) =>
-    buildsTableApiHtmxBuildsGet(params, { signal, ...axiosOptions })
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type BuildsTableApiHtmxBuildsGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>
->
-export type BuildsTableApiHtmxBuildsGetQueryError =
-  AxiosError<HTTPValidationError>
-
-export function useBuildsTableApiHtmxBuildsGet<
-  TData = Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params: undefined | BuildsTableApiHtmxBuildsGetParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-          TError,
-          Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>
-        >,
-        "initialData"
-      >
-    axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useBuildsTableApiHtmxBuildsGet<
-  TData = Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: BuildsTableApiHtmxBuildsGetParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-          TError,
-          Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>
-        >,
-        "initialData"
-      >
-    axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useBuildsTableApiHtmxBuildsGet<
-  TData = Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: BuildsTableApiHtmxBuildsGetParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-        TError,
-        TData
-      >
-    >
-    axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-/**
- * @summary Builds Table
- */
-
-export function useBuildsTableApiHtmxBuildsGet<
-  TData = Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: BuildsTableApiHtmxBuildsGetParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof buildsTableApiHtmxBuildsGet>>,
-        TError,
-        TData
-      >
-    >
-    axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getBuildsTableApiHtmxBuildsGetQueryOptions(
-    params,
-    options,
-  )
-
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-
-  return withQueryKey(query, queryOptions.queryKey)
-}
-
-/**
  * @summary App Status
  */
 export const appStatusStatusAppIdGet = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<string>> => {
-  return axios.get(`https://builds.flathub.org/status/${appId}`, {
-    responseType: "text",
-    ...options,
-  })
+): Promise<AxiosResponse<unknown>> => {
+  return axios.get(`https://builds.flathub.org/status/${appId}`, options)
 }
 
 export const getAppStatusStatusAppIdGetQueryKey = (appId: string) => {
@@ -700,7 +523,7 @@ export const getAppStatusStatusAppIdGetQueryKey = (appId: string) => {
 
 export const getAppStatusStatusAppIdGetQueryOptions = <
   TData = Awaited<ReturnType<typeof appStatusStatusAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   options?: {
@@ -739,11 +562,12 @@ export const getAppStatusStatusAppIdGetQueryOptions = <
 export type AppStatusStatusAppIdGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof appStatusStatusAppIdGet>>
 >
-export type AppStatusStatusAppIdGetQueryError = AxiosError<HTTPValidationError>
+export type AppStatusStatusAppIdGetQueryError =
+  AxiosError<void | HTTPValidationError>
 
 export function useAppStatusStatusAppIdGet<
   TData = Awaited<ReturnType<typeof appStatusStatusAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   options: {
@@ -770,7 +594,7 @@ export function useAppStatusStatusAppIdGet<
 }
 export function useAppStatusStatusAppIdGet<
   TData = Awaited<ReturnType<typeof appStatusStatusAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   options?: {
@@ -797,7 +621,7 @@ export function useAppStatusStatusAppIdGet<
 }
 export function useAppStatusStatusAppIdGet<
   TData = Awaited<ReturnType<typeof appStatusStatusAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   options?: {
@@ -820,7 +644,7 @@ export function useAppStatusStatusAppIdGet<
 
 export function useAppStatusStatusAppIdGet<
   TData = Awaited<ReturnType<typeof appStatusStatusAppIdGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   appId: string,
   options?: {
@@ -853,9 +677,8 @@ export function useAppStatusStatusAppIdGet<
 export const reproducibleStatusReproducibleGet = (
   params?: ReproducibleStatusReproducibleGetParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<string>> => {
+): Promise<AxiosResponse<unknown>> => {
   return axios.get(`https://builds.flathub.org/reproducible`, {
-    responseType: "text",
     ...options,
     params: { ...params, ...options?.params },
   })
@@ -872,7 +695,7 @@ export const getReproducibleStatusReproducibleGetQueryKey = (
 
 export const getReproducibleStatusReproducibleGetQueryOptions = <
   TData = Awaited<ReturnType<typeof reproducibleStatusReproducibleGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   params?: ReproducibleStatusReproducibleGetParams,
   options?: {
@@ -908,11 +731,11 @@ export type ReproducibleStatusReproducibleGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof reproducibleStatusReproducibleGet>>
 >
 export type ReproducibleStatusReproducibleGetQueryError =
-  AxiosError<HTTPValidationError>
+  AxiosError<void | HTTPValidationError>
 
 export function useReproducibleStatusReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleStatusReproducibleGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   params: undefined | ReproducibleStatusReproducibleGetParams,
   options: {
@@ -939,7 +762,7 @@ export function useReproducibleStatusReproducibleGet<
 }
 export function useReproducibleStatusReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleStatusReproducibleGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   params?: ReproducibleStatusReproducibleGetParams,
   options?: {
@@ -966,7 +789,7 @@ export function useReproducibleStatusReproducibleGet<
 }
 export function useReproducibleStatusReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleStatusReproducibleGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   params?: ReproducibleStatusReproducibleGetParams,
   options?: {
@@ -989,7 +812,7 @@ export function useReproducibleStatusReproducibleGet<
 
 export function useReproducibleStatusReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleStatusReproducibleGet>>,
-  TError = AxiosError<HTTPValidationError>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
   params?: ReproducibleStatusReproducibleGetParams,
   options?: {
@@ -1007,178 +830,6 @@ export function useReproducibleStatusReproducibleGet<
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions = getReproducibleStatusReproducibleGetQueryOptions(
-    params,
-    options,
-  )
-
-  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
-    TData,
-    TError
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-
-  return withQueryKey(query, queryOptions.queryKey)
-}
-
-/**
- * @summary Reproducible Table
- */
-export const reproducibleTableApiHtmxReproducibleGet = (
-  params?: ReproducibleTableApiHtmxReproducibleGetParams,
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<string>> => {
-  return axios.get(`https://builds.flathub.org/api/htmx/reproducible`, {
-    responseType: "text",
-    ...options,
-    params: { ...params, ...options?.params },
-  })
-}
-
-export const getReproducibleTableApiHtmxReproducibleGetQueryKey = (
-  params?: ReproducibleTableApiHtmxReproducibleGetParams,
-) => {
-  return [
-    `https://builds.flathub.org/api/htmx/reproducible`,
-    ...(params ? [params] : []),
-  ] as const
-}
-
-export const getReproducibleTableApiHtmxReproducibleGetQueryOptions = <
-  TData = Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: ReproducibleTableApiHtmxReproducibleGetParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-        TError,
-        TData
-      >
-    >
-    axios?: AxiosRequestConfig
-  },
-) => {
-  const { query: queryOptions, axios: axiosOptions } = options ?? {}
-
-  const queryKey =
-    queryOptions?.queryKey ??
-    getReproducibleTableApiHtmxReproducibleGetQueryKey(params)
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>
-  > = ({ signal }) =>
-    reproducibleTableApiHtmxReproducibleGet(params, { signal, ...axiosOptions })
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-    TError,
-    TData
-  > & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type ReproducibleTableApiHtmxReproducibleGetQueryResult = NonNullable<
-  Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>
->
-export type ReproducibleTableApiHtmxReproducibleGetQueryError =
-  AxiosError<HTTPValidationError>
-
-export function useReproducibleTableApiHtmxReproducibleGet<
-  TData = Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params: undefined | ReproducibleTableApiHtmxReproducibleGetParams,
-  options: {
-    query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-          TError,
-          Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>
-        >,
-        "initialData"
-      >
-    axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useReproducibleTableApiHtmxReproducibleGet<
-  TData = Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: ReproducibleTableApiHtmxReproducibleGetParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-        TError,
-        TData
-      >
-    > &
-      Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-          TError,
-          Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>
-        >,
-        "initialData"
-      >
-    axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-export function useReproducibleTableApiHtmxReproducibleGet<
-  TData = Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: ReproducibleTableApiHtmxReproducibleGetParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-        TError,
-        TData
-      >
-    >
-    axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-}
-/**
- * @summary Reproducible Table
- */
-
-export function useReproducibleTableApiHtmxReproducibleGet<
-  TData = Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-  TError = AxiosError<HTTPValidationError>,
->(
-  params?: ReproducibleTableApiHtmxReproducibleGetParams,
-  options?: {
-    query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof reproducibleTableApiHtmxReproducibleGet>>,
-        TError,
-        TData
-      >
-    >
-    axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & {
-  queryKey: DataTag<QueryKey, TData, TError>
-} {
-  const queryOptions = getReproducibleTableApiHtmxReproducibleGetQueryOptions(
     params,
     options,
   )

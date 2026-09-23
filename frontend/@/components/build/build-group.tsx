@@ -12,10 +12,11 @@ import {
   ExternalLink,
   Repeat2,
 } from "lucide-react"
-import { formatDistanceStrict, formatDistanceToNow } from "date-fns"
+import { formatDistanceToNow } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
 import { cn } from "@/lib/utils"
 import { getPipelineFailureUrl } from "src/builds/pipeline-links"
+import { buildDuration } from "src/builds/pipeline-duration"
 
 interface BuildGroupProps {
   title: string
@@ -101,7 +102,7 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
               <tr>
                 <th className="px-4 py-3 text-left font-semibold">Status</th>
                 <th className="px-4 py-3 text-left font-semibold">Commit</th>
-                <th className="px-4 py-3 text-left font-semibold">Created</th>
+                <th className="px-4 py-3 text-left font-semibold">Started</th>
                 <th className="px-4 py-3 text-left font-semibold">Duration</th>
                 <th className="px-4 py-3 text-left font-semibold">
                   Reproducibility
@@ -127,9 +128,7 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
                                   build.status,
                                 ) && build.commit_job_id != null
                               ? `https://hub.flathub.org/status/${build.commit_job_id}`
-                              : build.build_id != null
-                                ? `https://hub.flathub.org/status/${build.build_id}`
-                                : null
+                              : null
                       const badge = (
                         <>
                           <Badge variant={getStatusColor(build.status)}>
@@ -168,27 +167,35 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
                     )}
                   </td>
                   <td className="px-4 py-3 text-xs text-muted-foreground">
-                    {formatDistanceToNow(new UTCDate(build.created_at), {
-                      addSuffix: true,
-                    })}
-                  </td>
-                  <td className="px-4 py-3 text-xs">
-                    {build.started_at && build.finished_at ? (
-                      <span className="flex items-center gap-1">
-                        {formatDistanceStrict(
-                          new UTCDate(build.started_at),
-                          new UTCDate(build.finished_at),
-                          { unit: "minute" },
-                        )}
-                      </span>
+                    {build.started_at ? (
+                      build.log_url ? (
+                        <a
+                          href={build.log_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="hover:underline"
+                        >
+                          {formatDistanceToNow(new UTCDate(build.started_at), {
+                            addSuffix: true,
+                          })}
+                        </a>
+                      ) : (
+                        formatDistanceToNow(new UTCDate(build.started_at), {
+                          addSuffix: true,
+                        })
+                      )
+                    ) : build.status === "pending" ? (
+                      "Pending"
                     ) : (
-                      <span className="text-muted-foreground">-</span>
+                      "-"
                     )}
                   </td>
+                  <td className="px-4 py-3 text-xs">{buildDuration(build)}</td>
                   <td className="px-4 py-3 text-xs">
                     <div className="flex flex-col items-start gap-1">
                       {build.reprocheck_status_code === "42" &&
-                      build.repro_pipeline_id ? (
+                      build.repro_pipeline_id &&
+                      build.reprocheck_result_url ? (
                         <a
                           href={`https://builds.flathub.org/diffoscope/${build.repro_pipeline_id}`}
                           target="_blank"

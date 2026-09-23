@@ -1,5 +1,6 @@
 export * from "./dashboard/dashboard"
 export * from "./diffoscope/diffoscope"
+export * from "./inactive-repos/inactive-repos"
 export * from "./merge/merge"
 export * from "./pipelines/pipelines"
 export * from "./webhooks/webhooks"

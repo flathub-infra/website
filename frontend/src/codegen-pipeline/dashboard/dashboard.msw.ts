@@ -165,20 +165,6 @@ export const getStatusBannerApiApiStatusBannerGetResponseMock =
       null,
     ])
 
-export const getDashboardGetResponseMock = (): string => faker.word.sample()
-
-export const getBuildsTableApiHtmxBuildsGetResponseMock = (): string =>
-  faker.word.sample()
-
-export const getAppStatusStatusAppIdGetResponseMock = (): string =>
-  faker.word.sample()
-
-export const getReproducibleStatusReproducibleGetResponseMock = (): string =>
-  faker.word.sample()
-
-export const getReproducibleTableApiHtmxReproducibleGetResponseMock =
-  (): string => faker.word.sample()
-
 export const getReproducibleApiApiReproducibleGetMockHandler = (
   overrideResponse?:
     | ReproducibilityData
@@ -231,53 +217,20 @@ export const getStatusBannerApiApiStatusBannerGetMockHandler = (
 
 export const getDashboardGetMockHandler = (
   overrideResponse?:
-    | string
+    | unknown
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<string> | string),
+      ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      const resolvedBody =
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getDashboardGetResponseMock()
-      const textBody =
-        typeof resolvedBody === "string"
-          ? resolvedBody
-          : JSON.stringify(resolvedBody ?? null)
-      return HttpResponse.html(textBody, { status: 200 })
-    },
-    options,
-  )
-}
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
 
-export const getBuildsTableApiHtmxBuildsGetMockHandler = (
-  overrideResponse?:
-    | string
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<string> | string),
-  options?: RequestHandlerOptions,
-) => {
-  return http.get(
-    "*/api/htmx/builds",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      const resolvedBody =
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getBuildsTableApiHtmxBuildsGetResponseMock()
-      const textBody =
-        typeof resolvedBody === "string"
-          ? resolvedBody
-          : JSON.stringify(resolvedBody ?? null)
-      return HttpResponse.html(textBody, { status: 200 })
+      return new HttpResponse(null, { status: 200 })
     },
     options,
   )
@@ -285,26 +238,20 @@ export const getBuildsTableApiHtmxBuildsGetMockHandler = (
 
 export const getAppStatusStatusAppIdGetMockHandler = (
   overrideResponse?:
-    | string
+    | unknown
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<string> | string),
+      ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/status/:appId",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      const resolvedBody =
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getAppStatusStatusAppIdGetResponseMock()
-      const textBody =
-        typeof resolvedBody === "string"
-          ? resolvedBody
-          : JSON.stringify(resolvedBody ?? null)
-      return HttpResponse.html(textBody, { status: 200 })
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+
+      return new HttpResponse(null, { status: 200 })
     },
     options,
   )
@@ -312,53 +259,20 @@ export const getAppStatusStatusAppIdGetMockHandler = (
 
 export const getReproducibleStatusReproducibleGetMockHandler = (
   overrideResponse?:
-    | string
+    | unknown
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<string> | string),
+      ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/reproducible",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      const resolvedBody =
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getReproducibleStatusReproducibleGetResponseMock()
-      const textBody =
-        typeof resolvedBody === "string"
-          ? resolvedBody
-          : JSON.stringify(resolvedBody ?? null)
-      return HttpResponse.html(textBody, { status: 200 })
-    },
-    options,
-  )
-}
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
 
-export const getReproducibleTableApiHtmxReproducibleGetMockHandler = (
-  overrideResponse?:
-    | string
-    | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<string> | string),
-  options?: RequestHandlerOptions,
-) => {
-  return http.get(
-    "*/api/htmx/reproducible",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      const resolvedBody =
-        overrideResponse !== undefined
-          ? typeof overrideResponse === "function"
-            ? await overrideResponse(info)
-            : overrideResponse
-          : getReproducibleTableApiHtmxReproducibleGetResponseMock()
-      const textBody =
-        typeof resolvedBody === "string"
-          ? resolvedBody
-          : JSON.stringify(resolvedBody ?? null)
-      return HttpResponse.html(textBody, { status: 200 })
+      return new HttpResponse(null, { status: 200 })
     },
     options,
   )
@@ -367,8 +281,6 @@ export const getDashboardMock = () => [
   getReproducibleApiApiReproducibleGetMockHandler(),
   getStatusBannerApiApiStatusBannerGetMockHandler(),
   getDashboardGetMockHandler(),
-  getBuildsTableApiHtmxBuildsGetMockHandler(),
   getAppStatusStatusAppIdGetMockHandler(),
   getReproducibleStatusReproducibleGetMockHandler(),
-  getReproducibleTableApiHtmxReproducibleGetMockHandler(),
 ]

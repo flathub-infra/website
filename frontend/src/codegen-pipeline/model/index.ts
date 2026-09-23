@@ -5,7 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export * from "./buildsTableApiHtmxBuildsGetParams"
 export * from "./dashboardGetParams"
 export * from "./hTTPValidationError"
 export * from "./listPipelinesApiPipelinesGetAppIdMatch"
@@ -64,7 +63,6 @@ export * from "./reproducibilityData"
 export * from "./reproducibleApiApiReproducibleGetParams"
 export * from "./reproducibleApiApiReproducibleGetStatus"
 export * from "./reproducibleStatusReproducibleGetParams"
-export * from "./reproducibleTableApiHtmxReproducibleGetParams"
 export * from "./statusBannerApiApiStatusBannerGet200"
 export * from "./statusBannerIssue"
 export * from "./statusBannerResponse"

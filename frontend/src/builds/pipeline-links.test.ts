@@ -15,59 +15,36 @@ describe("getPipelineFailureUrl", () => {
     expect(getPipelineFailureUrl(links)).toBe(links.failure_issue_url)
   })
 
-  it("prefers build_id over earlier, succeeded jobs", () => {
+  it("falls back through update-repo, publish, then commit jobs", () => {
     expect(getPipelineFailureUrl({ ...links, failure_issue_url: null })).toBe(
-      "https://hub.flathub.org/status/5",
+      "https://hub.flathub.org/status/11",
     )
-  })
-
-  it("falls back through the job ids in pipeline order", () => {
     expect(
       getPipelineFailureUrl({
         ...links,
         failure_issue_url: null,
-        build_id: null,
-      }),
-    ).toBe("https://hub.flathub.org/status/33")
-    expect(
-      getPipelineFailureUrl({
-        ...links,
-        failure_issue_url: null,
-        build_id: null,
-        commit_job_id: null,
+        update_repo_job_id: null,
       }),
     ).toBe("https://hub.flathub.org/status/22")
     expect(
       getPipelineFailureUrl({
         ...links,
         failure_issue_url: null,
-        build_id: null,
-        commit_job_id: null,
+        update_repo_job_id: null,
         publish_job_id: null,
       }),
-    ).toBe("https://hub.flathub.org/status/11")
+    ).toBe("https://hub.flathub.org/status/33")
   })
 
-  it("falls back to the workflow log, then null", () => {
-    expect(
-      getPipelineFailureUrl({
-        ...links,
-        failure_issue_url: null,
-        build_id: null,
-        commit_job_id: null,
-        publish_job_id: null,
-        update_repo_job_id: null,
-      }),
-    ).toBe(links.log_url)
-    expect(
-      getPipelineFailureUrl({
-        failure_issue_url: null,
-        build_id: null,
-        commit_job_id: null,
-        publish_job_id: null,
-        update_repo_job_id: null,
-        log_url: null,
-      }),
-    ).toBeNull()
+  it("uses workflow logs even when a build ID exists, then null", () => {
+    const noJobs = {
+      ...links,
+      failure_issue_url: null,
+      update_repo_job_id: null,
+      publish_job_id: null,
+      commit_job_id: null,
+    }
+    expect(getPipelineFailureUrl(noJobs)).toBe(links.log_url)
+    expect(getPipelineFailureUrl({ ...noJobs, log_url: null })).toBeNull()
   })
 })
