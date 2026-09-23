@@ -12,7 +12,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --stats-json",
     "update-setup-instructions": "tsx ./setup-instructions.ts",
-    "openapi-codegen": "orval"
+    "openapi-codegen": "orval",
+    "test": "vitest run"
   },
   "dependencies": {
     "@date-fns/utc": "^2.1.1",

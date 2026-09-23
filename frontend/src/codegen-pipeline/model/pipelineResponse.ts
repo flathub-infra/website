@@ -6,6 +6,7 @@
  */
 import type { PipelineResponseBuildId } from "./pipelineResponseBuildId"
 import type { PipelineResponseCommitJobId } from "./pipelineResponseCommitJobId"
+import type { PipelineResponseFailureIssueUrl } from "./pipelineResponseFailureIssueUrl"
 import type { PipelineResponseFinishedAt } from "./pipelineResponseFinishedAt"
 import type { PipelineResponseLogUrl } from "./pipelineResponseLogUrl"
 import type { PipelineResponseParams } from "./pipelineResponseParams"
@@ -27,6 +28,7 @@ export interface PipelineResponse {
   params: PipelineResponseParams
   triggered_by: PipelineTrigger
   log_url?: PipelineResponseLogUrl
+  failure_issue_url?: PipelineResponseFailureIssueUrl
   build_id?: PipelineResponseBuildId
   commit_job_id?: PipelineResponseCommitJobId
   publish_job_id?: PipelineResponsePublishJobId

@@ -7,11 +7,18 @@
 import type { PipelineStatus } from "./pipelineStatus"
 import type { PipelineSummaryBuildId } from "./pipelineSummaryBuildId"
 import type { PipelineSummaryCommitJobId } from "./pipelineSummaryCommitJobId"
+import type { PipelineSummaryFailureIssueUrl } from "./pipelineSummaryFailureIssueUrl"
 import type { PipelineSummaryFinishedAt } from "./pipelineSummaryFinishedAt"
+import type { PipelineSummaryLogUrl } from "./pipelineSummaryLogUrl"
+import type { PipelineSummaryPrNumber } from "./pipelineSummaryPrNumber"
 import type { PipelineSummaryPublishedAt } from "./pipelineSummaryPublishedAt"
 import type { PipelineSummaryPublishJobId } from "./pipelineSummaryPublishJobId"
 import type { PipelineSummaryRepo } from "./pipelineSummaryRepo"
+import type { PipelineSummaryReprocheckResultUrl } from "./pipelineSummaryReprocheckResultUrl"
+import type { PipelineSummaryReprocheckStatusCode } from "./pipelineSummaryReprocheckStatusCode"
 import type { PipelineSummaryReproPipelineId } from "./pipelineSummaryReproPipelineId"
+import type { PipelineSummarySha } from "./pipelineSummarySha"
+import type { PipelineSummarySourceRepo } from "./pipelineSummarySourceRepo"
 import type { PipelineSummaryStartedAt } from "./pipelineSummaryStartedAt"
 import type { PipelineSummaryUpdateRepoJobId } from "./pipelineSummaryUpdateRepoJobId"
 import type { PipelineTrigger } from "./pipelineTrigger"
@@ -29,6 +36,13 @@ export interface PipelineSummary {
   publish_job_id?: PipelineSummaryPublishJobId
   update_repo_job_id?: PipelineSummaryUpdateRepoJobId
   repro_pipeline_id?: PipelineSummaryReproPipelineId
+  source_repo?: PipelineSummarySourceRepo
+  sha?: PipelineSummarySha
+  pr_number?: PipelineSummaryPrNumber
+  log_url?: PipelineSummaryLogUrl
+  failure_issue_url?: PipelineSummaryFailureIssueUrl
+  reprocheck_status_code?: PipelineSummaryReprocheckStatusCode
+  reprocheck_result_url?: PipelineSummaryReprocheckResultUrl
   created_at: string
   started_at?: PipelineSummaryStartedAt
   finished_at?: PipelineSummaryFinishedAt

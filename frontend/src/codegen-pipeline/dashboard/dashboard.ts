@@ -24,8 +24,11 @@ import type {
   BuildsTableApiHtmxBuildsGetParams,
   DashboardGetParams,
   HTTPValidationError,
+  ReproducibilityData,
+  ReproducibleApiApiReproducibleGetParams,
   ReproducibleStatusReproducibleGetParams,
   ReproducibleTableApiHtmxReproducibleGetParams,
+  StatusBannerApiApiStatusBannerGet200,
 } from "../model"
 
 const withQueryKey = <T extends object, K>(
@@ -44,6 +47,327 @@ const withQueryKey = <T extends object, K>(
     })
   }
   return result
+}
+
+/**
+ * @summary Reproducible Api
+ */
+export const reproducibleApiApiReproducibleGet = (
+  params?: ReproducibleApiApiReproducibleGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<ReproducibilityData>> => {
+  return axios.get(`https://builds.flathub.org/api/reproducible`, {
+    ...options,
+    params: { ...params, ...options?.params },
+  })
+}
+
+export const getReproducibleApiApiReproducibleGetQueryKey = (
+  params?: ReproducibleApiApiReproducibleGetParams,
+) => {
+  return [
+    `https://builds.flathub.org/api/reproducible`,
+    ...(params ? [params] : []),
+  ] as const
+}
+
+export const getReproducibleApiApiReproducibleGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ReproducibleApiApiReproducibleGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getReproducibleApiApiReproducibleGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>
+  > = ({ signal }) =>
+    reproducibleApiApiReproducibleGet(params, { signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ReproducibleApiApiReproducibleGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>
+>
+export type ReproducibleApiApiReproducibleGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useReproducibleApiApiReproducibleGet<
+  TData = Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | ReproducibleApiApiReproducibleGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+          TError,
+          Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useReproducibleApiApiReproducibleGet<
+  TData = Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ReproducibleApiApiReproducibleGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+          TError,
+          Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useReproducibleApiApiReproducibleGet<
+  TData = Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ReproducibleApiApiReproducibleGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Reproducible Api
+ */
+
+export function useReproducibleApiApiReproducibleGet<
+  TData = Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ReproducibleApiApiReproducibleGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getReproducibleApiApiReproducibleGetQueryOptions(
+    params,
+    options,
+  )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Status Banner Api
+ */
+export const statusBannerApiApiStatusBannerGet = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<StatusBannerApiApiStatusBannerGet200>> => {
+  return axios.get(`https://builds.flathub.org/api/status-banner`, options)
+}
+
+export const getStatusBannerApiApiStatusBannerGetQueryKey = () => {
+  return [`https://builds.flathub.org/api/status-banner`] as const
+}
+
+export const getStatusBannerApiApiStatusBannerGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getStatusBannerApiApiStatusBannerGetQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>
+  > = ({ signal }) =>
+    statusBannerApiApiStatusBannerGet({ signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type StatusBannerApiApiStatusBannerGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>
+>
+export type StatusBannerApiApiStatusBannerGetQueryError = AxiosError<unknown>
+
+export function useStatusBannerApiApiStatusBannerGet<
+  TData = Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+  TError = AxiosError<unknown>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+          TError,
+          Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useStatusBannerApiApiStatusBannerGet<
+  TData = Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+          TError,
+          Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useStatusBannerApiApiStatusBannerGet<
+  TData = Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Status Banner Api
+ */
+
+export function useStatusBannerApiApiStatusBannerGet<
+  TData = Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getStatusBannerApiApiStatusBannerGetQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
 }
 
 /**

@@ -9,6 +9,162 @@ import { faker } from "@faker-js/faker"
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
 
+import type {
+  ReproducibilityData,
+  StatusBannerApiApiStatusBannerGet200,
+} from "../model"
+
+export const getReproducibleApiApiReproducibleGetResponseMock = (
+  overrideResponse: Partial<Extract<ReproducibilityData, object>> = {},
+): ReproducibilityData => ({
+  reproducible: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    reprocheck_status: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    result_url: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    build_commit: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    git_repo: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    finished_at: faker.helpers.arrayElement([
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
+    ]),
+    reprocheck_log_url: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    repro_pipeline_id: faker.helpers.arrayElement([faker.string.uuid(), null]),
+  })),
+  unreproducible: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    reprocheck_status: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    result_url: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    build_commit: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    git_repo: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    finished_at: faker.helpers.arrayElement([
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
+    ]),
+    reprocheck_log_url: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    repro_pipeline_id: faker.helpers.arrayElement([faker.string.uuid(), null]),
+  })),
+  failed_to_rebuild: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    reprocheck_status: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    result_url: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    build_commit: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    git_repo: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    finished_at: faker.helpers.arrayElement([
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
+    ]),
+    reprocheck_log_url: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    repro_pipeline_id: faker.helpers.arrayElement([faker.string.uuid(), null]),
+  })),
+  unknown: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    reprocheck_status: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    result_url: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    build_commit: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    git_repo: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    finished_at: faker.helpers.arrayElement([
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
+    ]),
+    reprocheck_log_url: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    repro_pipeline_id: faker.helpers.arrayElement([faker.string.uuid(), null]),
+  })),
+  ...overrideResponse,
+})
+
+export const getStatusBannerApiApiStatusBannerGetResponseMock =
+  (): StatusBannerApiApiStatusBannerGet200 =>
+    faker.helpers.arrayElement([
+      {
+        severity: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        label: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        summary_status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        status_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        issues: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => ({
+          system: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          title: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          permalink: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          severity: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        })),
+      },
+      null,
+    ])
+
 export const getDashboardGetResponseMock = (): string => faker.word.sample()
 
 export const getBuildsTableApiHtmxBuildsGetResponseMock = (): string =>
@@ -22,6 +178,56 @@ export const getReproducibleStatusReproducibleGetResponseMock = (): string =>
 
 export const getReproducibleTableApiHtmxReproducibleGetResponseMock =
   (): string => faker.word.sample()
+
+export const getReproducibleApiApiReproducibleGetMockHandler = (
+  overrideResponse?:
+    | ReproducibilityData
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<ReproducibilityData> | ReproducibilityData),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/api/reproducible",
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getReproducibleApiApiReproducibleGetResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
+export const getStatusBannerApiApiStatusBannerGetMockHandler = (
+  overrideResponse?:
+    | StatusBannerApiApiStatusBannerGet200
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) =>
+        | Promise<StatusBannerApiApiStatusBannerGet200>
+        | StatusBannerApiApiStatusBannerGet200),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/api/status-banner",
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getStatusBannerApiApiStatusBannerGetResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
 
 export const getDashboardGetMockHandler = (
   overrideResponse?:
@@ -158,6 +364,8 @@ export const getReproducibleTableApiHtmxReproducibleGetMockHandler = (
   )
 }
 export const getDashboardMock = () => [
+  getReproducibleApiApiReproducibleGetMockHandler(),
+  getStatusBannerApiApiStatusBannerGetMockHandler(),
   getDashboardGetMockHandler(),
   getBuildsTableApiHtmxBuildsGetMockHandler(),
   getAppStatusStatusAppIdGetMockHandler(),

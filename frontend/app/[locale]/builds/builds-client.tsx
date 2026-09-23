@@ -1,64 +1,100 @@
 "use client"
 
-import { BuildDashboard } from "../../../@/components/build/build-dashboard"
-import { PipelineRepoWithAll } from "../../../@/components/build/build-repo-filter"
-import { useMemo, useState, Suspense } from "react"
+import { useEffect, useState, Suspense } from "react"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
-import Spinner from "src/components/Spinner"
+import { Search, X, Activity } from "lucide-react"
+import { BuildDashboard } from "../../../@/components/build/build-dashboard"
+import {
+  BuildRepoFilter,
+  PipelineRepoWithAll,
+} from "../../../@/components/build/build-repo-filter"
+import {
+  BuildStatusFilter,
+  PipelineStatusWithAll,
+} from "../../../@/components/build/build-status-filter"
+import { BuildStatusBanner } from "../../../@/components/build/build-status-banner"
 import { Input } from "../../../@/components/ui/input"
 import { Button } from "../../../@/components/ui/button"
-import { Search, X, Activity } from "lucide-react"
 import { Card } from "../../../@/components/ui/card"
+import { Link } from "src/i18n/navigation"
+import Spinner from "src/components/Spinner"
+
+const repos: Record<PipelineRepoWithAll, true> = {
+  all: true,
+  stable: true,
+  beta: true,
+  test: true,
+}
+const statuses: Record<PipelineStatusWithAll, true> = {
+  all: true,
+  pending: true,
+  running: true,
+  failed: true,
+  cancelled: true,
+  published: true,
+  succeeded: true,
+  committed: true,
+  publishing: true,
+  superseded: true,
+}
+
+function utcDate(value: string): string | undefined {
+  if (!value) return undefined
+  const date = new Date(`${value}Z`)
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
+}
 
 function BuildsContent() {
-  const [repoFilter, setRepoFilter] = useState<PipelineRepoWithAll>("all")
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+  const appId = searchParams.get("appId") || ""
+  const repoValue = searchParams.get("repo") || "all"
+  const statusValue = searchParams.get("status") || "all"
+  const repo = (
+    Object.hasOwn(repos, repoValue) ? repoValue : "all"
+  ) as PipelineRepoWithAll
+  const status = (
+    Object.hasOwn(statuses, statusValue) ? statusValue : "all"
+  ) as PipelineStatusWithAll
+  const dateFrom = searchParams.get("dateFrom") || ""
+  const dateTo = searchParams.get("dateTo") || ""
+  const [searchInput, setSearchInput] = useState(appId)
+  const [fromInput, setFromInput] = useState(dateFrom)
+  const [toInput, setToInput] = useState(dateTo)
+  useEffect(() => setSearchInput(appId), [appId])
+  useEffect(() => setFromInput(dateFrom), [dateFrom])
+  useEffect(() => setToInput(dateTo), [dateTo])
 
-  const appIdFromUrl = useMemo(
-    () => searchParams.get("appId") || undefined,
-    [searchParams],
-  )
-
-  const [searchInput, setSearchInput] = useState(appIdFromUrl || "")
-
-  const handleSearch = () => {
-    if (searchInput.trim()) {
-      const params = new URLSearchParams(searchParams.toString())
-      params.set("appId", searchInput.trim())
-      router.push(`${pathname}?${params.toString()}`)
-    } else {
-      handleClearSearch()
-    }
-  }
-
-  const handleClearSearch = () => {
-    setSearchInput("")
+  const update = (changes: Record<string, string>) => {
     const params = new URLSearchParams(searchParams.toString())
-    params.delete("appId")
-    router.push(
-      params.toString() ? `${pathname}?${params.toString()}` : pathname,
-    )
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSearch()
+    for (const [key, value] of Object.entries(changes)) {
+      if (value && value !== "all") params.set(key, value)
+      else params.delete(key)
     }
+    router.push(params.size ? `${pathname}?${params}` : pathname)
   }
+  const from = utcDate(fromInput)
+  const to = utcDate(toInput)
+  const invalidDate = Boolean(
+    (fromInput && !from) || (toInput && !to) || (from && to && from > to),
+  )
+  const invalidUrlDate = Boolean(
+    (dateFrom && !utcDate(dateFrom)) ||
+    (dateTo && !utcDate(dateTo)) ||
+    (dateFrom && dateTo && utcDate(dateFrom)! > utcDate(dateTo)!),
+  )
 
   return (
     <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      {/* Hero Header */}
       <div className="space-y-6 pt-8">
         <div className="flex items-start gap-6">
           <div className="p-4 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl">
             <Activity className="h-12 w-12 text-primary" />
           </div>
-          <div className="flex-1">
-            <h1 className="text-5xl font-extrabold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
-              {!appIdFromUrl ? "Build Dashboard" : appIdFromUrl}
+          <div className="min-w-0 flex-1">
+            <h1 className="min-w-0 break-all text-3xl sm:text-5xl font-extrabold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+              {appId || "Build Dashboard"}
             </h1>
             <p className="text-lg text-muted-foreground mt-3">
               Monitor build pipelines and deployment processes across all
@@ -67,67 +103,112 @@ function BuildsContent() {
           </div>
         </div>
       </div>
-
-      {/* Search Section */}
+      <BuildStatusBanner />
       <Card className="p-6 bg-gradient-to-r from-muted/50 to-muted/30">
         <div className="space-y-4">
           <div className="flex items-center gap-2 mb-2">
             <Search className="h-5 w-5 text-muted-foreground" />
             <h2 className="text-lg font-semibold">Search Builds</h2>
           </div>
-          <div className="flex gap-3">
-            <div className="relative flex-1 max-w-2xl">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Search by app ID (e.g., org.gnome.Calculator)..."
-                value={searchInput}
-                onChange={(e) => setSearchInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="pl-12 pr-12 h-12 text-base border-2 focus:border-primary transition-all"
-              />
-              {searchInput && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-destructive/10"
-                  onClick={() => setSearchInput("")}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
-            <Button onClick={handleSearch} size="lg" className="px-8 h-12">
+          <div className="flex flex-wrap gap-3">
+            <Input
+              aria-label="Search by app ID"
+              placeholder="Search by app ID"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") update({ appId: searchInput.trim() })
+              }}
+              className="flex-1 min-w-48"
+            />
+            <Button onClick={() => update({ appId: searchInput.trim() })}>
               <Search className="h-4 w-4 mr-2" />
               Search
             </Button>
-            {appIdFromUrl && (
-              <Button
-                variant="outline"
-                onClick={handleClearSearch}
-                size="lg"
-                className="h-12"
-              >
-                <X className="h-4 w-4 mr-2" />
-                Clear Filter
-              </Button>
-            )}
+            <Button
+              variant="outline"
+              onClick={() => {
+                setSearchInput("")
+                setFromInput("")
+                setToInput("")
+                update({
+                  appId: "",
+                  repo: "",
+                  status: "",
+                  dateFrom: "",
+                  dateTo: "",
+                })
+              }}
+            >
+              <X className="h-4 w-4 mr-2" />
+              Clear Filters
+            </Button>
           </div>
+          <div className="flex flex-wrap items-end gap-4">
+            <BuildRepoFilter
+              selectedRepoStatus={repo}
+              setSelectedRepoStatus={(value) => update({ repo: value })}
+            />
+            <BuildStatusFilter
+              selectedStatus={status}
+              setSelectedStatus={(value) => update({ status: value })}
+            />
+            <label htmlFor="builds-date-from" className="text-sm">
+              From (UTC)
+              <Input
+                id="builds-date-from"
+                type="datetime-local"
+                value={fromInput}
+                onChange={(e) => setFromInput(e.target.value)}
+              />
+            </label>
+            <label htmlFor="builds-date-to" className="text-sm">
+              To (UTC)
+              <Input
+                id="builds-date-to"
+                type="datetime-local"
+                value={toInput}
+                onChange={(e) => setToInput(e.target.value)}
+              />
+            </label>
+            <Button
+              variant="outline"
+              disabled={invalidDate}
+              onClick={() => update({ dateFrom: fromInput, dateTo: toInput })}
+            >
+              Apply dates
+            </Button>
+          </div>
+          {invalidDate && (
+            <p role="alert" className="text-destructive text-sm">
+              Enter valid UTC dates with From no later than To.
+            </p>
+          )}
         </div>
       </Card>
-
-      <BuildDashboard
-        appId={appIdFromUrl}
-        repoFilter={repoFilter}
-        setRepoFilter={setRepoFilter}
-      />
+      <Link href="/builds/reproducible" className="underline">
+        Fleet reproducibility
+      </Link>
+      {invalidUrlDate ? (
+        <p role="alert" className="text-destructive">
+          Invalid date filter. Clear filters to load builds.
+        </p>
+      ) : (
+        <BuildDashboard
+          appId={appId || undefined}
+          repoFilter={repo}
+          statusFilter={status}
+          dateFrom={dateFrom ? utcDate(dateFrom) : undefined}
+          dateTo={dateTo ? utcDate(dateTo) : undefined}
+        />
+      )}
     </div>
   )
 }
 
 export default function BuildsClient() {
   return (
-    <Suspense fallback={<Spinner size={"m"} />}>
+    <Suspense fallback={<Spinner size="m" />}>
       <BuildsContent />
     </Suspense>
   )

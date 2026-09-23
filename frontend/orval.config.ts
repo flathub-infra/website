@@ -57,7 +57,9 @@ export default defineConfig({
       },
     },
     input: {
-      target: "https://builds.flathub.org/openapi.json",
+      target:
+        process.env.PIPELINE_OPENAPI_URL ??
+        "https://builds.flathub.org/openapi.json",
     },
   },
 })

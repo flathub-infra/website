@@ -1,11 +1,11 @@
-import { BuildTable } from "./build-table"
+import { useMemo, useState } from "react"
+import { keepPreviousData } from "@tanstack/react-query"
 import {
   useListPipelinesApiPipelinesGet,
-  PipelineStatus,
-  PipelineSummary,
+  type ListPipelinesApiPipelinesGetParams,
 } from "src/codegen-pipeline"
-import { LoadingDashboard } from "./loading-dashboard"
-import { BuildRepoFilter } from "./build-repo-filter"
+import { BuildTable } from "./build-table"
+import { Button } from "@/components/ui/button"
 import {
   ChevronDown,
   ChevronUp,
@@ -13,198 +13,151 @@ import {
   Clock,
   CheckCircle2,
 } from "lucide-react"
-import { useState, useMemo, useEffect } from "react"
-import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
-import { UTCDate } from "@date-fns/utc"
+import type { PipelineRepoWithAll } from "./build-repo-filter"
+import type { PipelineStatusWithAll } from "./build-status-filter"
 
 type StatusGroup = "in-progress" | "awaiting-publishing" | "completed"
-
-const STATUS_GROUPS: Record<StatusGroup, PipelineStatus[]> = {
-  "in-progress": ["pending", "running", "publishing", "succeeded"],
-  "awaiting-publishing": ["committed"],
-  completed: ["published", "failed", "cancelled"],
-}
-
-const GROUP_LABELS: Record<StatusGroup, string> = {
+const groups: StatusGroup[] = [
+  "in-progress",
+  "awaiting-publishing",
+  "completed",
+]
+const labels: Record<StatusGroup, string> = {
   "in-progress": "In Progress",
   "awaiting-publishing": "Awaiting Publishing",
   completed: "Completed",
 }
-
-const GROUP_ICONS: Record<StatusGroup, React.ReactNode> = {
+const icons: Record<StatusGroup, React.ReactNode> = {
   "in-progress": <Activity className="h-5 w-5" />,
   "awaiting-publishing": <Clock className="h-5 w-5" />,
   completed: <CheckCircle2 className="h-5 w-5" />,
 }
-
-const GROUP_COLORS: Record<StatusGroup, string> = {
+const colors: Record<StatusGroup, string> = {
   "in-progress": "text-blue-600 dark:text-blue-400",
   "awaiting-publishing": "text-yellow-600 dark:text-yellow-400",
   completed: "text-green-600 dark:text-green-400",
 }
 
-export function BuildDashboard({ appId, repoFilter, setRepoFilter }) {
-  const [expandedGroups, setExpandedGroups] = useState<Set<StatusGroup>>(
-    new Set(["in-progress", "awaiting-publishing"]),
-  )
+interface DashboardFilters {
+  appId?: string
+  repoFilter: PipelineRepoWithAll
+  statusFilter: PipelineStatusWithAll
+  dateFrom?: string
+  dateTo?: string
+}
 
-  const toggleGroup = (group: StatusGroup) => {
-    const newExpanded = new Set(expandedGroups)
-    if (newExpanded.has(group)) {
-      newExpanded.delete(group)
-    } else {
-      newExpanded.add(group)
-    }
-    setExpandedGroups(newExpanded)
+function DashboardGroup({
+  group,
+  filters,
+}: {
+  group: StatusGroup
+  filters: DashboardFilters
+}) {
+  const [offset, setOffset] = useState(0)
+  const [expanded, setExpanded] = useState(group !== "completed")
+  const filterKey = useMemo(() => JSON.stringify(filters), [filters])
+  const [lastFilterKey, setLastFilterKey] = useState(filterKey)
+  if (lastFilterKey !== filterKey) {
+    setLastFilterKey(filterKey)
+    setOffset(0)
   }
-
+  const params: ListPipelinesApiPipelinesGetParams = {
+    type: "build",
+    group,
+    limit: 50,
+    offset,
+    app_id: filters.appId,
+    app_id_match: "contains",
+    target_repo: filters.repoFilter === "all" ? undefined : filters.repoFilter,
+    status: filters.statusFilter === "all" ? undefined : filters.statusFilter,
+    date_from: filters.dateFrom,
+    date_to: filters.dateTo,
+  }
+  const query = useListPipelinesApiPipelinesGet(params, {
+    query: {
+      refetchInterval: 30000,
+      retry: false,
+      placeholderData: keepPreviousData,
+    },
+  })
+  const pipelines = query.data?.data
   return (
-    <div className="space-y-6">
-      <Card className="p-5 bg-gradient-to-r from-muted/50 to-muted/30">
+    <div className="space-y-3">
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full px-6 py-4 flex items-center justify-between hover:bg-muted/50 transition-colors rounded-lg bg-card border"
+      >
         <div className="flex items-center gap-3">
-          <BuildRepoFilter
-            selectedRepoStatus={repoFilter}
-            setSelectedRepoStatus={setRepoFilter}
-          />
+          <div className={cn("flex items-center", colors[group])}>
+            {icons[group]}
+          </div>
+          <h3 className="text-lg font-semibold">{labels[group]}</h3>
+          <span className="text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full">
+            {pipelines?.length ?? 0}{" "}
+            {pipelines?.length === 1 ? "record" : "records"} on this page
+          </span>
         </div>
-      </Card>
-
-      <Builds
-        appId={appId}
-        repoFilter={repoFilter}
-        expandedGroups={expandedGroups}
-        toggleGroup={toggleGroup}
-      />
+        {expanded ? (
+          <ChevronUp className="h-5 w-5 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="h-5 w-5 text-muted-foreground" />
+        )}
+      </button>
+      {query.isError && (
+        <div role="alert" className="px-6 py-3 text-destructive">
+          {pipelines
+            ? "Refresh failed; showing the last loaded page."
+            : `Failed to load ${labels[group].toLowerCase()} builds.`}{" "}
+          <Button variant="outline" onClick={() => query.refetch()}>
+            Retry
+          </Button>
+        </div>
+      )}
+      {expanded && (
+        <div>
+          {query.isPending && <p className="px-6 py-8">Loading builds...</p>}
+          {pipelines &&
+            (pipelines.length ? (
+              <BuildTable pipelines={pipelines} />
+            ) : (
+              <p className="px-6 py-8 text-center rounded-lg bg-card border">
+                No builds in this category
+              </p>
+            ))}
+          {pipelines && (
+            <div className="flex items-center justify-end gap-2 mt-3">
+              <Button
+                variant="outline"
+                disabled={offset === 0}
+                onClick={() => setOffset(Math.max(0, offset - 50))}
+              >
+                Previous
+              </Button>
+              <span className="text-sm text-muted-foreground">
+                Page {offset / 50 + 1}
+              </span>
+              <Button
+                variant="outline"
+                disabled={pipelines.length < 50}
+                onClick={() => setOffset(offset + 50)}
+              >
+                Next
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
 
-const Builds = ({ appId, repoFilter, expandedGroups, toggleGroup }) => {
-  const query = useListPipelinesApiPipelinesGet({
-    app_id: appId || undefined,
-    target_repo: repoFilter === "all" ? undefined : repoFilter,
-    limit: 100,
-  })
-
-  // Auto-refresh every 30 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      query.refetch()
-    }, 30000) // 30 seconds
-
-    return () => clearInterval(interval)
-  }, [query])
-
-  // Group by status group - must be called before any conditional returns
-  const groupedByStatusGroup = useMemo(() => {
-    const groups = new Map<StatusGroup, PipelineSummary[]>()
-
-    // Initialize all groups
-    Object.keys(STATUS_GROUPS).forEach((group) => {
-      groups.set(group as StatusGroup, [])
-    })
-
-    if (!query.data?.data) {
-      return groups
-    }
-
-    const filteredPipelines = query.data.data.filter((summary) => {
-      const hasValidBuild =
-        summary.build_id != null && summary.status !== "superseded"
-      return hasValidBuild
-    })
-
-    // Distribute pipelines to groups
-    filteredPipelines.forEach((pipeline) => {
-      // Test builds that are committed should be in completed, not awaiting-publishing
-      if (pipeline.status === "committed" && pipeline.repo === "test") {
-        groups.get("completed")?.push(pipeline)
-        return
-      }
-
-      for (const [group, statuses] of Object.entries(STATUS_GROUPS)) {
-        if ((statuses as PipelineStatus[]).includes(pipeline.status)) {
-          groups.get(group as StatusGroup)?.push(pipeline)
-          break
-        }
-      }
-    })
-
-    // Sort within each group by created_at (newest first)
-    groups.forEach((pipelines) => {
-      pipelines.sort(
-        (a, b) =>
-          new UTCDate(b.created_at).getTime() -
-          new UTCDate(a.created_at).getTime(),
-      )
-    })
-
-    return groups
-  }, [query.data, appId])
-
-  if (query.isLoading) {
-    return <LoadingDashboard />
-  }
-
-  if (query.isError || !query.data) {
-    return (
-      <div className="text-center py-8">
-        <p className="text-muted-foreground">Failed to load builds</p>
-      </div>
-    )
-  }
-
-  const statusGroupOrder: StatusGroup[] = [
-    "in-progress",
-    "awaiting-publishing",
-    "completed",
-  ]
-
+export function BuildDashboard(filters: DashboardFilters) {
   return (
     <div className="space-y-6">
-      {statusGroupOrder.map((group) => {
-        const pipelines = groupedByStatusGroup.get(group) || []
-        const isExpanded = expandedGroups.has(group)
-
-        return (
-          <div key={group} className="space-y-3">
-            <button
-              onClick={() => toggleGroup(group)}
-              className="w-full px-6 py-4 flex items-center justify-between hover:bg-muted/50 transition-colors rounded-lg bg-card border"
-            >
-              <div className="flex items-center gap-3">
-                <div className={cn("flex items-center", GROUP_COLORS[group])}>
-                  {GROUP_ICONS[group]}
-                </div>
-                <h3 className="text-lg font-semibold">{GROUP_LABELS[group]}</h3>
-                {group !== "completed" && (
-                  <span className="text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full">
-                    {pipelines.length} build{pipelines.length !== 1 ? "s" : ""}
-                  </span>
-                )}
-              </div>
-              {isExpanded ? (
-                <ChevronUp className="h-5 w-5 text-muted-foreground" />
-              ) : (
-                <ChevronDown className="h-5 w-5 text-muted-foreground" />
-              )}
-            </button>
-
-            {isExpanded && pipelines.length > 0 && (
-              <BuildTable pipelines={pipelines} />
-            )}
-
-            {isExpanded && pipelines.length === 0 && (
-              <div className="px-6 py-8 text-center rounded-lg bg-card border">
-                <p className="text-muted-foreground">
-                  No builds in this category
-                </p>
-              </div>
-            )}
-          </div>
-        )
-      })}
+      {groups.map((group) => (
+        <DashboardGroup key={group} group={group} filters={filters} />
+      ))}
     </div>
   )
 }

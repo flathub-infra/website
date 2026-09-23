@@ -15,6 +15,7 @@ import {
 import { formatDistanceStrict, formatDistanceToNow } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
 import { cn } from "@/lib/utils"
+import { getPipelineFailureUrl } from "src/builds/pipeline-links"
 
 interface BuildGroupProps {
   title: string
@@ -115,29 +116,53 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
                   className="hover:bg-muted/50 transition-colors"
                 >
                   <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      {getStatusIcon(build.status)}
-                      <Badge variant={getStatusColor(build.status)}>
-                        {getStatusLabel(build.status)}
-                      </Badge>
-                    </div>
+                    {(() => {
+                      const target =
+                        build.status === "failed"
+                          ? getPipelineFailureUrl(build)
+                          : build.status === "publishing" &&
+                              build.update_repo_job_id != null
+                            ? `https://hub.flathub.org/status/${build.update_repo_job_id}`
+                            : ["committed", "succeeded"].includes(
+                                  build.status,
+                                ) && build.commit_job_id != null
+                              ? `https://hub.flathub.org/status/${build.commit_job_id}`
+                              : build.build_id != null
+                                ? `https://hub.flathub.org/status/${build.build_id}`
+                                : null
+                      const badge = (
+                        <>
+                          <Badge variant={getStatusColor(build.status)}>
+                            {getStatusLabel(build.status)}
+                          </Badge>
+                        </>
+                      )
+                      return (
+                        <div className="flex items-center gap-2">
+                          {getStatusIcon(build.status)}
+                          {target ? (
+                            <a href={target} target="_blank" rel="noreferrer">
+                              {badge}
+                            </a>
+                          ) : (
+                            badge
+                          )}
+                        </div>
+                      )
+                    })()}
                   </td>
                   <td className="px-4 py-3 text-xs text-muted-foreground">
-                    {build.build_id ? (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-auto p-0 text-xs"
-                        asChild
+                    {build.source_repo && (build.pr_number || build.sha) ? (
+                      <a
+                        href={`https://github.com/${build.source_repo}/${build.pr_number ? `pull/${build.pr_number}` : `commit/${build.sha}`}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover:underline"
                       >
-                        <a
-                          href={`https://hub.flathub.org/status/${build.build_id}`}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {build.build_id}
-                        </a>
-                      </Button>
+                        {build.pr_number
+                          ? `PR #${build.pr_number}`
+                          : build.sha?.slice(0, 7)}
+                      </a>
                     ) : (
                       <span>-</span>
                     )}
@@ -161,16 +186,40 @@ export function BuildGroup({ title, builds, repo }: BuildGroupProps) {
                     )}
                   </td>
                   <td className="px-4 py-3 text-xs">
-                    {build.repro_pipeline_id ? (
-                      <Badge variant="secondary" className="gap-1">
-                        <Repeat2 className="h-3 w-3" />
-                        Reprocheck
-                      </Badge>
-                    ) : (
-                      <span className="text-muted-foreground text-xs">
-                        No reprocheck
-                      </span>
-                    )}
+                    <div className="flex flex-col items-start gap-1">
+                      {build.reprocheck_status_code === "42" &&
+                      build.repro_pipeline_id ? (
+                        <a
+                          href={`https://builds.flathub.org/diffoscope/${build.repro_pipeline_id}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="hover:underline"
+                        >
+                          Unreproducible
+                        </a>
+                      ) : (
+                        <Badge variant="secondary" className="gap-1">
+                          <Repeat2 className="h-3 w-3" />
+                          {build.reprocheck_status_code === "0"
+                            ? "Reproducible"
+                            : build.reprocheck_status_code === "42"
+                              ? "Unreproducible"
+                              : build.reprocheck_status_code === "1"
+                                ? "Failed to rebuild"
+                                : build.repro_pipeline_id
+                                  ? "Unknown"
+                                  : "No reprocheck"}
+                        </Badge>
+                      )}
+                      {build.repro_pipeline_id && (
+                        <Link
+                          href={`/builds/${build.repro_pipeline_id}`}
+                          className="text-xs underline"
+                        >
+                          Reprocheck details
+                        </Link>
+                      )}
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-right">
                     <Button variant="ghost" size="sm" asChild>

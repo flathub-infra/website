@@ -28,20 +28,13 @@ interface ChartData {
 
 export function BuildTimeChart({ builds }: BuildTimeChartProps) {
   const chartData = useMemo(() => {
-    // Filter and transform builds with duration - only successful builds
     const buildsWithDuration = builds
-      .filter(
-        (build) =>
-          build.started_at &&
-          build.finished_at &&
-          (build.status === "published" || build.status === "succeeded"),
-      )
+      .filter((build) => build.started_at && build.finished_at)
       .sort(
         (a, b) =>
-          new UTCDate(a.created_at).getTime() -
-          new UTCDate(b.created_at).getTime(),
+          new UTCDate(a.started_at!).getTime() -
+          new UTCDate(b.started_at!).getTime(),
       )
-      .slice(-30)
       .map((build) => {
         const start = new UTCDate(build.started_at!)
         const end = new UTCDate(build.finished_at!)
@@ -49,7 +42,7 @@ export function BuildTimeChart({ builds }: BuildTimeChartProps) {
         const durationMinutes = Math.round(durationMs / 1000 / 60)
 
         return {
-          date: new UTCDate(build.created_at).toLocaleDateString("en-US", {
+          date: start.toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
           }),

@@ -13,11 +13,11 @@ import {
   GitCommit,
   GitPullRequest,
 } from "lucide-react"
-import { formatDistanceStrict, formatDistanceToNow } from "date-fns"
+import { formatDistanceToNow } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
 import { getRepoBadgeVariant } from "./build-card"
 import { cn } from "@/lib/utils"
-import { useGetPipelineApiPipelinesPipelineIdGet } from "src/codegen-pipeline"
+import { getPipelineFailureUrl } from "src/builds/pipeline-links"
 
 interface BuildTableProps {
   pipelines: PipelineSummary[]
@@ -70,23 +70,43 @@ function getStatusColor(status: string): string {
   }
 }
 
+function buildDuration(pipeline: PipelineSummary): string {
+  if (!pipeline.started_at)
+    return pipeline.status === "pending" ? "Pending" : "-"
+  if (!pipeline.finished_at)
+    return ["pending", "running", "succeeded", "publishing"].includes(
+      pipeline.status,
+    )
+      ? "In progress"
+      : "-"
+  const seconds = Math.max(
+    0,
+    Math.floor(
+      (new UTCDate(pipeline.finished_at).getTime() -
+        new UTCDate(pipeline.started_at).getTime()) /
+        1000,
+    ),
+  )
+  if (seconds < 60) return `${seconds}s`
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ${seconds % 60}s`
+  return `${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}m`
+}
+
+function statusUrl(pipeline: PipelineSummary): string | null {
+  if (pipeline.status === "failed") return getPipelineFailureUrl(pipeline)
+  if (
+    ["succeeded", "committed"].includes(pipeline.status) &&
+    pipeline.commit_job_id != null
+  )
+    return `https://hub.flathub.org/status/${pipeline.commit_job_id}`
+  if (pipeline.status === "publishing" && pipeline.update_repo_job_id != null)
+    return `https://hub.flathub.org/status/${pipeline.update_repo_job_id}`
+  return null
+}
+
 function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
-  const detailQuery = useGetPipelineApiPipelinesPipelineIdGet(pipeline.id, {
-    query: { staleTime: Infinity },
-  })
-
-  const params = detailQuery.data?.data?.params as
-    | {
-        repo?: string
-        sha?: string
-        pr_number?: string
-      }
-    | undefined
-
   const getSourceInfo = () => {
-    if (!params) return null
-
-    const { repo, sha, pr_number } = params
+    const { source_repo: repo, sha, pr_number } = pipeline
 
     // Parse repo string like "flathub/org.archivekeep.ArchiveKeep"
     const repoParts = repo?.split("/")
@@ -115,6 +135,7 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
 
     return null
   }
+  const destination = statusUrl(pipeline)
 
   const sourceInfo = getSourceInfo()
 
@@ -125,14 +146,26 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
         className={cn("hidden md:table-row", getStatusColor(pipeline.status))}
       >
         <td className="px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="flex-shrink-0">
+          {destination ? (
+            <a
+              href={destination}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 hover:underline"
+            >
               {getStatusIcon(pipeline.status)}
+              <span className="capitalize text-sm font-semibold">
+                {getStatusLabel(pipeline.status)}
+              </span>
+            </a>
+          ) : (
+            <div className="flex items-center gap-3">
+              {getStatusIcon(pipeline.status)}
+              <span className="capitalize text-sm font-semibold">
+                {getStatusLabel(pipeline.status)}
+              </span>
             </div>
-            <span className="capitalize text-sm font-semibold">
-              {getStatusLabel(pipeline.status)}
-            </span>
-          </div>
+          )}
         </td>
         <td className="px-6 py-4 font-medium max-w-xs">
           <Link
@@ -175,28 +208,32 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
               <ExternalLink className="h-3 w-3 opacity-50 group-hover:opacity-100" />
             </a>
           ) : (
-            <span className="text-muted-foreground text-xs">
-              {detailQuery.isFetching ? "Loading..." : "-"}
-            </span>
+            <span className="text-muted-foreground text-xs">-</span>
           )}
         </td>
         <td className="px-6 py-4 text-sm text-muted-foreground">
-          {formatDistanceToNow(new UTCDate(pipeline.created_at), {
-            addSuffix: true,
-          })}
+          {pipeline.started_at ? (
+            pipeline.log_url ? (
+              <a
+                href={pipeline.log_url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {formatDistanceToNow(new UTCDate(pipeline.started_at), {
+                  addSuffix: true,
+                })}
+              </a>
+            ) : (
+              formatDistanceToNow(new UTCDate(pipeline.started_at), {
+                addSuffix: true,
+              })
+            )
+          ) : (
+            "Pending"
+          )}
         </td>
         <td className="px-6 py-4 text-sm font-medium">
-          {pipeline.started_at && pipeline.finished_at ? (
-            <span className="text-foreground">
-              {formatDistanceStrict(
-                new UTCDate(pipeline.started_at),
-                new UTCDate(pipeline.finished_at),
-                { unit: "minute" },
-              )}
-            </span>
-          ) : (
-            <span className="text-muted-foreground text-xs">Pending</span>
-          )}
+          {buildDuration(pipeline)}
         </td>
         <td className="px-6 py-4 text-right">
           <Button
@@ -226,12 +263,26 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
         <td className="px-4 py-4 col-span-1 w-full">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                {getStatusIcon(pipeline.status)}
-                <span className="capitalize text-sm font-semibold text-foreground">
-                  {getStatusLabel(pipeline.status)}
-                </span>
-              </div>
+              {destination ? (
+                <a
+                  href={destination}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:underline"
+                >
+                  {getStatusIcon(pipeline.status)}
+                  <span className="capitalize text-sm font-semibold">
+                    {getStatusLabel(pipeline.status)}
+                  </span>
+                </a>
+              ) : (
+                <div className="flex items-center gap-2">
+                  {getStatusIcon(pipeline.status)}
+                  <span className="capitalize text-sm font-semibold">
+                    {getStatusLabel(pipeline.status)}
+                  </span>
+                </div>
+              )}
               {pipeline.repo && (
                 <Badge
                   variant={getRepoBadgeVariant(pipeline.repo)}
@@ -251,22 +302,30 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
 
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>
-                {formatDistanceToNow(new UTCDate(pipeline.created_at), {
-                  addSuffix: true,
-                })}
+                {pipeline.started_at ? (
+                  pipeline.log_url ? (
+                    <a
+                      href={pipeline.log_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {formatDistanceToNow(new UTCDate(pipeline.started_at), {
+                        addSuffix: true,
+                      })}
+                    </a>
+                  ) : (
+                    formatDistanceToNow(new UTCDate(pipeline.started_at), {
+                      addSuffix: true,
+                    })
+                  )
+                ) : (
+                  "Pending"
+                )}
               </span>
-              {pipeline.started_at && pipeline.finished_at && (
-                <span>
-                  {formatDistanceStrict(
-                    new UTCDate(pipeline.started_at),
-                    new UTCDate(pipeline.finished_at),
-                    { unit: "minute" },
-                  )}
-                </span>
-              )}
+              <span>{buildDuration(pipeline)}</span>
             </div>
 
-            {sourceInfo && (
+            {sourceInfo ? (
               <a
                 href={sourceInfo.url}
                 target="_blank"
@@ -283,6 +342,8 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
                 </span>
                 <ExternalLink className="h-3 w-3 opacity-50" />
               </a>
+            ) : (
+              <span className="text-muted-foreground text-xs">-</span>
             )}
 
             <Button
@@ -342,7 +403,7 @@ export function BuildTable({ pipelines }: BuildTableProps) {
                   Source
                 </th>
                 <th className="px-6 py-4 text-left font-bold text-xs uppercase tracking-wider">
-                  Created
+                  Started
                 </th>
                 <th className="px-6 py-4 text-left font-bold text-xs uppercase tracking-wider">
                   Duration

@@ -38,6 +38,7 @@ import {
   getGitHubActionsRun,
   type GitHubActionsJob,
 } from "src/builds/github-actions"
+import { getPipelineFailureUrl } from "src/builds/pipeline-links"
 
 type ReprocheckResult = {
   message: string
@@ -307,6 +308,18 @@ export default function BuildDetailClient({ pipelineId }: Props) {
           <BuildCardContent pipelineSummary={pipeline} />
         </CardContent>
       </Card>
+
+      {status === "failed" && getPipelineFailureUrl(pipeline) && (
+        <Button variant="outline" asChild>
+          <a
+            href={getPipelineFailureUrl(pipeline)!}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open failure details
+          </a>
+        </Button>
+      )}
 
       {status === "failed" && reprocheckResult && (
         <Card className="border-2 border-red-200 bg-red-50/60 dark:border-red-900/70 dark:bg-red-950/20">
