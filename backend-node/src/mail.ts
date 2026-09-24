@@ -23,13 +23,15 @@ export async function sendMail({
   to,
   subject,
   emailHtml,
+  text,
 }: {
   category: string
   messageId: string
   references?: string
   to: string
   subject: string
-  emailHtml: any
+  emailHtml: string | undefined
+  text?: string
 }) {
   const transporter = createTransport({
     host: process.env.HOST || "smtp-test-server",
@@ -61,6 +63,7 @@ export async function sendMail({
     to: to,
     subject: subject,
     html: emailHtml,
+    text,
     headers: headers,
   }
 
