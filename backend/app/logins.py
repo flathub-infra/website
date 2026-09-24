@@ -6,6 +6,8 @@ Here we handle all the login flows, user management etc.
 And we present the full /auth/ sub-namespace
 """
 
+import hashlib
+import hmac
 import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -14,9 +16,12 @@ from enum import StrEnum
 from typing import cast
 
 import httpx
+import redis
 from authlib.integrations.base_client.errors import OAuthError
 from authlib.oauth2.base import OAuth2Error
 from fastapi import APIRouter, FastAPI, HTTPException, Request, Response
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from github import Github
 from github.AuthenticatedUser import AuthenticatedUser
@@ -36,6 +41,7 @@ from . import (
     utils,
 )
 from .database import get_db
+from .email_login import normalize_login_email, safe_locale, safe_return_to
 from .emails import EmailCategory
 from .login_info import (
     LoggedInDep,
@@ -185,6 +191,110 @@ def refresh_oauth_token(account: models.ConnectedAccount) -> str:
 
 
 router = APIRouter(prefix="/auth")
+
+
+_email_rate_store = redis.Redis(
+    host=config.settings.redis_host,
+    port=config.settings.redis_port,
+    db=config.settings.redis_db,
+    decode_responses=True,
+    socket_connect_timeout=0.2,
+    socket_timeout=0.2,
+)
+_EMAIL_RATE_SCRIPT = """
+local counts = {}
+for i = 1, #KEYS do
+    counts[i] = redis.call('INCR', KEYS[i])
+    if counts[i] == 1 then
+        redis.call('EXPIRE', KEYS[i], ARGV[i])
+    end
+end
+return counts
+"""
+
+
+class EmailLinkRequest(BaseModel):
+    email: str
+    locale: str = "en"
+    return_to: str | None = None
+
+
+class EmailLinkAccepted(BaseModel):
+    status: str = "accepted"
+
+
+class EmailLoginConfig(BaseModel):
+    enabled: bool
+
+
+@router.get("/email/config", tags=["auth"])
+@cache.no_store
+def get_email_login_config(response: Response) -> EmailLoginConfig:
+    response.headers["Cache-Control"] = "no-store"
+    return EmailLoginConfig(enabled=config.settings.email_login_enabled)
+
+
+@router.post("/email/request", status_code=202, tags=["auth"])
+@cache.no_store
+def request_email_login(
+    body: EmailLinkRequest, request: Request, response: Response, login: LoginStatusDep
+) -> EmailLinkAccepted:
+    response.headers["Cache-Control"] = "no-store"
+    if not config.settings.email_login_enabled:
+        raise HTTPException(status_code=404, detail="email_login_disabled")
+    if login.user is not None:
+        raise HTTPException(status_code=409, detail="already_logged_in")
+    if request.headers.get("origin") != config.settings.frontend_url.rstrip("/"):
+        raise HTTPException(status_code=403, detail="invalid_origin")
+    try:
+        email = normalize_login_email(body.email)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail="invalid_email_request") from exc
+
+    address_key = hmac.new(
+        config.settings.session_secret_key.encode(),
+        email.encode("ascii"),
+        hashlib.sha256,
+    ).hexdigest()
+    ip = request.client.host if request.client else "unknown"
+    keys = [
+        f"email-login:ip:{ip}:hour",
+        f"email-login:address:{address_key}:minute",
+        f"email-login:address:{address_key}:hour",
+    ]
+    try:
+        counts = cast(
+            "list[int]",
+            _email_rate_store.eval(
+                _EMAIL_RATE_SCRIPT, len(keys), *keys, 3600, 60, 3600
+            ),
+        )
+    except (redis.RedisError, OSError) as exc:
+        raise HTTPException(status_code=503, detail="email_login_unavailable") from exc
+    if counts[0] > 20:
+        raise HTTPException(
+            status_code=429,
+            detail="email_login_rate_limited",
+            headers={"Retry-After": "3600"},
+        )
+    with get_db("writer") as db:
+        account = db.session.query(models.EmailAccount).filter_by(email=email).first()
+        user_id = account.user if account is not None else None
+    if counts[1] > 1 or counts[2] > 5:
+        return EmailLinkAccepted()
+    from .worker.emails import send_email_login_link
+
+    try:
+        send_email_login_link.send(
+            email,
+            safe_locale(body.locale),
+            safe_return_to(body.return_to),
+            datetime.now(UTC).timestamp(),
+            user_id,
+        )
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail="email_login_unavailable") from exc
+    return EmailLinkAccepted()
 
 
 class LoginMethod(BaseModel):
@@ -1270,3 +1380,22 @@ def register_to_app(app: FastAPI):
         https_only=True,
     )
     app.include_router(router)
+    app.add_exception_handler(RequestValidationError, _email_validation_error)
+
+
+async def _email_validation_error(request: Request, exc: Exception) -> Response:
+    if not isinstance(exc, RequestValidationError):
+        raise exc
+    if request.url.path.endswith("/auth/email/request"):
+        return JSONResponse(
+            {"detail": "invalid_email_request"},
+            status_code=422,
+            headers={"Cache-Control": "no-store"},
+        )
+    if request.url.path.endswith("/auth/email/confirm"):
+        return JSONResponse(
+            {"detail": "invalid_email_link"},
+            status_code=400,
+            headers={"Cache-Control": "no-store"},
+        )
+    return await request_validation_exception_handler(request, exc)
