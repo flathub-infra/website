@@ -2,11 +2,13 @@ import base64
 import datetime
 from enum import StrEnum
 from typing import Annotated, Any
+from urllib.parse import urlsplit
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel
+from sentry_sdk.types import Breadcrumb, Event, Hint
 from sqlalchemy import select
 
 from . import http_client, models
@@ -24,6 +26,120 @@ class EmailCategory(StrEnum):
     MODERATION_REJECTED = "moderation_rejected"
     SECURITY_LOGIN = "security_login"
     UPLOAD_TOKEN_CREATED = "upload_token_created"
+    EMAIL_LOGIN = "email_login"
+
+
+_EMAIL_LOGIN_TASK = "send_email_login_link"
+_EMAIL_AUTH_PATH = "/auth/email"
+
+
+def _is_email_auth_path(value: str) -> bool:
+    try:
+        path = urlsplit(value).path if "://" in value else value
+    except ValueError:
+        return _EMAIL_AUTH_PATH in value
+    if " " in path:
+        path = path.split(" ", 1)[1]
+    path = path.split("?", 1)[0].split("#", 1)[0]
+    return path in {_EMAIL_AUTH_PATH, f"/api/v2{_EMAIL_AUTH_PATH}"} or path.startswith(
+        (f"{_EMAIL_AUTH_PATH}/", f"/api/v2{_EMAIL_AUTH_PATH}/")
+    )
+
+
+def _contains_email_auth_path(value: Any) -> bool:
+    if isinstance(value, dict):
+        for key, child in value.items():
+            if (
+                key in {"url", "path", "route", "transaction", "transaction_name"}
+                and isinstance(child, str)
+                and _is_email_auth_path(child)
+            ):
+                return True
+            if _contains_email_auth_path(child):
+                return True
+    elif isinstance(value, (list, tuple)):
+        return any(_contains_email_auth_path(child) for child in value)
+    return False
+
+
+def _contains_email_login(value: Any) -> bool:
+    if isinstance(value, dict):
+        if value.get("category") == EmailCategory.EMAIL_LOGIN.value:
+            return True
+        if any(key.lower() == "signinurl" for key in value if isinstance(key, str)):
+            return True
+        for child in value.values():
+            if isinstance(child, str) and _EMAIL_LOGIN_TASK in child:
+                return True
+            if _contains_email_login(child):
+                return True
+    elif isinstance(value, (list, tuple)):
+        return any(_contains_email_login(child) for child in value)
+    elif isinstance(value, str):
+        lowered = value.lower()
+        return (
+            "email_login" in lowered
+            or _EMAIL_LOGIN_TASK in value
+            or "/login/email/confirm" in lowered
+        )
+    return False
+
+
+def sentry_before_send(event: Event, hint: Hint) -> Event:
+    is_email_auth = _contains_email_auth_path(event)
+    is_email_login = _contains_email_login(event)
+    if not is_email_auth and not is_email_login:
+        return event
+
+    request = event.get("request")
+    if isinstance(request, dict):
+        safe_request: dict[str, object] = {}
+        method = request.get("method")
+        if isinstance(method, str):
+            safe_request["method"] = method
+        if is_email_auth:
+            safe_request["url"] = _EMAIL_AUTH_PATH
+        event["request"] = safe_request
+    event.pop("extra", None)
+    event.pop("breadcrumbs", None)
+    event.pop("contexts", None)
+
+    event.pop("message", None)
+    event["logentry"] = {
+        "message": (
+            "Email login delivery failed"
+            if is_email_login
+            else "Email authentication request failed"
+        )
+    }
+    exception = event.get("exception")
+    if isinstance(exception, dict):
+        for value in exception.get("values", []):
+            if isinstance(value, dict):
+                value["value"] = "[Filtered]"
+                value.pop("mechanism", None)
+                stacktrace = value.get("stacktrace")
+                if isinstance(stacktrace, dict):
+                    for frame in stacktrace.get("frames", []):
+                        if isinstance(frame, dict):
+                            frame.pop("vars", None)
+    threads = event.get("threads")
+    if isinstance(threads, dict):
+        for thread in threads.get("values", []):
+            if not isinstance(thread, dict):
+                continue
+            stacktrace = thread.get("stacktrace")
+            if isinstance(stacktrace, dict):
+                for frame in stacktrace.get("frames", []):
+                    if isinstance(frame, dict):
+                        frame.pop("vars", None)
+    return event
+
+
+def sentry_before_breadcrumb(crumb: Breadcrumb, hint: Hint) -> Breadcrumb | None:
+    if _contains_email_auth_path(crumb) or _contains_email_login(crumb):
+        return None
+    return crumb
 
 
 def _get_destination_and_append(
@@ -133,11 +249,7 @@ def send_one_email_new(payload: dict, dest: str):
     result = http_client.post(f"{settings.backend_node_url}/emails", json=payload)
 
     if result.status_code != 200:
-        raise RuntimeError(
-            "Failed to send email",
-            result.text or None,
-            payload,
-        )
+        raise RuntimeError(f"Failed to send email (HTTP {result.status_code})")
 
 
 router = APIRouter(prefix="/emails")

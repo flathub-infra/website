@@ -52,6 +52,8 @@ if config.settings.sentry_dsn:
             SqlalchemyIntegration(),
             RedisIntegration(),
         ],
+        before_send=emails.sentry_before_send,
+        before_breadcrumb=emails.sentry_before_breadcrumb,
     )
 
 
