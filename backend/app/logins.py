@@ -570,7 +570,7 @@ def start_oauth_flow(
     request: Request,
     login: LoginInformation,
     method: str,
-    account_model: type[models.ConnectedAccount],
+    account_model: "_OAuthAccountModel",
 ):
     """
     Start an oauth login flow. This uses the session-backed flow state, the
@@ -931,13 +931,88 @@ def continue_kde_flow(
     )
 
 
+def _upgrade_email_user(
+    db,
+    user: models.FlathubUser,
+    method: str,
+    provider_data: "ProviderInfo",
+    login_result: dict,
+    account_model: type[models.ConnectedAccount],
+):
+    from .email_login import lock_email, normalize_login_email
+
+    locked = db.session.scalar(
+        select(models.FlathubUser)
+        .where(models.FlathubUser.id == user.id)
+        .with_for_update()
+    )
+    email_account = models.EmailAccount.by_user(db, locked)
+    if locked is None or email_account is None or not email_login_allowed(db, locked):
+        return None
+    provider_email = None
+    if provider_data.email:
+        try:
+            provider_email = normalize_login_email(provider_data.email)
+        except ValueError:
+            provider_email = None
+    if provider_email:
+        lock_email(db, provider_email)
+        if oauth_email_exists(db, provider_email):
+            return None
+
+    userid = {f"{method}_userid": provider_data.id}
+    account = account_model(
+        **userid,
+        token=login_result["access_token"],
+        last_used=utils.utcnow(),
+        user=locked.id,
+        login=provider_data.login,
+        avatar_url=provider_data.avatar_url,
+        display_name=provider_data.name,
+        email=provider_data.email,
+    )
+    if "refresh_token" in login_result:
+        refreshable = cast("_OAuthRefreshableAccount", account)
+        refreshable.refresh_token = login_result["refresh_token"]
+        refreshable.token_expiry = utils.utcnow() + timedelta(
+            seconds=int(login_result.get("expires_in", "7200"))
+        )
+    db.add(account)
+    email_account.disabled_at = utils.utcnow()
+    db.session.execute(
+        update(models.EmailLoginChallenge)
+        .where(
+            models.EmailLoginChallenge.email == email_account.email,
+            models.EmailLoginChallenge.consumed_at.is_(None),
+        )
+        .values(consumed_at=utils.utcnow())
+    )
+    locked.default_account = method
+    for table in (
+        models.OidcAuthorizationCode,
+        models.OidcAccessToken,
+        models.OidcRefreshToken,
+    ):
+        table.delete_user(db, locked)
+    return account
+
+
+_OAuthAccountModel = (
+    type[models.GithubAccount]
+    | type[models.GitlabAccount]
+    | type[models.GnomeAccount]
+    | type[models.GoogleAccount]
+    | type[models.KdeAccount]
+)
+
+
 def continue_oauth_flow(
     request: Request,
     login: LoginInformation,
     data: OauthLoginResponse,
     method: str,
     token_to_data: Callable[[dict], ProviderInfo],
-    account_model: type[models.ConnectedAccount],
+    account_model: "_OAuthAccountModel",
     postlogin_handler: Callable | None = None,
 ):
     """
@@ -1062,6 +1137,30 @@ def continue_oauth_flow(
                 )
                 db.add(user)
                 db.flush()
+            elif email_login_allowed(db, user):
+                upgraded = _upgrade_email_user(
+                    db, user, method, provider_data, login_result, account_model
+                )
+                if upgraded is not None:
+                    request.session.clear()
+                    request.session["user-id"] = user.id
+                    request.session["auth-method"] = method
+                    audit_log.enqueue_audit_log(
+                        request,
+                        user.id,
+                        models.AuditEventType.LOGIN_SUCCESS,
+                        provider=method,
+                        details={"upgrade_from": "email"},
+                    )
+                    return {"status": "ok", "result": "logged_in"}
+                db.commit()
+                _log_login_failure(
+                    request, login, method, "Email upgrade no longer eligible"
+                )
+                return JSONResponse(
+                    {"status": "error", "error": "error-already-logged-in"},
+                    status_code=500,
+                )
             # Now we have a user, create the local account model for it
             userid = {}
             userid[f"{method}_userid"] = provider_data.id

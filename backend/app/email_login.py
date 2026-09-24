@@ -3,6 +3,7 @@ import re
 from urllib.parse import unquote, urlsplit
 
 from email_validator import EmailNotValidError, validate_email
+from fastapi import HTTPException
 from sqlalchemy import func, select, text
 
 from . import models
@@ -93,6 +94,17 @@ def email_login_allowed(db: DBSession, user: models.FlathubUser) -> bool:
             ),
         )
     )
+
+
+def require_oauth_upgrade(db: DBSession, user: models.FlathubUser) -> None:
+    db.session.execute(
+        select(models.FlathubUser.id)
+        .where(models.FlathubUser.id == user.id)
+        .with_for_update()
+    )
+    account = models.EmailAccount.by_user(db, user)
+    if account and (account.disabled_at is None or not has_oauth_account(db, user)):
+        raise HTTPException(status_code=403, detail="oauth_upgrade_required")
 
 
 _LOCALE = re.compile(r"[a-z]{2,3}(?:-[A-Za-z]{2,4})?\Z")

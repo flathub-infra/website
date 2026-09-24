@@ -510,6 +510,9 @@ class flathubuser_role(Base):
 
     @staticmethod
     def add_user_role(db, user: FlathubUser, role: "Role") -> bool:
+        from .email_login import require_oauth_upgrade
+
+        require_oauth_upgrade(db, user)
         if flathubuser_role.by_user_role(db, user, role):
             return False
 

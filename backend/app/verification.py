@@ -21,6 +21,7 @@ from sqlalchemy.sql import func
 
 from . import audit_log, cache, config, http_client, models, utils, worker
 from .database import get_db
+from .email_login import require_oauth_upgrade
 from .login_info import AppAuthorDep, LoggedInDep, LoggedInInformation, ModifyUsersDep
 from .logins import refresh_oauth_token
 from .utils import jti
@@ -525,6 +526,11 @@ def _check_app_id(
 ):
     """Make sure the given user has development access to the given flatpak."""
 
+    from .email_login import require_oauth_upgrade
+
+    with get_db("writer") as db:
+        require_oauth_upgrade(db, login.user)
+
     if not utils.is_valid_app_id(app_id):
         raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
 
@@ -951,6 +957,10 @@ def _require_direct_upload_permission(
 
 
 def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
+    from .email_login import require_oauth_upgrade
+
+    with get_db("writer") as db:
+        require_oauth_upgrade(db, user)
     user = _require_direct_upload_permission(user)
 
     direct_upload_app = models.DirectUploadApp(app_id=app_id)
@@ -1022,6 +1032,7 @@ async def verify_by_login_provider(
         login_is_organization=available_method.login_is_organization,
     )
     with get_db("writer") as db:
+        require_oauth_upgrade(db, login.user)
         db.session.merge(verification)
 
         if new_app:
@@ -1189,6 +1200,7 @@ async def confirm_website_verification(
             _create_direct_upload_app(login.user, app_id)
 
         with get_db("writer") as db:
+            require_oauth_upgrade(db, login.user)
             db.session.merge(verification)
             _cleanup_stale_verifications(db, app_id, login.user.id)
             db.session.commit()
@@ -1293,6 +1305,7 @@ async def confirm_dns_verification(
             _create_direct_upload_app(login.user, app_id)
 
         with get_db("writer") as db:
+            require_oauth_upgrade(db, login.user)
             db.session.merge(verification)
             _cleanup_stale_verifications(db, app_id, login.user.id)
             db.session.commit()

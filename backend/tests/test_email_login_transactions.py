@@ -5,6 +5,7 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from datetime import timedelta
+from types import SimpleNamespace
 from unittest.mock import patch
 from uuid import uuid4
 
@@ -19,6 +20,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app import cache, config, logins, models
 from app.db_session import DBSession
+from app.email_login import email_login_allowed, require_oauth_upgrade
 from app.login_info import LoginInformation, LoginState, LoginStatusDep
 from app.utils import utcnow
 
@@ -284,3 +286,167 @@ def test_conflict_and_expiry_keep_proof_usable(isolated_email_db):
             )
             is not None
         )
+
+
+def test_require_oauth_upgrade_guards_privileged_state(isolated_email_db):
+    writer, _engine = isolated_email_db
+    email = f"developer-{uuid4().hex}@example.com"
+    with writer() as db:
+        user = models.FlathubUser(display_name=None, default_account="email")
+        db.session.add(user)
+        db.session.flush()
+        db.session.add(
+            models.EmailAccount(user=user.id, email=email, verified_at=utcnow())
+        )
+        db.session.flush()
+        with pytest.raises(HTTPException) as guard:
+            require_oauth_upgrade(db, user)
+        assert guard.value.status_code == 403
+        assert guard.value.detail == "oauth_upgrade_required"
+        legacy = models.FlathubUser(display_name=None, default_account=None)
+        db.session.add(legacy)
+        db.session.flush()
+        user_id = user.id
+        legacy_id = legacy.id
+    with writer() as db:
+        upgraded_user = db.session.get(models.FlathubUser, user_id)
+        db.session.add(
+            models.GithubAccount(
+                user=user_id,
+                github_userid=1,
+                login="dev",
+                avatar_url=None,
+                email=None,
+            )
+        )
+        upgraded = models.EmailAccount.by_user(db, upgraded_user)
+        upgraded.disabled_at = utcnow()
+        db.session.flush()
+        require_oauth_upgrade(db, upgraded_user)
+        require_oauth_upgrade(db, db.session.get(models.FlathubUser, legacy_id))
+
+
+def test_oauth_upgrade_disables_email_and_retains_user(isolated_email_db):
+    writer, _engine = isolated_email_db
+    email = f"reader-{uuid4().hex}@example.com"
+    token = issue(writer, email)
+    session = {}
+    request = request_for(session)
+    with patch.object(logins.audit_log, "enqueue_audit_log"):
+        logins.confirm_email_login(
+            logins.EmailConfirmRequest(token=token),
+            request,
+            LoginInformation(LoginState.LOGGED_OUT, None, None),
+        )
+        user_id = session["user-id"]
+    with writer() as db:
+        user = db.session.get(models.FlathubUser, user_id)
+        db.session.add(
+            models.GithubAccount(
+                user=user_id,
+                github_userid=77,
+                login="reader",
+                avatar_url=None,
+                email=email,
+                token="token",
+                last_used=utcnow(),
+            )
+        )
+        models.EmailAccount.by_user(db, user).disabled_at = utcnow()
+        db.session.flush()
+        with patch.object(logins.audit_log, "enqueue_audit_log"):
+            assert not email_login_allowed(db, user)
+            request = request_for({"user-id": user_id, "auth-method": "email"})
+            with pytest.raises(HTTPException) as expired:
+                logins.confirm_email_login(
+                    logins.EmailConfirmRequest(token=token),
+                    request_for({}),
+                    LoginInformation(LoginState.LOGGED_OUT, None, None),
+                )
+            assert expired.value.status_code == 400
+
+
+def test_oauth_upgrade_helper_sets_locked_switch(isolated_email_db):
+    writer, _engine = isolated_email_db
+    email = f"upgrader-{uuid4().hex}@example.com"
+    with writer() as db:
+        user = models.FlathubUser(display_name=None, default_account="email")
+        db.session.add(user)
+        db.session.flush()
+        db.session.add(
+            models.EmailAccount(user=user.id, email=email, verified_at=utcnow())
+        )
+        db.session.flush()
+        pending = models.EmailLoginChallenge(
+            token_hash=hashlib.sha256(b"pending").hexdigest(),
+            email=email,
+            user_id=user.id,
+            created_at=utcnow(),
+            expires_at=utcnow() + timedelta(minutes=15),
+            locale="en",
+            return_to="/",
+        )
+        db.session.add(pending)
+        db.session.flush()
+        user_id = user.id
+    with writer() as db:
+        account = logins._upgrade_email_user(
+            db,
+            db.session.get(models.FlathubUser, user_id),
+            "gitlab",
+            SimpleNamespace(
+                id=42, login="reader", avatar_url=None, name=None, email=email
+            ),
+            {"access_token": "token"},
+            models.GitlabAccount,
+        )
+        assert account is not None
+        upgraded = db.session.get(models.FlathubUser, user_id)
+        assert upgraded.default_account == "gitlab"
+        assert models.EmailAccount.by_user(db, upgraded).disabled_at is not None
+        challenge = db.session.scalar(
+            select(models.EmailLoginChallenge).where(
+                models.EmailLoginChallenge.token_hash
+                == hashlib.sha256(b"pending").hexdigest()
+            )
+        )
+        assert challenge.consumed_at is not None
+    with writer() as db:
+        collided = models.FlathubUser(display_name=None, default_account=None)
+        db.session.add(collided)
+        db.session.flush()
+        db.session.add(
+            models.EmailAccount(
+                user=collided.id,
+                email=f"taken-{uuid4().hex}@example.com",
+                verified_at=utcnow(),
+            )
+        )
+        db.session.add(
+            models.GitlabAccount(
+                user=collided.id,
+                gitlab_userid=99,
+                login="other",
+                avatar_url=None,
+                email="reader@example.com",
+            )
+        )
+        db.session.flush()
+        assert (
+            logins._upgrade_email_user(
+                db,
+                db.session.get(models.FlathubUser, collided.id),
+                "gitlab",
+                SimpleNamespace(
+                    id=43,
+                    login="reader2",
+                    avatar_url=None,
+                    name=None,
+                    email="reader@example.com",
+                ),
+                {"access_token": "token"},
+                models.GitlabAccount,
+            )
+            is None
+        )
+        assert models.EmailAccount.by_user(db, collided).disabled_at is None
