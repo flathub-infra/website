@@ -243,6 +243,9 @@ def accept_invite(
     payload = None
 
     with get_db("writer") as db_session:
+        from ..email_login import require_oauth_upgrade
+
+        require_oauth_upgrade(db_session, login.user)
         invite = DirectUploadAppInvite.by_developer_and_app(db_session, login.user, app)
         if invite is None:
             raise HTTPException(status_code=404, detail=ErrorDetail.INVITE_NOT_FOUND)

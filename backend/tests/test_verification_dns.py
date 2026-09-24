@@ -209,6 +209,14 @@ def test_confirm_dns_verification_persists_expected_effects(monkeypatch, new_app
         def commit(self):
             events.append("commit")
 
+        def query(self, *args, **kwargs):
+            return SimpleNamespace(
+                filter_by=lambda **kw: SimpleNamespace(first=lambda: None)
+            )
+
+        def execute(self, stmt):
+            pass
+
     events = []
     pending = SimpleNamespace(
         method="website",
@@ -291,7 +299,13 @@ def test_direct_upload_creation_requires_direct_upload_permission(monkeypatch):
     user = SimpleNamespace(id=42, permissions=lambda: set())
     db_types = []
     database = SimpleNamespace(
-        session=SimpleNamespace(merge=lambda _user: user),
+        session=SimpleNamespace(
+            merge=lambda _user: user,
+            query=lambda *args, **kwargs: SimpleNamespace(
+                filter_by=lambda **kw: SimpleNamespace(first=lambda: None)
+            ),
+            execute=lambda stmt: None,
+        ),
     )
 
     @contextmanager
@@ -306,4 +320,4 @@ def test_direct_upload_creation_requires_direct_upload_permission(monkeypatch):
 
     assert exc_info.value.status_code == 403
     assert exc_info.value.detail == verification_module.ErrorDetail.NOT_UPLOADER
-    assert db_types == ["replica"]
+    assert db_types == ["writer", "replica"]
