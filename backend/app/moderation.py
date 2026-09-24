@@ -43,6 +43,54 @@ logger = logging.getLogger(__name__)
 _RANDOM_REVIEW_MARKER = "Randomly selected for human review"
 
 
+def _within_one_edit(current: str, candidate: str) -> bool:
+    if abs(len(current) - len(candidate)) > 1:
+        return False
+
+    current_index = candidate_index = edits = 0
+    while current_index < len(current) and candidate_index < len(candidate):
+        if current[current_index] == candidate[candidate_index]:
+            current_index += 1
+            candidate_index += 1
+            continue
+
+        edits += 1
+        if edits > 1:
+            return False
+        if len(current) >= len(candidate):
+            current_index += 1
+        if len(candidate) >= len(current):
+            candidate_index += 1
+
+    return (
+        edits + (current_index < len(current) or candidate_index < len(candidate)) <= 1
+    )
+
+
+def _summaries_equivalent(current: str | None, candidate: str | None) -> bool:
+    if current == candidate:
+        return True
+    if (
+        not isinstance(current, str)
+        or not isinstance(candidate, str)
+        or not current.strip()
+        or not candidate.strip()
+    ):
+        return False
+
+    normalized = []
+    for value in (current, candidate):
+        value = value.strip().casefold()
+        if value.endswith(".") and not value.endswith(".."):
+            value = value[:-1]
+        tokens = [token for token in value.split() if token not in {"a", "an", "the"}]
+        if not tokens:
+            return False
+        normalized.append(" ".join(tokens))
+
+    return _within_one_edit(normalized[0], normalized[1])
+
+
 def _extra_data_origins(extra_data: dict[str, Any]) -> list[str] | None:
     uri_values = [
         value
@@ -1409,7 +1457,9 @@ def submit_review_request(
             current_values["project_license"] = app.get("project_license")
 
             for key, value in current_values.items():
-                if value == keys[key]:
+                if value == keys[key] or (
+                    key == "summary" and _summaries_equivalent(value, keys[key])
+                ):
                     keys.pop(key, None)
 
         app_complexity: manifest_complexity.ManifestComplexityAnalysis | None = None

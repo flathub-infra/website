@@ -1408,6 +1408,205 @@ def _unchanged_values():
     }
 
 
+@pytest.mark.parametrize(
+    ("published", "candidate"),
+    [
+        ("Edit Photos", "Edit photos"),
+        (" Edit  photos ", "Edit\tphotos"),
+        ("Edit photos.", "Edit photos"),
+        ("Use a photo editor", "Use photo editor"),
+        ("Use an editor", "Use editor"),
+        ("Use the editor", "Use editor"),
+        ("  Use THE editor. ", "use editor"),
+        ("Edit photo", "Edit photos"),
+        ("xEdit photos", "Edit photos"),
+        ("Edit phootos", "Edit photos"),
+        ("Edit phatos", "Edit photos"),
+        ("  Use THE editor. ", "use edito"),
+        ("Do not share files", "Do now share files"),
+        ("Edit photo-files", "Edit photo files"),
+        ("Edit user's files", "Edit users files"),
+        ("Edit photos...", "Edit photos.."),
+    ],
+)
+@pytest.mark.parametrize("reverse", [False, True])
+def test_equivalent_summary_does_not_request_review(
+    monkeypatch, published, candidate, reverse
+):
+    if reverse:
+        published, candidate = candidate, published
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["summary"] = published
+    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    metadata = _unchanged_values()["org.example.App"]
+    metadata["summary"] = candidate
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+
+
+@pytest.mark.parametrize(
+    ("published", "candidate"),
+    [
+        ("Search for files", "Search files"),
+        ("Do not share files", "Do share files"),
+        ("Copy files", "Delete files"),
+        ("Copy files locally", "Locally copy files"),
+        ("Edit C++ files", "Edit C files"),
+        ("Edit phootos!", "Edit photos"),
+        ("Edit phatos!", "Edit photos"),
+        ("Edit ab files", "Edit ba files"),
+        ("Edit the, files", "Edit files"),
+        ("Open a.example", "Open example"),
+        ("Edit photos", None),
+        (None, "Edit photos"),
+        ("Edit photos", ""),
+        ("", "Edit photos"),
+        ("Edit photos", "   "),
+        ("   ", "Edit photos"),
+        ("a", "the"),
+        ("the", "."),
+    ],
+)
+def test_significant_summary_change_requests_review(monkeypatch, published, candidate):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["summary"] = published
+    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    metadata = _unchanged_values()["org.example.App"]
+    metadata["summary"] = candidate
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.APPDATA
+    data = json.loads(request.request_data)
+    assert data["keys"] == {"summary": candidate}
+    assert data["current_values"]["summary"] == published
+
+
+@pytest.mark.parametrize("summary", [None, "Edit photos"])
+def test_exact_equal_summary_does_not_request_review(monkeypatch, summary):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["summary"] = summary
+    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    metadata = _unchanged_values()["org.example.App"]
+    metadata["summary"] = summary
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+
+    assert harness.call().requires_review is False
+    assert harness.db.session.persisted == []
+
+
+@pytest.mark.parametrize(
+    ("published", "candidate"),
+    [
+        ("  Use THE editor. ", "use editor"),
+        ("Edit phatos", "Edit photos"),
+    ],
+)
+@pytest.mark.parametrize(
+    ("field", "candidate_value"),
+    [
+        ("name", "Example Ap"),
+        ("developer_name", "Exampl"),
+        ("project_license", "MIX"),
+    ],
+)
+def test_equivalent_summary_preserves_other_metadata_review(
+    monkeypatch, published, candidate, field, candidate_value
+):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["summary"] = published
+    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    metadata = _unchanged_values()["org.example.App"]
+    metadata.update({"summary": candidate, field: candidate_value})
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+
+    assert harness.call().requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.APPDATA
+    data = json.loads(request.request_data)
+    assert data["keys"] == {field: candidate_value}
+    assert data["current_values"]["summary"] == published
+
+
+def test_equivalent_summary_preserves_permission_review(monkeypatch):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["summary"] = "Edit phatos"
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=current_values,
+        current_summaries={
+            "org.example.App": {"metadata": {"permissions": {"shared": ["network"]}}}
+        },
+        build_summary={
+            "org.example.App": {
+                "metadata": {"permissions": {"shared": ["network", "ipc"]}}
+            }
+        },
+    )
+    metadata = _unchanged_values()["org.example.App"]
+    metadata["summary"] = "Edit photos"
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+
+    assert harness.call().requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.SUMMARY
+    assert json.loads(request.request_data) == {
+        "keys": {"shared": ["ipc", "network"]},
+        "current_values": {"shared": ["network"]},
+    }
+
+
+def test_new_submission_keeps_original_summary(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch, enabled=False, current_values=None, token_name="builder"
+    )
+    metadata = _unchanged_values()["org.example.App"]
+    metadata["summary"] = "  Use THE editor. "
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+
+    assert harness.call().requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.APPDATA
+    assert request.is_new_submission is True
+    assert json.loads(request.request_data)["keys"]["summary"] == metadata["summary"]
+
+
 def _manifest_pair(
     arch,
     *,
