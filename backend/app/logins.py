@@ -19,7 +19,7 @@ import httpx
 import redis
 from authlib.integrations.base_client.errors import OAuthError
 from authlib.oauth2.base import OAuth2Error
-from fastapi import APIRouter, FastAPI, HTTPException, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
 from fastapi.exception_handlers import request_validation_exception_handler
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -27,7 +27,8 @@ from github import Github
 from github.AuthenticatedUser import AuthenticatedUser
 from gitlab import Gitlab
 from gitlab.exceptions import GitlabHttpError
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from sqlalchemy import select, update
 from starlette.middleware.sessions import SessionMiddleware
 
 from . import (
@@ -41,7 +42,14 @@ from . import (
     utils,
 )
 from .database import get_db
-from .email_login import normalize_login_email, safe_locale, safe_return_to
+from .email_login import (
+    email_login_allowed,
+    lock_email,
+    normalize_login_email,
+    oauth_email_exists,
+    safe_locale,
+    safe_return_to,
+)
 from .emails import EmailCategory
 from .login_info import (
     LoggedInDep,
@@ -295,6 +303,131 @@ def request_email_login(
     except Exception as exc:
         raise HTTPException(status_code=503, detail="email_login_unavailable") from exc
     return EmailLinkAccepted()
+
+
+class EmailConfirmRequest(BaseModel):
+    token: str = Field(min_length=43, max_length=43, pattern=r"^[A-Za-z0-9_-]{43}$")
+
+
+class EmailConfirmResult(BaseModel):
+    status: str = "ok"
+    return_to: str
+
+
+def _limit_email_confirmation(request: Request) -> None:
+    if not config.settings.email_login_enabled:
+        raise HTTPException(status_code=404, detail="email_login_disabled")
+    if request.headers.get("origin") != config.settings.frontend_url.rstrip("/"):
+        raise HTTPException(status_code=403, detail="invalid_origin")
+    ip = request.client.host if request.client else "unknown"
+    try:
+        count = cast(
+            "list[int]",
+            _email_rate_store.eval(
+                _EMAIL_RATE_SCRIPT, 1, f"email-login:confirm:{ip}", 60
+            ),
+        )[0]
+    except (redis.RedisError, OSError) as exc:
+        raise HTTPException(status_code=503, detail="email_login_unavailable") from exc
+    if count > 30:
+        raise HTTPException(
+            status_code=429,
+            detail="email_login_rate_limited",
+            headers={"Retry-After": "60"},
+        )
+
+
+@router.post(
+    "/email/confirm",
+    tags=["auth"],
+    dependencies=[Depends(_limit_email_confirmation)],
+)
+@cache.no_store
+def confirm_email_login(
+    body: EmailConfirmRequest, request: Request, login: LoginStatusDep
+) -> EmailConfirmResult:
+    token_hash = hashlib.sha256(body.token.encode("ascii")).hexdigest()
+    with get_db("writer") as db:
+        initial = db.session.scalar(
+            select(models.EmailLoginChallenge).where(
+                models.EmailLoginChallenge.token_hash == token_hash
+            )
+        )
+        if initial is None:
+            _log_login_failure(request, login, "email", "invalid_email_link")
+            raise HTTPException(status_code=400, detail="invalid_email_link")
+        email = initial.email
+        lock_email(db, email)
+        account = db.session.scalar(
+            select(models.EmailAccount).where(models.EmailAccount.email == email)
+        )
+        user = None
+        if account is not None:
+            user = db.session.scalar(
+                select(models.FlathubUser)
+                .where(models.FlathubUser.id == account.user)
+                .with_for_update()
+            )
+        challenge = db.session.scalar(
+            select(models.EmailLoginChallenge)
+            .where(models.EmailLoginChallenge.token_hash == token_hash)
+            .with_for_update()
+            .execution_options(populate_existing=True)
+        )
+        now = utils.utcnow()
+        if (
+            challenge is None
+            or challenge.consumed_at is not None
+            or challenge.expires_at <= now
+            or (
+                challenge.user_id is not None
+                and (account is None or challenge.user_id != account.user)
+            )
+            or (
+                account is not None
+                and (user is None or not email_login_allowed(db, user))
+            )
+            or (account is None and oauth_email_exists(db, email))
+        ):
+            audit_log.enqueue_audit_log(
+                request,
+                user.id if user is not None else None,
+                models.AuditEventType.LOGIN_FAILURE,
+                provider="email",
+                details={"error": "invalid_email_link"},
+            )
+            raise HTTPException(status_code=400, detail="invalid_email_link")
+        if login.user is not None and (user is None or login.user.id != user.id):
+            _log_login_failure(request, login, "email", "email_session_conflict")
+            raise HTTPException(status_code=409, detail="email_session_conflict")
+        if user is None:
+            user = models.FlathubUser(display_name=None, default_account="email")
+            db.session.add(user)
+            db.session.flush()
+            account = models.EmailAccount(
+                user=user.id, email=email, verified_at=now, last_used=now
+            )
+            db.session.add(account)
+        else:
+            account.last_used = now
+        db.session.execute(
+            update(models.EmailLoginChallenge)
+            .where(
+                models.EmailLoginChallenge.email == email,
+                models.EmailLoginChallenge.consumed_at.is_(None),
+            )
+            .values(consumed_at=now)
+        )
+        user_id = user.id
+        return_to = challenge.return_to
+        db.commit()
+    _clear_oauth_session(request)
+    request.session["user-id"] = user_id
+    request.session["auth-method"] = "email"
+    audit_log.enqueue_audit_log(
+        request, user_id, models.AuditEventType.LOGIN_SUCCESS, provider="email"
+    )
+    return EmailConfirmResult(return_to=return_to)
 
 
 class LoginMethod(BaseModel):
@@ -1230,6 +1363,7 @@ def do_logout(request: Request, login: LoginStatusDep):
         # Clear the login ID
         if "user-id" in request.session:
             del request.session["user-id"]
+        request.session.pop("auth-method", None)
 
         if login.state.logging_in():
             # Also clear any pending login-flow from the session
@@ -1393,6 +1527,13 @@ async def _email_validation_error(request: Request, exc: Exception) -> Response:
             headers={"Cache-Control": "no-store"},
         )
     if request.url.path.endswith("/auth/email/confirm"):
+        audit_log.enqueue_audit_log(
+            request,
+            None,
+            models.AuditEventType.LOGIN_FAILURE,
+            provider="email",
+            details={"error": "invalid_email_link"},
+        )
         return JSONResponse(
             {"detail": "invalid_email_link"},
             status_code=400,
