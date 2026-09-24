@@ -13,6 +13,7 @@ import {
   ArrowRight,
   GitCommit,
   GitPullRequest,
+  Rocket,
 } from "lucide-react"
 import { formatDistanceToNow } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
@@ -37,6 +38,8 @@ function getStatusIcon(status: PipelineStatus) {
       return <Ban className={cn(iconClass, "text-gray-500")} />
     case "running":
       return <Clock className={cn(iconClass, "text-blue-500 animate-pulse")} />
+    case "publishing":
+      return <Rocket className={cn(iconClass, "text-indigo-500 animate-pulse")} />
     case "committed":
       return <Package className={cn(iconClass, "text-green-500")} />
     case "pending":
