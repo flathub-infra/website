@@ -73,6 +73,7 @@ ConnectedAccount = Union[
     "GnomeAccount",
     "GoogleAccount",
     "KdeAccount",
+    "EmailAccount",
 ]
 
 ConnectedAccountResult = Union[
@@ -81,6 +82,7 @@ ConnectedAccountResult = Union[
     "GnomeAccountResult",
     "GoogleAccountResult",
     "KdeAccountResult",
+    "EmailAccountResult",
 ]
 
 
@@ -90,6 +92,7 @@ class ConnectedAccountProvider(enum.StrEnum):
     GNOME = "gnome"
     GOOGLE = "google"
     KDE = "kde"
+    EMAIL = "email"
 
 
 class RoleName(enum.StrEnum):
@@ -171,6 +174,9 @@ class FlathubUser(Base):
         "GoogleAccount", uselist=False, back_populates="user_entity"
     )
     kdeAccount = relationship("KdeAccount", uselist=False, back_populates="user_entity")
+    emailAccount = relationship(
+        "EmailAccount", uselist=False, back_populates="user_entity"
+    )
 
     TABLES_FOR_DELETE: ClassVar[list] = []
 
@@ -196,12 +202,16 @@ class FlathubUser(Base):
     def get_default_account(self, db) -> Optional["ConnectedAccount"]:
         if self.default_account is not None:
             provider = ConnectedAccountProvider(self.default_account)
-            if account := self.get_connected_account(db, provider):
+            if (account := self.get_connected_account(db, provider)) and (
+                not isinstance(account, EmailAccount) or account.disabled_at is None
+            ):
                 return account
 
         # If no default is set, or if it can't be found for some reason, return the first account we find
         for table in ConnectedAccountTables:
-            if account := table.by_user(db, self):
+            if (account := table.by_user(db, self)) and (
+                not isinstance(account, EmailAccount) or account.disabled_at is None
+            ):
                 return account
 
         return None
@@ -253,6 +263,9 @@ class FlathubUser(Base):
                             KdeAccount.display_name.ilike(f"%{filterString}%"),
                             KdeAccount.email.ilike(f"%{filterString}%"),
                         )
+                    ),
+                    FlathubUser.emailAccount.has(
+                        EmailAccount.email.ilike(f"%{filterString}%")
                     ),
                 ),
             )
@@ -1105,15 +1118,124 @@ class KdeAccount(Base):
 FlathubUser.TABLES_FOR_DELETE.append(KdeAccount)
 
 
+class EmailAccountResult(BaseModel):
+    provider: ConnectedAccountProvider
+    id: int
+    login: str
+    avatar_url: None
+    display_name: None
+    email: str
+    last_used: datetime | None
+    verified_at: datetime
+    disabled_at: datetime | None
+
+
+class EmailAccount(Base):
+    __tablename__ = "emailaccount"
+
+    provider = ConnectedAccountProvider.EMAIL
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user: Mapped[int] = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, unique=True
+    )
+    user_entity = relationship("FlathubUser", back_populates="emailAccount")
+    email: Mapped[str] = mapped_column(String, nullable=False, unique=True)
+    verified_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    last_used: Mapped[datetime | None] = mapped_column(DateTime)
+    disabled_at: Mapped[datetime | None] = mapped_column(DateTime)
+
+    @property
+    def login(self) -> str:
+        return f"user-{self.user}"
+
+    @property
+    def display_name(self) -> None:
+        return None
+
+    @property
+    def avatar_url(self) -> None:
+        return None
+
+    def to_result(self) -> EmailAccountResult:
+        return EmailAccountResult(
+            provider=self.provider,
+            id=self.id,
+            login=self.login,
+            avatar_url=None,
+            display_name=None,
+            email=self.email,
+            last_used=self.last_used,
+            verified_at=self.verified_at,
+            disabled_at=self.disabled_at,
+        )
+
+    @staticmethod
+    def by_user(db, user: FlathubUser) -> Optional["EmailAccount"]:
+        return db.session.query(EmailAccount).filter_by(user=user.id).first()
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        if account := EmailAccount.by_user(db, user):
+            hasher.add_string(account.email)
+            hasher.add_string(
+                account.disabled_at.isoformat() if account.disabled_at else ""
+            )
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        if account := EmailAccount.by_user(db, user):
+            db.session.execute(
+                delete(EmailLoginChallenge).where(
+                    or_(
+                        EmailLoginChallenge.user_id == user.id,
+                        EmailLoginChallenge.email == account.email,
+                    )
+                )
+            )
+            db.session.delete(account)
+        else:
+            db.session.execute(
+                delete(EmailLoginChallenge).where(
+                    EmailLoginChallenge.user_id == user.id
+                )
+            )
+
+
+FlathubUser.TABLES_FOR_DELETE.append(EmailAccount)
+
+
+class EmailLoginChallenge(Base):
+    __tablename__ = "emailloginchallenge"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    token_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(String, nullable=False)
+    user_id: Mapped[int | None] = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=True
+    )
+    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, index=True)
+    consumed_at: Mapped[datetime | None] = mapped_column(DateTime)
+    locale: Mapped[str] = mapped_column(String, nullable=False)
+    return_to: Mapped[str] = mapped_column(String, nullable=False)
+
+
 ConnectedAccountTables = [
     GithubAccount,
     GitlabAccount,
     GnomeAccount,
     GoogleAccount,
     KdeAccount,
+    EmailAccount,
 ]
 ConnectedAccount = (
-    GithubAccount | GitlabAccount | GnomeAccount | GoogleAccount | KdeAccount
+    GithubAccount
+    | GitlabAccount
+    | GnomeAccount
+    | GoogleAccount
+    | KdeAccount
+    | EmailAccount
 )
 
 
