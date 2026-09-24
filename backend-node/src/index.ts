@@ -3,6 +3,7 @@ import { swaggerUI } from "@hono/swagger-ui"
 import { OpenAPIHono, createRoute, z } from "@hono/zod-openapi"
 import { render } from "react-email"
 import SecurityLoginEmail from "../emails/security-login"
+import EmailLoginEmail, { createEmailLoginText } from "../emails/email-login"
 import { sendMail } from "./mail"
 import "dotenv/config"
 import BuildNotificationEmail from "../emails/build-notification"
@@ -39,6 +40,15 @@ const EmailBody = z.object({
     example: "New login to Flathub account",
   }),
   messageInfo: z.discriminatedUnion("category", [
+    z.object({
+      category: z.literal("email_login").openapi({ example: "email_login" }),
+      signInUrl: z.string().url().openapi({
+        example: "https://flathub.org/en/login/email/confirm#token=token",
+      }),
+      expiresAt: z.string().min(3).openapi({
+        example: "2026-01-01T00:15:00.000Z",
+      }),
+    }),
     z.object({
       category: z
         .literal("security_login")
@@ -199,6 +209,28 @@ app.use("*", (c, next) => {
     release: SENTRY_RELEASE,
     sampleRate: 0.1,
     tracesSampleRate: 0.1,
+    beforeSend(event) {
+      const mailRequest = event.request?.url?.split("?")[0].endsWith("/emails")
+      if (event.request) {
+        delete event.request.data
+        if (mailRequest) {
+          event.request.url = "/emails"
+        }
+      }
+      if (mailRequest) {
+        delete event.extra
+        delete event.contexts
+        delete event.breadcrumbs
+        delete event.message
+        for (const exception of event.exception?.values ?? []) {
+          exception.value = "[Filtered]"
+          for (const frame of exception.stacktrace?.frames ?? []) {
+            delete frame.vars
+          }
+        }
+      }
+      return event
+    },
   })(c, next)
 })
 app.use(logger())
@@ -213,10 +245,14 @@ app.openapi(route, async (c) => {
     previewText,
   } = c.req.valid("json")
 
-  if (
-    !creation_timestamp ||
-    isBefore(fromUnixTime(creation_timestamp), subDays(new Date(), 2))
-  ) {
+  const expired =
+    messageInfo.category === "email_login"
+      ? !Number.isFinite(Date.parse(messageInfo.expiresAt)) ||
+        Date.parse(messageInfo.expiresAt) <= Date.now()
+      : !creation_timestamp ||
+        isBefore(fromUnixTime(creation_timestamp), subDays(new Date(), 2))
+
+  if (expired) {
     // Ignore old messages
     return c.json({})
   }
@@ -227,7 +263,8 @@ app.openapi(route, async (c) => {
     return c.json({}, 200)
   }
 
-  let emailHtml: string | undefined = undefined
+  let emailHtml: string | undefined
+  let emailText: string | undefined
 
   if (messageInfo.category === "security_login") {
     emailHtml = await render(
@@ -236,6 +273,18 @@ app.openapi(route, async (c) => {
         previewText,
         ...messageInfo,
       }),
+    )
+  } else if (messageInfo.category === "email_login") {
+    emailHtml = await render(
+      EmailLoginEmail({
+        subject,
+        previewText,
+        ...messageInfo,
+      }),
+    )
+    emailText = createEmailLoginText(
+      messageInfo.signInUrl,
+      messageInfo.expiresAt,
     )
   } else if (messageInfo.category === "build_notification") {
     emailHtml = await render(
@@ -318,9 +367,10 @@ app.openapi(route, async (c) => {
   await sendMail({
     category: messageInfo.category,
     messageId,
-    to,
     subject,
+    to,
     emailHtml,
+    text: emailText,
     references:
       "references" in messageInfo ? messageInfo.references : undefined,
   })
