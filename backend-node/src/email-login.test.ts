@@ -18,7 +18,8 @@ test("renders the magic-link fragment, expiry, and plaintext URL", async () => {
   const text = createEmailLoginText(signInUrl, expiresAt)
 
   assert.ok(html.includes(signInUrl))
-  assert.match(html, /expires in 15 minutes/)
+  assert.match(html, /Sep 24, 2026, 2:15 PM UTC/)
+  assert.doesNotMatch(html, /expires in 15 minutes/)
   assert.ok(text.includes(signInUrl))
-  assert.match(text, /expires in 15 minutes/)
+  assert.match(text, /expires at Sep 24, 2026, 2:15 PM UTC/)
 })
