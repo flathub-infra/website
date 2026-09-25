@@ -1,7 +1,7 @@
 "use client"
 
 import "src/utils/axios-config"
-import { ReactNode } from "react"
+import { ReactNode, useMemo } from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ThemeProvider } from "next-themes"
 import {
@@ -15,25 +15,11 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { getLangDir } from "rtl-detect"
 import { setDefaultOptions } from "date-fns"
 import { getDateFnsLocale } from "src/localize"
+import { usePathname } from "next/navigation"
 
 const queryClient = new QueryClient()
-const shouldTrack = (): boolean =>
-  typeof window === "undefined" ||
-  !/^\/[a-z]{2,3}(?:-[A-Za-z]{2,4})?\/login\/email\/confirm\/?$/.test(
-    window.location.pathname,
-  )
-
-const instance = shouldTrack()
-  ? createInstance({
-      urlBase: process.env.NEXT_PUBLIC_SITE_BASE_URI || "",
-      siteId: Number(process.env.NEXT_PUBLIC_MATOMO_WEBSITE_ID) || 38,
-      trackerUrl: "https://webstats.gnome.org/matomo.php",
-      srcUrl: "https://webstats.gnome.org/matomo.js",
-      configurations: {
-        disableCookies: true,
-      },
-    })
-  : null
+const shouldTrack = (pathname: string): boolean =>
+  !/^\/[a-z]{2,3}(?:-[A-Za-z]{2,4})?\/login\/email\/confirm\/?$/.test(pathname)
 
 interface ClientProvidersProps {
   children: ReactNode
@@ -44,6 +30,22 @@ export default function ClientProviders({
   children,
   locale,
 }: ClientProvidersProps) {
+  const track = shouldTrack(usePathname())
+  const instance = useMemo(
+    () =>
+      track
+        ? createInstance({
+            urlBase: process.env.NEXT_PUBLIC_SITE_BASE_URI || "",
+            siteId: Number(process.env.NEXT_PUBLIC_MATOMO_WEBSITE_ID) || 38,
+            trackerUrl: "https://webstats.gnome.org/matomo.php",
+            srcUrl: "https://webstats.gnome.org/matomo.js",
+            configurations: {
+              disableCookies: true,
+            },
+          })
+        : null,
+    [track],
+  )
   const direction = getLangDir(locale)
 
   setDefaultOptions({ locale: getDateFnsLocale(locale) })
@@ -57,7 +59,7 @@ export default function ClientProviders({
             position={direction === "rtl" ? "bottom-left" : "bottom-right"}
             dir={direction}
           />
-          {shouldTrack() && <ReactQueryDevtools initialIsOpen={false} />}
+          {track && <ReactQueryDevtools initialIsOpen={false} />}
         </QueryClientProvider>
       </MotionConfig>
     </ThemeProvider>
