@@ -1293,6 +1293,12 @@ class Auths(BaseModel):
     gnome: AuthInfo | None = None
     kde: AuthInfo | None = None
     google: AuthInfo | None = None
+    email: AuthInfo | None = None
+
+
+class EmailLoginInfo(BaseModel):
+    email: str
+    enabled: bool
 
 
 class Permission(StrEnum):
@@ -1316,6 +1322,7 @@ class UserInfo(BaseModel):
     accepted_publisher_agreement_at: datetime | None
     default_account: AuthInfo
     auths: Auths
+    email_login: EmailLoginInfo | None = None
 
 
 @router.get(
@@ -1395,6 +1402,12 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
         default_provider = default_account.provider if default_account else None
         invite_code = user.invite_code
         accepted_publisher_agreement_at = user.accepted_publisher_agreement_at
+        email_login = None
+        if email_account := models.EmailAccount.by_user(db, user):
+            email_login = EmailLoginInfo(
+                email=email_account.email,
+                enabled=email_login_allowed(db, user),
+            )
 
     defaultAccountInfo = AuthInfo(
         avatar=default_avatar_url, login=default_login or "", provider=default_provider
@@ -1410,6 +1423,7 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
         accepted_publisher_agreement_at=accepted_publisher_agreement_at,
         default_account=defaultAccountInfo,
         auths=Auths(**auths),
+        email_login=email_login,
     )
 
 
