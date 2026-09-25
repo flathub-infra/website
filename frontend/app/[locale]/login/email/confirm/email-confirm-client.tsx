@@ -33,6 +33,7 @@ const EmailConfirmClient = (): JSX.Element => {
 
   const tokenRef = useRef<string | null>(null)
   const [state, setState] = useState<ConfirmState>("idle")
+  const [logoutError, setLogoutError] = useState(false)
 
   useEffect(() => {
     if (tokenRef.current !== null) {
@@ -135,20 +136,26 @@ const EmailConfirmClient = (): JSX.Element => {
             variant="secondary"
             onClick={async () => {
               try {
-                await fetch(`${getApiBaseUrl()}/auth/logout`, {
+                const res = await fetch(`${getApiBaseUrl()}/auth/logout`, {
                   method: "POST",
                   credentials: "include",
                 })
+                if (!res.ok) {
+                  setLogoutError(true)
+                  return
+                }
               } catch {
-                setState("idle")
+                setLogoutError(true)
                 return
               }
+              setLogoutError(false)
               userDispatch({ type: "logout" })
               setState("idle")
             }}
           >
             {t("log-out")}
           </Button>
+          {logoutError && <p>{t("network-error-try-again")}</p>}
         </>
       )}
       {state !== "invalid" && state !== "rate-limited" && (
