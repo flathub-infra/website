@@ -45,11 +45,14 @@ const EmailConfirmClient = (): JSX.Element => {
         ? window.location.hash.slice("#token=".length)
         : null
     const token = fromParams ?? fromFragment
-    if (fromFragment !== null) {
+    if (token !== null) {
+      const url = new URL(window.location.href)
+      url.searchParams.delete("token")
+      if (fromFragment !== null) url.hash = ""
       window.history.replaceState(
         window.history.state,
         "",
-        window.location.pathname + window.location.search,
+        url.pathname + url.search + url.hash,
       )
     }
     tokenRef.current = token
