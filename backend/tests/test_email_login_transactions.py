@@ -20,7 +20,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app import cache, config, logins, models
 from app.db_session import DBSession
-from app.email_login import email_login_allowed, require_oauth_upgrade
+from app.email_login import (
+    email_login_allowed,
+    normalize_login_email,
+    oauth_email_exists,
+    require_oauth_upgrade,
+)
 from app.login_info import LoginInformation, LoginState, LoginStatusDep
 from app.utils import utcnow
 
@@ -453,3 +458,37 @@ def test_oauth_upgrade_helper_sets_locked_switch(isolated_email_db):
             is None
         )
         assert models.EmailAccount.by_user(db, collided).disabled_at is None
+
+
+def test_internationalized_oauth_email_blocks_email_signup(isolated_email_db):
+    writer, engine = isolated_email_db
+    unicode_email = f"reader-{uuid4().hex}@bücher.de"
+    ascii_email = normalize_login_email(unicode_email)
+    with writer() as db:
+        user = models.FlathubUser(display_name=None, default_account="gitlab")
+        db.session.add(user)
+        db.session.flush()
+        db.session.add(
+            models.GitlabAccount(
+                user=user.id,
+                gitlab_userid=99,
+                login="reader",
+                avatar_url=None,
+                email=unicode_email,
+            )
+        )
+    token = issue(writer, ascii_email)
+    with (
+        writer() as db,
+        patch.object(logins.audit_log, "enqueue_audit_log"),
+    ):
+        assert oauth_email_exists(db, ascii_email)
+        with pytest.raises(HTTPException) as blocked:
+            logins.confirm_email_login(
+                logins.EmailConfirmRequest(token=token),
+                request_for({}),
+                LoginInformation(LoginState.LOGGED_OUT, None, None),
+            )
+        assert blocked.value.status_code == 400
+    with Session(engine) as session:
+        assert session.scalar(select(models.EmailAccount.id)) is None
