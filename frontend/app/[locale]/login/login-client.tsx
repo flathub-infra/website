@@ -103,42 +103,37 @@ const LoginClient = ({ providers, locale }: LoginClientProps): JSX.Element => {
           onSubmit={submitEmail}
         >
           <h2 className="text-xl font-bold">{t("email-login-with-email")}</h2>
-          {submitState === "sent" ? (
-            <p>{t("email-login-check-your-inbox")}</p>
-          ) : (
-            <>
-              <input
-                className={
-                  "rounded-xl bg-flathub-white p-3 shadow-md dark:bg-flathub-arsenic " +
-                  "placeholder:opacity-50 dark:placeholder:opacity-40"
-                }
-                type="email"
-                required
-                value={email}
-                placeholder={t("email-login-email-address")}
-                autoComplete="email"
-                onChange={(e) => {
-                  setEmail(e.target.value)
-                  if (submitState === "error") setSubmitState("idle")
-                }}
-              />
-              <button
-                className="flex flex-row items-center justify-center rounded-xl bg-flathub-celestial-blue p-3 font-bold text-flathub-white hover:opacity-60 disabled:cursor-not-allowed disabled:opacity-40"
-                type="submit"
-                disabled={submitState === "sending" || cooldown > 0}
-              >
-                {cooldown > 0
-                  ? t("email-login-resend-in", { seconds: cooldown })
-                  : submitState === "sending"
-                    ? t("email-login-sending")
-                    : t("email-login-send-link")}
-              </button>
-              {submitState === "error" && (
-                <p className="text-sm text-flathub-red">
-                  {t("network-error-try-again")}
-                </p>
-              )}
-            </>
+          {submitState === "sent" && <p>{t("email-login-check-your-inbox")}</p>}
+          <input
+            className={
+              "rounded-xl bg-flathub-white p-3 shadow-md dark:bg-flathub-arsenic " +
+              "placeholder:opacity-50 dark:placeholder:opacity-40"
+            }
+            type="email"
+            required
+            value={email}
+            placeholder={t("email-login-email-address")}
+            autoComplete="email"
+            onChange={(e) => {
+              setEmail(e.target.value)
+              if (submitState === "error") setSubmitState("idle")
+            }}
+          />
+          <button
+            className="flex flex-row items-center justify-center rounded-xl bg-flathub-celestial-blue p-3 font-bold text-flathub-white hover:opacity-60 disabled:cursor-not-allowed disabled:opacity-40"
+            type="submit"
+            disabled={submitState === "sending" || cooldown > 0}
+          >
+            {cooldown > 0
+              ? t("email-login-resend-in", { seconds: cooldown })
+              : submitState === "sending"
+                ? t("email-login-sending")
+                : t("email-login-send-link")}
+          </button>
+          {submitState === "error" && (
+            <p className="text-sm text-flathub-red">
+              {t("network-error-try-again")}
+            </p>
           )}
         </form>
       )}
