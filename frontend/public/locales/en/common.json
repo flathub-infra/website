@@ -873,6 +873,8 @@
     "none-money": "Contains no advertising or monetary transactions"
   },
   "email-login-with-email": "Sign in with email",
+  "email-login-log-in-with-email": "Log in with email",
+  "email-login-other-methods": "Other sign-in methods",
   "email-login-email-address": "Email address",
   "email-login-send-link": "Email me a sign-in link",
   "email-login-sending": "Sending…",

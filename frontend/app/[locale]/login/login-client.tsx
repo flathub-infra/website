@@ -1,11 +1,13 @@
 "use client"
 
 import { FormEvent, useCallback, useEffect, useState } from "react"
+import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import LoginProviders from "../../../src/components/login/Providers"
 import { useUserContext } from "../../../src/context/user-info"
 import { getApiBaseUrl } from "../../../src/utils/api-url"
-import { useRouter } from "src/i18n/navigation"
+import { Link, useRouter } from "src/i18n/navigation"
+import { Mail } from "lucide-react"
 
 import type { JSX } from "react"
 import type { LoginMethod } from "src/codegen"
@@ -13,14 +15,26 @@ import type { LoginMethod } from "src/codegen"
 interface LoginClientProps {
   providers: LoginMethod[]
   locale: string
+  emailForm?: boolean
 }
 
 const RESEND_COOLDOWN_SECONDS = 60
 
-const LoginClient = ({ providers, locale }: LoginClientProps): JSX.Element => {
+const LoginClient = ({
+  providers,
+  locale,
+  emailForm = false,
+}: LoginClientProps): JSX.Element => {
   const t = useTranslations()
   const user = useUserContext()
   const router = useRouter()
+  const returnTo = useSearchParams().get("returnTo")
+  const loginHref = returnTo
+    ? `/login?returnTo=${encodeURIComponent(returnTo)}`
+    : "/login"
+  const emailHref = returnTo
+    ? `/login/email?returnTo=${encodeURIComponent(returnTo)}`
+    : "/login/email"
 
   const [emailLoginEnabled, setEmailLoginEnabled] = useState(false)
   const [email, setEmail] = useState("")
@@ -43,6 +57,7 @@ const LoginClient = ({ providers, locale }: LoginClientProps): JSX.Element => {
   }, [user, router])
 
   useEffect(() => {
+    if (emailForm) return
     let cancelled = false
     fetch(`${getApiBaseUrl()}/auth/email/config`, { cache: "no-store" })
       .then(async (res) => {
@@ -54,7 +69,7 @@ const LoginClient = ({ providers, locale }: LoginClientProps): JSX.Element => {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [emailForm])
 
   useEffect(() => {
     if (cooldown <= 0) return
@@ -96,8 +111,22 @@ const LoginClient = ({ providers, locale }: LoginClientProps): JSX.Element => {
 
   return (
     <div className="flex flex-col items-center">
-      <LoginProviders providers={providers} />
-      {emailLoginEnabled && (
+      {!emailForm && (
+        <LoginProviders providers={providers}>
+          {emailLoginEnabled && (
+            <Link
+              href={emailHref}
+              className="flex w-full flex-row items-center justify-center gap-3 rounded-xl bg-flathub-white p-5 font-bold text-inherit shadow-md hover:opacity-60 dark:bg-flathub-arsenic"
+            >
+              <div className="flex h-16 w-16 items-center justify-center">
+                <Mail size={48} strokeWidth={1.5} />
+              </div>
+              {t("email-login-log-in-with-email")}
+            </Link>
+          )}
+        </LoginProviders>
+      )}
+      {emailForm && (
         <form
           className="flex w-full flex-col gap-3 p-5 sm:w-[400px]"
           onSubmit={submitEmail}
@@ -136,6 +165,11 @@ const LoginClient = ({ providers, locale }: LoginClientProps): JSX.Element => {
             </p>
           )}
         </form>
+      )}
+      {emailForm && (
+        <Link href={loginHref} className="text-flathub-celestial-blue">
+          {t("email-login-other-methods")}
+        </Link>
       )}
     </div>
   )
