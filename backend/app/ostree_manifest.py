@@ -123,20 +123,6 @@ def _collect_manifest_source_inventory(
                     source["url"],
                     f"{source_location}.url",
                 )
-            if "mirror-urls" in source:
-                mirrors = source["mirror-urls"]
-                mirrors_location = f"{source_location}.mirror-urls"
-                if not isinstance(mirrors, list):
-                    add_structural_issue(
-                        mirrors_location,
-                        "invalid-mirror-urls",
-                    )
-                else:
-                    for mirror_index, mirror in enumerate(mirrors):
-                        collect_url(
-                            mirror,
-                            f"{mirrors_location}[{mirror_index}]",
-                        )
 
     def walk_modules(modules: object, parent: str) -> None:
         modules_location = f"{parent}.modules" if parent else "modules"

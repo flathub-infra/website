@@ -2547,6 +2547,57 @@ def test_manifest_gate_request_retains_removed_origin_context(monkeypatch):
     assert finding["origins_removed"] == ["https://old.example"]
 
 
+def test_mirror_only_addition_does_not_gate(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    pair = _manifest_pair("x86_64", changed=True)
+    pair.published_manifest = {
+        "modules": [
+            {
+                "name": "app",
+                "sources": [
+                    {
+                        "type": "archive",
+                        "url": "https://example.com/source.tar",
+                    }
+                ],
+            }
+        ]
+    }
+    pair.candidate_manifest = {
+        "modules": [
+            {
+                "name": "app",
+                "sources": [
+                    {
+                        "type": "archive",
+                        "url": "https://example.com/source.tar",
+                        "mirror-urls": ["https://mirror.example/source.tar"],
+                    }
+                ],
+            }
+        ]
+    }
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["source_status"] == "clean"
+    assert observation["source_would_gate"] is False
+
+
 def test_disabled_manifest_gate_logs_would_require_review(monkeypatch, caplog):
     caplog.set_level(logging.INFO, logger=moderation.__name__)
     harness = CallbackHarness(
