@@ -1,12 +1,13 @@
-import { FunctionComponent } from "react"
+import { FunctionComponent, ReactNode } from "react"
 import ProviderLink from "./ProviderLink"
 import { LoginMethod } from "src/codegen"
 
 interface Props {
   providers: LoginMethod[]
+  children?: ReactNode
 }
 
-const LoginProviders: FunctionComponent<Props> = ({ providers }) => {
+const LoginProviders: FunctionComponent<Props> = ({ providers, children }) => {
   const links = providers.map((p) => (
     <div key={p.method}>
       <ProviderLink provider={p} />
@@ -15,7 +16,10 @@ const LoginProviders: FunctionComponent<Props> = ({ providers }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex w-full flex-col gap-5 p-5 sm:w-[400px]">{links}</div>
+      <div className="flex w-full flex-col gap-5 p-5 sm:w-[400px]">
+        {children}
+        {links}
+      </div>
     </div>
   )
 }
