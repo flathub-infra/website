@@ -21,7 +21,7 @@ from fastapi.responses import JSONResponse
 from github import Github
 from github.AuthenticatedUser import AuthenticatedUser
 from gitlab import Gitlab
-from gitlab.exceptions import GitlabHttpError
+from gitlab.exceptions import GitlabError
 from pydantic import BaseModel
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -790,16 +790,23 @@ def continue_oauth_flow(
     try:
         # We now have a logged in user, so let's do our best to do something useful
         provider_data = token_to_data(login_result)
-    except GitlabHttpError as err:
+    except GitlabError as err:
         if err.response_code in (
             401,
             403,
         ):
             _log_login_failure(request, login, method, f"Gitlab error: {err!s}")
+            error = "login-failed-try-again"
+            if (
+                method in ("gitlab", "gnome", "kde")
+                and err.response_code == 403
+                and "must accept the terms of service" in str(err).lower()
+            ):
+                error = "gitlab-terms-not-accepted"
             return JSONResponse(
                 {
                     "state": "error",
-                    "error": f"{method} login flow had an error: {err!s}",
+                    "error": error,
                 },
                 status_code=400,
             )

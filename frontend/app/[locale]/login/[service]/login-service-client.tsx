@@ -2,7 +2,6 @@
 
 import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
-import { toast } from "sonner"
 import { useTranslations } from "next-intl"
 import { login } from "../../../../src/asyncs/login"
 import Spinner from "../../../../src/components/Spinner"
@@ -18,10 +17,17 @@ import {
 } from "../../../../src/utils/security"
 import { useMutation } from "@tanstack/react-query"
 import type { JSX } from "react"
-import { usePathname, useRouter } from "src/i18n/navigation"
+import { Link, usePathname, useRouter } from "src/i18n/navigation"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 interface LoginServiceClientProps {
   services: string[]
+}
+
+const gitlabProviders: Record<string, { name: string; url: string }> = {
+  gitlab: { name: "GitLab", url: "https://gitlab.com" },
+  gnome: { name: "GNOME GitLab", url: "https://gitlab.gnome.org" },
+  kde: { name: "KDE GitLab", url: "https://invent.kde.org" },
 }
 
 const LoginServiceClient = ({
@@ -31,6 +37,7 @@ const LoginServiceClient = ({
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
+  const service = pathname.split("/").at(-1) ?? ""
 
   const user = useUserContext()
   const dispatch = useUserDispatch()
@@ -47,7 +54,7 @@ const LoginServiceClient = ({
   const query = Object.fromEntries(searchParams.entries())
 
   const loginQuery = useMutation({
-    mutationFn: () => login(dispatch, pathname.split("/").reverse()[0], query),
+    mutationFn: () => login(dispatch, service, query),
     onSuccess: () => {
       if (pendingTransaction) {
         router.push("/purchase", { locale })
@@ -71,9 +78,6 @@ const LoginServiceClient = ({
       }
 
       router.push("/", { locale })
-    },
-    onError: (error: any) => {
-      toast.error(t(error.message))
     },
   })
 
@@ -127,7 +131,43 @@ const LoginServiceClient = ({
     }
   }, [router, user, services, searchParams])
 
-  // This is purely a loading page
+  if (loginQuery.isError) {
+    const gitlabProvider = gitlabProviders[service]
+    const termsError =
+      loginQuery.error.message === "gitlab-terms-not-accepted" &&
+      gitlabProvider !== undefined
+    const errorKey =
+      termsError || loginQuery.error.message === "error-already-logged-in"
+        ? loginQuery.error.message
+        : loginQuery.error.message === "network-error-try-again"
+          ? "network-error-try-again"
+          : "login-failed-try-again"
+    return (
+      <div className="mx-auto flex max-w-lg flex-col gap-4 p-6">
+        <Alert variant="destructive">
+          <AlertTitle>{t("login-failed")}</AlertTitle>
+          <AlertDescription>
+            <p>
+              {termsError
+                ? t("gitlab-terms-not-accepted", {
+                    provider: gitlabProvider.name,
+                  })
+                : t(errorKey)}
+            </p>
+            {termsError ? (
+              <a href={gitlabProvider.url} className="underline">
+                {t("open-login-provider", { provider: gitlabProvider.name })}
+              </a>
+            ) : null}
+          </AlertDescription>
+        </Alert>
+        <Link href="/login" className="underline">
+          {t("back-to-login")}
+        </Link>
+      </div>
+    )
+  }
+
   return <Spinner size="l" />
 }
 
