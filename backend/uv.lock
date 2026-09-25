@@ -1100,12 +1100,12 @@ wheels = [
 
 [[package]]
 name = "pygobject"
-version = "3.56.3"
+version = "3.58.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pycairo" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/da/61/978c5fbca34f10a90df362502fbb5a005637909e7b5a0e9212349ea9d010/pygobject-3.56.3.tar.gz", hash = "sha256:12760e4a0e3d04b6eb95e06f7a27e362c826d567ea613373a92c003b6c70d2d6", size = 1411853, upload-time = "2026-05-08T20:46:39.904Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a3/9b/473a5234ec86bce978d3583adc62441c84cc57181c4ea8a8978997c7f0c1/pygobject-3.58.0.tar.gz", hash = "sha256:45068697de3ffe46840ca369705f23118b34db4f7deb63f6eff079a6734ddcca", size = 1408568, upload-time = "2026-08-28T06:50:27.22Z" }
 
 [[package]]
 name = "pyjwt"
