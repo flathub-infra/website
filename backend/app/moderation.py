@@ -809,7 +809,7 @@ def _manifest_request_matches(
     stored_complexity = stored.complexity
     candidate_complexity = candidate.complexity
     if (stored_complexity is None) != (candidate_complexity is None):
-        return False
+        return candidate_complexity is None
     if stored_complexity is None or candidate_complexity is None:
         return True
     return (
@@ -1845,10 +1845,7 @@ def submit_review_request(
         selected_manifest_data: str | None = None
         manifest_is_observation = not (origin_should_gate or complexity_should_gate)
         if origin_should_gate or origin_should_observe:
-            selected_manifest_data = _manifest_request_data(
-                app_manifest_findings,
-                complexity_data,
-            )
+            selected_manifest_data = _manifest_request_data(app_manifest_findings, None)
         elif complexity_should_observe or (
             complexity_should_gate
             and appdata_request is None
