@@ -116,7 +116,7 @@ const LoginClient = ({
           {emailLoginEnabled && (
             <Link
               href={emailHref}
-              className="flex w-full flex-row items-center justify-center gap-3 rounded-xl bg-flathub-white p-5 font-bold text-inherit shadow-md hover:opacity-60 dark:bg-flathub-arsenic"
+              className="flex w-full flex-row items-center justify-start gap-3 rounded-xl bg-flathub-white p-5 font-bold text-inherit shadow-md hover:opacity-60 dark:bg-flathub-arsenic"
             >
               <div className="flex h-16 w-16 items-center justify-center">
                 <Mail size={48} strokeWidth={1.5} />
