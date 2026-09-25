@@ -17,16 +17,23 @@ import { setDefaultOptions } from "date-fns"
 import { getDateFnsLocale } from "src/localize"
 
 const queryClient = new QueryClient()
+const shouldTrack = (): boolean =>
+  typeof window === "undefined" ||
+  !/^\/[a-z]{2,3}(?:-[A-Za-z]{2,4})?\/login\/email\/confirm\/?$/.test(
+    window.location.pathname,
+  )
 
-const instance = createInstance({
-  urlBase: process.env.NEXT_PUBLIC_SITE_BASE_URI || "",
-  siteId: Number(process.env.NEXT_PUBLIC_MATOMO_WEBSITE_ID) || 38,
-  trackerUrl: "https://webstats.gnome.org/matomo.php",
-  srcUrl: "https://webstats.gnome.org/matomo.js",
-  configurations: {
-    disableCookies: true,
-  },
-})
+const instance = shouldTrack()
+  ? createInstance({
+      urlBase: process.env.NEXT_PUBLIC_SITE_BASE_URI || "",
+      siteId: Number(process.env.NEXT_PUBLIC_MATOMO_WEBSITE_ID) || 38,
+      trackerUrl: "https://webstats.gnome.org/matomo.php",
+      srcUrl: "https://webstats.gnome.org/matomo.js",
+      configurations: {
+        disableCookies: true,
+      },
+    })
+  : null
 
 interface ClientProvidersProps {
   children: ReactNode
@@ -41,20 +48,24 @@ export default function ClientProviders({
 
   setDefaultOptions({ locale: getDateFnsLocale(locale) })
 
-  return (
-    <MatomoProvider value={instance}>
-      <ThemeProvider attribute="class">
-        <MotionConfig reducedMotion="user">
-          <QueryClientProvider client={queryClient}>
-            <UserInfoProvider>{children}</UserInfoProvider>
-            <Toaster
-              position={direction === "rtl" ? "bottom-left" : "bottom-right"}
-              dir={direction}
-            />
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </MotionConfig>
-      </ThemeProvider>
-    </MatomoProvider>
+  const tree = (
+    <ThemeProvider attribute="class">
+      <MotionConfig reducedMotion="user">
+        <QueryClientProvider client={queryClient}>
+          <UserInfoProvider>{children}</UserInfoProvider>
+          <Toaster
+            position={direction === "rtl" ? "bottom-left" : "bottom-right"}
+            dir={direction}
+          />
+          {shouldTrack() && <ReactQueryDevtools initialIsOpen={false} />}
+        </QueryClientProvider>
+      </MotionConfig>
+    </ThemeProvider>
   )
+
+  if (instance === null) {
+    return tree
+  }
+
+  return <MatomoProvider value={instance}>{tree}</MatomoProvider>
 }

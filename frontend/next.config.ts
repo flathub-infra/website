@@ -343,6 +343,19 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
         ],
       },
       {
+        source: "/:locale/login/email/confirm",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-store",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "no-referrer",
+          },
+        ],
+      },
+      {
         source: "/",
         headers: [
           {
