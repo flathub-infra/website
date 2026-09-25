@@ -233,6 +233,7 @@ def test_request_hides_membership_and_worker_skips_disabled(monkeypatch):
         assert len(sent) == 2
     assert sent[0][-1] is None
     assert sent[1][-1] == user_id
+
     with (
         patch("app.worker.emails.get_db", writer),
         patch("app.worker.emails.emails.send_one_email_new") as mail,
@@ -271,3 +272,68 @@ def test_request_hides_membership_and_worker_skips_disabled(monkeypatch):
         session.query(FlathubUser).filter_by(id=user_id).delete()
         session.commit()
     engine.dispose()
+
+
+def test_failed_enqueue_releases_address_reservation(monkeypatch):
+    url = os.getenv("OIDC_TEST_DATABASE_URL")
+    if not url:
+        pytest.skip("OIDC_TEST_DATABASE_URL is not configured")
+    store = redis.Redis(
+        host=config.settings.redis_host,
+        port=config.settings.redis_port,
+        db=config.settings.redis_db,
+        decode_responses=True,
+    )
+    try:
+        store.ping()
+    except redis.RedisError:
+        pytest.skip("Redis is not available")
+    engine = create_engine(url)
+    email = f"retry-{uuid4().hex}@example.com"
+    ip = f"test-{uuid4().hex}"
+
+    @contextmanager
+    def writer(_db_type="writer"):
+        with Session(engine) as session:
+            yield DBSession(session)
+
+    app = FastAPI()
+    app.dependency_overrides[login_state] = lambda: LoginInformation(
+        LoginState.LOGGED_OUT, None, None
+    )
+    logins.register_to_app(app)
+    monkeypatch.setattr(config.settings, "email_login_enabled", True)
+    monkeypatch.setattr(logins, "get_db", writer)
+    monkeypatch.setattr(logins, "_email_rate_store", store)
+    with (
+        patch.object(
+            send_email_login_link,
+            "send",
+            side_effect=[RuntimeError("queue down"), None],
+        ) as enqueue,
+        TestClient(app, client=(ip, 12345)) as client,
+    ):
+        try:
+            responses = [
+                client.post(
+                    "/auth/email/request",
+                    json={"email": email},
+                    headers={"origin": config.settings.frontend_url.rstrip("/")},
+                )
+                for _ in range(2)
+            ]
+            assert [response.status_code for response in responses] == [503, 202]
+            assert enqueue.call_count == 2
+            assert store.get(f"email-login:ip:{ip}:hour") == "2"
+        finally:
+            address_key = logins.hmac.new(
+                config.settings.session_secret_key.encode(),
+                email.encode("ascii"),
+                logins.hashlib.sha256,
+            ).hexdigest()
+            store.delete(
+                f"email-login:ip:{ip}:hour",
+                f"email-login:address:{address_key}:minute",
+                f"email-login:address:{address_key}:hour",
+            )
+            engine.dispose()
