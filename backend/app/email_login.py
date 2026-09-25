@@ -2,6 +2,7 @@ import hashlib
 import re
 from urllib.parse import unquote, urlsplit
 
+import idna
 from email_validator import EmailNotValidError, validate_email
 from fastapi import HTTPException
 from sqlalchemy import func, select, text
@@ -43,6 +44,8 @@ def has_oauth_account(db: DBSession, user: models.FlathubUser) -> bool:
 
 
 def oauth_email_exists(db: DBSession, email: str) -> bool:
+    local, domain = email.rsplit("@", 1)
+    candidates = {email, f"{local}@{idna.decode(domain)}"}
     for table in (
         models.GithubAccount,
         models.GitlabAccount,
@@ -50,23 +53,29 @@ def oauth_email_exists(db: DBSession, email: str) -> bool:
         models.GoogleAccount,
         models.KdeAccount,
     ):
-        if (
-            db.session.scalar(
-                select(table.id)
-                .where(func.lower(func.trim(table.email)) == email)
-                .limit(1)
+        values = db.session.scalars(
+            select(table.email).where(
+                func.lower(func.trim(table.email)).in_(candidates)
             )
-            is not None
-        ):
-            return True
-    return (
-        db.session.scalar(
-            select(models.GoogleAccount.id)
-            .where(func.lower(func.trim(models.GoogleAccount.login)) == email)
-            .limit(1)
         )
-        is not None
+        for value in values:
+            try:
+                if normalize_login_email(value) == email:
+                    return True
+            except ValueError:
+                continue
+    values = db.session.scalars(
+        select(models.GoogleAccount.login).where(
+            func.lower(func.trim(models.GoogleAccount.login)).in_(candidates)
+        )
     )
+    for value in values:
+        try:
+            if normalize_login_email(value) == email:
+                return True
+        except ValueError:
+            continue
+    return False
 
 
 def email_login_allowed(db: DBSession, user: models.FlathubUser) -> bool:
