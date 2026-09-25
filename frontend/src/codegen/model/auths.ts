@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { AuthsEmail } from "./authsEmail"
 import type { AuthsGithub } from "./authsGithub"
 import type { AuthsGitlab } from "./authsGitlab"
 import type { AuthsGnome } from "./authsGnome"
@@ -16,4 +17,5 @@ export interface Auths {
   gnome?: AuthsGnome
   kde?: AuthsKde
   google?: AuthsGoogle
+  email?: AuthsEmail
 }

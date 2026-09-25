@@ -15,6 +15,13 @@ const Main = ({ children }: { children: React.ReactNode }) => {
 
   // Track page view
   useEffect(() => {
+    if (
+      /^\/[a-z]{2,3}(?:-[A-Za-z]{2,4})?\/login\/email\/confirm\/?$/.test(
+        pathname,
+      )
+    ) {
+      return
+    }
     trackPageView({
       href: window.location.href.replace(
         RegExp(`/${locale}$|/${locale}/`),

@@ -14,4 +14,5 @@ export const ConnectedAccountProvider = {
   gnome: "gnome",
   google: "google",
   kde: "kde",
+  email: "email",
 } as const
