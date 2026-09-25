@@ -99,14 +99,6 @@ const EmailConfirmClient = (): JSX.Element => {
         return
       }
       if (res.status === 400) {
-        const check = await fetch(`${getApiBaseUrl()}/auth/userinfo`, {
-          method: "GET",
-          credentials: "include",
-        })
-        if (check.ok && check.status === 200) {
-          setState("ok")
-          return
-        }
         setState("invalid")
         return
       }
