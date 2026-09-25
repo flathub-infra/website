@@ -394,6 +394,8 @@
   "open-user-menu": "Open User Menu",
   "favorite": "Bookmark",
   "favorite-apps": "Bookmarks",
+  "remove-bookmark": "Remove bookmark",
+  "remove-from-favorites": "Remove {app} from bookmarks",
   "install-all-favorites": "Install All Bookmarks",
   "install-all-favorites-description": "Copy this command to install all your bookmarked apps at once:",
   "no-favorites-yet": "You don't have any bookmarked apps yet. Start adding some by clicking the bookmark icon on apps you like!",
