@@ -33,6 +33,11 @@ import type {
   ContinueKdeFlowAuthLoginKdePostBody,
   DeleteUserResult,
   DoChangeDefaultAccountAuthChangeDefaultAccountPostParams,
+  EmailConfirmRequest,
+  EmailConfirmResult,
+  EmailLinkAccepted,
+  EmailLinkRequest,
+  EmailLoginConfig,
   GetDeleteUserResult,
   GetUserinfoAuthUserinfoGet200,
   HTTPValidationError,
@@ -59,6 +64,325 @@ const withQueryKey = <T extends object, K>(
   return result
 }
 
+/**
+ * @summary Get Email Login Config
+ */
+export const getEmailLoginConfigAuthEmailConfigGet = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<EmailLoginConfig>> => {
+  return axios.get(`/auth/email/config`, options)
+}
+
+export const getGetEmailLoginConfigAuthEmailConfigGetQueryKey = () => {
+  return [`/auth/email/config`] as const
+}
+
+export const getGetEmailLoginConfigAuthEmailConfigGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ?? getGetEmailLoginConfigAuthEmailConfigGetQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>
+  > = ({ signal }) =>
+    getEmailLoginConfigAuthEmailConfigGet({ signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetEmailLoginConfigAuthEmailConfigGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>
+>
+export type GetEmailLoginConfigAuthEmailConfigGetQueryError =
+  AxiosError<unknown>
+
+export function useGetEmailLoginConfigAuthEmailConfigGet<
+  TData = Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+  TError = AxiosError<unknown>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+          TError,
+          Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetEmailLoginConfigAuthEmailConfigGet<
+  TData = Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+          TError,
+          Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetEmailLoginConfigAuthEmailConfigGet<
+  TData = Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Email Login Config
+ */
+
+export function useGetEmailLoginConfigAuthEmailConfigGet<
+  TData = Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetEmailLoginConfigAuthEmailConfigGetQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Request Email Login
+ */
+export const requestEmailLoginAuthEmailRequestPost = (
+  emailLinkRequest: EmailLinkRequest,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<EmailLinkAccepted>> => {
+  return axios.post(`/auth/email/request`, emailLinkRequest, options)
+}
+
+export const getRequestEmailLoginAuthEmailRequestPostMutationOptions = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>,
+    TError,
+    { data: EmailLinkRequest },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>,
+  TError,
+  { data: EmailLinkRequest },
+  TContext
+> => {
+  const mutationKey = ["requestEmailLoginAuthEmailRequestPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>,
+    { data: EmailLinkRequest }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return requestEmailLoginAuthEmailRequestPost(data, axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type RequestEmailLoginAuthEmailRequestPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>
+>
+export type RequestEmailLoginAuthEmailRequestPostMutationBody = EmailLinkRequest
+export type RequestEmailLoginAuthEmailRequestPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Request Email Login
+ */
+export const useRequestEmailLoginAuthEmailRequestPost = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>,
+      TError,
+      { data: EmailLinkRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>,
+  TError,
+  { data: EmailLinkRequest },
+  TContext
+> => {
+  return useMutation(
+    getRequestEmailLoginAuthEmailRequestPostMutationOptions(options),
+    queryClient,
+  )
+}
+/**
+ * @summary Confirm Email Login
+ */
+export const confirmEmailLoginAuthEmailConfirmPost = (
+  emailConfirmRequest: EmailConfirmRequest,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<EmailConfirmResult>> => {
+  return axios.post(`/auth/email/confirm`, emailConfirmRequest, options)
+}
+
+export const getConfirmEmailLoginAuthEmailConfirmPostMutationOptions = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>,
+    TError,
+    { data: EmailConfirmRequest },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>,
+  TError,
+  { data: EmailConfirmRequest },
+  TContext
+> => {
+  const mutationKey = ["confirmEmailLoginAuthEmailConfirmPost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>,
+    { data: EmailConfirmRequest }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return confirmEmailLoginAuthEmailConfirmPost(data, axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type ConfirmEmailLoginAuthEmailConfirmPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>
+>
+export type ConfirmEmailLoginAuthEmailConfirmPostMutationBody =
+  EmailConfirmRequest
+export type ConfirmEmailLoginAuthEmailConfirmPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Confirm Email Login
+ */
+export const useConfirmEmailLoginAuthEmailConfirmPost = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>,
+      TError,
+      { data: EmailConfirmRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>,
+  TError,
+  { data: EmailConfirmRequest },
+  TContext
+> => {
+  return useMutation(
+    getConfirmEmailLoginAuthEmailConfirmPostMutationOptions(options),
+    queryClient,
+  )
+}
 /**
  * Retrieve the login methods available from the backend.
  *

@@ -141,6 +141,25 @@ export const getMeUsersMeGetResponseMock = (
         null,
       ]),
     },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: null,
+      display_name: null,
+      email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      disabled_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
     null,
   ]),
   banned: faker.datatype.boolean(),
@@ -265,6 +284,25 @@ export const getMeUsersMeGetResponseMock = (
           null,
         ]),
         last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: null,
+        display_name: null,
+        email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+        verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+        disabled_at: faker.helpers.arrayElement([
           faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
@@ -438,6 +476,25 @@ export const getUsersUsersGetResponseMock = (
           null,
         ]),
       },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: null,
+        display_name: null,
+        email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+        verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+        disabled_at: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
       null,
     ]),
     banned: faker.datatype.boolean(),
@@ -562,6 +619,25 @@ export const getUsersUsersGetResponseMock = (
             null,
           ]),
           last_used: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + "Z",
+            null,
+          ]),
+        },
+        {
+          provider: faker.helpers.arrayElement(
+            Object.values(ConnectedAccountProvider),
+          ),
+          id: faker.number.int(),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          avatar_url: null,
+          display_name: null,
+          email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          last_used: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + "Z",
+            null,
+          ]),
+          verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+          disabled_at: faker.helpers.arrayElement([
             faker.date.past().toISOString().slice(0, 19) + "Z",
             null,
           ]),
@@ -743,6 +819,25 @@ export const getUserUsersUserIdGetResponseMock = (
         null,
       ]),
     },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: null,
+      display_name: null,
+      email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      disabled_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
     null,
   ]),
   banned: faker.datatype.boolean(),
@@ -867,6 +962,25 @@ export const getUserUsersUserIdGetResponseMock = (
           null,
         ]),
         last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: null,
+        display_name: null,
+        email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+        verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+        disabled_at: faker.helpers.arrayElement([
           faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
@@ -1036,6 +1150,25 @@ export const getBanUserUsersUserIdBanPostResponseMock = (
         null,
       ]),
     },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: null,
+      display_name: null,
+      email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      disabled_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
     null,
   ]),
   banned: faker.datatype.boolean(),
@@ -1160,6 +1293,25 @@ export const getBanUserUsersUserIdBanPostResponseMock = (
           null,
         ]),
         last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: null,
+        display_name: null,
+        email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+        verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+        disabled_at: faker.helpers.arrayElement([
           faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
@@ -1329,6 +1481,25 @@ export const getUnbanUserUsersUserIdBanDeleteResponseMock = (
         null,
       ]),
     },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: null,
+      display_name: null,
+      email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      disabled_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
     null,
   ]),
   banned: faker.datatype.boolean(),
@@ -1453,6 +1624,25 @@ export const getUnbanUserUsersUserIdBanDeleteResponseMock = (
           null,
         ]),
         last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: null,
+        display_name: null,
+        email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+        verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+        disabled_at: faker.helpers.arrayElement([
           faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
@@ -1622,6 +1812,25 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
         null,
       ]),
     },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: null,
+      display_name: null,
+      email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      disabled_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
     null,
   ]),
   banned: faker.datatype.boolean(),
@@ -1746,6 +1955,25 @@ export const getAddUserRoleUsersUserIdRolePostResponseMock = (
           null,
         ]),
         last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: null,
+        display_name: null,
+        email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+        verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+        disabled_at: faker.helpers.arrayElement([
           faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
@@ -1915,6 +2143,25 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
         null,
       ]),
     },
+    {
+      provider: faker.helpers.arrayElement(
+        Object.values(ConnectedAccountProvider),
+      ),
+      id: faker.number.int(),
+      login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      avatar_url: null,
+      display_name: null,
+      email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      last_used: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      disabled_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+    },
     null,
   ]),
   banned: faker.datatype.boolean(),
@@ -2039,6 +2286,25 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteResponseMock = (
           null,
         ]),
         last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: null,
+        display_name: null,
+        email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+        verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+        disabled_at: faker.helpers.arrayElement([
           faker.date.past().toISOString().slice(0, 19) + "Z",
           null,
         ]),
@@ -2210,6 +2476,25 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
           null,
         ]),
       },
+      {
+        provider: faker.helpers.arrayElement(
+          Object.values(ConnectedAccountProvider),
+        ),
+        id: faker.number.int(),
+        login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        avatar_url: null,
+        display_name: null,
+        email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        last_used: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+        verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+        disabled_at: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+      },
       null,
     ]),
     banned: faker.datatype.boolean(),
@@ -2334,6 +2619,25 @@ export const getRoleUsersUsersRolesRoleNameGetResponseMock = (): UserResult[] =>
             null,
           ]),
           last_used: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + "Z",
+            null,
+          ]),
+        },
+        {
+          provider: faker.helpers.arrayElement(
+            Object.values(ConnectedAccountProvider),
+          ),
+          id: faker.number.int(),
+          login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          avatar_url: null,
+          display_name: null,
+          email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          last_used: faker.helpers.arrayElement([
+            faker.date.past().toISOString().slice(0, 19) + "Z",
+            null,
+          ]),
+          verified_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+          disabled_at: faker.helpers.arrayElement([
             faker.date.past().toISOString().slice(0, 19) + "Z",
             null,
           ]),
