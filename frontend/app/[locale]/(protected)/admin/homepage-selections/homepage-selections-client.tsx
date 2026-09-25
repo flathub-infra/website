@@ -39,7 +39,9 @@ import {
   updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut,
 } from "src/codegen"
 import {
+  HOMEPAGE_CURATED_APP_SELECTION_LAYOUTS,
   HOMEPAGE_CURATED_APP_SELECTION_SLOTS,
+  type HomepageCuratedAppSelectionLayout,
   type HomepageCuratedAppSelectionSlot,
 } from "src/types/CuratedAppSelection"
 import { getUtcDateString } from "src/utils/date"
@@ -62,6 +64,11 @@ const SLOT_LABELS: Record<HomepageCuratedAppSelectionSlot, string> = {
   "after-first-category-block": "After first category block",
 }
 
+const LAYOUT_LABELS: Record<HomepageCuratedAppSelectionLayout, string> = {
+  grid: "Grid",
+  carousel: "Carousel",
+}
+
 const FIELD_CLASS =
   "h-12 w-full rounded-xl border border-input bg-flathub-gainsborow px-3 text-sm shadow-xs dark:bg-stone-900"
 const SELECT_TRIGGER_CLASS = `${FIELD_CLASS} mt-2 text-flathub-dark-gunmetal hover:bg-flathub-gainsborow data-[state=open]:bg-flathub-gainsborow dark:text-flathub-lotion dark:hover:bg-stone-900 dark:data-[state=open]:bg-stone-900 [&>svg]:text-flathub-granite-gray dark:[&>svg]:text-flathub-gainsborow`
@@ -70,8 +77,12 @@ const SELECT_CONTENT_CLASS =
 const SELECT_ITEM_CLASS =
   "cursor-pointer text-flathub-dark-gunmetal hover:bg-flathub-celestial-blue hover:text-flathub-white focus:bg-flathub-celestial-blue focus:text-flathub-white data-[highlighted]:bg-flathub-celestial-blue data-[highlighted]:text-flathub-white dark:text-flathub-lotion"
 
-type ScheduledSelectionView = Omit<ScheduledSelectionAdmin, "slot"> & {
+type ScheduledSelectionView = Omit<
+  ScheduledSelectionAdmin,
+  "slot" | "layout"
+> & {
   slot: HomepageCuratedAppSelectionSlot
+  layout: HomepageCuratedAppSelectionLayout
   appDetails: SelectableApp[]
 }
 
@@ -107,6 +118,7 @@ function toSelectionView(
   return {
     ...selection,
     slot: selection.slot as HomepageCuratedAppSelectionSlot,
+    layout: selection.layout as HomepageCuratedAppSelectionLayout,
     apps: sortedApps,
     appDetails: sortedApps.map(
       (app) => appDetailsById.get(app.app_id) ?? appFallback(app.app_id),
@@ -433,6 +445,7 @@ export default function HomepageSelectionsClient() {
       editingId: selection.id,
       themeId: selection.theme_id.toString(),
       slot: selection.slot,
+      layout: selection.layout,
       startsAt: selection.starts_at,
       endsAt: selection.ends_at,
       enabled: selection.enabled,
@@ -477,6 +490,7 @@ export default function HomepageSelectionsClient() {
       body: {
         theme_id: Number(form.themeId),
         slot: form.slot,
+        layout: form.layout,
         starts_at: form.startsAt,
         ends_at: form.endsAt,
         enabled: form.enabled,
@@ -532,8 +546,8 @@ export default function HomepageSelectionsClient() {
                     {form.editingId ? "Edit Selection" : "Create Selection"}
                   </h2>
                   <p className="mt-1 text-sm text-flathub-granite-gray dark:text-flathub-gainsborow">
-                    Pick an editorial theme, a homepage slot, a UTC date range,
-                    and the apps in their display order.
+                    Pick an editorial theme, layout, homepage slot, UTC date
+                    range, and the apps in their display order.
                   </p>
                 </div>
 
@@ -621,6 +635,39 @@ export default function HomepageSelectionsClient() {
                             {SLOT_LABELS[slot]}
                           </SelectItem>
                         ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="block text-sm font-semibold">
+                    <span>Layout</span>
+                    <Select
+                      value={form.layout}
+                      onValueChange={(value) =>
+                        setForm((current) => ({
+                          ...current,
+                          layout: value as HomepageCuratedAppSelectionLayout,
+                        }))
+                      }
+                    >
+                      <SelectTrigger
+                        className={SELECT_TRIGGER_CLASS}
+                        aria-label="Layout"
+                      >
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className={SELECT_CONTENT_CLASS}>
+                        {HOMEPAGE_CURATED_APP_SELECTION_LAYOUTS.map(
+                          (layout) => (
+                            <SelectItem
+                              key={layout}
+                              value={layout}
+                              className={SELECT_ITEM_CLASS}
+                            >
+                              {LAYOUT_LABELS[layout]}
+                            </SelectItem>
+                          ),
+                        )}
                       </SelectContent>
                     </Select>
                   </div>
@@ -937,7 +984,8 @@ function ScheduledSelectionCards({
                     </p>
                   ) : null}
                   <p className="mt-2 text-sm text-flathub-granite-gray dark:text-flathub-gainsborow">
-                    {SLOT_LABELS[selection.slot]} · {selection.starts_at} to{" "}
+                    {SLOT_LABELS[selection.slot]} ·{" "}
+                    {LAYOUT_LABELS[selection.layout]} · {selection.starts_at} to{" "}
                     {selection.ends_at}
                   </p>
                 </div>
