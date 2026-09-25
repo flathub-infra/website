@@ -13,8 +13,8 @@ export interface APIResponseError {
 
 /**
  * Performs the callback POST request to check 3rd party authentication
- * was successful. Fetches user data on success. Throws localized string
- * ID on error.
+ * was successful. Fetches user data on success. Throws a known translation
+ * key on error.
  * @param dispatch Reducer dispatch function used to update user context
  * @param query URL query object with code and state to POST to backend
  * as well as login provider name to determine the API endpoint
@@ -49,13 +49,20 @@ export async function login(
   } else {
     dispatch({ type: "interrupt" })
 
-    // Some errors come with an explanation from backend, others are unexpected
+    // Only show known error codes; provider responses can contain personal data.
+    let data: APIResponseError
     try {
-      const data: APIResponseError = await res.json()
-      throw new Error(data.error || "network-error-try-again")
-    } catch (error) {
-      throw new Error("network-error-try-again")
+      data = await res.json()
+    } catch {
+      throw new Error("login-failed-try-again")
     }
+    if (
+      data?.error === "gitlab-terms-not-accepted" ||
+      data?.error === "error-already-logged-in"
+    ) {
+      throw new Error(data.error)
+    }
+    throw new Error("login-failed-try-again")
   }
 }
 
