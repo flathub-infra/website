@@ -219,6 +219,27 @@ for i = 1, #KEYS do
 end
 return counts
 """
+_EMAIL_REQUEST_RATE_SCRIPT = """
+local ip = redis.call('INCR', KEYS[1])
+if ip == 1 then redis.call('EXPIRE', KEYS[1], 3600) end
+local minute = redis.call('EXISTS', KEYS[2])
+local hour = tonumber(redis.call('GET', KEYS[3]) or '0')
+if ip > 20 or minute == 1 or hour >= 5 then
+    return {ip, minute + 1, hour + 1}
+end
+redis.call('SET', KEYS[2], ARGV[1], 'EX', 60)
+hour = redis.call('INCR', KEYS[3])
+if hour == 1 then redis.call('EXPIRE', KEYS[3], 3600) end
+return {ip, 1, hour}
+"""
+_EMAIL_RELEASE_RATE_SCRIPT = """
+if redis.call('GET', KEYS[1]) == ARGV[1] then
+    redis.call('DEL', KEYS[1])
+    if tonumber(redis.call('GET', KEYS[2]) or '0') > 0 then
+        redis.call('DECR', KEYS[2])
+    end
+end
+"""
 
 
 class EmailLinkRequest(BaseModel):
@@ -270,11 +291,12 @@ def request_email_login(
         f"email-login:address:{address_key}:minute",
         f"email-login:address:{address_key}:hour",
     ]
+    reservation = secrets.token_urlsafe(16)
     try:
         counts = cast(
             "list[int]",
             _email_rate_store.eval(
-                _EMAIL_RATE_SCRIPT, len(keys), *keys, 3600, 60, 3600
+                _EMAIL_REQUEST_RATE_SCRIPT, len(keys), *keys, reservation
             ),
         )
     except (redis.RedisError, OSError) as exc:
@@ -301,6 +323,12 @@ def request_email_login(
             user_id,
         )
     except Exception as exc:
+        try:
+            _email_rate_store.eval(
+                _EMAIL_RELEASE_RATE_SCRIPT, 2, keys[1], keys[2], reservation
+            )
+        except (redis.RedisError, OSError):
+            pass
         raise HTTPException(status_code=503, detail="email_login_unavailable") from exc
     return EmailLinkAccepted()
 
