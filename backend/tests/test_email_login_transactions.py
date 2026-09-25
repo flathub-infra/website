@@ -412,26 +412,29 @@ def test_oauth_upgrade_helper_sets_locked_switch(isolated_email_db):
         )
         assert challenge.consumed_at is not None
     with writer() as db:
-        collided = models.FlathubUser(display_name=None, default_account=None)
-        db.session.add(collided)
+        collision_email = f"taken-{uuid4().hex}@example.com"
+        collided = models.FlathubUser(display_name=None, default_account="email")
+        oauth_owner = models.FlathubUser(display_name=None, default_account="gitlab")
+        db.session.add_all((collided, oauth_owner))
         db.session.flush()
         db.session.add(
             models.EmailAccount(
                 user=collided.id,
-                email=f"taken-{uuid4().hex}@example.com",
+                email=f"email-only-{uuid4().hex}@example.com",
                 verified_at=utcnow(),
             )
         )
         db.session.add(
             models.GitlabAccount(
-                user=collided.id,
+                user=oauth_owner.id,
                 gitlab_userid=99,
                 login="other",
                 avatar_url=None,
-                email="reader@example.com",
+                email=collision_email,
             )
         )
         db.session.flush()
+        assert email_login_allowed(db, collided)
         assert (
             logins._upgrade_email_user(
                 db,
@@ -442,7 +445,7 @@ def test_oauth_upgrade_helper_sets_locked_switch(isolated_email_db):
                     login="reader2",
                     avatar_url=None,
                     name=None,
-                    email="reader@example.com",
+                    email=collision_email,
                 ),
                 {"access_token": "token"},
                 models.GitlabAccount,
