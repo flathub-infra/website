@@ -34,6 +34,7 @@ const EmailConfirmClient = (): JSX.Element => {
   const tokenRef = useRef<string | null>(null)
   const [state, setState] = useState<ConfirmState>("idle")
   const [logoutError, setLogoutError] = useState(false)
+  const [retryAfter, setRetryAfter] = useState(60)
 
   useEffect(() => {
     if (tokenRef.current !== null) {
@@ -61,6 +62,11 @@ const EmailConfirmClient = (): JSX.Element => {
       setState("invalid")
     }
   }, [searchParams])
+  useEffect(() => {
+    if (state !== "rate-limited") return
+    const timer = window.setTimeout(() => setState("idle"), retryAfter * 1000)
+    return () => window.clearTimeout(timer)
+  }, [state, retryAfter])
 
   const applyReturnTo = useCallback(
     (returnTo: string) => {
@@ -95,6 +101,8 @@ const EmailConfirmClient = (): JSX.Element => {
         return
       }
       if (res.status === 429) {
+        const seconds = Number(res.headers.get("Retry-After"))
+        setRetryAfter(Number.isFinite(seconds) && seconds > 0 ? seconds : 60)
         setState("rate-limited")
         return
       }
@@ -158,12 +166,15 @@ const EmailConfirmClient = (): JSX.Element => {
           {logoutError && <p>{t("network-error-try-again")}</p>}
         </>
       )}
-      {state !== "invalid" && state !== "rate-limited" && (
-        <Button onClick={() => void confirm()} disabled={state === "busy"}>
+      {state !== "invalid" && (
+        <Button
+          onClick={() => void confirm()}
+          disabled={state === "busy" || state === "rate-limited"}
+        >
           {state === "busy" ? <Spinner size={"s"} /> : t("email-login-sign-in")}
         </Button>
       )}
-      {(state === "invalid" || state === "rate-limited") && (
+      {state === "invalid" && (
         <p className="text-sm opacity-75">
           {t("email-login-request-new-link")}
         </p>
