@@ -1143,9 +1143,12 @@ def continue_oauth_flow(
                     db, user, method, provider_data, login_result, account_model
                 )
                 if upgraded is not None:
+                    pending_oidc = request.session.get("oidc_authorize_params")
                     request.session.clear()
                     request.session["user-id"] = user.id
                     request.session["auth-method"] = method
+                    if isinstance(pending_oidc, dict):
+                        request.session["oidc_authorize_params"] = pending_oidc
                 if upgraded is None:
                     db.commit()
                     _log_login_failure(
