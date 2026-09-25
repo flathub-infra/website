@@ -941,13 +941,8 @@ def _upgrade_email_user(
 ):
     from .email_login import lock_email, normalize_login_email
 
-    locked = db.session.scalar(
-        select(models.FlathubUser)
-        .where(models.FlathubUser.id == user.id)
-        .with_for_update()
-    )
-    email_account = models.EmailAccount.by_user(db, locked)
-    if locked is None or email_account is None or not email_login_allowed(db, locked):
+    email_account = models.EmailAccount.by_user(db, user)
+    if email_account is None:
         return None
     provider_email = None
     if provider_data.email:
@@ -955,10 +950,20 @@ def _upgrade_email_user(
             provider_email = normalize_login_email(provider_data.email)
         except ValueError:
             provider_email = None
+    emails = {email_account.email}
     if provider_email:
-        lock_email(db, provider_email)
-        if oauth_email_exists(db, provider_email):
-            return None
+        emails.add(provider_email)
+    for email in sorted(emails):
+        lock_email(db, email)
+    locked = db.session.scalar(
+        select(models.FlathubUser)
+        .where(models.FlathubUser.id == user.id)
+        .with_for_update()
+    )
+    if locked is None or not email_login_allowed(db, locked):
+        return None
+    if provider_email and oauth_email_exists(db, provider_email):
+        return None
 
     userid = {f"{method}_userid": provider_data.id}
     account = account_model(
