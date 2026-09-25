@@ -68,6 +68,30 @@ def login_state(request: Request) -> LoginInformation:
     if user is not None and user.login_disabled:
         user = None
         del request.session["user-id"]
+    if user is not None and request.session.get("auth-method") == "email":
+        from .email_login import email_login_allowed
+
+        with get_db("writer") as db:
+            user = db.session.get(models.FlathubUser, user.id)
+            if user is None or not email_login_allowed(db, user):
+                user = None
+                request.session.clear()
+    if user is not None and request.session.get("auth-method") is None:
+        from .email_login import has_oauth_account
+
+        with get_db("replica") as db:
+            if models.EmailAccount.by_user(db, user) and not has_oauth_account(
+                db, user
+            ):
+                from .email_login import email_login_allowed
+
+                with get_db("writer") as writer_db:
+                    writer_user = writer_db.session.get(models.FlathubUser, user.id)
+                    if writer_user is not None and not email_login_allowed(
+                        writer_db, writer_user
+                    ):
+                        user = None
+                        request.session.clear()
     if user is not None:
         state = LoginState.LOGGED_IN
     active_flow = request.session.get("active-login-flow", None)
