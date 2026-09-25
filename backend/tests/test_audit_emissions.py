@@ -401,6 +401,8 @@ def test_email_upgrade_runs_postlogin_and_sends_security_email(
             "created": datetime.now(UTC).timestamp(),
         },
         "user-id": 42,
+        "oidc_authorize_params": {"client_id": "test-client"},
+        "obsolete": "remove",
     }
     result = logins.continue_oauth_flow(
         request,
@@ -415,6 +417,8 @@ def test_email_upgrade_runs_postlogin_and_sends_security_email(
     )
 
     assert result == {"status": "ok", "result": "logged_in"}
+    assert request.session["oidc_authorize_params"] == {"client_id": "test-client"}
+    assert "obsolete" not in request.session
     assert commits == [True]
     assert refreshed == [account]
     assert len(sent) == 1
