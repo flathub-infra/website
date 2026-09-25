@@ -27,7 +27,7 @@ export function createEmailLoginText(signInUrl: string, expiresAt: string) {
     "",
     signInUrl,
     "",
-    `This link expires in 15 minutes (at ${formatExpiration(expiresAt)}).`,
+    `This link expires at ${formatExpiration(expiresAt)}.`,
     "If you did not request this email, you can ignore it.",
   ].join("\n")
 }
@@ -47,7 +47,7 @@ export const EmailLoginEmail = ({
     <Text>
       <Link href={signInUrl}>Sign in to Flathub</Link>
     </Text>
-    <Text>This link expires in 15 minutes (at {formatExpiration(expiresAt)}).</Text>
+    <Text>This link expires at {formatExpiration(expiresAt)}.</Text>
     <Text>If you did not request this email, you can ignore it.</Text>
   </Base>
 )
