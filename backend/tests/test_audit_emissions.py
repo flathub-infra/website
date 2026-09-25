@@ -358,6 +358,71 @@ def test_already_logged_in_emits_distinct_event(monkeypatch, recorded_calls):
     assert recorded_calls[0]["user_id"] == 777
 
 
+def test_email_upgrade_runs_postlogin_and_sends_security_email(
+    monkeypatch, recorded_calls
+):
+    from datetime import UTC, datetime
+
+    from app import logins, models
+    from app.login_info import LoginInformation, LoginState
+
+    user = SimpleNamespace(id=42)
+    account = SimpleNamespace(user=42)
+    commits = []
+
+    @contextmanager
+    def fake_get_db(db_type="replica"):
+        yield SimpleNamespace(commit=lambda: commits.append(True))
+
+    @contextmanager
+    def fake_oauth_client(method):
+        yield SimpleNamespace(
+            fetch_token=lambda token_url, code: {
+                "token_type": "bearer",
+                "access_token": "new-token",
+            }
+        )
+
+    monkeypatch.setattr(logins, "get_db", fake_get_db)
+    monkeypatch.setattr(logins.oauth_providers, "get_oauth_client", fake_oauth_client)
+    monkeypatch.setattr(logins, "email_login_allowed", lambda db, user: True)
+    monkeypatch.setattr(logins, "_upgrade_email_user", lambda *args: account)
+    sent = []
+    monkeypatch.setitem(
+        sys.modules,
+        "app.worker.emails",
+        SimpleNamespace(send_email_new=SimpleNamespace(send=sent.append)),
+    )
+    refreshed = []
+    request = FakeRequest()
+    request.session = {
+        "_oauth_state_github": {
+            "state": "matching-state",
+            "created": datetime.now(UTC).timestamp(),
+        },
+        "user-id": 42,
+    }
+    result = logins.continue_oauth_flow(
+        request,
+        LoginInformation(state=LoginState.LOGGED_IN, user=user, method="github"),
+        logins.OauthLoginResponseSuccess(code="code", state="matching-state"),
+        "github",
+        lambda tokens: logins.ProviderInfo(
+            id="provider-123", login="new-login", email="new@example.com"
+        ),
+        SimpleNamespace(by_provider_id=lambda db, provider_id: None),
+        lambda tokens, connected_account: refreshed.append(connected_account),
+    )
+
+    assert result == {"status": "ok", "result": "logged_in"}
+    assert commits == [True]
+    assert refreshed == [account]
+    assert len(sent) == 1
+    assert sent[0]["messageInfo"]["category"] == logins.EmailCategory.SECURITY_LOGIN
+    assert recorded_calls[0]["event_type"] == models.AuditEventType.LOGIN_SUCCESS
+    assert recorded_calls[0]["details"] == {"upgrade_from": "email"}
+
+
 def _run_returning_oauth(monkeypatch, linked_user):
     from datetime import UTC, datetime
 

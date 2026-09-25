@@ -1126,6 +1126,7 @@ def continue_oauth_flow(
     with get_db("writer") as db:
         # Do we have a provider's user noted with this ID already?
         account = account_model.by_provider_id(db, provider_data.id)
+        upgraded = None
         if account is None:
             # We've never seen this provider's user before, if we're not already logged
             # in then create a user
@@ -1145,42 +1146,37 @@ def continue_oauth_flow(
                     request.session.clear()
                     request.session["user-id"] = user.id
                     request.session["auth-method"] = method
-                    audit_log.enqueue_audit_log(
-                        request,
-                        user.id,
-                        models.AuditEventType.LOGIN_SUCCESS,
-                        provider=method,
-                        details={"upgrade_from": "email"},
+                if upgraded is None:
+                    db.commit()
+                    _log_login_failure(
+                        request, login, method, "Email upgrade no longer eligible"
                     )
-                    return {"status": "ok", "result": "logged_in"}
-                db.commit()
-                _log_login_failure(
-                    request, login, method, "Email upgrade no longer eligible"
+                    return JSONResponse(
+                        {"status": "error", "error": "error-already-logged-in"},
+                        status_code=500,
+                    )
+                account = upgraded
+            if account is None:
+                # Now we have a user, create the local account model for it
+                userid = {}
+                userid[f"{method}_userid"] = provider_data.id
+                account = account_model(
+                    **userid,
+                    token=login_result["access_token"],
+                    last_used=utils.utcnow(),
+                    user=user.id,
+                    login=provider_data.login,
+                    avatar_url=provider_data.avatar_url,
+                    display_name=provider_data.name,
+                    email=provider_data.email,
                 )
-                return JSONResponse(
-                    {"status": "error", "error": "error-already-logged-in"},
-                    status_code=500,
-                )
-            # Now we have a user, create the local account model for it
-            userid = {}
-            userid[f"{method}_userid"] = provider_data.id
-            account = account_model(
-                **userid,
-                token=login_result["access_token"],
-                last_used=utils.utcnow(),
-                user=user.id,
-                login=provider_data.login,
-                avatar_url=provider_data.avatar_url,
-                display_name=provider_data.name,
-                email=provider_data.email,
-            )
-            if "refresh_token" in login_result:
-                refreshable = cast("_OAuthRefreshableAccount", account)
-                refreshable.refresh_token = login_result["refresh_token"]
-                refreshable.token_expiry = utils.utcnow() + timedelta(
-                    seconds=int(login_result.get("expires_in", "7200"))
-                )
-            db.add(account)
+                if "refresh_token" in login_result:
+                    refreshable = cast("_OAuthRefreshableAccount", account)
+                    refreshable.refresh_token = login_result["refresh_token"]
+                    refreshable.token_expiry = utils.utcnow() + timedelta(
+                        seconds=int(login_result.get("expires_in", "7200"))
+                    )
+                db.add(account)
         else:
             # The provider's user has been seen before, if we're logged in already and
             # things don't match then abort now
@@ -1248,7 +1244,9 @@ def continue_oauth_flow(
             account.user,
             models.AuditEventType.LOGIN_SUCCESS,
             provider=method,
-            details={"login": provider_data.login},
+            details={"upgrade_from": "email"}
+            if upgraded is not None
+            else {"login": provider_data.login},
         )
 
         # Let's find the set of repos the user has write access to in the flathub
