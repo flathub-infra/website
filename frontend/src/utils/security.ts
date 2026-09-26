@@ -32,3 +32,16 @@ export function isBackendRedirect(url: string): boolean {
     return false
   }
 }
+
+/**
+ * Whether a pathname is the email sign-in confirm page, which receives the
+ * magic-link token and must be kept out of analytics and error reporting.
+ * Accepts pathnames with or without a locale prefix.
+ * @param pathname URL pathname
+ * @returns if the pathname is the email confirm page
+ */
+export function isEmailConfirmRoute(pathname: string): boolean {
+  return /^(?:\/[a-z]{2,3}(?:-[A-Za-z]{2,4})?)?\/login\/email\/confirm\/?$/.test(
+    pathname,
+  )
+}
