@@ -143,3 +143,35 @@ def test_sentry_breadcrumb_filter_drops_email_auth_and_mail_payloads():
         emails.sentry_before_breadcrumb(unrelated_breadcrumb, {})
         is unrelated_breadcrumb
     )
+
+
+def test_sentry_filter_keeps_unrelated_errors_in_email_login_module():
+    event = {
+        "message": "database timeout",
+        "exception": {
+            "values": [
+                {
+                    "value": "database timeout",
+                    "stacktrace": {
+                        "frames": [
+                            {
+                                "filename": "app/email_login.py",
+                                "abs_path": "/app/app/email_login.py",
+                                "module": "app.email_login",
+                                "function": "email_login_allowed",
+                                "context_line": "    if email_login_allowed(db, user):",
+                                "vars": {"user_id": "1"},
+                            }
+                        ]
+                    },
+                }
+            ]
+        },
+    }
+
+    filtered = emails.sentry_before_send(event, {})
+
+    assert filtered["message"] == "database timeout"
+    assert filtered["exception"]["values"][0]["value"] == "database timeout"
+    frame = filtered["exception"]["values"][0]["stacktrace"]["frames"][0]
+    assert frame["vars"] == {"user_id": "1"}
