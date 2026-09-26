@@ -1271,6 +1271,7 @@ def continue_oauth_flow(
                 )
             db.add(account)
         request.session["user-id"] = account.user
+        request.session["auth-method"] = method
 
         # The session is now ready
         db.commit()
