@@ -871,5 +871,10 @@
   "app-is-currently-verified-by-dns": "Seu aplicativo está atualmente verificado por meio do controle de DNS de <domain></domain>",
   "verified-dns-tooltip": "A propriedade do ID do aplicativo <appid></appid> foi verificada por meio do controle de DNS de <domain></domain>",
   "dns-verification": "Verificação do DNS",
-  "runtime": "Runtime"
+  "runtime": "Runtime",
+  "login-failed": "Login falhou",
+  "login-failed-try-again": "Não foi possível entrar. Tente novamente.",
+  "gitlab-terms-not-accepted": "Sua conta {provider} requer que você aceito seus Termos de Serviço. Abra {provider} em um navegador, aceite os termos e tente entrar novamente.",
+  "open-login-provider": "Abrir {provider}",
+  "back-to-login": "Voltar ao login"
 }

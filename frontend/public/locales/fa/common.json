@@ -871,5 +871,10 @@
   "could-not-find-match-with-filters": "نتوانستیم گزینه‌ای مطابق با این پالایه‌ها بیابیم.",
   "other-apps-to-explore": "برخی کاره‌های عالی دیگر برای کشف.",
   "clear-filters": "پاک سازی پالایه‌ها",
-  "runtime": "زمان اجرا"
+  "runtime": "زمان اجرا",
+  "back-to-login": "بازگشت به ورود",
+  "login-failed": "ورود شکست خورد",
+  "login-failed-try-again": "نتوانست وارد شود. لطفاً دوباره تلاش کنید.",
+  "gitlab-terms-not-accepted": "حساب {provider}تان نیازمند پذیرش شرایط خدمتش است. گشودن {provider} در مرورگر، پذیرش شرایط و سپس ورود دوباره.",
+  "open-login-provider": "گشودن {provider}"
 }
