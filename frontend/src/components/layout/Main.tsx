@@ -7,6 +7,7 @@ import Header from "./Header"
 import Footer from "./Footer"
 import { useLocale } from "next-intl"
 import { usePathname } from "src/i18n/navigation"
+import { isEmailConfirmRoute } from "src/utils/security"
 
 const Main = ({ children }: { children: React.ReactNode }) => {
   const { trackPageView } = useMatomo()
@@ -15,6 +16,9 @@ const Main = ({ children }: { children: React.ReactNode }) => {
 
   // Track page view
   useEffect(() => {
+    if (isEmailConfirmRoute(pathname)) {
+      return
+    }
     trackPageView({
       href: window.location.href.replace(
         RegExp(`/${locale}$|/${locale}/`),

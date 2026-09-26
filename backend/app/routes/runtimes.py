@@ -108,6 +108,9 @@ def _managed_app_response(
 
 def _grant_uploader_role(db, user: models.FlathubUser) -> None:
 
+    from ..email_login import require_oauth_upgrade
+
+    require_oauth_upgrade(db, user)
     role = models.Role.by_name(db, models.RoleName.UPLOADER)
     if role is None:
         raise HTTPException(status_code=500, detail="uploader_role_missing")
@@ -510,6 +513,8 @@ def add_maintainer(
 ) -> ManagedAppResponse:
 
     with get_db("writer") as db:
+        from ..email_login import require_oauth_upgrade
+
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
         if direct_upload_app is None:
             raise HTTPException(status_code=404, detail="app_not_found")
@@ -517,6 +522,8 @@ def add_maintainer(
         user = models.FlathubUser.by_id(db, request.user_id)
         if user is None:
             raise HTTPException(status_code=404, detail="user_not_found")
+
+        require_oauth_upgrade(db, user)
 
         existing = models.DirectUploadAppDeveloper.by_developer_and_app(
             db, user, direct_upload_app

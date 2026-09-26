@@ -7,7 +7,11 @@ export function getUserName(
     return undefined
   }
 
-  return info.displayname ?? getFirstAuth(info.auths).login
+  return (
+    info.displayname ??
+    getFirstAuth(info.auths)?.login ??
+    info.default_account?.login
+  )
 }
 
 function getFirstAuth(auths: Auths) {

@@ -6,6 +6,8 @@ Here we handle all the login flows, user management etc.
 And we present the full /auth/ sub-namespace
 """
 
+import hashlib
+import hmac
 import secrets
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -14,15 +16,19 @@ from enum import StrEnum
 from typing import cast
 
 import httpx
+import redis
 from authlib.integrations.base_client.errors import OAuthError
 from authlib.oauth2.base import OAuth2Error
-from fastapi import APIRouter, FastAPI, HTTPException, Request, Response
+from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request, Response
+from fastapi.exception_handlers import request_validation_exception_handler
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from github import Github
 from github.AuthenticatedUser import AuthenticatedUser
 from gitlab import Gitlab
 from gitlab.exceptions import GitlabError
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from sqlalchemy import select, update
 from starlette.middleware.sessions import SessionMiddleware
 
 from . import (
@@ -36,6 +42,14 @@ from . import (
     utils,
 )
 from .database import get_db
+from .email_login import (
+    email_login_allowed,
+    lock_email,
+    normalize_login_email,
+    oauth_email_exists,
+    safe_locale,
+    safe_return_to,
+)
 from .emails import EmailCategory
 from .login_info import (
     LoggedInDep,
@@ -187,6 +201,263 @@ def refresh_oauth_token(account: models.ConnectedAccount) -> str:
 router = APIRouter(prefix="/auth")
 
 
+_email_rate_store = redis.Redis(
+    host=config.settings.redis_host,
+    port=config.settings.redis_port,
+    db=config.settings.redis_db,
+    decode_responses=True,
+    socket_connect_timeout=0.2,
+    socket_timeout=0.2,
+)
+_EMAIL_RATE_SCRIPT = """
+local counts = {}
+for i = 1, #KEYS do
+    counts[i] = redis.call('INCR', KEYS[i])
+    if counts[i] == 1 then
+        redis.call('EXPIRE', KEYS[i], ARGV[i])
+    end
+end
+return counts
+"""
+_EMAIL_REQUEST_RATE_SCRIPT = """
+local ip = redis.call('INCR', KEYS[1])
+if ip == 1 then redis.call('EXPIRE', KEYS[1], 3600) end
+local minute = redis.call('EXISTS', KEYS[2])
+local hour = tonumber(redis.call('GET', KEYS[3]) or '0')
+if ip > 20 or minute == 1 or hour >= 5 then
+    return {ip, minute + 1, hour + 1}
+end
+redis.call('SET', KEYS[2], ARGV[1], 'EX', 60)
+hour = redis.call('INCR', KEYS[3])
+if hour == 1 then redis.call('EXPIRE', KEYS[3], 3600) end
+return {ip, 1, hour}
+"""
+_EMAIL_RELEASE_RATE_SCRIPT = """
+if redis.call('GET', KEYS[1]) == ARGV[1] then
+    redis.call('DEL', KEYS[1])
+    if tonumber(redis.call('GET', KEYS[2]) or '0') > 0 then
+        redis.call('DECR', KEYS[2])
+    end
+end
+"""
+
+
+class EmailLinkRequest(BaseModel):
+    email: str
+    locale: str = "en"
+    return_to: str | None = None
+
+
+class EmailLinkAccepted(BaseModel):
+    status: str = "accepted"
+
+
+class EmailLoginConfig(BaseModel):
+    enabled: bool
+
+
+@router.get("/email/config", tags=["auth"])
+@cache.no_store
+def get_email_login_config(response: Response) -> EmailLoginConfig:
+    response.headers["Cache-Control"] = "no-store"
+    return EmailLoginConfig(enabled=config.settings.email_login_enabled)
+
+
+@router.post("/email/request", status_code=202, tags=["auth"])
+@cache.no_store
+def request_email_login(
+    body: EmailLinkRequest, request: Request, response: Response, login: LoginStatusDep
+) -> EmailLinkAccepted:
+    response.headers["Cache-Control"] = "no-store"
+    if not config.settings.email_login_enabled:
+        raise HTTPException(status_code=404, detail="email_login_disabled")
+    if login.user is not None:
+        raise HTTPException(status_code=409, detail="already_logged_in")
+    if request.headers.get("origin") != config.settings.frontend_url.rstrip("/"):
+        raise HTTPException(status_code=403, detail="invalid_origin")
+    try:
+        email = normalize_login_email(body.email)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail="invalid_email_request") from exc
+
+    address_key = hmac.new(
+        config.settings.session_secret_key.encode(),
+        email.encode("ascii"),
+        hashlib.sha256,
+    ).hexdigest()
+    ip = request.client.host if request.client else "unknown"
+    keys = [
+        f"email-login:ip:{ip}:hour",
+        f"email-login:address:{address_key}:minute",
+        f"email-login:address:{address_key}:hour",
+    ]
+    reservation = secrets.token_urlsafe(16)
+    try:
+        counts = cast(
+            "list[int]",
+            _email_rate_store.eval(
+                _EMAIL_REQUEST_RATE_SCRIPT, len(keys), *keys, reservation
+            ),
+        )
+    except (redis.RedisError, OSError) as exc:
+        raise HTTPException(status_code=503, detail="email_login_unavailable") from exc
+    if counts[0] > 20:
+        raise HTTPException(
+            status_code=429,
+            detail="email_login_rate_limited",
+            headers={"Retry-After": "3600"},
+        )
+    with get_db("writer") as db:
+        account = db.session.query(models.EmailAccount).filter_by(email=email).first()
+        user_id = account.user if account is not None else None
+    if counts[1] > 1 or counts[2] > 5:
+        return EmailLinkAccepted()
+    from .worker.emails import send_email_login_link
+
+    try:
+        send_email_login_link.send(
+            email,
+            safe_locale(body.locale),
+            safe_return_to(body.return_to),
+            datetime.now(UTC).timestamp(),
+            user_id,
+        )
+    except Exception as exc:
+        try:
+            _email_rate_store.eval(
+                _EMAIL_RELEASE_RATE_SCRIPT, 2, keys[1], keys[2], reservation
+            )
+        except (redis.RedisError, OSError):
+            pass
+        raise HTTPException(status_code=503, detail="email_login_unavailable") from exc
+    return EmailLinkAccepted()
+
+
+class EmailConfirmRequest(BaseModel):
+    token: str = Field(min_length=43, max_length=43, pattern=r"^[A-Za-z0-9_-]{43}$")
+
+
+class EmailConfirmResult(BaseModel):
+    status: str = "ok"
+    return_to: str
+
+
+def _limit_email_confirmation(request: Request) -> None:
+    if not config.settings.email_login_enabled:
+        raise HTTPException(status_code=404, detail="email_login_disabled")
+    if request.headers.get("origin") != config.settings.frontend_url.rstrip("/"):
+        raise HTTPException(status_code=403, detail="invalid_origin")
+    ip = request.client.host if request.client else "unknown"
+    try:
+        count = cast(
+            "list[int]",
+            _email_rate_store.eval(
+                _EMAIL_RATE_SCRIPT, 1, f"email-login:confirm:{ip}", 60
+            ),
+        )[0]
+    except (redis.RedisError, OSError) as exc:
+        raise HTTPException(status_code=503, detail="email_login_unavailable") from exc
+    if count > 30:
+        raise HTTPException(
+            status_code=429,
+            detail="email_login_rate_limited",
+            headers={"Retry-After": "60"},
+        )
+
+
+@router.post(
+    "/email/confirm",
+    tags=["auth"],
+    dependencies=[Depends(_limit_email_confirmation)],
+)
+@cache.no_store
+def confirm_email_login(
+    body: EmailConfirmRequest, request: Request, login: LoginStatusDep
+) -> EmailConfirmResult:
+    token_hash = hashlib.sha256(body.token.encode("ascii")).hexdigest()
+    with get_db("writer") as db:
+        initial = db.session.scalar(
+            select(models.EmailLoginChallenge).where(
+                models.EmailLoginChallenge.token_hash == token_hash
+            )
+        )
+        if initial is None:
+            _log_login_failure(request, login, "email", "invalid_email_link")
+            raise HTTPException(status_code=400, detail="invalid_email_link")
+        email = initial.email
+        lock_email(db, email)
+        account = db.session.scalar(
+            select(models.EmailAccount).where(models.EmailAccount.email == email)
+        )
+        user = None
+        if account is not None:
+            user = db.session.scalar(
+                select(models.FlathubUser)
+                .where(models.FlathubUser.id == account.user)
+                .with_for_update()
+            )
+        challenge = db.session.scalar(
+            select(models.EmailLoginChallenge)
+            .where(models.EmailLoginChallenge.token_hash == token_hash)
+            .with_for_update()
+            .execution_options(populate_existing=True)
+        )
+        now = utils.utcnow()
+        if (
+            challenge is None
+            or challenge.consumed_at is not None
+            or challenge.expires_at <= now
+            or (
+                challenge.user_id is not None
+                and (account is None or challenge.user_id != account.user)
+            )
+            or (
+                account is not None
+                and (user is None or not email_login_allowed(db, user))
+            )
+            or (account is None and oauth_email_exists(db, email))
+        ):
+            audit_log.enqueue_audit_log(
+                request,
+                user.id if user is not None else None,
+                models.AuditEventType.LOGIN_FAILURE,
+                provider="email",
+                details={"error": "invalid_email_link"},
+            )
+            raise HTTPException(status_code=400, detail="invalid_email_link")
+        if login.user is not None and (user is None or login.user.id != user.id):
+            _log_login_failure(request, login, "email", "email_session_conflict")
+            raise HTTPException(status_code=409, detail="email_session_conflict")
+        if user is None:
+            user = models.FlathubUser(display_name=None, default_account="email")
+            db.session.add(user)
+            db.session.flush()
+            account = models.EmailAccount(
+                user=user.id, email=email, verified_at=now, last_used=now
+            )
+            db.session.add(account)
+        else:
+            account.last_used = now
+        db.session.execute(
+            update(models.EmailLoginChallenge)
+            .where(
+                models.EmailLoginChallenge.email == email,
+                models.EmailLoginChallenge.consumed_at.is_(None),
+            )
+            .values(consumed_at=now)
+        )
+        user_id = user.id
+        return_to = challenge.return_to
+        db.commit()
+    _clear_oauth_session(request)
+    request.session["user-id"] = user_id
+    request.session["auth-method"] = "email"
+    audit_log.enqueue_audit_log(
+        request, user_id, models.AuditEventType.LOGIN_SUCCESS, provider="email"
+    )
+    return EmailConfirmResult(return_to=return_to)
+
+
 class LoginMethod(BaseModel):
     method: str
     name: str
@@ -327,7 +598,7 @@ def start_oauth_flow(
     request: Request,
     login: LoginInformation,
     method: str,
-    account_model: type[models.ConnectedAccount],
+    account_model: "_OAuthAccountModel",
 ):
     """
     Start an oauth login flow. This uses the session-backed flow state, the
@@ -688,13 +959,93 @@ def continue_kde_flow(
     )
 
 
+def _upgrade_email_user(
+    db,
+    user: models.FlathubUser,
+    method: str,
+    provider_data: "ProviderInfo",
+    login_result: dict,
+    account_model: type[models.ConnectedAccount],
+):
+    from .email_login import lock_email, normalize_login_email
+
+    email_account = models.EmailAccount.by_user(db, user)
+    if email_account is None:
+        return None
+    provider_email = None
+    if provider_data.email:
+        try:
+            provider_email = normalize_login_email(provider_data.email)
+        except ValueError:
+            provider_email = None
+    emails = {email_account.email}
+    if provider_email:
+        emails.add(provider_email)
+    for email in sorted(emails):
+        lock_email(db, email)
+    locked = db.session.scalar(
+        select(models.FlathubUser)
+        .where(models.FlathubUser.id == user.id)
+        .with_for_update()
+    )
+    if locked is None or not email_login_allowed(db, locked):
+        return None
+    if provider_email and oauth_email_exists(db, provider_email):
+        return None
+
+    userid = {f"{method}_userid": provider_data.id}
+    account = account_model(
+        **userid,
+        token=login_result["access_token"],
+        last_used=utils.utcnow(),
+        user=locked.id,
+        login=provider_data.login,
+        avatar_url=provider_data.avatar_url,
+        display_name=provider_data.name,
+        email=provider_data.email,
+    )
+    if "refresh_token" in login_result:
+        refreshable = cast("_OAuthRefreshableAccount", account)
+        refreshable.refresh_token = login_result["refresh_token"]
+        refreshable.token_expiry = utils.utcnow() + timedelta(
+            seconds=int(login_result.get("expires_in", "7200"))
+        )
+    db.add(account)
+    email_account.disabled_at = utils.utcnow()
+    db.session.execute(
+        update(models.EmailLoginChallenge)
+        .where(
+            models.EmailLoginChallenge.email == email_account.email,
+            models.EmailLoginChallenge.consumed_at.is_(None),
+        )
+        .values(consumed_at=utils.utcnow())
+    )
+    locked.default_account = method
+    for table in (
+        models.OidcAuthorizationCode,
+        models.OidcAccessToken,
+        models.OidcRefreshToken,
+    ):
+        table.delete_user(db, locked)
+    return account
+
+
+_OAuthAccountModel = (
+    type[models.GithubAccount]
+    | type[models.GitlabAccount]
+    | type[models.GnomeAccount]
+    | type[models.GoogleAccount]
+    | type[models.KdeAccount]
+)
+
+
 def continue_oauth_flow(
     request: Request,
     login: LoginInformation,
     data: OauthLoginResponse,
     method: str,
     token_to_data: Callable[[dict], ProviderInfo],
-    account_model: type[models.ConnectedAccount],
+    account_model: "_OAuthAccountModel",
     postlogin_handler: Callable | None = None,
 ):
     """
@@ -815,6 +1166,7 @@ def continue_oauth_flow(
     with get_db("writer") as db:
         # Do we have a provider's user noted with this ID already?
         account = account_model.by_provider_id(db, provider_data.id)
+        upgraded = None
         if account is None:
             # We've never seen this provider's user before, if we're not already logged
             # in then create a user
@@ -826,26 +1178,48 @@ def continue_oauth_flow(
                 )
                 db.add(user)
                 db.flush()
-            # Now we have a user, create the local account model for it
-            userid = {}
-            userid[f"{method}_userid"] = provider_data.id
-            account = account_model(
-                **userid,
-                token=login_result["access_token"],
-                last_used=utils.utcnow(),
-                user=user.id,
-                login=provider_data.login,
-                avatar_url=provider_data.avatar_url,
-                display_name=provider_data.name,
-                email=provider_data.email,
-            )
-            if "refresh_token" in login_result:
-                refreshable = cast("_OAuthRefreshableAccount", account)
-                refreshable.refresh_token = login_result["refresh_token"]
-                refreshable.token_expiry = utils.utcnow() + timedelta(
-                    seconds=int(login_result.get("expires_in", "7200"))
+            elif email_login_allowed(db, user):
+                upgraded = _upgrade_email_user(
+                    db, user, method, provider_data, login_result, account_model
                 )
-            db.add(account)
+                if upgraded is not None:
+                    pending_oidc = request.session.get("oidc_authorize_params")
+                    request.session.clear()
+                    request.session["user-id"] = user.id
+                    request.session["auth-method"] = method
+                    if isinstance(pending_oidc, dict):
+                        request.session["oidc_authorize_params"] = pending_oidc
+                if upgraded is None:
+                    db.commit()
+                    _log_login_failure(
+                        request, login, method, "Email upgrade no longer eligible"
+                    )
+                    return JSONResponse(
+                        {"status": "error", "error": "error-already-logged-in"},
+                        status_code=500,
+                    )
+                account = upgraded
+            if account is None:
+                # Now we have a user, create the local account model for it
+                userid = {}
+                userid[f"{method}_userid"] = provider_data.id
+                account = account_model(
+                    **userid,
+                    token=login_result["access_token"],
+                    last_used=utils.utcnow(),
+                    user=user.id,
+                    login=provider_data.login,
+                    avatar_url=provider_data.avatar_url,
+                    display_name=provider_data.name,
+                    email=provider_data.email,
+                )
+                if "refresh_token" in login_result:
+                    refreshable = cast("_OAuthRefreshableAccount", account)
+                    refreshable.refresh_token = login_result["refresh_token"]
+                    refreshable.token_expiry = utils.utcnow() + timedelta(
+                        seconds=int(login_result.get("expires_in", "7200"))
+                    )
+                db.add(account)
         else:
             # The provider's user has been seen before, if we're logged in already and
             # things don't match then abort now
@@ -904,6 +1278,7 @@ def continue_oauth_flow(
                 )
             db.add(account)
         request.session["user-id"] = account.user
+        request.session["auth-method"] = method
 
         # The session is now ready
         db.commit()
@@ -913,7 +1288,9 @@ def continue_oauth_flow(
             account.user,
             models.AuditEventType.LOGIN_SUCCESS,
             provider=method,
-            details={"login": provider_data.login},
+            details={"upgrade_from": "email"}
+            if upgraded is not None
+            else {"login": provider_data.login},
         )
 
         # Let's find the set of repos the user has write access to in the flathub
@@ -958,6 +1335,12 @@ class Auths(BaseModel):
     gnome: AuthInfo | None = None
     kde: AuthInfo | None = None
     google: AuthInfo | None = None
+    email: AuthInfo | None = None
+
+
+class EmailLoginInfo(BaseModel):
+    email: str
+    enabled: bool
 
 
 class Permission(StrEnum):
@@ -981,6 +1364,7 @@ class UserInfo(BaseModel):
     accepted_publisher_agreement_at: datetime | None
     default_account: AuthInfo
     auths: Auths
+    email_login: EmailLoginInfo | None = None
 
 
 @router.get(
@@ -1060,6 +1444,12 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
         default_provider = default_account.provider if default_account else None
         invite_code = user.invite_code
         accepted_publisher_agreement_at = user.accepted_publisher_agreement_at
+        email_login = None
+        if email_account := models.EmailAccount.by_user(db, user):
+            email_login = EmailLoginInfo(
+                email=email_account.email,
+                enabled=email_login_allowed(db, user),
+            )
 
     defaultAccountInfo = AuthInfo(
         avatar=default_avatar_url, login=default_login or "", provider=default_provider
@@ -1075,6 +1465,7 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
         accepted_publisher_agreement_at=accepted_publisher_agreement_at,
         default_account=defaultAccountInfo,
         auths=Auths(**auths),
+        email_login=email_login,
     )
 
 
@@ -1127,6 +1518,7 @@ def do_logout(request: Request, login: LoginStatusDep):
         # Clear the login ID
         if "user-id" in request.session:
             del request.session["user-id"]
+        request.session.pop("auth-method", None)
 
         if login.state.logging_in():
             # Also clear any pending login-flow from the session
@@ -1277,3 +1669,29 @@ def register_to_app(app: FastAPI):
         https_only=True,
     )
     app.include_router(router)
+    app.add_exception_handler(RequestValidationError, _email_validation_error)
+
+
+async def _email_validation_error(request: Request, exc: Exception) -> Response:
+    if not isinstance(exc, RequestValidationError):
+        raise exc
+    if request.url.path.endswith("/auth/email/request"):
+        return JSONResponse(
+            {"detail": "invalid_email_request"},
+            status_code=422,
+            headers={"Cache-Control": "no-store"},
+        )
+    if request.url.path.endswith("/auth/email/confirm"):
+        audit_log.enqueue_audit_log(
+            request,
+            None,
+            models.AuditEventType.LOGIN_FAILURE,
+            provider="email",
+            details={"error": "invalid_email_link"},
+        )
+        return JSONResponse(
+            {"detail": "invalid_email_link"},
+            status_code=400,
+            headers={"Cache-Control": "no-store"},
+        )
+    return await request_validation_exception_handler(request, exc)

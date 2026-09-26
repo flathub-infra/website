@@ -9,6 +9,7 @@ import type { Auths } from "./auths"
 import type { Permission } from "./permission"
 import type { UserInfoAcceptedPublisherAgreementAt } from "./userInfoAcceptedPublisherAgreementAt"
 import type { UserInfoDisplayname } from "./userInfoDisplayname"
+import type { UserInfoEmailLogin } from "./userInfoEmailLogin"
 
 export interface UserInfo {
   displayname?: UserInfoDisplayname
@@ -20,4 +21,5 @@ export interface UserInfo {
   accepted_publisher_agreement_at: UserInfoAcceptedPublisherAgreementAt
   default_account: AuthInfo
   auths: Auths
+  email_login?: UserInfoEmailLogin
 }

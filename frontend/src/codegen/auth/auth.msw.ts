@@ -12,11 +12,36 @@ import type { RequestHandlerOptions } from "msw"
 import { ConnectedAccountProvider, Permission } from "../model"
 import type {
   DeleteUserResult,
+  EmailConfirmResult,
+  EmailLinkAccepted,
+  EmailLoginConfig,
   GetDeleteUserResult,
   GetUserinfoAuthUserinfoGet200,
   LoginMethod,
   RefreshDevFlatpaksReturn,
 } from "../model"
+
+export const getGetEmailLoginConfigAuthEmailConfigGetResponseMock = (
+  overrideResponse: Partial<Extract<EmailLoginConfig, object>> = {},
+): EmailLoginConfig => ({
+  enabled: faker.datatype.boolean(),
+  ...overrideResponse,
+})
+
+export const getRequestEmailLoginAuthEmailRequestPostResponseMock = (
+  overrideResponse: Partial<Extract<EmailLinkAccepted, object>> = {},
+): EmailLinkAccepted => ({
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  ...overrideResponse,
+})
+
+export const getConfirmEmailLoginAuthEmailConfirmPostResponseMock = (
+  overrideResponse: Partial<Extract<EmailConfirmResult, object>> = {},
+): EmailConfirmResult => ({
+  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  return_to: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  ...overrideResponse,
+})
 
 export const getGetLoginMethodsAuthLoginGetResponseMock = (): LoginMethod[] =>
   Array.from(
@@ -201,7 +226,42 @@ export const getGetUserinfoAuthUserinfoGetResponseMock =
             ]),
             undefined,
           ]),
+          email: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              {
+                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+                avatar: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.string.alpha({ length: { min: 10, max: 20 } }),
+                    null,
+                  ]),
+                  undefined,
+                ]),
+                provider: faker.helpers.arrayElement([
+                  faker.helpers.arrayElement([
+                    faker.helpers.arrayElement(
+                      Object.values(ConnectedAccountProvider),
+                    ),
+                    null,
+                  ]),
+                  undefined,
+                ]),
+              },
+              null,
+            ]),
+            undefined,
+          ]),
         },
+        email_login: faker.helpers.arrayElement([
+          faker.helpers.arrayElement([
+            {
+              email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              enabled: faker.datatype.boolean(),
+            },
+            null,
+          ]),
+          undefined,
+        ]),
       },
       null,
     ])
@@ -237,6 +297,78 @@ export const getDoDeleteuserAuthDeleteuserDeleteResponseMock = (
   ]),
   ...overrideResponse,
 })
+
+export const getGetEmailLoginConfigAuthEmailConfigGetMockHandler = (
+  overrideResponse?:
+    | EmailLoginConfig
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<EmailLoginConfig> | EmailLoginConfig),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/auth/email/config",
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetEmailLoginConfigAuthEmailConfigGetResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
+export const getRequestEmailLoginAuthEmailRequestPostMockHandler = (
+  overrideResponse?:
+    | EmailLinkAccepted
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<EmailLinkAccepted> | EmailLinkAccepted),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/auth/email/request",
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getRequestEmailLoginAuthEmailRequestPostResponseMock(),
+        { status: 202 },
+      )
+    },
+    options,
+  )
+}
+
+export const getConfirmEmailLoginAuthEmailConfirmPostMockHandler = (
+  overrideResponse?:
+    | EmailConfirmResult
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<EmailConfirmResult> | EmailConfirmResult),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/auth/email/confirm",
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getConfirmEmailLoginAuthEmailConfirmPostResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
 
 export const getGetLoginMethodsAuthLoginGetMockHandler = (
   overrideResponse?:
@@ -617,6 +749,9 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMockHandler =
     )
   }
 export const getAuthMock = () => [
+  getGetEmailLoginConfigAuthEmailConfigGetMockHandler(),
+  getRequestEmailLoginAuthEmailRequestPostMockHandler(),
+  getConfirmEmailLoginAuthEmailConfirmPostMockHandler(),
   getGetLoginMethodsAuthLoginGetMockHandler(),
   getStartGithubFlowAuthLoginGithubGetMockHandler(),
   getContinueGithubFlowAuthLoginGithubPostMockHandler(),

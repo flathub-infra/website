@@ -876,5 +876,22 @@
     "none-language": "Contains no profanity or vulgar language",
     "none-social": "No social features",
     "none-money": "Contains no advertising or monetary transactions"
-  }
+  },
+  "email-login-with-email": "Sign in with email",
+  "email-login-log-in-with-email": "Log in with email",
+  "email-login-other-methods": "Other sign-in methods",
+  "email-login-email-address": "Email address",
+  "email-login-send-link": "Email me a sign-in link",
+  "email-login-sending": "Sending…",
+  "email-login-resend-in": "Resend available in {seconds}s",
+  "email-login-check-your-inbox": "If the address is valid, a sign-in link is on its way. It expires in 15 minutes. If you created your account with GitHub, GitLab, GNOME or KDE, sign in with that provider instead.",
+  "email-login-sign-in": "Sign in",
+  "email-login-signing-in": "Signing in…",
+  "email-login-invalid-or-expired": "This sign-in link is invalid or has expired. Request a new one to continue.",
+  "email-login-request-new-link": "Go back to the login page to request a new link.",
+  "email-login-rate-limited": "Too many attempts. Please wait a minute and try again.",
+  "email-login-session-conflict": "You are already signed in as a different user in this browser. Sign out first if you want to use this link.",
+  "email-login-oauth-upgrade-required": "This action needs a provider account. Link GitHub, GitLab, GNOME or KDE in settings to continue.",
+  "verified-email": "Verified email",
+  "email-login-replaced": "Email sign-in has been permanently replaced by provider sign-in for this account."
 }

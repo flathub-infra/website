@@ -112,8 +112,9 @@ export const Base = ({
 
               {footerMode === "default" && (
                 <Text>
-                  You are receiving this email because you have an account on
-                  Flathub.
+                  {category === "email_login"
+                    ? "You are receiving this email because someone requested a sign-in link for your address."
+                    : "You are receiving this email because you have an account on Flathub."}
                 </Text>
               )}
             </Container>
