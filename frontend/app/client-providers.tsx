@@ -16,10 +16,9 @@ import { getLangDir } from "rtl-detect"
 import { setDefaultOptions } from "date-fns"
 import { getDateFnsLocale } from "src/localize"
 import { usePathname } from "next/navigation"
+import { isEmailConfirmRoute } from "src/utils/security"
 
 const queryClient = new QueryClient()
-const shouldTrack = (pathname: string): boolean =>
-  !/^\/[a-z]{2,3}(?:-[A-Za-z]{2,4})?\/login\/email\/confirm\/?$/.test(pathname)
 
 interface ClientProvidersProps {
   children: ReactNode
@@ -30,7 +29,7 @@ export default function ClientProviders({
   children,
   locale,
 }: ClientProvidersProps) {
-  const track = shouldTrack(usePathname())
+  const track = !isEmailConfirmRoute(usePathname())
   const instance = useMemo(
     () =>
       track
