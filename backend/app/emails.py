@@ -1,5 +1,6 @@
 import base64
 import datetime
+import re
 from enum import StrEnum
 from typing import Annotated, Any
 from urllib.parse import urlsplit
@@ -31,6 +32,14 @@ class EmailCategory(StrEnum):
 
 _EMAIL_LOGIN_TASK = "send_email_login_link"
 _EMAIL_AUTH_PATH = "/auth/email"
+_SERIALIZED_EMAIL_LOGIN = re.compile(
+    r"""["']category["']\s*:\s*["']email_login["']|["']signinurl["']\s*:""",
+    re.IGNORECASE,
+)
+# Stack frame fields describing code locations rather than runtime data.
+_CODE_LOCATION_KEYS = frozenset(
+    {"abs_path", "context_line", "filename", "module", "post_context", "pre_context"}
+)
 
 
 def _is_email_auth_path(value: str) -> bool:
@@ -68,7 +77,9 @@ def _contains_email_login(value: Any) -> bool:
             return True
         if any(key.lower() == "signinurl" for key in value if isinstance(key, str)):
             return True
-        for child in value.values():
+        for key, child in value.items():
+            if key in _CODE_LOCATION_KEYS:
+                continue
             if isinstance(child, str) and _EMAIL_LOGIN_TASK in child:
                 return True
             if _contains_email_login(child):
@@ -76,11 +87,10 @@ def _contains_email_login(value: Any) -> bool:
     elif isinstance(value, (list, tuple)):
         return any(_contains_email_login(child) for child in value)
     elif isinstance(value, str):
-        lowered = value.lower()
         return (
-            "email_login" in lowered
+            _SERIALIZED_EMAIL_LOGIN.search(value) is not None
             or _EMAIL_LOGIN_TASK in value
-            or "/login/email/confirm" in lowered
+            or "/login/email/confirm" in value.lower()
         )
     return False
 
