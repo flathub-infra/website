@@ -1213,9 +1213,9 @@ class EmailLoginChallenge(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     token_hash: Mapped[str] = mapped_column(String(64), nullable=False, unique=True)
-    email: Mapped[str] = mapped_column(String, nullable=False)
+    email: Mapped[str] = mapped_column(String, nullable=False, index=True)
     user_id: Mapped[int | None] = mapped_column(
-        Integer, ForeignKey(FlathubUser.id), nullable=True
+        Integer, ForeignKey(FlathubUser.id), nullable=True, index=True
     )
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, index=True)

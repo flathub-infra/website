@@ -30,10 +30,14 @@ def upgrade():
         sa.Column("locale", sa.String(), nullable=False),
         sa.Column("return_to", sa.String(), nullable=False),
     )
+    op.create_index("ix_emailloginchallenge_email", "emailloginchallenge", ["email"])
+    op.create_index("ix_emailloginchallenge_user_id", "emailloginchallenge", ["user_id"])
     op.create_index("ix_emailloginchallenge_expires_at", "emailloginchallenge", ["expires_at"])
 
 
 def downgrade():
     op.drop_index("ix_emailloginchallenge_expires_at", table_name="emailloginchallenge")
+    op.drop_index("ix_emailloginchallenge_user_id", table_name="emailloginchallenge")
+    op.drop_index("ix_emailloginchallenge_email", table_name="emailloginchallenge")
     op.drop_table("emailloginchallenge")
     op.drop_table("emailaccount")
