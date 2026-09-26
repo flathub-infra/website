@@ -15,11 +15,7 @@ const Main = ({ children }: { children: React.ReactNode }) => {
 
   // Track page view
   useEffect(() => {
-    if (
-      /^\/[a-z]{2,3}(?:-[A-Za-z]{2,4})?\/login\/email\/confirm\/?$/.test(
-        pathname,
-      )
-    ) {
+    if (/^\/login\/email\/confirm\/?$/.test(pathname)) {
       return
     }
     trackPageView({
