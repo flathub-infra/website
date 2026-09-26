@@ -3,11 +3,9 @@
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from "@sentry/nextjs"
+import { isEmailConfirmRoute } from "src/utils/security"
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN
-
-const isEmailConfirmRoute = (pathname: string): boolean =>
-  /^\/[a-z]{2,3}(?:-[A-Za-z]{2,4})?\/login\/email\/confirm\/?$/.test(pathname)
 
 const onEmailConfirmRoute = (value: unknown): boolean => {
   if (typeof value !== "string") {
