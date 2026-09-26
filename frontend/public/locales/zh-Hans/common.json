@@ -871,5 +871,10 @@
   "could-not-find-match-with-filters": "找不到这些过滤器的好匹配。",
   "other-apps-to-explore": "这里是一些其他可供探索的好应用。",
   "clear-filters": "清除过滤器",
-  "runtime": "运行时"
+  "runtime": "运行时",
+  "login-failed": "登录失败",
+  "login-failed-try-again": "无法登录。请再次尝试。",
+  "gitlab-terms-not-accepted": "您的 {provider} 账户需要您接受其服务条款。请在浏览器中打开 {provider}，接受条款，然后再次尝试登录。",
+  "open-login-provider": "打开 {provider}",
+  "back-to-login": "返回登录"
 }
