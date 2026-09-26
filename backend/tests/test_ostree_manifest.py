@@ -785,7 +785,7 @@ def test_manifest_source_replacements_gate(
     }
 
 
-def test_new_source_and_mirror_identities_retain_all_unique_locations():
+def test_mirror_urls_do_not_add_source_identities():
     candidate = source_manifest(
         source(
             url="https://new.example/a",
@@ -793,26 +793,15 @@ def test_new_source_and_mirror_identities_retain_all_unique_locations():
                 "mirror-urls": [
                     "https://new.example/mirror",
                     "https://mirror.example/a",
-                    "https://new.example/a",
                 ]
             },
         )
     )
+    published = source_manifest(source(url="https://new.example/a"))
 
-    finding = source_findings(candidate, source_manifest())[0]
+    findings = source_findings(candidate, published)
 
-    assert finding.sources_added == (
-        "https://mirror.example",
-        "https://new.example",
-    )
-    assert finding.locations_by_source == {
-        "https://mirror.example": ('modules["app"].sources[0].mirror-urls[1]',),
-        "https://new.example": (
-            'modules["app"].sources[0].mirror-urls[0]',
-            'modules["app"].sources[0].mirror-urls[2]',
-            'modules["app"].sources[0].url',
-        ),
-    }
+    assert findings == ()
 
 
 def test_nested_unique_module_names_are_used_in_locations():
@@ -932,7 +921,6 @@ def test_missing_or_invalid_published_manifest_does_not_gate(status):
         {"modules": [{"sources": "sources.json"}]},
         {"modules": [{"sources": ["source.json"]}]},
         {"modules": [{"sources": [42]}]},
-        {"modules": [{"sources": [{"mirror-urls": "mirror"}]}]},
     ],
 )
 def test_structural_blind_spots_make_comparison_unreliable(manifest):

@@ -2547,6 +2547,105 @@ def test_manifest_gate_request_retains_removed_origin_context(monkeypatch):
     assert finding["origins_removed"] == ["https://old.example"]
 
 
+def test_mirror_only_addition_does_not_gate(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    pair = _manifest_pair("x86_64", changed=True)
+    pair.published_manifest = {
+        "modules": [
+            {
+                "name": "app",
+                "sources": [
+                    {
+                        "type": "archive",
+                        "url": "https://example.com/source.tar",
+                    }
+                ],
+            }
+        ]
+    }
+    pair.candidate_manifest = {
+        "modules": [
+            {
+                "name": "app",
+                "sources": [
+                    {
+                        "type": "archive",
+                        "url": "https://example.com/source.tar",
+                        "mirror-urls": ["https://mirror.example/source.tar"],
+                    }
+                ],
+            }
+        ]
+    }
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+    observation = harness.observations[(42, "org.example.App")]
+    assert observation["source_status"] == "clean"
+    assert observation["source_would_gate"] is False
+
+
+def test_origin_gated_request_hides_complexity_payload(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+        complexity_gating_enabled=True,
+        complexity_threshold_units=1,
+    )
+    pair = _manifest_pair("x86_64", changed=True)
+    pair.published_manifest = {
+        "modules": [
+            {
+                "name": "main",
+                "build-commands": ["echo old"],
+                "sources": [{"type": "archive", "url": "https://old.example/a"}],
+            }
+        ]
+    }
+    pair.candidate_manifest = {
+        "modules": [
+            {
+                "name": "main",
+                "build-commands": ["echo new"],
+                "sources": [{"type": "archive", "url": "https://new.example/a"}],
+            }
+        ]
+    }
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    request = next(
+        request
+        for request in harness.db.session.persisted
+        if request.request_type == ModerationRequestType.MANIFEST
+    )
+    body = json.loads(request.request_data)
+    assert body["findings"][0]["origins_added"] == ["https://new.example"]
+    assert "complexity" not in body
+
+
 def test_disabled_manifest_gate_logs_would_require_review(monkeypatch, caplog):
     caplog.set_level(logging.INFO, logger=moderation.__name__)
     harness = CallbackHarness(
@@ -2607,10 +2706,7 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
             "origins_removed": [],
         }
     ]
-    assert request_body["complexity"]["algorithm_version"] == 4
-    assert request_body["complexity"]["score_units"] == 5
-    assert request_body["complexity"]["threshold_units"] == 14
-    assert request_body["complexity"]["analysis_fingerprint"].startswith("sha256:")
+    assert "complexity" not in request_body
     assert request.request_data == json.dumps(
         json.loads(request.request_data),
         ensure_ascii=True,
@@ -3121,7 +3217,7 @@ def test_observed_source_origin_and_enforced_complexity_share_actionable_row(
     assert request.is_observation is False
     body = json.loads(request.request_data)
     assert body["findings"]
-    assert body["complexity"]["score_units"] == 5
+    assert "complexity" not in body
     assert len(harness.emails) == 1
 
 
