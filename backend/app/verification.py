@@ -526,8 +526,6 @@ def _check_app_id(
 ):
     """Make sure the given user has development access to the given flatpak."""
 
-    from .email_login import require_oauth_upgrade
-
     with get_db("writer") as db:
         require_oauth_upgrade(db, login.user)
 
@@ -957,8 +955,6 @@ def _require_direct_upload_permission(
 
 
 def _create_direct_upload_app(user: models.FlathubUser, app_id: str):
-    from .email_login import require_oauth_upgrade
-
     with get_db("writer") as db:
         require_oauth_upgrade(db, user)
     user = _require_direct_upload_permission(user)
