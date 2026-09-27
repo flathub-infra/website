@@ -3918,6 +3918,31 @@ class App(Base):
         )
 
 
+class PermissionStatsSnapshot(Base):
+    """Daily aggregate counts of permissions requested by listed apps."""
+
+    __tablename__ = "permission_stats_snapshots"
+
+    snapshot_date: Mapped[date] = mapped_column(Date, primary_key=True)
+    eligible_apps: Mapped[int] = mapped_column(Integer, nullable=False)
+    apps_with_stable_metadata: Mapped[int] = mapped_column(Integer, nullable=False)
+    permission_counts: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False)
+
+    @classmethod
+    def get_range(
+        cls,
+        db: DBSession,
+        start_date: date | None = None,
+        end_date: date | None = None,
+    ) -> list["PermissionStatsSnapshot"]:
+        query = db.session.query(cls)
+        if start_date is not None:
+            query = query.filter(cls.snapshot_date >= start_date)
+        if end_date is not None:
+            query = query.filter(cls.snapshot_date <= end_date)
+        return query.order_by(cls.snapshot_date.asc()).all()
+
+
 class UserFavoriteApp(Base):
     __tablename__ = "user_favorite_app"
 

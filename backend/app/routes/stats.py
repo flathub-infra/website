@@ -1,7 +1,10 @@
-from fastapi import APIRouter, FastAPI, Path, Response
+import datetime
+from typing import Any
+
+from fastapi import APIRouter, FastAPI, HTTPException, Path, Response
 from pydantic import BaseModel
 
-from .. import cache, database, stats
+from .. import cache, database, models, permission_stats, stats
 
 router = APIRouter(
     prefix="/stats",
@@ -33,6 +36,13 @@ class StatsResult(BaseModel):
     os_versions: dict[str, int]
     flatpak_versions: dict[str, int]
     os_flatpak_versions: dict[str, dict[str, int]]
+
+
+class PermissionStatsSnapshotResult(BaseModel):
+    snapshot_date: datetime.date
+    eligible_apps: int
+    apps_with_stable_metadata: int
+    permission_counts: dict[str, Any]
 
 
 def _normalize_stats_result(value: dict) -> StatsResult:
@@ -72,6 +82,38 @@ async def get_stats(response: Response) -> StatsResult | None:
 
     response.status_code = 404
     return None
+
+
+@router.get(
+    "/permissions",
+    status_code=200,
+    response_model=list[PermissionStatsSnapshotResult],
+    responses={200: {"description": "Daily application permission statistics"}},
+)
+@cache.cached(ttl=900)
+async def get_permission_stats(
+    start_date: datetime.date | None = None,
+    end_date: datetime.date | None = None,
+) -> list[dict[str, Any]]:
+    try:
+        permission_stats.validate_date_range(start_date, end_date)
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+
+    with database.get_db() as sqldb:
+        snapshots = models.PermissionStatsSnapshot.get_range(
+            sqldb, start_date=start_date, end_date=end_date
+        )
+
+    return [
+        PermissionStatsSnapshotResult(
+            snapshot_date=snapshot.snapshot_date,
+            eligible_apps=snapshot.eligible_apps,
+            apps_with_stable_metadata=snapshot.apps_with_stable_metadata,
+            permission_counts=snapshot.permission_counts,
+        ).model_dump(mode="json")
+        for snapshot in snapshots
+    ]
 
 
 @router.get(

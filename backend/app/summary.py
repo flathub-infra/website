@@ -16,7 +16,16 @@ gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
 from gi.repository import GLib, OSTree  # type: ignore
 
-from . import apps, config, database, http_client, models, search, utils
+from . import (
+    apps,
+    config,
+    database,
+    http_client,
+    models,
+    permission_stats,
+    search,
+    utils,
+)
 
 
 class JSONSetEncoder(json.JSONEncoder):
@@ -193,7 +202,9 @@ def parse_summary_metadata(summary) -> dict[str, Any]:
     return metadata
 
 
-def parse_summary(summary, sqldb):
+def parse_summary(
+    summary, sqldb, stable_permissions_by_app: dict[str, dict[str, Any]] | None = None
+):
     summary_dict: dict[str, Any] = defaultdict(
         lambda: {"arches": set(), "branch": "stable"}
     )
@@ -201,6 +212,7 @@ def parse_summary(summary, sqldb):
 
     refs, metadata = _unpack_summary(summary)
     xa_cache = metadata["xa.cache"]
+    stable_metadata_arch: dict[str, str] = {}
 
     last_updated_updates = {}
 
@@ -235,6 +247,16 @@ def parse_summary(summary, sqldb):
         installed_size = struct.unpack(">Q", installed_size_be_uint)[0]
 
         parsed_metadata = parse_metadata(xa_cache[ref][2])
+
+        if stable_permissions_by_app is not None:
+            permission_stats.add_stable_permissions(
+                stable_permissions_by_app,
+                stable_metadata_arch,
+                app_id=app_id,
+                branch=branch,
+                arch=arch,
+                metadata=parsed_metadata,
+            )
 
         summary_dict[app_id]["branch"] = branch
         summary_dict[app_id]["download_size"] = download_size
@@ -312,7 +334,10 @@ def update(sqldb) -> None:
     summary_bytes = fetch_summary_bytes(summary_url)
     if summary_bytes:
         summary = GLib.Bytes.new(summary_bytes)
-        summary_dict, updated_at_dict, metadata = parse_summary(summary, sqldb)
+        stable_permissions_by_app: dict[str, dict[str, Any]] = {}
+        summary_dict, updated_at_dict, metadata = parse_summary(
+            summary, sqldb, stable_permissions_by_app
+        )
     else:
         return
 
@@ -430,6 +455,7 @@ def update(sqldb) -> None:
             continue
 
     # update all apps in a single transaction
+    summary_apps_updated = False
     try:
         for app_id, summary_json in apps_to_update.items():
             app = models.App.by_appid(sqldb, app_id)
@@ -445,12 +471,14 @@ def update(sqldb) -> None:
                 sqldb.session.add(app)
 
         sqldb.session.commit()
+        summary_apps_updated = True
     except Exception:
         sqldb.session.rollback()
         logger.exception("Error updating apps")
 
     eol_rebase, eol_message = parse_eol_data(metadata)
 
+    eol_reconciliation_succeeded = False
     try:
         summary_eol_map = defaultdict(set)
         for new_app_id, old_id_list in eol_rebase.items():
@@ -490,9 +518,13 @@ def update(sqldb) -> None:
                 app.eol_dates = None
                 sqldb.session.add(app)
         sqldb.session.commit()
+        eol_reconciliation_succeeded = True
     except Exception:
         sqldb.session.rollback()
         logger.exception("Error updating EOL values of apps")
+
+    if summary_apps_updated and eol_reconciliation_succeeded:
+        permission_stats.record_permission_snapshot(sqldb, stable_permissions_by_app)
 
     processed_rebases = {}
     for new_app_id, old_id_list in eol_rebase.items():
