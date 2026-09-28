@@ -73,6 +73,8 @@ class FakeQuery:
                 return False
             if operator_name == "in_op" and current not in (value or []):
                 return False
+            if operator_name == "lt" and current >= value:
+                return False
         return True
 
     def _requests(self):
@@ -1170,7 +1172,6 @@ def test_repeated_callback_reuses_marker_without_side_effects(monkeypatch):
     first = harness.call()
     add_calls = harness.db.session.add_calls
     commit_calls = harness.db.session.commit_calls
-    invalidation_updates = harness.db.session.invalidation_updates
     email_count = len(harness.emails)
 
     monkeypatch.setattr(config.settings, "random_review_rate", 0.0)
@@ -1188,7 +1189,6 @@ def test_repeated_callback_reuses_marker_without_side_effects(monkeypatch):
     assert len(harness.db.session.persisted) == 1
     assert harness.db.session.add_calls == add_calls
     assert harness.db.session.commit_calls == commit_calls
-    assert harness.db.session.invalidation_updates == invalidation_updates
     assert len(harness.emails) == email_count
     assert _is_marker(harness.db.session.persisted[0])
 
@@ -2976,7 +2976,6 @@ def test_identical_manifest_callback_reuses_request(
     assert len(harness.db.session.persisted) == 1
     assert harness.db.session.add_calls == 1
     assert harness.db.session.commit_calls == 2
-    assert harness.db.session.invalidation_updates == 1
     assert len(harness.emails) == 1
 
 
@@ -3292,7 +3291,44 @@ def test_observation_does_not_suppress_random_review(monkeypatch):
     )
 
 
-def test_observation_invalidation_is_scoped_away_from_appdata(monkeypatch):
+def test_clean_replacement_build_outdates_only_older_requests_for_its_app(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+    )
+    requests = [
+        models.ModerationRequest(
+            appid=app_id,
+            request_type=ModerationRequestType.APPDATA,
+            request_data="{}",
+            is_new_submission=False,
+            is_outdated=False,
+            build_id=build_id,
+            job_id=6,
+        )
+        for app_id, build_id in (
+            ("org.example.App", 41),
+            ("org.example.App", 42),
+            ("org.example.App", 43),
+            ("org.other.App", 41),
+        )
+    ]
+    harness.db.session.persisted.extend(requests)
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert [request.is_outdated for request in requests] == [
+        True,
+        False,
+        False,
+        False,
+    ]
+    assert harness.db.session.commit_calls == 1
+
+
+def test_manifest_observation_does_not_hold_clean_replacement_build(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
         enabled=False,
@@ -3317,13 +3353,15 @@ def test_observation_invalidation_is_scoped_away_from_appdata(monkeypatch):
         lambda **kwargs: (_source_manifest_pair(),),
     )
 
-    harness.call()
+    result = harness.call()
 
-    assert appdata_request.is_outdated is False
-    assert harness.db.session.update_calls
+    assert result.requires_review is False
+    assert appdata_request.is_outdated is True
     assert any(
-        getattr(getattr(criterion, "left", None), "key", None) == "is_observation"
-        for criterion in harness.db.session.update_calls[0]["criteria"]
+        request.request_type == ModerationRequestType.MANIFEST
+        and request.is_observation is True
+        and request.is_outdated is False
+        for request in harness.db.session.persisted
     )
 
 

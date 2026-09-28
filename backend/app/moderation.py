@@ -2165,10 +2165,14 @@ def submit_review_request(
         actionable_app_ids = {
             request.appid for request in new_requests
         } | manifest_newly_actionable_app_ids
-        for app_id in actionable_app_ids:
-            db.session.query(models.ModerationRequest).filter_by(
-                appid=app_id, is_outdated=False
-            ).update({"is_outdated": True})
+        outdated_count = 0
+        for app_id in set(app_ids) | actionable_app_ids:
+            outdated_count += (
+                db.session.query(models.ModerationRequest)
+                .filter_by(appid=app_id, is_outdated=False)
+                .filter(models.ModerationRequest.build_id < review_request.build_id)
+                .update({"is_outdated": True})
+            )
         promoted_request_ids = [
             request.id for request in manifest_newly_actionable_requests
         ]
@@ -2191,7 +2195,7 @@ def submit_review_request(
             db.session,
             list(analysis_observations.values()),
         )
-        if persisted_requests or analysis_observations:
+        if persisted_requests or analysis_observations or outdated_count:
             db.session.commit()
 
     if config.settings.moderation_observe_only:
