@@ -2228,6 +2228,7 @@ class ManifestAnalysisObservation(Base):
     build_command_event_count = mapped_column(Integer, nullable=False)
     build_command_distinct_fingerprint_count = mapped_column(Integer, nullable=False)
     build_command_fingerprint_group_sizes = mapped_column(JSONB, nullable=False)
+    jev_semantic_analysis = mapped_column(JSONB(none_as_null=True))
 
     source_gating_enabled = mapped_column(Boolean, nullable=False)
     source_observe_only = mapped_column(Boolean, nullable=False)
