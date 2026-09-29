@@ -80,7 +80,12 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
     globalNotFound: true,
     inlineCss: true,
   },
-  serverExternalPackages: ["@resvg/resvg-js"],
+  serverExternalPackages: ["@resvg/resvg-js", "satori"],
+  outputFileTracingIncludes: {
+    "/api/{badge,appOgImage/*,yearInReviewOgImage/*}": [
+      "./node_modules/.pnpm/harfbuzzjs@*/node_modules/harfbuzzjs/hb.wasm",
+    ],
+  },
   cacheHandler:
     process.env.NODE_ENV === "production"
       ? require.resolve("./cache-handler.mjs")
