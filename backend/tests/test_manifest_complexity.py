@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import pytest
 
-from app.manifest_complexity import (
+from app.moderation.manifest_complexity import (
     MANIFEST_COMPLEXITY_ALGORITHM_VERSION,
     ManifestChangeKind,
     ManifestComplexityNotScored,
@@ -13,7 +13,7 @@ from app.manifest_complexity import (
     _normalize_source,
     analyze_manifest_complexity,
 )
-from app.ostree_manifest import ManifestPair, PublishedManifestStatus
+from app.moderation.ostree_manifest import ManifestPair, PublishedManifestStatus
 
 
 def manifest_pair(

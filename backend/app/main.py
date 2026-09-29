@@ -15,13 +15,13 @@ from . import (
     database,
     emails,
     logins,
-    moderation,
     update,
     users,
     vending,
     verification,
     wallet,
 )
+from .moderation import review as moderation
 from .routes import (
     app_picks,
     apps,

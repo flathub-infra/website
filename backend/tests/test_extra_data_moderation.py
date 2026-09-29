@@ -10,7 +10,7 @@ sys.path.append(ROOT_DIR)
 
 sys.modules["app.search"] = SimpleNamespace()
 
-moderation = importlib.import_module("app.moderation")
+moderation = importlib.import_module("app.moderation.review")
 
 
 @pytest.mark.parametrize(

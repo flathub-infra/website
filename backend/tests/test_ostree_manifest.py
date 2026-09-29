@@ -19,7 +19,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 sys.modules["app.search"] = SimpleNamespace()
 
-from app import ostree_manifest
+from app.moderation import ostree_manifest
 
 
 class SourceRepo:

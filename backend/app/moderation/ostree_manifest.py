@@ -15,7 +15,8 @@ gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree  # type: ignore
 
-from . import summary, url_origin
+from .. import summary
+from . import url_origin
 
 logger = logging.getLogger(__name__)
 

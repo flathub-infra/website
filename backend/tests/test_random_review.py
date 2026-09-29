@@ -17,7 +17,8 @@ sys.path.append(ROOT_DIR)
 
 sys.modules["app.search"] = SimpleNamespace()
 
-from app import config, models, moderation
+from app import config, models
+from app.moderation import review as moderation
 from app.types import ModerationRequestType
 
 
