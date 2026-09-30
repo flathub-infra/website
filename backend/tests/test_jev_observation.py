@@ -14,7 +14,7 @@ sys.path.append(ROOT_DIR)
 sys.modules["app.search"] = SimpleNamespace()
 
 from app import config
-from app.moderation import jev_observation
+from app.moderation import jev_observation, jev_state
 
 API_KEY = "test-typesafe-secret-key"
 STATE = {"old": {}, "new": {}}
@@ -30,8 +30,8 @@ PENDING = {
     "status": "pending",
     "provider": "typesafe",
     "model": "jev-1.13.0",
-    "state_schema_version": 2,
-    "question_schema_version": 1,
+    "state_schema_version": jev_state.STATE_SCHEMA_VERSION,
+    "question_schema_version": jev_observation.QUESTION_SCHEMA_VERSION,
     "state_hash": "sha256:" + "0" * 64,
     "probabilities": None,
     "truncation": {"source_details": False, "content": False},

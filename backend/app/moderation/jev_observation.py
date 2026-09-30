@@ -14,15 +14,16 @@ logger = logging.getLogger(__name__)
 
 JEV_PROVIDER = "typesafe"
 JEV_API_URL = "https://api.typesafe.ai/v1/systemone"
-QUESTION_SCHEMA_VERSION = 1
+QUESTION_SCHEMA_VERSION = 2
 QUESTIONS = {
     "custom_build_logic": (
         "Does the candidate introduce or materially change custom build commands, "
         "scripts, or patches, beyond version or dependency checksum updates?"
     ),
     "mechanical_refresh": (
-        "Is the change primarily mechanically generated dependency-source refresh "
-        "while the packaging procedure stays substantially the same?"
+        "Is the change mechanically generated dependency-source refresh only "
+        "(version bumps, URL or checksum updates, refreshed source lists) with no "
+        "change to build commands, install steps, or buildsystem?"
     ),
     "dependency_supply": (
         "Does the candidate materially change how dependencies are built, "
@@ -36,9 +37,12 @@ QUESTIONS = {
         "Does the candidate materially change architecture-specific build behavior?"
     ),
     "packaging_procedure": (
-        "Does the candidate materially change the procedure that assembles the "
-        "application package, rather than only updating dependency versions or "
-        "removing unused build modules?"
+        "Does the candidate change the steps that assemble or install the "
+        "application into the package: buildsystem, build commands, post-install "
+        "steps, dependency install or bundling, module layout, or entry points? "
+        "Answer low when the candidate changes none of these steps, for example "
+        "when it only bumps dependency versions or checksums, or only changes the "
+        "list of installed paths pruned after install."
     ),
 }
 

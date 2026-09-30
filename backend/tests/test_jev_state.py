@@ -264,6 +264,28 @@ def test_top_level_changes_only_include_changed_sections():
     top = state.state["top_level_changes"]
     assert set(top) == {"cleanup", "extensions"}
     assert top["cleanup"]["old"] == {"cleanup": ["/include"]}
+    assert top["cleanup"]["delta"] == {
+        "removed": {},
+        "changed": {
+            "cleanup": {"old": ["/include"], "new": ["/include", "/lib/pkgconfig"]}
+        },
+        "added": {},
+    }
+
+
+def test_change_kind_legend_only_names_observed_changes():
+    published = {"modules": [], "cleanup": ["/include"]}
+    candidate = {"modules": [], "cleanup": []}
+
+    state = build(published, candidate)
+
+    legend = state.state["change_kind_legend"]
+    assert set(legend) == {"top_level_cleanup_changed"}
+    assert legend["top_level_cleanup_changed"] == (
+        "the top-level cleanup list changed; this list names file paths removed "
+        "from the installed app after the build and install steps have finished, "
+        "so it prunes files rather than performing build or install steps"
+    )
 
 
 def test_comparable_pair_requires_single_group():

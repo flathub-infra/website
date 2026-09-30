@@ -8,13 +8,58 @@ from . import manifest_complexity
 from .manifest_complexity import ManifestChangeKind, ManifestComplexityResult
 from .ostree_manifest import ManifestPair, PublishedManifestStatus
 
-STATE_SCHEMA_VERSION = 2
+STATE_SCHEMA_VERSION = 3
 MAX_SOURCE_DETAILS = 24
 MAX_ITEM_CONTENT_CHARS = 2048
 MAX_STATE_CONTENT_CHARS = 8192
 
 _CONTENT_SOURCE_TYPES = frozenset({"script", "shell", "inline"})
 _CONTENT_OPTION_KEYS = frozenset({"commands", "command", "contents"})
+
+_CHANGE_KIND_LEGEND = {
+    ManifestChangeKind.MODULE_ADDED: "a whole module was added to the manifest",
+    ManifestChangeKind.MODULE_REMOVED: "a whole module was removed from the manifest",
+    ManifestChangeKind.SOURCE_TYPE_CHANGED: (
+        "a source changed its type, e.g. archive -> git"
+    ),
+    ManifestChangeKind.SOURCE_OPTIONS_CHANGED: "per-source options changed",
+    ManifestChangeKind.SOURCE_ORDER_CHANGED: "module sources were reordered",
+    ManifestChangeKind.PATCH_OR_SCRIPT_ADDED: (
+        "a patch file or a script source was added"
+    ),
+    ManifestChangeKind.SOURCE_SET_CHANGED: "the list of module sources changed",
+    ManifestChangeKind.BUILDSYSTEM_CHANGED: (
+        "the module buildsystem changed, e.g. cmake -> meson"
+    ),
+    ManifestChangeKind.BUILD_COMMANDS_CHANGED: (
+        "shell commands executed during the module build changed"
+    ),
+    ManifestChangeKind.POST_INSTALL_CHANGED: (
+        "shell commands executed after install changed"
+    ),
+    ManifestChangeKind.CONFIG_OPTIONS_CHANGED: "module config-opts changed",
+    ManifestChangeKind.BUILD_OPTIONS_CHANGED: "module build-options changed",
+    ManifestChangeKind.MODULE_LAYOUT_CHANGED: (
+        "a module moved to a different position in the manifest tree"
+    ),
+    ManifestChangeKind.TOP_LEVEL_CLEANUP_CHANGED: (
+        "the top-level cleanup list changed; this list names file paths removed "
+        "from the installed app after the build and install steps have finished, "
+        "so it prunes files rather than performing build or install steps"
+    ),
+    ManifestChangeKind.EXTENSIONS_CHANGED: "flatpak extension points changed",
+    ManifestChangeKind.RUNTIME_ID_CHANGED: "the runtime id changed",
+    ManifestChangeKind.SDK_ID_CHANGED: "the sdk id changed",
+    ManifestChangeKind.APPLICATION_COMMAND_CHANGED: (
+        "the application entry point command changed"
+    ),
+    ManifestChangeKind.ARCH_SELECTION_CHANGED: (
+        "per-architecture build selectors changed"
+    ),
+    ManifestChangeKind.MODULE_MATCH_AMBIGUOUS: (
+        "module correspondence between old and new is ambiguous"
+    ),
+}
 
 
 @dataclass(frozen=True)
@@ -102,6 +147,23 @@ def _unmatched_indices(
         else:
             result.append(index)
     return result
+
+
+def _section_delta(before: Any, after: Any) -> dict[str, Any]:
+    if isinstance(before, dict) and isinstance(after, dict):
+        return {
+            "removed": {key: before[key] for key in before if key not in after},
+            "changed": {
+                key: {"old": before[key], "new": after[key]}
+                for key in after
+                if key in before and before[key] != after[key]
+            },
+            "added": {key: after[key] for key in after if key not in before},
+        }
+    return {
+        "removed": [item for item in (before or []) if item not in (after or [])],
+        "added": [item for item in (after or []) if item not in (before or [])],
+    }
 
 
 def _source_details(
@@ -325,7 +387,17 @@ def build_state(pair: ManifestPair, result: ManifestComplexityResult) -> JevStat
         ("architecture", old.arch_selectors, new.arch_selectors),
     ):
         if before != after:
-            top_level_changes[key] = {"old": before, "new": after}
+            top_level_changes[key] = {
+                "old": before,
+                "new": after,
+                "delta": _section_delta(before, after),
+            }
+
+    legend = {
+        kind.value: meaning
+        for kind, meaning in _CHANGE_KIND_LEGEND.items()
+        if kind.value in result.event_count_by_kind
+    }
 
     state: dict[str, Any] = {
         "old": {"runtime": old.runtime, "sdk": old.sdk, "modules": list(old_index)},
@@ -347,6 +419,7 @@ def build_state(pair: ManifestPair, result: ManifestComplexityResult) -> JevStat
             },
         },
         "changed_module_fragments": fragments,
+        "change_kind_legend": legend,
         "top_level_changes": top_level_changes,
         "limits": {
             "source_details_truncated": source_details_truncated,

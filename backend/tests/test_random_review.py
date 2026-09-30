@@ -18,6 +18,7 @@ sys.path.append(ROOT_DIR)
 sys.modules["app.search"] = SimpleNamespace()
 
 from app import config, models
+from app.moderation import jev_observation, jev_state
 from app.moderation import review as moderation
 from app.types import ModerationRequestType
 
@@ -3977,6 +3978,9 @@ def test_jev_observation_skips_unscored_and_multi_group_manifests(monkeypatch):
         )
         assert payload["status"] == "skipped"
         assert payload["reason"] == reason
-        assert payload["state_schema_version"] == 2
-        assert payload["question_schema_version"] == 1
+        assert payload["state_schema_version"] == jev_state.STATE_SCHEMA_VERSION
+        assert (
+            payload["question_schema_version"]
+            == jev_observation.QUESTION_SCHEMA_VERSION
+        )
         assert state is None
