@@ -2304,6 +2304,97 @@ class ManifestAnalysisObservation(Base):
     )
 
 
+class PermissionAssessmentObservation(Base):
+    __tablename__ = "permissionassessmentobservation"
+
+    id = mapped_column(Integer, primary_key=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    assessment_identity = mapped_column(String, nullable=False)
+    outcome = mapped_column(String, nullable=False)
+
+    app_id = mapped_column(String, nullable=False)
+    pipeline_id = mapped_column(String, nullable=False)
+    forge_instance = mapped_column(String, nullable=False)
+    source_repository = mapped_column(String, nullable=False)
+    pull_request_head_revision = mapped_column(String, nullable=False)
+    built_revision = mapped_column(String, nullable=False)
+    target_git_branch = mapped_column(String, nullable=False)
+    base_revision = mapped_column(String, nullable=False)
+    candidate_kind = mapped_column(String, nullable=False)
+    intended_repo = mapped_column(String, nullable=False)
+    intended_channel = mapped_column(String, nullable=False)
+    flatpak_branch = mapped_column(String, nullable=False)
+    build_id = mapped_column(Integer, nullable=False)
+    pull_request_number = mapped_column(Integer)
+    pull_request_url = mapped_column(String)
+
+    expected_arches = mapped_column(JSONB, nullable=False)
+    canonicalization_version = mapped_column(
+        Integer, nullable=False, server_default=text("2")
+    )
+
+    candidate_artifacts = mapped_column(JSONB, nullable=False)
+    published_artifacts = mapped_column(JSONB, nullable=False)
+    uploaded_refs = mapped_column(JSONB, nullable=False)
+    candidate_snapshot = mapped_column(JSONB(none_as_null=True))
+    published_snapshot = mapped_column(JSONB(none_as_null=True))
+    differences = mapped_column(JSONB(none_as_null=True))
+    fingerprint = mapped_column(String)
+    published_fingerprint = mapped_column(String)
+    error_code = mapped_column(String)
+    error_message = mapped_column(String)
+
+    __table_args__ = (
+        CheckConstraint(
+            "(outcome = 'pending' AND candidate_snapshot IS NOT NULL "
+            "AND fingerprint IS NOT NULL AND error_code IS NULL "
+            "AND error_message IS NULL) OR "
+            "(outcome = 'error' AND fingerprint IS NULL "
+            "AND error_code IS NOT NULL AND error_message IS NOT NULL)",
+            name="permissionassessmentobservation_outcome_consistency",
+        ),
+        CheckConstraint(
+            "canonicalization_version = 2",
+            name="permissionassessmentobservation_canonicalization_version",
+        ),
+        CheckConstraint(
+            "jsonb_typeof(expected_arches) = 'array' "
+            "AND expected_arches <> '[]'::jsonb "
+            "AND jsonb_typeof(candidate_artifacts) = 'array' "
+            "AND jsonb_typeof(published_artifacts) = 'array' "
+            "AND jsonb_typeof(uploaded_refs) = 'array'",
+            name="permissionassessmentobservation_json_arrays",
+        ),
+        CheckConstraint(
+            "(pull_request_number IS NULL AND pull_request_url IS NULL) OR "
+            "(pull_request_number IS NOT NULL AND pull_request_url IS NOT NULL)",
+            name="permissionassessmentobservation_pr_pair",
+        ),
+        CheckConstraint(
+            "(candidate_snapshot IS NOT NULL "
+            "AND fingerprint IS NOT NULL "
+            "AND published_snapshot IS NOT NULL "
+            "AND published_fingerprint IS NOT NULL "
+            "AND differences IS NOT NULL) OR "
+            "(published_snapshot IS NULL "
+            "AND published_fingerprint IS NULL "
+            "AND differences IS NULL)",
+            name="permissionassessmentobservation_published_comparison",
+        ),
+        Index(
+            "permissionassessmentobservation_assessment_identity_unique",
+            assessment_identity,
+            unique=True,
+        ),
+        Index(
+            "ix_permissionassessmentobservation_app_id_created_at",
+            app_id,
+            created_at,
+        ),
+        Index("ix_permissionassessmentobservation_created_at", created_at),
+    )
+
+
 class GuidelineCategory(Base):
     """A category of quality guidelines for an app"""
 

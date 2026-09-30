@@ -8,6 +8,7 @@ import pytest
 from app.moderation import ostree_permissions
 from app.moderation.ostree_permissions import collect_permissions
 from app.moderation.permission_snapshot import (
+    CANONICALIZATION_VERSION,
     PermissionSnapshotError,
     fingerprint_snapshot,
 )
@@ -53,6 +54,7 @@ def test_complete_architectures_and_immutable_expectations(source):
         expected_commits={REF: x86, ARM: arm},
         expected_arches={"x86_64", "aarch64"},
     ).snapshot
+    assert published.snapshot.canonicalization_version == CANONICALIZATION_VERSION
     assert fingerprints(published.snapshot) == fingerprints(candidate_snapshot)
     assert published.captured_at
     assert fingerprints(collect(source).snapshot) == fingerprints(published.snapshot)

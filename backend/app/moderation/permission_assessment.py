@@ -1,0 +1,366 @@
+import hashlib
+import json
+import logging
+import re
+from dataclasses import asdict
+from typing import Annotated, Any, Literal, NoReturn, Self
+
+import httpx
+from fastapi import HTTPException
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+from sqlalchemy import select
+from sqlalchemy.dialects.postgresql import insert
+
+from .. import config, http_client, models, utils
+from ..database import get_db
+from .ostree_permissions import CollectedPermissions, _arch_for_ref, collect_permissions
+from .permission_snapshot import (
+    CANONICALIZATION_VERSION,
+    PermissionSnapshotError,
+    compare_snapshots,
+    fingerprint_snapshot,
+)
+
+logger = logging.getLogger(__name__)
+
+type NonemptyString = Annotated[str, Field(min_length=1, pattern=r"^\S(?:.*\S)?$")]
+type RefSegment = Annotated[str, Field(min_length=1, pattern=r"^[^/\s\x00-\x1f\x7f]+$")]
+type Revision = Annotated[str, Field(pattern=r"^[0-9a-fA-F]{40}$")]
+
+
+class CandidateAssessmentRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    pipeline_id: NonemptyString
+    build_id: Annotated[int, Field(gt=0)]
+    forge_instance: NonemptyString
+    source_repository: NonemptyString
+    pull_request_number: Annotated[int, Field(gt=0)] | None = None
+    pull_request_url: NonemptyString | None = None
+    pull_request_head_revision: Revision
+    built_revision: Revision
+    target_git_branch: NonemptyString
+    base_revision: Revision | None = None
+    candidate_kind: Literal["head", "merge"]
+    app_id: RefSegment
+    destination_repo: RefSegment
+    destination_channel: RefSegment
+    flatpak_branch: RefSegment
+    expected_arches: Annotated[list[RefSegment], Field(min_length=1)]
+    matrix_succeeded: bool
+
+    @model_validator(mode="after")
+    def check_pull_request(self) -> Self:
+        if (self.pull_request_number is None) != (self.pull_request_url is None):
+            raise ValueError("Pull request number and URL must be supplied together")
+        return self
+
+
+class CandidateIdentity(BaseModel):
+    pipeline_id: str
+    build_id: int
+
+
+class CandidateAssessmentResponse(BaseModel):
+    assessment_id: int
+    candidate_identity: CandidateIdentity
+    snapshot_fingerprint: str | None
+    outcome: Literal["pending", "error"]
+    acceptance_basis: None = None
+    review_url: None = None
+    mode: Literal["observational"] = "observational"
+    canonicalization_version: Literal[2] = 2
+    assessment_identity: str
+    expected_arches: list[str]
+    published_comparison_available: bool
+    differences: list[dict[str, Any]] | None
+    error_code: str | None = None
+    error_message: str | None = None
+
+
+def _response(
+    row: models.PermissionAssessmentObservation,
+) -> CandidateAssessmentResponse:
+    return CandidateAssessmentResponse(
+        assessment_id=row.id,
+        candidate_identity=CandidateIdentity(
+            pipeline_id=row.pipeline_id, build_id=row.build_id
+        ),
+        snapshot_fingerprint=row.fingerprint,
+        outcome=row.outcome,
+        canonicalization_version=row.canonicalization_version,
+        assessment_identity=row.assessment_identity,
+        expected_arches=row.expected_arches,
+        published_comparison_available=row.published_snapshot is not None,
+        differences=row.differences,
+        error_code=row.error_code,
+        error_message=row.error_message,
+    )
+
+
+def _persist_observation(values: dict[str, Any]) -> CandidateAssessmentResponse:
+    with get_db("writer") as db:
+        db.session.execute(
+            insert(models.PermissionAssessmentObservation)
+            .values(**values)
+            .on_conflict_do_nothing(index_elements=["assessment_identity"])
+        )
+        row = db.session.execute(
+            select(models.PermissionAssessmentObservation).where(
+                models.PermissionAssessmentObservation.assessment_identity
+                == values["assessment_identity"]
+            )
+        ).scalar_one()
+        response = _response(row)
+    logger.info(
+        "Recorded permission assessment observation",
+        extra={
+            "app_id": values["app_id"],
+            "pipeline_id": response.candidate_identity.pipeline_id,
+            "build_id": response.candidate_identity.build_id,
+            "outcome": response.outcome,
+            "assessment_identity": response.assessment_identity,
+            "expected_arches": response.expected_arches,
+            "error_code": response.error_code,
+        },
+    )
+    return response
+
+
+def get_assessment(assessment_id: int) -> CandidateAssessmentResponse:
+    with get_db("writer") as db:
+        row = db.session.get(models.PermissionAssessmentObservation, assessment_id)
+        if row is None:
+            raise HTTPException(status_code=404, detail="assessment_not_found")
+        return _response(row)
+
+
+def _fetch(
+    url: str, headers: dict[str, str], *, commit: bool = False
+) -> dict[str, Any]:
+    try:
+        if commit:
+            with http_client.stream(
+                "GET", url, headers=headers, json={"log-offset": None}
+            ) as response:
+                response.read()
+                response.raise_for_status()
+                payload = response.json()
+        else:
+            response = http_client.get(url, headers=headers)
+            response.raise_for_status()
+            payload = response.json()
+    except (httpx.HTTPError, ValueError) as exc:
+        logger.warning("Permission assessment upstream request failed", exc_info=True)
+        raise HTTPException(status_code=502, detail="flat_manager_unavailable") from exc
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=502, detail="invalid_flat_manager_response")
+    return payload
+
+
+def _conflict(code: str, message: str) -> NoReturn:
+    raise PermissionSnapshotError(code, message)
+
+
+def _uploaded_refs(
+    request: CandidateAssessmentRequest,
+    extended: dict[str, Any],
+    uploaded: list[dict[str, str]],
+) -> None:
+    build = extended.get("build")
+    if not isinstance(build, dict):
+        _conflict("invalid_build", "Flat-manager response lacks build metadata")
+    if type(build.get("id")) is not int or build["id"] != request.build_id:
+        _conflict("identity_mismatch", "Flat-manager build ID differs from candidate")
+    if build.get("app_id") is not None and build["app_id"] != request.app_id:
+        _conflict("identity_mismatch", "Flat-manager app ID differs from candidate")
+    if build.get("repo") != request.destination_repo:
+        _conflict(
+            "identity_mismatch",
+            "Flat-manager repository differs from candidate destination",
+        )
+    if type(build.get("repo_state")) is not int or build["repo_state"] not in (2, 6):
+        _conflict("build_not_ready", "Flat-manager build is not committed or ready")
+    build_refs = extended.get("build_refs")
+    if not isinstance(build_refs, list):
+        _conflict("invalid_build", "Flat-manager response lacks uploaded refs")
+    selected: dict[str, dict[str, str]] = {}
+    for item in build_refs:
+        if not isinstance(item, dict) or not isinstance(item.get("ref_name"), str):
+            _conflict("invalid_build", "Invalid uploaded ref metadata")
+        ref_name = item["ref_name"]
+        arch = _arch_for_ref(ref_name, request.app_id, request.flatpak_branch)
+        if arch is None:
+            continue
+        if ref_name in selected:
+            _conflict("invalid_build", f"Duplicate uploaded ref: {ref_name}")
+        commit = item.get("commit")
+        if not isinstance(commit, str) or re.fullmatch(r"[0-9a-f]{64}", commit) is None:
+            _conflict("invalid_build", f"Invalid uploaded checksum for {ref_name}")
+        selected[ref_name] = {"ref_name": ref_name, "commit": commit}
+    uploaded.extend(selected[name] for name in sorted(selected))
+    arches = {name.split("/")[2] for name in selected}
+    expected = set(request.expected_arches)
+    if arches - expected:
+        _conflict(
+            "identity_mismatch",
+            f"Unexpected uploaded architectures: {sorted(arches - expected)}",
+        )
+    if expected - arches:
+        _conflict(
+            "missing_architecture",
+            f"Uploaded refs lack expected architectures: {sorted(expected - arches)}",
+        )
+
+
+def _final_commits(
+    job: dict[str, Any], job_id: int, uploaded: list[dict[str, str]]
+) -> dict[str, str]:
+    if type(job.get("id")) is not int or job["id"] != job_id:
+        _conflict("identity_mismatch", "Commit job ID differs from build commit job")
+    if type(job.get("kind")) is not int or job["kind"] != 0:
+        _conflict("invalid_commit_job", "Build job is not a commit job")
+    if type(job.get("status")) is not int or job["status"] != 2:
+        _conflict("commit_not_complete", "Commit job did not complete successfully")
+    results = job.get("results")
+    if isinstance(results, str):
+        try:
+            results = json.loads(results)
+        except ValueError:
+            _conflict("invalid_commit_results", "Commit job results are not valid JSON")
+    if not isinstance(results, dict) or not isinstance(results.get("refs"), dict):
+        _conflict("invalid_commit_results", "Commit job results lack final refs")
+    names = {item["ref_name"] for item in uploaded}
+    refs = results["refs"]
+    selected = {name: refs[name] for name in names if name in refs}
+    if selected.keys() != names:
+        _conflict(
+            "missing_architecture", "Commit job results lack selected uploaded refs"
+        )
+    for name, checksum in selected.items():
+        if (
+            not isinstance(checksum, str)
+            or re.fullmatch(r"[0-9a-f]{64}", checksum) is None
+        ):
+            _conflict(
+                "invalid_commit_results",
+                f"Commit job lacks a trustworthy final checksum for {name}",
+            )
+    return selected
+
+
+def assess_candidate(
+    request: CandidateAssessmentRequest,
+) -> CandidateAssessmentResponse:
+    uploaded: list[dict[str, str]] = []
+    candidate: CollectedPermissions | None = None
+    published: CollectedPermissions | None = None
+    fingerprint: str | None = None
+    published_fingerprint: str | None = None
+    differences: list[dict[str, Any]] | None = None
+    error: PermissionSnapshotError | None = None
+    try:
+        if not request.matrix_succeeded:
+            _conflict("matrix_failed", "Expected architecture matrix did not succeed")
+        if (
+            not config.settings.flat_manager_api
+            or not config.settings.flat_manager_build_secret
+        ):
+            raise HTTPException(status_code=500, detail="flat_manager_not_configured")
+        try:
+            token = utils.create_flat_manager_token(
+                "assess_permission_candidate",
+                ["build", "jobs"],
+                repos=["stable", "beta", "test"],
+            )
+        except ValueError as exc:
+            raise HTTPException(
+                status_code=500, detail="flat_manager_not_configured"
+            ) from exc
+        headers = {"Authorization": token, "Content-Type": "application/json"}
+        build_url = f"{config.settings.flat_manager_api.rstrip('/')}/api/v1/build/{request.build_id}"
+        extended = _fetch(f"{build_url}/extended", headers)
+        _uploaded_refs(request, extended, uploaded)
+        job_id = extended["build"].get("commit_job_id")
+        if type(job_id) is not int or job_id <= 0:
+            _conflict("missing_commit_job", "Build lacks a commit job")
+        final = _final_commits(
+            _fetch(f"{build_url}/commit", headers, commit=True), job_id, uploaded
+        )
+        candidate = collect_permissions(
+            repository_url=f"https://dl.flathub.org/build-repo/{request.build_id}",
+            app_id=request.app_id,
+            flatpak_branch=request.flatpak_branch,
+            expected_arches=set(request.expected_arches),
+            expected_commits=final,
+        )
+        try:
+            published = collect_permissions(
+                repository_url=config.settings.repo_url,
+                app_id=request.app_id,
+                flatpak_branch=request.flatpak_branch,
+            )
+        except PermissionSnapshotError as exc:
+            if exc.code != "missing_baseline":
+                raise
+        if published is not None:
+            published_fingerprint = fingerprint_snapshot(published.snapshot)
+            differences = [
+                asdict(item)
+                for item in compare_snapshots(published.snapshot, candidate.snapshot)
+            ]
+        fingerprint = fingerprint_snapshot(candidate.snapshot)
+    except PermissionSnapshotError as exc:
+        if exc.code == "invalid_input":
+            raise HTTPException(
+                status_code=500, detail="permission_repository_not_configured"
+            ) from exc
+        if exc.code in ("transport_error", "timeout"):
+            raise HTTPException(
+                status_code=504 if exc.code == "timeout" else 502,
+                detail="permission_repository_unavailable",
+            ) from exc
+        error = exc
+        published = None
+        published_fingerprint = None
+        differences = None
+
+    artifacts = [asdict(item) for item in candidate.artifacts] if candidate else []
+    identity = request.model_dump(exclude={"matrix_succeeded"})
+    identity.update(
+        schema="permission-assessment/1",
+        expected_arches=sorted(set(request.expected_arches)),
+        canonicalization_version=CANONICALIZATION_VERSION,
+        uploaded_refs=uploaded,
+        candidate_artifacts=artifacts,
+    )
+    assessment_identity = hashlib.sha256(
+        json.dumps(
+            identity, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+        ).encode("utf-8")
+    ).hexdigest()
+    values = request.model_dump(
+        exclude={"matrix_succeeded", "destination_repo", "destination_channel"}
+    )
+    values.update(
+        assessment_identity=assessment_identity,
+        outcome="error" if error else "pending",
+        base_revision=request.base_revision or "",
+        intended_repo=request.destination_repo,
+        intended_channel=request.destination_channel,
+        expected_arches=sorted(set(request.expected_arches)),
+        canonicalization_version=CANONICALIZATION_VERSION,
+        uploaded_refs=uploaded,
+        candidate_artifacts=artifacts,
+        published_artifacts=[asdict(item) for item in published.artifacts]
+        if published
+        else [],
+        candidate_snapshot=asdict(candidate.snapshot) if candidate else None,
+        published_snapshot=asdict(published.snapshot) if published else None,
+        fingerprint=fingerprint,
+        published_fingerprint=published_fingerprint,
+        differences=differences,
+        error_code=error.code if error else None,
+        error_message=error.message if error else None,
+    )
+    return _persist_observation(values)

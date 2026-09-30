@@ -1,9 +1,7 @@
-import hashlib
-import json
-
 import pytest
 
 from app.moderation.permission_snapshot import (
+    CANONICALIZATION_VERSION,
     PermissionSnapshot,
     PermissionSnapshotError,
     compare_snapshots,
@@ -19,11 +17,7 @@ def parse(data: bytes):
 
 
 def snapshot(**arches):
-    return PermissionSnapshot(1, arches)
-
-
-def fingerprints(snapshot_):
-    return fingerprint_snapshot(snapshot_)
+    return PermissionSnapshot(CANONICALIZATION_VERSION, arches)
 
 
 FULL_DATA = (
@@ -55,29 +49,55 @@ def test_complete_metadata_and_canonical_fingerprint():
         "Session Bus Policy": {"org.example.Bus": "none"},
         "System Bus Policy": {"org.example.Bus": "talk"},
         "USB Devices": {
-            "enumerable": ["all", "!vnd:1234"],
+            "enumerable": ["!vnd:1234", "all"],
             "hidden": ["vnd:1234+prd:abcd"],
         },
         "Policy new-subsystem": {"future": ["one", "two"]},
     }
-    envelope = {"canonicalization_version": 1, "architectures": {"x86_64": permissions}}
-    assert (
-        fingerprints(snapshot(x86_64=permissions))
-        == hashlib.sha256(
-            json.dumps(
-                envelope, ensure_ascii=True, sort_keys=True, separators=(",", ":")
-            ).encode()
-        ).hexdigest()
-    )
     reordered = FULL_DATA.replace(
         b"sockets=!x11;x11;if:x11:!has-wayland;\nfilesystems=home:ro;xdg-data/foo:create;home:ro;",
         b"filesystems=home:ro;xdg-data/foo:create;home:ro;\nsockets=!x11;x11;if:x11:!has-wayland;",
     )
-    assert fingerprints(snapshot(x86_64=parse(reordered))) == fingerprints(
-        snapshot(x86_64=permissions)
+    assert fingerprint_snapshot(snapshot(x86_64=parse(reordered))) == (
+        fingerprint_snapshot(snapshot(x86_64=permissions))
     )
     assert parse(APP) == {}
-    assert parse(APP + b"[Context]\nsockets=\n") == {"Context": {"sockets": []}}
+
+
+def test_usb_list_order_is_canonicalized():
+    first = (
+        APP
+        + b"[USB Devices]\nenumerable=all;!vnd:1234;all;\n"
+        + b"hidden=vnd:1234+prd:abcd;vnd:5678;vnd:5678;\n"
+    )
+    second = (
+        APP
+        + b"[USB Devices]\nenumerable=all;all;!vnd:1234;\n"
+        + b"hidden=vnd:5678;vnd:1234+prd:abcd;vnd:5678;\n"
+    )
+    before = parse(first)
+    after = parse(second)
+    assert before["USB Devices"] == {
+        "enumerable": ["!vnd:1234", "all", "all"],
+        "hidden": ["vnd:1234+prd:abcd", "vnd:5678", "vnd:5678"],
+    }
+    assert before == after
+    before_snapshot = snapshot(x86_64=before)
+    after_snapshot = snapshot(x86_64=after)
+    assert compare_snapshots(before_snapshot, after_snapshot) == ()
+    assert fingerprint_snapshot(before_snapshot) == fingerprint_snapshot(after_snapshot)
+
+
+def test_context_socket_order_is_preserved():
+    before = parse(APP + b"[Context]\nsockets=x11;!x11;\n")
+    after = parse(APP + b"[Context]\nsockets=!x11;x11;\n")
+    before_snapshot = snapshot(x86_64=before)
+    after_snapshot = snapshot(x86_64=after)
+    differences = compare_snapshots(before_snapshot, after_snapshot)
+    assert [difference.path for difference in differences] == [
+        ("x86_64", "Context", "sockets")
+    ]
+    assert fingerprint_snapshot(before_snapshot) != fingerprint_snapshot(after_snapshot)
 
 
 def test_dconf_migration_metadata_is_not_a_permission():
@@ -85,8 +105,8 @@ def test_dconf_migration_metadata_is_not_a_permission():
     migration = b"[X-DConf]\nmigrate-path=/org/example/App/\n"
     without = parse(base)
     assert parse(base + migration) == without
-    assert fingerprints(snapshot(x86_64=parse(base + migration))) == fingerprints(
-        snapshot(x86_64=without)
+    assert fingerprint_snapshot(snapshot(x86_64=parse(base + migration))) == (
+        fingerprint_snapshot(snapshot(x86_64=without))
     )
     assert parse(APP + migration) == {}
 
@@ -116,7 +136,7 @@ def test_full_tree_comparison():
     assert compare_snapshots(
         snapshot(x86_64={}), snapshot(x86_64={"Context": {"sockets": []}})
     )[0].after == {"sockets": []}
-    assert fingerprints(snapshot(x86_64={})) != fingerprints(
+    assert fingerprint_snapshot(snapshot(x86_64={})) != fingerprint_snapshot(
         snapshot(x86_64={"Context": {"sockets": []}})
     )
     assert compare_snapshots(
@@ -144,7 +164,13 @@ def test_rejects_invalid_metadata(data, code):
 
 @pytest.mark.parametrize(
     "version,arches,code",
-    [(2, {"x86_64": {}}, "unsupported_version"), (1, {}, "missing_architecture")],
+    [
+        (1, {"x86_64": {}}, "unsupported_version"),
+        (3, {"x86_64": {}}, "unsupported_version"),
+        (True, {"x86_64": {}}, "unsupported_version"),
+        (2.0, {"x86_64": {}}, "unsupported_version"),
+        (CANONICALIZATION_VERSION, {}, "missing_architecture"),
+    ],
 )
 def test_rejects_invalid_snapshot(version, arches, code):
     value = PermissionSnapshot(version, arches)

@@ -180,12 +180,16 @@ def collect_permissions(
             or not isinstance(expected_arches, AbstractSet)
         )
     ):
-        raise _invalid("Expected commits and architectures must both be supplied")
+        raise _invalid("Expected commits must be paired with expected architectures")
     if candidate:
-        if not expected_commits or not expected_arches:
-            raise _invalid("Expected commits and architectures must be nonempty")
+        assert expected_commits is not None
+        assert expected_arches is not None
+        if not expected_arches:
+            raise _invalid("Expected architectures must be nonempty")
         if any(not _valid_segment(arch) for arch in expected_arches):
             raise _invalid("Expected architectures must be nonempty single segments")
+        if not expected_commits:
+            raise _invalid("Expected commits must be nonempty")
         supplied_arches: set[str] = set()
         for ref_name, commit in expected_commits.items():
             if (
@@ -206,7 +210,6 @@ def collect_permissions(
                 "missing_architecture",
                 f"Expected architectures lack refs: {sorted(expected_arches - supplied_arches)}",
             )
-
     with tempfile.TemporaryDirectory(prefix="ostree-permissions-") as temp_dir:
         cancellable = Gio.Cancellable()
         timer = Timer(timeout_seconds, cancellable.cancel)
@@ -229,13 +232,15 @@ def collect_permissions(
                 raise PermissionSnapshotError(
                     "timeout", "Permission collection timed out"
                 )
-            selected = {}
+            selected: dict[str, tuple[str, str]] = {}
             for ref_name, commit in remote_refs.items():
                 arch = _arch_for_ref(ref_name, app_id, flatpak_branch)
                 if arch is not None:
                     _checksum(commit, ref_name=ref_name, remote=True)
                     selected[arch] = (ref_name, commit)
-            if expected_commits is not None and expected_arches is not None:
+            if candidate:
+                assert expected_commits is not None
+                assert expected_arches is not None
                 unexpected = selected.keys() - expected_arches
                 if unexpected:
                     arch = min(unexpected)
@@ -298,20 +303,24 @@ def collect_permissions(
                     )
                 if artifact.commit not in parsed_commits:
                     parsed_commits[artifact.commit] = _read_root_metadata(
-                        repo, artifact, app_id, cancellable
+                        repo,
+                        artifact,
+                        app_id,
+                        cancellable,
                     )
                 architectures[artifact.arch] = parsed_commits[artifact.commit]
             if cancellable.is_cancelled():
                 raise PermissionSnapshotError(
                     "timeout", "Permission collection timed out"
                 )
+            snapshot = PermissionSnapshot(CANONICALIZATION_VERSION, architectures)
             return CollectedPermissions(
                 app_id,
                 flatpak_branch,
                 repository_url,
                 captured_at,
                 artifacts,
-                PermissionSnapshot(CANONICALIZATION_VERSION, architectures),
+                snapshot,
             )
         except GLib.Error as exc:
             if cancellable.is_cancelled():

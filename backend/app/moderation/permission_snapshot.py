@@ -8,7 +8,7 @@ import gi
 gi.require_version("GLib", "2.0")
 from gi.repository import GLib  # type: ignore
 
-CANONICALIZATION_VERSION = 1
+CANONICALIZATION_VERSION = 2
 
 type PermissionValue = str | list[str]
 type PermissionMap = dict[str, dict[str, PermissionValue]]
@@ -37,10 +37,14 @@ class PermissionDifference:
 
 
 def _check_snapshot(snapshot: PermissionSnapshot) -> None:
-    if snapshot.canonicalization_version != CANONICALIZATION_VERSION:
+    version = snapshot.canonicalization_version
+    if (
+        isinstance(version, bool)
+        or not isinstance(version, int)
+        or version != CANONICALIZATION_VERSION
+    ):
         raise PermissionSnapshotError(
-            "unsupported_version",
-            f"Unsupported canonicalization version: {snapshot.canonicalization_version}",
+            "unsupported_version", f"Unsupported canonicalization version: {version}"
         )
     if not snapshot.architectures:
         raise PermissionSnapshotError(
@@ -92,7 +96,10 @@ def parse_permission_metadata(metadata: bytes, *, app_id: str) -> PermissionMap:
                     if group in ("Session Bus Policy", "System Bus Policy"):
                         values[key] = key_file.get_string(group, key)
                     else:
-                        values[key] = list(key_file.get_string_list(group, key))
+                        items = list(key_file.get_string_list(group, key))
+                        if group == "USB Devices" and key in ("enumerable", "hidden"):
+                            items.sort()
+                        values[key] = items
             except GLib.Error as exc:
                 raise PermissionSnapshotError(
                     "invalid_metadata", f"Invalid {group} key {key!r}: {exc}"
