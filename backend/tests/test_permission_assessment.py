@@ -267,3 +267,83 @@ def test_repository_failures_do_not_persist_observations(
     assert response.status_code == status
     assert response.json() == {"detail": detail}
     assert observed == []
+
+
+@pytest.fixture
+def test_branch_source(tmp_path, monkeypatch):
+    source = SourceRepo(tmp_path / "candidate")
+    published = SourceRepo(tmp_path / "published")
+    test_ref = f"app/{APP}/x86_64/test"
+    test_arm = f"app/{APP}/aarch64/test"
+    final = {
+        test_ref: source.commit(test_ref, "[Context]\nshared=network;\n"),
+        test_arm: source.commit(test_arm, "[Context]\nshared=network;\n"),
+    }
+    published.commit(REF, "[Context]\nshared=ipc;\n")
+    published.commit(ARM, "[Context]\nshared=network;\n")
+    extended = {
+        "build": {
+            "id": 1,
+            "app_id": APP,
+            "repo": "test",
+            "repo_state": 2,
+            "commit_job_id": 7,
+        },
+        "build_refs": [{"ref_name": ref, "commit": "d" * 64} for ref in final],
+    }
+    job = {"id": 7, "kind": 0, "status": 2, "results": json.dumps({"refs": final})}
+    monkeypatch.setattr(config.settings, "flat_manager_api", "http://localhost:1234")
+    monkeypatch.setattr(
+        assessment,
+        "_fetch",
+        lambda url, *args, **kwargs: job if url.endswith("/commit") else extended,
+    )
+    monkeypatch.setattr(config.settings, "repo_url", published.url)
+
+    def collect(**kwargs):
+        if kwargs["repository_url"].startswith("https://dl.flathub.org/build-repo/"):
+            kwargs["repository_url"] = source.url
+        return collect_permissions(**kwargs)
+
+    monkeypatch.setattr(assessment, "collect_permissions", collect)
+    return final, extended
+
+
+def test_candidate_branch_comes_from_uploaded_refs(test_branch_source, observed):
+    final, _ = test_branch_source
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert response.outcome == "pending"
+    assert response.published_comparison_available is True
+    assert response.differences == [
+        {
+            "path": ("x86_64", "Context", "shared"),
+            "before": ["ipc"],
+            "after": ["network"],
+        }
+    ]
+    row = observed[0]
+    assert {
+        item["ref_name"]: item["commit"] for item in row["candidate_artifacts"]
+    } == final
+    assert {item["ref_name"] for item in row["published_artifacts"]} == {REF, ARM}
+    assert row["flatpak_branch"] == "stable"
+
+
+@pytest.mark.parametrize(
+    "extra_ref,code",
+    [
+        (REF, "identity_mismatch"),
+        (f"app/{APP}/x86_64/", "invalid_build"),
+    ],
+)
+def test_uploaded_ref_branch_conflicts(test_branch_source, observed, extra_ref, code):
+    _, extended = test_branch_source
+    extended["build_refs"].append({"ref_name": extra_ref, "commit": "d" * 64})
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert response.outcome == "error"
+    assert response.error_code == code
+    assert observed[0]["uploaded_refs"] == []

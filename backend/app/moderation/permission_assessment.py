@@ -13,7 +13,11 @@ from sqlalchemy.dialects.postgresql import insert
 
 from .. import config, http_client, models, utils
 from ..database import get_db
-from .ostree_permissions import CollectedPermissions, _arch_for_ref, collect_permissions
+from .ostree_permissions import (
+    CollectedPermissions,
+    _valid_segment,
+    collect_permissions,
+)
 from .permission_snapshot import (
     CANONICALIZATION_VERSION,
     PermissionSnapshotError,
@@ -166,7 +170,7 @@ def _uploaded_refs(
     request: CandidateAssessmentRequest,
     extended: dict[str, Any],
     uploaded: list[dict[str, str]],
-) -> None:
+) -> str:
     build = extended.get("build")
     if not isinstance(build, dict):
         _conflict("invalid_build", "Flat-manager response lacks build metadata")
@@ -185,19 +189,28 @@ def _uploaded_refs(
     if not isinstance(build_refs, list):
         _conflict("invalid_build", "Flat-manager response lacks uploaded refs")
     selected: dict[str, dict[str, str]] = {}
+    branches: set[str] = set()
     for item in build_refs:
         if not isinstance(item, dict) or not isinstance(item.get("ref_name"), str):
             _conflict("invalid_build", "Invalid uploaded ref metadata")
         ref_name = item["ref_name"]
-        arch = _arch_for_ref(ref_name, request.app_id, request.flatpak_branch)
-        if arch is None:
+        parts = ref_name.split("/")
+        if len(parts) != 4 or parts[0] != "app" or parts[1] != request.app_id:
             continue
+        if not _valid_segment(parts[2]) or not _valid_segment(parts[3]):
+            _conflict("invalid_build", f"Invalid uploaded app ref: {ref_name}")
+        branches.add(parts[3])
         if ref_name in selected:
             _conflict("invalid_build", f"Duplicate uploaded ref: {ref_name}")
         commit = item.get("commit")
         if not isinstance(commit, str) or re.fullmatch(r"[0-9a-f]{64}", commit) is None:
             _conflict("invalid_build", f"Invalid uploaded checksum for {ref_name}")
         selected[ref_name] = {"ref_name": ref_name, "commit": commit}
+    if len(branches) > 1:
+        _conflict(
+            "identity_mismatch",
+            f"Uploaded refs span multiple Flatpak branches: {sorted(branches)}",
+        )
     uploaded.extend(selected[name] for name in sorted(selected))
     arches = {name.split("/")[2] for name in selected}
     expected = set(request.expected_arches)
@@ -211,6 +224,7 @@ def _uploaded_refs(
             "missing_architecture",
             f"Uploaded refs lack expected architectures: {sorted(expected - arches)}",
         )
+    return branches.pop()
 
 
 def _final_commits(
@@ -280,7 +294,7 @@ def assess_candidate(
         headers = {"Authorization": token, "Content-Type": "application/json"}
         build_url = f"{config.settings.flat_manager_api.rstrip('/')}/api/v1/build/{request.build_id}"
         extended = _fetch(f"{build_url}/extended", headers)
-        _uploaded_refs(request, extended, uploaded)
+        candidate_branch = _uploaded_refs(request, extended, uploaded)
         job_id = extended["build"].get("commit_job_id")
         if type(job_id) is not int or job_id <= 0:
             _conflict("missing_commit_job", "Build lacks a commit job")
@@ -290,7 +304,7 @@ def assess_candidate(
         candidate = collect_permissions(
             repository_url=f"https://dl.flathub.org/build-repo/{request.build_id}",
             app_id=request.app_id,
-            flatpak_branch=request.flatpak_branch,
+            flatpak_branch=candidate_branch,
             expected_arches=set(request.expected_arches),
             expected_commits=final,
         )
