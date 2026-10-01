@@ -32,6 +32,7 @@ class Settings(BaseSettings):
     stats_baseurl: str = "https://hub.flathub.org/stats"
     session_secret_key: str = "change-me-for-production"
     repo_url: str = "https://dl.flathub.org/repo"
+    beta_repo_url: str = "https://dl.flathub.org/beta-repo"
 
     frontend_url: str = "http://localhost:3000"
 

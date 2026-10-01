@@ -30,7 +30,7 @@ def request_body(**changes):
         "candidate_kind": "merge",
         "app_id": APP,
         "destination_repo": "test",
-        "destination_channel": "test",
+        "destination_channel": "stable",
         "flatpak_branch": "stable",
         "expected_arches": ["x86_64", "aarch64"],
         "matrix_succeeded": True,
@@ -452,3 +452,31 @@ def test_unparseable_check_results_record_no_errors(test_branch_source, observed
     )
     assert response.outcome == "pending"
     assert response.build_checks[0]["errors"] == []
+
+
+def test_beta_destination_compares_with_beta_repo(
+    test_branch_source, observed, monkeypatch, tmp_path
+):
+    monkeypatch.setattr(config.settings, "beta_repo_url", config.settings.repo_url)
+    monkeypatch.setattr(
+        config.settings, "repo_url", (tmp_path / "unavailable").as_uri()
+    )
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(
+            **request_body(destination_channel="beta")
+        )
+    )
+    assert response.outcome == "pending"
+    assert response.published_comparison_available is True
+    assert observed[0]["intended_channel"] == "beta"
+
+
+def test_unsupported_destination_channel_is_an_error(test_branch_source, observed):
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(
+            **request_body(destination_channel="test")
+        )
+    )
+    assert response.outcome == "error"
+    assert response.error_code == "unsupported_destination"
+    assert observed[0]["uploaded_refs"] == []

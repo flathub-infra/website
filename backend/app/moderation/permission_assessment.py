@@ -319,6 +319,15 @@ def assess_candidate(
     try:
         if not request.matrix_succeeded:
             _conflict("matrix_failed", "Expected architecture matrix did not succeed")
+        published_repo_url = {
+            "stable": config.settings.repo_url,
+            "beta": config.settings.beta_repo_url,
+        }.get(request.destination_channel)
+        if published_repo_url is None:
+            _conflict(
+                "unsupported_destination",
+                f"Unsupported destination channel: {request.destination_channel}",
+            )
         if (
             not config.settings.flat_manager_api
             or not config.settings.flat_manager_build_secret
@@ -354,7 +363,7 @@ def assess_candidate(
         )
         try:
             published = collect_permissions(
-                repository_url=config.settings.repo_url,
+                repository_url=published_repo_url,
                 app_id=request.app_id,
                 flatpak_branch=request.flatpak_branch,
             )
