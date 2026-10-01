@@ -1,3 +1,5 @@
+import gzip
+import hashlib
 import ipaddress
 import math
 import tempfile
@@ -5,16 +7,19 @@ from collections.abc import Mapping
 from collections.abc import Set as AbstractSet
 from dataclasses import dataclass
 from datetime import UTC, datetime
+from pathlib import Path
 from threading import Timer
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit
 
 import gi
+import httpx
 
 gi.require_version("Gio", "2.0")
 gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree  # type: ignore
 
+from .. import http_client
 from .permission_snapshot import (
     CANONICALIZATION_VERSION,
     PermissionMap,
@@ -113,10 +118,81 @@ def _arch_for_ref(ref_name: str, app_id: str, branch: str) -> str | None:
     return None
 
 
+SUMMARY_TYPE = GLib.VariantType.new("(a(s(taya{sv}))a{sv})")
+SUMMARY_INDEX_TYPE = GLib.VariantType.new("(a{s(ayaaya{sv})}a{sv})")
+
+
+def _fetch_repo_file(base_url: str, name: str, *, optional: bool) -> bytes | None:
+    url = f"{base_url.rstrip('/')}/{name}"
+    try:
+        parsed = urlsplit(url)
+        if parsed.scheme == "file":
+            try:
+                return Path(unquote(parsed.path)).read_bytes()
+            except FileNotFoundError:
+                if optional:
+                    return None
+                raise
+        response = http_client.get(url, headers={"User-Agent": "flathub-backend"})
+        if optional and response.status_code == 404:
+            return None
+        response.raise_for_status()
+        return response.content
+    except (OSError, httpx.HTTPError) as exc:
+        raise PermissionSnapshotError(
+            "transport_error", f"Failed to fetch {name}: {exc}"
+        ) from exc
+
+
+def _summary_refs(data: bytes) -> dict[str, str]:
+    summary = GLib.Variant.new_from_bytes(SUMMARY_TYPE, GLib.Bytes.new(data), False)
+    return {
+        name: bytes(checksum).hex() for name, (_, checksum, _) in summary.unpack()[0]
+    }
+
+
 def _list_remote_refs(
     repo: OSTree.Repo, cancellable: Gio.Cancellable
 ) -> dict[str, str]:
-    _, refs = repo.remote_list_refs("source", cancellable)
+    _, url = repo.remote_get_url("source")
+    index = _fetch_repo_file(url, "summary.idx", optional=True)
+    if index is None:
+        _, refs = repo.remote_list_refs("source", cancellable)
+        return refs
+
+    subsummaries = GLib.Variant.new_from_bytes(
+        SUMMARY_INDEX_TYPE, GLib.Bytes.new(index), False
+    ).unpack()[0]
+    digests = {
+        name: bytes(digest).hex()
+        for name, (digest, _, _) in subsummaries.items()
+        if "-" not in name
+    }
+    if not digests:
+        raise PermissionSnapshotError(
+            "invalid_summary", "Summary index lists no architecture subsummaries"
+        )
+    refs: dict[str, str] = {}
+    for name, digest in sorted(digests.items()):
+        compressed = _fetch_repo_file(url, f"summaries/{digest}.gz", optional=False)
+        assert compressed is not None
+        try:
+            data = gzip.decompress(compressed)
+        except (OSError, EOFError) as exc:
+            raise PermissionSnapshotError(
+                "invalid_summary", f"Invalid {name} subsummary: {exc}"
+            ) from exc
+        if hashlib.sha256(data).hexdigest() != digest:
+            raise PermissionSnapshotError(
+                "invalid_summary", f"Subsummary digest differs for {name}"
+            )
+        for ref_name, commit in _summary_refs(data).items():
+            if refs.setdefault(ref_name, commit) != commit:
+                raise PermissionSnapshotError(
+                    "invalid_summary",
+                    f"Subsummaries disagree on {ref_name}",
+                    ref_name=ref_name,
+                )
     return refs
 
 

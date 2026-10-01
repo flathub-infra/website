@@ -1,9 +1,15 @@
+import gzip
+import hashlib
 import time
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from threading import Thread
 
+import gi
 import pytest
+
+gi.require_version("GLib", "2.0")
+from gi.repository import GLib  # type: ignore
 
 from app.moderation import ostree_permissions
 from app.moderation.ostree_permissions import collect_permissions
@@ -210,3 +216,91 @@ def test_invalid_urls_and_timeout(source):
             source.url, app_id=APP, flatpak_branch="stable", timeout_seconds=0
         )
     assert error.value.code == "invalid_input"
+
+
+def summary_subset(source, arch):
+    summary = GLib.Variant.new_from_bytes(
+        ostree_permissions.SUMMARY_TYPE,
+        GLib.Bytes.new((source.path / "summary").read_bytes()),
+        False,
+    )
+    entries = summary.get_child_value(0)
+    children = [
+        entries.get_child_value(i)
+        for i in range(entries.n_children())
+        if entries.get_child_value(i).get_child_value(0).get_string().split("/")[2]
+        == arch
+    ]
+    subset = GLib.Variant.new_tuple(
+        GLib.Variant.new_array(GLib.VariantType.new("(s(taya{sv}))"), children),
+        summary.get_child_value(1),
+    )
+    return subset.get_data_as_bytes().get_data()
+
+
+def write_summary_index(source, subsummaries):
+    (source.path / "summaries").mkdir(exist_ok=True)
+    digests = {}
+    for name, data in subsummaries.items():
+        digest = hashlib.sha256(data).hexdigest()
+        (source.path / "summaries" / f"{digest}.gz").write_bytes(gzip.compress(data))
+        digests[name] = digest
+    index = GLib.Variant(
+        "(a{s(ayaaya{sv})}a{sv})",
+        ({name: (bytes.fromhex(d), [], {}) for name, d in digests.items()}, {}),
+    )
+    (source.path / "summary.idx").write_bytes(index.get_data_as_bytes().get_data())
+    return digests
+
+
+@pytest.fixture
+def indexed_source(source):
+    x86 = source.commit(REF, "[Context]\nfilesystems=home;\n")
+    arm = source.commit(ARM, "[Context]\nfilesystems=home:ro;\n")
+    subsummaries = {
+        "x86_64": summary_subset(source, "x86_64"),
+        "aarch64": summary_subset(source, "aarch64"),
+    }
+    (source.path / "summary").write_bytes(subsummaries["x86_64"])
+    return source, x86, arm, subsummaries
+
+
+def test_summary_index_lists_every_architecture(indexed_source):
+    source, x86, arm, subsummaries = indexed_source
+    digests = write_summary_index(
+        source, {**subsummaries, "floss-aarch64": b"never fetched"}
+    )
+    (source.path / "summaries" / f"{digests['floss-aarch64']}.gz").unlink()
+
+    published = collect(source)
+    assert [(a.arch, a.commit) for a in published.artifacts] == [
+        ("aarch64", arm),
+        ("x86_64", x86),
+    ]
+    assert published.snapshot.architectures["aarch64"]["Context"]["filesystems"] == [
+        "home:ro"
+    ]
+    assert fingerprints(candidate(source, x86, arm).snapshot) == fingerprints(
+        published.snapshot
+    )
+
+
+def test_legacy_summary_without_index_misses_architectures(indexed_source):
+    source, x86, _, _ = indexed_source
+    published = collect(source)
+    assert [(a.arch, a.commit) for a in published.artifacts] == [("x86_64", x86)]
+
+
+def test_summary_index_rejects_unverifiable_subsummaries(indexed_source):
+    source, _, _, subsummaries = indexed_source
+    digests = write_summary_index(source, subsummaries)
+    path = source.path / "summaries" / f"{digests['aarch64']}.gz"
+    path.write_bytes(gzip.compress(subsummaries["x86_64"]))
+    with pytest.raises(PermissionSnapshotError) as error:
+        collect(source)
+    assert error.value.code == "invalid_summary"
+
+    path.unlink()
+    with pytest.raises(PermissionSnapshotError) as error:
+        collect(source)
+    assert error.value.code == "transport_error"
