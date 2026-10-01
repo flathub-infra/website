@@ -2339,6 +2339,9 @@ class PermissionAssessmentObservation(Base):
     candidate_snapshot = mapped_column(JSONB(none_as_null=True))
     published_snapshot = mapped_column(JSONB(none_as_null=True))
     differences = mapped_column(JSONB(none_as_null=True))
+    build_checks = mapped_column(
+        JSONB, nullable=False, server_default=text("'[]'::jsonb")
+    )
     fingerprint = mapped_column(String)
     published_fingerprint = mapped_column(String)
     error_code = mapped_column(String)

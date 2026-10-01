@@ -78,6 +78,7 @@ class CandidateAssessmentResponse(BaseModel):
     expected_arches: list[str]
     published_comparison_available: bool
     differences: list[dict[str, Any]] | None
+    build_checks: list[dict[str, Any]]
     error_code: str | None = None
     error_message: str | None = None
 
@@ -97,6 +98,7 @@ def _response(
         expected_arches=row.expected_arches,
         published_comparison_available=row.published_snapshot is not None,
         differences=row.differences,
+        build_checks=row.build_checks,
         error_code=row.error_code,
         error_message=row.error_message,
     )
@@ -166,9 +168,45 @@ def _conflict(code: str, message: str) -> NoReturn:
     raise PermissionSnapshotError(code, message)
 
 
+def _build_checks(extended: dict[str, Any], checks: list[dict[str, Any]]) -> None:
+    items = extended.get("checks")
+    if not isinstance(items, list):
+        _conflict("invalid_build", "Flat-manager response lacks build checks")
+    for item in items:
+        if (
+            not isinstance(item, dict)
+            or not isinstance(item.get("check_name"), str)
+            or type(item.get("status")) is not int
+        ):
+            _conflict("invalid_build", "Invalid build check metadata")
+        errors: set[str] = set()
+        try:
+            results = json.loads(item.get("results") or "{}")
+        except (TypeError, ValueError):
+            results = None
+        diagnostics = results.get("diagnostics") if isinstance(results, dict) else None
+        for diagnostic in diagnostics if isinstance(diagnostics, list) else []:
+            data = diagnostic.get("data") if isinstance(diagnostic, dict) else None
+            stdout = data.get("stdout") if isinstance(data, dict) else None
+            codes = stdout.get("errors") if isinstance(stdout, dict) else None
+            if isinstance(codes, list):
+                errors.update(code for code in codes if isinstance(code, str))
+        reason = item.get("status_reason")
+        checks.append(
+            {
+                "check_name": item["check_name"],
+                "status": item["status"],
+                "status_reason": reason if isinstance(reason, str) else None,
+                "errors": sorted(errors),
+            }
+        )
+    checks.sort(key=lambda check: check["check_name"])
+
+
 def _uploaded_refs(
     request: CandidateAssessmentRequest,
     extended: dict[str, Any],
+    checks: list[dict[str, Any]],
     uploaded: list[dict[str, str]],
 ) -> str:
     build = extended.get("build")
@@ -183,7 +221,11 @@ def _uploaded_refs(
             "identity_mismatch",
             "Flat-manager repository differs from candidate destination",
         )
-    if type(build.get("repo_state")) is not int or build["repo_state"] not in (2, 6):
+    repo_state = build.get("repo_state")
+    check_failed = any(check["status"] == 3 for check in checks)
+    if type(repo_state) is not int or not (
+        repo_state in (2, 6) or (repo_state == 3 and check_failed)
+    ):
         _conflict("build_not_ready", "Flat-manager build is not committed or ready")
     build_refs = extended.get("build_refs")
     if not isinstance(build_refs, list):
@@ -267,6 +309,7 @@ def assess_candidate(
     request: CandidateAssessmentRequest,
 ) -> CandidateAssessmentResponse:
     uploaded: list[dict[str, str]] = []
+    checks: list[dict[str, Any]] = []
     candidate: CollectedPermissions | None = None
     published: CollectedPermissions | None = None
     fingerprint: str | None = None
@@ -294,7 +337,8 @@ def assess_candidate(
         headers = {"Authorization": token, "Content-Type": "application/json"}
         build_url = f"{config.settings.flat_manager_api.rstrip('/')}/api/v1/build/{request.build_id}"
         extended = _fetch(f"{build_url}/extended", headers)
-        candidate_branch = _uploaded_refs(request, extended, uploaded)
+        _build_checks(extended, checks)
+        candidate_branch = _uploaded_refs(request, extended, checks, uploaded)
         job_id = extended["build"].get("commit_job_id")
         if type(job_id) is not int or job_id <= 0:
             _conflict("missing_commit_job", "Build lacks a commit job")
@@ -374,6 +418,7 @@ def assess_candidate(
         fingerprint=fingerprint,
         published_fingerprint=published_fingerprint,
         differences=differences,
+        build_checks=checks,
         error_code=error.code if error else None,
         error_message=error.message if error else None,
     )

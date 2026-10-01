@@ -152,6 +152,7 @@ def candidate_source(tmp_path, monkeypatch):
             "commit_job_id": 7,
         },
         "build_refs": [{"ref_name": ref, "commit": "d" * 64} for ref in final],
+        "checks": [],
     }
     job = {"id": 7, "kind": 0, "status": 2, "results": json.dumps({"refs": final})}
     monkeypatch.setattr(config.settings, "flat_manager_api", "http://localhost:1234")
@@ -290,6 +291,7 @@ def test_branch_source(tmp_path, monkeypatch):
             "commit_job_id": 7,
         },
         "build_refs": [{"ref_name": ref, "commit": "d" * 64} for ref in final],
+        "checks": [],
     }
     job = {"id": 7, "kind": 0, "status": 2, "results": json.dumps({"refs": final})}
     monkeypatch.setattr(config.settings, "flat_manager_api", "http://localhost:1234")
@@ -347,3 +349,106 @@ def test_uploaded_ref_branch_conflicts(test_branch_source, observed, extra_ref, 
     assert response.outcome == "error"
     assert response.error_code == code
     assert observed[0]["uploaded_refs"] == []
+
+
+def lint_check(status, errors):
+    return {
+        "check_name": "flathub-hooks",
+        "build_id": 1,
+        "job_id": 8,
+        "status": status,
+        "status_reason": "One or more validations failed." if status == 3 else None,
+        "results": json.dumps(
+            {
+                "diagnostics": [
+                    {
+                        "refstring": f"app/{APP}/x86_64/test",
+                        "is_warning": False,
+                        "category": "flatpak_builder_lint",
+                        "data": {"stdout": {"errors": errors, "info": ["x"]}},
+                    }
+                ]
+            }
+        ),
+    }
+
+
+def test_build_failed_by_checks_is_assessed(test_branch_source, observed):
+    _, extended = test_branch_source
+    extended["build"]["repo_state"] = 3
+    extended["checks"] = [
+        lint_check(
+            3,
+            [
+                "finish-args-home-filesystem-access",
+                "finish-args-has-socket-ssh-auth",
+                "finish-args-home-filesystem-access",
+            ],
+        )
+    ]
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert response.outcome == "pending"
+    assert response.build_checks == [
+        {
+            "check_name": "flathub-hooks",
+            "status": 3,
+            "status_reason": "One or more validations failed.",
+            "errors": [
+                "finish-args-has-socket-ssh-auth",
+                "finish-args-home-filesystem-access",
+            ],
+        }
+    ]
+    assert observed[0]["build_checks"] == response.build_checks
+
+
+@pytest.mark.parametrize(
+    "repo_state,checks",
+    [
+        (3, []),
+        (3, [lint_check(1, [])]),
+        (5, [lint_check(3, ["finish-args-host-filesystem-access"])]),
+        (1, []),
+    ],
+)
+def test_build_without_inspectable_artifacts_is_not_ready(
+    test_branch_source, observed, repo_state, checks
+):
+    _, extended = test_branch_source
+    extended["build"]["repo_state"] = repo_state
+    extended["checks"] = checks
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert response.outcome == "error"
+    assert response.error_code == "build_not_ready"
+    assert [check["status"] for check in response.build_checks] == [
+        check["status"] for check in checks
+    ]
+
+
+@pytest.mark.parametrize(
+    "checks",
+    [None, [{"check_name": "flathub-hooks"}], [{"status": 3}], ["bad"]],
+)
+def test_malformed_build_checks_are_errors(test_branch_source, observed, checks):
+    _, extended = test_branch_source
+    extended["checks"] = checks
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert response.outcome == "error"
+    assert response.error_code == "invalid_build"
+    assert observed[0]["build_checks"] == []
+
+
+def test_unparseable_check_results_record_no_errors(test_branch_source, observed):
+    _, extended = test_branch_source
+    extended["checks"] = [{**lint_check(1, []), "results": "not json"}]
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert response.outcome == "pending"
+    assert response.build_checks[0]["errors"] == []
