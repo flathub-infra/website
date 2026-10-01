@@ -8,7 +8,10 @@ import gi
 gi.require_version("GLib", "2.0")
 from gi.repository import GLib  # type: ignore
 
-CANONICALIZATION_VERSION = 2
+CANONICALIZATION_VERSION = 3
+CONTEXT_FLAG_KEYS = ("shared", "sockets", "devices", "features")
+CONTEXT_PATH_KEYS = ("filesystems", "persistent")
+FILESYSTEM_MODES = ("ro", "rw", "create", "reset")
 
 type PermissionValue = str | list[str]
 type PermissionMap = dict[str, dict[str, PermissionValue]]
@@ -50,6 +53,28 @@ def _check_snapshot(snapshot: PermissionSnapshot) -> None:
         raise PermissionSnapshotError(
             "missing_architecture", "Snapshot contains no architectures"
         )
+
+
+def _context_entry_name(key: str, item: str) -> str | None:
+    if key in CONTEXT_FLAG_KEYS and item.startswith("if:"):
+        return item.split(":")[1]
+    name = item.removeprefix("!")
+    if key == "filesystems":
+        path, _, mode = name.rpartition(":")
+        if path and mode in FILESYSTEM_MODES:
+            if mode == "reset":
+                return None
+            name = path
+        if name == "host-reset":
+            return None
+    return name
+
+
+def _sort_independent_entries(key: str, items: list[str]) -> list[str]:
+    names = [_context_entry_name(key, item) for item in items]
+    if None in names or len(set(names)) != len(names):
+        return items
+    return sorted(items)
 
 
 def parse_permission_metadata(metadata: bytes, *, app_id: str) -> PermissionMap:
@@ -99,6 +124,11 @@ def parse_permission_metadata(metadata: bytes, *, app_id: str) -> PermissionMap:
                         items = list(key_file.get_string_list(group, key))
                         if group == "USB Devices" and key in ("enumerable", "hidden"):
                             items.sort()
+                        elif group == "Context" and key in (
+                            *CONTEXT_FLAG_KEYS,
+                            *CONTEXT_PATH_KEYS,
+                        ):
+                            items = _sort_independent_entries(key, items)
                         values[key] = items
             except GLib.Error as exc:
                 raise PermissionSnapshotError(

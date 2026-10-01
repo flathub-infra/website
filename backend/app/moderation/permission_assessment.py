@@ -73,7 +73,7 @@ class CandidateAssessmentResponse(BaseModel):
     acceptance_basis: None = None
     review_url: None = None
     mode: Literal["observational"] = "observational"
-    canonicalization_version: Literal[2] = 2
+    canonicalization_version: Literal[2, 3] = 3
     assessment_identity: str
     expected_arches: list[str]
     published_comparison_available: bool

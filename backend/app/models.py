@@ -2330,7 +2330,7 @@ class PermissionAssessmentObservation(Base):
 
     expected_arches = mapped_column(JSONB, nullable=False)
     canonicalization_version = mapped_column(
-        Integer, nullable=False, server_default=text("2")
+        Integer, nullable=False, server_default=text("3")
     )
 
     candidate_artifacts = mapped_column(JSONB, nullable=False)
@@ -2354,7 +2354,7 @@ class PermissionAssessmentObservation(Base):
             name="permissionassessmentobservation_outcome_consistency",
         ),
         CheckConstraint(
-            "canonicalization_version = 2",
+            "canonicalization_version IN (2, 3)",
             name="permissionassessmentobservation_canonicalization_version",
         ),
         CheckConstraint(

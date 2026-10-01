@@ -100,6 +100,53 @@ def test_context_socket_order_is_preserved():
     assert fingerprint_snapshot(before_snapshot) != fingerprint_snapshot(after_snapshot)
 
 
+def test_independent_context_entries_are_sorted():
+    before = parse(
+        APP
+        + b"[Context]\nshared=network;ipc;\nsockets=x11;wayland;fallback-x11;\n"
+        + b"devices=dri;!kvm;\nfeatures=devel;bluetooth;\n"
+        + b"filesystems=xdg-pictures:ro;home;!xdg-music;\npersistent=.foo;.bar;\n"
+    )
+    after = parse(
+        APP
+        + b"[Context]\nshared=ipc;network;\nsockets=fallback-x11;wayland;x11;\n"
+        + b"devices=!kvm;dri;\nfeatures=bluetooth;devel;\n"
+        + b"filesystems=!xdg-music;home;xdg-pictures:ro;\npersistent=.bar;.foo;\n"
+    )
+    assert before["Context"] == {
+        "shared": ["ipc", "network"],
+        "sockets": ["fallback-x11", "wayland", "x11"],
+        "devices": ["!kvm", "dri"],
+        "features": ["bluetooth", "devel"],
+        "filesystems": ["!xdg-music", "home", "xdg-pictures:ro"],
+        "persistent": [".bar", ".foo"],
+    }
+    assert before == after
+    assert fingerprint_snapshot(snapshot(x86_64=before)) == fingerprint_snapshot(
+        snapshot(x86_64=after)
+    )
+
+
+@pytest.mark.parametrize(
+    "key,first,second",
+    [
+        (
+            "sockets",
+            "x11;wayland;if:x11:!has-wayland;",
+            "if:x11:!has-wayland;wayland;x11;",
+        ),
+        ("filesystems", "home;xdg-music:ro;home:ro;", "home:ro;xdg-music:ro;home;"),
+        ("filesystems", "home;!host:reset;", "!host:reset;home;"),
+        ("filesystems", "home;host-reset;", "host-reset;home;"),
+    ],
+)
+def test_order_dependent_context_entries_are_preserved(key, first, second):
+    before = parse(APP + f"[Context]\n{key}={first}\n".encode())
+    after = parse(APP + f"[Context]\n{key}={second}\n".encode())
+    assert before["Context"][key] == first.rstrip(";").split(";")
+    assert compare_snapshots(snapshot(x86_64=before), snapshot(x86_64=after))
+
+
 def test_dconf_migration_metadata_is_not_a_permission():
     base = APP + b"[Context]\nfilesystems=home:ro;\n"
     migration = b"[X-DConf]\nmigrate-path=/org/example/App/\n"
@@ -166,9 +213,10 @@ def test_rejects_invalid_metadata(data, code):
     "version,arches,code",
     [
         (1, {"x86_64": {}}, "unsupported_version"),
-        (3, {"x86_64": {}}, "unsupported_version"),
+        (2, {"x86_64": {}}, "unsupported_version"),
+        (4, {"x86_64": {}}, "unsupported_version"),
         (True, {"x86_64": {}}, "unsupported_version"),
-        (2.0, {"x86_64": {}}, "unsupported_version"),
+        (3.0, {"x86_64": {}}, "unsupported_version"),
         (CANONICALIZATION_VERSION, {}, "missing_architecture"),
     ],
 )

@@ -17,6 +17,7 @@ from app import models
 from app.db_session import DBSession
 from app.moderation import permission_assessment
 from app.moderation.permission_snapshot import (
+    CANONICALIZATION_VERSION,
     PermissionSnapshot,
     fingerprint_snapshot,
 )
@@ -68,7 +69,7 @@ def test_concurrent_identical_observations_persist_once(monkeypatch):
                 session.close()
 
         snapshot = PermissionSnapshot(
-            canonicalization_version=2,
+            canonicalization_version=CANONICALIZATION_VERSION,
             architectures={
                 "x86_64": {
                     "Context": {"shared": ["network"]},
@@ -101,7 +102,7 @@ def test_concurrent_identical_observations_persist_once(monkeypatch):
             "pull_request_number": 17,
             "pull_request_url": ("https://github.com/flathub/org.example.App/pull/17"),
             "expected_arches": ["x86_64"],
-            "canonicalization_version": 2,
+            "canonicalization_version": CANONICALIZATION_VERSION,
             "candidate_artifacts": [
                 {"ref_name": ref_name, "arch": "x86_64", "commit": commit}
             ],
