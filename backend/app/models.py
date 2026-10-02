@@ -2316,7 +2316,7 @@ class PermissionAssessmentObservation(Base):
     pipeline_id = mapped_column(String, nullable=False)
     forge_instance = mapped_column(String, nullable=False)
     source_repository = mapped_column(String, nullable=False)
-    pull_request_head_revision = mapped_column(String, nullable=False)
+    pull_request_head_revision = mapped_column(String)
     built_revision = mapped_column(String, nullable=False)
     target_git_branch = mapped_column(String, nullable=False)
     base_revision = mapped_column(String, nullable=False)
@@ -2342,6 +2342,10 @@ class PermissionAssessmentObservation(Base):
     build_checks = mapped_column(
         JSONB, nullable=False, server_default=text("'[]'::jsonb")
     )
+    linked_assessment_id = mapped_column(
+        Integer, ForeignKey("permissionassessmentobservation.id")
+    )
+    linked_fingerprint_match = mapped_column(Boolean)
     fingerprint = mapped_column(String)
     published_fingerprint = mapped_column(String)
     error_code = mapped_column(String)
@@ -2372,6 +2376,10 @@ class PermissionAssessmentObservation(Base):
             "(pull_request_number IS NULL AND pull_request_url IS NULL) OR "
             "(pull_request_number IS NOT NULL AND pull_request_url IS NOT NULL)",
             name="permissionassessmentobservation_pr_pair",
+        ),
+        CheckConstraint(
+            "linked_assessment_id IS NOT NULL OR linked_fingerprint_match IS NULL",
+            name="permissionassessmentobservation_linked_match",
         ),
         CheckConstraint(
             "(candidate_snapshot IS NOT NULL "

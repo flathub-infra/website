@@ -69,6 +69,13 @@ def client(monkeypatch):
         {"expected_arches": ["x86_64/other"]},
         {"build_id": True},
         {"matrix_succeeded": "true"},
+        {"pull_request_head_revision": None},
+        {"candidate_kind": "push", "pull_request_head_revision": None},
+        {
+            "candidate_kind": "push",
+            "pull_request_number": None,
+            "pull_request_url": None,
+        },
     ],
 )
 def test_malformed_attestations_return_422(client, changes):
@@ -480,3 +487,49 @@ def test_unsupported_destination_channel_is_an_error(test_branch_source, observe
     assert response.outcome == "error"
     assert response.error_code == "unsupported_destination"
     assert observed[0]["uploaded_refs"] == []
+
+
+def push_body(**changes):
+    return request_body(
+        **{
+            "candidate_kind": "push",
+            "built_revision": "f" * 40,
+            "pull_request_head_revision": "a" * 40,
+            **changes,
+        }
+    )
+
+
+def test_push_without_linked_pull_request_is_valid():
+    request = assessment.CandidateAssessmentRequest(
+        **push_body(
+            pull_request_number=None,
+            pull_request_url=None,
+            pull_request_head_revision=None,
+        )
+    )
+    assert assessment._linked_assessment(request, "f" * 64) == (None, None)
+
+
+def test_pull_request_candidates_are_never_linked():
+    request = assessment.CandidateAssessmentRequest(**request_body())
+    assert assessment._linked_assessment(request, "f" * 64) == (None, None)
+
+
+def test_push_records_linked_assessment(test_branch_source, observed, monkeypatch):
+    calls = []
+
+    def linked(request, fingerprint):
+        calls.append((request.pull_request_head_revision, fingerprint))
+        return 41, True
+
+    monkeypatch.setattr(assessment, "_linked_assessment", linked)
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**push_body())
+    )
+    assert response.outcome == "pending"
+    assert calls == [("a" * 40, response.snapshot_fingerprint)]
+    assert response.linked_assessment_id == 41
+    assert response.linked_fingerprint_match is True
+    assert observed[0]["candidate_kind"] == "push"
+    assert observed[0]["linked_assessment_id"] == 41

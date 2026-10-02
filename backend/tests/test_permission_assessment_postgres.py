@@ -156,3 +156,139 @@ def test_concurrent_identical_observations_persist_once(monkeypatch):
             with admin_engine.begin() as connection:
                 connection.execute(text(f'DROP SCHEMA "{schema_name}" CASCADE'))
         admin_engine.dispose()
+
+
+def test_push_links_latest_matching_pull_request_assessment(monkeypatch):
+    database_url = os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("PERMISSION_ASSESSMENT_TEST_DATABASE_URL is not configured")
+
+    schema_name = f"permission_assessment_test_{uuid4().hex}"
+    admin_engine = create_engine(database_url)
+    isolated_engine = None
+    schema_created = False
+    try:
+        with admin_engine.begin() as connection:
+            connection.execute(text(f'CREATE SCHEMA "{schema_name}"'))
+        schema_created = True
+        isolated_engine = create_engine(database_url)
+
+        def set_search_path(dbapi_connection, _connection_record):
+            cursor = dbapi_connection.cursor()
+            cursor.execute(f'SET search_path TO "{schema_name}"')
+            cursor.close()
+
+        event.listen(isolated_engine, "connect", set_search_path)
+        with isolated_engine.begin() as connection:
+            models.PermissionAssessmentObservation.__table__.create(connection)
+        Session = sessionmaker(bind=isolated_engine, expire_on_commit=False)
+
+        @contextmanager
+        def real_db(db_type="writer"):
+            session = Session()
+            try:
+                session.begin()
+                yield DBSession(session)
+                session.commit()
+            finally:
+                session.close()
+
+        monkeypatch.setattr(permission_assessment, "get_db", real_db)
+
+        def observation(identity, fingerprint, **changes):
+            return {
+                "assessment_identity": identity,
+                "outcome": "pending" if fingerprint else "error",
+                "app_id": "org.example.App",
+                "pipeline_id": identity,
+                "forge_instance": "github.com",
+                "source_repository": "flathub/org.example.App",
+                "pull_request_head_revision": "1" * 40,
+                "built_revision": "1" * 40,
+                "target_git_branch": "master",
+                "base_revision": "3" * 40,
+                "candidate_kind": "head",
+                "intended_repo": "test",
+                "intended_channel": "stable",
+                "flatpak_branch": "stable",
+                "build_id": 1,
+                "pull_request_number": 17,
+                "pull_request_url": "https://github.com/flathub/org.example.App/pull/17",
+                "expected_arches": ["x86_64"],
+                "canonicalization_version": CANONICALIZATION_VERSION,
+                "candidate_artifacts": [],
+                "published_artifacts": [],
+                "uploaded_refs": [],
+                "candidate_snapshot": {} if fingerprint else None,
+                "published_snapshot": None,
+                "differences": None,
+                "fingerprint": fingerprint,
+                "published_fingerprint": None,
+                "error_code": None if fingerprint else "build_not_ready",
+                "error_message": None if fingerprint else "not ready",
+                **changes,
+            }
+
+        persist = permission_assessment._persist_observation
+        older = persist(observation("older", "a" * 64))
+        latest = persist(observation("latest", "b" * 64))
+        persist(observation("errored", None))
+        persist(observation("beta", "c" * 64, intended_channel="beta"))
+        persist(
+            observation("other-head", "d" * 64, pull_request_head_revision="9" * 40)
+        )
+        persist(observation("old-version", "e" * 64, canonicalization_version=2))
+        assert older.assessment_id < latest.assessment_id
+
+        def request(**changes):
+            return permission_assessment.CandidateAssessmentRequest(
+                **{
+                    "pipeline_id": "push",
+                    "build_id": 2,
+                    "forge_instance": "github.com",
+                    "source_repository": "flathub/org.example.App",
+                    "pull_request_number": 17,
+                    "pull_request_url": "https://github.com/flathub/org.example.App/pull/17",
+                    "pull_request_head_revision": "1" * 40,
+                    "built_revision": "5" * 40,
+                    "target_git_branch": "master",
+                    "candidate_kind": "push",
+                    "app_id": "org.example.App",
+                    "destination_repo": "stable",
+                    "destination_channel": "stable",
+                    "flatpak_branch": "stable",
+                    "expected_arches": ["x86_64"],
+                    "matrix_succeeded": True,
+                    **changes,
+                }
+            )
+
+        link = permission_assessment._linked_assessment
+        assert link(request(), "b" * 64) == (latest.assessment_id, True)
+        assert link(request(), "a" * 64) == (latest.assessment_id, False)
+        assert link(request(), None) == (latest.assessment_id, None)
+        assert link(request(pull_request_head_revision="8" * 40), "b" * 64) == (
+            None,
+            None,
+        )
+        assert link(request(target_git_branch="beta"), "b" * 64) == (None, None)
+
+        pushed = persist(
+            observation(
+                "push",
+                "b" * 64,
+                candidate_kind="push",
+                intended_repo="stable",
+                linked_assessment_id=latest.assessment_id,
+                linked_fingerprint_match=True,
+            )
+        )
+        assert pushed.linked_assessment_id == latest.assessment_id
+        assert link(request(), "b" * 64) == (latest.assessment_id, True)
+    finally:
+        if isolated_engine is not None:
+            isolated_engine.dispose()
+        if schema_created:
+            with admin_engine.begin() as connection:
+                connection.execute(text(f'DROP SCHEMA "{schema_name}" CASCADE'))
+        admin_engine.dispose()

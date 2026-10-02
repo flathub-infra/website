@@ -41,11 +41,11 @@ class CandidateAssessmentRequest(BaseModel):
     source_repository: NonemptyString
     pull_request_number: Annotated[int, Field(gt=0)] | None = None
     pull_request_url: NonemptyString | None = None
-    pull_request_head_revision: Revision
+    pull_request_head_revision: Revision | None = None
     built_revision: Revision
     target_git_branch: NonemptyString
     base_revision: Revision | None = None
-    candidate_kind: Literal["head", "merge"]
+    candidate_kind: Literal["head", "merge", "push"]
     app_id: RefSegment
     destination_repo: RefSegment
     destination_channel: RefSegment
@@ -57,6 +57,13 @@ class CandidateAssessmentRequest(BaseModel):
     def check_pull_request(self) -> Self:
         if (self.pull_request_number is None) != (self.pull_request_url is None):
             raise ValueError("Pull request number and URL must be supplied together")
+        if self.candidate_kind == "push":
+            if (self.pull_request_number is None) != (
+                self.pull_request_head_revision is None
+            ):
+                raise ValueError("Linked pull request requires its head revision")
+        elif self.pull_request_head_revision is None:
+            raise ValueError("Pull request candidates require a head revision")
         return self
 
 
@@ -79,6 +86,8 @@ class CandidateAssessmentResponse(BaseModel):
     published_comparison_available: bool
     differences: list[dict[str, Any]] | None
     build_checks: list[dict[str, Any]]
+    linked_assessment_id: int | None = None
+    linked_fingerprint_match: bool | None = None
     error_code: str | None = None
     error_message: str | None = None
 
@@ -99,6 +108,8 @@ def _response(
         published_comparison_available=row.published_snapshot is not None,
         differences=row.differences,
         build_checks=row.build_checks,
+        linked_assessment_id=row.linked_assessment_id,
+        linked_fingerprint_match=row.linked_fingerprint_match,
         error_code=row.error_code,
         error_message=row.error_message,
     )
@@ -131,6 +142,37 @@ def _persist_observation(values: dict[str, Any]) -> CandidateAssessmentResponse:
         },
     )
     return response
+
+
+def _linked_assessment(
+    request: CandidateAssessmentRequest, fingerprint: str | None
+) -> tuple[int | None, bool | None]:
+    if request.candidate_kind != "push" or request.pull_request_number is None:
+        return None, None
+    observation = models.PermissionAssessmentObservation
+    with get_db("writer") as db:
+        row = db.session.execute(
+            select(observation)
+            .where(
+                observation.candidate_kind.in_(("head", "merge")),
+                observation.app_id == request.app_id,
+                observation.forge_instance == request.forge_instance,
+                observation.source_repository == request.source_repository,
+                observation.pull_request_number == request.pull_request_number,
+                observation.pull_request_head_revision
+                == request.pull_request_head_revision,
+                observation.target_git_branch == request.target_git_branch,
+                observation.intended_channel == request.destination_channel,
+                observation.flatpak_branch == request.flatpak_branch,
+                observation.canonicalization_version == CANONICALIZATION_VERSION,
+                observation.fingerprint.isnot(None),
+            )
+            .order_by(observation.id.desc())
+            .limit(1)
+        ).scalar_one_or_none()
+        if row is None:
+            return None, None
+        return row.id, None if fingerprint is None else row.fingerprint == fingerprint
 
 
 def get_assessment(assessment_id: int) -> CandidateAssessmentResponse:
@@ -430,5 +472,12 @@ def assess_candidate(
         build_checks=checks,
         error_code=error.code if error else None,
         error_message=error.message if error else None,
+    )
+    linked_assessment_id, linked_fingerprint_match = _linked_assessment(
+        request, fingerprint
+    )
+    values.update(
+        linked_assessment_id=linked_assessment_id,
+        linked_fingerprint_match=linked_fingerprint_match,
     )
     return _persist_observation(values)
