@@ -15,6 +15,7 @@ import {
   ModerationRequestType,
 } from "../model"
 import type {
+  CandidateAssessmentResponse,
   ModerationApp,
   ModerationAppsResponse,
   ReviewRequestResponse,
@@ -284,6 +285,127 @@ export const getSubmitReviewModerationRequestsIdReviewPostResponseMock = (
   ...overrideResponse,
 })
 
+export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
+  overrideResponse: Partial<Extract<CandidateAssessmentResponse, object>> = {},
+): CandidateAssessmentResponse => ({
+  assessment_id: faker.number.int(),
+  candidate_identity: {
+    pipeline_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    build_id: faker.number.int(),
+  },
+  snapshot_fingerprint: faker.helpers.arrayElement([
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
+  ]),
+  outcome: faker.helpers.arrayElement(["pending", "error"] as const),
+  acceptance_basis: faker.helpers.arrayElement([null, undefined]),
+  review_url: faker.helpers.arrayElement([null, undefined]),
+  mode: "observational",
+  canonicalization_version: faker.helpers.arrayElement([2, 3] as const),
+  assessment_identity: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  expected_arches: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+  published_comparison_available: faker.datatype.boolean(),
+  differences: faker.helpers.arrayElement([
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({})),
+    null,
+  ]),
+  build_checks: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({})),
+  linked_assessment_id: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([faker.number.int(), null]),
+    undefined,
+  ]),
+  linked_fingerprint_match: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+    undefined,
+  ]),
+  error_code: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    undefined,
+  ]),
+  error_message: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    undefined,
+  ]),
+  ...overrideResponse,
+})
+
+export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
+  (
+    overrideResponse: Partial<
+      Extract<CandidateAssessmentResponse, object>
+    > = {},
+  ): CandidateAssessmentResponse => ({
+    assessment_id: faker.number.int(),
+    candidate_identity: {
+      pipeline_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      build_id: faker.number.int(),
+    },
+    snapshot_fingerprint: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    outcome: faker.helpers.arrayElement(["pending", "error"] as const),
+    acceptance_basis: faker.helpers.arrayElement([null, undefined]),
+    review_url: faker.helpers.arrayElement([null, undefined]),
+    mode: "observational",
+    canonicalization_version: faker.helpers.arrayElement([2, 3] as const),
+    assessment_identity: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    expected_arches: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    published_comparison_available: faker.datatype.boolean(),
+    differences: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({})),
+      null,
+    ]),
+    build_checks: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({})),
+    linked_assessment_id: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.number.int(), null]),
+      undefined,
+    ]),
+    linked_fingerprint_match: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+      undefined,
+    ]),
+    error_code: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      undefined,
+    ]),
+    error_message: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      undefined,
+    ]),
+    ...overrideResponse,
+  })
+
 export const getGetModerationAppsModerationAppsGetMockHandler = (
   overrideResponse?:
     | ModerationAppsResponse
@@ -380,9 +502,62 @@ export const getSubmitReviewModerationRequestsIdReviewPostMockHandler = (
     options,
   )
 }
+
+export const getPostAssessmentModerationPermissionsAssessPostMockHandler = (
+  overrideResponse?:
+    | CandidateAssessmentResponse
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<CandidateAssessmentResponse> | CandidateAssessmentResponse),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/moderation/permissions/assess",
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getPostAssessmentModerationPermissionsAssessPostResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
+export const getReadAssessmentModerationPermissionsAssessmentIdGetMockHandler =
+  (
+    overrideResponse?:
+      | CandidateAssessmentResponse
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) =>
+          | Promise<CandidateAssessmentResponse>
+          | CandidateAssessmentResponse),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get(
+      "*/moderation/permissions/:assessmentId",
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
 export const getModerationMock = () => [
   getGetModerationAppsModerationAppsGetMockHandler(),
   getGetModerationAppModerationAppsAppIdGetMockHandler(),
   getSubmitReviewRequestModerationSubmitReviewRequestPostMockHandler(),
   getSubmitReviewModerationRequestsIdReviewPostMockHandler(),
+  getPostAssessmentModerationPermissionsAssessPostMockHandler(),
+  getReadAssessmentModerationPermissionsAssessmentIdGetMockHandler(),
 ]
