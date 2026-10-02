@@ -4,15 +4,18 @@ import logging
 import dramatiq
 from fastapi import Response
 
-from .. import cache, models
+from .. import cache, database, models
 from ..database import get_db
 
 logger = logging.getLogger(__name__)
 
 
 async def _refresh_cache_impl():
-    await cache.mark_stale_by_pattern("cache:endpoint:*")
-    await _prepopulate_cache()
+    try:
+        await cache.mark_stale_by_pattern("cache:endpoint:*")
+        await _prepopulate_cache()
+    finally:
+        await database.close_redis()
 
 
 @dramatiq.actor(time_limit=1000 * 60 * 60)
