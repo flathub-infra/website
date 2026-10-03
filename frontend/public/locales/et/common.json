@@ -871,5 +871,10 @@
   "could-not-find-match-with-filters": "Nendele filtritele ei leidunud sobivat vastet.",
   "clear-filters": "Tühjenda filtrid",
   "other-apps-to-explore": "Siin mõned muud suurepärased rakendused, millega saad tutvuda.",
-  "runtime": "Käitusteek"
+  "runtime": "Käitusteek",
+  "login-failed": "Sisselogimine ei õnnestunud",
+  "login-failed-try-again": "Sisselogimine ei õnnestunud. Palun proovi uuesti.",
+  "gitlab-terms-not-accepted": "Sinu „{provider}“ teenuse kasutajakonto eeldab, et noustud teenusepakkuja kasutustingimustega. Ava „{provider}“ sait veebibrauseris, nõustu tingimustega ja proovi uuesti.",
+  "open-login-provider": "Ava „{provider}“",
+  "back-to-login": "Tagasi sisselogimislehele"
 }

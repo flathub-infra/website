@@ -486,7 +486,7 @@
     "problems": "Chcete-li se nás zeptat na konkrétní záležitosti zásad kvality, neváhejte a otevřete <link>problém</link>.",
     "light": "Světlý",
     "dark": "Tmavý",
-    "failing-x-checks": "Selhání {count, plural, one {# check} other {# checks}}",
+    "failing-x-checks": "Selhání {count, plural, one {# kontroly} other {# kontrol}}",
     "general-runtime-not-eol": "Běhové prostředí není na konci životnosti",
     "stats-by-category": "Stav revize pokynů podle kategorie"
   },
