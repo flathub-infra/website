@@ -35,7 +35,7 @@ export function formatContentRatingAge(
   locale: string,
 ): string {
   const minimumAge = age === null ? 3 : Math.max(age, 3)
-  return `${new Intl.NumberFormat(locale).format(minimumAge)}+`
+  return `\u2066${new Intl.NumberFormat(locale).format(minimumAge)}+\u2069`
 }
 
 export function getContentRating(
