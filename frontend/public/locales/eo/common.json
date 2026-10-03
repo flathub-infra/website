@@ -871,5 +871,10 @@
   "moderation-manifest-complexity-events-truncated": "Montrante {shown} el {total} ŝanĝoj pri recepto.",
   "moderation-manifest-complexity-modules-truncated": "Montrante {shown} el {total} tuŝitaj moduloj.",
   "other-apps-to-explore": "Jen aliaj bonegaj esplorindaj programoj.",
-  "runtime": "Rultempa medio"
+  "runtime": "Rultempa medio",
+  "login-failed": "Saluto malsukcesis",
+  "login-failed-try-again": "Malsukcesis saluti. Bonvolu reprovi.",
+  "back-to-login": "Reen al saluto",
+  "gitlab-terms-not-accepted": "Via konto ĉe {provider} postulas, ke vi akceptu ĝiajn uzkondiĉojn. Vizitu {provider} per TTT-legilo, akceptu la uzkondiĉojn, kaj reprovu saluti.",
+  "open-login-provider": "Viziti {provider}"
 }

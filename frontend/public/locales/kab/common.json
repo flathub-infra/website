@@ -325,7 +325,10 @@
   "transaction-summary-updated": "Aleqqem aneggaru:",
   "year-in-review": {
     "select-year": "Fren aseggas",
-    "new-apps": "Isnasen imaynuten"
+    "new-apps": "Isnasen imaynuten",
+    "top-countries": "Timura yufraren",
+    "top-apps": "Isnasen yufraren",
+    "top-games": "Uraren yufraren"
   },
   "content-rating": {
     "category-social": "Imetti"
@@ -334,5 +337,15 @@
   "moderation-manifest-added": "Yettwarna",
   "moderation-manifest-removed": "Yettwakkes",
   "developed-by": "yesnefla-t {developer}",
-  "os-flatpak-version-distribution": "Lqem n Flatpak s unagraw n wammud (30 n wussan ineggura)"
+  "os-flatpak-version-distribution": "Lqem n Flatpak s unagraw n wammud (30 n wussan ineggura)",
+  "curated-app-selection-themes": {
+    "fresh-desktop-releases": {
+      "header": "Snulfu-d isnasen inṣaliyen",
+      "description": "Sneflit isnasen ara d-yekcmen akken iwata deg unagraw-nwen"
+    }
+  },
+  "graphics-and-photography": "Udlifen d tewlafin",
+  "more-graphics": "Ugar n yesnasen n wedlifen d tewlafin",
+  "open-login-provider": "Ldi {provider}",
+  "downloads-over-time": "Amek ttnernin yizdamen"
 }
