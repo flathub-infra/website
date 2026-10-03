@@ -2,8 +2,9 @@ from ..audit_log import log_audit_event
 from ..moderation.jev_observation import observe_manifest_semantics
 from ..search_tasks import monitor_hybrid_index_task, reconcile_hybrid_index
 from .core import broker
-from .emails import send_email_new, send_one_email_new
+from .emails import send_email_login_link, send_email_new, send_one_email_new
 from .prune_audit_logs import prune_audit_logs
+from .prune_email_login_challenges import prune_email_login_challenges
 from .prune_oidc_tokens import prune_oidc_tokens
 from .refresh_cache import refresh_cache
 from .refresh_github_repo_list import refresh_github_repo_list
@@ -19,12 +20,14 @@ __all__ = [
     "monitor_hybrid_index_task",
     "observe_manifest_semantics",
     "prune_audit_logs",
+    "prune_email_login_challenges",
     "prune_oidc_tokens",
     "reconcile_hybrid_index",
     "refresh_cache",
     "refresh_github_repo_list",
     "republish_app",
     "review_check",
+    "send_email_login_link",
     "send_email_new",
     "send_one_email_new",
     "update",

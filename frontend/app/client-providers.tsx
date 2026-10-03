@@ -1,7 +1,7 @@
 "use client"
 
 import "src/utils/axios-config"
-import { ReactNode } from "react"
+import { ReactNode, useMemo } from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ThemeProvider } from "next-themes"
 import {
@@ -15,18 +15,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { getLangDir } from "rtl-detect"
 import { setDefaultOptions } from "date-fns"
 import { getDateFnsLocale } from "src/localize"
+import { usePathname } from "next/navigation"
+import { isEmailConfirmRoute } from "src/utils/security"
 
 const queryClient = new QueryClient()
-
-const instance = createInstance({
-  urlBase: process.env.NEXT_PUBLIC_SITE_BASE_URI || "",
-  siteId: Number(process.env.NEXT_PUBLIC_MATOMO_WEBSITE_ID) || 38,
-  trackerUrl: "https://webstats.gnome.org/matomo.php",
-  srcUrl: "https://webstats.gnome.org/matomo.js",
-  configurations: {
-    disableCookies: true,
-  },
-})
 
 interface ClientProvidersProps {
   children: ReactNode
@@ -37,24 +29,44 @@ export default function ClientProviders({
   children,
   locale,
 }: ClientProvidersProps) {
+  const track = !isEmailConfirmRoute(usePathname())
+  const instance = useMemo(
+    () =>
+      track
+        ? createInstance({
+            urlBase: process.env.NEXT_PUBLIC_SITE_BASE_URI || "",
+            siteId: Number(process.env.NEXT_PUBLIC_MATOMO_WEBSITE_ID) || 38,
+            trackerUrl: "https://webstats.gnome.org/matomo.php",
+            srcUrl: "https://webstats.gnome.org/matomo.js",
+            configurations: {
+              disableCookies: true,
+            },
+          })
+        : null,
+    [track],
+  )
   const direction = getLangDir(locale)
 
   setDefaultOptions({ locale: getDateFnsLocale(locale) })
 
-  return (
-    <MatomoProvider value={instance}>
-      <ThemeProvider attribute="class">
-        <MotionConfig reducedMotion="user">
-          <QueryClientProvider client={queryClient}>
-            <UserInfoProvider>{children}</UserInfoProvider>
-            <Toaster
-              position={direction === "rtl" ? "bottom-left" : "bottom-right"}
-              dir={direction}
-            />
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </MotionConfig>
-      </ThemeProvider>
-    </MatomoProvider>
+  const tree = (
+    <ThemeProvider attribute="class">
+      <MotionConfig reducedMotion="user">
+        <QueryClientProvider client={queryClient}>
+          <UserInfoProvider>{children}</UserInfoProvider>
+          <Toaster
+            position={direction === "rtl" ? "bottom-left" : "bottom-right"}
+            dir={direction}
+          />
+          {track && <ReactQueryDevtools initialIsOpen={false} />}
+        </QueryClientProvider>
+      </MotionConfig>
+    </ThemeProvider>
   )
+
+  if (instance === null) {
+    return tree
+  }
+
+  return <MatomoProvider value={instance}>{tree}</MatomoProvider>
 }

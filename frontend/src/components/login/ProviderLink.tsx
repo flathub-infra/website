@@ -92,7 +92,7 @@ const ProviderLink: FunctionComponent<Props> = ({
   return (
     <button
       className={clsx(
-        "flex w-full flex-row items-center justify-center gap-3 font-bold",
+        "flex w-full flex-row items-center justify-start gap-3 font-bold",
         "p-5 hover:cursor-pointer hover:opacity-60",
         inACard
           ? "bg-flathub-gainsborow/40 dark:bg-flathub-gainsborow/10 rounded-lg"

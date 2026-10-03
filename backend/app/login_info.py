@@ -40,6 +40,20 @@ class LoggedInInformation(LoginInformation):
     user: models.FlathubUser
 
 
+def _email_session_revoked(request: Request, db, user: models.FlathubUser) -> bool:
+    from .email_login import email_login_allowed, has_oauth_account
+
+    auth_method = request.session.get("auth-method")
+    if auth_method is None:
+        # Sessions created before auth-method was recorded; tag them once so
+        # OAuth sessions stop paying for the email account lookup.
+        if models.EmailAccount.by_user(db, user) is None or has_oauth_account(db, user):
+            request.session["auth-method"] = "oauth"
+            return False
+        request.session["auth-method"] = auth_method = "email"
+    return auth_method == "email" and not email_login_allowed(db, user)
+
+
 def login_state(request: Request) -> LoginInformation:
     """
     A dependency which can be used to inject login status into endpoints.
@@ -65,9 +79,12 @@ def login_state(request: Request) -> LoginInformation:
     if user_id is not None:
         with get_db("replica") as db:
             user = db.session.get(models.FlathubUser, user_id)
-    if user is not None and user.login_disabled:
-        user = None
-        del request.session["user-id"]
+            if user is not None and user.login_disabled:
+                user = None
+                del request.session["user-id"]
+            elif user is not None and _email_session_revoked(request, db, user):
+                user = None
+                request.session.clear()
     if user is not None:
         state = LoginState.LOGGED_IN
     active_flow = request.session.get("active-login-flow", None)

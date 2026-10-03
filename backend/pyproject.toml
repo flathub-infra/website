@@ -37,6 +37,7 @@ dependencies = [
     "authlib>=1.7.2,<2.0",
     "joserfc>=1.7.4",
     "dnspython>=2.8.0",
+    "email-validator>=2.3.0",
 ]
 
 [dependency-groups]

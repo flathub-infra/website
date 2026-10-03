@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { EmailAccountResult } from "./emailAccountResult"
 import type { GithubAccountResult } from "./githubAccountResult"
 import type { GitlabAccountResult } from "./gitlabAccountResult"
 import type { GnomeAccountResult } from "./gnomeAccountResult"
@@ -16,3 +17,4 @@ export type UserResultConnectedAccountsItem =
   | GnomeAccountResult
   | GoogleAccountResult
   | KdeAccountResult
+  | EmailAccountResult

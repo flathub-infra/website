@@ -62,3 +62,59 @@ def test_login_state_clears_banned_user_session():
     assert info.state == LoginState.LOGGED_OUT
     assert info.user is None
     assert "user-id" not in request.session
+
+
+def _session_request(session):
+    return Request(
+        {
+            "type": "http",
+            "http_version": "1.1",
+            "method": "GET",
+            "scheme": "http",
+            "path": "/",
+            "raw_path": b"/",
+            "query_string": b"",
+            "headers": [],
+            "client": ("127.0.0.1", 12345),
+            "server": ("testserver", 80),
+            "session": session,
+        }
+    )
+
+
+def _replica_with_user(user):
+    db = MagicMock()
+    db.session.get.return_value = user
+    db_context = MagicMock()
+    db_context.__enter__.return_value = db
+    return db_context
+
+
+def test_login_state_skips_email_checks_for_oauth_session():
+    request = _session_request({"user-id": 42, "auth-method": "github"})
+    user = FlathubUser(id=42, deleted=False, banned=False)
+
+    with (
+        patch("app.login_info.get_db", return_value=_replica_with_user(user)),
+        patch("app.models.EmailAccount.by_user") as by_user,
+        patch("app.email_login.email_login_allowed") as allowed,
+    ):
+        info = login_state(request)
+
+    assert info.state == LoginState.LOGGED_IN
+    by_user.assert_not_called()
+    allowed.assert_not_called()
+
+
+def test_login_state_tags_legacy_oauth_session():
+    request = _session_request({"user-id": 42})
+    user = FlathubUser(id=42, deleted=False, banned=False)
+
+    with (
+        patch("app.login_info.get_db", return_value=_replica_with_user(user)),
+        patch("app.models.EmailAccount.by_user", return_value=None),
+    ):
+        info = login_state(request)
+
+    assert info.state == LoginState.LOGGED_IN
+    assert request.session["auth-method"] == "oauth"

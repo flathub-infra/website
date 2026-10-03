@@ -52,6 +52,11 @@ class FakeSession:
     def delete(self, obj):
         self._deleted.append(obj)
 
+    def query(self, *args, **kwargs):
+        return SimpleNamespace(
+            filter_by=lambda **kw: SimpleNamespace(first=lambda: None)
+        )
+
     def execute(self, stmt):
         pass
 
@@ -508,6 +513,11 @@ def _setup_switch_db(
     class _FakeSession:
         def add(self, obj):
             added.append(obj)
+
+        def query(self, *args, **kwargs):
+            return SimpleNamespace(
+                filter_by=lambda **kw: SimpleNamespace(first=lambda: None)
+            )
 
         def flush(self):
             pass

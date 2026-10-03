@@ -35,6 +35,7 @@ class Settings(BaseSettings):
     beta_repo_url: str = "https://dl.flathub.org/beta-repo"
 
     frontend_url: str = "http://localhost:3000"
+    email_login_enabled: bool = False
 
     oidc_enabled: bool = False
     oidc_issuer: str = "https://flathub.org"
