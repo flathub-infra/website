@@ -297,15 +297,15 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({
           <table className="w-full">
             <thead>
               <tr className="border-b border-flathub-gainsborow bg-flathub-gainsborow/30 text-start dark:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal/30">
-                <th className="w-1/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                <th className="w-1/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
                   {t("moderation-key")}
                 </th>
                 {!request.is_new_submission && (
-                  <th className="w-2/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                  <th className="w-2/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
                     {t("moderation-old-value")}
                   </th>
                 )}
-                <th className="w-2/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                <th className="w-2/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
                   {request.is_new_submission
                     ? t("moderation-value")
                     : t("moderation-new-value")}
