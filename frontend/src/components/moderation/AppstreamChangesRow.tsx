@@ -296,7 +296,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({
         <div className="overflow-x-auto rounded-lg border border-flathub-gainsborow dark:border-flathub-dark-gunmetal">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-flathub-gainsborow bg-flathub-gainsborow/30 text-left dark:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal/30 rtl:text-right">
+              <tr className="border-b border-flathub-gainsborow bg-flathub-gainsborow/30 text-start dark:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal/30">
                 <th className="w-1/5 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
                   {t("moderation-key")}
                 </th>

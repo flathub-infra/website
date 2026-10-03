@@ -154,7 +154,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
                 </TableHead>
                 <TableHead>{t("type")}</TableHead>
                 <TableHead>{t("recipient")}</TableHead>
-                <TableHead className="text-right">{t("amount")}</TableHead>
+                <TableHead className="text-end">{t("amount")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -163,7 +163,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
                   <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell>{t(`kind-${entry.kind}`)}</TableCell>
                   <TableCell>{entry.recipient}</TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-end">
                     {formatCurrency(entry.amount / 100, locale, entry.currency)}
                   </TableCell>
                 </TableRow>
@@ -172,7 +172,7 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
             <TableFooter>
               <TableRow>
                 <TableCell colSpan={3}>{t("total")}</TableCell>
-                <TableCell className="text-right">
+                <TableCell className="text-end">
                   {formatCurrency(value / 100, locale)}
                 </TableCell>
               </TableRow>

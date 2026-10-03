@@ -110,16 +110,16 @@ export function BuildGroup({
           <table className="w-full text-sm">
             <thead className="border-b">
               <tr>
-                <th className="px-4 py-3 text-left font-semibold">Status</th>
-                <th className="px-4 py-3 text-left font-semibold">Commit</th>
-                <th className="px-4 py-3 text-left font-semibold">Started</th>
-                <th className="px-4 py-3 text-left font-semibold">Duration</th>
+                <th className="px-4 py-3 text-start font-semibold">Status</th>
+                <th className="px-4 py-3 text-start font-semibold">Commit</th>
+                <th className="px-4 py-3 text-start font-semibold">Started</th>
+                <th className="px-4 py-3 text-start font-semibold">Duration</th>
                 {repo === "stable" && (
-                  <th className="px-4 py-3 text-left font-semibold">
+                  <th className="px-4 py-3 text-start font-semibold">
                     Reproducibility
                   </th>
                 )}
-                <th className="px-4 py-3 text-right font-semibold">Details</th>
+                <th className="px-4 py-3 text-end font-semibold">Details</th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -244,7 +244,7 @@ export function BuildGroup({
                       })()}
                     </td>
                   )}
-                  <td className="px-4 py-3 text-right">
+                  <td className="px-4 py-3 text-end">
                     <Button variant="ghost" size="sm" asChild>
                       <Link href={`/builds/${build.id}`}>
                         <ExternalLink className="h-4 w-4" />

@@ -68,7 +68,7 @@ export const TransactionHistoryTable = ({
                 <TableHead>{t("type")}</TableHead>
                 <TableHead>{t("created")}</TableHead>
                 <TableHead>{t("status")}</TableHead>
-                <TableHead className="text-right">{t("amount")}</TableHead>
+                <TableHead className="text-end">{t("amount")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -85,7 +85,7 @@ export const TransactionHistoryTable = ({
                       {format(new UTCDate(entry.created * 1000), "Pp")}
                     </TableCell>
                     <TableCell>{t(`status-${entry.status}`)}</TableCell>
-                    <TableCell className="text-right flex justify-end gap-1 items-center">
+                    <TableCell className="text-end flex justify-end gap-1 items-center">
                       {needsAttention && (
                         <ExclamationTriangleIcon className="text-red-500 size-4" />
                       )}

@@ -17,11 +17,11 @@ export const StackedListBox = ({
             {x.icon}
           </div>
           <div className="flex flex-col gap-0.5 min-w-0">
-            <div className="text-sm font-semibold leading-snug text-flathub-dark-gunmetal dark:text-flathub-gainsborow text-left">
+            <div className="text-sm font-semibold leading-snug text-flathub-dark-gunmetal dark:text-flathub-gainsborow text-start">
               {x.header}
             </div>
             {x.description && (
-              <div className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray leading-snug text-left whitespace-pre-line break-words">
+              <div className="text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray leading-snug text-start whitespace-pre-line break-words">
                 {x.description}
               </div>
             )}
