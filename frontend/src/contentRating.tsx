@@ -30,6 +30,14 @@ export interface ContentRatingDisplay {
   categories: ContentRatingCategory[]
 }
 
+export function formatContentRatingAge(
+  age: number | null,
+  locale: string,
+): string {
+  const minimumAge = age === null ? 3 : Math.max(age, 3)
+  return `${new Intl.NumberFormat(locale).format(minimumAge)}+`
+}
+
 export function getContentRating(
   data: GetAppstreamAppstreamAppIdGet200,
   locale?: string,
