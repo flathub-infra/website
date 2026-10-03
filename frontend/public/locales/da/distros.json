@@ -29,7 +29,8 @@
       "text": "<text>Flatpak er installeret som standard på Manjaro 20 eller nyere.</text><text>For at aktivere understøttelsen skal du gå til<strong>Software Manager</strong> (Tilføj/fjern programmer)</text><text>Klik på menuen med de tre streger [eller prikker afhængigt af skrivebordsmiljøet] til højre, og vælg \"Indstillinger\" i rullemenuen</text><text>Gå til fanen \"Flatpak\", og skub kontakten for at aktivere Flatpak-understøttelse (det er også muligt at aktivere kontrol for opdateringer, hvilket anbefales).</text>"
     },
     "step-2": {
-      "name": "Genstart"
+      "name": "Genstart",
+      "text": "Danois"
     }
   }
 }

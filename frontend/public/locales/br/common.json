@@ -276,5 +276,6 @@
   "manage": "Merañ",
   "dns-verification": "Gwiriadur DNS",
   "dns-record-value": "Talvoud",
-  "moderation-manifest-added": "Ouzhpennet"
+  "moderation-manifest-added": "Ouzhpennet",
+  "open-login-provider": "Digeriñ {provider}"
 }

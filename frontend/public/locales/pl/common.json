@@ -871,5 +871,10 @@
   "could-not-find-match-with-filters": "Nie udało nam się znaleźć wyników pasujących do tych filtrów.",
   "other-apps-to-explore": "Oto kilka innych świetnych aplikacji, które warto wypróbować.",
   "clear-filters": "Wyczyść filtry",
-  "runtime": "Środowisko uruchomieniowe"
+  "runtime": "Środowisko uruchomieniowe",
+  "login-failed": "Logowanie nieudane",
+  "login-failed-try-again": "Logowanie nie udało się. Spróbuj ponownie.",
+  "back-to-login": "Wróć do logowania",
+  "open-login-provider": "Otwórz {provider}",
+  "gitlab-terms-not-accepted": "Twoje konto {provider} wymaga zaakceptowania przez Ciebie regulaminu serwisu. Otwórz {provider} w przeglądarce, zaakceptuj regulamin i spróbuj ponownie."
 }

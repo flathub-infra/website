@@ -730,7 +730,7 @@
     "details": "Podrobnosti",
     "high-quality-app-data": "Vysoko kvalitné dáta aplikácie",
     "app-data-review-pending": "Čaká sa na preskúmanie dát aplikácie",
-    "failing-x-checks": "Zlyhalo {count, plural, one {# kontrola} few {# kontroly} other {# kontrol}}",
+    "failing-x-checks": "{count, plural, one {# kontrola zlyhala} few {# kontroly zlyhali} other {# kontrol zlyhalo}}",
     "hide-branding-preview": "Skryť náhľad značky",
     "show-branding-preview": "Zobraziť náhľad značky",
     "light": "Svetlý",
@@ -871,5 +871,10 @@
   "could-not-find-match-with-filters": "S týmito filtrami sme nenašli žiadnu vhodnú zhodu.",
   "other-apps-to-explore": "Tu sú ďalšie skvelé aplikácie, ktoré môžete preskúmať.",
   "clear-filters": "Vymazať filtre",
-  "runtime": "Runtime"
+  "runtime": "Runtime",
+  "login-failed": "Prihlásenie zlyhalo",
+  "login-failed-try-again": "Nepodarilo sa prihlásiť. Skúste to znova.",
+  "gitlab-terms-not-accepted": "Váš účet {provider} vyžaduje, aby ste prijali jeho podmienky používania služby. Otvorte {provider} v prehliadači, prijmite podmienky a potom sa skúste znova prihlásiť.",
+  "open-login-provider": "Otvoriť {provider}",
+  "back-to-login": "Späť na prihlásenie"
 }
