@@ -19,7 +19,11 @@ import SafetyModal from "./SafetyModal"
 import PlatformModal from "./PlatformModal"
 import StatsModal from "./StatsModal"
 import ContentRatingModal from "./ContentRatingModal"
-import { getContentRating, ageToColor } from "src/contentRating"
+import {
+  getContentRating,
+  ageToColor,
+  formatContentRatingAge,
+} from "src/contentRating"
 
 interface SubHeaderProps {
   app: GetAppstreamAppstreamAppIdGet200
@@ -183,10 +187,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
 
   // Age Rating
   if (contentRating) {
-    const ageLabel =
-      contentRating.minimumAge === null
-        ? "3+"
-        : `${Math.max(contentRating.minimumAge, 3)}+`
+    const ageLabel = formatContentRatingAge(contentRating.minimumAge, locale)
 
     items.push(
       <SubHeaderItem

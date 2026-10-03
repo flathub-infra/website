@@ -1,9 +1,10 @@
 import clsx from "clsx"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import {
   categoryToIcon,
   contentRatingToColor,
   ageToColor,
+  formatContentRatingAge,
 } from "src/contentRating"
 import type { OarsCategory, ContentRatingDisplay } from "src/contentRating"
 import { ContentRatingLevel } from "src/types/Appstream"
@@ -52,11 +53,8 @@ const ContentRatingModal = ({
   appName: string
 }) => {
   const t = useTranslations()
-
-  const ageLabel =
-    contentRating.minimumAge === null
-      ? "3+"
-      : `${Math.max(contentRating.minimumAge, 3)}+`
+  const locale = useLocale()
+  const ageLabel = formatContentRatingAge(contentRating.minimumAge, locale)
 
   const ageBadgeColor = ageToColor(contentRating.minimumAge)
 
@@ -76,17 +74,19 @@ const ContentRatingModal = ({
               id: i,
               header: t(`content-rating.category-${id}`),
               description:
-                description ??
-                (level === ContentRatingLevel.unknown
-                  ? t("content-rating.unknown")
-                  : undefined),
+                level === ContentRatingLevel.none
+                  ? t(`content-rating.none-${id}`)
+                  : (description ??
+                    (level === ContentRatingLevel.unknown
+                      ? t("content-rating.unknown")
+                      : undefined)),
               icon: <ContentRatingCategoryIcon category={id} level={level} />,
             }),
           )}
         />
       ) : (
         <p className="text-sm text-center text-flathub-sonic-silver dark:text-flathub-spanish-gray py-2">
-          {"3+"}
+          {ageLabel}
         </p>
       )}
     </Modal>
