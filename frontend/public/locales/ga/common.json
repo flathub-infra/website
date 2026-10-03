@@ -871,5 +871,10 @@
   "could-not-find-match-with-filters": "Níorbh fhéidir linn teacht ar mheaitseáil mhaith leis na scagairí seo.",
   "other-apps-to-explore": "Seo roinnt aipeanna iontacha eile le fiosrú.",
   "clear-filters": "Glan na scagairí",
-  "runtime": "Am rite"
+  "runtime": "Am rite",
+  "login-failed": "Theip ar an logáil isteach",
+  "login-failed-try-again": "Níorbh fhéidir logáil isteach. Déan iarracht arís, le do thoil.",
+  "gitlab-terms-not-accepted": "Teastaíonn uait glacadh le Téarmaí Seirbhíse do chuntas {provider}. Oscail {provider} i mbrabhsálaí, glac leis na téarmaí, agus déan iarracht logáil isteach arís ansin.",
+  "open-login-provider": "Oscail {provider}",
+  "back-to-login": "Ar ais chuig an logáil isteach"
 }

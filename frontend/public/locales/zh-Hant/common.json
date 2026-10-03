@@ -871,5 +871,10 @@
   "could-not-find-match-with-filters": "我們無法根據這些篩選條件找到合適的結果。",
   "other-apps-to-explore": "以下還有一些值得一試的超棒應用程式。",
   "clear-filters": "清除篩選條件",
-  "runtime": "執行環境"
+  "runtime": "執行環境",
+  "login-failed": "登入失敗",
+  "login-failed-try-again": "無法登入。請重試。",
+  "gitlab-terms-not-accepted": "您的 {provider} 帳號要求您接受其《服務條款》。請在瀏覽器中開啟 {provider}，接受條款後，再嘗試登入。",
+  "open-login-provider": "開啟 {provider}",
+  "back-to-login": "返回登入頁面"
 }
