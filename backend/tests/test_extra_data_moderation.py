@@ -1,4 +1,5 @@
 import importlib
+import json
 import os
 import sys
 from types import SimpleNamespace
@@ -11,6 +12,7 @@ sys.path.append(ROOT_DIR)
 sys.modules["app.search"] = SimpleNamespace()
 
 moderation = importlib.import_module("app.moderation.review")
+ModerationOriginKind = importlib.import_module("app.types").ModerationOriginKind
 
 
 @pytest.mark.parametrize(
@@ -259,3 +261,150 @@ def test_extra_data_url_origins_preserve_supported_parser_behavior(url, expected
 
 def test_non_string_extra_data_url_has_no_origin():
     assert moderation._extra_data_origins({"uri": 42}) is None
+
+
+@pytest.mark.parametrize(
+    ("current_extra_data", "build_extra_data", "allowlisted", "expected"),
+    [
+        (
+            {"uri": "https://a.example/app.bin"},
+            {"uri": "https://a.example/app.bin", "uri2": "https://b.example/x"},
+            {"https://b.example"},
+            None,
+        ),
+        (
+            {"uri": "https://a.example/app.bin"},
+            {
+                "uri": "https://a.example/app.bin",
+                "uri2": "https://b.example/x",
+                "uri3": "https://c.example/x",
+            },
+            {"https://b.example"},
+            (
+                ["https://a.example"],
+                ["https://a.example", "https://b.example", "https://c.example"],
+            ),
+        ),
+        (
+            {"uri": "https://a.example/app.bin"},
+            {"uri": "https://b.example/app.bin"},
+            {"https://b.example"},
+            (["https://a.example"], ["https://b.example"]),
+        ),
+        (
+            None,
+            {"uri": "https://b.example/app.bin"},
+            {"https://b.example"},
+            (False, True),
+        ),
+        (
+            {"uri": "not a URL"},
+            {"uri": "https://b.example/app.bin"},
+            {"https://b.example"},
+            (
+                ["<invalid or missing current extra-data URL>"],
+                ["https://b.example"],
+            ),
+        ),
+    ],
+)
+def test_allowlisted_extra_data_origins(
+    current_extra_data, build_extra_data, allowlisted, expected
+):
+    assert (
+        moderation._extra_data_moderation_values(
+            current_extra_data, build_extra_data, allowlisted
+        )
+        == expected
+    )
+
+
+@pytest.mark.parametrize(
+    ("request_type", "request_data", "expected"),
+    [
+        (
+            "manifest",
+            json.dumps(
+                {
+                    "findings": [
+                        {
+                            "origins_added": ["https://a.example"],
+                            "origins_removed": ["https://old.example"],
+                            "locations_by_origin": {},
+                            "arches": ["x86_64"],
+                        },
+                        {
+                            "origins_added": ["https://github.com/owner/repo"],
+                            "origins_removed": [],
+                            "locations_by_origin": {},
+                            "arches": ["aarch64"],
+                        },
+                    ]
+                }
+            ),
+            {
+                (ModerationOriginKind.MANIFEST_SOURCE, "https://a.example"),
+                (
+                    ModerationOriginKind.MANIFEST_SOURCE,
+                    "https://github.com/owner/repo",
+                ),
+            },
+        ),
+        (
+            "manifest",
+            json.dumps({"findings": [], "complexity": {"score_units": 20}}),
+            set(),
+        ),
+        (
+            "summary",
+            json.dumps(
+                {
+                    "keys": {"extra-data": ["https://a.example", "https://b.example"]},
+                    "current_values": {"extra-data": ["https://a.example"]},
+                }
+            ),
+            {(ModerationOriginKind.EXTRA_DATA, "https://b.example")},
+        ),
+        (
+            "summary",
+            json.dumps(
+                {
+                    "keys": {"extra-data": ["https://b.example"]},
+                    "current_values": {
+                        "extra-data": ["<invalid or missing current extra-data URL>"]
+                    },
+                }
+            ),
+            {(ModerationOriginKind.EXTRA_DATA, "https://b.example")},
+        ),
+        (
+            "summary",
+            json.dumps(
+                {
+                    "keys": {"extra-data": ["<invalid or missing new extra-data URL>"]},
+                    "current_values": {"extra-data": ["https://a.example"]},
+                }
+            ),
+            set(),
+        ),
+        (
+            "summary",
+            json.dumps(
+                {
+                    "keys": {"extra-data": True},
+                    "current_values": {"extra-data": False},
+                }
+            ),
+            set(),
+        ),
+        (
+            "appdata",
+            json.dumps({"keys": {"name": "App"}, "current_values": {}}),
+            set(),
+        ),
+        ("manifest", "not json", set()),
+        ("summary", None, set()),
+    ],
+)
+def test_approved_request_origins(request_type, request_data, expected):
+    assert moderation._approved_request_origins(request_type, request_data) == expected

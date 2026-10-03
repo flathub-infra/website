@@ -11,6 +11,7 @@ import pytest
 from fastapi import HTTPException
 from pydantic import ValidationError
 from sqlalchemy import inspect
+from sqlalchemy.dialects import postgresql
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
@@ -20,7 +21,7 @@ sys.modules["app.search"] = SimpleNamespace()
 from app import config, models
 from app.moderation import jev_observation, jev_state
 from app.moderation import review as moderation
-from app.types import ModerationRequestType
+from app.types import ModerationOriginKind, ModerationRequestType
 
 
 class FakeResponse:
@@ -2578,6 +2579,200 @@ def test_manifest_gate_request_retains_removed_origin_context(monkeypatch):
     assert finding["origins_removed"] == ["https://old.example"]
 
 
+def _install_origin_allowlist(monkeypatch, entries):
+    calls = []
+
+    def allowlisted_origins(kind, candidates):
+        calls.append((kind, set(candidates)))
+        return frozenset(
+            origin for entry_kind, origin in entries if entry_kind == kind
+        ) & frozenset(candidates)
+
+    monkeypatch.setattr(moderation, "_allowlisted_origins", allowlisted_origins)
+    return calls
+
+
+@pytest.mark.parametrize(
+    ("candidate_urls", "entries", "expected_added"),
+    [
+        (
+            ("https://old.example/source", "https://new.example/source"),
+            {(ModerationOriginKind.MANIFEST_SOURCE, "https://new.example")},
+            None,
+        ),
+        (
+            (
+                "https://old.example/source",
+                "https://new.example/source",
+                "https://other.example/source",
+            ),
+            {(ModerationOriginKind.MANIFEST_SOURCE, "https://new.example")},
+            ["https://other.example"],
+        ),
+        (
+            ("https://old.example/source", "https://new.example/source"),
+            {(ModerationOriginKind.EXTRA_DATA, "https://new.example")},
+            ["https://new.example"],
+        ),
+        (
+            ("https://new.example/source",),
+            {(ModerationOriginKind.MANIFEST_SOURCE, "https://new.example")},
+            None,
+        ),
+    ],
+)
+def test_manifest_source_gate_ignores_allowlisted_origins(
+    monkeypatch, candidate_urls, entries, expected_added
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    _install_origin_allowlist(monkeypatch, entries)
+    pair = _source_transition_manifest_pair(
+        ("https://old.example/source",), candidate_urls
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    result = harness.call()
+
+    manifest_requests = [
+        request
+        for request in harness.db.session.persisted
+        if request.request_type == ModerationRequestType.MANIFEST
+    ]
+    assert result.requires_review is (expected_added is not None)
+    if expected_added is None:
+        assert manifest_requests == []
+        assert (
+            harness.observations[(42, "org.example.App")]["source_would_gate"] is False
+        )
+    else:
+        finding = json.loads(manifest_requests[0].request_data)["findings"][0]
+        assert finding["origins_added"] == expected_added
+        assert set(finding["locations_by_origin"]) == set(expected_added)
+
+
+@pytest.mark.parametrize(
+    ("retry_allowlist", "approved", "requires_review"),
+    [
+        ({"https://new.example"}, False, True),
+        ({"https://new.example", "https://other.example"}, False, True),
+        ({"https://new.example", "https://other.example"}, True, False),
+    ],
+)
+def test_manifest_retry_preserves_request_after_allowlist_change(
+    monkeypatch, retry_allowlist, approved, requires_review
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_gating_enabled=True,
+    )
+    entries = set()
+    _install_origin_allowlist(monkeypatch, entries)
+    pair = _source_transition_manifest_pair(
+        ("https://old.example/source",),
+        (
+            "https://old.example/source",
+            "https://new.example/source",
+            "https://other.example/source",
+        ),
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (pair,),
+    )
+
+    assert harness.call().requires_review is True
+    [request] = [
+        request
+        for request in harness.db.session.persisted
+        if request.request_type == ModerationRequestType.MANIFEST
+    ]
+    request_data = request.request_data
+    if approved:
+        request.handled_at = datetime.now(UTC)
+        request.is_approved = True
+    entries.update(
+        (ModerationOriginKind.MANIFEST_SOURCE, origin) for origin in retry_allowlist
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is requires_review
+    assert [
+        request
+        for request in harness.db.session.persisted
+        if request.request_type == ModerationRequestType.MANIFEST
+    ] == [request]
+    assert request.request_data == request_data
+
+
+@pytest.mark.parametrize(
+    ("entries", "requires_review"),
+    [
+        ({(ModerationOriginKind.EXTRA_DATA, "https://cdn.example")}, False),
+        ({(ModerationOriginKind.MANIFEST_SOURCE, "https://cdn.example")}, True),
+    ],
+)
+def test_extra_data_change_ignores_allowlisted_origins(
+    monkeypatch, entries, requires_review
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        current_summaries={
+            "org.example.App": {
+                "metadata": {
+                    "extra-data": {
+                        "uri": "https://downloads.example/old.bin",
+                    }
+                }
+            }
+        },
+        build_summary={
+            "org.example.App": {
+                "metadata": {
+                    "extra-data": {
+                        "uri": "https://downloads.example/old.bin",
+                        "uri2": "https://cdn.example/new.bin",
+                    },
+                }
+            }
+        },
+    )
+    calls = _install_origin_allowlist(monkeypatch, entries)
+
+    result = harness.call()
+
+    assert result.requires_review is requires_review
+    assert calls == [
+        (
+            ModerationOriginKind.EXTRA_DATA,
+            {"https://cdn.example", "https://downloads.example"},
+        )
+    ]
+    if requires_review:
+        request = harness.db.session.persisted[0]
+        assert json.loads(request.request_data)["keys"] == {
+            "extra-data": ["https://cdn.example", "https://downloads.example"],
+        }
+    else:
+        assert harness.db.session.persisted == []
+
+
 def test_mirror_only_addition_does_not_gate(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
@@ -3701,9 +3896,13 @@ class EndpointSession:
             request.id: request.is_approved for request in self.requests
         }
         self.flushed = False
+        self.executed = []
 
     def query(self, *entities):
         return EndpointQuery(self, entities)
+
+    def execute(self, statement):
+        self.executed.append(statement)
 
     def merge(self, value):
         return value
@@ -3845,6 +4044,114 @@ def test_review_handles_all_requests_from_the_build(monkeypatch):
     ]
     assert review_dispatches == [(7, "Passed", None, 42)]
     assert len(emails) == 1
+
+
+@pytest.mark.parametrize("approve", [True, False])
+def test_review_approval_records_allowlisted_origins(monkeypatch, approve):
+    db = EndpointDb()
+    db.session.requests.extend(
+        [
+            models.ModerationRequest(
+                id=3,
+                created_at=datetime.now(UTC),
+                appid="org.example.App",
+                request_type=ModerationRequestType.MANIFEST,
+                request_data=json.dumps(
+                    {
+                        "findings": [
+                            {
+                                "origins_added": ["https://source.example"],
+                                "origins_removed": [],
+                                "locations_by_origin": {},
+                                "arches": ["x86_64"],
+                            }
+                        ]
+                    }
+                ),
+                is_new_submission=False,
+                is_observation=False,
+                is_outdated=False,
+                build_id=42,
+                job_id=7,
+            ),
+            models.ModerationRequest(
+                id=4,
+                created_at=datetime.now(UTC),
+                appid="org.example.App",
+                request_type=ModerationRequestType.SUMMARY,
+                request_data=json.dumps(
+                    {
+                        "keys": {
+                            "extra-data": [
+                                "https://cdn.example",
+                                "https://downloads.example",
+                            ]
+                        },
+                        "current_values": {"extra-data": ["https://downloads.example"]},
+                    }
+                ),
+                is_new_submission=False,
+                is_observation=False,
+                is_outdated=False,
+                build_id=42,
+                job_id=7,
+            ),
+        ]
+    )
+    audit_logs = []
+
+    @contextmanager
+    def get_db(db_type="replica"):
+        yield db
+
+    monkeypatch.setattr(moderation, "get_db", get_db)
+    monkeypatch.setattr(moderation.worker.review_check, "send", lambda *args: None)
+    monkeypatch.setattr(moderation.worker.send_email_new, "send", lambda *args: None)
+    monkeypatch.setattr(
+        moderation.audit_log,
+        "enqueue_audit_log",
+        lambda *args, **kwargs: audit_logs.append(kwargs["details"]),
+    )
+    monkeypatch.setattr(moderation, "get_json_key", lambda key: None)
+    monkeypatch.setattr(
+        moderation,
+        "create_github_build_rejection_issue",
+        lambda request: None,
+    )
+    monkeypatch.setattr(models.DirectUploadApp, "by_app_id", lambda db, appid: object())
+
+    moderation.submit_review(
+        1,
+        moderation.Review(approve=approve, comment=None if approve else "No"),
+        SimpleNamespace(user=SimpleNamespace(id=9)),
+        SimpleNamespace(),
+        object(),
+    )
+
+    if not approve:
+        assert db.session.executed == []
+        assert audit_logs[0]["allowlisted_origins"] == []
+        return
+
+    assert len(db.session.executed) == 1
+    statement = str(
+        db.session.executed[0].compile(
+            dialect=postgresql.dialect(),
+            compile_kwargs={"literal_binds": True},
+        )
+    )
+    assert "INSERT INTO moderationoriginallowlist" in statement
+    assert "ON CONFLICT (kind, origin) DO NOTHING" in statement
+    assert "('extra-data', 'https://cdn.example', 9, 4)" in statement
+    assert "('manifest-source', 'https://source.example', 9, 3)" in statement
+    assert "https://downloads.example" not in statement
+    assert audit_logs[0]["allowlisted_origins"] == [
+        {"kind": ModerationOriginKind.EXTRA_DATA, "origin": "https://cdn.example"},
+        {
+            "kind": ModerationOriginKind.MANIFEST_SOURCE,
+            "origin": "https://source.example",
+        },
+    ]
 
 
 JEV_MODES = ("disabled", "enabled", "state_error", "enqueue_error")

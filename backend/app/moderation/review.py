@@ -5,6 +5,7 @@ import itertools
 import json
 import logging
 from collections.abc import Sequence
+from collections.abc import Set as AbstractSet
 from datetime import UTC, datetime
 from typing import Annotated, Any, cast
 
@@ -29,7 +30,7 @@ from .. import (
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
 from ..login_info import LoginStatusDep, ModeratorDep
-from ..types import ModerationRequestType
+from ..types import ModerationOriginKind, ModerationRequestType
 from ..verification import is_appid_runtime
 from . import (
     jev_observation,
@@ -119,6 +120,7 @@ def _extra_data_origins(extra_data: dict[str, Any]) -> list[str] | None:
 def _extra_data_moderation_values(
     current_extra_data: dict[str, Any] | None,
     build_extra_data: dict[str, Any] | None,
+    allowlisted: AbstractSet[str] = frozenset(),
 ) -> tuple[bool | list[str], bool | list[str]] | None:
     current_has_extra_data = bool(current_extra_data)
     build_has_extra_data = bool(build_extra_data)
@@ -143,6 +145,11 @@ def _extra_data_moderation_values(
         and current_origins == build_origins
     ):
         return None
+    if current_origins is not None and build_origins is not None:
+        added = set(build_origins) - set(current_origins)
+        removed = set(current_origins) - set(build_origins)
+        if added and not removed and added <= allowlisted:
+            return None
 
     return (
         current_origins or ["<invalid or missing current extra-data URL>"],
@@ -822,6 +829,93 @@ def _manifest_request_matches(
     )
 
 
+def _approved_request_origins(
+    request_type: str,
+    request_data: str | None,
+) -> set[tuple[ModerationOriginKind, str]]:
+    try:
+        data = json.loads(request_data or "")
+    except (TypeError, json.JSONDecodeError):
+        return set()
+    if not isinstance(data, dict):
+        return set()
+
+    origins: set[tuple[ModerationOriginKind, str]] = set()
+    if request_type == ModerationRequestType.MANIFEST:
+        findings = data.get("findings")
+        for finding in findings if isinstance(findings, list) else []:
+            added = finding.get("origins_added") if isinstance(finding, dict) else None
+            for origin in added if isinstance(added, list) else []:
+                if isinstance(origin, str) and origin:
+                    origins.add((ModerationOriginKind.MANIFEST_SOURCE, origin))
+    elif request_type == ModerationRequestType.SUMMARY:
+        keys = data.get("keys")
+        current_values = data.get("current_values")
+        build_origins = keys.get("extra-data") if isinstance(keys, dict) else None
+        current_origins = (
+            current_values.get("extra-data")
+            if isinstance(current_values, dict)
+            else None
+        )
+        if isinstance(build_origins, list):
+            known = set(current_origins) if isinstance(current_origins, list) else set()
+            for origin in build_origins:
+                if (
+                    isinstance(origin, str)
+                    and origin
+                    and not origin.startswith("<")
+                    and origin not in known
+                ):
+                    origins.add((ModerationOriginKind.EXTRA_DATA, origin))
+    return origins
+
+
+def _allowlisted_origins(
+    kind: ModerationOriginKind,
+    candidates: AbstractSet[str],
+) -> frozenset[str]:
+    if not candidates:
+        return frozenset()
+    with get_db("replica") as db:
+        rows = (
+            db.session.query(models.ModerationOriginAllowlist.origin)
+            .filter(
+                models.ModerationOriginAllowlist.kind == kind,
+                models.ModerationOriginAllowlist.origin.in_(sorted(candidates)),
+            )
+            .all()
+        )
+    return frozenset(row.origin for row in rows)
+
+
+def _filter_allowlisted_manifest_findings(
+    findings: Sequence[ostree_manifest.ManifestSourceFinding],
+    allowlisted: AbstractSet[str],
+) -> tuple[ostree_manifest.ManifestSourceFinding, ...]:
+    filtered: list[ostree_manifest.ManifestSourceFinding] = []
+    for finding in findings:
+        sources_added = tuple(
+            source for source in finding.sources_added if source not in allowlisted
+        )
+        if not sources_added and not finding.sources_removed:
+            continue
+        kept_sources = set(sources_added) | set(finding.sources_removed)
+        filtered.append(
+            ostree_manifest.ManifestSourceFinding(
+                app_id=finding.app_id,
+                sources_added=sources_added,
+                sources_removed=finding.sources_removed,
+                locations_by_source={
+                    source: locations
+                    for source, locations in finding.locations_by_source.items()
+                    if source in kept_sources
+                },
+                arches=finding.arches,
+            )
+        )
+    return tuple(filtered)
+
+
 def _log_manifest_complexity(
     review_request: ReviewRequest,
     app_id: str,
@@ -1226,6 +1320,7 @@ def submit_review_request(
     manifest_findings_by_app: dict[
         str, tuple[ostree_manifest.ManifestSourceFinding, ...]
     ] = {}
+    allowlist_filtered_app_ids: set[str] = set()
     collection_error_category: str | None = None
     if config.settings.ostree_manifest_comparison_enabled:
         try:
@@ -1317,6 +1412,31 @@ def submit_review_request(
         )
         manifest_findings = ostree_manifest.find_manifest_source_changes(
             manifest_groups
+        )
+        allowlisted_sources = _allowlisted_origins(
+            ModerationOriginKind.MANIFEST_SOURCE,
+            {
+                source
+                for finding in manifest_findings
+                for source in finding.sources_added
+            },
+        )
+        for finding in manifest_findings:
+            if allowlisted_finding_sources := sorted(
+                set(finding.sources_added) & allowlisted_sources
+            ):
+                allowlist_filtered_app_ids.add(finding.app_id)
+                logger.info(
+                    "Ignored allowlisted manifest source origins",
+                    extra={
+                        "build_id": review_request.build_id,
+                        "job_id": review_request.job_id,
+                        "app_id": finding.app_id,
+                        "allowlisted_sources": allowlisted_finding_sources,
+                    },
+                )
+        manifest_findings = _filter_allowlisted_manifest_findings(
+            manifest_findings, allowlisted_sources
         )
         for finding in manifest_findings:
             manifest_findings_by_app.setdefault(finding.app_id, ())
@@ -1697,6 +1817,24 @@ def submit_review_request(
             extra_data_values = _extra_data_moderation_values(
                 current_extradata, build_extradata
             )
+            if extra_data_values is not None and isinstance(extra_data_values[1], list):
+                allowlisted_extra_data = _allowlisted_origins(
+                    ModerationOriginKind.EXTRA_DATA, set(extra_data_values[1])
+                )
+                if allowlisted_extra_data:
+                    extra_data_values = _extra_data_moderation_values(
+                        current_extradata, build_extradata, allowlisted_extra_data
+                    )
+                    if extra_data_values is None:
+                        logger.info(
+                            "Ignored allowlisted extra-data origins",
+                            extra={
+                                "build_id": review_request.build_id,
+                                "job_id": review_request.job_id,
+                                "app_id": app_id,
+                                "allowlisted_origins": sorted(allowlisted_extra_data),
+                            },
+                        )
             if extra_data_values is not None:
                 summary_current_values["extra-data"], summary_keys["extra-data"] = (
                     extra_data_values
@@ -1943,7 +2081,7 @@ def submit_review_request(
                 suppressed_reason,
             )
 
-        if selected_manifest_data is not None:
+        if selected_manifest_data is not None or app_id in allowlist_filtered_app_ids:
             reused_manifest_was_observation: bool | None = None
             with get_db("writer") as db:
                 db.session.expire_on_commit = False
@@ -1957,14 +2095,16 @@ def submit_review_request(
                     )
                     .all()
                 )
-                if (
-                    len(existing_manifest_requests) == 1
+                existing_matches = (
+                    selected_manifest_data is not None
+                    and len(existing_manifest_requests) == 1
                     and existing_manifest_requests[0].job_id == review_request.job_id
                     and _manifest_request_matches(
                         existing_manifest_requests[0].request_data,
                         selected_manifest_data,
                     )
-                ):
+                )
+                if existing_matches:
                     reused_manifest_was_observation = bool(
                         existing_manifest_requests[0].is_observation
                     )
@@ -1973,7 +2113,13 @@ def submit_review_request(
                             0
                         ].is_observation = manifest_is_observation
                         db.session.commit()
-            if not existing_manifest_requests:
+            existing_preserved = (
+                not existing_matches
+                and app_id in allowlist_filtered_app_ids
+                and len(existing_manifest_requests) == 1
+                and existing_manifest_requests[0].job_id == review_request.job_id
+            )
+            if not existing_manifest_requests and selected_manifest_data is not None:
                 manifest_request = models.ModerationRequest(
                     appid=app_id,
                     request_type=ModerationRequestType.MANIFEST,
@@ -1990,14 +2136,7 @@ def submit_review_request(
                     new_observation_app_ids.add(app_id)
                 else:
                     new_requests.append(manifest_request)
-            elif (
-                len(existing_manifest_requests) == 1
-                and existing_manifest_requests[0].job_id == review_request.job_id
-                and _manifest_request_matches(
-                    existing_manifest_requests[0].request_data,
-                    selected_manifest_data,
-                )
-            ):
+            elif existing_matches:
                 reused_request = existing_manifest_requests[0]
                 was_observation = bool(reused_manifest_was_observation)
                 became_actionable = was_observation and not manifest_is_observation
@@ -2013,7 +2152,24 @@ def submit_review_request(
                     if became_actionable and reuse_requires_review:
                         manifest_newly_actionable_requests.append(reused_request)
                         manifest_newly_actionable_app_ids.add(app_id)
-            else:
+            elif existing_preserved:
+                preserved_request = existing_manifest_requests[0]
+                logger.info(
+                    "Preserved manifest moderation request despite allowlist change",
+                    extra={
+                        "build_id": review_request.build_id,
+                        "job_id": review_request.job_id,
+                        "app_id": app_id,
+                        "request_id": preserved_request.id,
+                    },
+                )
+                if not preserved_request.is_observation:
+                    manifest_reused_app_ids.add(app_id)
+                    manifest_reuse_requires_review = manifest_reuse_requires_review or (
+                        preserved_request.handled_at is None
+                        or preserved_request.is_approved is None
+                    )
+            elif selected_manifest_data is not None:
                 logger.error(
                     "Conflicting manifest moderation request",
                     extra={
@@ -2404,7 +2560,31 @@ def submit_review(
         request_ids = [grouped_request.id for grouped_request in requests]
         request_types = [grouped_request.request_type for grouped_request in requests]
         worker_should_be_triggered = False
+        approved_origins: dict[tuple[ModerationOriginKind, str], int] = {}
         if is_approved:
+            for grouped_request in requests:
+                for origin in _approved_request_origins(
+                    grouped_request.request_type, grouped_request.request_data
+                ):
+                    approved_origins.setdefault(origin, grouped_request.id)
+            if approved_origins:
+                db.session.execute(
+                    insert(models.ModerationOriginAllowlist)
+                    .values(
+                        [
+                            {
+                                "kind": kind,
+                                "origin": origin,
+                                "approved_by": login.user.id,
+                                "request_id": request_id,
+                            }
+                            for (kind, origin), request_id in sorted(
+                                approved_origins.items()
+                            )
+                        ]
+                    )
+                    .on_conflict_do_nothing(index_elements=["kind", "origin"])
+                )
             db.session.flush()
             remaining = (
                 db.session.query(models.ModerationRequest)
@@ -2432,6 +2612,10 @@ def submit_review(
                 "build_id": build_id,
                 "request_ids": request_ids,
                 "request_types": request_types,
+                "allowlisted_origins": [
+                    {"kind": kind, "origin": origin}
+                    for kind, origin in sorted(approved_origins)
+                ],
             },
         )
 

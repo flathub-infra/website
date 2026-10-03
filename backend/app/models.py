@@ -2191,6 +2191,23 @@ class ModerationRequest(Base):
     )
 
 
+class ModerationOriginAllowlist(Base):
+    __tablename__ = "moderationoriginallowlist"
+
+    id = mapped_column(Integer, primary_key=True)
+    kind = mapped_column(String, nullable=False)
+    origin = mapped_column(String, nullable=False)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    approved_by = mapped_column(Integer, ForeignKey(FlathubUser.id), nullable=True)
+    request_id = mapped_column(
+        Integer, ForeignKey(ModerationRequest.id, ondelete="SET NULL"), nullable=True
+    )
+
+    __table_args__ = (
+        Index("moderationoriginallowlist_kind_origin", kind, origin, unique=True),
+    )
+
+
 class ManifestAnalysisObservation(Base):
     __tablename__ = "manifestanalysisobservation"
 
