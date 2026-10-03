@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl"
 import type { HomepageCuratedAppSelection } from "src/types/CuratedAppSelection"
 import { ApplicationCard } from "./ApplicationCard"
 import { cn } from "@/lib/utils"
+import { HeroBanner } from "./HeroBanner"
 
 const gradientBySlot: Record<HomepageCuratedAppSelection["slot"], string> = {
   "after-hero":
@@ -33,6 +34,46 @@ export function ScheduledAppSelectionSection({ selection }: Props) {
   const title = t(titleKey)
   const description = t(descriptionKey)
   const headingId = `curated-app-selection-${selection.id}`
+  const header = (insideCarousel = false) => (
+    <div
+      className={cn(
+        "max-w-3xl",
+        insideCarousel ? "" : "mx-auto mb-6 text-center md:mx-0 md:text-start",
+      )}
+    >
+      <h2
+        id={headingId}
+        className="text-4xl leading-tight font-black md:text-5xl"
+      >
+        {title}
+      </h2>
+      <p
+        className={cn(
+          "mt-3 text-base leading-relaxed md:text-lg",
+          insideCarousel
+            ? "text-inherit"
+            : "text-flathub-dark-gunmetal dark:text-flathub-gainsborow",
+        )}
+      >
+        {description}
+      </p>
+    </div>
+  )
+
+  if (selection.layout === "carousel") {
+    return (
+      <section aria-labelledby={headingId}>
+        <HeroBanner
+          fixedHeader={header(true)}
+          heroBannerData={selection.apps.map((app) => ({
+            app: { isFullscreen: app.isFullscreen },
+            appstream: app,
+          }))}
+        />
+      </section>
+    )
+  }
+
   const gridClassName = cn(
     "grid grid-cols-1 gap-1.5 md:grid-cols-2",
     selection.apps.length > 2 ? "lg:grid-cols-3" : "max-w-5xl",
@@ -46,17 +87,7 @@ export function ScheduledAppSelectionSection({ selection }: Props) {
         gradientBySlot[selection.slot],
       )}
     >
-      <div className="mx-auto mb-6 max-w-3xl text-center md:mx-0 md:text-start">
-        <h2
-          id={headingId}
-          className="text-4xl leading-tight font-black md:text-5xl"
-        >
-          {title}
-        </h2>
-        <p className="mt-3 text-base leading-relaxed text-flathub-dark-gunmetal dark:text-flathub-gainsborow md:text-lg">
-          {description}
-        </p>
-      </div>
+      {header()}
       <div className={gridClassName}>
         {selection.apps.map((app) => (
           <ApplicationCard key={app.id} application={app} variant="flat" />
