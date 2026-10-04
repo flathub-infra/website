@@ -452,6 +452,10 @@ def confirm_email_login(
     _clear_oauth_session(request)
     request.session["user-id"] = user_id
     request.session["auth-method"] = "email"
+    pending_oidc = request.session.get("oidc_authorize_params")
+    if isinstance(pending_oidc, dict):
+        pending_oidc["_login_flow_started"] = True
+        request.session["oidc_authorize_params"] = pending_oidc
     audit_log.enqueue_audit_log(
         request, user_id, models.AuditEventType.LOGIN_SUCCESS, provider="email"
     )
