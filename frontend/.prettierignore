@@ -1,2 +1,3 @@
 public/locales/
 pnpm-lock.yaml
+src/data/countries.topo.json

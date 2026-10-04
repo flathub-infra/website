@@ -3,7 +3,6 @@
 import { useMemo, useRef, type PointerEvent } from "react"
 import { scaleSequential } from "d3-scale"
 import { geoMercator } from "d3-geo"
-import { numericToAlpha2 } from "i18n-iso-countries"
 import { useLocale, useTranslations } from "next-intl"
 import { Chart } from "@tanstack/charts/react"
 import { defineChart, type ChartRenderContext } from "@tanstack/charts"
@@ -11,13 +10,13 @@ import { geoShape } from "@tanstack/charts/geo"
 import { tooltip } from "@tanstack/charts/tooltip"
 import { portal } from "@tanstack/charts/tooltip/portal"
 import { feature } from "topojson-client"
-import type { Feature, FeatureCollection, Geometry } from "geojson"
+import type { Feature, Geometry } from "geojson"
 import type {
   GeometryCollection,
   Objects,
   Topology,
 } from "topojson-specification"
-import countriesAtlas from "world-atlas/countries-110m.json"
+import countriesAtlas from "src/data/countries.topo.json"
 
 interface CountryProperties {
   countryCode: string
@@ -26,27 +25,17 @@ interface CountryProperties {
 
 type CountryFeature = Feature<Geometry, CountryProperties>
 type WorldObjects = Objects & {
-  countries: GeometryCollection
+  countries: GeometryCollection<{ countryCode: string }>
 }
 
 const topology = countriesAtlas as unknown as Topology<WorldObjects>
-const atlasFeatures = feature(
-  topology,
-  topology.objects.countries,
-) as FeatureCollection<Geometry>
+const atlasFeatures = feature(topology, topology.objects.countries)
 
-const countryFeatures: CountryFeature[] = atlasFeatures.features.flatMap(
-  (country) => {
-    const countryCode = numericToAlpha2(country.id ?? "")
-    if (!countryCode || !country.geometry) return []
-
-    return [
-      {
-        ...country,
-        properties: { countryCode, value: 0 },
-      } as CountryFeature,
-    ]
-  },
+const countryFeatures: CountryFeature[] = atlasFeatures.features.map(
+  (country) => ({
+    ...country,
+    properties: { countryCode: country.properties.countryCode, value: 0 },
+  }),
 )
 
 export interface CountryMapValue {
