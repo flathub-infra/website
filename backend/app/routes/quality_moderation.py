@@ -1,6 +1,6 @@
 import datetime
 from dataclasses import dataclass
-from typing import Literal, cast
+from typing import Literal, cast, overload
 
 from fastapi import APIRouter, FastAPI, HTTPException, Path
 from pydantic import BaseModel
@@ -11,6 +11,7 @@ from ..login_info import QualityModeratorDep, QualityModeratorOrAppAuthorDep
 from ..models import (
     App,
     AppPickRecommendationsResponse,
+    FlathubUser,
     QualityModeration,
     QualityModerationDashboardResponse,
     QualityModerationRequest,
@@ -43,17 +44,103 @@ class QualityModerationType(BaseModel):
     guideline_id: str
     guideline: Guideline
     app_id: str
-    updated_at: datetime.datetime
-    updated_by: int | None
     passed: bool | None
     comment: str | None
     needed_to_pass_since: datetime.date
+
+
+class QualityModerationModeratorType(QualityModerationType):
+    updated_at: datetime.datetime | None
+    updated_by: str | None
 
 
 class QualityModerationResponse(BaseModel):
     guidelines: list[QualityModerationType]
     is_fullscreen_app: bool
     review_requested_at: datetime.datetime | None = None
+
+
+class QualityModerationModeratorResponse(QualityModerationResponse):
+    guidelines: list[QualityModerationModeratorType]
+
+
+@overload
+def _get_quality_moderation_response(
+    db, app_id: str, include_attribution: Literal[True]
+) -> QualityModerationModeratorResponse: ...
+
+
+@overload
+def _get_quality_moderation_response(
+    db, app_id: str, include_attribution: Literal[False]
+) -> QualityModerationResponse: ...
+
+
+def _get_quality_moderation_response(
+    db, app_id: str, include_attribution: bool
+) -> QualityModerationResponse | QualityModerationModeratorResponse:
+    rows = QualityModeration.by_appid(db, app_id)
+    editor_ids = {
+        moderation.updated_by
+        for _, moderation, _ in rows
+        if moderation is not None and moderation.updated_by is not None
+    }
+    editor_names = (
+        dict(
+            db.session.query(FlathubUser.id, FlathubUser.display_name)
+            .filter(FlathubUser.id.in_(editor_ids))
+            .all()
+        )
+        if editor_ids and include_attribution
+        else {}
+    )
+
+    moderator_guidelines: list[QualityModerationModeratorType] = []
+    public_guidelines: list[QualityModerationType] = []
+    for guideline, moderation, _ in rows:
+        guideline_data = {
+            "guideline_id": guideline.id,
+            "app_id": app_id,
+            "passed": moderation.passed if moderation else None,
+            "comment": moderation.comment if moderation else None,
+            "guideline": Guideline(
+                id=guideline.id,
+                url=guideline.url,
+                needed_to_pass_since=guideline.needed_to_pass_since,
+                read_only=guideline.read_only,
+                category=guideline.guideline_category_id,
+            ),
+            "needed_to_pass_since": guideline.needed_to_pass_since,
+        }
+        if include_attribution:
+            moderator_guidelines.append(
+                QualityModerationModeratorType(
+                    **guideline_data,
+                    updated_at=moderation.updated_at if moderation else None,
+                    updated_by=(
+                        editor_names.get(moderation.updated_by)
+                        if moderation and moderation.updated_by is not None
+                        else None
+                    ),
+                )
+            )
+        else:
+            public_guidelines.append(QualityModerationType(**guideline_data))
+
+    review_request = QualityModerationRequest.by_appid(db, app_id)
+    is_fullscreen_app = App.get_fullscreen_app(db, app_id)
+    review_requested_at = review_request.created_at if review_request else None
+    if include_attribution:
+        return QualityModerationModeratorResponse(
+            guidelines=moderator_guidelines,
+            is_fullscreen_app=is_fullscreen_app,
+            review_requested_at=review_requested_at,
+        )
+    return QualityModerationResponse(
+        guidelines=public_guidelines,
+        is_fullscreen_app=is_fullscreen_app,
+        review_requested_at=review_requested_at,
+    )
 
 
 class FailedByGuideline(BaseModel):
@@ -215,44 +302,37 @@ def get_quality_moderation_for_app(
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:
             raise HTTPException(status_code=404, detail="App excluded from app picks")
+        return _get_quality_moderation_response(db, app_id, include_attribution=False)
 
-        items = [
-            QualityModerationType(
-                guideline_id=guideline.id,
-                app_id=app_id,
-                updated_at=(
-                    quality_moderation.updated_at
-                    if quality_moderation
-                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
-                ),
-                updated_by=(
-                    quality_moderation.updated_by if quality_moderation else None
-                ),
-                passed=(quality_moderation.passed if quality_moderation else None),
-                comment=(quality_moderation.comment if quality_moderation else None),
-                guideline=Guideline(
-                    id=guideline.id,
-                    url=guideline.url,
-                    needed_to_pass_since=guideline.needed_to_pass_since,
-                    read_only=guideline.read_only,
-                    category=guideline.guideline_category_id,
-                ),
-                needed_to_pass_since=guideline.needed_to_pass_since,
-            )
-            for guideline, quality_moderation, app in QualityModeration.by_appid(
-                db, app_id
-            )
-        ]
 
-        review_request = QualityModerationRequest.by_appid(db, app_id)
-        review_requested_at = review_request.created_at if review_request else None
-        is_fullscreen_app = App.get_fullscreen_app(db, app_id)
-
-    return QualityModerationResponse(
-        guidelines=items,
-        is_fullscreen_app=is_fullscreen_app,
-        review_requested_at=review_requested_at,
-    )
+@router.get(
+    "/{app_id}/moderator",
+    tags=["quality-moderation"],
+    responses={
+        200: {"description": "Quality moderation details including edit attribution"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - quality moderator required"},
+        404: {"description": "App not found"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+    },
+)
+@cache.no_store
+def get_quality_moderation_for_app_as_moderator(
+    app_id: str = Path(
+        min_length=6,
+        max_length=255,
+        pattern=r"^[A-Za-z_][\w\-\.]+$",
+        examples=["org.gnome.Glade"],
+    ),
+    *,
+    _moderator: QualityModeratorDep,
+) -> QualityModerationModeratorResponse:
+    with get_db("replica") as db:
+        app = App.by_appid(db, app_id)
+        if app and app.excluded_from_app_picks:
+            raise HTTPException(status_code=404, detail="App excluded from app picks")
+        return _get_quality_moderation_response(db, app_id, include_attribution=True)
 
 
 @router.post(
@@ -277,7 +357,7 @@ def set_quality_moderation_for_app(
     ),
     *,
     moderator: QualityModeratorDep,
-) -> QualityModerationResponse:
+) -> QualityModerationModeratorResponse:
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:
@@ -286,43 +366,8 @@ def set_quality_moderation_for_app(
             db, app_id, body.guideline_id, body.passed, moderator.user.id
         )
 
-        items = [
-            QualityModerationType(
-                guideline_id=guideline.id,
-                app_id=app_id,
-                updated_at=(
-                    quality_moderation.updated_at
-                    if quality_moderation
-                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
-                ),
-                updated_by=(
-                    quality_moderation.updated_by if quality_moderation else None
-                ),
-                passed=(quality_moderation.passed if quality_moderation else None),
-                comment=(quality_moderation.comment if quality_moderation else None),
-                guideline=Guideline(
-                    id=guideline.id,
-                    url=guideline.url,
-                    needed_to_pass_since=guideline.needed_to_pass_since,
-                    read_only=guideline.read_only,
-                    category=guideline.guideline_category_id,
-                ),
-                needed_to_pass_since=guideline.needed_to_pass_since,
-            )
-            for guideline, quality_moderation, app in QualityModeration.by_appid(
-                db, app_id
-            )
-        ]
-
-        review_request = QualityModerationRequest.by_appid(db, app_id)
-        review_requested_at = review_request.created_at if review_request else None
-        is_fullscreen_app = App.get_fullscreen_app(db, app_id)
-
-    return QualityModerationResponse(
-        guidelines=items,
-        is_fullscreen_app=is_fullscreen_app,
-        review_requested_at=review_requested_at,
-    )
+        result = _get_quality_moderation_response(db, app_id, include_attribution=True)
+    return result
 
 
 @router.get(
@@ -408,49 +453,15 @@ def delete_review_request_for_app(
     ),
     *,
     _moderator: QualityModeratorDep,
-) -> QualityModerationResponse:
+) -> QualityModerationModeratorResponse:
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:
             raise HTTPException(status_code=404, detail="App excluded from app picks")
         QualityModerationRequest.delete(db, app_id)
 
-        items = [
-            QualityModerationType(
-                guideline_id=guideline.id,
-                app_id=app_id,
-                updated_at=(
-                    quality_moderation.updated_at
-                    if quality_moderation
-                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
-                ),
-                updated_by=(
-                    quality_moderation.updated_by if quality_moderation else None
-                ),
-                passed=(quality_moderation.passed if quality_moderation else None),
-                comment=(quality_moderation.comment if quality_moderation else None),
-                guideline=Guideline(
-                    id=guideline.id,
-                    url=guideline.url,
-                    needed_to_pass_since=guideline.needed_to_pass_since,
-                    read_only=guideline.read_only,
-                    category=guideline.guideline_category_id,
-                ),
-                needed_to_pass_since=guideline.needed_to_pass_since,
-            )
-            for guideline, quality_moderation, app in QualityModeration.by_appid(
-                db, app_id
-            )
-        ]
-
-        review_request = QualityModerationRequest.by_appid(db, app_id)
-        is_fullscreen_app = App.get_fullscreen_app(db, app_id)
-
-    return QualityModerationResponse(
-        guidelines=items,
-        is_fullscreen_app=is_fullscreen_app,
-        review_requested_at=review_request.created_at if review_request else None,
-    )
+        result = _get_quality_moderation_response(db, app_id, include_attribution=True)
+    return result
 
 
 @router.post(
@@ -475,46 +486,12 @@ def set_fullscreen_app(
     ),
     *,
     moderator: QualityModeratorDep,
-) -> QualityModerationResponse:
+) -> QualityModerationModeratorResponse:
     with get_db("writer") as db:
         app = App.by_appid(db, app_id)
         if app and app.excluded_from_app_picks:
             raise HTTPException(status_code=404, detail="App excluded from app picks")
         App.set_fullscreen_app(db, app_id, is_fullscreen_app)
 
-        items = [
-            QualityModerationType(
-                guideline_id=guideline.id,
-                app_id=app_id,
-                updated_at=(
-                    quality_moderation.updated_at
-                    if quality_moderation
-                    else datetime.datetime.min.replace(tzinfo=datetime.UTC)
-                ),
-                updated_by=(
-                    quality_moderation.updated_by if quality_moderation else None
-                ),
-                passed=(quality_moderation.passed if quality_moderation else None),
-                comment=(quality_moderation.comment if quality_moderation else None),
-                guideline=Guideline(
-                    id=guideline.id,
-                    url=guideline.url,
-                    needed_to_pass_since=guideline.needed_to_pass_since,
-                    read_only=guideline.read_only,
-                    category=guideline.guideline_category_id,
-                ),
-                needed_to_pass_since=guideline.needed_to_pass_since,
-            )
-            for guideline, quality_moderation, app in QualityModeration.by_appid(
-                db, app_id
-            )
-        ]
-
-        review_request = QualityModerationRequest.by_appid(db, app_id)
-        fullscreen = App.get_fullscreen_app(db, app_id)
-
-    return QualityModerationResponse(
-        guidelines=items,
-        is_fullscreen_app=fullscreen,
-        review_requested_at=review_request.created_at if review_request else None,
-    )
+        result = _get_quality_moderation_response(db, app_id, include_attribution=True)
+    return result

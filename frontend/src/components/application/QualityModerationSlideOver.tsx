@@ -22,19 +22,22 @@ import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
 import LogoImage from "../LogoImage"
 import { IconGridOverlay } from "./IconGridOverlay"
-import { useTranslations } from "next-intl"
-import { formatDistanceToNow, isFuture } from "date-fns"
+import { useLocale, useTranslations } from "next-intl"
+import { formatDistanceToNow, isFuture, parseISO } from "date-fns"
 import { chooseBrandingColor, getContrastColor } from "@/lib/helpers"
 import {
   Branding,
   DesktopAppstream,
   Guideline,
   QualityModerationResponse,
+  QualityModerationModeratorResponse,
+  QualityModerationModeratorType,
   QualityModerationType,
 } from "src/codegen/model"
 import {
   deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete,
   getQualityModerationForAppQualityModerationAppIdGet,
+  getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet,
   setFullscreenAppQualityModerationAppIdFullscreenPost,
   setQualityModerationForAppQualityModerationAppIdPost,
 } from "src/codegen"
@@ -253,7 +256,13 @@ const QualityCategories = ({
   mode,
 }: {
   app: Pick<DesktopAppstream, "id" | "name" | "summary" | "icon" | "branding">
-  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+  query: UseQueryResult<
+    AxiosResponse<
+      QualityModerationResponse | QualityModerationModeratorResponse,
+      any
+    >,
+    unknown
+  >
   mode: "developer" | "qualityModerator"
 }) => {
   const t = useTranslations()
@@ -280,7 +289,7 @@ const QualityCategories = ({
     onSuccess: (data) => {
       if (data.length > 0) {
         queryClient.setQueryData(
-          ["qualityModeration", { appId: app.id }],
+          ["qualityModeration", { appId: app.id, mode }],
           data[data.length - 1],
         )
       }
@@ -296,7 +305,10 @@ const QualityCategories = ({
         },
       ),
     onSuccess: (data) => {
-      queryClient.setQueryData(["qualityModeration", { appId: app.id }], data)
+      queryClient.setQueryData(
+        ["qualityModeration", { appId: app.id, mode }],
+        data,
+      )
     },
   })
 
@@ -419,11 +431,18 @@ const QualityItem = ({
 }: {
   mode: "developer" | "qualityModerator"
   appId: string
-  qualityModeration?: QualityModerationType
+  qualityModeration?: QualityModerationType | QualityModerationModeratorType
   qualityGuideline: Guideline | undefined
-  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+  query: UseQueryResult<
+    AxiosResponse<
+      QualityModerationResponse | QualityModerationModeratorResponse,
+      any
+    >,
+    unknown
+  >
 }) => {
   const t = useTranslations()
+  const locale = useLocale()
   const [toggle, setToggle] = useState<boolean | null>(
     qualityModeration?.passed,
   )
@@ -446,7 +465,7 @@ const QualityItem = ({
 
     onSuccess: (data, variables) => {
       setToggle(variables.passed)
-      queryClient.setQueryData(["qualityModeration", { appId }], data)
+      queryClient.setQueryData(["qualityModeration", { appId, mode }], data)
     },
   })
 
@@ -504,6 +523,28 @@ const QualityItem = ({
           })}
         </div>
       )}
+      {mode === "qualityModerator" &&
+        qualityModeration &&
+        "updated_by" in qualityModeration &&
+        qualityModeration.updated_at && (
+          <div className="text-xs opacity-75">
+            <span
+              title={parseISO(
+                `${qualityModeration.updated_at}Z`,
+              ).toLocaleString(locale)}
+            >
+              {t("quality-guideline.last-edited", {
+                editor:
+                  qualityModeration.updated_by ??
+                  t("quality-guideline.system-editor"),
+                time: formatDistanceToNow(
+                  parseISO(`${qualityModeration.updated_at}Z`),
+                  { addSuffix: true },
+                ),
+              })}
+            </span>
+          </div>
+        )}
     </div>
   )
 }
@@ -517,7 +558,13 @@ const ScreenShotTypeItem = ({
   mode: "developer" | "qualityModerator"
   appId: string
   is_fullscreen_app: boolean
-  query: UseQueryResult<AxiosResponse<QualityModerationResponse, any>, unknown>
+  query: UseQueryResult<
+    AxiosResponse<
+      QualityModerationResponse | QualityModerationModeratorResponse,
+      any
+    >,
+    unknown
+  >
 }) => {
   const t = useTranslations()
   const [toggle, setToggle] = useState<boolean>(is_fullscreen_app)
@@ -540,7 +587,7 @@ const ScreenShotTypeItem = ({
 
     onSuccess: (data, variables) => {
       setToggle(variables.is_fullscreen_app)
-      queryClient.setQueryData(["qualityModeration", { appId }], data)
+      queryClient.setQueryData(["qualityModeration", { appId, mode }], data)
     },
   })
 
@@ -641,12 +688,17 @@ export const QualityModerationSlideOver = ({
   const t = useTranslations()
 
   const query = useQuery({
-    queryKey: ["qualityModeration", { appId: app.id }],
+    queryKey: ["qualityModeration", { appId: app.id, mode }],
     queryFn: ({ signal }) =>
-      getQualityModerationForAppQualityModerationAppIdGet(app.id, {
-        withCredentials: true,
-        signal,
-      }),
+      mode === "qualityModerator"
+        ? getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet(
+            app.id,
+            { withCredentials: true, signal },
+          )
+        : getQualityModerationForAppQualityModerationAppIdGet(app.id, {
+            withCredentials: true,
+            signal,
+          }),
     enabled: !!app.id,
     retry: (failureCount, error: any) =>
       error?.response?.status !== 404 && failureCount < 3,

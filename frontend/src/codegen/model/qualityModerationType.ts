@@ -7,14 +7,11 @@
 import type { Guideline } from "./guideline"
 import type { QualityModerationTypeComment } from "./qualityModerationTypeComment"
 import type { QualityModerationTypePassed } from "./qualityModerationTypePassed"
-import type { QualityModerationTypeUpdatedBy } from "./qualityModerationTypeUpdatedBy"
 
 export interface QualityModerationType {
   guideline_id: string
   guideline: Guideline
   app_id: string
-  updated_at: string
-  updated_by: QualityModerationTypeUpdatedBy
   passed: QualityModerationTypePassed
   comment: QualityModerationTypeComment
   needed_to_pass_since: string
