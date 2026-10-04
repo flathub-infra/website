@@ -4,11 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { QualityModerationResponseReviewRequestedAt } from "./qualityModerationResponseReviewRequestedAt"
+import type { QualityModerationModeratorResponseReviewRequestedAt } from "./qualityModerationModeratorResponseReviewRequestedAt"
 import type { QualityModerationModeratorType } from "./qualityModerationModeratorType"
 
 export interface QualityModerationModeratorResponse {
   guidelines: QualityModerationModeratorType[]
   is_fullscreen_app: boolean
-  review_requested_at: QualityModerationResponseReviewRequestedAt
+  review_requested_at?: QualityModerationModeratorResponseReviewRequestedAt
 }

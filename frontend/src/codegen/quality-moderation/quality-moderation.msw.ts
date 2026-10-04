@@ -14,6 +14,7 @@ import type {
   FailedByGuideline,
   GuidelineStatsByCategory,
   QualityModerationDashboardResponse,
+  QualityModerationModeratorResponse,
   QualityModerationResponse,
   QualityModerationStatus,
   SimpleQualityModerationResponse,
@@ -168,8 +169,10 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock 
 
 export const getSetQualityModerationForAppQualityModerationAppIdPostResponseMock =
   (
-    overrideResponse: Partial<Extract<QualityModerationResponse, object>> = {},
-  ): QualityModerationResponse => ({
+    overrideResponse: Partial<
+      Extract<QualityModerationModeratorResponse, object>
+    > = {},
+  ): QualityModerationModeratorResponse => ({
     guidelines: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -189,6 +192,59 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostResponseMock
         null,
       ]),
       needed_to_pass_since: faker.date.past().toISOString().slice(0, 10),
+      updated_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      updated_by: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+    })),
+    is_fullscreen_app: faker.datatype.boolean(),
+    review_requested_at: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      undefined,
+    ]),
+    ...overrideResponse,
+  })
+
+export const getGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetResponseMock =
+  (
+    overrideResponse: Partial<
+      Extract<QualityModerationModeratorResponse, object>
+    > = {},
+  ): QualityModerationModeratorResponse => ({
+    guidelines: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      guideline_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      guideline: {
+        id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        url: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        needed_to_pass_since: faker.date.past().toISOString().slice(0, 10),
+        category: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        read_only: faker.datatype.boolean(),
+      },
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      passed: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+      comment: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      needed_to_pass_since: faker.date.past().toISOString().slice(0, 10),
+      updated_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      updated_by: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
@@ -225,8 +281,10 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetR
 
 export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteResponseMock =
   (
-    overrideResponse: Partial<Extract<QualityModerationResponse, object>> = {},
-  ): QualityModerationResponse => ({
+    overrideResponse: Partial<
+      Extract<QualityModerationModeratorResponse, object>
+    > = {},
+  ): QualityModerationModeratorResponse => ({
     guidelines: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -246,6 +304,14 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
         null,
       ]),
       needed_to_pass_since: faker.date.past().toISOString().slice(0, 10),
+      updated_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      updated_by: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
@@ -260,8 +326,10 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
 
 export const getSetFullscreenAppQualityModerationAppIdFullscreenPostResponseMock =
   (
-    overrideResponse: Partial<Extract<QualityModerationResponse, object>> = {},
-  ): QualityModerationResponse => ({
+    overrideResponse: Partial<
+      Extract<QualityModerationModeratorResponse, object>
+    > = {},
+  ): QualityModerationModeratorResponse => ({
     guidelines: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -281,6 +349,14 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostResponseMock
         null,
       ]),
       needed_to_pass_since: faker.date.past().toISOString().slice(0, 10),
+      updated_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      updated_by: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
@@ -452,10 +528,12 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetMockHandler =
 export const getSetQualityModerationForAppQualityModerationAppIdPostMockHandler =
   (
     overrideResponse?:
-      | QualityModerationResponse
+      | QualityModerationModeratorResponse
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
-        ) => Promise<QualityModerationResponse> | QualityModerationResponse),
+        ) =>
+          | Promise<QualityModerationModeratorResponse>
+          | QualityModerationModeratorResponse),
     options?: RequestHandlerOptions,
   ) => {
     return http.post(
@@ -467,6 +545,33 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMockHandler 
               ? await overrideResponse(info)
               : overrideResponse
             : getSetQualityModerationForAppQualityModerationAppIdPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetMockHandler =
+  (
+    overrideResponse?:
+      | QualityModerationModeratorResponse
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) =>
+          | Promise<QualityModerationModeratorResponse>
+          | QualityModerationModeratorResponse),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get(
+      "*/quality-moderation/:appId/moderator",
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetResponseMock(),
           { status: 200 },
         )
       },
@@ -524,13 +629,13 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMockHa
 export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMockHandler =
   (
     overrideResponse?:
-      | QualityModerationResponse
+      | QualityModerationModeratorResponse
       | void
       | ((
           info: Parameters<Parameters<typeof http.delete>[1]>[0],
         ) =>
-          | Promise<QualityModerationResponse | void>
-          | QualityModerationResponse
+          | Promise<QualityModerationModeratorResponse | void>
+          | QualityModerationModeratorResponse
           | void),
     options?: RequestHandlerOptions,
   ) => {
@@ -554,10 +659,12 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
 export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMockHandler =
   (
     overrideResponse?:
-      | QualityModerationResponse
+      | QualityModerationModeratorResponse
       | ((
           info: Parameters<Parameters<typeof http.post>[1]>[0],
-        ) => Promise<QualityModerationResponse> | QualityModerationResponse),
+        ) =>
+          | Promise<QualityModerationModeratorResponse>
+          | QualityModerationModeratorResponse),
     options?: RequestHandlerOptions,
   ) => {
     return http.post(
@@ -583,6 +690,7 @@ export const getQualityModerationMock = () => [
   getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetMockHandler(),
   getGetQualityModerationForAppQualityModerationAppIdGetMockHandler(),
   getSetQualityModerationForAppQualityModerationAppIdPostMockHandler(),
+  getGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetMockHandler(),
   getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetMockHandler(),
   getRequestReviewForAppQualityModerationAppIdRequestReviewPostMockHandler(),
   getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMockHandler(),
