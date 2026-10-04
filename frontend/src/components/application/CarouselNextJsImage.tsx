@@ -53,9 +53,9 @@ export default function CarouselNextJsImage({
       width={slide.width}
       height={slide.height}
       responsiveWidths={screenshotWidths}
-      loading={offset === 0 ? "eager" : "lazy"}
+      loading="eager"
       draggable={false}
-      fetchPriority={offset === 0 ? "high" : "auto"}
+      fetchPriority={offset === 0 ? "high" : "low"}
       className={clsx(
         "size-full",
         cover && "object-cover",

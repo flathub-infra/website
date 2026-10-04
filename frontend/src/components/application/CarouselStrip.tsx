@@ -122,7 +122,8 @@ export const CarouselStrip = ({
                 index={slides?.length > currentIndex ? currentIndex : 0}
                 carousel={{
                   finite: slides?.length === 1,
-                  preload: 0,
+                  // Keep both neighboring slides mounted for swipe animations.
+                  preload: 1,
                 }}
                 styles={{
                   button: { filter: "none" },
