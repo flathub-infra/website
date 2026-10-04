@@ -95,7 +95,17 @@ export default async function SetupPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(setupFaqJsonLd) }}
       />
-      <SetupClient instructions={instructions} />
+      <SetupClient
+        instructions={instructions.map(
+          ({ name, slug, logo, logo_dark, translatedNameKey }) => ({
+            name,
+            slug,
+            logo,
+            logo_dark,
+            translatedNameKey,
+          }),
+        )}
+      />
     </>
   )
 }
