@@ -375,8 +375,7 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
 >(
   appId: string,
   params:
-    | undefined
-    | GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
+    undefined | GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
   options: {
     query: Partial<
       UseQueryOptions<

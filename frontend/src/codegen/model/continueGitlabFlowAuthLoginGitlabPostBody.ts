@@ -8,5 +8,4 @@ import type { OauthLoginResponseFailure } from "./oauthLoginResponseFailure"
 import type { OauthLoginResponseSuccess } from "./oauthLoginResponseSuccess"
 
 export type ContinueGitlabFlowAuthLoginGitlabPostBody =
-  | OauthLoginResponseSuccess
-  | OauthLoginResponseFailure
+  OauthLoginResponseSuccess | OauthLoginResponseFailure

@@ -8,9 +8,5 @@ import type { RequestDataCurrentValuesAnyOf } from "./requestDataCurrentValuesAn
 
 export type RequestDataCurrentValues = {
   [key: string]:
-    | string
-    | unknown[]
-    | RequestDataCurrentValuesAnyOf
-    | boolean
-    | null
+    string | unknown[] | RequestDataCurrentValuesAnyOf | boolean | null
 }

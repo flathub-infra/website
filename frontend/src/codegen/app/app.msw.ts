@@ -2256,8 +2256,7 @@ export const getGetEolMessageEolMessageGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<GetEolMessageEolMessageGet200>
-        | GetEolMessageEolMessageGet200),
+        Promise<GetEolMessageEolMessageGet200> | GetEolMessageEolMessageGet200),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
@@ -2382,8 +2381,7 @@ export const getPostSearchSearchPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
@@ -2408,8 +2406,7 @@ export const getGetRuntimeListRuntimesGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<GetRuntimeListRuntimesGet200>
-        | GetRuntimeListRuntimesGet200),
+        Promise<GetRuntimeListRuntimesGet200> | GetRuntimeListRuntimesGet200),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(

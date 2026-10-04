@@ -8,6 +8,4 @@ import type { ManifestSourceOriginRequestData } from "./manifestSourceOriginRequ
 import type { RequestData } from "./requestData"
 
 export type ModerationRequestResponseRequestData =
-  | RequestData
-  | ManifestSourceOriginRequestData
-  | null
+  RequestData | ManifestSourceOriginRequestData | null

@@ -277,8 +277,7 @@ export const getCheckPurchasesPurchasesCheckPurchasesPostMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0],
       ) =>
-        | Promise<CheckPurchasesResponseSuccess>
-        | CheckPurchasesResponseSuccess),
+        Promise<CheckPurchasesResponseSuccess> | CheckPurchasesResponseSuccess),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
