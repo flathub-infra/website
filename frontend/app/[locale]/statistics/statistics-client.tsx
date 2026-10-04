@@ -1,10 +1,5 @@
 "use client"
 
-import WorldMap, {
-  type CountryContext,
-  type DataItem,
-} from "react-svg-worldmap"
-
 import styles from "./statistics.module.scss"
 import {
   CloudArrowDownIcon,
@@ -50,8 +45,8 @@ import {
 import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
 import { useLocale, useTranslations } from "next-intl"
-import { getLangDir } from "rtl-detect"
 import { useRouter } from "src/i18n/navigation"
+import CountryMap, { type CountryMapValue } from "@/components/ui/country-map"
 
 interface StatisticsClientProps {
   stats: StatsResult
@@ -63,55 +58,18 @@ export const FlathubWorldMap = ({
   country_data,
   refs,
 }: {
-  country_data: DataItem<number>[]
+  country_data: CountryMapValue[]
   refs?: { [key: string]: React.RefObject<HTMLDivElement> }
 }) => {
-  const t = useTranslations()
-  const locale = useLocale()
-
-  const getLocalizedText = ({
-    countryCode,
-    countryValue,
-    prefix,
-    suffix,
-  }: CountryContext) => {
-    const regionName = new Intl.DisplayNames(locale, { type: "region" })
-    const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
-
-    const translatedCountryValue = countryValue.toLocaleString(locale)
-
-    const downloadTranslation = t("x-downloads", {
-      x: translatedCountryValue,
-      count: countryValue,
-    })
-
-    const translation = `${
-      regionName.of(countryCode) ??
-      regionNameFallback.of(countryCode) ??
-      t("unknown")
-    }: ${downloadTranslation}`
-
-    return translation
-  }
-
-  const handleClick = (id) =>
-    refs?.[id]?.current.scrollIntoView({
+  const handleClick = (countryCode: string) =>
+    refs?.[countryCode]?.current?.scrollIntoView({
       behavior: "smooth",
       block: "nearest",
     })
 
   return (
     <div className={`flex justify-center ${styles.map}`}>
-      <WorldMap
-        color="oklch(var(--color-primary))"
-        backgroundColor="oklch(var(--bg-color-secondary))"
-        borderColor="oklch(var(--text-primary))"
-        size="responsive"
-        data={country_data}
-        tooltipTextFunction={getLocalizedText}
-        rtl={getLangDir(locale) === "rtl"}
-        onClickFunction={(context) => handleClick(context.countryCode)}
-      />
+      <CountryMap data={country_data} onCountrySelect={handleClick} />
     </div>
   )
 }
@@ -124,11 +82,11 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
   const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
   const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
 
-  let country_data: DataItem<number>[] = []
+  let country_data: CountryMapValue[] = []
   if (stats.countries) {
     for (const [key, value] of Object.entries(stats.countries)) {
       country_data.push({
-        country: key as DataItem<number>["country"],
+        country: key,
         value: value,
       })
     }
@@ -147,7 +105,7 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
       <div className="flex flex-col gap-5">
         <div
           className={clsx(
-            "flex flex-col self-center",
+            "flex w-full max-w-[600px] flex-col self-center",
             "rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic",
           )}
         >

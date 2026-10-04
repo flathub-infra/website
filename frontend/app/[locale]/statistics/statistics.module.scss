@@ -1,7 +1,4 @@
 .map {
-  figure {
-    margin: 0px;
-    border-radius: var(--base-border-radius);
-    width: fit-content;
-  }
+  width: min(100%, 600px);
+  margin-inline: auto;
 }
