@@ -32,6 +32,7 @@ const LogoImage: FunctionComponent<Props> = ({
           alt={t("app-logo", { app_name: appName })}
           aria-hidden
           fetchPriority={priority ? "high" : "auto"}
+          loading={priority ? "eager" : "lazy"}
           width={size}
           height={size}
           {...props}
