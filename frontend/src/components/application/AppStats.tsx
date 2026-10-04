@@ -62,7 +62,13 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
           <YAxis stroke={axisStroke(resolvedTheme)} />
           <ChartTooltip
             content={<ChartTooltipContent />}
-            labelFormatter={(t) => format(t, "P")}
+            labelFormatter={(label) =>
+              typeof label === "string" ||
+              typeof label === "number" ||
+              label instanceof Date
+                ? format(label, "P")
+                : ""
+            }
           />
         </LineChart>
       </ChartContainer>

@@ -240,7 +240,13 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
             />
             <ChartTooltip
               content={<FlathubTooltip hideIndicator />}
-              labelFormatter={(x) => format(x, "MMM yyyy")}
+              labelFormatter={(x) =>
+                typeof x === "string" ||
+                typeof x === "number" ||
+                x instanceof Date
+                  ? format(x, "MMM yyyy")
+                  : ""
+              }
             />
           </LineChart>
         </ChartContainer>
