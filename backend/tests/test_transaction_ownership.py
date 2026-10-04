@@ -29,9 +29,10 @@ def test_successful_purchase_grants_ownership():
     row = MagicMock(kind="purchase", recipient="org.example.App")
     db = MagicMock()
 
-    with patch(
-        "app.models.UserOwnedApp.user_owns_app", return_value=False
-    ) as owns_app, patch.object(Transaction, "rows", return_value=[row]):
+    with (
+        patch("app.models.UserOwnedApp.user_owns_app", return_value=False) as owns_app,
+        patch.object(Transaction, "rows", return_value=[row]),
+    ):
         transaction.update_app_ownership(db)
 
     owns_app.assert_called_once_with(db, 42, "org.example.App")
@@ -57,8 +58,9 @@ def test_donation_does_not_grant_ownership():
     row = MagicMock(kind="donation", recipient="org.example.App")
     db = MagicMock()
 
-    with patch("app.models.UserOwnedApp.user_owns_app") as owns_app, patch.object(
-        Transaction, "rows", return_value=[row]
+    with (
+        patch("app.models.UserOwnedApp.user_owns_app") as owns_app,
+        patch.object(Transaction, "rows", return_value=[row]),
     ):
         transaction.update_app_ownership(db)
 
@@ -70,8 +72,9 @@ def test_successful_transaction_without_rows_is_ignored():
     transaction = _transaction()
     db = MagicMock()
 
-    with patch("app.models.UserOwnedApp.user_owns_app") as owns_app, patch.object(
-        Transaction, "rows", return_value=[]
+    with (
+        patch("app.models.UserOwnedApp.user_owns_app") as owns_app,
+        patch.object(Transaction, "rows", return_value=[]),
     ):
         transaction.update_app_ownership(db)
 
