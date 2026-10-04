@@ -1,7 +1,7 @@
 """Add daily permission statistics snapshots.
 
 Revision ID: c4f98a1d73b2
-Revises: d7e31aa7bb2b
+Revises: 4cacdf50defe
 Create Date: 2026-09-27
 """
 
@@ -11,7 +11,7 @@ from sqlalchemy.dialects import postgresql
 from alembic import op
 
 revision = "c4f98a1d73b2"
-down_revision = "d7e31aa7bb2b"
+down_revision = "4cacdf50defe"
 branch_labels = None
 depends_on = None
 
