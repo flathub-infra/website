@@ -373,7 +373,7 @@ class SummaryResponse(BaseModel):
 
     arches: list[str]
     branch: str | None = None
-    timestamp: int
-    download_size: int
-    installed_size: int
+    timestamp: int | None = None
+    download_size: int | None = None
+    installed_size: int | None = None
     metadata: SummaryMetadata | None = None
