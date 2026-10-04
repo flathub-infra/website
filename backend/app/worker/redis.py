@@ -23,7 +23,7 @@ def invalidate_cache_by_pattern(pattern: str) -> int:
                 redis_conn.scan(cursor=cursor, match=pattern, count=100),
             )
             if keys:
-                deleted_count += cast("int", redis_conn.delete(*keys))
+                deleted_count += redis_conn.delete(*keys)
             if cursor == 0:
                 break
         return deleted_count
