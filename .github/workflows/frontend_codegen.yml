@@ -4,9 +4,8 @@ on:
   pull_request:
     branches: main
     paths:
-      - "backend/**"
+      - "backend/app/**"
       - "frontend/orval.config.ts"
-      - "frontend/src/codegen/**"
       - ".github/workflows/frontend_codegen.yml"
   workflow_dispatch:
 
