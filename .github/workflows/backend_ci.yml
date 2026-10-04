@@ -124,6 +124,15 @@ jobs:
           docker compose --env-file .env.ci up --no-build -d
           bash tests/run_tests.sh
 
+      - name: Diagnose smoke test process failures
+        if: failure()
+        run: |
+          free -h
+          docker stats --no-stream
+          docker compose --env-file .env.ci ps -a
+          docker compose --env-file .env.ci logs --tail 100 backend worker scheduler
+          sudo dmesg --ctime | tail -80
+
       - name: Update test snapshots
         if: failure() || cancelled()
         continue-on-error: true
