@@ -11,4 +11,5 @@ export interface QualityModerationModeratorResponse {
   guidelines: QualityModerationModeratorType[]
   is_fullscreen_app: boolean
   review_requested_at?: QualityModerationModeratorResponseReviewRequestedAt
+  metadata_changed_at?: Record<string, string>
 }

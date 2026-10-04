@@ -379,12 +379,76 @@ https://flathub.org/apps/details/${app.id}
       </div>
 
       {Array.from(categories).map((category) => {
+        const categoryGuidelines = query.data.data.guidelines.filter(
+          (guideline) => guideline.guideline.category === category,
+        )
+        const metadataChangedAt =
+          query.data.data.metadata_changed_at?.[category]
+        const parsedMetadataChangedAt = metadataChangedAt
+          ? parseISO(
+              metadataChangedAt.endsWith("Z")
+                ? metadataChangedAt
+                : `${metadataChangedAt}Z`,
+            )
+          : null
+        const latestModeration = categoryGuidelines
+          .filter(
+            (guideline) =>
+              guideline.passed !== null && !guideline.guideline.read_only,
+          )
+          .reduce<Date | null>((latest, guideline) => {
+            if (!("updated_at" in guideline) || !guideline.updated_at) {
+              return latest
+            }
+            const updatedAt = parseISO(`${guideline.updated_at}Z`)
+            return !latest || updatedAt > latest ? updatedAt : latest
+          }, null)
+        const metadataIsNewer =
+          mode === "qualityModerator" &&
+          parsedMetadataChangedAt !== null &&
+          (!latestModeration || parsedMetadataChangedAt > latestModeration)
+
         return (
           <div className="flex flex-col" key={category}>
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold pb-2 pt-4 first:pt-0">
-                {t(`quality-guideline.${category}`)}
-              </h3>
+              <div className="pb-2 pt-4 first:pt-0">
+                <h3 className="font-semibold">
+                  {t(`quality-guideline.${category}`)}
+                </h3>
+                {parsedMetadataChangedAt && (
+                  <div
+                    className={clsx(
+                      "mt-1 flex items-center gap-1 text-xs",
+                      metadataIsNewer
+                        ? "text-flathub-electric-red"
+                        : "text-flathub-sonic-silver",
+                    )}
+                  >
+                    {metadataIsNewer && (
+                      <ExclamationTriangleIcon
+                        className="size-4"
+                        aria-hidden="true"
+                      />
+                    )}
+                    <span
+                      title={parsedMetadataChangedAt.toLocaleString()}
+                      aria-label={
+                        metadataIsNewer
+                          ? t("quality-metadata-changed-since-review")
+                          : undefined
+                      }
+                    >
+                      {t("quality-metadata-changed", {
+                        time: formatDistanceToNow(parsedMetadataChangedAt, {
+                          addSuffix: true,
+                        }),
+                      })}
+                      {metadataIsNewer &&
+                        ` · ${t("quality-metadata-changed-since-review")}`}
+                    </span>
+                  </div>
+                )}
+              </div>
               {category === "screenshots" && (
                 <ScreenShotTypeItem
                   mode={mode}
@@ -402,18 +466,16 @@ https://flathub.org/apps/details/${app.id}
             >
               {category === "app-icon" && <ShowIconButton app={app} />}
               {category === "branding" && <ShowBrandingButton app={app} />}
-              {query.data.data.guidelines
-                .filter((a) => a.guideline.category === category)
-                .map((guideline) => (
-                  <QualityItem
-                    mode={mode}
-                    key={guideline.guideline_id}
-                    appId={app.id}
-                    qualityGuideline={guideline.guideline}
-                    qualityModeration={guideline}
-                    query={query}
-                  />
-                ))}
+              {categoryGuidelines.map((guideline) => (
+                <QualityItem
+                  mode={mode}
+                  key={guideline.guideline_id}
+                  appId={app.id}
+                  qualityGuideline={guideline.guideline}
+                  qualityModeration={guideline}
+                  query={query}
+                />
+              ))}
             </div>
           </div>
         )

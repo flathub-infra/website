@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Literal, cast, overload
 
 from fastapi import APIRouter, FastAPI, HTTPException, Path
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from .. import cache
 from ..database import get_db, get_json_key
@@ -58,6 +58,7 @@ class QualityModerationResponse(BaseModel):
     guidelines: list[QualityModerationType]
     is_fullscreen_app: bool
     review_requested_at: datetime.datetime | None = None
+    metadata_changed_at: dict[str, datetime.datetime] = Field(default_factory=dict)
 
 
 class QualityModerationModeratorResponse(QualityModerationResponse):
@@ -130,16 +131,20 @@ def _get_quality_moderation_response(
     review_request = QualityModerationRequest.by_appid(db, app_id)
     is_fullscreen_app = App.get_fullscreen_app(db, app_id)
     review_requested_at = review_request.created_at if review_request else None
+    app = App.by_appid(db, app_id)
+    metadata_changed_at = (app.quality_metadata_updated_at if app else None) or {}
     if include_attribution:
         return QualityModerationModeratorResponse(
             guidelines=moderator_guidelines,
             is_fullscreen_app=is_fullscreen_app,
             review_requested_at=review_requested_at,
+            metadata_changed_at=metadata_changed_at,
         )
     return QualityModerationResponse(
         guidelines=public_guidelines,
         is_fullscreen_app=is_fullscreen_app,
         review_requested_at=review_requested_at,
+        metadata_changed_at=metadata_changed_at,
     )
 
 

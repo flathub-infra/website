@@ -5,6 +5,7 @@ from enum import StrEnum
 import gi
 
 from . import database, localize, models, schemas, search, utils
+from .quality_metadata import update_quality_metadata_timestamps
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream  # ty: ignore[unresolved-import]
@@ -198,6 +199,12 @@ def load_appstream(sqldb) -> None:
                 sqldb, app_id, type, locales, content_rating_details
             )
             if app:
+                app.quality_metadata_updated_at = update_quality_metadata_timestamps(
+                    app.appstream,
+                    app_data,
+                    app.quality_metadata_updated_at,
+                    utils.utcnow().isoformat(),
+                )
                 app.appstream = app_data
                 app.main_category = main_category
                 app.sub_categories = (

@@ -220,6 +220,8 @@
   "moderation-new-value": "New Value",
   "moderation-value": "Value",
   "moderation-no-review-requests": "No reviews to show for this app.",
+  "quality-metadata-changed": "Metadata changed {time}",
+  "quality-metadata-changed-since-review": "Changed since quality review",
   "moderation-dev-description": "Some changes to an app's metadata, such as its name or description, need to be reviewed by the Flathub team. You can view the status of current and past review requests here.",
   "moderation-outdated": "Outdated",
   "moderation-approved-by": "Approved by {handledBy} on {handledAt} ({handledAtRel})",
