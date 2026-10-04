@@ -11,12 +11,7 @@ import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
 import { bcpToPosixLocale } from "./localize"
 
 export type OarsCategory =
-  | "violence"
-  | "drugs"
-  | "sex"
-  | "language"
-  | "social"
-  | "money"
+  "violence" | "drugs" | "sex" | "language" | "social" | "money"
 
 export interface ContentRatingCategory {
   id: OarsCategory
