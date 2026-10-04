@@ -1,4 +1,4 @@
-import { FunctionComponent, type JSX } from "react"
+import { FunctionComponent, type JSX, type ReactNode } from "react"
 
 import { AppstreamListItem } from "../../types/Appstream"
 
@@ -23,6 +23,20 @@ interface Props {
   showRuntime?: boolean
   showEolBadge?: boolean
   customButtons?: JSX.Element
+  renderItemAction?: (
+    application: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
+  ) => ReactNode
+}
+
+const itemActionContainerClasses: Record<
+  NonNullable<Props["variant"]>,
+  string
+> = {
+  default:
+    "overflow-hidden rounded-xl bg-flathub-white shadow-md transition-colors duration-500 hover:bg-flathub-lotion dark:bg-flathub-arsenic dark:hover:bg-flathub-arsenic/90",
+  nested:
+    "overflow-hidden rounded-lg bg-flathub-gainsborow/40 shadow-md transition-colors duration-500 hover:bg-flathub-gainsborow/20 dark:bg-flathub-gainsborow/10 dark:hover:bg-flathub-gainsborow/20",
+  flat: "overflow-hidden rounded-xl transition-colors duration-500 hover:bg-flathub-white/50 dark:hover:bg-flathub-gainsborow/10",
 }
 
 const Header = ({
@@ -73,6 +87,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   showRuntime = false,
   showEolBadge = false,
   customButtons,
+  renderItemAction,
 }) => {
   const t = useTranslations()
   const searchParams = useSearchParams()
@@ -120,21 +135,40 @@ const ApplicationCollection: FunctionComponent<Props> = ({
       />
 
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
-        {applications.map((app, index) => (
-          <div key={app.id} className="flex flex-col gap-2">
-            <ApplicationCard
-              application={app}
-              link={link}
-              variant={variant}
-              showId={showId}
-              showRuntime={showRuntime}
-              priority={index < 6}
-              endAdornment={
-                showEolBadge && app.is_eol ? <EolBadge /> : undefined
+        {applications.map((app, index) => {
+          const itemAction = renderItemAction?.(app)
+
+          return (
+            <div
+              key={app.id}
+              className={
+                itemAction ? itemActionContainerClasses[variant] : undefined
               }
-            />
-          </div>
-        ))}
+            >
+              <ApplicationCard
+                application={app}
+                link={link}
+                variant={variant}
+                className={
+                  itemAction
+                    ? "rounded-none bg-transparent shadow-none hover:bg-transparent"
+                    : undefined
+                }
+                showId={showId}
+                showRuntime={showRuntime}
+                priority={index < 6}
+                endAdornment={
+                  showEolBadge && app.is_eol ? <EolBadge /> : undefined
+                }
+              />
+              {itemAction && (
+                <div className="flex justify-end border-t border-flathub-gainsborow/80 px-1 dark:border-flathub-granite-gray/30">
+                  {itemAction}
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
 
       {totalPages && <Pagination pages={pages} currentPage={page ?? 1} />}
