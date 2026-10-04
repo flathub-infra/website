@@ -871,5 +871,6 @@
   "could-not-find-match-with-filters": "Wir konnten mit diesen Filtern keine passenden Ergebnisse finden.",
   "other-apps-to-explore": "Hier sind noch ein paar weitere tolle Apps, die du dir mal ansehen solltest.",
   "clear-filters": "Filter löschen",
-  "runtime": "Laufzeit"
+  "runtime": "Laufzeit",
+  "login-failed": "Login fehlgeschlagen"
 }
