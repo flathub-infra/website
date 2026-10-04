@@ -618,8 +618,8 @@
   "total": "Toplam",
   "unauthorized": "Yetkisiz",
   "created": "Oluşturuldu",
-  "favorite": "Yer İşareti",
-  "favorite-apps": "Yer İşaretleri",
+  "favorite": "Yer İmi",
+  "favorite-apps": "Yer İmleri",
   "mobile-apps": "Mobil Uygulamalar",
   "on-the-go": "Her an, her yerde",
   "more-mobile-apps": "Diğer mobil uygulamalar",
@@ -664,7 +664,7 @@
   },
   "download": {
     "install-x": "“{x}” programını yükle",
-    "fallback-instructions": "<opening>\"{name}\" yönetici programında açılıyor…</opening><support>Hiçbir şey olmazsa, sisteminiz <i>flatpak+https</i> URL’lerini desteklemiyor olabilir.</support><listPrefix>Bu durumda şunları yapabilirsiniz:</listPrefix><ol><li><link>.flatpakref dosyasını indirin</link></li><li>Daha sonra dosya yöneticinizden çalıştırın</li></ol><setupLine><linkSetup>Flatpak kurulum talimatları</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>\"{name}\" yönetici programında açılıyor…</opening><support>Hiçbir şey olmazsa, sisteminiz <i>flatpak+https</i> URL’lerini desteklemiyor olabilir.</support><listPrefix>Bu durumda şunları yapabilirsiniz:</listPrefix><ol><li><link>.flatpakref dosyasını</link>indirin</li><li>Daha sonra dosya yöneticinizden çalıştırın</li></ol><setupLine><linkSetup>Flatpak kurulum talimatları</linkSetup></setupLine>"
   },
   "developed-by": "{developer} tarafından geliştirildi",
   "unverified-tooltip": "<appid></appid> uygulama kimliğinin sahipliği doğrulanmamış ve bu uygulama topluluk paketi olabilir",
@@ -673,9 +673,9 @@
     "banner-preview": "Afiş önizlemesi",
     "banner-preview-description": "Afişinizi kolayca denemek için, <preview>afiş önizlemesini</preview> kullanın"
   },
-  "install-all-favorites": "Tüm Yer İşaretlerini Yükle",
-  "install-all-favorites-description": "Tüm yer işareti eklenmiş uygulamalarınızı aynı anda yüklemek için bu komutu kopyalayın:",
-  "no-favorites-yet": "Henüz yer işaretli uygulamanız yok. Beğendiğiniz uygulamaların yer işareti ikonuna tıklayarak favori uygulamalarınızı eklemeye başlayın!",
+  "install-all-favorites": "Tüm Yer İmlerini Yükle",
+  "install-all-favorites-description": "Tüm yer imi eklenmiş uygulamalarınızı aynı anda yüklemek için bu komutu kopyalayın:",
+  "no-favorites-yet": "Henüz yer imli uygulamanız yok. Beğendiğiniz uygulamaların yer imi simgesine tıklayarak favori uygulamalarınızı eklemeye başlayın!",
   "see-all-results": "Tüm sonuçları gör",
   "app-information": "Uygulama Bilgisi",
   "sub-header": {
@@ -704,15 +704,16 @@
       "header": "Yeni Yıl, Yeni İş Akışları"
     },
     "free-software-favorites": {
-      "header": "Ekibin Seçtikleri",
+      "header": "Editörün Seçimleri",
       "description": "Şu anda sevdiğimiz uygulamalar"
     },
     "summer-travel": {
       "description": "Bir sonraki seyahatiniz sizi nereye götürürse götürsün, yanınızda olacak uygulamalar",
-      "header": "Tatile Hazır"
+      "header": "Tatile Hazır Olun"
     },
     "back-to-learning": {
-      "description": "Bilgiyi keşfetmeye, öğrenmeye ve üretmeye yönelik uygulamalar"
+      "description": "Bilgiyi keşfetmeye, öğrenmeye ve üretmeye yönelik uygulamalar",
+      "header": "Her Gün Daha Akıllı"
     },
     "winter-comforts": {
       "description": "Rahatlamak ve kafanı boşaltmak için uygulamalar",
@@ -736,13 +737,15 @@
     },
     "get-to-work": {
       "description": "İşlerinizi halletmenize yardımcı olan uygulamalar",
-      "header": "İşe Başlayın"
+      "header": "İşe Koyulun"
     },
     "spring-creativity": {
-      "description": "Görüntüler, sesler, videolar ve daha fazlasıyla çalışın"
+      "description": "Görüntüler, sesler, videolar ve daha fazlasıyla çalışın",
+      "header": "Yaratıcılığınızı Konuşturun"
     },
     "fresh-desktop-releases": {
-      "description": "Sisteminizde evinizde gibi hissettiren uygulamalar geliştirin"
+      "description": "Sisteminizde kendinizi evinizde hissettiren uygulamalar geliştirin",
+      "header": "Yerleşik Uygulamalar Geliştirin"
     },
     "staying-connected": {
       "description": "Paylaşım yapmak, sohbet etmek ve birlikte vakit geçirmek için uygulamalar",
@@ -812,7 +815,8 @@
     "newcomer-description": "Bu yıl yayınlanan en popüler uygulama",
     "biggest-growth": "En Fazla Büyüme",
     "most-improved-description": "Bir önceki yıla oranla en çok büyüme gösteren uygulama",
-    "downloads-vs-previous-year": "{year}'e Kıyasla"
+    "downloads-vs-previous-year": "{year}'e Kıyasla",
+    "newcomer-of-year": "Yılın Çıkış Yapanı"
   },
   "networking-description": "Linux için web tarayıcıları, e-posta istemcileri, VPN araçları ve diğer ağ uygulamaları.",
   "productivity-description": "Linux için ofis paketleri, not alma, proje yönetimi ve üretkenlik uygulamaları.",
@@ -825,7 +829,7 @@
   "moderation-manifest-complexity-ambiguity": "Bazı modüllerin eşleşmesi kesin olarak belirlenemedi; etkilenen tarif değişikliklerini dikkatlice gözden geçirin.",
   "moderation-manifest-complexity-modules": "Etkilenen modüller",
   "moderation-manifest-complexity-events": "Tarif değişiklikleri",
-  "moderation-manifest-complexity-modules-truncated": "{total} adet etkilenen modülden {shown} tanesi gösteriliyor.",
+  "moderation-manifest-complexity-modules-truncated": "Etkilenen {total} modülden {shown} tanesi gösteriliyor.",
   "moderation-manifest-complexity-events-truncated": "{total} tarif değişikliğinden {shown} tanesi gösteriliyor.",
   "moderation-manifest-added": "Eklendi",
   "moderation-manifest-removed": "Kaldırıldı",
@@ -855,7 +859,7 @@
   "graphics-and-photography-description": "Linux için resim düzenleyicileri, illüstrasyon araçları ve fotoğrafçılık uygulamaları.",
   "moderation-manifest-complexity-explanation": "Bu tarif değişiklikleri, güvenlik riski veya kötü niyetli davranışları değil, paketleme kapsamını ve yapısını açıklamaktadır.",
   "runtime": "Çalışma Zamanı",
-  "unverified-app-disclaimer-package": "Bu topluluk tarafından sağlanan paket; {developer} tarafından doğrulanmamıştır, {developer} ile herhangi bir bağlantısı yoktur ve {developer} tarafından desteklenmemektedir.",
+  "unverified-app-disclaimer-package": "Bu topluluk tarafından sağlanan paket; {developer} tarafından doğrulanmamıştır, {developer}ile herhangi bir bağlantısı yoktur ve {developer} tarafından desteklenmemektedir.",
   "could-not-find-match-with-filters": "Bu filtrelere uygun bir sonuç bulamadık.",
   "other-apps-to-explore": "İşte keşfedebileceğiniz diğer harika uygulamalar.",
   "clear-filters": "Filtreleri temizle",
@@ -866,5 +870,11 @@
   "upload-token-create-failed": "Yükleme jetonu oluşturulamadı. Lütfen tekrar deneyin.",
   "os-version-distribution": "İşletim Sistemi Sürüm Dağılımı (son 30 gün)",
   "flatpak-version-distribution": "Flatpak Sürüm Dağılımı (son 30 gün)",
-  "os-flatpak-version-distribution": "İşletim Sistemine Göre Flatpak Sürümleri (son 30 gün)"
+  "os-flatpak-version-distribution": "İşletim Sistemine Göre Flatpak Sürümleri (son 30 gün)",
+  "login-failed": "Giriş başarısız oldu",
+  "login-failed-try-again": "Giriş yapılamadı. Lütfen tekrar deneyin.",
+  "gitlab-terms-not-accepted": "{provider} hesabınız için Hizmet Şartları'nı kabul etmeniz gerekiyor. Bir tarayıcıda {provider} sayfasını açıp şartları kabul edin ve ardından tekrar oturum açmayı deneyin.",
+  "open-login-provider": "{provider} Ögesini Aç",
+  "back-to-login": "Giriş ekranına dön",
+  "founding-supporters": "Kurucu Destekçiler"
 }

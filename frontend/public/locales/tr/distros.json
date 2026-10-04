@@ -6,11 +6,11 @@
   "ubuntu": {
     "step-4": {
       "name": "Yeniden başlat",
-      "text": "<text>Kurulumu bitirmek için, sisteminizi yeniden önyükleyin. Artık tek yapmanız gereken <link>uygulamalar yüklemek</link>!</text>"
+      "text": "<text>Kurulumu bitirmek için, sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
     },
     "step-1": {
-      "name": "Flatpak'ı İndir",
-      "text": "<text>Flatpak'ı <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ve daha sonrasında</strong> yüklemek için, Terminal uygulamasını açın ve komutu çalıştırın:</text> <code></code>"
+      "name": "Flatpak'ı kur",
+      "text": "<text>Flatpak'ı <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ve üzeri sürümlere</strong> kurmak için Terminal uygulamasını açın ve aşağıdaki komutu çalıştırın:</text> <code></code>"
     },
     "step-2": {
       "name": "GNOME Yazılımı Flatpak eklentisini indirin",
@@ -18,7 +18,7 @@
     },
     "step-3": {
       "name": "Flathub deposunu ekle",
-      "text": "<text>Flathub, Flatpak uygulamalarını yüklemek için en iyi yerdir. Aktifleştirmek için çalıştırın:</text> <code></code>"
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirip kurun ya da terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
     },
     "distroName": "Ubuntu"
   },
@@ -30,7 +30,7 @@
     "distroName": "Manjaro",
     "step-1": {
       "name": "Flatpak'ı Yazılım Yöneticisi ayrıcalığıyla etkinleştir",
-      "text": "<text>Flatpak, Manjaro 20 ve daha üst sürümlerde varsayılan olarak kurulmaktadır.</text><text>Bu özelliği etkinleştirmek için <strong>Yazılım Yöneticisi</strong>’ni (Program Ekle/Kaldır) açın.</text><text>Sağdaki üç çizgili menüye [masaüstü ortamınıza göre üç noktada olabilir] tıklayın, açılan menüden \"Tercihler\"i seçin.</text><text>\"Flatpak\" sekmesine gidin ve Flatpak desteğini etkinleştirmek için anahtarı kaydırın (güncelleştirmeyi kontrol et bölümüde olabilir, etkinleştirilmesi tavsiye edilir).</text>"
+      "text": "<text>Flatpak, Manjaro 20 ve üzeri sürümlerde varsayılan olarak kurulu gelir.</text><text>Bu özelliği etkinleştirmek için <strong>Yazılım Yöneticisi</strong>'ni (Program Ekle/Kaldır) açın.</text><text>Sağdaki üç çizgili menüye [masaüstü ortamınıza göre üç nokta olabilir] tıklayın, açılan menüden \"Tercihler\"i seçin.</text><text>\"Flatpak\" sekmesine gidin ve Flatpak desteğini etkinleştirmek için anahtarı kaydırın (güncelleştirmeleri kontrol et bölümü de olabilir, etkinleştirilmesi tavsiye edilir).</text>"
     },
     "step-2": {
       "name": "Yeniden başlat",
@@ -57,43 +57,72 @@
     "introduction": "<text>Flatpak uygulamaları, Crostini Linux uyumluluk katmanı aracılığıyla ChromeOS'a yüklenebilir. Bu özellik tüm ChromeOS cihazlarında mevcut değildir; bu nedenle devam etmeden önce cihazınızın uyumlu olup olmadığını kontrol etmelisiniz. Uyumlu cihazların listesi <link>burada bulunmaktadır</link>.</text>",
     "step-1": {
       "name": "Linux desteğini etkinleştir",
-      "text": "<text><settingslink>chrome://os-settings</settingslink> adresine gidin, aşağı kaydırarak <strong>Geliştiriciler</strong> bölümüne gelin ve <em>Linux geliştirme ortamı</em> seçeneğini açın. ChromeOS'in Linux'u indirmesi ve kurması biraz zaman alacaktır.</text>"
+      "text": "<text><settingslink>chrome://os-settings</settingslink> adresine gidin, aşağı kaydırıp <strong>Geliştiriciler</strong> ögesine gelin ve <em>Linux geliştirme ortamı</em> seçeneğini açın. ChromeOS'un Linux'u indirmesi ve kurması biraz zaman alacaktır.</text>"
     },
     "step-2": {
-      "name": "Linux uçbirimi başlat"
+      "name": "Linux uçbirimi başlat",
+      "text": "<text>Arama/Başlatıcı tuşuna basın, \"Terminal\" yazın ve Terminal uygulamasını başlatın.</text>"
     },
     "step-4": {
-      "name": "Flathub deposunu ekle"
+      "name": "Flathub deposunu ekle",
+      "text": "<text>Flathub Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için aşağıdaki komutu çalıştırın:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Flatpak'ı kurmak için terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
+    },
+    "step-5": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için Linux'u yeniden başlatın. Bu işlemi terminale sağ tıklayıp, \"Linux'u kapat\" seçeneğine basarak yapabilirsiniz. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
     }
   },
   "linux_mint": {
-    "distroName": "Linux Mint"
+    "distroName": "Linux Mint",
+    "introduction": "<text>Flatpak desteği Linux Mint 18.3 ve üzeri sürümlerde yerleşik olarak gelir — kuruluma ihtiyaç yoktur!</text>"
   },
   "opensuse": {
     "step-1": {
-      "name": "Flatpak kur"
+      "name": "Flatpak kur",
+      "text": "<text>Flatpak, şu an desteklenen tüm openSUSE Leap ve openSUSE Tumbleweed sürümlerinin varsayılan depolarında mevcuttur.</text> <text>Grafik arayüz üzerinden kurulum yapmak isterseniz, <link>software.opensuse.org</link> adresindeki \"tek tıkla kurulum\" seçeneğini kullanarak Flatpak'ı kurabilirsiniz. Dağıtım sürümünüz varsayılan olarak görünmüyorsa, Desteklenmeyen dağıtımlar kategorisi altındaki <em>Göster</em> seçeneğine tıklayıp listeden seçin.</text> <text>Alternatif olarak, Zypper kullanarak komut satırından Flatpak'ı kurabilirsiniz:</text> <code></code>"
     },
     "step-3": {
-      "name": "Yeniden başlat"
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
+    },
+    "distroName": "openSUSE",
+    "step-2": {
+      "name": "Flathub deposunu ekleyin",
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirip kurun ya da bir terminalde aşapıdaki komutu çalıştırın:</text> <code></code>"
     }
   },
   "arch": {
     "step-1": {
       "name": "Flatpak yükle",
-      "text": "<text>Flatpak'ı Arch'a yüklemek için Terminal uygulamasını açın ve şunu çalıştırın:</text> <code></code>"
+      "text": "<text>Flatpak'ı Arch'a kurmak için Terminal uygulamasını açın ve şu komutu çalıştırın:</text> <code></code>"
     },
     "step-2": {
-      "name": "Yeniden başlat"
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
     },
     "distroName": "Arch"
   },
   "debian": {
     "distroName": "Debian",
     "step-1": {
-      "name": "Flatpak yükle"
+      "name": "Flatpak yükle",
+      "text": "<text>Flatpak paketi Debian 10 (Buster) ve üzeri sürümlerde mevcuttur. Kurmak için aşağıdaki komutu yönetici (root) yetkisiyle çalıştırın:</text> <code></code>"
     },
     "step-3": {
-      "name": "Flathub deposunu ekle"
+      "name": "Flathub deposunu ekle",
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirip kurun ya da bir terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Yazılım Flatpak eklentisini kurun",
+      "text": "<text>Eğer GNOME kullanıyorsanız GNOME Yazılım eklentisini kurmak iyi bir fikirdir. Kurmak için aşağıdaki komutu çalıştırın:</text> <code></code> <text>Eğer KDE kullanıyorsanız bunun yerine Plasma Discover Flatpak eklentisini (backend) kurmanız gerekir: </text> <codeDiscover></codeDiscover>"
+    },
+    "step-4": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için, sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
     }
   },
   "rocky_linux": {
@@ -102,12 +131,128 @@
       "name": "Flatpak yükle"
     },
     "step-3": {
-      "name": "Yeniden başlat"
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları indirmeye başlamak</link>!</text>"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekleyin",
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirin ve kurun ya da aşağıdaki komutu terminalde çalıştırın:</text><code></code>"
     }
   },
   "nixos": {
     "step-2": {
       "name": "Flathub deposunu ekle"
+    }
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux",
+    "step-1": {
+      "text": "<text>Pisi 2.1 ve üzeri sürümlerde Flatpak paketi mevcuttur. Kurmak için yönetici yetkisiyle aşağıdaki komutu çalıştırın:</text><code></code>",
+      "name": "Flatpak'ı kur"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekleyin",
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için aşağıdaki komutu çalıştırın:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text> <text>Not: Pisi GNU/Linux üzerinde Flatpak uygulamalarını grafik arayüz üzerinden kurmak mümkün olmayabilir.</text>"
+    }
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS"
+  },
+  "gnu_guix": {
+    "step-1": {
+      "text": "<text>GNU Guix üzerinde Flatpak'ı kurmak için terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekleyin",
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için aşağıdaki komutu çalıştırın:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text> <text>Not: GNU Guix üzerinde Flatpak uygulamalarını grafik arayüz ile kurmak mümkün olmayabilir.</text>"
+    }
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
+  },
+  "alpine": {
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Flatpak'ı topluluk deposundan kurabilirsiniz. Bir terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Yazılım Flatpak eklentisini kurun",
+      "text": "<text>Hem GNOME Yazılım (3.13 ve üzeri) hem de KDE Discover (3.11 ve üzeri) için Flatpak eklentisini kurarak uygulamaları komut satırına gerek kalmadan yükleyebilirsiniz. GNOME Yazılım için kurmak üzere şu komutu çalıştırın:</text> <code></code> <text>KDE Discover için ise şu komutu çalıştırın:</text> <codeDiscover></codeDiscover>"
+    },
+    "step-3": {
+      "name": "Flathub deposunu ekle",
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirip kurun ya da bir terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
+    },
+    "step-4": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu bitirmek için, sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
+    }
+  },
+  "centos": {
+    "distroName": "CentOS Stream",
+    "introduction": "<text>CentOS Stream 8 ve daha yeni sürümlerde GNOME kullanılırken Flatpak varsayılan olarak yüklü gelir. Başlamak için yapmanız gereken tek şey, Flatpak uygulamalarını kurmanın en iyi yolu olan Flathub'ı etkinleştirmektir. <filelink>Flathub depo dosyasını</filelink></text><text>indirip kurmanız yeterlidir. Şimdi yapmanız gereken tek şey <link>uygulamaları kurmak</link>!</text>"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux",
+    "introduction": "<text>AlmaLinux 8 ve daha yeni sürümlerde GNOME kullanılırken Flatpak varsayılan olarak yüklü gelir. Başlamak için yapmanız gereken tek şey, Flatpak uygulamalarını kurmanın en iyi yolu olan Flathub'ı etkinleştirmektir. <filelink>Flathub depo dosyasını</filelink></text><text>indirip kurmanız yeterlidir. Şimdi yapmanız gereken tek şey <link>uygulamaları kurmak</link>!</text>"
+  },
+  "gentoo": {
+    "distroName": "Gentoo",
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Gentoo üzerinde Flatpak'ı kurmak için terminal uygulamasını açın ve aşağıdaki komutu çalıştırın:</text><code></code>"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekleyin",
+      "text": "<text>Flathub Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için aşağıdaki komutu çalıştırın:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text> <text>Not: Gentoo üzerinde Flatpak uygulamalarını grafik arayüz ile kurmak mümkün olmayabilir.</text>"
+    }
+  },
+  "kubuntu": {
+    "step-3": {
+      "name": "Flathub deposunu ekle",
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için Discover'ı açın, ayarlara gidin ve Flathub deposunu ekleyin.</text>"
+    },
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Kubuntu üzerinde Flatpak kurmak için Discover'ı açın, ayarlara gidin, Flatpak arka ucunu (backend) indirin ve Discover'ı yeniden başlatın.</text>"
+    },
+    "step-2": {
+      "name": "Flatpak sistem ayarları eklentisini kurun",
+      "text": "<text>Flatpak desteğini Plasma Sistem Ayarları'na entegre etmek için Terminal uygulamasını açın ve şunu çalıştırın:</text> <code></code>"
+    },
+    "step-4": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
+    }
+  },
+  "solus": {
+    "distroName": "Solus",
+    "introduction": "<text>Solus 4.7 ve üzeri sürümlerde Flatpak yerleşik olarak bulunur — kurulum gerektirmez! Flatpak uygulamalarını GNOME Yazılım ve/veya KDE Discover üzerinden indirebilirsiniz.</text><text>Eğer Flatpak yüklü değilse, başlamak için aşağıda ki talimatları takip edin.</text>",
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Solus'ta Flatpak kurmak için Terminal uygulamasını açın ve çalıştırın:</text><code></code>"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekle",
+      "text": "<text>Flathub, Flatpak uygulamalarını yüklemek için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirin ve kurun ya da aşağıdaki komutu terminalde çalıştırın:</text><code></code>"
+    },
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text><text>Not: Flatpak uygulamalarının grafik arayüzü üzerinden kurulumu yalnızca GNOME Yazılım Merkezi ve/veya KDE Discover aracılığıyla mümkündür"
     }
   }
 }
