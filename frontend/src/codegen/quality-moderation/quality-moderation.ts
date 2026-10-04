@@ -33,6 +33,7 @@ import type {
   GetQualityModerationStatusQualityModerationStatusGetParams,
   GuidelineStatsByCategory,
   QualityModerationDashboardResponse,
+  QualityModerationModeratorResponse,
   QualityModerationResponse,
   QualityModerationStatus,
   SetFullscreenAppQualityModerationAppIdFullscreenPostParams,
@@ -1243,6 +1244,17 @@ export const getQualityModerationForAppQualityModerationAppIdGet = (
   return axios.get(`/quality-moderation/${appId}`, options)
 }
 
+/**
+ * @summary Get Quality Moderation For App As Moderator
+ */
+export const getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet =
+  (
+    appId: string,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<QualityModerationModeratorResponse>> => {
+    return axios.get(`/quality-moderation/${appId}/moderator`, options)
+  }
+
 export const getGetQualityModerationForAppQualityModerationAppIdGetQueryKey = (
   appId: string,
 ) => {
@@ -1460,7 +1472,7 @@ export const setQualityModerationForAppQualityModerationAppIdPost = (
   appId: string,
   upsertQualityModeration: UpsertQualityModeration,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<QualityModerationResponse>> => {
+): Promise<AxiosResponse<QualityModerationModeratorResponse>> => {
   return axios.post(
     `/quality-moderation/${appId}`,
     upsertQualityModeration,
@@ -1928,7 +1940,7 @@ export const deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete 
   (
     appId: string,
     options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<QualityModerationResponse | void>> => {
+  ): Promise<AxiosResponse<QualityModerationModeratorResponse | void>> => {
     return axios.delete(`/quality-moderation/${appId}/request-review`, options)
   }
 
@@ -2040,7 +2052,7 @@ export const setFullscreenAppQualityModerationAppIdFullscreenPost = (
   appId: string,
   params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<QualityModerationResponse>> => {
+): Promise<AxiosResponse<QualityModerationModeratorResponse>> => {
   return axios.post(`/quality-moderation/${appId}/fullscreen`, undefined, {
     ...options,
     params: { ...params, ...options?.params },

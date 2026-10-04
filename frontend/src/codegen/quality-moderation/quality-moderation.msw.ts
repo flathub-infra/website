@@ -148,8 +148,6 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock 
         read_only: faker.datatype.boolean(),
       },
       app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      updated_at: faker.date.past().toISOString().slice(0, 19) + "Z",
-      updated_by: faker.helpers.arrayElement([faker.number.int(), null]),
       passed: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       comment: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -185,8 +183,6 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostResponseMock
         read_only: faker.datatype.boolean(),
       },
       app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      updated_at: faker.date.past().toISOString().slice(0, 19) + "Z",
-      updated_by: faker.helpers.arrayElement([faker.number.int(), null]),
       passed: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       comment: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -244,8 +240,6 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
         read_only: faker.datatype.boolean(),
       },
       app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      updated_at: faker.date.past().toISOString().slice(0, 19) + "Z",
-      updated_by: faker.helpers.arrayElement([faker.number.int(), null]),
       passed: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       comment: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -281,8 +275,6 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostResponseMock
         read_only: faker.datatype.boolean(),
       },
       app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      updated_at: faker.date.past().toISOString().slice(0, 19) + "Z",
-      updated_by: faker.helpers.arrayElement([faker.number.int(), null]),
       passed: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       comment: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
