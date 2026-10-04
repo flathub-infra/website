@@ -1242,17 +1242,6 @@ export const getQualityModerationForAppQualityModerationAppIdGet = (
   return axios.get(`/quality-moderation/${appId}`, options)
 }
 
-/**
- * @summary Get Quality Moderation For App As Moderator
- */
-export const getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet =
-  (
-    appId: string,
-    options?: AxiosRequestConfig,
-  ): Promise<AxiosResponse<QualityModerationModeratorResponse>> => {
-    return axios.get(`/quality-moderation/${appId}/moderator`, options)
-  }
-
 export const getGetQualityModerationForAppQualityModerationAppIdGetQueryKey = (
   appId: string,
 ) => {
@@ -1569,6 +1558,252 @@ export const useSetQualityModerationForAppQualityModerationAppIdPost = <
     queryClient,
   )
 }
+/**
+ * @summary Get Quality Moderation For App As Moderator
+ */
+export const getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet =
+  (
+    appId: string,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<QualityModerationModeratorResponse>> => {
+    return axios.get(`/quality-moderation/${appId}/moderator`, options)
+  }
+
+export const getGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetQueryKey =
+  (appId: string) => {
+    return [`/quality-moderation/${appId}/moderator`] as const
+  }
+
+export const getGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<
+        typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+      >
+    >,
+    TError = AxiosError<void>,
+  >(
+    appId: string,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetQueryKey(
+        appId,
+      )
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+        >
+      >
+    > = ({ signal }) =>
+      getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet(
+        appId,
+        { signal, ...axiosOptions },
+      )
+
+    return {
+      queryKey,
+      queryFn,
+      enabled: appId !== null && appId !== undefined,
+      ...queryOptions,
+    } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+      >
+    >
+  >
+export type GetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetQueryError =
+  AxiosError<void>
+
+export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Quality Moderation For App As Moderator
+ */
+
+export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+    >
+  >,
+  TError = AxiosError<void>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetQueryOptions(
+      appId,
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
 /**
  * @summary Get Quality Moderation Status For App
  */

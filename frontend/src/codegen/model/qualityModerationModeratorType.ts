@@ -4,9 +4,19 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { QualityModerationType } from "./qualityModerationType"
+import type { Guideline } from "./guideline"
+import type { QualityModerationModeratorTypeComment } from "./qualityModerationModeratorTypeComment"
+import type { QualityModerationModeratorTypePassed } from "./qualityModerationModeratorTypePassed"
+import type { QualityModerationModeratorTypeUpdatedAt } from "./qualityModerationModeratorTypeUpdatedAt"
+import type { QualityModerationModeratorTypeUpdatedBy } from "./qualityModerationModeratorTypeUpdatedBy"
 
-export interface QualityModerationModeratorType extends QualityModerationType {
-  updated_at: string | null
-  updated_by: string | null
+export interface QualityModerationModeratorType {
+  guideline_id: string
+  guideline: Guideline
+  app_id: string
+  passed: QualityModerationModeratorTypePassed
+  comment: QualityModerationModeratorTypeComment
+  needed_to_pass_since: string
+  updated_at: QualityModerationModeratorTypeUpdatedAt
+  updated_by: QualityModerationModeratorTypeUpdatedBy
 }

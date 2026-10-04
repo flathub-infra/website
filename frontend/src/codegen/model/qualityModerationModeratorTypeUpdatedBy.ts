@@ -5,4 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type QualityModerationTypeUpdatedBy = number | null
+export type QualityModerationModeratorTypeUpdatedBy = string | null
