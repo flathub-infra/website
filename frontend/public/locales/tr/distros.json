@@ -128,7 +128,8 @@
   "rocky_linux": {
     "distroName": "Rocky Linux",
     "step-1": {
-      "name": "Flatpak yükle"
+      "name": "Flatpak yükle",
+      "text": "<text>Flatpak, GNOME içeren bir yazılım seçimiyle (Grafik Arayüzlü Sunucu, İş İstasyonu) kurulduğunda Rocky Linux 8 ve üzeri sürümlerde varsayılan olarak kuruludur. Böyle bir sistem kullanıyorsanız bu adımı atlayabilirsiniz. Flatpak'i Rocky Linux'a yüklemek için terminalde şu komutu çalıştırın:</text> <code></code>"
     },
     "step-3": {
       "name": "Yeniden başlat",
@@ -176,7 +177,8 @@
     }
   },
   "red_hat_enterprise_linux": {
-    "distroName": "Red Hat Enterprise Linux"
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<text>Flatpak, Red Hat Enterprise Linux Workstation 9 ve üzeri sürümlerde varsayılan olarak yüklüdür. Başlamak için tek yapmanız gereken, Flatpak uygulamalarını edinmenin en iyi yolu olan Flathub'ı etkinleştirmektir. <filelink>Flathub depo dosyasını</filelink> indirip yüklemeniz yeterlidir.</text> <text>Flatpak'i Red Hat Enterprise Linux Workstation 8 veya daha eski bir sürüme yüklemek için terminalde şu komutu çalıştırın:</text> <code></code> <text>Artık tek yapmanız gereken <link>uygulamaları yüklemek</link>!</text> <text>Yukarıdaki bağlantılar varsayılan Red Hat Enterprise Linux Workstation 9 kurulumunda çalışmalıdır; ancak herhangi bir nedenle başarısız olursa, aşağıdaki komutu çalıştırarak Flathub uzak deposunu manuel olarak ekleyebilirsiniz:</text> <codeAddRemote></codeAddRemote>"
   },
   "alpine": {
     "distroName": "Alpine",
@@ -254,5 +256,24 @@
       "name": "Yeniden başlat",
       "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text><text>Not: Flatpak uygulamalarının grafik arayüzü üzerinden kurulumu yalnızca GNOME Yazılım Merkezi ve/veya KDE Discover aracılığıyla mümkündür"
     }
+  },
+  "mageia": {
+    "step-2": {
+      "text": "<text>Flathub, Flatpak paketlerini kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirin ve kurun ya da aşağıdaki komutu terminalde çalıştırın:</text><code></code>",
+      "name": "Flathub deposunu ekle"
+    },
+    "distroName": "Mageia",
+    "step-3": {
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları indirmeye başlamak</link>!</text> <text>Not: Mageia üzerinde Flatpak uygulamalarını grafik arayüz üzerinden kurmak mümkün olmayabilir.</text>",
+      "name": "Yeniden başlat"
+    },
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Flatpak paketi Mageia 6 ve üzeri sürümlerde mevcuttur. DNF ile kurmak için aşağıdaki komutu yönetici (root) olarak çalıştırın:</text> <code></code> <text>Ya da <strong>urpmi</strong> ile kurmak için şu komutu çalıştırın:</text><codeUrpmi></codeUrpmi>"
+    }
+  },
+  "openmandriva_lx": {
+    "introduction": "<header>OpenMandriva'nın aktif olarak desteklenen tüm sürümlerinde Flatpak desteği mevcuttur; bu destek",
+    "distroName": "OpenMandriva Lx"
   }
 }

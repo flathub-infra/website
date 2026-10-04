@@ -488,7 +488,9 @@
     "dark": "Ciemny",
     "failing-x-checks": "{count, plural, one {Nieudany # test} many {Nieudanych # testów} other {Nieudane # testy}}",
     "general-runtime-not-eol": "Środowisko uruchomieniowe nie jest wycofane",
-    "stats-by-category": "Stan weryfikacji wytycznych według kategorii"
+    "stats-by-category": "Stan weryfikacji wytycznych według kategorii",
+    "system-editor": "System",
+    "last-edited": "Edytowane przez {editor} · {time}"
   },
   "app-listing-quality": "Jakość listingu aplikacji",
   "moderation-build-id": "ID kompilacji",
@@ -876,5 +878,7 @@
   "login-failed-try-again": "Logowanie nie udało się. Spróbuj ponownie.",
   "back-to-login": "Wróć do logowania",
   "open-login-provider": "Otwórz {provider}",
-  "gitlab-terms-not-accepted": "Twoje konto {provider} wymaga zaakceptowania przez Ciebie regulaminu serwisu. Otwórz {provider} w przeglądarce, zaakceptuj regulamin i spróbuj ponownie."
+  "gitlab-terms-not-accepted": "Twoje konto {provider} wymaga zaakceptowania przez Ciebie regulaminu serwisu. Otwórz {provider} w przeglądarce, zaakceptuj regulamin i spróbuj ponownie.",
+  "remove-from-favorites": "Usuń {app} z zakładek",
+  "remove-bookmark": "Usuń zakładkę"
 }
