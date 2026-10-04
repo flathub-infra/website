@@ -1329,6 +1329,9 @@ def test_verification_confirm_website_cleans_stale_records(monkeypatch):
     monkeypatch.setattr(verification_module, "_check_app_id", lambda *args: None)
     monkeypatch.setattr(verification_module, "get_db", fake_get_db)
     monkeypatch.setattr(
+        verification_module, "require_oauth_upgrade", lambda _db, _user: None
+    )
+    monkeypatch.setattr(
         verification_module.models.AppVerification,
         "by_app_and_user",
         lambda _db, _app_id, _user: verification,
@@ -1412,6 +1415,9 @@ def test_verification_login_provider_cleans_stale_records(monkeypatch):
         ),
     )
     monkeypatch.setattr(verification_module, "get_db", fake_get_db)
+    monkeypatch.setattr(
+        verification_module, "require_oauth_upgrade", lambda _db, _user: None
+    )
     monkeypatch.setattr(
         verification_module,
         "_cleanup_stale_verifications",
