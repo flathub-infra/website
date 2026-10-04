@@ -534,8 +534,7 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetMockHandler =
       | ((
           info: Parameters<Parameters<typeof http.get>[1]>[0],
         ) =>
-          | Promise<CandidateAssessmentResponse>
-          | CandidateAssessmentResponse),
+          Promise<CandidateAssessmentResponse> | CandidateAssessmentResponse),
     options?: RequestHandlerOptions,
   ) => {
     return http.get(

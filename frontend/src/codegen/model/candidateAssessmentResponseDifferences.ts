@@ -7,5 +7,4 @@
 import type { CandidateAssessmentResponseDifferencesAnyOfItem } from "./candidateAssessmentResponseDifferencesAnyOfItem"
 
 export type CandidateAssessmentResponseDifferences =
-  | CandidateAssessmentResponseDifferencesAnyOfItem[]
-  | null
+  CandidateAssessmentResponseDifferencesAnyOfItem[] | null

@@ -1871,8 +1871,7 @@ export const getGetCategoryCollectionCategoryCategoryGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
@@ -1898,8 +1897,7 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetMockHand
       | ((
           info: Parameters<Parameters<typeof http.get>[1]>[0],
         ) =>
-          | Promise<MeilisearchResponseAppsIndex>
-          | MeilisearchResponseAppsIndex),
+          Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
     options?: RequestHandlerOptions,
   ) => {
     return http.get(
@@ -1948,8 +1946,7 @@ export const getGetKeywordCollectionKeywordGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
@@ -1998,8 +1995,7 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
@@ -2024,8 +2020,7 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
@@ -2050,8 +2045,7 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
@@ -2076,8 +2070,7 @@ export const getGetVerifiedCollectionVerifiedGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
@@ -2102,8 +2095,7 @@ export const getGetMobileCollectionMobileGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
@@ -2128,8 +2120,7 @@ export const getGetPopularLastMonthCollectionPopularGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
@@ -2154,8 +2145,7 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
@@ -2180,8 +2170,7 @@ export const getGetMostFavoritedCollectionFavoritesGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<MeilisearchResponseAppsIndex>
-        | MeilisearchResponseAppsIndex),
+        Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(

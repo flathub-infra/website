@@ -8,9 +8,4 @@ import type { JSONValueAnyOfItem } from "./jSONValueAnyOfItem"
 import type { JSONValueAnyOfTwo } from "./jSONValueAnyOfTwo"
 
 export type JSONValue =
-  | string
-  | number
-  | boolean
-  | JSONValueAnyOfItem[]
-  | JSONValueAnyOfTwo
-  | null
+  string | number | boolean | JSONValueAnyOfItem[] | JSONValueAnyOfTwo | null

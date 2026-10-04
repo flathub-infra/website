@@ -7,5 +7,4 @@
 import type { DesktopAppstreamProvidesAnyOfItem } from "./desktopAppstreamProvidesAnyOfItem"
 
 export type DesktopAppstreamProvides =
-  | DesktopAppstreamProvidesAnyOfItem[]
-  | null
+  DesktopAppstreamProvidesAnyOfItem[] | null

@@ -143,8 +143,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
   TError = AxiosError<void>,
 >(
   params:
-    | undefined
-    | GetQualityModerationStatusQualityModerationStatusGetParams,
+    undefined | GetQualityModerationStatusQualityModerationStatusGetParams,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -376,8 +375,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TError = AxiosError<void>,
 >(
   params:
-    | undefined
-    | GetPassingQualityAppsQualityModerationPassingAppsGetParams,
+    undefined | GetPassingQualityAppsQualityModerationPassingAppsGetParams,
   options: {
     query: Partial<
       UseQueryOptions<

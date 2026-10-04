@@ -6,8 +6,7 @@
  */
 
 export type ReleaseUrgency =
-  | (typeof ReleaseUrgency)[keyof typeof ReleaseUrgency]
-  | null
+  (typeof ReleaseUrgency)[keyof typeof ReleaseUrgency] | null
 
 export const ReleaseUrgency = {
   low: "low",

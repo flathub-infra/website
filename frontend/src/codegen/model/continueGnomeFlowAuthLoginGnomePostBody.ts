@@ -8,5 +8,4 @@ import type { OauthLoginResponseFailure } from "./oauthLoginResponseFailure"
 import type { OauthLoginResponseSuccess } from "./oauthLoginResponseSuccess"
 
 export type ContinueGnomeFlowAuthLoginGnomePostBody =
-  | OauthLoginResponseSuccess
-  | OauthLoginResponseFailure
+  OauthLoginResponseSuccess | OauthLoginResponseFailure

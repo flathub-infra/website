@@ -480,8 +480,7 @@ export const getAppInfoVendingappAppIdInfoGetMockHandler = (
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
       ) =>
-        | Promise<VendingApplicationInformation>
-        | VendingApplicationInformation),
+        Promise<VendingApplicationInformation> | VendingApplicationInformation),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
