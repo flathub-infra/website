@@ -104,7 +104,7 @@ def search_module(monkeypatch):
     previous_database = sys.modules.pop("app.database", None)
     previous_models_attribute = getattr(app_package, "models", None)
     previous_database_attribute = getattr(app_package, "database", None)
-    monkeypatch.setitem(sys.modules, "app.models", fake_models)
+    sys.modules["app.models"] = fake_models
     previous_search = sys.modules.pop("app.search", None)
     module = importlib.import_module("app.search")
     monitor = FakeMonitor()
