@@ -1,46 +1,11 @@
-import { useRef, useState, useEffect } from "react"
 import { useTranslations } from "next-intl"
 import { getIntlLocale } from "../../../localize"
 import { StatsResultApp } from "src/codegen"
 import Modal from "../../Modal"
 import AppStatistics from "../AppStats"
-import WorldMap, { type DataItem } from "react-svg-worldmap"
+import CountryMap, { type CountryMapValue } from "@/components/ui/country-map"
 import Tabs, { Tab } from "../../Tabs"
 import { UTCDate } from "@date-fns/utc"
-
-const ContainerWorldMap = ({
-  countryData,
-}: {
-  countryData: DataItem<number>[]
-}) => {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [mapSize, setMapSize] = useState(480)
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        setMapSize(Math.floor(entry.contentRect.width))
-      }
-    })
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <div ref={containerRef} className="w-full [&_figure]:!m-0">
-      <WorldMap
-        color="oklch(var(--color-primary))"
-        backgroundColor="oklch(var(--bg-color-secondary))"
-        borderColor="oklch(var(--text-primary))"
-        size={mapSize}
-        data={countryData}
-      />
-    </div>
-  )
-}
 
 const StatsModal = ({
   isOpen,
@@ -57,9 +22,9 @@ const StatsModal = ({
 
   const countryStatisticsStartDate = new UTCDate(2024, 3, 15)
 
-  const countryData: DataItem<number>[] = stats.installs_per_country
+  const countryData: CountryMapValue[] = stats.installs_per_country
     ? Object.entries(stats.installs_per_country).map(([key, value]) => ({
-        country: key as DataItem<number>["country"],
+        country: key,
         value: value as number,
       }))
     : []
@@ -81,7 +46,11 @@ const StatsModal = ({
     name: t("country-statistics"),
     content: (
       <div className="flex flex-col items-center p-4 w-full">
-        <ContainerWorldMap countryData={countryData} />
+        <CountryMap
+          data={countryData}
+          ariaLabel={t("country-statistics")}
+          metric="installs"
+        />
         <p className="mt-2 text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
           {t("since-x", {
             date: countryStatisticsStartDate.toLocaleDateString(
