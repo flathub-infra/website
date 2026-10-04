@@ -1,12 +1,14 @@
 import os
 import sys
 from contextlib import contextmanager
-from unittest.mock import patch
+from datetime import timedelta
+from unittest.mock import MagicMock, patch
+from urllib.parse import parse_qs, urlsplit
 from uuid import uuid4
 
 import pytest
 import redis
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
@@ -23,7 +25,14 @@ from app.email_login import (
     safe_return_to,
 )
 from app.login_info import LoginInformation, LoginState, login_state
-from app.models import EmailAccount, EmailLoginChallenge, FlathubUser
+from app.models import (
+    EmailAccount,
+    EmailLoginChallenge,
+    FlathubUser,
+    OidcAuthorizationCode,
+    OidcClient,
+)
+from app.routes import oidc
 from app.utils import utcnow
 from app.worker.emails import send_email_login_link
 
@@ -71,6 +80,122 @@ def test_safe_return_path(value, expected):
 def test_locale_syntax():
     assert safe_locale("pt-BR") == "pt-BR"
     assert safe_locale("en/../../") == "en"
+
+
+@pytest.mark.parametrize("existing_account", [False, True])
+def test_email_confirmation_resumes_oidc_authorization(monkeypatch, existing_account):
+    user = FlathubUser(id=42, deleted=False, banned=False, oidc_subject="email-user")
+    account = EmailAccount(
+        user=user.id, email="reader@example.com", verified_at=utcnow()
+    )
+    challenge = EmailLoginChallenge(
+        email=account.email,
+        user_id=user.id if existing_account else None,
+        expires_at=utcnow() + timedelta(minutes=15),
+        return_to="/oidc/authorize",
+    )
+    email_db = MagicMock()
+    email_db.session.scalar.side_effect = (
+        [challenge, account, user, challenge]
+        if existing_account
+        else [challenge, None, challenge]
+    )
+
+    def add_email_entity(entity):
+        if isinstance(entity, FlathubUser):
+            entity.id = user.id
+
+    email_db.session.add.side_effect = add_email_entity
+    oidc_db = MagicMock()
+    oidc_db.session.query.return_value.filter.return_value.first.return_value = (
+        OidcClient(
+            client_id="test-client",
+            name="Test Client",
+            enabled=True,
+            trusted=False,
+            redirect_uris=["https://client.example/callback"],
+            allowed_scopes=["openid"],
+            require_pkce=False,
+        )
+    )
+    oidc_db.session.get.return_value = user
+
+    @contextmanager
+    def email_writer(_db_type="writer"):
+        yield email_db
+
+    @contextmanager
+    def oidc_database(_db_type="replica"):
+        yield oidc_db
+
+    def current_login(request: Request):
+        if request.session.get("user-id") == user.id:
+            return LoginInformation(LoginState.LOGGED_IN, user, None)
+        return LoginInformation(LoginState.LOGGED_OUT, None, None)
+
+    monkeypatch.setattr(config.settings, "email_login_enabled", True)
+    monkeypatch.setattr(config.settings, "oidc_enabled", True)
+    monkeypatch.setattr(config.settings, "oidc_issuer", "https://testserver")
+    monkeypatch.setattr(logins, "get_db", email_writer)
+    monkeypatch.setattr(logins, "lock_email", lambda *_args: None)
+    monkeypatch.setattr(logins, "email_login_allowed", lambda *_args: True)
+    monkeypatch.setattr(logins, "oauth_email_exists", lambda *_args: False)
+    monkeypatch.setattr(logins._email_rate_store, "eval", lambda *_args: [1])
+    monkeypatch.setattr(
+        logins.audit_log, "enqueue_audit_log", lambda *_args, **_kwargs: None
+    )
+    monkeypatch.setattr(oidc, "get_db", oidc_database)
+    app = FastAPI()
+    logins.register_to_app(app)
+    oidc.register_to_app(app)
+    app.dependency_overrides[login_state] = current_login
+
+    with TestClient(app, base_url="https://testserver") as client:
+        started = client.get(
+            "/oidc/authorize",
+            params={
+                "client_id": "test-client",
+                "redirect_uri": "https://client.example/callback",
+                "response_type": "code",
+                "scope": "openid",
+                "state": "client-state",
+            },
+            follow_redirects=False,
+        )
+        assert started.status_code == 302
+        assert parse_qs(urlsplit(started.headers["location"]).query)["returnTo"] == [
+            challenge.return_to
+        ]
+        confirmed = client.post(
+            "/auth/email/confirm",
+            json={"token": "a" * 43},
+            headers={"origin": config.settings.frontend_url.rstrip("/")},
+        )
+        assert confirmed.status_code == 200
+        resumed = client.get(confirmed.json()["return_to"], follow_redirects=False)
+        assert resumed.status_code == 302, resumed.text
+        consent = client.get(resumed.headers["location"])
+        assert consent.status_code == 200
+        oidc_db.session.add.assert_not_called()
+        csrf_token = consent.text.split('name="csrf_token" value="', 1)[1].split(
+            '"', 1
+        )[0]
+        approved = client.post(
+            "/oidc/consent",
+            data={"csrf_token": csrf_token, "decision": "approve"},
+            follow_redirects=False,
+        )
+        assert approved.status_code == 302
+        callback = urlsplit(approved.headers["location"])
+        assert f"{callback.scheme}://{callback.netloc}{callback.path}" == (
+            "https://client.example/callback"
+        )
+        callback_params = parse_qs(callback.query)
+        assert callback_params["state"] == ["client-state"]
+        assert callback_params["code"]
+    code = oidc_db.session.add.call_args.args[0]
+    assert isinstance(code, OidcAuthorizationCode)
+    assert code.user_id == user.id
 
 
 def test_email_identity_and_deletion():
