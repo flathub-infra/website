@@ -125,7 +125,7 @@ def _get_stats_for_date(
         )
         redis_conn.set(redis_key, orjson.dumps(stats), ex=expire)
     else:
-        stats = orjson.loads(cast("str | bytes", stats_txt))
+        stats = orjson.loads(stats_txt)
     return stats
 
 
@@ -983,10 +983,7 @@ async def _build_year_in_review_base(year: int) -> dict | None:
     async def _fetch_stats_async(date):
         cache_key = f"stats:date:{date.isoformat()}"
         try:
-            cached_value = cast(
-                "bytes | str | None",
-                await asyncio.to_thread(redis_conn.get, cache_key),
-            )
+            cached_value = await asyncio.to_thread(redis_conn.get, cache_key)
         except Exception:
             logger.exception("Failed to read cached stats for %s", date)
             cached_value = None
