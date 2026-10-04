@@ -103,10 +103,6 @@ class Settings(BaseSettings):
     ostree_manifest_complexity_gating_observe_only: bool = False
     ostree_manifest_complexity_threshold_units: int = Field(default=14, ge=1, le=40)
     ostree_manifest_timeout_seconds: float = Field(default=60.0, gt=0)
-    ostree_manifest_jev_observation_enabled: bool = False
-    ostree_manifest_jev_timeout_seconds: float = Field(default=10.0, gt=0, le=30)
-    typesafe_api_key: str | None = None
-    typesafe_jev_model: str = "jev-1.13.0"
 
     random_review_enabled: bool = False
     random_review_rate: float = Field(default=0.01, ge=0.0, le=1.0)
@@ -151,17 +147,6 @@ class Settings(BaseSettings):
         ):
             raise ValueError(
                 "OSTREE_MANIFEST_COMPLEXITY_GATING_OBSERVE_ONLY requires OSTREE_MANIFEST_COMPARISON_ENABLED"
-            )
-        if (
-            self.ostree_manifest_jev_observation_enabled
-            and not self.ostree_manifest_comparison_enabled
-        ):
-            raise ValueError(
-                "OSTREE_MANIFEST_JEV_OBSERVATION_ENABLED requires OSTREE_MANIFEST_COMPARISON_ENABLED"
-            )
-        if self.ostree_manifest_jev_observation_enabled and not self.typesafe_api_key:
-            raise ValueError(
-                "OSTREE_MANIFEST_JEV_OBSERVATION_ENABLED requires TYPESAFE_API_KEY"
             )
         return self
 

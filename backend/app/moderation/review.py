@@ -32,13 +32,7 @@ from ..emails import EmailCategory
 from ..login_info import LoginStatusDep, ModeratorDep
 from ..types import ModerationOriginKind, ModerationRequestType
 from ..verification import is_appid_runtime
-from . import (
-    jev_observation,
-    jev_state,
-    manifest_complexity,
-    ostree_manifest,
-    url_origin,
-)
+from . import manifest_complexity, ostree_manifest, url_origin
 from .constants import should_skip_review
 
 router = APIRouter(prefix="/moderation")
@@ -1088,7 +1082,6 @@ def _manifest_analysis_observation_values(
         "build_command_event_count": 0,
         "build_command_distinct_fingerprint_count": 0,
         "build_command_fingerprint_group_sizes": [],
-        "jev_semantic_analysis": None,
         "source_gating_enabled": source_gating_enabled,
         "source_observe_only": source_observe_only,
         "complexity_gating_enabled": complexity_gating_enabled,
@@ -1133,51 +1126,6 @@ def _manifest_analysis_observation_values(
     else:
         values["complexity_not_scored_reason"] = complexity.reason.value
     return values
-
-
-def _jev_semantic_analysis(
-    app_id: str,
-    complexity: manifest_complexity.ManifestComplexityAnalysis,
-    groups: Sequence[Sequence[ostree_manifest.ManifestPair]],
-) -> tuple[dict[str, Any], jev_state.JevState | None]:
-    payload: dict[str, Any] = {
-        "provider": jev_observation.JEV_PROVIDER,
-        "model": config.settings.typesafe_jev_model,
-        "state_schema_version": jev_state.STATE_SCHEMA_VERSION,
-        "question_schema_version": jev_observation.QUESTION_SCHEMA_VERSION,
-    }
-    if not isinstance(complexity, manifest_complexity.ManifestComplexityResult):
-        return {"status": "skipped", "reason": "not_scored", **payload}, None
-    if not complexity.events:
-        return {"status": "skipped", "reason": "no_changes", **payload}, None
-    pair = jev_state.comparable_pair(groups)
-    if pair is None:
-        return {
-            "status": "skipped",
-            "reason": "multiple_manifest_groups",
-            **payload,
-        }, None
-    try:
-        semantic_state = jev_state.build_state(pair, complexity)
-    except Exception:
-        logger.exception("Failed to build Jev state for %s", app_id)
-        return {
-            "status": "state_construction_error",
-            **payload,
-            "probabilities": None,
-        }, None
-    return {
-        "status": "pending",
-        **payload,
-        "state_hash": semantic_state.state_hash,
-        "probabilities": None,
-        "truncation": {
-            "source_details": semantic_state.state["limits"][
-                "source_details_truncated"
-            ],
-            "content": semantic_state.state["limits"]["content_truncated"],
-        },
-    }, semantic_state
 
 
 def _upsert_manifest_analysis_observations(
@@ -1478,7 +1426,6 @@ def submit_review_request(
     new_requests: list[models.ModerationRequest] = []
     persisted_requests: list[models.ModerationRequest] = []
     analysis_observations: dict[str, dict[str, Any]] = {}
-    jev_jobs: dict[str, tuple[dict[str, Any], dict[str, Any]]] = {}
     new_observation_app_ids: set[str] = set()
     manifest_newly_actionable_requests: list[models.ModerationRequest] = []
     manifest_newly_actionable_app_ids: set[str] = set()
@@ -1525,15 +1472,6 @@ def submit_review_request(
                 config.settings.ostree_manifest_complexity_threshold_units
             ),
         )
-        if config.settings.ostree_manifest_jev_observation_enabled:
-            jev_payload, semantic_state = _jev_semantic_analysis(
-                app_id, complexity, manifest_groups_by_app.get(app_id, ())
-            )
-            analysis_observations[app_id]["jev_semantic_analysis"] = jev_payload
-            if semantic_state is None:
-                jev_jobs.pop(app_id, None)
-            else:
-                jev_jobs[app_id] = (semantic_state.state, jev_payload)
 
     try:
         build_ref_arch = build_ref_arches.pop()
@@ -2413,16 +2351,6 @@ def submit_review_request(
         )
         if persisted_requests or analysis_observations or outdated_count:
             db.session.commit()
-
-    for app_id, (semantic_state, jev_payload) in sorted(jev_jobs.items()):
-        try:
-            jev_observation.observe_manifest_semantics.send(
-                review_request.build_id, app_id, semantic_state, jev_payload
-            )
-        except Exception:
-            logger.exception(
-                "Failed to enqueue Jev semantic observation for %s", app_id
-            )
 
     if config.settings.moderation_observe_only:
         return ReviewRequestResponse(requires_review=False)

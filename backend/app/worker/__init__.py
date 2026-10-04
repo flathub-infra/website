@@ -1,5 +1,4 @@
 from ..audit_log import log_audit_event
-from ..moderation.jev_observation import observe_manifest_semantics
 from ..search_tasks import monitor_hybrid_index_task, reconcile_hybrid_index
 from .core import broker
 from .emails import send_email_new, send_one_email_new
@@ -17,7 +16,6 @@ __all__ = [
     "broker",
     "log_audit_event",
     "monitor_hybrid_index_task",
-    "observe_manifest_semantics",
     "prune_audit_logs",
     "prune_oidc_tokens",
     "reconcile_hybrid_index",
