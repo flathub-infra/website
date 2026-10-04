@@ -17,6 +17,7 @@ type ImgproxyProps = {
   loading?: "eager" | "lazy"
   fetchPriority?: "high" | "low" | "auto"
   sizes?: string
+  responsiveWidths?: number[]
   onClick?: () => void
   draggable?: boolean
   pictureClassName?: string
@@ -34,6 +35,7 @@ export const Imgproxy = ({
   loading = "lazy",
   fetchPriority = "auto",
   sizes,
+  responsiveWidths,
   onClick,
   draggable = true,
   pictureClassName,
@@ -41,15 +43,18 @@ export const Imgproxy = ({
 }: ImgproxyProps) => {
   const resolvedSrc = typeof src === "string" ? src : src.src
 
-  const imgproxyUrl = (format: Format, dpr: number) => {
+  const imgproxyUrl = (format: Format, dpr: number, targetWidth = width) => {
     try {
       const url = generateImageUrl({
         endpoint: imgproxyEndpoint,
         url: resolvedSrc,
         options: {
           resize: {
-            width,
-            height,
+            width: targetWidth,
+            height:
+              responsiveWidths && width && height && targetWidth
+                ? Math.round((targetWidth / width) * height)
+                : height,
             resizing_type: fill ? "fill-down" : "fit",
           },
           format,
@@ -66,7 +71,13 @@ export const Imgproxy = ({
   }
 
   const srcSet = (format?: Format) =>
-    [`${imgproxyUrl(format, 1)} 1x`, `${imgproxyUrl(format, 2)} 2x`].join(", ")
+    responsiveWidths?.length
+      ? responsiveWidths
+          .map((width) => `${imgproxyUrl(format, 1, width)} ${width}w`)
+          .join(", ")
+      : [`${imgproxyUrl(format, 1)} 1x`, `${imgproxyUrl(format, 2)} 2x`].join(
+          ", ",
+        )
 
   const imgClassName = cn(
     fill ? "object-cover size-full" : "object-contain",
@@ -87,10 +98,11 @@ export const Imgproxy = ({
       )}
     >
       <picture className={pictureClassName}>
-        <source srcSet={srcSet("avif")} type="image/avif" />
-        <source srcSet={srcSet("webp")} type="image/webp" />
+        <source srcSet={srcSet("avif")} sizes={sizes} type="image/avif" />
+        <source srcSet={srcSet("webp")} sizes={sizes} type="image/webp" />
         <img
           src={imgproxyUrl("webp", 1)}
+          srcSet={responsiveWidths?.length ? srcSet("webp") : undefined}
           alt={alt}
           className={imgClassName}
           width={fill ? undefined : width}
