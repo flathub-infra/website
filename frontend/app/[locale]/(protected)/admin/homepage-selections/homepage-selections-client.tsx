@@ -237,12 +237,10 @@ export default function HomepageSelectionsClient() {
         ),
       )
       const appDetails = await Promise.all(
-        appIds.map(
-          async (appId): Promise<[string, SelectableApp]> => [
-            appId,
-            await getSelectableApp(appId),
-          ],
-        ),
+        appIds.map(async (appId): Promise<[string, SelectableApp]> => [
+          appId,
+          await getSelectableApp(appId),
+        ]),
       )
       const appDetailsById = new Map(appDetails)
 

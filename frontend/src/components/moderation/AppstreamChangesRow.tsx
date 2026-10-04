@@ -147,13 +147,9 @@ const DiffRow = ({
 }) => {
   // can be string or string[]
   const currentValues = requestData.current_values[valueKey] as
-    | string
-    | string[]
-    | { [key: string]: string[] }
+    string | string[] | { [key: string]: string[] }
   const newValues = requestData.keys[valueKey] as
-    | string
-    | string[]
-    | { [key: string]: string[] }
+    string | string[] | { [key: string]: string[] }
 
   if (Array.isArray(currentValues) || Array.isArray(newValues)) {
     if (JSON.stringify(currentValues) === JSON.stringify(newValues)) {
