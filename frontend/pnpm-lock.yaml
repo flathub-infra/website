@@ -282,7 +282,7 @@ importers:
         version: 2.15.0(@types/node@26.1.1)(typescript@5.9.3)
       msw-storybook-addon:
         specifier: ^3.0.3
-        version: 3.0.3(msw@2.15.0(@types/node@26.1.1)(typescript@5.9.3))(storybook@10.6.0(@types/react@19.3.0)(prettier@3.8.3)(react@19.3.0))
+        version: 3.0.3(msw@2.15.0(@types/node@26.1.1)(typescript@5.9.3))(storybook@10.6.0(@types/react@19.3.0)(prettier@3.9.9)(react@19.3.0))
       openapi3-ts:
         specifier: ^4.6.0
         version: 4.6.0
@@ -4169,6 +4169,12 @@ packages:
     cpu: [loong64]
     os: [linux]
     libc: [glibc]
+
+  '@unrs/resolver-binding-linux-loong64-musl@1.12.2':
+    resolution: {integrity: sha512-jiuG/Obbel7uw1PwHNFfrkiKhLAF6mnyZ6aWlOAVN9WqKm8v0OFGnciJIHu8+CMvXLQ8AD51LPzAoUfT21D5Ew==}
+    cpu: [loong64]
+    os: [linux]
+    libc: [musl]
 
   '@unrs/resolver-binding-linux-ppc64-gnu@1.12.2':
     resolution: {integrity: sha512-q7xRvVpmcfeL+LlZg8Pbbo6QaTZwDU5BaGZbwfhkEsXJn3Was8xYfE0RBH266xZt0rM6B7i8xAYIvjthuUIWHg==}
@@ -11201,6 +11207,9 @@ snapshots:
   '@unrs/resolver-binding-linux-loong64-gnu@1.12.2':
     optional: true
 
+  '@unrs/resolver-binding-linux-loong64-musl@1.12.2':
+    optional: true
+
   '@unrs/resolver-binding-linux-ppc64-gnu@1.12.2':
     optional: true
 
@@ -13394,10 +13403,10 @@ snapshots:
 
   ms@2.1.3: {}
 
-  msw-storybook-addon@3.0.3(msw@2.15.0(@types/node@26.1.1)(typescript@5.9.3))(storybook@10.6.0(@types/react@19.3.0)(prettier@3.8.3)(react@19.3.0)):
+  msw-storybook-addon@3.0.3(msw@2.15.0(@types/node@26.1.1)(typescript@5.9.3))(storybook@10.6.0(@types/react@19.3.0)(prettier@3.9.9)(react@19.3.0)):
     dependencies:
       msw: 2.15.0(@types/node@26.1.1)(typescript@5.9.3)
-      storybook: 10.6.0(@types/react@19.3.0)(prettier@3.8.3)(react@19.3.0)
+      storybook: 10.6.0(@types/react@19.3.0)(prettier@3.9.9)(react@19.3.0)
 
   msw@2.15.0(@types/node@26.1.1)(typescript@5.9.3):
     dependencies:
@@ -14873,6 +14882,7 @@ snapshots:
       '@unrs/resolver-binding-linux-arm64-gnu': 1.12.2
       '@unrs/resolver-binding-linux-arm64-musl': 1.12.2
       '@unrs/resolver-binding-linux-loong64-gnu': 1.12.2
+      '@unrs/resolver-binding-linux-loong64-musl': 1.12.2
       '@unrs/resolver-binding-linux-ppc64-gnu': 1.12.2
       '@unrs/resolver-binding-linux-riscv64-gnu': 1.12.2
       '@unrs/resolver-binding-linux-riscv64-musl': 1.12.2

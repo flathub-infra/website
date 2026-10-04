@@ -6,11 +6,9 @@ import { faker } from "@faker-js/faker"
 import { MotionGlobalConfig } from "framer-motion"
 import isChromatic from "chromatic/isChromatic"
 
-import { initialize, mswLoader } from "msw-storybook-addon"
+import { mswLoader } from "msw-storybook-addon/csf3"
 import { allModes } from "./modes"
 import nextIntl from "./next-intl"
-
-initialize()
 
 MotionGlobalConfig.skipAnimations = isChromatic()
 
@@ -338,7 +336,7 @@ export default {
       test: "todo",
     },
   },
-  loaders: [mswLoader],
+  loaders: [mswLoader()],
   decorators: [
     (Story) => (
       <QueryClientProvider client={queryClient}>{Story()}</QueryClientProvider>
