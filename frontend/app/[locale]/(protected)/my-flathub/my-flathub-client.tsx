@@ -78,7 +78,7 @@ const RemoveFavoriteButton = ({
       data-remove-favorite
       variant="ghost"
       size="sm"
-      className="w-full justify-end text-flathub-sonic-silver hover:bg-destructive/10 hover:text-destructive active:bg-destructive/15 active:text-destructive focus-visible:text-destructive disabled:pointer-events-auto dark:text-flathub-spanish-gray dark:hover:text-destructive"
+      className="text-sm text-flathub-granite-gray transition-colors hover:bg-black/5 hover:text-flathub-dark-gunmetal active:bg-black/10 active:text-flathub-dark-gunmetal dark:text-flathub-gainsborow dark:hover:bg-white/5 dark:hover:text-flathub-gainsborow dark:active:bg-white/10 dark:active:text-flathub-gainsborow disabled:pointer-events-auto"
       title={label}
       aria-label={label}
       disabled={removeMutation.isPending}

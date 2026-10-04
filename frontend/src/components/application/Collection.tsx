@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { useSearchParams } from "next/navigation"
 import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen/model/getAppstreamAppstreamAppIdGet200"
 import { EolBadge } from "./EolBadge"
+import { Card, CardContent, CardFooter } from "@/components/ui/card"
 
 interface Props {
   applications: GetAppstreamAppstreamAppIdGet200[] | AppstreamListItem[]
@@ -33,10 +34,10 @@ const itemActionContainerClasses: Record<
   string
 > = {
   default:
-    "overflow-hidden rounded-xl bg-flathub-white shadow-md transition-colors duration-500 hover:bg-flathub-lotion dark:bg-flathub-arsenic dark:hover:bg-flathub-arsenic/90",
+    "gap-0 overflow-hidden rounded-xl bg-flathub-white p-0 shadow-md transition-colors duration-500 hover:bg-flathub-lotion dark:bg-flathub-arsenic dark:hover:bg-flathub-arsenic/90",
   nested:
-    "overflow-hidden rounded-lg bg-flathub-gainsborow/40 shadow-md transition-colors duration-500 hover:bg-flathub-gainsborow/20 dark:bg-flathub-gainsborow/10 dark:hover:bg-flathub-gainsborow/20",
-  flat: "overflow-hidden rounded-xl transition-colors duration-500 hover:bg-flathub-white/50 dark:hover:bg-flathub-gainsborow/10",
+    "gap-0 overflow-hidden rounded-lg bg-flathub-gainsborow/40 p-0 shadow-md transition-colors duration-500 hover:bg-flathub-gainsborow/20 dark:bg-flathub-gainsborow/10 dark:hover:bg-flathub-gainsborow/20",
+  flat: "gap-0 overflow-hidden rounded-xl bg-transparent p-0 transition-colors duration-500 hover:bg-flathub-white/50 dark:bg-transparent dark:hover:bg-flathub-gainsborow/10",
 }
 
 const Header = ({
@@ -137,34 +138,36 @@ const ApplicationCollection: FunctionComponent<Props> = ({
       <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {applications.map((app, index) => {
           const itemAction = renderItemAction?.(app)
+          const applicationCard = (
+            <ApplicationCard
+              application={app}
+              link={link}
+              variant={variant}
+              className={
+                itemAction
+                  ? "rounded-none bg-transparent shadow-none hover:bg-transparent"
+                  : undefined
+              }
+              showId={showId}
+              showRuntime={showRuntime}
+              priority={index < 6}
+              endAdornment={
+                showEolBadge && app.is_eol ? <EolBadge /> : undefined
+              }
+            />
+          )
 
           return (
-            <div
-              key={app.id}
-              className={
-                itemAction ? itemActionContainerClasses[variant] : undefined
-              }
-            >
-              <ApplicationCard
-                application={app}
-                link={link}
-                variant={variant}
-                className={
-                  itemAction
-                    ? "rounded-none bg-transparent shadow-none hover:bg-transparent"
-                    : undefined
-                }
-                showId={showId}
-                showRuntime={showRuntime}
-                priority={index < 6}
-                endAdornment={
-                  showEolBadge && app.is_eol ? <EolBadge /> : undefined
-                }
-              />
-              {itemAction && (
-                <div className="flex justify-end border-t border-flathub-gainsborow/80 px-1 dark:border-flathub-granite-gray/30">
-                  {itemAction}
-                </div>
+            <div key={app.id}>
+              {itemAction ? (
+                <Card className={itemActionContainerClasses[variant]}>
+                  <CardContent className="p-0">{applicationCard}</CardContent>
+                  <CardFooter className="justify-end border-t border-flathub-gainsborow/80 px-1 py-0 dark:border-flathub-granite-gray/30 [.border-t]:pt-0">
+                    {itemAction}
+                  </CardFooter>
+                </Card>
+              ) : (
+                applicationCard
               )}
             </div>
           )
