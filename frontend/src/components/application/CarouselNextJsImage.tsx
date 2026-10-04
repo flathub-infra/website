@@ -11,6 +11,8 @@ import {
 import { Imgproxy } from "../ImgproxyImage"
 import clsx from "clsx"
 
+export const screenshotWidths = [384, 640, 768, 1024, 1440, 1920, 2560]
+
 function isNextJsImage(slide: SlideImage): boolean {
   return (
     isImageSlide(slide) &&
@@ -43,23 +45,23 @@ export default function CarouselNextJsImage({
       )
     : rect.width
 
-  const height = !cover
-    ? Math.round(
-        Math.min(rect.height, (rect.width / slide.width) * slide.height),
-      )
-    : rect.height
-
   return (
     <Imgproxy
       pictureClassName="relative w-full h-full"
-      fill
-      alt=""
+      alt={slide.alt ?? ""}
       src={slide.src}
-      loading="eager"
+      width={slide.width}
+      height={slide.height}
+      responsiveWidths={screenshotWidths}
+      loading={offset === 0 ? "eager" : "lazy"}
       draggable={false}
       fetchPriority={offset === 0 ? "high" : "auto"}
-      className={clsx(cover && "object-cover", !cover && "object-contain")}
-      sizes={`${Math.ceil((width / window.innerWidth) * 100)}vw`}
+      className={clsx(
+        "size-full",
+        cover && "object-cover",
+        !cover && "object-contain",
+      )}
+      sizes={`${Math.ceil(width)}px`}
       onClick={
         offset === 0 ? () => click?.({ index: currentIndex }) : undefined
       }
