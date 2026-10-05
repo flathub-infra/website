@@ -3932,6 +3932,34 @@ class PermissionStatsSnapshot(Base):
     permission_counts: Mapped[dict[str, Any]] = mapped_column(JSONB, nullable=False)
 
     @classmethod
+    def monthly_dates(
+        cls, session: Session, start_date: date, end_date: date
+    ) -> list[date]:
+        latest = func.max(cls.snapshot_date)
+        return [
+            row[0]
+            for row in session.query(latest)
+            .filter(cls.snapshot_date >= start_date, cls.snapshot_date <= end_date)
+            .group_by(func.date_trunc("month", cls.snapshot_date))
+            .order_by(latest)
+            .all()
+        ]
+
+    @classmethod
+    def get_monthly(
+        cls, db: DBSession, start_date: date, end_date: date
+    ) -> list["PermissionStatsSnapshot"]:
+        dates = cls.monthly_dates(db.session, start_date, end_date)
+        if not dates:
+            return []
+        return (
+            db.session.query(cls)
+            .filter(cls.snapshot_date.in_(dates))
+            .order_by(cls.snapshot_date.asc())
+            .all()
+        )
+
+    @classmethod
     def get_range(
         cls,
         db: DBSession,
