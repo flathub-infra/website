@@ -4,10 +4,7 @@ import "src/utils/axios-config"
 import { ReactNode, useMemo } from "react"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ThemeProvider } from "next-themes"
-import {
-  MatomoProvider,
-  createInstance,
-} from "@mitresthen/matomo-tracker-react"
+import { MatomoContext, createInstance } from "@mitresthen/matomo-tracker-react"
 import { UserInfoProvider } from "../src/context/user-info"
 import { MotionConfig } from "framer-motion"
 import { Toaster } from "@/components/ui/sonner"
@@ -64,9 +61,7 @@ export default function ClientProviders({
     </ThemeProvider>
   )
 
-  if (instance === null) {
-    return tree
-  }
-
-  return <MatomoProvider value={instance}>{tree}</MatomoProvider>
+  return (
+    <MatomoContext.Provider value={instance}>{tree}</MatomoContext.Provider>
+  )
 }
