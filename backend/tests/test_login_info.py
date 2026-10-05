@@ -118,3 +118,20 @@ def test_login_state_tags_legacy_oauth_session():
 
     assert info.state == LoginState.LOGGED_IN
     assert request.session["auth-method"] == "oauth"
+
+
+def test_login_state_revokes_disabled_email_session():
+    request = _session_request({"user-id": 42, "auth-method": "email"})
+    user = FlathubUser(id=42, deleted=False, banned=False)
+
+    with (
+        patch("app.login_info.get_db", return_value=_replica_with_user(user)),
+        patch(
+            "app.models.EmailAccount.by_user",
+            return_value=MagicMock(disabled_at=object()),
+        ),
+    ):
+        info = login_state(request)
+
+    assert info.state == LoginState.LOGGED_OUT
+    assert request.session == {}

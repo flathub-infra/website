@@ -41,7 +41,7 @@ class LoggedInInformation(LoginInformation):
 
 
 def _email_session_revoked(request: Request, db, user: models.FlathubUser) -> bool:
-    from .email_login import email_login_allowed, has_oauth_account
+    from .email_login import has_oauth_account
 
     auth_method = request.session.get("auth-method")
     if auth_method is None:
@@ -51,7 +51,10 @@ def _email_session_revoked(request: Request, db, user: models.FlathubUser) -> bo
             request.session["auth-method"] = "oauth"
             return False
         request.session["auth-method"] = auth_method = "email"
-    return auth_method == "email" and not email_login_allowed(db, user)
+    if auth_method != "email":
+        return False
+    account = models.EmailAccount.by_user(db, user)
+    return account is None or account.disabled_at is not None
 
 
 def login_state(request: Request) -> LoginInformation:
