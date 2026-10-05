@@ -54,6 +54,7 @@ if config.settings.sentry_dsn:
             RedisIntegration(),
         ],
         before_send=emails.sentry_before_send,
+        before_send_transaction=emails.sentry_before_send_transaction,
         before_breadcrumb=emails.sentry_before_breadcrumb,
     )
 
