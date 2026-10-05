@@ -5,7 +5,8 @@ import datetime
 import json
 import logging
 from collections import defaultdict
-from typing import TypedDict, cast
+from collections.abc import Mapping
+from typing import TypedDict, TypeGuard
 from urllib.parse import urlparse, urlunparse
 
 import httpx
@@ -15,11 +16,13 @@ from app import utils
 
 from . import config, database, models, schemas, search
 from .trending import calculate_trending_score as _calculate_trending_score
+from .types import JSONValue, is_json_object
 from .worker.redis import redis_conn
 
 logger = logging.getLogger(__name__)
 
-StatsType = dict[str, dict[str, list[int]]]
+type StatsType = dict[str, dict[str, list[int]]]
+type PerAppCounts = dict[str, dict[str, int]]
 
 
 class StatsFromServer(TypedDict):
@@ -35,6 +38,35 @@ class StatsFromServer(TypedDict):
     ref_by_country: dict[str, dict[str, list[int]]]
     ref_by_os_version: dict[str, dict[str, list[int]]]
     refs: dict[str, dict[str, list[int]]]
+
+
+class _AppAggregate(TypedDict, total=False):
+    installs_total: int
+    installs_last_month: int
+    installs_last_7_days: int
+    installs_per_day: dict[str, int]
+    installs_per_country: dict[str, int]
+    installs_per_os_version: dict[str, int]
+
+
+class _GlobalAggregate(TypedDict):
+    downloads_per_day: dict[str, int]
+    updates_per_day: dict[str, int]
+    delta_downloads_per_day: dict[str, int]
+    totals_country: dict[str, int]
+
+
+_StatsAggregates = TypedDict(
+    "_StatsAggregates",
+    {
+        "totals": StatsType,
+        "per_day": PerAppCounts,
+        "per_country": PerAppCounts,
+        "per_os_version": PerAppCounts,
+        "global": _GlobalAggregate,
+        "last_date": str | None,
+    },
+)
 
 
 FIRST_STATS_DATE = datetime.date(2018, 4, 29)
@@ -129,19 +161,64 @@ def _get_stats_for_date(
     return stats
 
 
-def _load_aggregates() -> dict:
-    result = {}
+def _is_stats_type(value: object) -> TypeGuard[StatsType]:
+    return isinstance(value, dict) and all(
+        isinstance(app_id, str)
+        and isinstance(app_stats, dict)
+        and all(
+            isinstance(arch, str)
+            and isinstance(downloads, list)
+            and all(isinstance(count, int) for count in downloads)
+            for arch, downloads in app_stats.items()
+        )
+        for app_id, app_stats in value.items()
+    )
+
+
+def _is_per_app_counts(value: object) -> TypeGuard[PerAppCounts]:
+    return isinstance(value, dict) and all(
+        isinstance(app_id, str)
+        and isinstance(app_counts, dict)
+        and all(
+            isinstance(name, str) and isinstance(count, int)
+            for name, count in app_counts.items()
+        )
+        for app_id, app_counts in value.items()
+    )
+
+
+def _is_int_counts(value: object) -> TypeGuard[dict[str, int]]:
+    return isinstance(value, dict) and all(
+        isinstance(key, str) and isinstance(count, int) for key, count in value.items()
+    )
+
+
+def _load_aggregates() -> dict[str, JSONValue]:
+    result: dict[str, JSONValue] = {}
     for key, redis_key in AGGREGATES_KEYS.items():
         data = redis_conn.get(redis_key)
-        result[key] = orjson.loads(cast("str | bytes", data)) if data else None
+        if data:
+            if not isinstance(data, (str, bytes, bytearray, memoryview)):
+                raise TypeError("Redis aggregate value must be text or bytes")
+            result[key] = orjson.loads(data)
+        else:
+            result[key] = None
     return result
 
 
-def _save_aggregates(agg: dict):
+def _save_aggregates(agg: _StatsAggregates) -> None:
     pipe = redis_conn.pipeline()
+    aggregate_values = {
+        "totals": agg["totals"],
+        "per_day": agg["per_day"],
+        "per_country": agg["per_country"],
+        "per_os_version": agg["per_os_version"],
+        "global": agg["global"],
+        "last_date": agg["last_date"],
+    }
     for key, redis_key in AGGREGATES_KEYS.items():
-        if agg.get(key) is not None:
-            pipe.set(redis_key, orjson.dumps(agg[key]))
+        if aggregate_values[key] is not None:
+            pipe.set(redis_key, orjson.dumps(aggregate_values[key]))
     pipe.execute()
 
 
@@ -152,8 +229,8 @@ def _delete_aggregates():
     pipe.execute()
 
 
-def _init_empty_aggregates() -> dict:
-    return {
+def _init_empty_aggregates() -> _StatsAggregates:
+    aggregates: _StatsAggregates = {
         "totals": {},
         "per_day": {},
         "per_country": {},
@@ -166,28 +243,47 @@ def _init_empty_aggregates() -> dict:
         },
         "last_date": None,
     }
+    return aggregates
 
 
-def _normalize_aggregates(agg: dict) -> dict:
+def _normalize_aggregates(agg: dict[str, JSONValue]) -> _StatsAggregates:
     normalized = _init_empty_aggregates()
 
-    for key in ("totals", "per_day", "per_country", "per_os_version"):
-        if isinstance(agg.get(key), dict):
-            normalized[key] = agg[key]
+    totals = agg.get("totals")
+    if _is_stats_type(totals):
+        normalized["totals"] = totals
 
-    if isinstance(agg.get("global"), dict):
-        for key in normalized["global"]:
-            if isinstance(agg["global"].get(key), dict):
-                normalized["global"][key] = agg["global"][key]
+    for key in ("per_day", "per_country", "per_os_version"):
+        value = agg.get(key)
+        if _is_per_app_counts(value):
+            normalized[key] = value
 
-    if agg.get("last_date") is not None:
-        normalized["last_date"] = agg["last_date"]
+    global_data = agg.get("global")
+    if isinstance(global_data, dict):
+        downloads_per_day = global_data.get("downloads_per_day")
+        if _is_int_counts(downloads_per_day):
+            normalized["global"]["downloads_per_day"] = downloads_per_day
+        updates_per_day = global_data.get("updates_per_day")
+        if _is_int_counts(updates_per_day):
+            normalized["global"]["updates_per_day"] = updates_per_day
+        delta_downloads_per_day = global_data.get("delta_downloads_per_day")
+        if _is_int_counts(delta_downloads_per_day):
+            normalized["global"]["delta_downloads_per_day"] = delta_downloads_per_day
+        totals_country = global_data.get("totals_country")
+        if _is_int_counts(totals_country):
+            normalized["global"]["totals_country"] = totals_country
+
+    last_date = agg.get("last_date")
+    if isinstance(last_date, str):
+        normalized["last_date"] = last_date
 
     return normalized
 
 
 def _update_global_stats_for_date(
-    date: datetime.date, stats: StatsFromServer | None, global_dict: dict
+    date: datetime.date,
+    stats: StatsFromServer | None,
+    global_dict: _GlobalAggregate,
 ) -> None:
     """Update global stats dict with data from a single date."""
     if stats is None:
@@ -209,7 +305,9 @@ def _update_global_stats_for_date(
 
 
 def _update_aggregates_for_date(
-    date: datetime.date, stats: StatsFromServer | None, agg: dict
+    date: datetime.date,
+    stats: StatsFromServer | None,
+    agg: _StatsAggregates,
 ) -> None:
     if stats is None:
         return
@@ -423,7 +521,7 @@ def _calculate_quality_passed_ratio(app_quality_status) -> float:
     return app_quality_status.passed / total if total > 0 else 0.0
 
 
-def _build_or_update_aggregates() -> dict:
+def _build_or_update_aggregates() -> _StatsAggregates:
     edate = utils.utcnow().date() - datetime.timedelta(days=2)
 
     if config.settings.force_recompute_stats:
@@ -431,12 +529,13 @@ def _build_or_update_aggregates() -> dict:
 
     agg = _normalize_aggregates(_load_aggregates())
 
-    if agg["last_date"] is None:
+    last_date = agg["last_date"]
+    if not isinstance(last_date, str):
         agg = _init_empty_aggregates()
         sdate = FIRST_STATS_DATE
     else:
-        last_date = datetime.date.fromisoformat(agg["last_date"])
-        sdate = last_date + datetime.timedelta(days=1)
+        parsed_last_date = datetime.date.fromisoformat(last_date)
+        sdate = parsed_last_date + datetime.timedelta(days=1)
         if sdate > edate:
             return agg
 
@@ -510,8 +609,10 @@ def _compute_recent_version_stats(
     return os_versions, flatpak_versions, os_flatpak_versions
 
 
-def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
-    global_dict = {
+def _build_stats_dict_from_aggregates(
+    agg: _StatsAggregates, app_count: int
+) -> dict[str, JSONValue]:
+    global_dict: _GlobalAggregate = {
         "downloads_per_day": dict(agg["global"]["downloads_per_day"]),
         "updates_per_day": dict(agg["global"]["updates_per_day"]),
         "delta_downloads_per_day": dict(agg["global"]["delta_downloads_per_day"]),
@@ -548,7 +649,9 @@ def _build_stats_dict_from_aggregates(agg: dict, app_count: int) -> dict:
 
 
 def update(sqldb):
-    stats_apps_dict = defaultdict(dict)
+    stats_apps_dict: defaultdict[str, _AppAggregate] = defaultdict(
+        lambda: _AppAggregate()
+    )
 
     edate = utils.utcnow().date()
 
@@ -575,13 +678,16 @@ def update(sqldb):
         sqldb, apps_with_stats
     )
 
-    trending_apps: list = []
+    trending_apps: list[dict[str, object]] = []
     for app_id in agg["per_day"]:
         if app_id not in frontend_app_ids:
             continue
 
         stats_dict_for_app = agg["per_day"][app_id]
-        last_date = datetime.date.fromisoformat(agg["last_date"])
+        last_date_value = agg["last_date"]
+        if not isinstance(last_date_value, str):
+            raise TypeError("Statistics aggregate is missing its last_date")
+        last_date = datetime.date.fromisoformat(last_date_value)
         first_date = last_date - datetime.timedelta(days=20)
         installs_over_days = [
             stats_dict_for_app.get(
@@ -643,7 +749,7 @@ def update(sqldb):
     sdate_30_days = edate - datetime.timedelta(days=30 - 1)
     stats_30_days = _get_stats_for_period(sdate_30_days, edate)
 
-    stats_installs: list = []
+    stats_installs: list[dict[str, object]] = []
     for app_id, app_dict in stats_30_days.items():
         installs_last_month = sum([i[2] for i in app_dict.values()])
         stats_apps_dict[app_id]["installs_last_month"] = installs_last_month
@@ -657,7 +763,7 @@ def update(sqldb):
     search.create_or_update_apps(stats_installs)
 
     favorites_count_dict = models.UserFavoriteApp.get_favorites_count_per_app(sqldb)
-    favorites_list: list = []
+    favorites_list: list[dict[str, object]] = []
     for app_id in frontend_app_ids:
         favorites_count = favorites_count_dict.get(app_id, 0)
         if favorites_count > 0:
@@ -764,7 +870,18 @@ def update(sqldb):
                     )
 
     redis_conn.set("stats", orjson.dumps(stats_dict))
-    database.bulk_set_app_stats(stats_apps_dict)
+    database.bulk_set_app_stats(
+        {
+            app_id: {
+                "installs_total": stats_data["installs_total"],
+                "installs_last_month": stats_data["installs_last_month"],
+                "installs_last_7_days": stats_data["installs_last_7_days"],
+                "installs_per_day": stats_data["installs_per_day"],
+                "installs_per_country": stats_data["installs_per_country"],
+            }
+            for app_id, stats_data in stats_apps_dict.items()
+        }
+    )
     _generate_and_store_year_in_review_stats(sqldb)
 
 
@@ -824,7 +941,7 @@ def _get_country_downloads_for_year(year: int) -> dict[str, int]:
     return country_downloads
 
 
-def _get_basic_year_stats(year: int) -> dict | None:
+def _get_basic_year_stats(year: int) -> dict[str, int] | None:
     date_range = _normalize_year_date_range(year)
     if not date_range:
         return None
@@ -931,7 +1048,7 @@ def _get_app_downloads_for_year(year: int) -> dict[str, int]:
     return result
 
 
-def _load_year_in_review_base(year: int) -> dict | None:
+def _load_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
     with database.get_db() as sqldb:
         stored_stats = models.YearInReviewStats.get_for_year(sqldb, year)
         if stored_stats:
@@ -939,14 +1056,14 @@ def _load_year_in_review_base(year: int) -> dict | None:
     return None
 
 
-def _save_year_in_review_base(year: int, base_data: dict) -> None:
+def _save_year_in_review_base(year: int, base_data: dict[str, JSONValue]) -> None:
     with database.get_db("writer") as sqldb:
         models.YearInReviewStats.set_for_year(sqldb, year, base_data)
 
 
 def _build_base_top_list(
     app_ids: list[str], downloads_dict: dict[str, int]
-) -> list[dict]:
+) -> list[dict[str, str | int]]:
     return [
         {
             "app_id": app_id,
@@ -956,7 +1073,7 @@ def _build_base_top_list(
     ]
 
 
-async def _build_year_in_review_base(year: int) -> dict | None:
+async def _build_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
     sdate = datetime.date(year, 1, 1)
     edate = datetime.date(year, 12, 31)
 
@@ -1142,7 +1259,7 @@ async def _build_year_in_review_base(year: int) -> dict | None:
             emulator_app_ids.discard(app_id)
             non_game_app_ids.discard(app_id)
 
-    def _filter_downloads_by_ids(id_set: set) -> dict[str, int]:
+    def _filter_downloads_by_ids(id_set: set[str]) -> dict[str, int]:
         return {
             app_id: downloads
             for app_id, downloads in app_downloads.items()
@@ -1155,7 +1272,7 @@ async def _build_year_in_review_base(year: int) -> dict | None:
     game_store_app_downloads = _filter_downloads_by_ids(game_store_app_ids)
     game_utility_app_downloads = _filter_downloads_by_ids(game_utility_app_ids)
 
-    def _get_top_app_ids(downloads_dict: dict, count: int = 3) -> list[str]:
+    def _get_top_app_ids(downloads_dict: dict[str, int], count: int = 3) -> list[str]:
         """Get top N app IDs from downloads dict."""
         if not downloads_dict:
             return []
@@ -1211,16 +1328,22 @@ async def _build_year_in_review_base(year: int) -> dict | None:
             if sdate <= first_date <= edate and app_id in app_downloads:
                 new_apps_downloads[app_id] = app_downloads[app_id]
 
-    def _get_sort_value(value, sort_key):
-        return value if isinstance(value, int) else value[sort_key]
+    def _get_sort_value(value: int | Mapping[str, int], sort_key: str) -> int:
+        if isinstance(value, int):
+            return value
+        return value.get(sort_key, 0)
 
-    def _build_category_list(data_dict: dict, value_key: str, sort_key: str):
-        category_data = defaultdict(dict)
+    def _build_category_list(
+        data_dict: Mapping[str, int | Mapping[str, int]],
+        value_key: str,
+        sort_key: str,
+    ) -> list[dict[str, JSONValue]]:
+        category_data: dict[str, dict[str, int | Mapping[str, int]]] = defaultdict(dict)
         for app_id, value in data_dict.items():
             if app_id in app_main_category:
                 category_data[app_main_category[app_id]][app_id] = value
 
-        result = []
+        result: list[dict[str, JSONValue]] = []
         for category_name, apps in category_data.items():
             if not apps:
                 continue
@@ -1235,19 +1358,29 @@ async def _build_year_in_review_base(year: int) -> dict | None:
             except ValueError:
                 continue
 
-            item = {
+            item: dict[str, JSONValue] = {
                 "category": category_enum.value,
                 "app_id": top_app_id,
             }
 
-            if isinstance(top_value, dict):
+            if isinstance(top_value, Mapping):
                 item.update(top_value)
             else:
                 item[value_key] = top_value
 
             result.append(item)
 
-        return sorted(result, key=lambda x: x[sort_key], reverse=True)
+        def sort_value(item: dict[str, JSONValue]) -> int:
+            value = item.get(sort_key)
+            if isinstance(value, int):
+                return value
+            if isinstance(value, Mapping):
+                nested_value = value.get(sort_key)
+                if isinstance(nested_value, int):
+                    return nested_value
+            return 0
+
+        return sorted(result, key=sort_value, reverse=True)
 
     popular_apps_by_category = _build_category_list(
         app_downloads, "downloads", "downloads"
@@ -1472,7 +1605,9 @@ async def _build_year_in_review_base(year: int) -> dict | None:
     return base_result
 
 
-async def _add_translations_to_year_in_review(base_data: dict, locale: str) -> dict:
+async def _add_translations_to_year_in_review(
+    base_data: dict[str, JSONValue], locale: str
+) -> dict[str, JSONValue]:
     loop = asyncio.get_running_loop()
 
     def _collect_app_ids() -> set[str]:
@@ -1489,26 +1624,34 @@ async def _add_translations_to_year_in_review(base_data: dict, locale: str) -> d
             "most_improved_by_category",
             "hidden_gems",
         ]:
-            for item in base_data.get(key, []):
-                app_ids.add(item["app_id"])
+            items = base_data.get(key)
+            if isinstance(items, list):
+                for item in items:
+                    if is_json_object(item):
+                        app_id = item.get("app_id")
+                        if isinstance(app_id, str):
+                            app_ids.add(app_id)
         return app_ids
 
     def _fetch_translations_for_apps(app_ids: set[str]):
-        app_names = {}
-        app_icons = {}
-        app_summaries = {}
+        app_names: dict[str, str] = {}
+        app_icons: dict[str, str] = {}
+        app_summaries: dict[str, str] = {}
 
         with database.get_db() as sqldb:
             apps = sqldb.query(models.App).filter(models.App.app_id.in_(app_ids)).all()
             for app in apps:
                 translated_appstream = app.get_translated_appstream(locale)
                 if translated_appstream:
-                    if "name" in translated_appstream:
-                        app_names[app.app_id] = translated_appstream["name"]
-                    if "icon" in translated_appstream:
-                        app_icons[app.app_id] = translated_appstream["icon"]
-                    if "summary" in translated_appstream:
-                        app_summaries[app.app_id] = translated_appstream["summary"]
+                    name = translated_appstream.get("name")
+                    if isinstance(name, str):
+                        app_names[app.app_id] = name
+                    icon = translated_appstream.get("icon")
+                    if isinstance(icon, str):
+                        app_icons[app.app_id] = icon
+                    summary = translated_appstream.get("summary")
+                    if isinstance(summary, str):
+                        app_summaries[app.app_id] = summary
 
         return app_names, app_icons, app_summaries
 
@@ -1516,10 +1659,14 @@ async def _add_translations_to_year_in_review(base_data: dict, locale: str) -> d
         None, _fetch_translations_for_apps, _collect_app_ids()
     )
 
-    def _apply_translations(items: list[dict]) -> list[dict]:
-        translated_items: list[dict] = []
+    def _apply_translations(
+        items: list[dict[str, JSONValue]],
+    ) -> list[dict[str, JSONValue]]:
+        translated_items: list[dict[str, JSONValue]] = []
         for item in items:
             app_id = item["app_id"]
+            if not isinstance(app_id, str):
+                continue
             translated_items.append(
                 {
                     **item,
@@ -1530,29 +1677,31 @@ async def _add_translations_to_year_in_review(base_data: dict, locale: str) -> d
             )
         return translated_items
 
+    def _get_items(key: str) -> list[dict[str, JSONValue]]:
+        value = base_data.get(key)
+        if not isinstance(value, list):
+            return []
+        return [item for item in value if is_json_object(item)]
+
     result = copy.deepcopy(base_data)
-    result["top_apps"] = _apply_translations(base_data.get("top_apps", []))
-    result["top_games"] = _apply_translations(base_data.get("top_games", []))
-    result["top_emulators"] = _apply_translations(base_data.get("top_emulators", []))
-    result["top_game_stores"] = _apply_translations(
-        base_data.get("top_game_stores", [])
-    )
-    result["top_game_utilities"] = _apply_translations(
-        base_data.get("top_game_utilities", [])
-    )
+    result["top_apps"] = _apply_translations(_get_items("top_apps"))
+    result["top_games"] = _apply_translations(_get_items("top_games"))
+    result["top_emulators"] = _apply_translations(_get_items("top_emulators"))
+    result["top_game_stores"] = _apply_translations(_get_items("top_game_stores"))
+    result["top_game_utilities"] = _apply_translations(_get_items("top_game_utilities"))
     result["popular_apps_by_category"] = _apply_translations(
-        base_data.get("popular_apps_by_category", [])
+        _get_items("popular_apps_by_category")
     )
     result["biggest_growth_by_category"] = _apply_translations(
-        base_data.get("biggest_growth_by_category", [])
+        _get_items("biggest_growth_by_category")
     )
     result["newcomers_by_category"] = _apply_translations(
-        base_data.get("newcomers_by_category", [])
+        _get_items("newcomers_by_category")
     )
     result["most_improved_by_category"] = _apply_translations(
-        base_data.get("most_improved_by_category", [])
+        _get_items("most_improved_by_category")
     )
-    result["hidden_gems"] = _apply_translations(base_data.get("hidden_gems", []))
+    result["hidden_gems"] = _apply_translations(_get_items("hidden_gems"))
 
     return result
 

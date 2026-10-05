@@ -5,7 +5,7 @@ import logging
 import re
 import struct
 from collections import defaultdict
-from typing import Any
+from typing import Literal, TypedDict, TypeGuard
 
 logger = logging.getLogger(__name__)
 
@@ -26,17 +26,51 @@ from . import (
     search,
     utils,
 )
+from .db_session import DBSession
+from .types import JSONValue
+
+
+class _SummaryBranch(TypedDict, total=False):
+    download_size: int
+    installed_size: int
+    name: str
+
+
+class _AppSummary(TypedDict, total=False):
+    arches: set[str]
+    branch: str
+    timestamp: int
+    download_size: int
+    installed_size: int
+    metadata: dict[str, JSONValue] | None
+    branches: dict[str, _SummaryBranch]
+
+
+def _is_xa_cache(value: object) -> TypeGuard[dict[str, tuple[int, int, str]]]:
+    return isinstance(value, dict) and all(
+        isinstance(app, str)
+        and isinstance(item, tuple)
+        and len(item) == 3
+        and isinstance(item[0], int)
+        and isinstance(item[1], int)
+        and isinstance(item[2], str)
+        for app, item in value.items()
+    )
+
+
+def _is_string_object_dict(value: object) -> TypeGuard[dict[str, object]]:
+    return isinstance(value, dict) and all(isinstance(key, str) for key in value)
 
 
 class JSONSetEncoder(json.JSONEncoder):
-    def default(self, o: Any) -> Any:
+    def default(self, o: object) -> object:
         if isinstance(o, set):
             return list(o)
         return json.JSONEncoder.default(self, o)
 
 
 # "valid" here means it would be displayed on flathub.org
-def validate_ref(ref: str):
+def validate_ref(ref: str) -> tuple[str, str, str, str] | Literal[False]:
     fields = ref.split("/")
     if len(fields) != 4:
         return False
@@ -52,19 +86,39 @@ def validate_ref(ref: str):
     return kind, appid, arch, branch
 
 
-def get_parent_id(app_id: str):
-    if (reverse_lookup := database.get_json_key("summary:reverse_lookup")) and (
-        parent := reverse_lookup.get(app_id)
-    ):
-        return parent
+def get_parent_id(app_id: str) -> str | None:
+    if (
+        reverse_lookup := database.get_json_key("summary:reverse_lookup")
+    ) and isinstance(reverse_lookup, dict):
+        parent = reverse_lookup.get(app_id)
+        if isinstance(parent, str) and parent:
+            return parent
 
     return None
 
 
-def parse_eol_data(metadata):
+def _is_eol_cache(value: object) -> TypeGuard[dict[str, dict[str, str]]]:
+    return isinstance(value, dict) and all(
+        isinstance(app, str)
+        and isinstance(eol_data, dict)
+        and all(
+            isinstance(key, str) and isinstance(item, str)
+            for key, item in eol_data.items()
+        )
+        for app, eol_data in value.items()
+    )
+
+
+def parse_eol_data(
+    metadata: dict[str, object],
+) -> tuple[dict[str, list[str]], dict[str, str]]:
     eol_rebase: dict[str, list[str]] = {}
     eol_message: dict[str, str] = {}
-    for app, eol_dict in metadata["xa.sparse-cache"].items():
+    sparse_cache = metadata.get("xa.sparse-cache")
+    if not _is_eol_cache(sparse_cache):
+        raise TypeError("Summary metadata has an invalid xa.sparse-cache")
+
+    for app, eol_dict in sparse_cache.items():
         _flatpak_type, app_id, _arch, branch = app.split("/")
         if (
             not app_id.endswith(".Debug")
@@ -104,7 +158,7 @@ def parse_eol_data(metadata):
     return eol_rebase, eol_message
 
 
-def parse_metadata(ini: str):
+def parse_metadata(ini: str) -> dict[str, JSONValue] | None:
     key_file = GLib.KeyFile.new()
     try:
         key_file.load_from_data(ini, len(ini), GLib.KeyFileFlags.NONE)
@@ -114,7 +168,7 @@ def parse_metadata(ini: str):
     if key_file.get_start_group() != "Application":
         return None
 
-    metadata = {}
+    metadata: dict[str, JSONValue] = {}
     try:
         keys = key_file.get_keys("Application")[0]
         for key in keys:
@@ -122,10 +176,13 @@ def parse_metadata(ini: str):
             metadata[key] = value
 
         if "tags" in metadata:
-            tags = [x for x in metadata["tags"].split(";") if x]
+            tags_value = metadata["tags"]
+            if not isinstance(tags_value, str):
+                raise TypeError("Application tags must be a string")
+            tags: list[JSONValue] = [x for x in tags_value.split(";") if x]
             metadata["tags"] = tags
 
-        permissions = defaultdict(dict)
+        permissions: defaultdict[str, JSONValue] = defaultdict(dict)
 
         try:
             context_keys = key_file.get_keys("Context")[0]
@@ -137,27 +194,27 @@ def parse_metadata(ini: str):
 
         try:
             session_bus_keys = key_file.get_keys("Session Bus Policy")[0]
-            bus = defaultdict(list)
+            bus: defaultdict[str, list[JSONValue]] = defaultdict(list)
             for busname in session_bus_keys:
                 bus_permission = key_file.get_value("Session Bus Policy", busname)
                 bus[bus_permission].append(busname)
-            permissions["session-bus"] = bus
+            permissions["session-bus"] = dict(bus)
         except GLib.Error:
             pass
 
         try:
             system_bus_keys = key_file.get_keys("System Bus Policy")[0]
-            bus = defaultdict(list)
+            bus: defaultdict[str, list[JSONValue]] = defaultdict(list)
             for busname in system_bus_keys:
                 bus_permission = key_file.get_value("System Bus Policy", busname)
                 bus[bus_permission].append(busname)
-            permissions["system-bus"] = bus
+            permissions["system-bus"] = dict(bus)
         except GLib.Error:
             pass
 
         metadata["permissions"] = permissions
 
-        extensions = {}
+        extensions: dict[str, JSONValue] = {}
         groups = key_file.get_groups()[0]
         for group in groups:
             if group.startswith("Extension "):
@@ -197,24 +254,37 @@ def _unpack_summary(summary):
     return data.unpack()
 
 
-def parse_summary_metadata(summary) -> dict[str, Any]:
+def parse_summary_metadata(summary: GLib.Bytes | bytes) -> dict[str, object]:
     _, metadata = _unpack_summary(summary)
+    if not _is_string_object_dict(metadata):
+        raise TypeError("Summary metadata must be a string-keyed dictionary")
     return metadata
 
 
 def parse_summary(
-    summary, sqldb, stable_permissions_by_app: dict[str, dict[str, Any]] | None = None
-):
-    summary_dict: dict[str, Any] = defaultdict(
+    summary: GLib.Bytes | bytes,
+    sqldb: DBSession,
+    stable_permissions_by_app: dict[str, dict[str, JSONValue]] | None = None,
+) -> tuple[
+    defaultdict[str, _AppSummary],
+    dict[str, int],
+    dict[str, object],
+]:
+    summary_dict: defaultdict[str, _AppSummary] = defaultdict(
         lambda: {"arches": set(), "branch": "stable"}
     )
-    updated_at_dict = {}
+    updated_at_dict: dict[str, int] = {}
 
     refs, metadata = _unpack_summary(summary)
-    xa_cache = metadata["xa.cache"]
+    if not _is_string_object_dict(metadata):
+        raise TypeError("Summary metadata must be a string-keyed dictionary")
+    xa_cache_value = metadata.get("xa.cache")
+    if not _is_xa_cache(xa_cache_value):
+        raise TypeError("Summary metadata has an invalid xa.cache")
+    xa_cache = xa_cache_value
     stable_metadata_arch: dict[str, str] = {}
 
-    last_updated_updates = {}
+    last_updated_updates: dict[str, datetime.datetime] = {}
 
     for ref, (_, _, info) in refs:
         if not (valid_ref := validate_ref(ref)):
@@ -268,7 +338,7 @@ def parse_summary(
         # Store per-branch size data so multiple branches don't overwrite each other
         if "branches" not in summary_dict[app_id]:
             summary_dict[app_id]["branches"] = {}
-        branch_sizes = {
+        branch_sizes: _SummaryBranch = {
             "download_size": download_size,
             "installed_size": installed_size,
         }
@@ -276,9 +346,7 @@ def parse_summary(
         # flatpak cannot know how much application will weight after
         # apply_extra is executed, so let's estimate it by combining installed
         # and download sizes
-        if summary_dict[app_id]["metadata"] and summary_dict[app_id]["metadata"].get(
-            "extra-data"
-        ):
+        if parsed_metadata and parsed_metadata.get("extra-data"):
             summary_dict[app_id]["installed_size"] += download_size
             branch_sizes["installed_size"] += download_size
 
@@ -286,13 +354,15 @@ def parse_summary(
 
     # Resolve runtime installed size for each app using the branch-specific data
     for app_id, data in summary_dict.items():
-        if data.get("metadata") and data["metadata"].get("runtime"):
-            runtime_appid, _, runtime_branch = data["metadata"]["runtime"].split("/")
+        app_metadata = data.get("metadata")
+        runtime = app_metadata.get("runtime") if app_metadata else None
+        if isinstance(runtime, str):
+            runtime_appid, _, runtime_branch = runtime.split("/")
             runtime_data = summary_dict.get(runtime_appid)
             if runtime_data:
                 branches = runtime_data.get("branches", {})
-                if runtime_branch in branches:
-                    data["metadata"]["runtimeInstalledSize"] = branches[runtime_branch][
+                if app_metadata is not None and runtime_branch in branches:
+                    app_metadata["runtimeInstalledSize"] = branches[runtime_branch][
                         "installed_size"
                     ]
 
@@ -334,7 +404,7 @@ def update(sqldb) -> None:
     summary_bytes = fetch_summary_bytes(summary_url)
     if summary_bytes:
         summary = GLib.Bytes.new(summary_bytes)
-        stable_permissions_by_app: dict[str, dict[str, Any]] = {}
+        stable_permissions_by_app: dict[str, dict[str, JSONValue]] = {}
         summary_dict, updated_at_dict, metadata = parse_summary(
             summary, sqldb, stable_permissions_by_app
         )
@@ -383,7 +453,7 @@ def update(sqldb) -> None:
                         summary_dict[app_id]["arches"].add(arch)
 
     if updated_at_dict:
-        updated: list = []
+        updated: list[dict[str, object]] = []
 
         for app_id in updated_at_dict:
             if app_id not in all_apps:
@@ -415,15 +485,19 @@ def update(sqldb) -> None:
     # Resolve runtime names from the DB and store on per-branch data
     runtime_appids = set()
     for app_id, data in summary_dict.items():
-        if data.get("metadata") and data["metadata"].get("runtime"):
-            runtime_appid = data["metadata"]["runtime"].split("/")[0]
+        app_metadata = data.get("metadata")
+        runtime = app_metadata.get("runtime") if app_metadata else None
+        if isinstance(runtime, str):
+            runtime_appid = runtime.split("/")[0]
             runtime_appids.add(runtime_appid)
 
     runtime_names = {}
     for runtime_appid in runtime_appids:
         runtime_app = models.App.by_appid(sqldb, runtime_appid)
-        if runtime_app and runtime_app.appstream and "name" in runtime_app.appstream:
-            runtime_names[runtime_appid] = runtime_app.appstream["name"]
+        if runtime_app and runtime_app.appstream:
+            runtime_name = runtime_app.appstream.get("name")
+            if isinstance(runtime_name, str):
+                runtime_names[runtime_appid] = runtime_name
 
     # Store versioned names on each branch of the runtime entries
     for runtime_appid, base_name in runtime_names.items():
@@ -436,13 +510,15 @@ def update(sqldb) -> None:
 
     # Inject runtimeName into each app's metadata from the branch-specific data
     for app_id, data in summary_dict.items():
-        if data.get("metadata") and data["metadata"].get("runtime"):
-            runtime_appid, _, runtime_branch = data["metadata"]["runtime"].split("/")
+        app_metadata = data.get("metadata")
+        runtime = app_metadata.get("runtime") if app_metadata else None
+        if isinstance(runtime, str):
+            runtime_appid, _, runtime_branch = runtime.split("/")
             runtime_data = summary_dict.get(runtime_appid)
             if runtime_data:
                 branch_data = runtime_data.get("branches", {}).get(runtime_branch, {})
-                if "name" in branch_data:
-                    data["metadata"]["runtimeName"] = branch_data["name"]
+                if app_metadata is not None and "name" in branch_data:
+                    app_metadata["runtimeName"] = branch_data["name"]
 
     # collect all app IDs to update
     apps_to_update = {}
@@ -546,11 +622,15 @@ def update(sqldb) -> None:
         sqldb.session.rollback()
         logger.exception("Error reconciling EOL rebases")
 
-    reverse_lookup = {}
-    for ref in metadata["xa.cache"]:
+    xa_cache = metadata.get("xa.cache")
+    if not _is_xa_cache(xa_cache):
+        raise TypeError("Summary metadata has an invalid xa.cache")
+
+    reverse_lookup: dict[str, str] = {}
+    for ref in xa_cache:
         app_id = ref.split("/")[1]
 
-        ini = metadata["xa.cache"][ref][2]
+        ini = xa_cache[ref][2]
         key_file = GLib.KeyFile.new()
         try:
             key_file.load_from_data(ini, len(ini), GLib.KeyFileFlags.NONE)

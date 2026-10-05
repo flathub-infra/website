@@ -1,12 +1,20 @@
+from __future__ import annotations
+
 import logging
 import time
-from typing import Any
+from typing import TYPE_CHECKING
 
 import meilisearch
 import meilisearch.errors
 
 from . import config, search_health
 from .search_index import configure_index
+
+if TYPE_CHECKING:
+    from meilisearch.index import Index
+    from meilisearch.models.task import Task, TaskInfo
+
+    from .types import JSONValue
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +30,7 @@ client = meilisearch.Client(
 
 def build_embedder_settings(
     settings: config.Settings, dimensions: int | None = None
-) -> dict[str, dict[str, Any]]:
+) -> dict[str, dict[str, JSONValue]]:
     selected_dimensions = (
         dimensions if dimensions is not None else settings.search_embedding_dimensions
     )
@@ -48,7 +56,7 @@ def build_embedder_settings(
     }
 
 
-def _task_error_code(result: Any) -> str | None:
+def _task_error_code(result: Task) -> str | None:
     error = getattr(result, "error", None)
     if isinstance(error, dict):
         code = error.get("code")
@@ -59,7 +67,7 @@ def _task_error_code(result: Any) -> str | None:
 
 def _wait_for_task_uid(
     task_uid: int, allowed_error_codes: frozenset[str] = frozenset()
-) -> Any:
+) -> Task:
     result = client.wait_for_task(
         task_uid, timeout_in_ms=1_800_000, interval_in_ms=1_000
     )
@@ -72,7 +80,9 @@ def _wait_for_task_uid(
     return result
 
 
-def _wait_for_task(task: Any, allowed_error_codes: frozenset[str] = frozenset()) -> Any:
+def _wait_for_task(
+    task: TaskInfo, allowed_error_codes: frozenset[str] = frozenset()
+) -> Task:
     return _wait_for_task_uid(task.task_uid, allowed_error_codes)
 
 
@@ -106,7 +116,7 @@ def _embedded_document_count(index_uid: str) -> int | None:
     return stats.get("numberOfEmbeddedDocuments")
 
 
-def _document_count(index: Any) -> int:
+def _document_count(index: Index) -> int:
     stats = index.get_stats()
     return stats.number_of_documents
 

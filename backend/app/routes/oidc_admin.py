@@ -12,6 +12,7 @@ from ..oidc import (
     hash_client_secret,
     validate_oidc_client_configuration,
 )
+from ..types import JSONValue
 
 router = APIRouter(prefix="/admin/oidc-clients", tags=["oidc-admin"])
 
@@ -115,7 +116,7 @@ def _validate_configuration(
         raise HTTPException(status_code=422, detail=str(error)) from error
 
 
-def _client_details(client: models.OidcClient) -> dict[str, object]:
+def _client_details(client: models.OidcClient) -> dict[str, JSONValue]:
     return {
         "redirect_uris": list(client.redirect_uris),
         "allowed_scopes": list(client.allowed_scopes),

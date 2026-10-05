@@ -38,6 +38,11 @@ def update():
                 if not created_at:
                     created_at = int(datetime.now(UTC).timestamp())
 
+            if isinstance(created_at, str):
+                created_at = float(created_at)
+            elif not isinstance(created_at, (int, float)):
+                created_at = datetime.now(UTC).timestamp()
+
             apps_created_at[app_id] = float(created_at)
             with get_db("writer") as db:
                 models.App.set_initial_release_at(

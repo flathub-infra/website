@@ -3,9 +3,9 @@ import hashlib
 import inspect
 import logging
 import time
-from collections.abc import Awaitable, Callable
+from collections.abc import Awaitable, Callable, Mapping
 from enum import Enum
-from typing import Annotated, Any, Literal, ParamSpec, TypeVar, get_args, get_origin
+from typing import Annotated, Literal, ParamSpec, TypeVar, cast, get_args, get_origin
 
 import orjson
 from fastapi import Response
@@ -23,7 +23,11 @@ R = TypeVar("R")
 STALE_THRESHOLD = 0.8
 
 
-def _get_response_from_args(func: Any, args: tuple, kwargs: dict) -> Response | None:
+def _get_response_from_args(
+    func: Callable[..., object],
+    args: tuple[object, ...],
+    kwargs: Mapping[str, object],
+) -> Response | None:
     sig = inspect.signature(func)
     bound = sig.bind_partial(*args, **kwargs)
     bound.apply_defaults()
@@ -37,7 +41,11 @@ def _should_cache_response(response: Response | None) -> bool:
     return response is None or response.status_code == 200
 
 
-def _make_cache_key(func: Any, args: tuple, kwargs: dict) -> str:
+def _make_cache_key(
+    func: Callable[..., object],
+    args: tuple[object, ...],
+    kwargs: Mapping[str, object],
+) -> str:
     sig = inspect.signature(func)
     bound = sig.bind_partial(*args, **kwargs)
     bound.apply_defaults()
@@ -48,21 +56,21 @@ def _make_cache_key(func: Any, args: tuple, kwargs: dict) -> str:
             normalized_kwargs[param_name] = param_value
 
     key_data = {
-        "func": func.__name__,
+        "func": getattr(func, "__name__", repr(func)),
         "kwargs": normalized_kwargs,
     }
 
     key_hash = hashlib.md5(
         orjson.dumps(key_data, option=orjson.OPT_SORT_KEYS, default=str)
     ).hexdigest()
-    return f"cache:endpoint:{func.__name__}:{key_hash}"
+    return f"cache:endpoint:{getattr(func, '__name__', repr(func))}:{key_hash}"
 
 
 def _make_refresh_lock_key(cache_key: str) -> str:
     return f"{cache_key}:refreshing"
 
 
-def _serialize_value(value: Any) -> dict:
+def _serialize_value(value: object) -> dict[str, object]:
     if isinstance(value, BaseModel):
         serialized_value = value.model_dump(mode="json", by_alias=True)
     else:
@@ -75,14 +83,19 @@ def _serialize_value(value: Any) -> dict:
     }
 
 
-def _deserialize_value(data: dict, expected_type: type | None) -> Any:
+def _legacy_cache_value[T](value: object) -> T:
+    # Preserve older cached payloads if validation against a current endpoint schema fails.
+    return cast("T", value)
+
+
+def _deserialize_value[T](data: object, expected_type: object | None) -> T:
     if not isinstance(data, dict) or "value" not in data:
-        return data
+        return _legacy_cache_value(data)
 
     value = data.get("value")
 
     if not expected_type:
-        return value
+        return _legacy_cache_value(value)
 
     origin = get_origin(expected_type)
     if origin is Annotated and isinstance(value, dict):
@@ -107,18 +120,22 @@ def _deserialize_value(data: dict, expected_type: type | None) -> Any:
                                     break
 
         try:
-            return TypeAdapter(expected_type).validate_python(value)
+            return TypeAdapter[T](expected_type).validate_python(value)
         except Exception:
             logger.debug("Failed to deserialize cached value", exc_info=True)
-            return value
+            return _legacy_cache_value(value)
 
-    if inspect.isclass(expected_type) and issubclass(expected_type, BaseModel):
-        return expected_type(**value) if isinstance(value, dict) else value
+    if isinstance(expected_type, type) and issubclass(expected_type, BaseModel):
+        return (
+            TypeAdapter[T](expected_type).validate_python(value)
+            if isinstance(value, dict)
+            else _legacy_cache_value(value)
+        )
 
-    return value
+    return _legacy_cache_value(value)
 
 
-def _is_cache_stale(cache_data: dict, ttl: int) -> bool:
+def _is_cache_stale(cache_data: object, ttl: int) -> bool:
     if not isinstance(cache_data, dict):
         return True
 
@@ -127,6 +144,8 @@ def _is_cache_stale(cache_data: dict, ttl: int) -> bool:
 
     created_at = cache_data.get("created_at")
     if created_at:
+        if not isinstance(created_at, (int, float)):
+            raise TypeError("Cache creation timestamp must be numeric")
         age = time.time() - created_at
         stale_threshold = ttl * STALE_THRESHOLD
         if age > stale_threshold:
@@ -199,6 +218,7 @@ def cached(
 
             return result
 
+        # functools.wraps preserves metadata, but ty cannot infer this ParamSpec wrapper.
         return wrapper  # type: ignore[return-value]
 
     return decorator

@@ -5,6 +5,7 @@ from fastapi import APIRouter, FastAPI, Path, Response
 from pydantic import BaseModel
 
 from .. import cache, database, models, stats, utils
+from ..types import JSONValue, PermissionCount
 
 router = APIRouter(
     prefix="/stats",
@@ -42,7 +43,7 @@ class PermissionStatsSnapshotResult(BaseModel):
     snapshot_date: datetime.date
     eligible_apps: int
     apps_with_stable_metadata: int
-    permission_counts: dict[str, dict[str, dict[str, int]]]
+    permission_counts: dict[str, PermissionCount]
 
 
 class PermissionStatsWindowResult(BaseModel):
@@ -56,7 +57,7 @@ class PermissionStatsMonths(IntEnum):
     twelve = 12
 
 
-def _normalize_stats_result(value: dict) -> StatsResult:
+def _normalize_stats_result(value: dict[str, JSONValue]) -> StatsResult:
     if "os_versions" not in value or value["os_versions"] is None:
         value["os_versions"] = {}
     if "flatpak_versions" not in value or value["flatpak_versions"] is None:

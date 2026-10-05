@@ -2,6 +2,7 @@ from fastapi import APIRouter, FastAPI, HTTPException, Path
 
 from .. import api_models, apps, cache, database, models, search, utils
 from ..database import get_db
+from ..types import is_json_object
 
 router = APIRouter()
 
@@ -289,41 +290,43 @@ async def get_summary(
 
         if app.summary:
             summary = app.summary
-            if (
-                "metadata" in summary
-                and summary["metadata"]
-                and "runtime" in summary["metadata"]
-            ):
-                runtime_appid, _, runtime_branch = summary["metadata"]["runtime"].split(
-                    "/"
-                )
-                runtime_is_eol = models.App.get_eol_data(
-                    db_session, runtime_appid, runtime_branch
-                )
-                summary["metadata"]["runtimeIsEol"] = runtime_is_eol
+            metadata_value = summary.get("metadata")
+            if is_json_object(metadata_value):
+                runtime = metadata_value.get("runtime")
+                if isinstance(runtime, str):
+                    runtime_appid, _, runtime_branch = runtime.split("/")
+                    runtime_is_eol = models.App.get_eol_data(
+                        db_session, runtime_appid, runtime_branch
+                    )
+                    metadata_value["runtimeIsEol"] = runtime_is_eol
 
-                # Resolve runtime size and name from the runtime's stored
-                # branch-specific data if not already present
-                if (
-                    "runtimeInstalledSize" not in summary["metadata"]
-                    or "runtimeName" not in summary["metadata"]
-                ):
-                    runtime_app = models.App.by_appid(db_session, runtime_appid)
-                    if runtime_app and runtime_app.summary:
-                        branches = runtime_app.summary.get("branches", {})
-                        branch_data = branches.get(runtime_branch, {})
-                        if (
-                            "runtimeInstalledSize" not in summary["metadata"]
-                            and "installed_size" in branch_data
-                        ):
-                            summary["metadata"]["runtimeInstalledSize"] = branch_data[
-                                "installed_size"
-                            ]
-                        if (
-                            "runtimeName" not in summary["metadata"]
-                            and "name" in branch_data
-                        ):
-                            summary["metadata"]["runtimeName"] = branch_data["name"]
+                    # Resolve runtime size and name from the runtime's stored
+                    # branch-specific data if not already present
+                    if (
+                        "runtimeInstalledSize" not in metadata_value
+                        or "runtimeName" not in metadata_value
+                    ):
+                        runtime_app = models.App.by_appid(db_session, runtime_appid)
+                        if runtime_app and runtime_app.summary:
+                            branches = runtime_app.summary.get("branches", {})
+                            branch_data = (
+                                branches.get(runtime_branch, {})
+                                if isinstance(branches, dict)
+                                else {}
+                            )
+                            if not isinstance(branch_data, dict):
+                                branch_data = {}
+                            installed_size = branch_data.get("installed_size")
+                            if (
+                                "runtimeInstalledSize" not in metadata_value
+                                and isinstance(installed_size, int)
+                            ):
+                                metadata_value["runtimeInstalledSize"] = installed_size
+                            runtime_name = branch_data.get("name")
+                            if "runtimeName" not in metadata_value and isinstance(
+                                runtime_name, str
+                            ):
+                                metadata_value["runtimeName"] = runtime_name
 
             # FastAPI will automatically validate and convert this dict
             # to SummaryResponse based on response_model

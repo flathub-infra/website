@@ -6,7 +6,6 @@ from collections.abc import Set as AbstractSet
 from dataclasses import dataclass
 from enum import StrEnum
 from threading import Timer
-from typing import Any, cast
 
 import gi
 
@@ -16,6 +15,7 @@ gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree  # type: ignore
 
 from .. import summary
+from ..types import JSONValue, is_json_object
 from . import url_origin
 
 logger = logging.getLogger(__name__)
@@ -45,8 +45,8 @@ class ManifestPair:
     branch: str
     candidate_commit: str
     published_commit: str | None
-    candidate_manifest: dict[str, Any]
-    published_manifest: dict[str, Any] | None
+    candidate_manifest: dict[str, JSONValue]
+    published_manifest: dict[str, JSONValue] | None
     published_status: PublishedManifestStatus
 
     @property
@@ -80,7 +80,7 @@ class ManifestSourceFinding:
 
 
 def _collect_manifest_source_inventory(
-    manifest: dict[str, Any],
+    manifest: dict[str, JSONValue],
 ) -> _ManifestSourceInventory:
     source_locations: dict[str, set[str]] = {}
     structural_issues: set[ManifestSourceIssue] = set()
@@ -113,10 +113,9 @@ def _collect_manifest_source_inventory(
             if isinstance(source, str):
                 add_structural_issue(source_location, "unresolved-source-include")
                 continue
-            if not isinstance(source, dict):
+            if not is_json_object(source):
                 add_structural_issue(source_location, "invalid-source")
                 continue
-            source = cast("dict[str, Any]", source)
             if source.get("type") == "extra-data":
                 continue
             if "url" in source:
@@ -327,7 +326,7 @@ def _assert_local_refs_match(
 
 def _read_manifest(
     repo: OSTree.Repo, commit: str, cancellable: Gio.Cancellable
-) -> dict[str, Any] | None:
+) -> dict[str, JSONValue] | None:
     _, root, resolved_commit = repo.read_commit(commit, cancellable)
     if resolved_commit != commit:
         raise CommitResolutionError("checksum_mismatch", "", "", commit)
@@ -346,7 +345,7 @@ def _read_manifest(
         raise _ManifestDataError("invalid_utf8", commit) from exc
     except json.JSONDecodeError as exc:
         raise _ManifestDataError("malformed_json", commit) from exc
-    if not isinstance(manifest, dict):
+    if not is_json_object(manifest):
         raise _ManifestDataError("unexpected_json_type", commit)
     return manifest
 
@@ -421,8 +420,10 @@ def collect_manifest_pairs(
             _assert_local_refs_match(repo, "candidate", candidate_ref_commits)
             _assert_local_refs_match(repo, "published", published_ref_commits)
 
-            candidate_cache: dict[str, dict[str, Any] | None] = {}
-            published_cache: dict[str, dict[str, Any] | None | _ManifestDataError] = {}
+            candidate_cache: dict[str, dict[str, JSONValue] | None] = {}
+            published_cache: dict[
+                str, dict[str, JSONValue] | None | _ManifestDataError
+            ] = {}
             pairs: list[ManifestPair] = []
             for item in refs:
                 candidate_commit = candidate_commits_by_ref[item.ref_name]

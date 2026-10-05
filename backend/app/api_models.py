@@ -6,11 +6,12 @@ enabling FastAPI to generate proper OpenAPI specifications and TypeScript types.
 """
 
 import datetime
-from typing import Annotated, Any, Literal
+from typing import Annotated, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from app.models import ConnectedAccountProvider
+from app.types import JSONValue
 
 # Appstream Models
 
@@ -182,7 +183,7 @@ class DesktopAppstream(BaseModel):
     icons: list[Icon] | None = None
     screenshots: list[Screenshot] | None = None
     releases: list[Release]
-    content_rating_details: dict[str, Any] | None = None
+    content_rating_details: dict[str, JSONValue] | None = None
     urls: Urls | None = None
     categories: list[str] | None = None
     kudos: list[str] | None = None
@@ -210,7 +211,7 @@ class AddonAppstream(BaseModel):
     name: str
     summary: str
     releases: list[Release] | None = None
-    content_rating_details: dict[str, Any] | None = None
+    content_rating_details: dict[str, JSONValue] | None = None
     urls: Urls | None = None
     categories: list[str] | None = None
     icon: str | None = None
@@ -236,7 +237,7 @@ class RuntimeAppstream(BaseModel):
     summary: str
     description: str | None = None
     releases: list[Release] | None = None
-    content_rating_details: dict[str, Any] | None = None
+    content_rating_details: dict[str, JSONValue] | None = None
     urls: Urls
     categories: list[str] | None = None
     icon: str | None = None
@@ -260,7 +261,7 @@ class GenericAppstream(BaseModel):
     name: str
     summary: str
     releases: list[Release] | None = None
-    content_rating_details: dict[str, Any] | None = None
+    content_rating_details: dict[str, JSONValue] | None = None
     urls: Urls
     categories: list[str] | None = None
     icon: str | None = None
@@ -284,7 +285,7 @@ class LocalizationAppstream(BaseModel):
     name: str
     summary: str
     releases: list[Release] | None = None
-    content_rating_details: dict[str, Any] | None = None
+    content_rating_details: dict[str, JSONValue] | None = None
     urls: Urls
     categories: list[str] | None = None
     icon: str | None = None

@@ -6,6 +6,7 @@ import gi
 
 from . import database, localize, models, schemas, search, utils
 from .quality_metadata import update_quality_metadata_timestamps
+from .types import JSONValue, is_json_object
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream  # ty: ignore[unresolved-import]
@@ -34,18 +35,31 @@ class SortBy(StrEnum):
     LAST_UPDATED_AT = "last-updated-at"
 
 
-def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
+def add_to_search(
+    app_id: str, app: dict[str, JSONValue], apps_locale: dict[str, JSONValue]
+) -> dict[str, JSONValue]:
+    description = app.get("description")
     search_description = (
-        re.sub(clean_html_re, "", app["description"])
-        if app and app.get("description")
-        else ""
+        re.sub(clean_html_re, "", description) if isinstance(description, str) else ""
     )
 
     search_keywords = app.get("keywords")
+    if isinstance(search_keywords, list):
+        search_keywords = [
+            keyword for keyword in search_keywords if isinstance(keyword, str)
+        ]
+    else:
+        search_keywords = []
 
     project_license = app.get("project_license", "")
+    if not isinstance(project_license, str):
+        project_license = ""
 
     categories = app.get("categories", [])
+    if not isinstance(categories, list) or not all(
+        isinstance(category, str) for category in categories
+    ):
+        categories = []
     main_categories = [
         category for category in categories if category.lower() in all_main_categories
     ]
@@ -62,13 +76,14 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
         sub_categories = sub_categories + main_categories[1:]
         main_categories = main_categories[0]
 
-    type = "desktop-application" if app.get("type") == "desktop" else app.get("type")
+    app_type = app.get("type")
+    app_type = "desktop-application" if app_type == "desktop" else app_type
 
     translations = {}
-    localized_keywords_set: set[str] = set(search_keywords or [])
+    localized_keywords_set: set[str] = set(search_keywords)
     for key, apps in apps_locale.items():
         if key in localize.LANGUAGES:
-            if not isinstance(apps, dict):
+            if not is_json_object(apps):
                 continue
 
             filtered_translations = {}
@@ -98,14 +113,18 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
     localized_keywords = (
         sorted(localized_keywords_set) if localized_keywords_set else None
     )
+    metadata_value = app.get("metadata")
+    metadata = metadata_value if is_json_object(metadata_value) else {}
+    bundle_value = app.get("bundle")
+    bundle = bundle_value if is_json_object(bundle_value) else {}
 
     # order of the dict is important for attribute ranking
     return {
         "id": utils.get_clean_app_id(app_id),
-        "type": type,
-        "name": app["name"],
+        "type": app_type,
+        "name": app.get("name"),
         "isMobileFriendly": app.get("isMobileFriendly", False),
-        "summary": app["summary"],
+        "summary": app.get("summary"),
         "translations": translations,
         "keywords": search_keywords,
         "localized_keywords": localized_keywords,
@@ -113,32 +132,22 @@ def add_to_search(app_id: str, app: dict, apps_locale: dict) -> dict:
         "is_free_license": AppStream.license_is_free_license(project_license),
         "app_id": app_id,
         "description": search_description,
-        "icon": app["icon"],
+        "icon": app.get("icon"),
         "main_categories": main_categories,
         "sub_categories": sub_categories,
         "developer_name": app.get("developer_name"),
-        "verification_verified": app.get("metadata", {}).get(
-            "flathub::verification::verified", False
+        "verification_verified": metadata.get("flathub::verification::verified", False),
+        "verification_method": metadata.get("flathub::verification::method"),
+        "verification_login_name": metadata.get("flathub::verification::login_name"),
+        "verification_login_provider": metadata.get(
+            "flathub::verification::login_provider"
         ),
-        "verification_method": app.get("metadata", {}).get(
-            "flathub::verification::method", None
+        "verification_login_is_organization": metadata.get(
+            "flathub::verification::login_is_organization"
         ),
-        "verification_login_name": app.get("metadata", {}).get(
-            "flathub::verification::login_name", None
-        ),
-        "verification_login_provider": app.get("metadata", {}).get(
-            "flathub::verification::login_provider", None
-        ),
-        "verification_login_is_organization": app.get("metadata", {}).get(
-            "flathub::verification::login_is_organization", None
-        ),
-        "verification_website": app.get("metadata", {}).get(
-            "flathub::verification::website", None
-        ),
-        "verification_timestamp": app.get("metadata", {}).get(
-            "flathub::verification::timestamp", None
-        ),
-        "runtime": app.get("bundle", {}).get("runtime", None),
+        "verification_website": metadata.get("flathub::verification::website"),
+        "verification_timestamp": metadata.get("flathub::verification::timestamp"),
+        "runtime": bundle.get("runtime"),
     }
 
 
@@ -152,31 +161,28 @@ def load_appstream(sqldb) -> None:
     developers = set()
 
     for app_id in apps:
+        app = apps[app_id]
+        locales_value = app.get("locales")
+        locales = locales_value if is_json_object(locales_value) else {}
         if app_id in non_eol_apps:
-            search_apps.append(
-                add_to_search(
-                    app_id,
-                    apps[app_id],
-                    apps[app_id]["locales"],
-                )
-            )
+            search_apps.append(add_to_search(app_id, app, locales))
 
-        if developer_name := apps[app_id].get("developer_name"):
+        if isinstance(developer_name := app.get("developer_name"), str):
             models.Developers.create(sqldb, developer_name)
-            developers.add(apps[app_id].get("developer_name"))
+            developers.add(developer_name)
 
-        if type := apps[app_id].get("type"):
+        if type := app.get("type"):
             # "desktop" dates back to appstream-glib, need to handle that for backwards compat
             if type == "desktop":
                 type = "desktop-application"
         else:
             type = None
 
-        app_data = apps[app_id].copy()
+        app_data = app.copy()
         locales = app_data.pop("locales")
         content_rating_details = app_data.pop("content_rating_details", None)
 
-        categories = apps[app_id].get("categories", [])
+        categories = app.get("categories", [])
         main_categories_list = [
             category
             for category in categories
@@ -324,6 +330,6 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
     return result
 
 
-def get_appstream(app_id: str) -> dict | None:
+def get_appstream(app_id: str) -> dict[str, JSONValue] | None:
     with database.get_db() as sqldb:
         return models.App.get_appstream(sqldb, app_id)

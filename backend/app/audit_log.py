@@ -16,6 +16,7 @@ from fastapi import Request
 from . import models
 from .database import get_db
 from .dramatiq_broker import broker
+from .types import JSONValue
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +29,7 @@ def log_audit_event(
     target_user_id: int | None = None,
     ip_address: str | None = None,
     user_agent: str | None = None,
-    details: dict | None = None,
+    details: dict[str, JSONValue] | None = None,
 ) -> None:
     """Persist an audit event. Runs on the Dramatiq worker."""
     try:
@@ -56,7 +57,7 @@ def enqueue_audit_log(
     *,
     provider: str | None = None,
     target_user_id: int | None = None,
-    details: dict | None = None,
+    details: dict[str, JSONValue] | None = None,
 ) -> None:
     """Enqueue an audit log event for asynchronous persistence.
 

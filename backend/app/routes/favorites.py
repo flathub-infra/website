@@ -138,7 +138,7 @@ def is_favorited(
 @cache.cached(ttl=3600)
 async def get_app_favorites_count(
     app_id: str,
-) -> dict:
+) -> dict[str, int]:
     """
     Get the total number of users who have favorited a specific app.
     """
