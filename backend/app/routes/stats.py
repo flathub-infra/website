@@ -1,10 +1,10 @@
 import datetime
-from typing import Any
+from enum import IntEnum
 
-from fastapi import APIRouter, FastAPI, HTTPException, Path, Response
+from fastapi import APIRouter, FastAPI, Path, Response
 from pydantic import BaseModel
 
-from .. import cache, database, models, permission_stats, stats
+from .. import cache, database, models, stats, utils
 
 router = APIRouter(
     prefix="/stats",
@@ -42,7 +42,18 @@ class PermissionStatsSnapshotResult(BaseModel):
     snapshot_date: datetime.date
     eligible_apps: int
     apps_with_stable_metadata: int
-    permission_counts: dict[str, Any]
+    permission_counts: dict[str, dict[str, dict[str, int]]]
+
+
+class PermissionStatsWindowResult(BaseModel):
+    start_month: str
+    end_month: str
+    snapshots: list[PermissionStatsSnapshotResult]
+
+
+class PermissionStatsMonths(IntEnum):
+    six = 6
+    twelve = 12
 
 
 def _normalize_stats_result(value: dict) -> StatsResult:
@@ -87,33 +98,37 @@ async def get_stats(response: Response) -> StatsResult | None:
 @router.get(
     "/permissions",
     status_code=200,
-    response_model=list[PermissionStatsSnapshotResult],
-    responses={200: {"description": "Daily application permission statistics"}},
+    response_model=PermissionStatsWindowResult,
+    responses={
+        200: {"description": "Latest application permission snapshot per month"}
+    },
 )
 @cache.cached(ttl=900)
 async def get_permission_stats(
-    start_date: datetime.date | None = None,
-    end_date: datetime.date | None = None,
-) -> list[dict[str, Any]]:
-    try:
-        permission_stats.validate_date_range(start_date, end_date)
-    except ValueError as error:
-        raise HTTPException(status_code=422, detail=str(error)) from error
+    months: PermissionStatsMonths = PermissionStatsMonths.six,
+) -> PermissionStatsWindowResult:
+    end_date = utils.utcnow().date()
+    month_index = end_date.year * 12 + end_date.month - months
+    start_date = datetime.date(month_index // 12, month_index % 12 + 1, 1)
 
     with database.get_db() as sqldb:
-        snapshots = models.PermissionStatsSnapshot.get_range(
+        snapshots = models.PermissionStatsSnapshot.get_monthly(
             sqldb, start_date=start_date, end_date=end_date
         )
 
-    return [
-        PermissionStatsSnapshotResult(
-            snapshot_date=snapshot.snapshot_date,
-            eligible_apps=snapshot.eligible_apps,
-            apps_with_stable_metadata=snapshot.apps_with_stable_metadata,
-            permission_counts=snapshot.permission_counts,
-        ).model_dump(mode="json")
-        for snapshot in snapshots
-    ]
+    return PermissionStatsWindowResult(
+        start_month=start_date.strftime("%Y-%m"),
+        end_month=end_date.strftime("%Y-%m"),
+        snapshots=[
+            PermissionStatsSnapshotResult(
+                snapshot_date=snapshot.snapshot_date,
+                eligible_apps=snapshot.eligible_apps,
+                apps_with_stable_metadata=snapshot.apps_with_stable_metadata,
+                permission_counts=snapshot.permission_counts,
+            )
+            for snapshot in snapshots
+        ],
+    )
 
 
 @router.get(
