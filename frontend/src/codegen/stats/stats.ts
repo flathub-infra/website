@@ -23,10 +23,12 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import qs from "qs"
 
 import type {
+  GetPermissionStatsStatsPermissionsGetParams,
   GetStatsForAppStatsAppIdGet200,
   GetStatsForAppStatsAppIdGetParams,
   GetStatsStatsGet200,
   HTTPValidationError,
+  PermissionStatsWindowResult,
 } from "../model"
 
 const withQueryKey = <T extends object, K>(
@@ -182,6 +184,176 @@ export function useGetStatsStatsGet<
   queryKey: DataTag<QueryKey, TData, TError>
 } {
   const queryOptions = getGetStatsStatsGetQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Get Permission Stats
+ */
+export const getPermissionStatsStatsPermissionsGet = (
+  params?: GetPermissionStatsStatsPermissionsGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<PermissionStatsWindowResult>> => {
+  return axios.get(`/stats/permissions`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
+}
+
+export const getGetPermissionStatsStatsPermissionsGetQueryKey = (
+  params?: GetPermissionStatsStatsPermissionsGetParams,
+) => {
+  return [`/stats/permissions`, ...(params ? [params] : [])] as const
+}
+
+export const getGetPermissionStatsStatsPermissionsGetQueryOptions = <
+  TData = Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetPermissionStatsStatsPermissionsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetPermissionStatsStatsPermissionsGetQueryKey(params)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>
+  > = ({ signal }) =>
+    getPermissionStatsStatsPermissionsGet(params, { signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPermissionStatsStatsPermissionsGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>
+>
+export type GetPermissionStatsStatsPermissionsGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useGetPermissionStatsStatsPermissionsGet<
+  TData = Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | GetPermissionStatsStatsPermissionsGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+          TError,
+          Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetPermissionStatsStatsPermissionsGet<
+  TData = Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetPermissionStatsStatsPermissionsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+          TError,
+          Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useGetPermissionStatsStatsPermissionsGet<
+  TData = Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetPermissionStatsStatsPermissionsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Get Permission Stats
+ */
+
+export function useGetPermissionStatsStatsPermissionsGet<
+  TData = Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: GetPermissionStatsStatsPermissionsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions = getGetPermissionStatsStatsPermissionsGetQueryOptions(
+    params,
+    options,
+  )
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

@@ -28,6 +28,12 @@ const AdminLayoutClient = ({
         user?.permissions.some((a) => a === Permission.moderation),
     },
     {
+      name: "Permissions",
+      href: "/admin/permissions",
+      condition: (user: GetUserinfoAuthUserinfoGet200) =>
+        user?.permissions.some((a) => a === Permission.moderation),
+    },
+    {
       name: "Quality Moderation",
       href: "/admin/quality-moderation",
       condition: (user: GetUserinfoAuthUserinfoGet200) =>
