@@ -58,3 +58,6 @@ exclude = ["alembic/versions/*"]
 include = [
     "app"
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
