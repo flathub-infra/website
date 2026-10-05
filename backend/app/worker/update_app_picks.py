@@ -37,6 +37,7 @@ def pick_app_of_the_day_automatically(db, day):
             ),
         }
         for appId in get_all_appids_for_frontend()
+        if (app := models.App.by_appid(db, appId)) and not app.excluded_from_app_picks
     ]
 
     all_passed_apps = [
