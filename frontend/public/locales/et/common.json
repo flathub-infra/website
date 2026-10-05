@@ -501,7 +501,9 @@
     "dark": "Tume",
     "failing-x-checks": "{count, plural, one {# kontroll} other {# kontrolli}} ei õnnestunud",
     "general-runtime-not-eol": "Käitusteegid pole aegunud",
-    "stats-by-category": "Reeglite läbivaatamise seis kategooriate kaupa"
+    "stats-by-category": "Reeglite läbivaatamise seis kategooriate kaupa",
+    "last-edited": "Viimane muutja: {editor} · {time}",
+    "system-editor": "Süsteem"
   },
   "rebase-onto-other-app": "Sisesta rakenduse tunnus, mida nüüd soovid kasutama hakata",
   "unverified": "Verifitseerimata",
@@ -876,5 +878,9 @@
   "login-failed-try-again": "Sisselogimine ei õnnestunud. Palun proovi uuesti.",
   "gitlab-terms-not-accepted": "Sinu „{provider}“ teenuse kasutajakonto eeldab, et noustud teenusepakkuja kasutustingimustega. Ava „{provider}“ sait veebibrauseris, nõustu tingimustega ja proovi uuesti.",
   "open-login-provider": "Ava „{provider}“",
-  "back-to-login": "Tagasi sisselogimislehele"
+  "back-to-login": "Tagasi sisselogimislehele",
+  "remove-bookmark": "Eemalda järjehoidja",
+  "remove-from-favorites": "Eemalda {app} järjehoidjate seast",
+  "quality-metadata-changed": "Metateave muutus {time}",
+  "quality-metadata-changed-since-review": "Muutunud peale kvaliteedikontrolli"
 }

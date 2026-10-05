@@ -856,5 +856,7 @@
   "moderation-random-review": "Náhodně vybráno pro kontrolu člověkem",
   "moderation-manifest-complexity-modules": "Dotčené moduly",
   "moderation-manifest-added": "Přidáno",
-  "moderation-manifest-removed": "Odebráno"
+  "moderation-manifest-removed": "Odebráno",
+  "login-failed": "Přihlášení se nezdařilo",
+  "login-failed-try-again": "Nebylo možné se přihlásit. Zkuste to znovu."
 }

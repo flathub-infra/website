@@ -57,7 +57,7 @@
     "introduction": "<text>Flatpak uygulamaları, Crostini Linux uyumluluk katmanı aracılığıyla ChromeOS'a yüklenebilir. Bu özellik tüm ChromeOS cihazlarında mevcut değildir; bu nedenle devam etmeden önce cihazınızın uyumlu olup olmadığını kontrol etmelisiniz. Uyumlu cihazların listesi <link>burada bulunmaktadır</link>.</text>",
     "step-1": {
       "name": "Linux desteğini etkinleştir",
-      "text": "<text><settingslink>chrome://os-settings</settingslink> adresine gidin, aşağı kaydırıp <strong>Geliştiriciler</strong> ögesine gelin ve <em>Linux geliştirme ortamı</em> seçeneğini açın. ChromeOS'un Linux'u indirmesi ve kurması biraz zaman alacaktır.</text>"
+      "text": "<text>Şuraya gidin: <settingslink>chrome://os-settings</settingslink>, aşağı kaydırıp <strong>Geliştiriciler</strong> ögesine gelin ve <em>Linux geliştirme ortamı</em> seçeneğini açın. ChromeOS'un Linux'u indirmesi ve kurması biraz zaman alacaktır.</text>"
     },
     "step-2": {
       "name": "Linux uçbirimi başlat",
@@ -142,7 +142,17 @@
   },
   "nixos": {
     "step-2": {
-      "name": "Flathub deposunu ekle"
+      "name": "Flathub deposunu ekle",
+      "text": "<text>Flathub, Flatpak uygulamaları kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirip kurun veya şunu çalıştırın:</text> <code></code>"
+    },
+    "step-1": {
+      "text": "<text>Flatpak'i kurmak için NixOS seçeneği olan <strong>services.flatpak.enable</strong> ayarını <strong>true</strong> olarak belirleyip aşağıdakini <strong>/etc/nixos/configuration.nix</strong> dosyanıza ekleyin:</text> <code></code> <text>Ardından, aşağıdaki komutla sistemi yeniden derleyin ve yeni yapılandırmaya geçin:</text> <codeRebuild></codeRebuild> <text>Daha fazla ayrıntı için <doclink>NixOS belgelerine</doclink> bakın.</text>",
+      "name": "Flatpak'ı indir"
+    },
+    "distroName": "NixOS",
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamalar kurmaya başlamak</link>!</text>"
     }
   },
   "pisi_gnulinux": {
@@ -161,11 +171,24 @@
     }
   },
   "endeavouros": {
-    "distroName": "EndeavourOS"
+    "distroName": "EndeavourOS",
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>EndeavourOS üzerinde Flatpak'ı kurmak için öncelikle sisteminizin güncel olduğundan emin olun. Bunun için terminalde aşağıdaki komutu çalıştırın:</text> <codeUpdate></codeUpdate> <text>Ardından Flatpak'ı kurun:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekleyin",
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için çalıştırın:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları indirmeye başlamak</link>!</text> <text>Not: EndeavourOS üzerinde Flatpak uygulamalarını grafik arayüz üzerinden kurmak mümkün olmayabilir.</text>"
+    }
   },
   "gnu_guix": {
     "step-1": {
-      "text": "<text>GNU Guix üzerinde Flatpak'ı kurmak için terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
+      "text": "<text>GNU Guix üzerinde Flatpak'ı kurmak için terminalde aşağıdaki komutu çalıştırın:</text> <code></code>",
+      "name": "Flatpak'ı kur"
     },
     "step-2": {
       "name": "Flathub deposunu ekleyin",
@@ -174,7 +197,8 @@
     "step-3": {
       "name": "Yeniden başlat",
       "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text> <text>Not: GNU Guix üzerinde Flatpak uygulamalarını grafik arayüz ile kurmak mümkün olmayabilir.</text>"
-    }
+    },
+    "distroName": "GNU Guix"
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
@@ -254,7 +278,7 @@
     },
     "step-3": {
       "name": "Yeniden başlat",
-      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text><text>Not: Flatpak uygulamalarının grafik arayüzü üzerinden kurulumu yalnızca GNOME Yazılım Merkezi ve/veya KDE Discover aracılığıyla mümkündür"
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text><text>Not: Flatpak uygulamalarının grafik arayüzü üzerinden kurulumu yalnızca GNOME Yazılım Merkezi ve/veya KDE Discover aracılığıyla mümkündür.</text>"
     }
   },
   "mageia": {
@@ -273,7 +297,152 @@
     }
   },
   "openmandriva_lx": {
-    "introduction": "<header>OpenMandriva'nın aktif olarak desteklenen tüm sürümlerinde Flatpak desteği mevcuttur; bu destek",
+    "introduction": "<header>Flatpak desteği, kararlı/sabit 'Rock 5.0' sürümünden başlayarak geliştirme sürümü 'Cooker' ve yuvarlanan (rolling) sürüm 'ROME' dâhil olmak üzere, aktif olarak desteklenen tüm OpenMandriva sürümlerinde yerleşik olarak bulunmaktadır.</header> <text>Flatpak, önceden yapılandırılmış Flathub deposuyla birlikte gelir.</text>",
     "distroName": "OpenMandriva Lx"
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS",
+    "introduction": "<text>Pop!_OS 20.04 ve üzeri sürümlerde Flatpak desteği yerleşik olarak gelir — kuruluma ihtiyac yok!</text>"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "Uygulamaları kur",
+      "text": "<text>elementary OS 5.1 ve üzeri sürümler, doğrudan Flatpak desteğiyle birlikte gelir. Derlenmemiş (non-curated) uygulamalar için <link>Flathub</link> sayfasına gidip büyük \"Install\" butonunu kullanarak dilediğiniz uygulamayı indirebilir ve indirilen .flatpakref dosyasını Sideload ile açabilirsiniz.</text> <text>Not: Flathub gibi uzak bir kaynaktan bir uygulama yükledikten sonra, o kaynaktaki diğer tüm uygulamalar da otomatik olarak AppCenter'da görünmeye başlayacaktır.</text>"
+    }
+  },
+  "raspberry_pi_os": {
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Flatpak paketi Raspberry Pİ OS (önceden Rasbian olarak isimlendiriliyordu) Stretch ve üzeri sürümlerde mevcuttur. Kurmak için aşağıdaki komutu yönetici yetkisi (root) ile çalıştırın:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekleyin",
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için şunu çalıştırın:</text> <code></code> <text> <strong>Önemli not:</strong> Yeni uygulamaların yalnızca bu platform için sunulma olasılığı daha yüksek olduğundan Raspberry Pi OS 64-bit kullanılması önerilir.</text>"
+    },
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları yüklemektir</link>!</text> <text>Not: Raspberry Pi OS ile Flatpak uygulamalarının grafik arayüz üzerinden kurulumu mümkün olmayabilir.</text>"
+    }
+  },
+  "void_linux": {
+    "distroName": "Void Linux",
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Void Linux üzerinde Flatpak kurmak için aşağıdaki komutu terminalde çalıştırın:</text> <code></code>"
+    },
+    "step-2": {
+      "text": "<text>Flathub, Flatpak paketlerini kurmak için en iyi seçenektir. Etkinleştirmek için çalıştırın:</text> <code></code>",
+      "name": "Flathub deposunu ekle"
+    },
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
+    }
+  },
+  "pureos": {
+    "distroName": "PureOS",
+    "introduction": "<text>Flatpak, PureOS üzerinde varsayılan olarak kuruludur. Başlamak için yapmanız gereken tek şey, Flatpak uygulamalarını kurmanın en iyi yolu olan Flathub'ı etkinleştirmektir. <filelink>Flathub depo dosyasını</filelink> indirip kurmanız yeterlidir.</text> <text>Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS",
+    "introduction": "<header>Zorin OS üzerinde Flatpak desteği yerleşik olarak gelir</header> <text>Flatpak uygulamalarını indirmek için Yazılım Mağazası uygulamasını kullanabilirsiniz.</text>"
+  },
+  "deepin": {
+    "distroName": "Deepin",
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Deepin üzerinde Flatpak kurmak için aşağıdaki komutu terminalde çalıştırın:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekleyin",
+      "text": "<text>Flathub, Flatpak paketlerini kurmak için en iyi seçenektir. Etkinleştirmek için çalıltırın:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Deepin temalarını kurun",
+      "text": "<text>Aydınlık ve karanlık temaları kurmak için çalıştırın:</text> <code></code>"
+    },
+    "step-4": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
+    }
+  },
+  "pardus": {
+    "distroName": "Pardus",
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Pardus 2019 ve üstü sürümlerde Flatpak paketi mevcuttur. Kurmak için aşağıdaki komutu yönetici yetkisiyle (root) çalıştırın:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Yazılım Flatpak eklentisini kurun",
+      "text": "<text>Eğer GNOME kullanıyorsanız GNOME Yazılım eklentisini kurmak iyi bir fikirdir. Eklentiyi kurmak için aşağıdaki komutu çalıştırın:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Flathub deposunu ekle",
+      "text": "<text>Flathub, Flatpak paketlerini kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirin ve kurun ya da çalıştırın:</text> <code></code>"
+    },
+    "step-4": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gerekrn <link>uygulamaları indirmeye başlamak</link>!</text>"
+    }
+  },
+  "mx_linux": {
+    "distroName": "MX Linux",
+    "step-1": {
+      "name": "Yazılım Yöneticisi aracılığıyla Flatpak'ı etkinleştirin",
+      "text": "<text>Flatpak desteği MX 18 ve sonraki sürümlerde yerleşik olarak gelmektedir. Yalnızca şu talimatları izleyerek Flathub deposunu etkinleştirmeniz gerekir:</text> <text> <strong>MX Paket Yöneticisi</strong>'ni açın (menüyü açıp MX Araçları bölümüne bakın), \"Flatpaks\" sekmesini seçin, depoyu etkinleştirmek için yönetici (root) parolasını girmeniz gerekecektir.</text>"
+    },
+    "step-2": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamalar indirmeye başlamak</link>!</text>"
+    }
+  },
+  "kde_neon": {
+    "distroName": "KDE neon",
+    "introduction": "<text>KDE neon 19 ve sonraki sürümlerde Flatpak desteği yerleşiktir — kuruluma ihtiyaç yoktur!</text>"
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux",
+    "introduction": "<header>Flatpak, Crystal Linux'ta varsayılan olarak kurulu gelir.</header> <text>Crystal Linux'u kurarken jade_gui'yi kullanmadıysanız veya Flatpak'ı kurmamayı seçtiyseniz, aşağıdaki adımları izleyerek Flatpak'ı kurabilirsiniz.</text>",
+    "step-1": {
+      "name": "Flatpak'ı kur",
+      "text": "<text>Crystal Linux üzerinde Flatpak'ı kurmak için öncelikle paketlerinizin güncel olduğundan emin olun. Aşağıdaki komudu terminalde çalıştırın:</text> <codeUpdate></codeUpdate> <text>Ardından Flatpak'ı kurun:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekleyin",
+      "text": "<text>Flathub Flatpak pakrtlerini kurmak için en iyi seçenektir. Etkinleştirmek için:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları indirmeye başlamak</link>!</text>"
+    }
+  },
+  "vanilla_os": {
+    "introduction": "<header>Flatpak, Vanilla OS'ta varsayılan olarak kurulu gelir.</header> <text>Uygulamaları yüklemek için Yazılım uygulamasını kullanabilir veya <link>Flathub</link>'a göz atabilirsiniz.</text> <text>Herhangi bir nedenle Flathub kullanılamıyorsa, aşağıdaki komutu kullanarak manuel olarak yapılandırabilirsiniz:</text> <code></code>",
+    "distroName": "Vanilla OS"
+  },
+  "salix": {
+    "introduction": "<header>Salix 15.0 ve sonraki sürümlerde Flatpak varsayılan olarak kurulu gelir — kurulum gerekmez!</header> <text>Flatpak, Flathub deposu önceden yapılandırılmış olarak gelir ve Flathub'dan tek tıklamayla uygulama yüklemeye olanak tanıyan masaüstü tümleştirme araçları dahildir.</text> <text>Tek yapmanız gereken <link>uygulamaları yüklemeye başlamak</link>!</text>",
+    "distroName": "Salix"
+  },
+  "slackware": {
+    "distroName": "Slacware",
+    "step-1": {
+      "name": "Flatpak'ı kurun",
+      "text": "<text>Flatpak paketi SlackBuilds üzerinde mevcuttur. Kurmak için (Sbopkg/sqg kullandığınızı varsayarak) öncelikle queuefile oluşturun ve aşağıdaki komutları yönetici yetkisiyle (root) çalıştırın:</text><codeQueue></codeQueue> <text>Ardından derleyin. Queuefile'ı yükleyin, 'Q' tuşuna basın ve bekleyin:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Flathub deposunu ekle",
+      "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için çalıştırın:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Yeniden başlat",
+      "text": "<text>Kurulumu tamamlamak için sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text> <text>Not: Slackware üzerinde Flatpak uygulamalarını grafik arayüz üzerinden kurmak mümkün olmayabilir.</text>"
+    }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak, 26.6 sürümünden itibaren T2 SDE ile varsayılan olarak kurulu gelir — herhangi bir kurulum gerekmez!</header> <text>Flatpak, Flathub deposu önceden yapılandırılmış olarak gelir ve Flathub üzerinden tek tıklamayla uygulama yüklemeye olanak tanıyan masaüstü tümleştirme araçları dahildir.</text> <text>Tek yapmanız gereken <link>uygulamaları yüklemeye başlamak</link>!</text>"
   }
 }

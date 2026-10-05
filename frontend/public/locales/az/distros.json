@@ -1,1 +1,5 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu"
+  }
+}
