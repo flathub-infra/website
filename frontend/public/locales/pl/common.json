@@ -880,5 +880,7 @@
   "open-login-provider": "Otwórz {provider}",
   "gitlab-terms-not-accepted": "Twoje konto {provider} wymaga zaakceptowania przez Ciebie regulaminu serwisu. Otwórz {provider} w przeglądarce, zaakceptuj regulamin i spróbuj ponownie.",
   "remove-from-favorites": "Usuń {app} z zakładek",
-  "remove-bookmark": "Usuń zakładkę"
+  "remove-bookmark": "Usuń zakładkę",
+  "quality-metadata-changed-since-review": "Zmiany wprowadzone od czasu kontroli jakości",
+  "quality-metadata-changed": "Metadane zmieniono o {time}"
 }

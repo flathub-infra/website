@@ -87,7 +87,7 @@
   "manual-install-instructions": "Seuraa <distroguide>Linux-jakelusi määritysohjetta</distroguide> ennen asennusta",
   "donate": "Lahjoita",
   "loading": "Ladataan…",
-  "could-not-find-match-for-search": "Hakuehtojasi vastaavia sovelluksia ei löytynyt.",
+  "could-not-find-match-for-search": "Etsimääsi ei löytynyt.",
   "languages": "Kielet",
   "switch-language": "Vaihda kieli",
   "languages-description": "Valitse haluamasi kieli:",
@@ -484,7 +484,8 @@
     "show-branding-preview": "Näytä tuotemerkin esikatselu",
     "problems": "Jos haluat kysyä meiltä tietyistä laatuohjeisiin liittyvistä ongelmista, voit avata <link>kysymyksen</link>.",
     "light": "Vaalea",
-    "dark": "Tumma"
+    "dark": "Tumma",
+    "system-editor": "Järjestelmä"
   },
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa <developerstabtitle>{developersTab}</developerstabtitle>-välilehdeltä.",
@@ -838,5 +839,14 @@
   "dns-record-not-found": "TXT-tietuetta ei löytynyt verkkotunnuksesta {record}.",
   "moderation-random-review": "Satunnaisesti valittu katselmointiin",
   "share": "Jaa",
-  "more-healthfitness": "Lisää terveys- ja kuntoilusovelluksia"
+  "more-healthfitness": "Lisää terveys- ja kuntoilusovelluksia",
+  "login-failed": "Kirjautuminen epäonnistui",
+  "login-failed-try-again": "Sisäänkirjautuminen ei onnistunut. Yritä uudelleen.",
+  "open-login-provider": "Avaa {provider}",
+  "back-to-login": "Takaisin kirjautumiseen",
+  "could-not-find-match-with-filters": "Näillä suodattimilla ei löytynyt sopivia tuloksia.",
+  "other-apps-to-explore": "Tässä joitain muita ensiluokkaisia sovelluksia tutustuttavaksi.",
+  "clear-filters": "Tyhjennä suodattimet",
+  "remove-bookmark": "Poista kirjanmerkki",
+  "remove-from-favorites": "Poista {app} kirjanmerkeistä"
 }

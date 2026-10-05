@@ -435,7 +435,9 @@
     "problems": "如果您想向我们询问具体的质量指南问题，请随时打开<link>问题</link>。",
     "failing-x-checks": "{count, plural, one {# 项检查} other {# 项检查}}失败",
     "general-runtime-not-eol": "运行时未终止支持",
-    "stats-by-category": "按类别划分的指南审核状态"
+    "stats-by-category": "按类别划分的指南审核状态",
+    "last-edited": "由 {editor} 编辑 · {time}",
+    "system-editor": "系统"
   },
   "user-data-subfolder-x": "用户数据子文件夹 {folder}",
   "desktop-folder": "桌面文件夹",
@@ -876,5 +878,7 @@
   "login-failed-try-again": "无法登录。请再次尝试。",
   "gitlab-terms-not-accepted": "您的 {provider} 账户需要您接受其服务条款。请在浏览器中打开 {provider}，接受条款，然后再次尝试登录。",
   "open-login-provider": "打开 {provider}",
-  "back-to-login": "返回登录"
+  "back-to-login": "返回登录",
+  "remove-bookmark": "删除书签",
+  "remove-from-favorites": "从书签删除 {app} 个应用"
 }

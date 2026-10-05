@@ -217,7 +217,7 @@
   "error": "Hata",
   "app-is-currently-not-verified": "Uygulamanız şu anda doğrulanmadı",
   "website-verification-main-instruction": "<bold>{id}</bold> uygulama kimliğini kullanma hakkınızı <bold>{domain}</bold> adresindeki belirli bir sayfaya bir belirteç yerleştirerek doğrulayın.",
-  "login-provider-verification-main-instruction": "<loginprovider></loginprovider> üzerinde <loginname></loginname> hesabına giriş yaparak<appid></appid> uygulama kimliğini kullanma hakkınızı doğrulayın.",
+  "login-provider-verification-main-instruction": "<loginprovider></loginprovider> üzerinde <loginname></loginname> hesabına giriş yaparak <appid></appid> uygulama kimliğini kullanma hakkınızı doğrulayın.",
   "server-returned-status-code": "Sunucu HTTP {code} döndürdü.",
   "unverify": "Doğrulamayı iptal et",
   "unverify-app-prompt": "{appId} doğrulaması iptal edilsin mi?",
@@ -435,7 +435,9 @@
     "problems": "Eğer rehber hakkında özel olarak bir soru sormak isterseniz, istediğiniz zaman <link>şikayet</link> oluşturabilirsiniz.",
     "general-runtime-not-eol": "Runtime desteği hâlâ devam ediyor",
     "failing-x-checks": "Başarısız {count, plural, one {# check} other {# checks}}",
-    "stats-by-category": "Kategoriye göre kılavuz inceleme durumu"
+    "stats-by-category": "Kategoriye göre kılavuz inceleme durumu",
+    "last-edited": "{editor} tarafından {time} düzenlendi",
+    "system-editor": "Sistem"
   },
   "user-data-subfolder-x": "Kullanıcı veri alt klasörleri {folder}",
   "desktop-folder": "Masaüstü klasörü",
@@ -664,7 +666,7 @@
   },
   "download": {
     "install-x": "“{x}” programını yükle",
-    "fallback-instructions": "<opening>\"{name}\" yönetici programında açılıyor…</opening><support>Hiçbir şey olmazsa, sisteminiz <i>flatpak+https</i> URL’lerini desteklemiyor olabilir.</support><listPrefix>Bu durumda şunları yapabilirsiniz:</listPrefix><ol><li><link>.flatpakref dosyasını</link>indirin</li><li>Daha sonra dosya yöneticinizden çalıştırın</li></ol><setupLine><linkSetup>Flatpak kurulum talimatları</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Yazılım yöneticinizde “{name}” açılıyor…</opening><support>Eğer hiçbir şey olmazsa, sisteminiz <i>flatpak+https</i> adreslerini desteklemiyor olabilir</support><listPrefix>Bu durumda şunları yapabilirsiniz: </listPrefix><ol><li><link>.flatpakref dosyasını</link> indirin</li><li>Ardından dosya yöneticinizden çalıştırın</li></ol><setupLine><linkSetup>Flatpak kurulumu talimatları</linkSetup></setupLine>"
   },
   "developed-by": "{developer} tarafından geliştirildi",
   "unverified-tooltip": "<appid></appid> uygulama kimliğinin sahipliği doğrulanmamış ve bu uygulama topluluk paketi olabilir",
@@ -849,7 +851,7 @@
   "dns-record-not-found": "{record} adresinde herhangi bir TXT kaydı bulunamadı.",
   "dns-token-not-present": "{record} adresindeki TXT kayıtları, doğrulama jetonunu içermiyor.",
   "dns-lookup-failed": "{record} için TXT kayıtları aranırken hata oluştu.",
-  "app-is-currently-verified-by-dns": "Uygulamanız şu anda <domain></domain> adresinin DNS kontrolü yoluyla doğrulanmıştır.",
+  "app-is-currently-verified-by-dns": "Uygulamanız şu anda <domain></domain> adresinin DNS kontrolü yoluyla doğrulanmıştır",
   "vending": {
     "purchase-not-available": "Bu uygulama satın alınamaz."
   },
@@ -876,5 +878,9 @@
   "gitlab-terms-not-accepted": "{provider} hesabınız için Hizmet Şartları'nı kabul etmeniz gerekiyor. Bir tarayıcıda {provider} sayfasını açıp şartları kabul edin ve ardından tekrar oturum açmayı deneyin.",
   "open-login-provider": "{provider} Ögesini Aç",
   "back-to-login": "Giriş ekranına dön",
-  "founding-supporters": "Kurucu Destekçiler"
+  "founding-supporters": "Kurucu Destekçiler",
+  "remove-bookmark": "Yer imini kaldır",
+  "remove-from-favorites": "{app} uygulamasını yer imlerinden kaldır",
+  "quality-metadata-changed": "Üst veri (metadata) {time} tarihinde değiştirildi",
+  "quality-metadata-changed-since-review": "Kalite incelemesinden bu yana değiştirildi"
 }

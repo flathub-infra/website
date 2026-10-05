@@ -208,7 +208,10 @@
     "branding": "Marca",
     "light": "Clar",
     "dark": "Escur",
-    "details": "Detalhs"
+    "details": "Detalhs",
+    "system-editor": "Sistèma",
+    "request-review": "Demandar una revision",
+    "last-edited": "Modificat per {editor} · {time}"
   },
   "no-network-access": "Cap d'accès ret",
   "no-file-system-access-description": "Accès impossible al sistèma de fichièrs",

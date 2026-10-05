@@ -189,7 +189,9 @@
     "app-name-just-the-name": "An anv hepken",
     "app-icon": "Arlun an arload",
     "general": "Hollek",
-    "screenshots-take-screenshots-on-linux": "Tapadennoù-skramm tennet war Linux"
+    "screenshots-take-screenshots-on-linux": "Tapadennoù-skramm tennet war Linux",
+    "system-editor": "Reizhiad",
+    "last-edited": "Embannet gant {editor} · {time}"
   },
   "vendingSharesPreview": {
     "app": "Arload",
@@ -277,5 +279,7 @@
   "dns-verification": "Gwiriadur DNS",
   "dns-record-value": "Talvoud",
   "moderation-manifest-added": "Ouzhpennet",
-  "open-login-provider": "Digeriñ {provider}"
+  "open-login-provider": "Digeriñ {provider}",
+  "remove-from-favorites": "Dilemel {app} eus ar sinedoù",
+  "remove-bookmark": "Dilemel ar sined"
 }
