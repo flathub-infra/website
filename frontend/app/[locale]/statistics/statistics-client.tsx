@@ -1,6 +1,5 @@
 "use client"
 
-import styles from "./statistics.module.scss"
 import {
   CloudArrowDownIcon,
   CalendarIcon,
@@ -67,11 +66,7 @@ export const FlathubWorldMap = ({
       block: "nearest",
     })
 
-  return (
-    <div className={`flex justify-center ${styles.map}`}>
-      <CountryMap data={country_data} onCountrySelect={handleClick} />
-    </div>
-  )
+  return <CountryMap data={country_data} onCountrySelect={handleClick} />
 }
 
 const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
