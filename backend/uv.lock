@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.13, <4.0"
 
 [[package]]
@@ -348,6 +348,7 @@ dependencies = [
     { name = "feedgen" },
     { name = "granian", extra = ["reload", "uvloop"] },
     { name = "httpx" },
+    { name = "idna" },
     { name = "itsdangerous" },
     { name = "joserfc" },
     { name = "lxml" },
@@ -392,6 +393,7 @@ requires-dist = [
     { name = "feedgen", specifier = ">=1.0.0,<2.0.0" },
     { name = "granian", extras = ["reload", "uvloop"], specifier = ">=2.7.9" },
     { name = "httpx", specifier = ">=0.28.1,<1.0.0" },
+    { name = "idna", specifier = ">=3.18" },
     { name = "itsdangerous", specifier = ">=2.2,<3.0" },
     { name = "joserfc", specifier = ">=1.7.4" },
     { name = "lxml", specifier = ">=6.1.1,<7.0.0" },

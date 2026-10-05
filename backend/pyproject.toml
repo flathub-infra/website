@@ -38,6 +38,7 @@ dependencies = [
     "joserfc>=1.7.4",
     "dnspython>=2.8.0",
     "email-validator>=2.3.0",
+    "idna>=3.18",
 ]
 
 [dependency-groups]
