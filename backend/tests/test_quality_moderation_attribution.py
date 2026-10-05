@@ -46,6 +46,7 @@ def test_public_quality_response_omits_editor_attribution(monkeypatch):
         models.QualityModerationRequest, "by_appid", lambda _db, _app_id: None
     )
     monkeypatch.setattr(models.App, "get_fullscreen_app", lambda _db, _app_id: False)
+    monkeypatch.setattr(models.App, "by_appid", lambda _db, _app_id: None)
 
     response = quality_moderation._get_quality_moderation_response(
         SimpleNamespace(session=Session()), "org.example.App", include_attribution=False
@@ -79,6 +80,7 @@ def test_moderator_quality_response_resolves_editor_display_name(monkeypatch):
         models.QualityModerationRequest, "by_appid", lambda _db, _app_id: None
     )
     monkeypatch.setattr(models.App, "get_fullscreen_app", lambda _db, _app_id: False)
+    monkeypatch.setattr(models.App, "by_appid", lambda _db, _app_id: None)
 
     response = quality_moderation._get_quality_moderation_response(
         SimpleNamespace(session=Session()), "org.example.App", include_attribution=True

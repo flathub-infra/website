@@ -3261,6 +3261,7 @@ class App(Base):
     content_rating_details = mapped_column(JSONB, nullable=True)
     summary = mapped_column(JSONB, nullable=True)
     appstream = mapped_column(JSONB, nullable=True)
+    quality_metadata_updated_at = mapped_column(JSONB, nullable=True)
     is_eol = mapped_column(Boolean, nullable=False, server_default=false())
     eol_branches = mapped_column(JSONB, nullable=True)
     eol_message = mapped_column(String, nullable=True)
