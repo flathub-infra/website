@@ -85,7 +85,6 @@ def email_login_allowed(db: DBSession, user: models.FlathubUser) -> bool:
         or account.disabled_at is not None
         or user.login_disabled
         or has_oauth_account(db, user)
-        or oauth_email_exists(db, account.email)
     ):
         return False
     return not any(

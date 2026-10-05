@@ -492,3 +492,35 @@ def test_internationalized_oauth_email_blocks_email_signup(isolated_email_db):
         assert blocked.value.status_code == 400
     with Session(engine) as session:
         assert session.scalar(select(models.EmailAccount.id)) is None
+
+
+def test_oauth_email_collision_keeps_existing_email_account(isolated_email_db):
+    writer, _engine = isolated_email_db
+    email = f"reader-{uuid4().hex}@example.com"
+    first = {}
+    second = {}
+    with patch.object(logins.audit_log, "enqueue_audit_log"):
+        logins.confirm_email_login(
+            logins.EmailConfirmRequest(token=issue(writer, email)),
+            request_for(first),
+            LoginInformation(LoginState.LOGGED_OUT, None, None),
+        )
+        with writer() as db:
+            other = models.FlathubUser(display_name=None, default_account="gitlab")
+            db.session.add(other)
+            db.session.flush()
+            db.session.add(
+                models.GitlabAccount(
+                    user=other.id,
+                    gitlab_userid=99,
+                    login="other",
+                    avatar_url=None,
+                    email=email,
+                )
+            )
+        logins.confirm_email_login(
+            logins.EmailConfirmRequest(token=issue(writer, email)),
+            request_for(second),
+            LoginInformation(LoginState.LOGGED_OUT, None, None),
+        )
+    assert second["user-id"] == first["user-id"]
