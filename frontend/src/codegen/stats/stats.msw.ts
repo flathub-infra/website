@@ -12,6 +12,7 @@ import type { RequestHandlerOptions } from "msw"
 import type {
   GetStatsForAppStatsAppIdGet200,
   GetStatsStatsGet200,
+  PermissionStatsWindowResult,
 } from "../model"
 
 export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
@@ -53,6 +54,29 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
     },
     null,
   ])
+
+export const getGetPermissionStatsStatsPermissionsGetResponseMock = (
+  overrideResponse: Partial<Extract<PermissionStatsWindowResult, object>> = {},
+): PermissionStatsWindowResult => ({
+  start_month: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  end_month: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  snapshots: Array.from(
+    { length: faker.number.int({ min: 1, max: 10 }) },
+    (_, i) => i + 1,
+  ).map(() => ({
+    snapshot_date: faker.date.past().toISOString().slice(0, 10),
+    eligible_apps: faker.number.int(),
+    apps_with_stable_metadata: faker.number.int(),
+    permission_counts: {
+      [faker.string.alphanumeric(5)]: {
+        [faker.string.alphanumeric(5)]: {
+          [faker.string.alphanumeric(5)]: faker.number.int(),
+        },
+      },
+    },
+  })),
+  ...overrideResponse,
+})
 
 export const getGetStatsForAppStatsAppIdGetResponseMock =
   (): GetStatsForAppStatsAppIdGet200 =>
@@ -96,6 +120,30 @@ export const getGetStatsStatsGetMockHandler = (
   )
 }
 
+export const getGetPermissionStatsStatsPermissionsGetMockHandler = (
+  overrideResponse?:
+    | PermissionStatsWindowResult
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<PermissionStatsWindowResult> | PermissionStatsWindowResult),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/stats/permissions",
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetPermissionStatsStatsPermissionsGetResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
 export const getGetStatsForAppStatsAppIdGetMockHandler = (
   overrideResponse?:
     | GetStatsForAppStatsAppIdGet200
@@ -123,5 +171,6 @@ export const getGetStatsForAppStatsAppIdGetMockHandler = (
 }
 export const getStatsMock = () => [
   getGetStatsStatsGetMockHandler(),
+  getGetPermissionStatsStatsPermissionsGetMockHandler(),
   getGetStatsForAppStatsAppIdGetMockHandler(),
 ]
