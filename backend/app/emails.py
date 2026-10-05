@@ -152,6 +152,12 @@ def sentry_before_breadcrumb(crumb: Breadcrumb, hint: Hint) -> Breadcrumb | None
     return crumb
 
 
+def sentry_before_send_transaction(event: Event, hint: Hint) -> Event | None:
+    if _contains_email_auth_path(event) or _contains_email_login(event):
+        return None
+    return event
+
+
 def _get_destination_and_append(
     payload: dict, db, messages: list, user: models.FlathubUser
 ):

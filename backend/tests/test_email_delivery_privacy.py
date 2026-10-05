@@ -145,6 +145,25 @@ def test_sentry_breadcrumb_filter_drops_email_auth_and_mail_payloads():
     )
 
 
+def test_sentry_transaction_filter_drops_email_auth_transactions():
+    auth_transaction = {
+        "type": "transaction",
+        "transaction": "/auth/email/confirm",
+        "request": {"url": "https://api.example.test/auth/email/confirm"},
+    }
+    unrelated_transaction = {
+        "type": "transaction",
+        "transaction": "/auth/login",
+        "request": {"url": "https://api.example.test/auth/login"},
+    }
+
+    assert emails.sentry_before_send_transaction(auth_transaction, {}) is None
+    assert (
+        emails.sentry_before_send_transaction(unrelated_transaction, {})
+        is unrelated_transaction
+    )
+
+
 def test_sentry_filter_keeps_unrelated_errors_in_email_login_module():
     event = {
         "message": "database timeout",
