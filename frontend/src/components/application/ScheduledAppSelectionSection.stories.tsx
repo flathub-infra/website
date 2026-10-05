@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
-import { Buffer } from "buffer/"
 import { expect } from "storybook/test"
 import type { HomepageCuratedApp } from "src/types/CuratedAppSelection"
 import { ScheduledAppSelectionSection } from "./ScheduledAppSelectionSection"
@@ -8,13 +7,6 @@ const meta = {
   component: ScheduledAppSelectionSection,
   title: "Components/Application/ScheduledAppSelectionSection",
   parameters: { layout: "padded" },
-  decorators: [
-    (Story) => {
-      // Match Next.js's Buffer polyfill so imgproxy processing also works in Vite.
-      globalThis.Buffer ??= Buffer
-      return <Story />
-    },
-  ],
 } satisfies Meta<typeof ScheduledAppSelectionSection>
 
 export default meta
