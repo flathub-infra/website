@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { http, HttpResponse } from "msw"
 import { useState, type ReactNode } from "react"
-import { expect, within } from "storybook/test"
+import { expect, userEvent, within } from "storybook/test"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
 import type {
   DesktopAppstream,
@@ -114,6 +114,56 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const ModeratorAttribution: Story = {}
+
+export const FirstEditDoesNotShiftChecklist: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get(`*/quality-moderation/${appId}/moderator`, () =>
+          HttpResponse.json({
+            ...response,
+            guidelines: [
+              {
+                ...response.guidelines[0],
+                passed: null,
+                updated_at: null,
+                updated_by: null,
+              },
+              response.guidelines[1],
+            ],
+          }),
+        ),
+        http.post(`*/quality-moderation/${appId}`, () =>
+          HttpResponse.json({
+            ...response,
+            guidelines: [
+              {
+                ...response.guidelines[0],
+                updated_by:
+                  "Alex Moderator with a very long display name that should not wrap onto another line",
+              },
+              response.guidelines[1],
+            ],
+          }),
+        ),
+      ],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const dialog = within(canvasElement.ownerDocument.body)
+    const nextAttribution = await dialog.findByText(/Edited by System/)
+    const nextRow = nextAttribution.closest("span").parentElement.parentElement
+    const firstRow = nextRow.previousElementSibling as HTMLElement
+    const initialHeight = firstRow.getBoundingClientRect().height
+    const initialNextTop = nextRow.getBoundingClientRect().top
+
+    await userEvent.click(within(firstRow).getAllByRole("button").at(-1))
+    await dialog.findByText(/Alex Moderator with a very long display name/)
+
+    expect(firstRow.getBoundingClientRect().height).toBe(initialHeight)
+    expect(nextRow.getBoundingClientRect().top).toBe(initialNextTop)
+  },
+}
 
 export const MetadataNewerThanReview: Story = {
   parameters: mockResponse({
