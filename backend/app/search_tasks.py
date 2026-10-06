@@ -36,7 +36,7 @@ def _schedule_reconciliation(attempt: int) -> None:
         search_health.mark_hybrid_task_failed("reconciliation")
 
 
-@dramatiq.actor(time_limit=RECONCILIATION_TIME_LIMIT_MS)
+@dramatiq.actor(queue_name="slow", time_limit=RECONCILIATION_TIME_LIMIT_MS)
 def reconcile_hybrid_index(attempt: int = 0) -> None:
     from . import search_setup
 
@@ -85,7 +85,7 @@ def reconcile_hybrid_index(attempt: int = 0) -> None:
         lock.release()
 
 
-@dramatiq.actor(time_limit=TASK_TIMEOUT_MS + 60_000)
+@dramatiq.actor(queue_name="slow", time_limit=TASK_TIMEOUT_MS + 60_000)
 def monitor_hybrid_index_task(
     operation: HybridOperation,
     task_uid: int | None,

@@ -6,7 +6,7 @@ from .. import apps, exceptions, models, search, summary, utils
 from ..database import get_db, get_json_key
 
 
-@dramatiq.actor
+@dramatiq.actor(queue_name="slow")
 def update():
     with get_db("writer") as db:
         apps.load_appstream(db)

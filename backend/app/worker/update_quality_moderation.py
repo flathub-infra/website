@@ -4,7 +4,7 @@ from .. import apps, models
 from ..database import get_db, get_json_key
 
 
-@dramatiq.actor
+@dramatiq.actor(queue_name="slow")
 def update_quality_moderation():
     with get_db("writer") as db:
         appids = apps.get_appids(include_eol=True)
