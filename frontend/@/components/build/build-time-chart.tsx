@@ -1,23 +1,19 @@
 "use client"
 
 import type { PipelineSummary } from "src/codegen-pipeline"
-import {
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-} from "recharts"
+import { defineChart, lineY } from "@tanstack/charts"
+import { scaleBand } from "@tanstack/charts/scales/band"
+import { scaleLinear } from "@tanstack/charts/scales/linear"
+import { tooltip } from "@tanstack/charts/tooltip"
+import { d3Curve } from "@tanstack/charts/d3/shape"
+import { curveMonotoneX } from "d3-shape"
+import { ChartLegendItems, TanstackChart } from "src/components/charts/chart"
 import { useMemo } from "react"
 import { formatDuration } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
 import { useLocale } from "next-intl"
-import { useTheme } from "next-themes"
 import { getIntlLocale } from "src/localize"
-import { primaryStroke, axisStroke } from "src/chartComponents"
+import { primaryStroke } from "src/chartComponents"
 import { summarizeSeries, toDurationSeries } from "src/builds/pipeline-history"
 
 interface BuildTimeChartProps {
@@ -27,9 +23,7 @@ interface BuildTimeChartProps {
 
 export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
   const locale = useLocale()
-  const { resolvedTheme } = useTheme()
-  const lineColor = primaryStroke(resolvedTheme ?? "light")
-  const axisColor = axisStroke(resolvedTheme ?? "light")
+  const lineColor = primaryStroke
   const chartData = useMemo(() => {
     const dateFormatter = new Intl.DateTimeFormat(
       getIntlLocale(locale).toString(),
@@ -63,6 +57,37 @@ export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
     }
     return points
   }, [builds, locale])
+
+  const definition = useMemo(
+    () =>
+      defineChart({
+        marks: [
+          lineY(chartData, {
+            x: "date",
+            y: "durationMinutes",
+            stroke: lineColor,
+            strokeWidth: 2,
+            points: true,
+            curve: d3Curve(curveMonotoneX),
+          }),
+        ],
+        scales: {
+          x: { scale: () => scaleBand<string>().padding(0.2) },
+          y: {
+            scale: scaleLinear,
+            nice: true,
+            grid: true,
+            axis: { label: "Duration (minutes)" },
+          },
+        },
+        tooltip: {
+          use: tooltip,
+          format: (point) =>
+            `${point.datum.date}: ${formatDuration({ minutes: Number(point.yValue) })}`,
+        },
+      }),
+    [chartData, lineColor],
+  )
 
   if (chartData.length === 0) {
     return (
@@ -98,40 +123,15 @@ export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
           <p className="text-lg font-semibold">{formatMinutes(minMinutes)}</p>
         </div>
       </div>
-      <div className="w-full h-80">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={chartData}
-            margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke={axisColor} />
-            <XAxis dataKey="date" stroke={axisColor} />
-            <YAxis
-              stroke={axisColor}
-              label={{
-                value: "Duration (minutes)",
-                angle: -90,
-                position: "insideLeft",
-              }}
-            />
-            <Tooltip
-              formatter={(value) =>
-                formatDuration({ minutes: value as number })
-              }
-              labelFormatter={(label) => `Date: ${label}`}
-            />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="durationMinutes"
-              stroke={lineColor}
-              strokeWidth={2}
-              dot={count <= 30 ? { fill: lineColor, r: 4 } : false}
-              activeDot={{ r: 6, fill: lineColor }}
-              name="Successful build duration"
-            />
-          </LineChart>
-        </ResponsiveContainer>
+      <div className="w-full">
+        <TanstackChart
+          definition={definition}
+          ariaLabel="Build duration over time"
+          height={320}
+        />
+        <ChartLegendItems
+          items={[{ label: "Successful build duration", color: lineColor }]}
+        />
       </div>
     </div>
   )

@@ -7,8 +7,6 @@ import {
   CheckBadgeIcon,
 } from "@heroicons/react/24/solid"
 import ListBox from "../../../src/components/application/ListBox"
-import { useTheme } from "next-themes"
-import { getIntlLocale } from "../../../src/localize"
 import { tryParseCategory } from "../../../src/types/Category"
 import { useUserContext } from "../../../src/context/user-info"
 import { Permission, StatsResult } from "../../../src/codegen/model"
@@ -17,30 +15,15 @@ import {
   useGetQualityModerationStatsQualityModerationFailedByGuidelineGet,
 } from "../../../src/codegen"
 import { format } from "date-fns"
-import {
-  LineChart,
-  XAxis,
-  YAxis,
-  Line,
-  BarChart,
-  Treemap,
-  Bar,
-  Cell,
-  Legend,
-} from "recharts"
-import {
-  primaryStroke,
-  axisStroke,
-  RotatedAxisTick,
-  FlathubTooltip,
-} from "../../../src/chartComponents"
-import { createRef, useState, type JSX } from "react"
-import {
-  ChartContainer,
-  ChartConfig,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
+import { barX, defineChart, lineY, stack } from "@tanstack/charts"
+import { createCategoryDistributionChart } from "src/components/charts/category-distribution"
+import { rectangleFocusStates } from "src/components/charts/rectangle-focus"
+import { scaleBand } from "@tanstack/charts/scales/band"
+import { scaleLinear } from "@tanstack/charts/scales/linear"
+import { tooltip } from "@tanstack/charts/tooltip"
+import { primaryStroke } from "../../../src/chartComponents"
+import { createRef, useMemo, type JSX } from "react"
+import { ChartLegendItems, TanstackChart } from "src/components/charts/chart"
 import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
 import { useLocale, useTranslations } from "next-intl"
@@ -51,6 +34,7 @@ interface StatisticsClientProps {
   stats: StatsResult
   runtimes: { [key: string]: number }
   locale: string
+  countryNames: Record<string, string>
 }
 
 export const FlathubWorldMap = ({
@@ -69,13 +53,15 @@ export const FlathubWorldMap = ({
   return <CountryMap data={country_data} onCountrySelect={handleClick} />
 }
 
-const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
+const DownloadsPerCountry = ({
+  stats,
+  countryNames,
+}: {
+  stats: StatsResult
+  countryNames: Record<string, string>
+}) => {
   const t = useTranslations()
   const locale = useLocale()
-  const i18n = getIntlLocale(locale)
-
-  const regionName = new Intl.DisplayNames(i18n.language, { type: "region" })
-  const regionNameFallback = new Intl.DisplayNames("en", { type: "region" })
 
   let country_data: CountryMapValue[] = []
   if (stats.countries) {
@@ -125,11 +111,7 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
                   <div className="text-lg font-semibold">{i + 1}.</div>
                   <div className="flex gap-2 items-center">
                     <ReactCountryFlag countryCode={country} />
-                    <div>
-                      {regionName.of(country) ??
-                        regionNameFallback.of(country) ??
-                        t("unknown")}
-                    </div>
+                    <div>{countryNames[country] ?? t("unknown")}</div>
                   </div>
                   <div>{value.toLocaleString(locale)}</div>
                 </div>
@@ -143,7 +125,6 @@ const DownloadsPerCountry = ({ stats }: { stats: StatsResult }) => {
 
 const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
-  const { resolvedTheme } = useTheme()
   const locale = useLocale()
 
   const data = []
@@ -156,11 +137,45 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
   // Remove current day
   data.pop()
 
-  const chartConfig = {
-    downloads: {
-      color: primaryStroke(resolvedTheme),
-    },
-  } satisfies ChartConfig
+  const stroke = primaryStroke
+  const definition = useMemo(
+    () =>
+      defineChart({
+        marks: [
+          lineY(data, {
+            x: "date",
+            y: "downloads",
+            stroke,
+            strokeWidth: 3,
+          }),
+        ],
+        scales: {
+          x: {
+            scale: () => scaleBand<string>().padding(0.2),
+            axis: {
+              ticks: { size: 0, format: (date) => format(date, "MMM yyyy") },
+              tickLabels: { rotate: -35, anchor: "end" },
+            },
+          },
+          y: {
+            scale: scaleLinear,
+            nice: true,
+            grid: true,
+            axis: {
+              ticks: {
+                format: (value) => value.toLocaleString(locale),
+              },
+            },
+          },
+        },
+        tooltip: {
+          use: tooltip,
+          format: (point) =>
+            `${format(point.datum.date, "MMM yyyy")}: ${Number(point.yValue).toLocaleString(locale)}`,
+        },
+      }),
+    [data, locale, stroke],
+  )
 
   return (
     <>
@@ -168,41 +183,12 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
         {t("downloads-over-time")}
       </h2>
       <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-        <ChartContainer config={chartConfig} className="min-h-[500px] w-full">
-          <LineChart accessibilityLayer data={data}>
-            <Line
-              dataKey="downloads"
-              name={t("downloads")}
-              dot={false}
-              strokeWidth={3}
-            />
-            <XAxis
-              dataKey="date"
-              name={t("date")}
-              tickFormatter={(date) => {
-                return format(date, "MMM yyyy")
-              }}
-              stroke={axisStroke(resolvedTheme)}
-              tick={<RotatedAxisTick />}
-              height={80}
-            />
-            <YAxis
-              tickFormatter={(y) => y.toLocaleString(locale)}
-              stroke={axisStroke(resolvedTheme)}
-              width={80}
-            />
-            <ChartTooltip
-              content={<FlathubTooltip hideIndicator />}
-              labelFormatter={(x) =>
-                typeof x === "string" ||
-                typeof x === "number" ||
-                x instanceof Date
-                  ? format(x, "MMM yyyy")
-                  : ""
-              }
-            />
-          </LineChart>
-        </ChartContainer>
+        <TanstackChart
+          definition={definition}
+          ariaLabel={t("downloads-over-time")}
+          height={500}
+          className="min-h-[500px] w-full"
+        />
       </div>
     </>
   )
@@ -210,7 +196,7 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
 
 const FailedByGuideline = () => {
   const t = useTranslations()
-  const { resolvedTheme } = useTheme()
+  const locale = useLocale()
   const user = useUserContext()
 
   const query =
@@ -223,11 +209,39 @@ const FailedByGuideline = () => {
       },
     })
 
-  const chartConfig = {
-    downloads: {
-      color: "oklch(var(--flathub-celestial-blue))",
-    },
-  } satisfies ChartConfig
+  const data = useMemo(
+    () =>
+      (query.data?.data ?? []).map((row) => ({
+        ...row,
+        guideline_id: t(`quality-guideline.${row.guideline_id}`),
+      })),
+    [query.data?.data, t],
+  )
+  const definition = useMemo(
+    () =>
+      defineChart({
+        focusRing: false,
+        marks: [
+          barX(data, {
+            x: "not_passed",
+            states: rectangleFocusStates,
+            y: "guideline_id",
+            fill: "oklch(var(--flathub-celestial-blue))",
+          }),
+        ],
+        scales: {
+          x: { scale: scaleLinear, nice: true, grid: true },
+          y: { scale: () => scaleBand<string>().padding(0.15) },
+        },
+        tooltip: {
+          use: tooltip,
+          anchor: "pointer",
+          offset: 12,
+          format: (point) => Number(point.xValue).toLocaleString(locale),
+        },
+      }),
+    [data, locale],
+  )
 
   return (
     <>
@@ -235,39 +249,12 @@ const FailedByGuideline = () => {
         <>
           <h2 className="mb-6 mt-12 text-2xl font-bold">Failed by guideline</h2>
           <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-            <ChartContainer
-              config={chartConfig}
+            <TanstackChart
+              definition={definition}
+              ariaLabel="Failed by guideline"
+              height={500}
               className="min-h-[500px] w-full"
-            >
-              <BarChart
-                accessibilityLayer
-                layout="vertical"
-                data={query.data.data.map((x) => ({
-                  ...x,
-                  guideline_id: t(`quality-guideline.${x.guideline_id}`),
-                }))}
-              >
-                <XAxis stroke={axisStroke(resolvedTheme)} type="number" />
-                <YAxis
-                  stroke={axisStroke(resolvedTheme)}
-                  dataKey="guideline_id"
-                  tickFormatter={(x) => x}
-                  type="category"
-                  width={180}
-                  tick={{ fontSize: 12 }}
-                  tickLine={false}
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent hideIndicator />}
-                />
-                <Bar
-                  dataKey="not_passed"
-                  name={t("quality-guideline.not-passed")}
-                  fill="var(--color-downloads)"
-                />
-              </BarChart>
-            </ChartContainer>
+            />
           </div>
         </>
       )}
@@ -278,7 +265,6 @@ const FailedByGuideline = () => {
 const GuidelineStatsByCategory = () => {
   const t = useTranslations()
   const locale = useLocale()
-  const { resolvedTheme } = useTheme()
   const user = useUserContext()
 
   const query =
@@ -291,20 +277,67 @@ const GuidelineStatsByCategory = () => {
       },
     })
 
-  const chartConfig = {
-    passed: {
-      label: t("quality-guideline.passed"),
-      color: "oklch(var(--flathub-status-green))",
-    },
-    not_passed: {
-      label: t("quality-guideline.not-passed"),
-      color: "oklch(var(--flathub-status-red))",
-    },
-    unrated: {
-      label: t("quality-guideline.pending"),
-      color: "oklch(var(--flathub-sonic-silver))",
-    },
-  } satisfies ChartConfig
+  const colors = {
+    passed: "oklch(var(--flathub-status-green))",
+    not_passed: "oklch(var(--flathub-status-red))",
+    unrated: "oklch(var(--flathub-sonic-silver))",
+  }
+  const data = useMemo(
+    () =>
+      (query.data?.data ?? []).flatMap((row) => {
+        const category = t(`quality-guideline.${row.category}`)
+        return (["passed", "not_passed", "unrated"] as const).map((series) => ({
+          category,
+          series: t(
+            `quality-guideline.${series === "unrated" ? "pending" : series === "not_passed" ? "not-passed" : "passed"}`,
+          ),
+          value: row[series],
+          color: colors[series],
+        }))
+      }),
+    [query.data?.data, t],
+  )
+  const definition = useMemo(
+    () =>
+      defineChart({
+        focusRing: false,
+        marks: [
+          barX(data, {
+            x: "value",
+            y: "category",
+            states: rectangleFocusStates,
+            z: "series",
+            fill: (row) => row.color,
+            layout: stack(),
+          }),
+        ],
+        scales: {
+          x: {
+            scale: scaleLinear,
+            nice: true,
+            grid: true,
+            axis: {
+              ticks: { format: (value) => value.toLocaleString(locale) },
+            },
+          },
+          y: { scale: () => scaleBand<string>().padding(0.2) },
+        },
+        tooltip: {
+          use: tooltip,
+          anchor: "pointer",
+          offset: 12,
+          content: (points) => ({
+            title: points[0]?.datum.category,
+            rows: points.map((point) => ({
+              label: point.groupLabel,
+              value: Number(point.datum.value).toLocaleString(locale),
+              color: point.color,
+            })),
+          }),
+        },
+      }),
+    [data, locale],
+  )
 
   return (
     <>
@@ -314,57 +347,29 @@ const GuidelineStatsByCategory = () => {
             {t("quality-guideline.stats-by-category")}
           </h2>
           <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-            <ChartContainer
-              config={chartConfig}
-              className="min-h-[360px] w-full"
-            >
-              <BarChart
-                accessibilityLayer
-                layout="vertical"
-                data={query.data.data.map((x) => ({
-                  ...x,
-                  category: t(`quality-guideline.${x.category}`),
-                }))}
-              >
-                <XAxis
-                  stroke={axisStroke(resolvedTheme)}
-                  tickFormatter={(x) => x.toLocaleString(locale)}
-                  type="number"
-                />
-                <YAxis
-                  stroke={axisStroke(resolvedTheme)}
-                  dataKey="category"
-                  tickFormatter={(x) => x}
-                  type="category"
-                  width={140}
-                  tick={{ fontSize: 12 }}
-                  tickLine={false}
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent hideIndicator />}
-                />
-                <Legend />
-                <Bar
-                  dataKey="passed"
-                  stackId="status"
-                  name={t("quality-guideline.passed")}
-                  fill="var(--color-passed)"
-                />
-                <Bar
-                  dataKey="not_passed"
-                  stackId="status"
-                  name={t("quality-guideline.not-passed")}
-                  fill="var(--color-not_passed)"
-                />
-                <Bar
-                  dataKey="unrated"
-                  stackId="status"
-                  name={t("quality-guideline.pending")}
-                  fill="var(--color-unrated)"
-                />
-              </BarChart>
-            </ChartContainer>
+            <div className="min-h-[360px] w-full">
+              <TanstackChart
+                definition={definition}
+                ariaLabel={t("quality-guideline.stats-by-category")}
+                height={360}
+              />
+              <ChartLegendItems
+                items={[
+                  {
+                    label: t("quality-guideline.passed"),
+                    color: colors.passed,
+                  },
+                  {
+                    label: t("quality-guideline.not-passed"),
+                    color: colors.not_passed,
+                  },
+                  {
+                    label: t("quality-guideline.pending"),
+                    color: colors.unrated,
+                  },
+                ]}
+              />
+            </div>
           </div>
         </>
       )}
@@ -374,19 +379,22 @@ const GuidelineStatsByCategory = () => {
 
 const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
+  const locale = useLocale()
 
-  const chartConfig = {
-    category: {
-      color: "oklch(var(--flathub-celestial-blue))",
-    },
-  } satisfies ChartConfig
-
-  let category_data = stats.category_totals.map((category) => ({
-    name:
-      tryParseCategory(category.category, t) ??
-      tryParseCategory(category.category, t),
-    value: category.count,
-  }))
+  const category_data = useMemo(
+    () =>
+      stats.category_totals.map((category) => ({
+        name:
+          tryParseCategory(category.category, t) ??
+          tryParseCategory(category.category, t),
+        value: category.count,
+      })),
+    [stats.category_totals, t],
+  )
+  const definition = useMemo(
+    () => createCategoryDistributionChart(category_data, locale, CHART_COLORS),
+    [category_data, locale],
+  )
 
   return (
     <>
@@ -394,14 +402,12 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
         {t("category-distribution")}
       </h2>
       <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-        <ChartContainer config={chartConfig} className="min-h-[500px] w-full">
-          <Treemap data={category_data} dataKey="value" nameKey="name">
-            <ChartTooltip
-              cursor={false}
-              content={<FlathubTooltip hideIndicator />}
-            />
-          </Treemap>
-        </ChartContainer>
+        <TanstackChart
+          definition={definition}
+          ariaLabel={t("category-distribution")}
+          height={500}
+          className="min-h-[500px] w-full"
+        />
       </div>
     </>
   )
@@ -409,17 +415,52 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
 
 const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
   const t = useTranslations()
+  const locale = useLocale()
   const router = useRouter()
-  const { resolvedTheme } = useTheme()
 
-  const data = []
-  for (const [key, value] of Object.entries(runtimes)) {
-    data.push({ name: key, value })
-  }
-
-  const [hover, setHover] = useState()
-
-  const chartConfig = {} satisfies ChartConfig
+  const data = useMemo(
+    () => Object.entries(runtimes).map(([name, value]) => ({ name, value })),
+    [runtimes],
+  )
+  const definition = useMemo(
+    () =>
+      defineChart({
+        focusRing: false,
+        marks: [
+          barX(data, {
+            x: "value",
+            y: "name",
+            states: rectangleFocusStates,
+            fill: "oklch(63.85% 0.1314 251.94)",
+          }),
+        ],
+        scales: {
+          x: {
+            scale: scaleLinear,
+            nice: true,
+            grid: true,
+            axis: {
+              ticks: { format: (value) => value.toLocaleString(locale) },
+            },
+          },
+          y: { scale: () => scaleBand<string>().padding(0.15) },
+        },
+        tooltip: {
+          use: tooltip,
+          anchor: "pointer",
+          offset: 12,
+          content: (points) => ({
+            title: points[0]?.datum.name,
+            rows: points.map((point) => ({
+              label: t("count"),
+              value: Number(point.xValue).toLocaleString(locale),
+              color: point.color,
+            })),
+          }),
+        },
+      }),
+    [data, locale, t],
+  )
 
   return (
     <>
@@ -427,47 +468,19 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
         {t("runtime-distribution")}
       </h2>
       <div className=" rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-        <ChartContainer config={chartConfig} className="min-h-[800px] w-full">
-          <BarChart accessibilityLayer layout="vertical" data={data}>
-            <XAxis stroke={axisStroke(resolvedTheme)} type="number" />
-            <YAxis
-              type="category"
-              dataKey="name"
-              width={230}
-              tick={{ fontSize: 12 }}
-              tickLine={false}
-              stroke={axisStroke(resolvedTheme)}
-            />
-            <ChartTooltip content={<ChartTooltipContent hideIndicator />} />
-            <Bar
-              onClick={(event: any) =>
-                router.push(
-                  `/apps/search?runtime=${encodeURIComponent(event.name)}`,
-                )
-              }
-              onMouseEnter={(event: any) => {
-                setHover(event.index)
-              }}
-              onMouseLeave={(event: any) => {
-                setHover(null)
-              }}
-              dataKey="value"
-              name={t("count")}
-              shape={(props: any) => (
-                <rect
-                  {...props}
-                  onMouseEnter={() => setHover(props.index)}
-                  onMouseLeave={() => setHover(null)}
-                  fill={
-                    hover === props.index
-                      ? "oklch(55.86% 0.1446 253.19)"
-                      : "oklch(63.85% 0.1314 251.94)"
-                  }
-                />
-              )}
-            />
-          </BarChart>
-        </ChartContainer>
+        <TanstackChart
+          definition={definition}
+          ariaLabel={t("runtime-distribution")}
+          height={800}
+          className="min-h-[800px] w-full"
+          onSelect={(point) => {
+            const runtime = (point?.datum as (typeof data)[number] | undefined)
+              ?.name
+            if (runtime) {
+              router.push(`/apps/search?runtime=${encodeURIComponent(runtime)}`)
+            }
+          }}
+        />
       </div>
     </>
   )
@@ -529,9 +542,72 @@ function toPercentageData(
   return top
 }
 
+function PercentageDistributionChart({
+  data,
+  title,
+  shareLabel,
+}: {
+  data: { name: string; value: number }[]
+  title: string
+  shareLabel: string
+}) {
+  const definition = useMemo(
+    () =>
+      defineChart({
+        focusRing: false,
+        marks: [
+          barX(data, {
+            x: "value",
+            y: "name",
+            states: rectangleFocusStates,
+            fill: (row) => {
+              const index = data.indexOf(row)
+              return CHART_COLORS[index % CHART_COLORS.length]
+            },
+            radius: 2,
+          }),
+        ],
+        scales: {
+          x: {
+            scale: () => scaleLinear().domain([0, 100]),
+            grid: true,
+            axis: { ticks: { format: (value) => `${value}%` } },
+          },
+          y: {
+            scale: () => scaleBand<string>().padding(0.2),
+            axis: { tickLabels: { fontSize: 12 } },
+          },
+        },
+        tooltip: {
+          use: tooltip,
+          anchor: "pointer",
+          offset: 12,
+          content: (points) => ({
+            title: points[0]?.datum.name,
+            rows: points.map((point) => ({
+              label: shareLabel,
+              value: `${point.datum.value}%`,
+              color: point.color,
+            })),
+          }),
+        },
+      }),
+    [data, shareLabel],
+  )
+
+  return (
+    <TanstackChart
+      definition={definition}
+      ariaLabel={title}
+      height={Math.max(300, data.length * 40)}
+      style={{ height: Math.max(300, data.length * 40) }}
+      className="w-full"
+    />
+  )
+}
+
 const OsVersionsChart = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
-  const { resolvedTheme } = useTheme()
 
   const osVersions = { ...(stats.os_versions ?? {}) }
   let hiddenCount = 0
@@ -566,45 +642,17 @@ const OsVersionsChart = ({ stats }: { stats: StatsResult }) => {
     return null
   }
 
-  const chartConfig = {} satisfies ChartConfig
-
   return (
     <>
       <h2 className="mb-6 mt-12 text-2xl font-bold">
         {t("os-version-distribution")}
       </h2>
       <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-        <ChartContainer
-          config={chartConfig}
-          style={{ height: Math.max(300, data.length * 40) }}
-          className="w-full"
-        >
-          <BarChart accessibilityLayer layout="vertical" data={data}>
-            <XAxis
-              stroke={axisStroke(resolvedTheme)}
-              type="number"
-              unit="%"
-              domain={[0, 100]}
-            />
-            <YAxis
-              type="category"
-              dataKey="name"
-              width={160}
-              tick={{ fontSize: 12 }}
-              tickLine={false}
-              stroke={axisStroke(resolvedTheme)}
-            />
-            <ChartTooltip
-              content={<ChartTooltipContent hideIndicator />}
-              formatter={(value) => [`${value}%`]}
-            />
-            <Bar dataKey="value" name={t("share")} radius={2}>
-              {data.map((_, i) => (
-                <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ChartContainer>
+        <PercentageDistributionChart
+          data={data}
+          title={t("os-version-distribution")}
+          shareLabel={t("share")}
+        />
       </div>
     </>
   )
@@ -612,14 +660,11 @@ const OsVersionsChart = ({ stats }: { stats: StatsResult }) => {
 
 const FlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
-  const { resolvedTheme } = useTheme()
 
   const data = toPercentageData(stats.flatpak_versions ?? {}, 10)
   if (data.length === 0) {
     return null
   }
-
-  const chartConfig = {} satisfies ChartConfig
 
   return (
     <>
@@ -627,37 +672,11 @@ const FlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
         {t("flatpak-version-distribution")}
       </h2>
       <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-        <ChartContainer
-          config={chartConfig}
-          style={{ height: Math.max(300, data.length * 40) }}
-          className="w-full"
-        >
-          <BarChart accessibilityLayer layout="vertical" data={data}>
-            <XAxis
-              stroke={axisStroke(resolvedTheme)}
-              type="number"
-              unit="%"
-              domain={[0, 100]}
-            />
-            <YAxis
-              type="category"
-              dataKey="name"
-              width={100}
-              tick={{ fontSize: 12 }}
-              tickLine={false}
-              stroke={axisStroke(resolvedTheme)}
-            />
-            <ChartTooltip
-              content={<ChartTooltipContent hideIndicator />}
-              formatter={(value) => [`${value}%`]}
-            />
-            <Bar dataKey="value" name={t("share")} radius={2}>
-              {data.map((_, i) => (
-                <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ChartContainer>
+        <PercentageDistributionChart
+          data={data}
+          title={t("flatpak-version-distribution")}
+          shareLabel={t("share")}
+        />
       </div>
     </>
   )
@@ -665,12 +684,8 @@ const FlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
 
 const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
-  const { resolvedTheme } = useTheme()
 
   const raw = stats.os_flatpak_versions ?? {}
-  if (Object.keys(raw).length === 0) {
-    return null
-  }
 
   // Keep only top 10 OS versions by total count, collapse the rest into "Other"
   const TOP_OS = 10
@@ -718,7 +733,6 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
       _share:
         grandTotal > 0 ? Math.round((rowTotal / grandTotal) * 1000) / 10 : 0,
     }
-
     const shares = fpVersions.map((fpVer) =>
       rowTotal > 0 ? Math.round(((fp[fpVer] ?? 0) / rowTotal) * 1000) / 10 : 0,
     )
@@ -740,7 +754,63 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
     return row
   })
 
-  const chartConfig = {} satisfies ChartConfig
+  const seriesData = data.flatMap((row) =>
+    fpVersions.map((version) => ({
+      name: String(row.name),
+      shareOfInstalls: Number(row._share),
+      version,
+      value: Number(row[version]),
+    })),
+  )
+  const definition = useMemo(
+    () =>
+      defineChart({
+        focusRing: false,
+        marks: [
+          barX(seriesData, {
+            x: "value",
+            y: "name",
+            states: rectangleFocusStates,
+            z: "version",
+            fill: (row) =>
+              CHART_COLORS[
+                fpVersions.indexOf(row.version) % CHART_COLORS.length
+              ],
+            layout: stack(),
+          }),
+        ],
+        scales: {
+          x: {
+            scale: () => scaleLinear().domain([0, 100]),
+            grid: true,
+            axis: { ticks: { format: (value) => `${value}%` } },
+          },
+          y: { scale: () => scaleBand<string>().padding(0.2) },
+        },
+        tooltip: {
+          use: tooltip,
+          anchor: "pointer",
+          offset: 12,
+          content: (points) => {
+            const rowName = points[0]?.datum.name ?? ""
+            const share = points[0]?.datum.shareOfInstalls
+            return {
+              title: `${rowName}${share == null ? "" : ` (${share}% of installs)`}`,
+              rows: points.map((point) => ({
+                label: point.datum.version,
+                value: `${point.datum.value}%`,
+                color: point.color,
+              })),
+            }
+          },
+        },
+      }),
+    [seriesData, fpVersions],
+  )
+
+  if (data.length === 0) {
+    return null
+  }
 
   return (
     <>
@@ -748,77 +818,18 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
         {t("os-flatpak-version-distribution")}
       </h2>
       <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-        <ChartContainer
-          config={chartConfig}
-          style={{ height: Math.max(300, data.length * 40) + 60 }}
+        <TanstackChart
+          definition={definition}
+          ariaLabel={t("os-flatpak-version-distribution")}
+          height={Math.max(300, data.length * 40) + 60}
           className="w-full"
-        >
-          <BarChart accessibilityLayer layout="vertical" data={data}>
-            <XAxis
-              stroke={axisStroke(resolvedTheme)}
-              type="number"
-              unit="%"
-              domain={[0, 100]}
-              tickFormatter={(value) => String(Math.round(Number(value)))}
-            />
-            <YAxis
-              type="category"
-              dataKey="name"
-              width={160}
-              tick={{ fontSize: 12 }}
-              tickLine={false}
-              stroke={axisStroke(resolvedTheme)}
-            />
-            <ChartTooltip
-              content={({ active, payload, label }) => {
-                if (!active || !payload?.length) return null
-                const share = payload[0]?.payload?._share
-                return (
-                  <div className="rounded-lg border bg-background p-3 shadow-md text-sm">
-                    <p className="font-semibold mb-2">
-                      {label}
-                      {share != null && (
-                        <span className="ml-2 font-normal text-muted-foreground">
-                          ({share}% of installs)
-                        </span>
-                      )}
-                    </p>
-                    {payload
-                      .filter((p) => (p.value as number) > 0)
-                      .sort((a, b) => (b.value as number) - (a.value as number))
-                      .map((p) => (
-                        <div
-                          key={`${p.dataKey}`}
-                          className="flex items-center gap-2 py-0.5"
-                        >
-                          <span
-                            className="inline-block size-2.5 shrink-0 rounded-sm"
-                            style={{ backgroundColor: p.fill }}
-                          />
-                          <span className="text-muted-foreground">
-                            {p.name}
-                          </span>
-                          <span className="ml-auto font-medium pl-4">
-                            {p.value}%
-                          </span>
-                        </div>
-                      ))}
-                  </div>
-                )
-              }}
-            />
-            <Legend wrapperStyle={{ paddingTop: 16, fontSize: 12 }} />
-            {fpVersions.map((fpVer, i) => (
-              <Bar
-                key={fpVer}
-                dataKey={fpVer}
-                name={fpVer}
-                stackId="a"
-                fill={CHART_COLORS[i % CHART_COLORS.length]}
-              />
-            ))}
-          </BarChart>
-        </ChartContainer>
+        />
+        <ChartLegendItems
+          items={fpVersions.map((version, index) => ({
+            label: version,
+            color: CHART_COLORS[index % CHART_COLORS.length],
+          }))}
+        />
       </div>
     </>
   )
@@ -828,6 +839,7 @@ const StatisticsClient = ({
   stats,
   runtimes,
   locale,
+  countryNames,
 }: StatisticsClientProps): JSX.Element => {
   const t = useTranslations()
 
@@ -885,7 +897,7 @@ const StatisticsClient = ({
         />
       </div>
 
-      <DownloadsPerCountry stats={stats} />
+      <DownloadsPerCountry stats={stats} countryNames={countryNames} />
       <DownloadsOverTime stats={stats} />
       <CategoryDistribution stats={stats} />
       <OsVersionsChart stats={stats} />

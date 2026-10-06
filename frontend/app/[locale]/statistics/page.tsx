@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
+import { getIntlLocale } from "../../../src/localize"
 import {
   getRuntimeListRuntimesGet,
   getStatsStatsGet,
@@ -60,9 +61,26 @@ export default async function StatisticsPage({
     }
 
     const runtimes = runtimesResponse?.data || {}
+    const t = await getTranslations()
+    const language = getIntlLocale(locale).language
+    const regionNames = new Intl.DisplayNames(language, { type: "region" })
+    const fallbackRegionNames = new Intl.DisplayNames("en", { type: "region" })
+    const countryNames = Object.fromEntries(
+      Object.keys(stats.countries ?? {}).map((countryCode) => [
+        countryCode,
+        regionNames.of(countryCode) ??
+          fallbackRegionNames.of(countryCode) ??
+          t("unknown"),
+      ]),
+    )
 
     return (
-      <StatisticsClient stats={stats} runtimes={runtimes} locale={locale} />
+      <StatisticsClient
+        stats={stats}
+        runtimes={runtimes}
+        locale={locale}
+        countryNames={countryNames}
+      />
     )
   } catch (error) {
     console.error("Unexpected error in statistics page:", error)
