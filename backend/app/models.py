@@ -139,6 +139,9 @@ class FlathubUser(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     display_name: Mapped[str | None]
+    display_name_overridden: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=false()
+    )
     default_account: Mapped[str | None]
     deleted: Mapped[bool] = mapped_column(
         Boolean, nullable=False, server_default=false(), index=True

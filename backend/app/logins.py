@@ -9,6 +9,7 @@ And we present the full /auth/ sub-namespace
 import hashlib
 import hmac
 import secrets
+import unicodedata
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
@@ -27,7 +28,7 @@ from github import Github
 from github.AuthenticatedUser import AuthenticatedUser
 from gitlab import Gitlab
 from gitlab.exceptions import GitlabError
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from sqlalchemy import select, update
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -1442,7 +1443,11 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
             )
             auths[account.provider] = auth_info
 
-        default_display_name = default_account.display_name if default_account else None
+        default_display_name = (
+            user.display_name
+            if user.display_name_overridden
+            else (default_account.display_name if default_account else None)
+        )
         default_avatar_url = default_account.avatar_url if default_account else None
         default_login = default_account.login if default_account else None
         default_provider = default_account.provider if default_account else None
@@ -1658,6 +1663,46 @@ def do_change_default_account(
             raise HTTPException(status_code=404, detail="Account not found")
 
         user.default_account = provider
+
+
+class DisplayNameRequest(BaseModel):
+    display_name: str
+
+    @field_validator("display_name")
+    @classmethod
+    def _check_display_name(cls, value: str) -> str:
+        value = value.strip()
+        categories = [unicodedata.category(char) for char in value]
+        if (
+            not 1 <= len(value) <= 100
+            or "Cc" in categories
+            or any(
+                "\u202a" <= char <= "\u202e" or "\u2066" <= char <= "\u2069"
+                for char in value
+            )
+            or all(category in ("Cf", "Zs", "Zl", "Zp") for category in categories)
+        ):
+            raise ValueError("invalid_display_name")
+        return value
+
+
+@router.post(
+    "/display-name",
+    status_code=204,
+    tags=["auth"],
+    responses={
+        204: {"description": "Display name changed successfully"},
+        401: {"description": "Not logged in"},
+    },
+)
+def do_change_display_name(body: DisplayNameRequest, login: LoggedInDep):
+    with get_db("writer") as db:
+        user = db.session.get(models.FlathubUser, login.user.id)
+        if user is None or user.login_disabled:
+            raise HTTPException(status_code=401, detail="not_logged_in")
+        user.display_name = body.display_name
+        user.display_name_overridden = True
+        db.commit()
 
 
 def register_to_app(app: FastAPI):

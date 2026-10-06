@@ -2,6 +2,7 @@ import hashlib
 import os
 import secrets
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from datetime import timedelta
@@ -26,7 +27,7 @@ from app.email_login import (
     oauth_email_exists,
     require_oauth_upgrade,
 )
-from app.login_info import LoginInformation, LoginState, LoginStatusDep
+from app.login_info import LoginInformation, LoginState, LoginStatusDep, login_state
 from app.utils import utcnow
 
 
@@ -524,3 +525,211 @@ def test_oauth_email_collision_keeps_existing_email_account(isolated_email_db):
             LoginInformation(LoginState.LOGGED_OUT, None, None),
         )
     assert second["user-id"] == first["user-id"]
+
+
+def display_name_client(monkeypatch, writer, current):
+    monkeypatch.setattr(logins.apps, "get_appids", lambda **kwargs: set())
+    monkeypatch.setattr(models.FlathubUser, "dev_flatpaks", lambda self, db: set())
+    monkeypatch.setattr(models.UserOwnedApp, "all_owned_by_user", lambda db, user: [])
+    monkeypatch.setattr(
+        models.DirectUploadAppInvite, "by_developer", lambda db, user: []
+    )
+    app = FastAPI()
+    logins.register_to_app(app)
+
+    def current_login():
+        if current["user_id"] is None:
+            return LoginInformation(LoginState.LOGGED_OUT, None, None)
+        with writer() as db:
+            user = db.session.get(models.FlathubUser, current["user_id"])
+        return LoginInformation(LoginState.LOGGED_IN, user, None)
+
+    app.dependency_overrides[login_state] = current_login
+    return TestClient(app, base_url="https://testserver")
+
+
+def add_user(writer, provider, name):
+    with writer() as db:
+        user = models.FlathubUser(display_name=name, default_account=provider)
+        db.session.add(user)
+        db.session.flush()
+        if provider == "email":
+            db.session.add(
+                models.EmailAccount(
+                    user=user.id,
+                    email=f"user-{uuid4().hex}@example.com",
+                    verified_at=utcnow(),
+                )
+            )
+        else:
+            db.session.add(
+                models.GithubAccount(
+                    user=user.id,
+                    github_userid=secrets.randbelow(2**31),
+                    login="provider-login",
+                    avatar_url=None,
+                    display_name=name,
+                )
+            )
+    return user
+
+
+def stored_names(engine, user_id):
+    with Session(engine) as session:
+        user = session.get(models.FlathubUser, user_id)
+        github = session.scalar(
+            select(models.GithubAccount.display_name).where(
+                models.GithubAccount.user == user_id
+            )
+        )
+        return user.display_name, user.default_account, github
+
+
+@pytest.mark.parametrize(
+    ("provider", "provider_name"), [("email", None), ("github", "Provider Name")]
+)
+def test_display_name_change_persists_only_for_current_user(
+    isolated_email_db, monkeypatch, provider, provider_name
+):
+    writer, engine = isolated_email_db
+    user = add_user(writer, provider, provider_name)
+    other = add_user(writer, "github", "Other Name")
+    current = {"user_id": user.id}
+    with display_name_client(monkeypatch, writer, current) as client:
+        response = client.post(
+            "/auth/display-name",
+            json={"display_name": "  Zoë  测试  ", "user_id": other.id},
+        )
+        assert response.status_code == 204
+        assert response.content == b""
+        assert stored_names(engine, user.id) == ("Zoë  测试", provider, provider_name)
+        assert stored_names(engine, other.id) == ("Other Name", "github", "Other Name")
+        assert client.get("/auth/userinfo").json()["displayname"] == "Zoë  测试"
+
+        joined = "می\u200cخواهم 👩\u200d💻"
+        assert (
+            client.post("/auth/display-name", json={"display_name": joined}).status_code
+            == 204
+        )
+        assert stored_names(engine, user.id)[0] == joined
+
+        longest = "测" * 100
+        assert (
+            client.post(
+                "/auth/display-name", json={"display_name": longest}
+            ).status_code
+            == 204
+        )
+        assert stored_names(engine, user.id)[0] == longest
+
+        current["user_id"] = None
+        rejected = client.post("/auth/display-name", json={"display_name": "Anon"})
+        assert rejected.status_code == 401
+        assert rejected.json() == {"detail": "not_logged_in"}
+        assert stored_names(engine, user.id)[0] == longest
+
+
+@pytest.mark.parametrize(
+    "body",
+    [
+        {},
+        {"display_name": None},
+        {"display_name": 5},
+        {"display_name": " \t "},
+        {"display_name": "测" * 101},
+        {"display_name": "a\x00b"},
+        {"display_name": "a\nb"},
+        {"display_name": "a\x7fb"},
+        {"display_name": "a\x85b"},
+        {"display_name": "a\u202eb"},
+        {"display_name": "a\u2067b"},
+        {"display_name": "\u200b"},
+        {"display_name": "\u200b \u2060"},
+    ],
+)
+def test_invalid_display_name_is_rejected(isolated_email_db, monkeypatch, body):
+    writer, engine = isolated_email_db
+    user = add_user(writer, "github", "Provider Name")
+    with display_name_client(monkeypatch, writer, {"user_id": user.id}) as client:
+        assert client.post("/auth/display-name", json=body).status_code == 422
+    assert stored_names(engine, user.id) == (
+        "Provider Name",
+        "github",
+        "Provider Name",
+    )
+
+
+def test_display_name_follows_provider_until_user_saves_one(
+    isolated_email_db, monkeypatch
+):
+    writer, engine = isolated_email_db
+    user = add_user(writer, "github", "Old Provider")
+    with writer() as db:
+        github_userid = db.session.scalar(
+            select(models.GithubAccount.github_userid).where(
+                models.GithubAccount.user == user.id
+            )
+        )
+        db.session.add(
+            models.GitlabAccount(
+                user=user.id,
+                gitlab_userid=7,
+                login="lab",
+                avatar_url=None,
+                display_name="Lab Provider",
+            )
+        )
+    current = {"user_id": user.id}
+
+    @contextmanager
+    def oauth_client(method):
+        yield SimpleNamespace(
+            fetch_token=lambda token_url, code: {
+                "token_type": "bearer",
+                "access_token": "token",
+            }
+        )
+
+    def provider_login(name):
+        request = request_for(
+            {"_oauth_state_github": {"state": "s", "created": time.time()}}
+        )
+        with patch.object(logins.audit_log, "enqueue_audit_log"):
+            logins.continue_oauth_flow(
+                request,
+                LoginInformation(LoginState.LOGGING_IN, None, "github"),
+                logins.OauthLoginResponseSuccess(code="c", state="s"),
+                "github",
+                lambda tokens: logins.ProviderInfo(
+                    id=github_userid, login="provider-login", name=name
+                ),
+                models.GithubAccount,
+            )
+        assert request.session["user-id"] == user.id
+
+    def change_default(client, provider):
+        response = client.post(
+            "/auth/change-default-account", params={"provider": provider}
+        )
+        assert response.status_code == 204
+
+    monkeypatch.setattr(logins.oauth_providers, "get_oauth_client", oauth_client)
+    with display_name_client(monkeypatch, writer, current) as client:
+        assert client.get("/auth/userinfo").json()["displayname"] == "Old Provider"
+        provider_login("New Provider")
+        assert client.get("/auth/userinfo").json()["displayname"] == "New Provider"
+        change_default(client, "gitlab")
+        assert client.get("/auth/userinfo").json()["displayname"] == "Lab Provider"
+
+        assert (
+            client.post(
+                "/auth/display-name", json={"display_name": "Chosen"}
+            ).status_code
+            == 204
+        )
+        provider_login("Newer Provider")
+        assert stored_names(engine, user.id) == ("Chosen", "gitlab", "Newer Provider")
+        change_default(client, "github")
+        info = client.get("/auth/userinfo").json()
+        assert info["default_account"]["provider"] == "github"
+        assert info["displayname"] == "Chosen"
