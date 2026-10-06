@@ -531,6 +531,22 @@ const QualityItem = ({
     },
   })
 
+  const attribution =
+    mode === "qualityModerator" &&
+    qualityModeration &&
+    "updated_by" in qualityModeration
+      ? qualityModeration
+      : null
+  const editedAt = attribution?.updated_at
+    ? parseISO(`${attribution.updated_at}Z`)
+    : null
+  const lastEdited = editedAt
+    ? t("quality-guideline.last-edited", {
+        editor: attribution.updated_by ?? t("quality-guideline.system-editor"),
+        time: formatDistanceToNow(editedAt, { addSuffix: true }),
+      })
+    : null
+
   return (
     <div className={clsx("flex flex-col")}>
       <div className={clsx("flex items-center gap-1")}>
@@ -585,28 +601,16 @@ const QualityItem = ({
           })}
         </div>
       )}
-      {mode === "qualityModerator" &&
-        qualityModeration &&
-        "updated_by" in qualityModeration &&
-        qualityModeration.updated_at && (
-          <div className="text-xs opacity-75">
-            <span
-              title={parseISO(
-                `${qualityModeration.updated_at}Z`,
-              ).toLocaleString(locale)}
-            >
-              {t("quality-guideline.last-edited", {
-                editor:
-                  qualityModeration.updated_by ??
-                  t("quality-guideline.system-editor"),
-                time: formatDistanceToNow(
-                  parseISO(`${qualityModeration.updated_at}Z`),
-                  { addSuffix: true },
-                ),
-              })}
+      {mode === "qualityModerator" && (
+        // Reserve one line before the first edit so the checklist doesn't shift.
+        <div className="h-4 truncate text-xs leading-4 opacity-75">
+          {editedAt && (
+            <span title={`${lastEdited} · ${editedAt.toLocaleString(locale)}`}>
+              {lastEdited}
             </span>
-          </div>
-        )}
+          )}
+        </div>
+      )}
     </div>
   )
 }
