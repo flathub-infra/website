@@ -5,12 +5,20 @@ import { fonts } from "../fontManager"
 import { getTranslations } from "next-intl/server"
 import { routing } from "src/i18n/routing"
 import { hasLocale } from "next-intl"
+import { BADGE_SIZES, parseBadgeSize } from "src/badges/badge-size"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const locale = searchParams.get("locale") || "en"
   const light = searchParams.get("light") === "" || false
   const asSvg = searchParams.get("svg") === "" || false
+  const size = parseBadgeSize(searchParams.get("size"))
+
+  if (!size) {
+    return NextResponse.json({ error: "Invalid badge size" }, { status: 400 })
+  }
+
+  const dimensions = BADGE_SIZES[size]
 
   if (!hasLocale(routing.locales, locale)) {
     return NextResponse.json({ error: "Invalid locale" }, { status: 400 })
@@ -22,27 +30,28 @@ export async function GET(request: NextRequest) {
 
   const getItOn = t("get-it-on").toUpperCase()
 
-  const svg = await satori(
+  const badge = (
     <div
       style={{
         display: "flex",
         backgroundColor: light ? "white" : "black",
-        width: "100%",
-        height: "100%",
+        width: size === "padded" ? `${dimensions.badgeWidth}px` : "100%",
+        height: size === "padded" ? `${dimensions.badgeHeight}px` : "100%",
         color: light ? "black" : "white",
         borderColor: light ? "black" : "#888A85",
         borderWidth: "2px",
         borderStyle: "solid",
-        borderRadius: "16px",
+        borderRadius: `${dimensions.borderRadius}px`,
         alignItems: "center",
-        gap: "16px",
-        paddingLeft: "14px",
-        paddingRight: "14px",
+        justifyContent: size === "padded" ? "center" : undefined,
+        gap: `${dimensions.gap}px`,
+        paddingLeft: `${dimensions.padding}px`,
+        paddingRight: `${dimensions.padding}px`,
       }}
     >
       <svg
-        width="55.885"
-        height="55"
+        width={dimensions.iconWidth}
+        height={dimensions.iconHeight}
         version="1.1"
         viewBox="0 0 66.885 64"
         xmlns="http://www.w3.org/2000/svg"
@@ -79,28 +88,46 @@ export async function GET(request: NextRequest) {
           display: "flex",
           flexDirection: "column",
           fontFamily: "Inter-SemiBold",
-          fontSize: "16px",
-          lineHeight: "18px",
-          paddingTop: "6px",
+          fontSize: `${dimensions.labelFontSize}px`,
+          lineHeight: `${dimensions.labelLineHeight}px`,
+          paddingTop: `${dimensions.namePaddingTop}px`,
         }}
       >
         {getItOn}
         <span
           style={{
             fontFamily: "Inter-SemiBold",
-            fontSize: "36px",
+            fontSize: `${dimensions.nameFontSize}px`,
             fontStyle: "normal",
-            lineHeight: "46px",
+            lineHeight: `${dimensions.nameLineHeight}px`,
             letterSpacing: "0px",
           }}
         >
           {flathub}
         </span>
       </div>
-    </div>,
+    </div>
+  )
+
+  const svg = await satori(
+    size === "padded" ? (
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {badge}
+      </div>
+    ) : (
+      badge
+    ),
     {
-      width: 240,
-      height: 80,
+      width: dimensions.canvasWidth,
+      height: dimensions.canvasHeight,
       fonts: fonts,
     },
   )
@@ -118,7 +145,7 @@ export async function GET(request: NextRequest) {
   const renderer = new Resvg(svg, {
     fitTo: {
       mode: "width",
-      value: 240,
+      value: dimensions.canvasWidth,
     },
   })
   const image = renderer.render()

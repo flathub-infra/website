@@ -66,6 +66,9 @@ const BadgesClient = (): JSX.Element => {
   const badgeExampleCode = `<a href='https://flathub.org/apps/org.gimp.GIMP'>
     <img width='240' alt='Get it on Flathub' src='${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/badge?locale=${locale}'/>
   </a>`
+  const paddedBadgeExampleCode = `<a href='https://flathub.org/apps/org.gimp.GIMP'>
+    <img height='80' alt='Get it on Flathub' src='${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/badge?locale=${locale}&size=padded'/>
+  </a>`
   const badgeExampleCodeMoinMoin = `[[https://flathub.org/apps/org.gimp.GIMP|{{${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/badge?locale=${locale}|Get it on Flathub|width=240,align=middle}}]]`
 
   return (
@@ -154,6 +157,22 @@ const BadgesClient = (): JSX.Element => {
               height={80}
               alt="Get it on Flathub"
               src={`/api/badge?locale=${locale}`}
+            />
+          </a>
+        </div>
+        <div>
+          <h3 className="pt-8 pb-4 text-xl font-semibold">
+            HTML (padded badge)
+          </h3>
+          <CodeCopy text={paddedBadgeExampleCode}></CodeCopy>
+          <a href="https://flathub.org/apps/org.gimp.GIMP">
+            <Image
+              key={`badge-html-padded-${locale}`}
+              width={308}
+              height={119}
+              style={{ height: 80, width: "auto" }}
+              alt="Get it on Flathub"
+              src={`/api/badge?locale=${locale}&size=padded`}
             />
           </a>
         </div>
