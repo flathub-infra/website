@@ -17,6 +17,7 @@ import { isEmailConfirmRoute } from "src/utils/security"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
 import { isAxiosError } from "axios"
+import { NuqsAdapter } from "nuqs/adapters/next/app"
 
 const queryClient = new QueryClient()
 
@@ -75,18 +76,20 @@ export default function ClientProviders({
   }, [t])
 
   const tree = (
-    <ThemeProvider attribute="class">
-      <MotionConfig reducedMotion="user">
-        <QueryClientProvider client={queryClient}>
-          <UserInfoProvider>{children}</UserInfoProvider>
-          <Toaster
-            position={direction === "rtl" ? "bottom-left" : "bottom-right"}
-            dir={direction}
-          />
-          {track && <ReactQueryDevtools initialIsOpen={false} />}
-        </QueryClientProvider>
-      </MotionConfig>
-    </ThemeProvider>
+    <NuqsAdapter>
+      <ThemeProvider attribute="class">
+        <MotionConfig reducedMotion="user">
+          <QueryClientProvider client={queryClient}>
+            <UserInfoProvider>{children}</UserInfoProvider>
+            <Toaster
+              position={direction === "rtl" ? "bottom-left" : "bottom-right"}
+              dir={direction}
+            />
+            {track && <ReactQueryDevtools initialIsOpen={false} />}
+          </QueryClientProvider>
+        </MotionConfig>
+      </ThemeProvider>
+    </NuqsAdapter>
   )
 
   return (

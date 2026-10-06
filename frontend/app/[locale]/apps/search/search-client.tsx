@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useMemo, useState, useRef } from "react"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { SearchPanel } from "../../../../src/components/search/SearchPanel"
 import {
@@ -14,35 +14,36 @@ import type {
   MeilisearchResponseAppsIndex,
 } from "../../../../src/codegen"
 import { useLocale } from "next-intl"
+import { useQueryStates } from "nuqs"
+import {
+  filtersFromQueryState,
+  filtersToQueryState,
+  SEARCH_FILTER_PARSERS,
+  type SelectedSearchFilter,
+} from "../../../../src/search/search-params"
 
 const SearchClient = (): JSX.Element => {
   const { trackSiteSearch } = useMatomo()
   const searchParams = useSearchParams()
   const locale = useLocale()
+  const [queryFilters, setQueryFilters] = useQueryStates(
+    SEARCH_FILTER_PARSERS,
+    {
+      clearOnDefault: true,
+      history: "push",
+      scroll: false,
+    },
+  )
 
   const q = searchParams.get("q") || ""
+  const selectedFilters = useMemo(
+    () => filtersFromQueryState(queryFilters),
+    [queryFilters],
+  )
 
-  const filtersFromQuery = []
-  if (searchParams.get("runtime")) {
-    filtersFromQuery.push({
-      filterType: "runtime",
-      value: searchParams.get("runtime") as string,
-    })
+  const updateSelectedFilters = (filters: SelectedSearchFilter[]) => {
+    void setQueryFilters(filtersToQueryState(filters))
   }
-
-  if (searchParams.get("type")) {
-    filtersFromQuery.push({
-      filterType: "type",
-      value: searchParams.get("type") as string,
-    })
-  }
-
-  const [selectedFilters, setSelectedFilters] = useState<
-    {
-      filterType: string
-      value: string
-    }[]
-  >(filtersFromQuery)
 
   // State for infinite scrolling
   const [currentPage, setCurrentPage] = useState(1)
@@ -212,7 +213,7 @@ const SearchClient = (): JSX.Element => {
         <SearchPanel
           searchResult={search}
           selectedFilters={selectedFilters}
-          setSelectedFilters={setSelectedFilters}
+          setSelectedFilters={updateSelectedFilters}
           query={q}
           allHits={searchMetadataKey === searchKey ? allHits : []}
           searchMetadata={activeSearchMetadata}
@@ -224,7 +225,7 @@ const SearchClient = (): JSX.Element => {
             recommendationKey === searchKey ? recommendations : []
           }
           isRecommendationsLoading={isRecommendationsLoading}
-          clearFilters={() => setSelectedFilters([])}
+          clearFilters={() => updateSelectedFilters([])}
           retrySearch={retrySearch}
         />
       </div>
