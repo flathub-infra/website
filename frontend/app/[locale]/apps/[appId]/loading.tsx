@@ -33,8 +33,8 @@ export default function AppDetailLoading() {
 
       {/* CarouselStrip */}
       <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-center py-6">
-          <Skeleton className="h-[288px] w-[512px] shrink-0 rounded-xl" />
+        <div className="mx-auto flex w-full max-w-[1400px] items-center justify-center py-6">
+          <Skeleton className="aspect-video w-full max-w-[512px] rounded-xl" />
         </div>
       </div>
 
