@@ -17,17 +17,26 @@ import CarouselNextJsImage, { screenshotWidths } from "./CarouselNextJsImage"
 import { Imgproxy } from "../ImgproxyImage"
 import { CarouselJsonLd } from "next-seo"
 import { DesktopAppstream } from "src/codegen"
+import { chooseBrandingColor } from "@/lib/helpers"
+import { useTheme } from "next-themes"
 
 export const CarouselStrip = ({
   app,
 }: {
-  app: Pick<DesktopAppstream, "screenshots">
+  app: Pick<DesktopAppstream, "screenshots" | "branding">
 }) => {
   const t = useTranslations()
   const [showLightbox, setShowLightbox] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isHydrated, setIsHydrated] = useState(false)
   const ref = useRef(null)
+  const { resolvedTheme } = useTheme()
+
+  const fallbackBrandingColor = chooseBrandingColor(app.branding, "dark")
+  const brandingColor = chooseBrandingColor(
+    app.branding,
+    resolvedTheme as "light" | "dark",
+  )
 
   useEffect(() => {
     setIsHydrated(true)
@@ -52,6 +61,10 @@ export const CarouselStrip = ({
     <section
       aria-label={t("screenshots")}
       className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic"
+      style={{
+        backgroundColor: (isHydrated ? brandingColor : fallbackBrandingColor)
+          ?.value,
+      }}
     >
       {slides && (
         <>
