@@ -49,7 +49,10 @@ export const CarouselStrip = ({
   const firstSlideAspectRatio = firstSlide?.width / firstSlide?.height
 
   return (
-    <div className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic">
+    <section
+      aria-label={t("screenshots")}
+      className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic"
+    >
       {slides && (
         <>
           <CarouselJsonLd
@@ -201,6 +204,6 @@ export const CarouselStrip = ({
           </div>
         )}
       </div>
-    </div>
+    </section>
   )
 }
