@@ -124,7 +124,7 @@
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "redis": "4.7.0",
-    "simple-git": "^3.36.0",
+    "simple-git": "^4.0.1",
     "storybook": "^10.6.0",
     "storybook-addon-mock-date": "^3.1.1",
     "storybook-next-intl": "^10.1.3",
