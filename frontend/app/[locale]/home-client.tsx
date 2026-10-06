@@ -358,7 +358,10 @@ function HomeClient({
         )}
         <div className="flex flex-col lg:flex-row gap-4">
           <section aria-label={t("app-of-the-day")} className="lg:w-1/2">
-            <AppOfTheDay appOfTheDay={appOfTheDayAppstream} />
+            <AppOfTheDay
+              className="h-full w-full"
+              appOfTheDay={appOfTheDayAppstream}
+            />
           </section>
           <div
             className={clsx(
