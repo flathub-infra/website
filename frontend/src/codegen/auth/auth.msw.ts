@@ -748,6 +748,27 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMockHandler =
       options,
     )
   }
+
+export const getDoChangeDisplayNameAuthDisplayNamePostMockHandler = (
+  overrideResponse?:
+    | void
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<void> | void),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/auth/display-name",
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+
+      return new HttpResponse(null, { status: 204 })
+    },
+    options,
+  )
+}
 export const getAuthMock = () => [
   getGetEmailLoginConfigAuthEmailConfigGetMockHandler(),
   getRequestEmailLoginAuthEmailRequestPostMockHandler(),
@@ -769,4 +790,5 @@ export const getAuthMock = () => [
   getDoDeleteuserAuthDeleteuserDeleteMockHandler(),
   getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMockHandler(),
   getDoChangeDefaultAccountAuthChangeDefaultAccountPostMockHandler(),
+  getDoChangeDisplayNameAuthDisplayNamePostMockHandler(),
 ]

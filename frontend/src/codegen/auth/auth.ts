@@ -32,6 +32,7 @@ import type {
   ContinueGoogleFlowAuthLoginGooglePostBody,
   ContinueKdeFlowAuthLoginKdePostBody,
   DeleteUserResult,
+  DisplayNameRequest,
   DoChangeDefaultAccountAuthChangeDefaultAccountPostParams,
   EmailConfirmRequest,
   EmailConfirmResult,
@@ -2499,6 +2500,90 @@ export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
     getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOptions(
       options,
     ),
+    queryClient,
+  )
+}
+/**
+ * @summary Do Change Display Name
+ */
+export const doChangeDisplayNameAuthDisplayNamePost = (
+  displayNameRequest: DisplayNameRequest,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<void>> => {
+  return axios.post(`/auth/display-name`, displayNameRequest, options)
+}
+
+export const getDoChangeDisplayNameAuthDisplayNamePostMutationOptions = <
+  TError = AxiosError<void | HTTPValidationError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>,
+    TError,
+    { data: DisplayNameRequest },
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>,
+  TError,
+  { data: DisplayNameRequest },
+  TContext
+> => {
+  const mutationKey = ["doChangeDisplayNameAuthDisplayNamePost"]
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>,
+    { data: DisplayNameRequest }
+  > = (props) => {
+    const { data } = props ?? {}
+
+    return doChangeDisplayNameAuthDisplayNamePost(data, axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type DoChangeDisplayNameAuthDisplayNamePostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>
+>
+export type DoChangeDisplayNameAuthDisplayNamePostMutationBody =
+  DisplayNameRequest
+export type DoChangeDisplayNameAuthDisplayNamePostMutationError =
+  AxiosError<void | HTTPValidationError>
+
+/**
+ * @summary Do Change Display Name
+ */
+export const useDoChangeDisplayNameAuthDisplayNamePost = <
+  TError = AxiosError<void | HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>,
+      TError,
+      { data: DisplayNameRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>,
+  TError,
+  { data: DisplayNameRequest },
+  TContext
+> => {
+  return useMutation(
+    getDoChangeDisplayNameAuthDisplayNamePostMutationOptions(options),
     queryClient,
   )
 }
