@@ -28,7 +28,6 @@ def test_changed_quality_metadata_categories_maps_appstream_fields():
         "app-name",
         "app-icon",
         "app-summary",
-        "general",
         "screenshots",
     }
 
@@ -54,7 +53,6 @@ def test_update_quality_metadata_timestamps_changes_only_affected_categories():
 
     assert result == {
         "app-name": "2026-02-01T00:00:00",
-        "general": "2026-02-01T00:00:00",
         "screenshots": "2026-01-01T00:00:00",
     }
 
