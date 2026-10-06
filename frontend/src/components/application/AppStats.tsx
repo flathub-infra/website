@@ -1,16 +1,14 @@
 import { FunctionComponent } from "react"
 
 import { useTranslations } from "next-intl"
-import { useTheme } from "next-themes"
-import { LineChart, Line, XAxis, YAxis } from "recharts"
+import { defineChart, lineY } from "@tanstack/charts"
+import { scaleBand } from "@tanstack/charts/scales/band"
+import { scaleLinear } from "@tanstack/charts/scales/linear"
+import { tooltip } from "@tanstack/charts/tooltip"
+import { useMemo } from "react"
 import { format } from "date-fns"
-import { axisStroke, primaryStroke, RotatedAxisTick } from "src/chartComponents"
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
+import { primaryStroke } from "src/chartComponents"
+import { TanstackChart } from "src/components/charts/chart"
 import { StatsResultApp } from "src/codegen"
 
 interface Props {
@@ -19,8 +17,6 @@ interface Props {
 
 const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   const t = useTranslations()
-
-  const { resolvedTheme } = useTheme()
 
   const data = []
 
@@ -33,45 +29,48 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
   data.sort((a, b) => a.date.localeCompare(b.date))
   data.pop()
 
-  const chartConfig = {} satisfies ChartConfig
+  const stroke = primaryStroke
+  const definition = useMemo(
+    () =>
+      defineChart({
+        marks: [
+          lineY(data, {
+            x: "date",
+            y: "installs",
+            stroke,
+            strokeWidth: 3,
+          }),
+        ],
+        scales: {
+          x: {
+            scale: () => scaleBand<string>().padding(0.2),
+            axis: {
+              ticks: { size: 0, format: (date) => format(date, "MMM d") },
+              tickLabels: { rotate: -35, anchor: "end" },
+            },
+          },
+          y: { scale: scaleLinear, nice: true, grid: true },
+        },
+        tooltip: {
+          use: tooltip,
+          format: (point) =>
+            `${format(point.datum.date, "P")}: ${Number(point.yValue).toLocaleString()}`,
+        },
+      }),
+    [data, stroke],
+  )
 
   return (
     <div className="p-4">
       <h3 className="my-4 mt-0 text-xl font-semibold">
         {t("installs-over-time")}
       </h3>
-      <ChartContainer config={chartConfig} className="min-h-[400px] w-full">
-        <LineChart accessibilityLayer data={data}>
-          <Line
-            dataKey="installs"
-            stroke={primaryStroke(resolvedTheme)}
-            name={t("installs")}
-            dot={false}
-            strokeWidth={3}
-          />
-          <XAxis
-            dataKey="date"
-            name={t("date")}
-            tickFormatter={(date) => {
-              return format(date, "MMM d")
-            }}
-            stroke={axisStroke(resolvedTheme)}
-            tick={<RotatedAxisTick />}
-            height={60}
-          />
-          <YAxis stroke={axisStroke(resolvedTheme)} />
-          <ChartTooltip
-            content={<ChartTooltipContent />}
-            labelFormatter={(label) =>
-              typeof label === "string" ||
-              typeof label === "number" ||
-              label instanceof Date
-                ? format(label, "P")
-                : ""
-            }
-          />
-        </LineChart>
-      </ChartContainer>
+      <TanstackChart
+        definition={definition}
+        ariaLabel={t("installs-over-time")}
+        height={400}
+        className="min-h-[400px] w-full"
+      />
     </div>
   )
 }

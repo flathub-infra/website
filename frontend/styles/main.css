@@ -164,6 +164,7 @@
   --radius: 0.5rem;
 
   /* // for chart colors */
+  --chart-primary-stroke: oklch(51.85% 0.1318 252.64);
   --chart-1: oklch(63% 0.21 29);
   --chart-2: oklch(54% 0.11 175);
   --chart-3: oklch(38% 0.07 213);
@@ -207,9 +208,15 @@
   --color-primary: var(--flathub-celestial-blue);
 
   /* // for chart colors */
+  --chart-primary-stroke: oklch(64.15% 0.1308 251.37);
   --chart-1: oklch(55% 0.18 252);
   --chart-2: oklch(65% 0.15 162);
   --chart-3: oklch(65% 0.18 42);
   --chart-4: oklch(62% 0.19 304);
   --chart-5: oklch(57% 0.22 14);
+}
+
+/* Treemap focus states also reach labels; only the cell needs an outline. */
+.tanstack-chart .ts-chart__treemap text {
+  stroke: none;
 }

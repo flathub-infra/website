@@ -2,7 +2,10 @@
 
 import { useState } from "react"
 import { useLocale } from "next-intl"
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts"
+import { defineChart, lineY } from "@tanstack/charts"
+import { scaleBand } from "@tanstack/charts/scales/band"
+import { scaleLinear } from "@tanstack/charts/scales/linear"
+import { tooltip } from "@tanstack/charts/tooltip"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   Card,
@@ -12,11 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  ChartContainer,
-  ChartTooltip,
-  type ChartConfig,
-} from "@/components/ui/chart"
+import { TanstackChart } from "src/components/charts/chart"
 import {
   Table,
   TableBody,
@@ -32,11 +31,6 @@ import {
   type PermissionStatsWindow,
 } from "./permission-stats"
 import PermissionStatsSelect from "./PermissionStatsSelect"
-
-const chartConfig = {
-  count: { label: "App count", color: "oklch(var(--primary))" },
-  percentage: { label: "Recorded share", color: "oklch(var(--primary))" },
-} satisfies ChartConfig
 
 export default function PermissionStatsTrend({
   id,
@@ -57,6 +51,54 @@ export default function PermissionStatsTrend({
       timeZone: "UTC",
     }).format(new Date(value + "-01T00:00:00Z"))
   const points = entry ? buildMonthlyPermissionTrend(window, entry.path) : []
+  const chartData = points.map((point) => ({
+    ...point,
+    value: point[metric],
+  }))
+  const definition = defineChart({
+    marks: [
+      lineY(chartData, {
+        x: "month",
+        y: "value",
+        stroke: "oklch(var(--primary))",
+        strokeWidth: 2,
+        points: true,
+      }),
+    ],
+    scales: {
+      x: {
+        scale: () => scaleBand<string>().padding(0.2),
+        axis: { ticks: { format: monthLabel } },
+      },
+      y: {
+        scale: scaleLinear,
+        nice: true,
+        grid: true,
+        axis: {
+          ticks: {
+            format: (value) =>
+              number.format(value) + (metric === "percentage" ? "%" : ""),
+          },
+        },
+      },
+    },
+    tooltip: {
+      use: tooltip,
+      content: (points) => ({
+        title: `${points[0]?.datum.snapshotDate ?? "No snapshot"}${points[0]?.datum.month === window.end_month ? " · Latest available observation" : ""}`,
+        rows: points.map((point) => ({
+          label:
+            metric === "percentage" ? "Share of eligible apps" : "App count",
+          value:
+            point.yValue == null
+              ? "Unavailable"
+              : number.format(Number(point.yValue)) +
+                (metric === "percentage" ? "%" : ""),
+          color: point.color,
+        })),
+      }),
+    },
+  })
   return (
     <section id={id} aria-label="Monthly adoption trend">
       <Card className="gap-4 py-4">
@@ -105,81 +147,12 @@ export default function PermissionStatsTrend({
             </Alert>
           ) : entry ? (
             <div className="flex flex-col gap-4">
-              <ChartContainer
-                config={chartConfig}
-                className="h-60 w-full aspect-auto"
-                role="img"
-                aria-label={`Monthly ${metric === "count" ? "app count" : "recorded permission share"} for ${entry.value}`}
-              >
-                <LineChart
-                  accessibilityLayer
-                  data={points}
-                  margin={{ top: 10, right: 12, left: 0, bottom: 5 }}
-                >
-                  <CartesianGrid vertical={false} />
-                  <XAxis
-                    dataKey="month"
-                    tickFormatter={monthLabel}
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={10}
-                  />
-                  <YAxis
-                    width={55}
-                    tickLine={false}
-                    axisLine={false}
-                    tickFormatter={(value) =>
-                      number.format(value) +
-                      (metric === "percentage" ? "%" : "")
-                    }
-                  />
-                  <ChartTooltip
-                    content={({ active, payload }) => {
-                      const point = payload?.[0]?.payload as
-                        (typeof points)[number] | undefined
-                      return active && point ? (
-                        <div className="flex flex-col gap-2 rounded-lg border bg-popover p-3 text-xs text-popover-foreground shadow-md">
-                          <strong>{point.snapshotDate ?? "No snapshot"}</strong>
-                          <dl className="grid grid-cols-[auto_auto] gap-x-4 gap-y-1">
-                            <dt>Apps</dt>
-                            <dd className="text-end tabular-nums">
-                              {point.count === null
-                                ? "Unavailable"
-                                : number.format(point.count)}
-                            </dd>
-                            <dt>Recorded share</dt>
-                            <dd className="text-end tabular-nums">
-                              {point.percentage === null
-                                ? "Unavailable"
-                                : number.format(point.percentage) + "%"}
-                            </dd>
-                            <dt>Metadata coverage</dt>
-                            <dd className="text-end tabular-nums">
-                              {point.metadataCoverage === null
-                                ? "Unavailable"
-                                : number.format(point.metadataCoverage) + "%"}
-                            </dd>
-                          </dl>
-                          {point.month === window.end_month ? (
-                            <span className="text-muted-foreground">
-                              Latest available observation
-                            </span>
-                          ) : null}
-                        </div>
-                      ) : null
-                    }}
-                  />
-                  <Line
-                    type="linear"
-                    dataKey={metric}
-                    stroke={`var(--color-${metric})`}
-                    strokeWidth={2}
-                    dot={{ r: 3 }}
-                    connectNulls={false}
-                    isAnimationActive={false}
-                  />
-                </LineChart>
-              </ChartContainer>
+              <TanstackChart
+                definition={definition}
+                className="h-60 w-full"
+                ariaLabel={`Monthly ${metric === "count" ? "app count" : "recorded permission share"} for ${entry.value}`}
+                height={240}
+              />
               <details className="text-xs">
                 <summary className="cursor-pointer text-muted-foreground">
                   Snapshot dates and metadata coverage
