@@ -65,7 +65,7 @@
   "utilities": "Apuohjelmat",
   "popular-apps": "Suositut sovellukset",
   "delete-account": "Poista tili",
-  "login-with-provider": "Kirjaudu käyttäen palvelua {provider}",
+  "login-with-provider": "Kirjaudu käyttäen {provider}ia",
   "install": "Asenna",
   "other-apps-by-developer": "Muut kehittäjän {developer} sovellukset",
   "go-home": "Siirry etusivulle",
@@ -485,7 +485,8 @@
     "problems": "Jos haluat kysyä meiltä tietyistä laatuohjeisiin liittyvistä ongelmista, voit avata <link>kysymyksen</link>.",
     "light": "Vaalea",
     "dark": "Tumma",
-    "system-editor": "Järjestelmä"
+    "system-editor": "Järjestelmä",
+    "last-edited": "Muokannut {editor} · {time}"
   },
   "app-listing-quality": "Sovelluslistauksen laatu",
   "invite-developer-description": "Anna kehittäjän kutsukoodi kutsuaksesi hänet tämän sovelluksen kehittäjäksi. Kyseinen kehittäjä löytää oman koodin tilisivunsa <developerstabtitle>{developersTab}</developerstabtitle>-välilehdeltä.",
@@ -848,5 +849,23 @@
   "other-apps-to-explore": "Tässä joitain muita ensiluokkaisia sovelluksia tutustuttavaksi.",
   "clear-filters": "Tyhjennä suodattimet",
   "remove-bookmark": "Poista kirjanmerkki",
-  "remove-from-favorites": "Poista {app} kirjanmerkeistä"
+  "remove-from-favorites": "Poista {app} kirjanmerkeistä",
+  "display-name": "Näyttönimi",
+  "display-name-updated": "Näyttönimi päivitetty",
+  "display-name-invalid": "Kirjoita näyttönimi, jonka pituus on 1–100 merkkiä; sen tulee sisältää vähintään yksi näkyvä merkki, eikä yhtäkään kontrolli- tai tekstinsuuntausmerkkiä.",
+  "save": "Tallenna",
+  "email-login-with-email": "Kirjaudu käyttäen sähköpostiosoitetta",
+  "email-login-log-in-with-email": "Kirjaudu käyttäen sähköpostiosoitetta",
+  "email-login-other-methods": "Muut sisäänkirjautumismenetelmät",
+  "email-login-email-address": "Sähköpostiosoite",
+  "email-login-send-link": "Lähetä minulle kirjautumislinkki sähköpostitse",
+  "email-login-sending": "Lähetetään…",
+  "email-login-resend-in": "Uudelleenlähetys mahdollista {seconds} sekunnin kuluttua",
+  "email-login-sign-in": "Kirjaudu sisään",
+  "email-login-invalid-or-expired": "Tämä sisäänkirjautumislinkki on virheellinen tai vanhentunut. Pyydä uusi linkki jatkaaksesi.",
+  "email-login-request-new-link": "Siirry takaisin kirjautumissivulle ja pyydä uusi linkki.",
+  "email-login-rate-limited": "Liian monta yritystä. Odota hetki ja yritä uudelleen.",
+  "email-login-session-conflict": "Olet jo sisäänkirjautunut toisena käyttäjänä tässä selaimessa. Kirjaudu ensin ulos, jos haluat käyttää tätä linkkiä.",
+  "verified-email": "Vahvistettu sähköposti",
+  "email-login-check-your-inbox": "Jos osoite on kelvollinen, sisäänkirjautumislinkki on jo matkalla. Se vanhenee 15 minuutissa. Jos loit tilisi käyttäen GitHubia, GitLabia, Gnomea tai KDE:tä, käytä kyseistä palveluntarjoajaa sisäänkirjautumiseen."
 }

@@ -38,7 +38,7 @@
   "by": "od {developer}",
   "other-apps-by-developer": "Ostatní aplikace od vývojáře {developer}",
   "loading": "Načítání…",
-  "could-not-find-match-for-search": "Nepodařilo se najít žádné aplikace odpovídající vašemu vyhledávání.",
+  "could-not-find-match-for-search": "Nepodařilo se najít, co hledáte.",
   "manifest": "Manifest aplikace",
   "popular": "Populární",
   "documentation": "Dokumentace",
@@ -252,7 +252,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "Ověřte své právo používat ID aplikace <appid></appid> přihlášením k účtu <loginname></loginname> (nebo, pokud je <orgname></orgname> organizace, k účtu s přístupem k ní) na <loginprovider></loginprovider>.",
   "browse": "Procházet",
   "setup-flathub": "Nastavit Flathub",
-  "setup-flathub-description": "Nastavte Flathub pro instalaci a aktualizaci aplikací ve vašem systému.",
+  "setup-flathub-description": "Postupujte podle kroků pro vámi využívanou linuxovou distribuci a nainstalujte Flatpak, přidejte repozitář Flathub a začněte instalovat aplikace.",
   "apps": "Aplikace",
   "count-desktop-apps": "Celkem desktopových aplikací",
   "apps-by-developer": "Aplikace od {developer}",
@@ -302,7 +302,7 @@
   "flathub-index-description": "Získejte nejnovější verze všech vašich oblíbených aplikací pro libovolnou linuxovou distribuci",
   "app-eol": "Tato aplikace již není na Flathubu k dispozici",
   "distribution-flathub-setup": "Nastavení Flathubu pro {distribution}",
-  "find-your-distribution": "Najděte svoji distribuci",
+  "find-your-distribution": "Najděte svoji distribuci…",
   "no-results-found": "Nebyly nalezeny žádné výsledky",
   "desktop-application": "Desktopová aplikace",
   "console-application": "Aplikace příkazového řádku",
@@ -488,7 +488,9 @@
     "dark": "Tmavý",
     "failing-x-checks": "Selhání {count, plural, one {# kontroly} other {# kontrol}}",
     "general-runtime-not-eol": "Běhové prostředí není na konci životnosti",
-    "stats-by-category": "Stav revize pokynů podle kategorie"
+    "stats-by-category": "Stav revize pokynů podle kategorie",
+    "last-edited": "Upraveno {editor} · {time}",
+    "system-editor": "Systém"
   },
   "app-listing-quality": "Kvalita výpisu aplikací",
   "moderation-build-id": "ID sestavení",
@@ -791,7 +793,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "S novým rokem nové postupy",
-      "description": "Aplikace pro pořizování poznámek, udržování si přehledu o úkolech a plánování"
+      "description": "Aplikace pro čerstvý startpořizování poznámek, udržování si přehledu o úkolech a plánování"
     },
     "free-software-favorites": {
       "header": "Naše tipy",
@@ -799,7 +801,7 @@
     },
     "spring-creativity": {
       "header": "Buďte tvořiví",
-      "description": "Nezbytné aplikace pro kreslení, upravování fotek a digitální design"
+      "description": "Pracujte s obrázky, zvukem, videem a dalším"
     },
     "fresh-desktop-releases": {
       "header": "Vytvářejte nativní aplikace",
@@ -807,19 +809,19 @@
     },
     "staying-connected": {
       "header": "Zůstaňte v kontaktu",
-      "description": "Nezbytné aplikace pro spolupráci a komunikaci"
+      "description": "Aplikace pro sdílení, mluvení a trávení času společně"
     },
     "summer-travel": {
       "header": "Připraveni na dovolenou",
-      "description": "Aplikace pro mapy, informace o dopravě, počasí a plánování výletů"
+      "description": "Aplikace to kamkoli vás zavede příští výlet"
     },
     "back-to-learning": {
       "header": "Každým dnem chytřejší",
-      "description": "Aplikace pro pomoc se studiem, výzkumem a sepisováním"
+      "description": "Aplikace pro objevování, učení se a vytváření znalostí"
     },
     "winter-comforts": {
       "header": "Udělejte si pohodlí",
-      "description": "Skvělé aplikace pro čtení, sledování filmů a hraní her"
+      "description": "Aplikace pro relaxování a uvolnění vaší mysli"
     },
     "tools-for-developers": {
       "header": "Nezbytné pro webové vývojáře",
@@ -827,19 +829,19 @@
     },
     "take-better-notes": {
       "header": "Dělejte si lepší poznámky",
-      "description": "Najděte si svůj nový oblíbený nástroj pro zapisování poznámek"
+      "description": "Nové nástroje pro zachycování vašich nejlepších nápadů"
     },
     "get-focused": {
       "header": "Soustřeďte se",
-      "description": "Skvělé aplikace pro správu úkolů"
+      "description": "Vše co potřebujete pro"
     },
     "make-some-noise": {
       "header": "Buďte slyšet",
-      "description": "Aplikace pro vytváření a produkování hudby"
+      "description": "Aplikace pro vytváření, přehrávání a zkoumání zvuku"
     },
     "get-to-work": {
       "header": "Do práce",
-      "description": "Nezbytné kancelářské aplikace"
+      "description": "Aplikace, které vám pomohou"
     }
   },
   "unverified-app-disclaimer-package": "Tento komunitní balíček není ověřen, jakkoli spojen s či podporován vývojářem {developer}.",
@@ -853,10 +855,52 @@
   "app-is-currently-verified-by-dns": "Vaše aplikace je v tuto chvíli ověřena prostřednictvím toho, že máte pod kontrolou DNS pro <domain></domain>",
   "verified-dns-tooltip": "Vlastnictví identifikátoru aplikace <appid></appid> bylo ověřeno prostřednictvím toho, že máte pod kontrolou DNS pro <domain></domain>",
   "dns-verification": "DNS ověřování",
-  "moderation-random-review": "Náhodně vybráno pro kontrolu člověkem",
+  "moderation-random-review": "Náhodně vybráno pro kontrolu",
   "moderation-manifest-complexity-modules": "Dotčené moduly",
   "moderation-manifest-added": "Přidáno",
   "moderation-manifest-removed": "Odebráno",
   "login-failed": "Přihlášení se nezdařilo",
-  "login-failed-try-again": "Nebylo možné se přihlásit. Zkuste to znovu."
+  "login-failed-try-again": "Nebylo možné se přihlásit. Zkuste to znovu.",
+  "display-name": "Zobrazovaný název",
+  "display-name-updated": "Zobrazovaný název aktualizován",
+  "save": "Uložit",
+  "remove-bookmark": "Odebrat záložku",
+  "remove-from-favorites": "Odebrat {app} ze záložek",
+  "runtime": "Běhové prostředí",
+  "email-login-log-in-with-email": "Přihlásit se pomocí e-mailu",
+  "email-login-with-email": "Přihlásit se pomocí e-mailu",
+  "email-login-other-methods": "Ostatní metody přihlašování",
+  "email-login-email-address": "E-mailová adresa",
+  "email-login-send-link": "Pošlete mi e-mail s odkazem na přihlášení se",
+  "email-login-sending": "Odesílání…",
+  "email-login-resend-in": "Opětovné zaslání možné za {seconds}s",
+  "email-login-check-your-inbox": "Pokud je adresa platná, odkaz pro přihlášení se už je na cestě. Jeho platnost skončí za 15 minut. Pokud jste svůj účet vytvořili s použitím GitHub, GitLab, GNOME nebo KDE, přihlaste se namísto toho tímto poskytovatelem.",
+  "email-login-request-new-link": "Přejděte zpět na přihlašovací stránku a vyžádejte si nový odkaz.",
+  "email-login-rate-limited": "Příliš mnoho pokusů. Počkejte minutu a zkuste to znovu.",
+  "email-login-session-conflict": "V tomto prohlížeči už jste přihlášeni jako jiný uživatel. Pokud chcete použít tento odkaz, nejprve se odhlaste.",
+  "email-login-oauth-upgrade-required": "Tato akce potřebuje účet poskytovatele. Aby bylo možné pokračovat, propojte v nastavení GitHub, GitLab, GNOME nebo KDE.",
+  "verified-email": "Ověřený e-mail",
+  "email-login-replaced": "Pro tento účet bylo přihlašování e-mailem natrvalo nahrazeno přihlášením přes poskytovatele.",
+  "gitlab-terms-not-accepted": "Váš účet u {provider} vyžaduje, abyste přijali Všeobecné podmínky. Otevřete {provider} v prohlížeči, přijměte podmínky a poté se zkuste přihlásit znovu.",
+  "open-login-provider": "Otevřít {provider}",
+  "back-to-login": "Zpět na přihlášení",
+  "moderation-summary-changes": "Změny souhrnu",
+  "moderation-manifest-source-origin": "Změny zdroje manifestu",
+  "moderation-manifest-complexity": "Komplexita balíčkování manifestu",
+  "moderation-manifest-source-and-complexity": "Kontrola zdroje a komplexity manifestu",
+  "moderation-manifest-complexity-explanation": "Tyto změny receptu popisují druh a strukturu balíčkování, nikoli bezpečnostní rizika nebo škodlivé chování.",
+  "moderation-manifest-complexity-ambiguity": "Pro některé moduly nebylo možné najít jednoznačnou shodu. Pečlivě zkontrolujte změny dotčeného receptu.",
+  "moderation-manifest-complexity-events": "Změny receptu",
+  "moderation-manifest-complexity-modules-truncated": "Zobrazuje se {shown} z {total} dotčených modulů.",
+  "moderation-manifest-complexity-events-truncated": "Zobrazuje se {shown} z {total} změn receptu.",
+  "quality-metadata-changed": "Metadata změněna {time}",
+  "quality-metadata-changed-since-review": "Změněno od okamžiku kontroly kvality",
+  "moderation-build-changes": "Změny sestavení",
+  "moderation-build-log": "Záznam událostí při sestavování",
+  "display-name-invalid": "Zadejte zobrazovaný název (1–100 znaků) – alespoň jeden viditelný znak a žádné řídící znaky nebo znaky pro směr textu.",
+  "could-not-find-match-with-filters": "S těmito filtry nebylo možné najít dobrou shodu.",
+  "other-apps-to-explore": "Tady jsou nějaké ostatní úžasné aplikace k prozkoumání.",
+  "clear-filters": "Vyčistit filtry",
+  "email-login-sign-in": "Přihlásit se",
+  "email-login-invalid-or-expired": "Tento přihlašovací odkaz není platný nebo jeho platnost skončila. Aby bylo možné pokračovat, vyžádejte si jiný."
 }
