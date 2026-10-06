@@ -415,7 +415,7 @@ https://flathub.org/apps/details/${app.id}
                 <h3 className="font-semibold">
                   {t(`quality-guideline.${category}`)}
                 </h3>
-                {parsedMetadataChangedAt && (
+                {category !== "general" && parsedMetadataChangedAt && (
                   <div
                     className={clsx(
                       "mt-1 flex items-center gap-1 text-xs",

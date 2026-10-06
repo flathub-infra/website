@@ -2,7 +2,6 @@ from collections.abc import Mapping
 from typing import Any
 
 QUALITY_METADATA_FIELDS: dict[str, tuple[str, ...]] = {
-    "general": ("name", "developer_name", "icon"),
     "branding": ("branding",),
     "app-icon": ("icon",),
     "app-name": ("name",),
