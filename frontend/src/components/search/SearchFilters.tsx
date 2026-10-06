@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import { MeilisearchResponseAppsIndex } from "src/codegen"
 import { categoryToName, stringToCategory } from "src/types/Category"
+import { getSearchFacetValues } from "src/search/search-facets"
 
 type SelectedFilter = {
   filterType: string
@@ -62,13 +63,12 @@ const SearchFilterSection = ({
   }, [facetValues])
   const displayedFacetValues =
     Object.keys(facetValues).length > 0 ? facetValues : previousFacetValues
-  const values = [
-    ...Object.keys(displayedFacetValues),
-    ...selectedFilters
+  const values = getSearchFacetValues(
+    displayedFacetValues,
+    selectedFilters
       .filter((filter) => filter.filterType === filterType)
-      .map((filter) => filter.value)
-      .filter((value) => !(value in facetValues)),
-  ]
+      .map((filter) => filter.value),
+  )
   if (
     filterType === "is_free_license" ||
     filterType === "verification_verified"
