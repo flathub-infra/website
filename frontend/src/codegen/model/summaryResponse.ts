@@ -5,7 +5,10 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { SummaryResponseBranch } from "./summaryResponseBranch"
+import type { SummaryResponseDownloadSize } from "./summaryResponseDownloadSize"
+import type { SummaryResponseInstalledSize } from "./summaryResponseInstalledSize"
 import type { SummaryResponseMetadata } from "./summaryResponseMetadata"
+import type { SummaryResponseTimestamp } from "./summaryResponseTimestamp"
 
 /**
  * Summary information response for an application.
@@ -16,9 +19,9 @@ import type { SummaryResponseMetadata } from "./summaryResponseMetadata"
 export interface SummaryResponse {
   arches: string[]
   branch?: SummaryResponseBranch
-  timestamp: number
-  download_size: number
-  installed_size: number
+  timestamp?: SummaryResponseTimestamp
+  download_size?: SummaryResponseDownloadSize
+  installed_size?: SummaryResponseInstalledSize
   metadata?: SummaryResponseMetadata
   [key: string]: unknown
 }

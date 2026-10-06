@@ -1966,9 +1966,18 @@ export const getGetSummarySummaryAppIdGetResponseMock = (
     ]),
     undefined,
   ]),
-  timestamp: faker.number.int(),
-  download_size: faker.number.int(),
-  installed_size: faker.number.int(),
+  timestamp: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([faker.number.int(), null]),
+    undefined,
+  ]),
+  download_size: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([faker.number.int(), null]),
+    undefined,
+  ]),
+  installed_size: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([faker.number.int(), null]),
+    undefined,
+  ]),
   metadata: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
       {

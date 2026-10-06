@@ -164,6 +164,13 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock 
       ]),
       undefined,
     ]),
+    metadata_changed_at: faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]:
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+      },
+      undefined,
+    ]),
     ...overrideResponse,
   })
 
@@ -209,6 +216,13 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostResponseMock
       ]),
       undefined,
     ]),
+    metadata_changed_at: faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]:
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+      },
+      undefined,
+    ]),
     ...overrideResponse,
   })
 
@@ -252,6 +266,13 @@ export const getGetQualityModerationForAppAsModeratorQualityModerationAppIdModer
         faker.date.past().toISOString().slice(0, 19) + "Z",
         null,
       ]),
+      undefined,
+    ]),
+    metadata_changed_at: faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]:
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+      },
       undefined,
     ]),
     ...overrideResponse,
@@ -321,6 +342,13 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
       ]),
       undefined,
     ]),
+    metadata_changed_at: faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]:
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+      },
+      undefined,
+    ]),
     ...overrideResponse,
   })
 
@@ -364,6 +392,13 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostResponseMock
         faker.date.past().toISOString().slice(0, 19) + "Z",
         null,
       ]),
+      undefined,
+    ]),
+    metadata_changed_at: faker.helpers.arrayElement([
+      {
+        [faker.string.alphanumeric(5)]:
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+      },
       undefined,
     ]),
     ...overrideResponse,
