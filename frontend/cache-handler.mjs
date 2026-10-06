@@ -22,6 +22,32 @@ const zstdDecompressAsync = promisify(zstdDecompress)
 
 let sharedHandler = null
 
+class BuildCacheHandler {
+  cache = new Map()
+
+  async get(key) {
+    return this.cache.get(key)?.value ?? null
+  }
+
+  async set(key, value, ctx) {
+    this.cache.set(key, {
+      value,
+      tags: new Set(ctx?.tags ?? []),
+    })
+  }
+
+  async revalidateTag(...args) {
+    const tags = new Set(Array.isArray(args[0]) ? args[0] : [args[0]])
+    for (const [key, entry] of this.cache) {
+      if ([...entry.tags].some((tag) => tags.has(tag))) {
+        this.cache.delete(key)
+      }
+    }
+  }
+
+  resetRequestCache() {}
+}
+
 const zstdCacheValueSerializer = {
   async serialize(value) {
     const json = await jsonCacheValueSerializer.serialize(value)
@@ -47,22 +73,28 @@ const zstdCacheValueSerializer = {
 
 function getHandler() {
   if (!sharedHandler) {
-    sharedHandler = new RedisStringsHandler({
-      database: 0,
-      keyPrefix: "nextjs_",
-      // L1 in-memory cache: 10 seconds (reduces Redis calls)
-      inMemoryCachingTime: 10000,
-      // Dedup identical Redis calls within same request
-      redisGetDeduplication: true,
-      // Batch tag operations
-      revalidateTagQuerySize: 500,
-      // Timeout for Redis operations
-      getTimeoutMs: 500,
-      defaultStaleAge: DEFAULT_STALE_AGE_SECONDS,
-      estimateExpireAge: (staleAge) =>
-        Math.min(staleAge * 2, MAX_EXPIRE_AGE_SECONDS),
-      valueSerializer: zstdCacheValueSerializer,
-    })
+    if (process.env.NEXT_PHASE === "phase-production-build") {
+      // CI builds cannot reach the production Redis service. Keep build-time
+      // cache reads/writes local; the production server uses Redis below.
+      sharedHandler = new BuildCacheHandler()
+    } else {
+      sharedHandler = new RedisStringsHandler({
+        database: 0,
+        keyPrefix: "nextjs_",
+        // L1 in-memory cache: 10 seconds (reduces Redis calls)
+        inMemoryCachingTime: 10000,
+        // Dedup identical Redis calls within same request
+        redisGetDeduplication: true,
+        // Batch tag operations
+        revalidateTagQuerySize: 500,
+        // Timeout for Redis operations
+        getTimeoutMs: 500,
+        defaultStaleAge: DEFAULT_STALE_AGE_SECONDS,
+        estimateExpireAge: (staleAge) =>
+          Math.min(staleAge * 2, MAX_EXPIRE_AGE_SECONDS),
+        valueSerializer: zstdCacheValueSerializer,
+      })
+    }
   }
   return sharedHandler
 }
