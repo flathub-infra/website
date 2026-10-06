@@ -5,6 +5,8 @@ import { Tooltip as TooltipPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
+const TooltipTouchContext = React.createContext<(() => void) | null>(null)
+
 function TooltipProvider({
   delayDuration = 0,
   ...props
@@ -19,19 +21,100 @@ function TooltipProvider({
 }
 
 function Tooltip({
+  open: controlledOpen,
+  defaultOpen = false,
+  onOpenChange,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
+  const [radixOpen, setRadixOpen] = React.useState(
+    controlledOpen ?? defaultOpen,
+  )
+  const [touchOpen, setTouchOpen] = React.useState(false)
+  const touchOpenRef = React.useRef(false)
+  const touchTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  )
+  const isControlled = controlledOpen !== undefined
+
+  const clearTouchTimeout = React.useCallback(() => {
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current)
+      touchTimeoutRef.current = null
+    }
+  }, [])
+
+  const toggleTouchOpen = React.useCallback(() => {
+    clearTouchTimeout()
+    if (touchOpenRef.current) {
+      touchOpenRef.current = false
+      setTouchOpen(false)
+      if (isControlled) onOpenChange?.(false)
+      else setRadixOpen(false)
+      return
+    }
+
+    touchOpenRef.current = true
+    setTouchOpen(true)
+    if (isControlled) onOpenChange?.(true)
+    touchTimeoutRef.current = setTimeout(() => {
+      touchOpenRef.current = false
+      setTouchOpen(false)
+      if (isControlled) onOpenChange?.(false)
+      else setRadixOpen(false)
+      touchTimeoutRef.current = null
+    }, 4000)
+  }, [clearTouchTimeout, isControlled, onOpenChange])
+
+  React.useEffect(() => clearTouchTimeout, [clearTouchTimeout])
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    if (!nextOpen && touchOpenRef.current) return
+    if (!isControlled) setRadixOpen(nextOpen)
+    onOpenChange?.(nextOpen)
+  }
+
   return (
     <TooltipProvider>
-      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+      <TooltipTouchContext.Provider value={toggleTouchOpen}>
+        <TooltipPrimitive.Root
+          data-slot="tooltip"
+          {...props}
+          open={isControlled ? controlledOpen : radixOpen || touchOpen}
+          onOpenChange={handleOpenChange}
+        />
+      </TooltipTouchContext.Provider>
     </TooltipProvider>
   )
 }
 
+type TooltipTriggerProps = React.ComponentProps<
+  typeof TooltipPrimitive.Trigger
+> & {
+  keepOpenOnTouch?: boolean
+}
+
 function TooltipTrigger({
+  keepOpenOnTouch = true,
+  onClick,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
-  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
+}: TooltipTriggerProps) {
+  const toggleTouchOpen = React.useContext(TooltipTouchContext)
+
+  return (
+    <TooltipPrimitive.Trigger
+      data-slot="tooltip-trigger"
+      {...props}
+      onClick={(event) => {
+        onClick?.(event)
+        if (
+          keepOpenOnTouch &&
+          (event.nativeEvent as PointerEvent).pointerType === "touch"
+        ) {
+          toggleTouchOpen?.()
+        }
+      }}
+    />
+  )
 }
 
 function TooltipContent({

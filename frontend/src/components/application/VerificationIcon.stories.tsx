@@ -70,6 +70,34 @@ export const dnsVerification: Story = {
   },
 }
 
+export const touchVerification: Story = {
+  args: {
+    appId: "com.example.Example",
+    verificationStatus: {
+      verified: true,
+      timestamp: "1678175850",
+      detail: "",
+      method: "dns",
+      website: "example.com",
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const trigger = canvas.getByRole("button", {
+      name: "This app is verified",
+    })
+    await userEvent.pointer([
+      { keys: "[TouchA>]", target: trigger },
+      { keys: "[/TouchA]" },
+    ])
+
+    const body = within(canvasElement.ownerDocument.body)
+    expect(await body.findByRole("tooltip")).toHaveTextContent(
+      "The ownership of the com.example.Example app ID has been verified through DNS control of example.com",
+    )
+  },
+}
+
 export const loginProviderVerification = () => {
   const verificationStatus: VerificationStatusLoginProvider = {
     verified: true,
