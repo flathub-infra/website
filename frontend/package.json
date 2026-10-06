@@ -11,7 +11,6 @@
     "format:fix": "prettier --write .",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --stats-json",
-    "update-setup-instructions": "tsx ./setup-instructions.ts",
     "openapi-codegen": "orval",
     "test": "vitest run"
   },
@@ -123,7 +122,6 @@
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "redis": "4.7.0",
-    "simple-git": "^3.36.0",
     "storybook": "^10.6.0",
     "storybook-addon-mock-date": "^3.1.1",
     "storybook-next-intl": "^10.1.3",
