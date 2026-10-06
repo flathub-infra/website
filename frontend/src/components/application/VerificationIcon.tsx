@@ -27,7 +27,7 @@ const VerificationIcon: FunctionComponent<Props> = ({
     return (
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger asChild keepOpenOnTouch>
             <button
               aria-label={t("app-is-verified")}
               className="size-6 flex justify-center items-center"
