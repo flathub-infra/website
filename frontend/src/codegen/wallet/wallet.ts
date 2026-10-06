@@ -1494,86 +1494,6 @@ export const useSetPendingWalletTransactionsTxnSetpendingPost = <
   )
 }
 /**
- * Clear the fake wallet details
- * @summary Clear Fake
- */
-export const clearFakeWalletClearfakePost = (
-  options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown | void>> => {
-  return axios.post(`/wallet/clearfake`, undefined, options)
-}
-
-export const getClearFakeWalletClearfakePostMutationOptions = <
-  TError = AxiosError<void>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>,
-    TError,
-    void,
-    TContext
-  >
-  axios?: AxiosRequestConfig
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>,
-  TError,
-  void,
-  TContext
-> => {
-  const mutationKey = ["clearFakeWalletClearfakePost"]
-  const { mutation: mutationOptions, axios: axiosOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey }, axios: undefined }
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>,
-    void
-  > = () => {
-    return clearFakeWalletClearfakePost(axiosOptions)
-  }
-
-  return { mutationFn, ...mutationOptions }
-}
-
-export type ClearFakeWalletClearfakePostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>
->
-
-export type ClearFakeWalletClearfakePostMutationError = AxiosError<void>
-
-/**
- * @summary Clear Fake
- */
-export const useClearFakeWalletClearfakePost = <
-  TError = AxiosError<void>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>,
-      TError,
-      void,
-      TContext
-    >
-    axios?: AxiosRequestConfig
-  },
-  queryClient?: QueryClient,
-): UseMutationResult<
-  Awaited<ReturnType<typeof clearFakeWalletClearfakePost>>,
-  TError,
-  void,
-  TContext
-> => {
-  return useMutation(
-    getClearFakeWalletClearfakePostMutationOptions(options),
-    queryClient,
-  )
-}
-/**
  * This endpoint is intended to deal with webhooks coming back from payment
  * mechanisms etc.  It exists only for the deployed wallet, so its name
  * will vary with the deployed wallet kind.
@@ -1582,30 +1502,30 @@ export const useClearFakeWalletClearfakePost = <
  * kind to wallet kind.
  * @summary Webhook
  */
-export const webhookWalletWebhookFakewalletPost = (
+export const webhookWalletWebhookStripePost = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.post(`/wallet/webhook/fakewallet`, undefined, options)
+  return axios.post(`/wallet/webhook/stripe`, undefined, options)
 }
 
-export const getWebhookWalletWebhookFakewalletPostMutationOptions = <
+export const getWebhookWalletWebhookStripePostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>,
+    Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
     TError,
     void,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>,
+  Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
   TError,
   void,
   TContext
 > => {
-  const mutationKey = ["webhookWalletWebhookFakewalletPost"]
+  const mutationKey = ["webhookWalletWebhookStripePost"]
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1615,31 +1535,31 @@ export const getWebhookWalletWebhookFakewalletPostMutationOptions = <
     : { mutation: { mutationKey }, axios: undefined }
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>,
+    Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
     void
   > = () => {
-    return webhookWalletWebhookFakewalletPost(axiosOptions)
+    return webhookWalletWebhookStripePost(axiosOptions)
   }
 
   return { mutationFn, ...mutationOptions }
 }
 
-export type WebhookWalletWebhookFakewalletPostMutationResult = NonNullable<
-  Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>
+export type WebhookWalletWebhookStripePostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>
 >
 
-export type WebhookWalletWebhookFakewalletPostMutationError = AxiosError<void>
+export type WebhookWalletWebhookStripePostMutationError = AxiosError<void>
 
 /**
  * @summary Webhook
  */
-export const useWebhookWalletWebhookFakewalletPost = <
+export const useWebhookWalletWebhookStripePost = <
   TError = AxiosError<void>,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>,
+      Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
       TError,
       void,
       TContext
@@ -1648,13 +1568,13 @@ export const useWebhookWalletWebhookFakewalletPost = <
   },
   queryClient?: QueryClient,
 ): UseMutationResult<
-  Awaited<ReturnType<typeof webhookWalletWebhookFakewalletPost>>,
+  Awaited<ReturnType<typeof webhookWalletWebhookStripePost>>,
   TError,
   void,
   TContext
 > => {
   return useMutation(
-    getWebhookWalletWebhookFakewalletPostMutationOptions(options),
+    getWebhookWalletWebhookStripePostMutationOptions(options),
     queryClient,
   )
 }

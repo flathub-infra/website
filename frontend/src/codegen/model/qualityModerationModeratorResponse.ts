@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { QualityModerationModeratorResponseMetadataChangedAt } from "./qualityModerationModeratorResponseMetadataChangedAt"
 import type { QualityModerationModeratorResponseReviewRequestedAt } from "./qualityModerationModeratorResponseReviewRequestedAt"
 import type { QualityModerationModeratorType } from "./qualityModerationModeratorType"
 
@@ -11,5 +12,5 @@ export interface QualityModerationModeratorResponse {
   guidelines: QualityModerationModeratorType[]
   is_fullscreen_app: boolean
   review_requested_at?: QualityModerationModeratorResponseReviewRequestedAt
-  metadata_changed_at?: Record<string, string>
+  metadata_changed_at?: QualityModerationModeratorResponseMetadataChangedAt
 }
