@@ -6,6 +6,7 @@ import useEmblaCarousel, {
 } from "embla-carousel-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { getArrowKeyAction } from "./carousel-keys"
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid"
 import { useTranslations } from "next-intl"
 
@@ -80,15 +81,17 @@ function Carousel({
 
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === "ArrowLeft") {
+      const action = getArrowKeyAction(event.key, opts?.direction)
+      if (action) {
         event.preventDefault()
-        scrollPrev()
-      } else if (event.key === "ArrowRight") {
-        event.preventDefault()
-        scrollNext()
+        if (action === "next") {
+          scrollNext()
+        } else {
+          scrollPrev()
+        }
       }
     },
-    [scrollPrev, scrollNext],
+    [opts?.direction, scrollPrev, scrollNext],
   )
 
   React.useEffect(() => {
