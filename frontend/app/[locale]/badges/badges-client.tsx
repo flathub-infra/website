@@ -5,11 +5,7 @@ import Image from "next/image"
 import { useTranslations } from "next-intl"
 import CodeCopy from "../../../src/components/application/CodeCopy"
 import cc0 from "../../../public/img/CC0.png"
-import {
-  fontLanguageDenyList,
-  getLanguageName,
-  languages,
-} from "../../../src/localize"
+import { getLanguageName, languages } from "../../../src/localize"
 import {
   Select,
   SelectContent,
@@ -88,13 +84,11 @@ const BadgesClient = (): JSX.Element => {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {languages
-                .filter((language) => !fontLanguageDenyList.includes(language))
-                .map((language) => (
-                  <SelectItem key={language} value={language}>
-                    {getLanguageName(language)}
-                  </SelectItem>
-                ))}
+              {languages.map((language) => (
+                <SelectItem key={language} value={language}>
+                  {getLanguageName(language)}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
