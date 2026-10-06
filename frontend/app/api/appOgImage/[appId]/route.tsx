@@ -1,18 +1,17 @@
-import { Resvg } from "@resvg/resvg-js"
-import satori from "satori"
 import { DesktopAppstream, getAppstreamAppstreamAppIdGet } from "src/codegen"
 import { getContrastColor, hexToRgb } from "@/lib/helpers"
 import { mapScreenshot } from "src/types/Appstream"
 import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 import { NextRequest } from "next/server"
 import axios from "axios"
-import { fonts } from "app/api/fontManager"
-import { fontLanguageDenyList, Language, languages } from "src/localize"
+import { Language, languages } from "src/localize"
 import { getApiBaseUrl } from "src/utils/api-url"
 import { getTranslations } from "next-intl/server"
 import { hasLocale } from "next-intl"
 import { routing } from "src/i18n/routing"
-import { getOgImageUrl } from "app/api/ogImage"
+import { getOgImageDataUrl } from "app/api/ogImage"
+import { getLangDir } from "rtl-detect"
+import { renderOgImage } from "app/api/renderOgImage"
 
 function adjustBrightness(hex: string, percent: number): string {
   const rgb = hexToRgb(hex)
@@ -46,11 +45,7 @@ export async function GET(
   const asSvg = searchParams.get("svg") === "" || false
 
   // Fall back to English if the locale is in the deny list or not supported
-  const safeLocale =
-    fontLanguageDenyList.includes(locale) ||
-    !languages.includes(locale as Language)
-      ? "en"
-      : locale
+  const safeLocale = languages.includes(locale as Language) ? locale : "en"
 
   // Get translations for the safe locale
   const translationLocale = hasLocale(routing.locales, safeLocale)
@@ -83,13 +78,6 @@ export async function GET(
     await getIsFullscreenAppIsFullscreenAppAppIdGet(appId as string)
   ).data
 
-  const icon =
-    (Array.isArray(app.icons)
-      ? app.icons.sort(
-          (a, b) => (b.scale ?? 0) - (a.scale ?? 0) || b.height - a.height,
-        )?.[0]?.url
-      : undefined) ?? app.icon
-
   const screenshot =
     Array.isArray(app.screenshots) && app.screenshots.length > 0
       ? mapScreenshot(app.screenshots[0])
@@ -104,8 +92,14 @@ export async function GET(
     textColor === "white" ? "rgba(255,255,255,0.95)" : "rgba(0,0,0,0.8)"
 
   const scale = 1
+  const icon =
+    (Array.isArray(app.icons)
+      ? [...app.icons].sort(
+          (a, b) => (b.scale ?? 0) - (a.scale ?? 0) || b.height - a.height,
+        )?.[0]?.url
+      : undefined) ?? app.icon
   const iconImage = icon
-    ? getOgImageUrl(icon, 160 * scale, 160 * scale)
+    ? await getOgImageDataUrl(icon, 160 * scale, 160 * scale)
     : undefined
 
   const isLandscapeScreenshot =
@@ -113,12 +107,57 @@ export async function GET(
       ? screenshot.width > screenshot.height
       : true
 
+  let screenshotImage:
+    { src: string; width: number; height: number } | undefined
+
+  if (screenshot) {
+    const hasValidDims =
+      screenshot.width &&
+      screenshot.height &&
+      !isNaN(screenshot.width) &&
+      !isNaN(screenshot.height)
+
+    if (isLandscapeScreenshot) {
+      const maxW = 680 * scale
+      const maxH = 450 * scale
+      const computedHeight = hasValidDims
+        ? Math.round(maxW * (screenshot.height! / screenshot.width!))
+        : null
+      const width =
+        computedHeight && computedHeight > maxH
+          ? Math.round(maxH * (screenshot.width! / screenshot.height!))
+          : maxW
+      const height = computedHeight ? Math.min(computedHeight, maxH) : maxH
+      const src = await getOgImageDataUrl(screenshot.src, width, height)
+      if (src) screenshotImage = { src, width, height }
+    } else {
+      const maxPortraitWidth = 350 * scale
+      const targetH = 420 * scale
+      const computedWidth = hasValidDims
+        ? Math.round(targetH * (screenshot.width! / screenshot.height!))
+        : null
+      const rawWidth = computedWidth ?? 253 * scale
+      const height =
+        rawWidth > maxPortraitWidth
+          ? Math.round(
+              maxPortraitWidth * (screenshot.height! / screenshot.width!),
+            )
+          : targetH
+      const width = Math.min(rawWidth, maxPortraitWidth)
+      const src = await getOgImageDataUrl(screenshot.src, width, height)
+      if (src) screenshotImage = { src, width, height }
+    }
+  }
+
+  const hasScreenshot = Boolean(screenshotImage)
+
   const gradientEnd = textColor === "white" ? brandingLight : brandingDark
 
-  const svg = await satori(
+  const image = (
     <div
       style={{
         display: "flex",
+        direction: getLangDir(safeLocale),
         flexDirection: "column",
         background: `linear-gradient(to top, ${branding} 50%, ${gradientEnd} 100%)`,
         width: "100%",
@@ -146,6 +185,7 @@ export async function GET(
         style={{
           display: "flex",
           flex: 1,
+          minHeight: 0,
           padding: `${48 * scale}px`,
           paddingBottom: `${40 * scale}px`,
           gap: `${48 * scale}px`,
@@ -160,7 +200,7 @@ export async function GET(
             alignItems: "center",
             justifyContent: "center",
             width:
-              screenshot && isLandscapeScreenshot
+              hasScreenshot && isLandscapeScreenshot
                 ? `${380 * scale}px`
                 : `${450 * scale}px`,
             flexShrink: 0,
@@ -216,103 +256,54 @@ export async function GET(
         </div>
 
         {/* Right side - Screenshot */}
-        {screenshot &&
-          isLandscapeScreenshot &&
-          (() => {
-            const hasValidDims =
-              screenshot.width &&
-              screenshot.height &&
-              !isNaN(screenshot.width) &&
-              !isNaN(screenshot.height)
-            const maxW = 680 * scale
-            const maxH = 450 * scale
-            const computedHeight = hasValidDims
-              ? Math.round(maxW * (screenshot.height! / screenshot.width!))
-              : null
-            const clampedWidth =
-              computedHeight && computedHeight > maxH
-                ? Math.round(maxH * (screenshot.width! / screenshot.height!))
-                : maxW
-            const clampedHeight = computedHeight
-              ? Math.min(computedHeight, maxH)
-              : maxH
-            const screenshotImage = getOgImageUrl(
-              screenshot.src,
-              clampedWidth,
-              clampedHeight,
-            )
-            return (
-              <div
-                style={{
-                  display: "flex",
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  width={clampedWidth}
-                  height={clampedHeight}
-                  style={{
-                    display: "flex",
-                    width: `${clampedWidth}px`,
-                    height: `${clampedHeight}px`,
-                  }}
-                  src={screenshotImage}
-                  alt=""
-                />
-              </div>
-            )
-          })()}
+        {hasScreenshot && isLandscapeScreenshot && screenshotImage && (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              width={screenshotImage.width}
+              height={screenshotImage.height}
+              style={{
+                display: "flex",
+                width: `${screenshotImage.width}px`,
+                height: `${screenshotImage.height}px`,
+              }}
+              src={screenshotImage.src}
+              alt=""
+            />
+          </div>
+        )}
 
         {/* Portrait screenshot - displayed smaller on the right */}
-        {screenshot &&
-          !isLandscapeScreenshot &&
-          (() => {
-            const hasValidDims =
-              screenshot.width &&
-              screenshot.height &&
-              !isNaN(screenshot.width) &&
-              !isNaN(screenshot.height)
-            const maxPortraitWidth = 350 * scale
-            const targetH = 420 * scale
-            const computedWidth = hasValidDims
-              ? Math.round(targetH * (screenshot.width! / screenshot.height!))
-              : null
-            const rawWidth = computedWidth ?? 253 * scale
-            const height =
-              rawWidth > maxPortraitWidth
-                ? Math.round(
-                    maxPortraitWidth * (screenshot.height! / screenshot.width!),
-                  )
-                : targetH
-            const width = Math.min(rawWidth, maxPortraitWidth)
-            const screenshotImage = getOgImageUrl(screenshot.src, width, height)
-            return (
-              <div
-                style={{
-                  display: "flex",
-                  flex: 1,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  width={width}
-                  height={height}
-                  style={{
-                    display: "flex",
-                    width: `${width}px`,
-                    height: `${height}px`,
-                  }}
-                  src={screenshotImage}
-                  alt=""
-                />
-              </div>
-            )
-          })()}
+        {hasScreenshot && !isLandscapeScreenshot && screenshotImage && (
+          <div
+            style={{
+              display: "flex",
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              width={screenshotImage.width}
+              height={screenshotImage.height}
+              style={{
+                display: "flex",
+                width: `${screenshotImage.width}px`,
+                height: `${screenshotImage.height}px`,
+              }}
+              src={screenshotImage.src}
+              alt=""
+            />
+          </div>
+        )}
       </div>
 
       {/* Bottom bar - Flathub branding */}
@@ -395,40 +386,13 @@ export async function GET(
           </span>
         </div>
       </div>
-    </div>,
-    {
-      width: 1200 * scale,
-      height: 600 * scale,
-      fonts: fonts,
-    },
+    </div>
   )
 
-  if (asSvg) {
-    return new Response(svg, {
-      status: 200,
-      headers: {
-        "Content-Type": "image/svg+xml",
-        "Cache-Control": "public, max-age=31536000, immutable",
-      },
-    })
-  }
-
-  const renderer = new Resvg(svg, {
-    background: "#fff",
-    fitTo: {
-      mode: "width",
-      value: 1200,
-    },
-  })
-  const image = renderer.render()
-
-  const pngBuffer = image.asPng() as BodyInit
-
-  return new Response(pngBuffer, {
-    status: 200,
-    headers: {
-      "Content-Type": "image/png",
-      "Cache-Control": "public, max-age=31536000, immutable",
-    },
+  return renderOgImage(image, {
+    width: 1200 * scale,
+    height: 600 * scale,
+    locale: safeLocale,
+    asSvg,
   })
 }

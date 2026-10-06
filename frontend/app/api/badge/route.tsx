@@ -1,11 +1,10 @@
-import satori from "satori"
 import { NextRequest, NextResponse } from "next/server"
-import { Resvg } from "@resvg/resvg-js"
-import { fonts } from "../fontManager"
 import { getTranslations } from "next-intl/server"
 import { routing } from "src/i18n/routing"
 import { hasLocale } from "next-intl"
 import { BADGE_SIZES, parseBadgeSize } from "src/badges/badge-size"
+import { getLangDir } from "rtl-detect"
+import { renderOgImage } from "../renderOgImage"
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -34,6 +33,7 @@ export async function GET(request: NextRequest) {
     <div
       style={{
         display: "flex",
+        direction: getLangDir(locale),
         backgroundColor: light ? "white" : "black",
         width: size === "padded" ? `${dimensions.badgeWidth}px` : "100%",
         height: size === "padded" ? `${dimensions.badgeHeight}px` : "100%",
@@ -109,7 +109,7 @@ export async function GET(request: NextRequest) {
     </div>
   )
 
-  const svg = await satori(
+  const image =
     size === "padded" ? (
       <div
         style={{
@@ -124,39 +124,12 @@ export async function GET(request: NextRequest) {
       </div>
     ) : (
       badge
-    ),
-    {
-      width: dimensions.canvasWidth,
-      height: dimensions.canvasHeight,
-      fonts: fonts,
-    },
-  )
+    )
 
-  if (asSvg) {
-    return new Response(svg, {
-      status: 200,
-      headers: {
-        "Content-Type": "image/svg+xml",
-        "Cache-Control": "public, max-age=31536000, immutable",
-      },
-    })
-  }
-
-  const renderer = new Resvg(svg, {
-    fitTo: {
-      mode: "width",
-      value: dimensions.canvasWidth,
-    },
-  })
-  const image = renderer.render()
-
-  const pngBuffer = image.asPng() as BodyInit
-
-  return new Response(pngBuffer, {
-    status: 200,
-    headers: {
-      "Content-Type": "image/png",
-      "Cache-Control": "public, max-age=31536000, immutable",
-    },
+  return renderOgImage(image, {
+    width: dimensions.canvasWidth,
+    height: dimensions.canvasHeight,
+    locale,
+    asSvg,
   })
 }

@@ -376,6 +376,36 @@ async function createNotoArabicRegular() {
   }
 }
 
+async function createNotoArabicSemiBold() {
+  const fontPath = path.join(
+    process.cwd(),
+    "public/assets/fonts/NotoSansArabic-SemiBold.ttf",
+  )
+  const font = await fs.readFile(fontPath)
+
+  return {
+    name: "NotoSansArabic-SemiBold",
+    data: font,
+    weight: 600,
+    style: "normal",
+  }
+}
+
+async function createNotoArabicBlack() {
+  const fontPath = path.join(
+    process.cwd(),
+    "public/assets/fonts/NotoSansArabic-Black.ttf",
+  )
+  const font = await fs.readFile(fontPath)
+
+  return {
+    name: "NotoSansArabic-Black",
+    data: font,
+    weight: 900,
+    style: "normal",
+  }
+}
+
 export const fonts = [
   (await createInterRegular()) as any,
   (await createInterSemiBold()) as any,
@@ -408,4 +438,8 @@ export const fonts = [
   (await createNotoGurmukhiRegular()) as any,
   (await createNotoGurmukhiSemiBold()) as any,
   (await createNotoGurmukhiBlack()) as any,
+
+  (await createNotoArabicRegular()) as any,
+  (await createNotoArabicSemiBold()) as any,
+  (await createNotoArabicBlack()) as any,
 ]

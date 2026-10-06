@@ -1,8 +1,5 @@
-import { Resvg } from "@resvg/resvg-js"
-import satori from "satori"
 import { NextRequest, NextResponse } from "next/server"
 import axios from "axios"
-import { fonts } from "app/api/fontManager"
 import { getApiBaseUrl } from "src/utils/api-url"
 import {
   getYearInReviewYearInReviewYearGet,
@@ -12,6 +9,8 @@ import { getTranslations } from "next-intl/server"
 import { routing } from "src/i18n/routing"
 import { hasLocale } from "next-intl"
 import { getOgImageUrl } from "app/api/ogImage"
+import { getLangDir } from "rtl-detect"
+import { renderOgImage } from "app/api/renderOgImage"
 
 export async function GET(
   request: NextRequest,
@@ -84,10 +83,11 @@ export async function GET(
     .slice(0, 3)
     .map((app) => (app.icon ? getOgImageUrl(app.icon, 52, 52) : null))
 
-  const svg = await satori(
+  const image = (
     <div
       style={{
         display: "flex",
+        direction: getLangDir(locale),
         flexDirection: "column",
         width: "100%",
         height: "100%",
@@ -459,40 +459,16 @@ export async function GET(
           </div>
         </div>
       </div>
-    </div>,
-    {
-      width: 1200,
-      height: 630,
-      fonts: fonts,
-    },
+    </div>
   )
 
-  if (asSvg) {
-    return new Response(svg, {
-      status: 200,
-      headers: {
-        "Content-Type": "image/svg+xml",
-        "Cache-Control": "public, max-age=3600",
-      },
-    })
-  }
-
-  const renderer = new Resvg(svg, {
-    background: "#0d1117",
-    fitTo: {
-      mode: "width",
-      value: 1200,
-    },
-  })
-  const image = renderer.render()
-
-  const pngBuffer = image.asPng() as BodyInit
-
-  return new Response(pngBuffer, {
-    status: 200,
-    headers: {
-      "Content-Type": "image/png",
-      "Cache-Control": "public, max-age=31536000, immutable",
-    },
+  return renderOgImage(image, {
+    width: 1200,
+    height: 630,
+    locale,
+    asSvg,
+    cacheControl: asSvg
+      ? "public, max-age=3600"
+      : "public, max-age=31536000, immutable",
   })
 }
