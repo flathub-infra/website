@@ -5,11 +5,16 @@ import ProviderLink from "../login/ProviderLink"
 import Avatar from "./Avatar"
 import { getUserName } from "src/verificationProvider"
 import { ConnectedAccountProvider, LoginMethod } from "src/codegen"
-import { useDoChangeDefaultAccountAuthChangeDefaultAccountPost } from "src/codegen/auth/auth"
+import {
+  useDoChangeDefaultAccountAuthChangeDefaultAccountPost,
+  useDoChangeDisplayNameAuthDisplayNamePost,
+} from "src/codegen/auth/auth"
 import { useMeUsersMeGet } from "src/codegen/users/users"
 import { toast } from "sonner"
+import { isAxiosError } from "axios"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
 interface Props {
   logins: LoginMethod[]
@@ -19,9 +24,14 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   const user = useUserContext()
   const t = useTranslations()
   const [changingDefault, setChangingDefault] = useState(false)
+  const [displayNameDraft, setDisplayNameDraft] = useState<string | null>(null)
 
   const changeDefaultMutation =
     useDoChangeDefaultAccountAuthChangeDefaultAccountPost()
+
+  const changeDisplayNameMutation = useDoChangeDisplayNameAuthDisplayNamePost({
+    axios: { withCredentials: true },
+  })
 
   const { data: meData } = useMeUsersMeGet({
     query: { enabled: !!user.info },
@@ -47,6 +57,41 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       toast.error(t("network-error-try-again"))
     } finally {
       setChangingDefault(false)
+    }
+  }
+
+  const savedDisplayName = (user.info.displayname ?? "").trim()
+  const displayName = displayNameDraft ?? user.info.displayname ?? ""
+  const trimmedDisplayName = displayName.trim()
+  const displayNameLength = Array.from(trimmedDisplayName).length
+  const displayNameValid =
+    displayNameLength >= 1 &&
+    displayNameLength <= 100 &&
+    !/[\p{Cc}\u202a-\u202e\u2066-\u2069]/u.test(trimmedDisplayName) &&
+    /[^\p{Cf}\p{Zs}\p{Zl}\p{Zp}]/u.test(trimmedDisplayName)
+  const showDisplayNameError = displayNameDraft !== null && !displayNameValid
+  const canSaveDisplayName =
+    !changeDisplayNameMutation.isPending &&
+    displayNameValid &&
+    trimmedDisplayName !== savedDisplayName
+
+  const handleSaveDisplayName = async (event: React.FormEvent) => {
+    event.preventDefault()
+    if (!canSaveDisplayName) {
+      return
+    }
+    try {
+      await changeDisplayNameMutation.mutateAsync({
+        data: { display_name: trimmedDisplayName },
+      })
+      toast.success(t("display-name-updated"))
+      window.location.reload()
+    } catch (error) {
+      toast.error(
+        isAxiosError(error) && error.response?.status === 422
+          ? t("display-name-invalid")
+          : t("network-error-try-again"),
+      )
     }
   }
 
@@ -183,6 +228,41 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
           </Card>
         </div>
       )}
+
+      <div className="mb-4">
+        <h3 className="my-4 text-xl font-semibold">
+          <label htmlFor="display-name">{t("display-name")}</label>
+        </h3>
+        <Card className="w-full py-0 md:w-auto">
+          <CardContent className="p-5">
+            <form
+              className="flex items-center gap-3"
+              onSubmit={handleSaveDisplayName}
+            >
+              <Input
+                id="display-name"
+                value={displayName}
+                onChange={(event) => setDisplayNameDraft(event.target.value)}
+                aria-invalid={showDisplayNameError}
+                aria-describedby={
+                  showDisplayNameError ? "display-name-error" : undefined
+                }
+              />
+              <Button type="submit" disabled={!canSaveDisplayName}>
+                {t("save")}
+              </Button>
+            </form>
+            {showDisplayNameError && (
+              <p
+                id="display-name-error"
+                className="mt-2 text-sm text-destructive"
+              >
+                {t("display-name-invalid")}
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      </div>
 
       <div>
         <h3 className="my-4 text-xl font-semibold">{t("linked-accounts")}</h3>
