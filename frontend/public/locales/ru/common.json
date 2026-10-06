@@ -38,7 +38,7 @@
   "by": "от {developer}",
   "other-apps-by-developer": "Другие приложения от {developer}",
   "loading": "Загрузка…",
-  "could-not-find-match-for-search": "Не удалось найти приложения по вашему запросу.",
+  "could-not-find-match-for-search": "По вашему запросу ничего не нашлось.",
   "manifest": "Манифест",
   "popular": "Популярные",
   "documentation": "Документация",
@@ -253,7 +253,7 @@
   "no-apps": "Нет приложений.",
   "setup-flathub": "Установить Flathub",
   "tags-colon": "Метки:",
-  "setup-flathub-description": "Установите Flathub, чтобы устанавливать и обновлять приложения на вашей системе.",
+  "setup-flathub-description": "Следуйте инструкции для вашего дистрибутива Linux, чтобы установить Flatpak, добавить репозиторий Flathub и начать устанавливать приложения.",
   "consultants": "Консультанты",
   "consultants-description": "Консультационные услуги по отправке приложений на Flathub.",
   "login-provider-verification-main-instruction-unknown-is-organization": "Подтвердите ваше право на использование идентификатора приложения <appid></appid>, войдя в учётную запись <loginname></loginname> (или если <orgname></orgname> — организация, то в аккаунт с доступом к нему) на <loginprovider></loginprovider>.",
@@ -301,7 +301,7 @@
   "moderation-no-review-requests": "Нет отзывов для этого приложения.",
   "flathub-index-description": "Получите последние версии всех ваших любимых приложений для любого дистрибутива Linux",
   "distribution-flathub-setup": "Установка Flathub на {distribution}",
-  "find-your-distribution": "Найдите свой дистрибутив",
+  "find-your-distribution": "Найдите ваш дистрибутив…",
   "no-results-found": "Результаты не найдены",
   "app-eol": "Это приложение больше не доступно в Flathub",
   "console-application": "Приложения командной строки",
@@ -488,7 +488,9 @@
     "dark": "Тёмный",
     "failing-x-checks": "{count, plural, one {Провалена # проверка} few {Провалены # проверки} other {Провалено # проверок}}",
     "general-runtime-not-eol": "Средство выполнения с актуальным сроком поддержки",
-    "stats-by-category": "Статус проверки по категориям руководства"
+    "stats-by-category": "Статус проверки по категориям руководства",
+    "last-edited": "Изменено {editor} • {time}",
+    "system-editor": "Система"
   },
   "app-listing-quality": "Качество выдачи приложений",
   "moderation-build-id": "ID сборки",
@@ -740,7 +742,7 @@
     "works-well-on-large-screens": "Хорошо работает на больших экранах",
     "may-not-work-well-on-mobile": "Может плохо работать на мобильных устройствах",
     "works-well-on-mobile": "Хорошо работает на мобильных устройствах",
-    "total-installs": "установок всего",
+    "total-installs": "{count} установок всего",
     "desktop-only": "Только настольные",
     "desktop-and-mobile": "Все устройства",
     "age-rating": "Возрастной рейтинг"
@@ -791,7 +793,7 @@
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
       "header": "Новый год — новые инструменты",
-      "description": "Приложения для заметок, задач и планирования"
+      "description": "Приложения, чтобы начать с чистого листа, как бы вы не привыкли работать"
     },
     "free-software-favorites": {
       "header": "Рекомендуем",
@@ -799,7 +801,7 @@
     },
     "spring-creativity": {
       "header": "Проявите креативность",
-      "description": "Незаменимые приложения для рисования, редактирования фото и дизайна"
+      "description": "Обработка изображений, аудио, видео, и многого другого"
     },
     "fresh-desktop-releases": {
       "header": "Создавайте нативные приложения",
@@ -807,42 +809,42 @@
     },
     "staying-connected": {
       "header": "Оставайтесь на связи",
-      "description": "Важные приложения для совместной работы и общения"
+      "description": "Приложения для общения, обмена впечатлениями и совместного времяпровождения"
     },
     "summer-travel": {
       "header": "Готовимся к отпуску",
-      "description": "Карты, транспорт, погода и приложения для планирования поездок"
+      "description": "Приложения для любой вашей поездки или похода"
     },
     "back-to-learning": {
       "header": "Умнее с каждым днём",
-      "description": "Приложения, которые помогут учиться, исследовать и писать"
+      "description": "Приложения, чтобы учиться, исследовать и придумывать новое"
     },
     "winter-comforts": {
       "header": "Создайте уют",
-      "description": "Отличные приложения для чтения, просмотра фильмов и игр"
+      "description": "Расслабьтесь и отвлекитесь от ежедневной суеты с этими приложениями"
     },
     "tools-for-developers": {
-      "header": "Необходимое для веб-разработчиков",
+      "header": "Всё необходимое для веб-разработчиков",
       "description": "Создавать веб-сайты с этими приложениями ещё интереснее"
     },
     "take-better-notes": {
       "header": "Ведите заметки лучше",
-      "description": "Найдите свой новый любимый инструмент для заметок"
+      "description": "Ваши новые любимые инструменты для ведения заметок"
     },
     "get-focused": {
       "header": "Сосредоточьтесь",
-      "description": "Отличные приложения для управления задачами"
+      "description": "Всё, что нужно, чтобы оставаться в состоянии потока"
     },
     "make-some-noise": {
       "header": "Заявите о себе",
-      "description": "Приложения для создания и производства музыки"
+      "description": "Приложения для создания, воспроизведения и исследования звуков"
     },
     "get-to-work": {
       "header": "За работу",
-      "description": "Важные офисные приложения"
+      "description": "Добейтесь успехов в делах с этими приложениями"
     }
   },
-  "moderation-random-review": "Выбрано случайным образом для проверки модератором",
+  "moderation-random-review": "Выбрано случайным образом для проверки",
   "unverified-app-disclaimer-package": "Этот пакет, предоставленный сообществом, не проверен, не связан и не поддерживается {developer}.",
   "unverified-app-disclaimer-unknown-developer": "разработчиком приложения",
   "dns-verification-main-instruction": "Подтвердите своё право на использование идентификатора приложения <bold>{id}</bold>, опубликовав DNS-запись типа TXT для <bold>{domain}</bold>.",
@@ -853,5 +855,52 @@
   "dns-lookup-failed": "Не удалось получить записи TXT для {record}.",
   "app-is-currently-verified-by-dns": "Ваше приложение в настоящее время подтверждено через управление DNS для <domain></domain>",
   "verified-dns-tooltip": "Право собственности на идентификатор приложения <appid></appid> было подтверждено через управление DNS для <domain></domain>",
-  "dns-verification": "Проверка через DNS"
+  "dns-verification": "Проверка через DNS",
+  "login-failed": "Не удалось войти",
+  "login-failed-try-again": "Не удалось выполнить вход. Попробуйте ещё раз.",
+  "gitlab-terms-not-accepted": "Ваш аккаунт {provider} требует принятия условия предоставления услуг. Откройте {provider} в браузере, чтобы принять их, и выполните вход снова.",
+  "open-login-provider": "Открыть {provider}",
+  "back-to-login": "Вернуться ко входу",
+  "moderation-summary-changes": "Изменения описания",
+  "moderation-manifest-source-origin": "Изменения в манифесте исходников",
+  "moderation-manifest-complexity": "Сложность упаковки манифеста",
+  "moderation-manifest-source-and-complexity": "Проверка исходников и сложности манифеста",
+  "moderation-manifest-complexity-explanation": "Эти изменения рецептов описывают широту и структуру упаковки, не проблемы безопасности или вредоносное поведение.",
+  "moderation-manifest-complexity-ambiguity": "Не удалось выполнить однозначное соотнесение части модулей — будьте внимательны при проверке.",
+  "moderation-manifest-complexity-modules": "Затронутые модули",
+  "moderation-manifest-complexity-events": "Изменения рецепта",
+  "moderation-manifest-complexity-modules-truncated": "Отображаются {shown} из {total} затронутых модулей.",
+  "moderation-manifest-complexity-events-truncated": "Отображаются {shown} из {total} изменений рецепта.",
+  "moderation-manifest-added": "Добавлено",
+  "moderation-manifest-removed": "Удалено",
+  "quality-metadata-changed": "Метаданные изменены {time}",
+  "quality-metadata-changed-since-review": "Изменения с последней проверки качества",
+  "moderation-build-changes": "Изменения в сборке",
+  "moderation-build-log": "Логи сборки",
+  "display-name": "Отображаемое название",
+  "display-name-updated": "Отображаемое название изменено",
+  "display-name-invalid": "Введите отображаемое название от 1 до 100 символов, содержащее хотя бы один видимый символ, без управляющих символов или символов направления текста.",
+  "save": "Сохранить",
+  "could-not-find-match-with-filters": "Для выбранных фильтров не нашлось ничего подходящего.",
+  "other-apps-to-explore": "Вы можете попробовать другие замечательные приложения:",
+  "clear-filters": "Сбросить фильтры",
+  "remove-bookmark": "Убрать закладку",
+  "remove-from-favorites": "Убрать {app} из закладок",
+  "runtime": "Среда выполнения",
+  "email-login-with-email": "Вход по электронной почте",
+  "email-login-log-in-with-email": "Войти по электронной почте",
+  "email-login-other-methods": "Другие способы входа",
+  "email-login-email-address": "Электронная почта",
+  "email-login-send-link": "Отправить ссылку для входа",
+  "email-login-sending": "Отправляем…",
+  "email-login-resend-in": "Повторная отправка доступна через {seconds} с",
+  "email-login-check-your-inbox": "Если адрес указан верно, скоро на него придёт ссылка для входа, действительная в течение 15 минут. Если вы создали аккаунт через GitHub, GitLab, GNOME или KDE, выполните вход с их помощью.",
+  "email-login-sign-in": "Вход",
+  "email-login-invalid-or-expired": "Ссылка для входа истекла либо введена некорректно. Запросите новую ссылку для входа.",
+  "email-login-request-new-link": "Чтобы запросить новую ссылку, перейдите на страницу входа.",
+  "email-login-rate-limited": "Слишком много попыток. Попробуйте снова через несколько минут.",
+  "email-login-session-conflict": "В этом браузере уже выполнен вход в аккаунт другого пользователя. Чтобы использовать ссылку для входа, сперва выйдите из этого аккаунта.",
+  "email-login-oauth-upgrade-required": "Это действие требует аккаунт поставщика. Привяжите GitHub, GitLab, GNOME или KDE, чтобы продолжить.",
+  "verified-email": "Электронная почта подтверждена",
+  "email-login-replaced": "Вход по электронной почте для этого аккаунта был навсегда заменён на вход через провайдера."
 }
