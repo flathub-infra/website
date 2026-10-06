@@ -156,7 +156,7 @@ function CategorySection({
       topAppsWithResults.flatMap((sectionData, index) => {
         const sections = [
           <Fragment key={`categorySection${sectionData.category}`}>
-            <div>
+            <section aria-label={categoryToName(sectionData.category, t)}>
               <ApplicationSection
                 type="withCustomHeader"
                 href={`/apps/category/${encodeURIComponent(sectionData.category)}`}
@@ -174,7 +174,7 @@ function CategorySection({
                 showMore={true}
                 moreText={t(`more-${sectionData.category.toLowerCase()}`)}
               />
-            </div>
+            </section>
             {index === 0 && afterFirstCategoryBlockSelection && (
               <ScheduledAppSelectionSection
                 selection={afterFirstCategoryBlockSelection}
@@ -184,17 +184,25 @@ function CategorySection({
         ]
         if (index === 4 && mobileSection) {
           sections.push(
-            <div key="mobileSection" className="mb-10">
+            <section
+              key="mobileSection"
+              aria-label={t("on-the-go")}
+              className="mb-10"
+            >
               {mobileSection}
-            </div>,
+            </section>,
           )
         }
 
         if (index === 6 && gameSection) {
           sections.push(
-            <div key="gameSection" className="mb-10">
+            <section
+              key="gameSection"
+              aria-label={t("we-love-games")}
+              className="mb-10"
+            >
               {gameSection}
-            </div>,
+            </section>,
           )
         }
 
@@ -264,18 +272,20 @@ function TopSection({
   }
 
   return (
-    <ApplicationSection
-      type="withCustomHeader"
-      key={`topSection${selectedApps.name}`}
-      href={selectedApps.moreLink}
-      applications={applications}
-      numberOfApps={APPS_IN_PREVIEW_COUNT}
-      customHeader={
-        <MultiToggle items={toggleItems} size={"lg"} variant="secondary" />
-      }
-      showMore={true}
-      moreText={t(`more-${selectedApps.name}`)}
-    />
+    <section aria-label={t(selectedApps.name)}>
+      <ApplicationSection
+        type="withCustomHeader"
+        key={`topSection${selectedApps.name}`}
+        href={selectedApps.moreLink}
+        applications={applications}
+        numberOfApps={APPS_IN_PREVIEW_COUNT}
+        customHeader={
+          <MultiToggle items={toggleItems} size={"lg"} variant="secondary" />
+        }
+        showMore={true}
+        moreText={t(`more-${selectedApps.name}`)}
+      />
+    </section>
   )
 }
 
@@ -347,10 +357,9 @@ function HomeClient({
           <HeroBanner heroBannerData={heroBannerData} aboveTheFold={true} />
         )}
         <div className="flex flex-col lg:flex-row gap-4">
-          <AppOfTheDay
-            className="lg:w-1/2"
-            appOfTheDay={appOfTheDayAppstream}
-          />
+          <section aria-label={t("app-of-the-day")} className="lg:w-1/2">
+            <AppOfTheDay appOfTheDay={appOfTheDayAppstream} />
+          </section>
           <div
             className={clsx(
               "lg:w-1/2",
