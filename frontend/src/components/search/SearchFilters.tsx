@@ -2,6 +2,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { CheckedState } from "@radix-ui/react-checkbox"
 import { UseMutationResult } from "@tanstack/react-query"
 import { AxiosResponse } from "axios"
+import { useEffect, useState } from "react"
 import { useTranslations } from "next-intl"
 import { MeilisearchResponseAppsIndex } from "src/codegen"
 import { categoryToName, stringToCategory } from "src/types/Category"
@@ -53,8 +54,16 @@ const SearchFilterSection = ({
 }) => {
   const t = useTranslations()
   const facetValues = results.data?.data.facetDistribution?.[filterType] ?? {}
+  const [previousFacetValues, setPreviousFacetValues] = useState(facetValues)
+  useEffect(() => {
+    if (Object.keys(facetValues).length > 0) {
+      setPreviousFacetValues(facetValues)
+    }
+  }, [facetValues])
+  const displayedFacetValues =
+    Object.keys(facetValues).length > 0 ? facetValues : previousFacetValues
   const values = [
-    ...Object.keys(facetValues),
+    ...Object.keys(displayedFacetValues),
     ...selectedFilters
       .filter((filter) => filter.filterType === filterType)
       .map((filter) => filter.value)
@@ -73,6 +82,7 @@ const SearchFilterSection = ({
     <div className="flex flex-col gap-2">
       <h2 className="text-lg font-bold">{title}</h2>
       {results.isPending &&
+        Object.keys(displayedFacetValues).length === 0 &&
         [...new Array(loadingCount)].map((_, index) => (
           <div key={index} className="blur-xs flex flex-col gap-2">
             <FilterFacette
@@ -83,7 +93,7 @@ const SearchFilterSection = ({
             />
           </div>
         ))}
-      {results.isSuccess &&
+      {(results.isSuccess || Object.keys(displayedFacetValues).length > 0) &&
         values.map((value) => {
           const checked = selectedFilters.some(
             (filter) =>
@@ -107,7 +117,7 @@ const SearchFilterSection = ({
             <FilterFacette
               key={value}
               label={label}
-              count={facetValues[value] ?? 0}
+              count={displayedFacetValues[value] ?? 0}
               checked={checked}
               onCheckedChange={(isChecked) => {
                 if (isChecked) {
