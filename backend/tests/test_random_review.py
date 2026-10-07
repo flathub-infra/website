@@ -4034,6 +4034,56 @@ def test_review_handles_all_requests_from_the_build(monkeypatch):
     assert len(emails) == 1
 
 
+def test_review_dispatches_each_architecture_job(monkeypatch):
+    db = EndpointDb()
+    db.session.requests[0].job_id = 7
+    db.session.requests[0].build_id = 42
+    db.session.requests.append(
+        models.ModerationRequest(
+            id=3,
+            created_at=datetime.now(UTC),
+            appid="org.example.App",
+            request_type=ModerationRequestType.APPDATA,
+            request_data=json.dumps({"keys": {}, "current_values": {}}),
+            is_new_submission=False,
+            is_observation=False,
+            is_outdated=False,
+            build_id=42,
+            job_id=8,
+        )
+    )
+    review_dispatches = []
+
+    @contextmanager
+    def get_db(db_type="replica"):
+        yield db
+
+    monkeypatch.setattr(moderation, "get_db", get_db)
+    monkeypatch.setattr(
+        moderation.worker.review_check,
+        "send",
+        lambda *args: review_dispatches.append(args),
+    )
+    monkeypatch.setattr(moderation.worker.send_email_new, "send", lambda payload: None)
+    monkeypatch.setattr(
+        moderation.audit_log, "enqueue_audit_log", lambda *args, **kwargs: None
+    )
+    monkeypatch.setattr(moderation, "get_json_key", lambda key: None)
+
+    moderation.submit_review(
+        1,
+        moderation.Review(approve=True),
+        SimpleNamespace(user=SimpleNamespace(id=9)),
+        SimpleNamespace(),
+        object(),
+    )
+
+    assert review_dispatches == [
+        (7, "Passed", None, 42),
+        (8, "Passed", None, None),
+    ]
+
+
 @pytest.mark.parametrize("approve", [True, False])
 def test_review_approval_records_allowlisted_origins(monkeypatch, approve):
     db = EndpointDb()
