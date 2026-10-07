@@ -521,8 +521,8 @@
     <p>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</p>
     <p>All you have to do is <a href="https://flathub.org/">install apps</a>!</p>
 
-- name: postmarketOS
+- name: Nura
   logo: "postmarketOS.svg"
   introduction: >
-    <h2>Flatpak is installed by default on postmarketOS!</h2>
+    <h2>Flatpak is installed by default on Nura!</h2>
     <p>All you have to do is <a href="https://flathub.org/">install apps</a>!</p>
