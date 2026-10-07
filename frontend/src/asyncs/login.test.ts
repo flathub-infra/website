@@ -28,6 +28,20 @@ describe("login callback errors", () => {
     },
   )
 
+  it("preserves the actionable existing-account email error", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue({
+        ok: false,
+        json: async () => ({ error: "oauth-account-email-already-used" }),
+      }),
+    )
+
+    await expect(
+      login(vi.fn(), "gitlab", { code: "code", state: "state" }),
+    ).rejects.toThrow("oauth-account-email-already-used")
+  })
+
   it("does not display unknown provider errors containing personal data", async () => {
     vi.stubGlobal(
       "fetch",

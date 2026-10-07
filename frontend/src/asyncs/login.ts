@@ -59,7 +59,8 @@ export async function login(
     if (
       data?.error === "gitlab-terms-not-accepted" ||
       data?.error === "error-already-logged-in" ||
-      data?.error === "reauth-account-mismatch"
+      data?.error === "reauth-account-mismatch" ||
+      data?.error === "oauth-account-email-already-used"
     ) {
       throw new Error(data.error)
     }
