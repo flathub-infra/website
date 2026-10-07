@@ -2,6 +2,7 @@ import { defineChart, lineY } from "@tanstack/charts"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { tooltip } from "@tanstack/charts/tooltip"
+import { crosshair } from "@tanstack/charts/crosshair"
 import { primaryStroke } from "../../chartComponents"
 
 type InstallPoint = { date: string; installs: number }
@@ -26,6 +27,7 @@ export function createAppStatsChart(data: InstallPoint[], locale: string) {
         stroke: primaryStroke,
         strokeWidth: 3,
       }),
+      crosshair({ x: { label: true }, y: false }),
     ],
     scales: {
       x: {
@@ -43,6 +45,8 @@ export function createAppStatsChart(data: InstallPoint[], locale: string) {
       },
       y: { scale: scaleLinear, nice: true, grid: true },
     },
+    focus: "nearest-x",
+    maxFocusDistance: Number.POSITIVE_INFINITY,
     tooltip: {
       use: tooltip,
       format: (point) =>

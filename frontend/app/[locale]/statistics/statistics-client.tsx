@@ -14,20 +14,26 @@ import {
   useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet,
   useGetQualityModerationStatsQualityModerationFailedByGuidelineGet,
 } from "../../../src/codegen"
-import { format } from "date-fns"
 import { barX, defineChart, lineY, stack } from "@tanstack/charts"
+import { crosshair } from "@tanstack/charts/crosshair"
 import { createCategoryDistributionChart } from "src/components/charts/category-distribution"
 import { rectangleFocusStates } from "src/components/charts/rectangle-focus"
+import {
+  compareVersions,
+  formatRuntimeLabel,
+} from "src/components/charts/statistics-chart-utils"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
+import { scaleOrdinal } from "@tanstack/charts/scales/ordinal"
 import { tooltip } from "@tanstack/charts/tooltip"
 import { primaryStroke } from "../../../src/chartComponents"
-import { createRef, useMemo, type JSX } from "react"
+import { createRef, useMemo, useState, type JSX } from "react"
 import { ChartLegendItems, TanstackChart } from "src/components/charts/chart"
 import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
 import { useLocale, useTranslations } from "next-intl"
 import { useRouter } from "src/i18n/navigation"
+import { getIntlLocale } from "src/localize"
 import CountryMap, { type CountryMapValue } from "@/components/ui/country-map"
 
 interface StatisticsClientProps {
@@ -35,6 +41,12 @@ interface StatisticsClientProps {
   runtimes: { [key: string]: number }
   locale: string
   countryNames: Record<string, string>
+}
+
+const GUIDELINE_CHART_COLORS = {
+  passed: "oklch(var(--flathub-status-green))",
+  not_passed: "oklch(var(--flathub-status-red))",
+  unrated: "oklch(var(--flathub-sonic-silver))",
 }
 
 export const FlathubWorldMap = ({
@@ -127,15 +139,35 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
   const locale = useLocale()
 
-  const data = []
-  if (stats.downloads_per_day) {
-    for (const [key, value] of Object.entries(stats.downloads_per_day)) {
-      data.push({ date: key, downloads: value })
-    }
-  }
+  const data = useMemo(() => {
+    const points = Object.entries(stats.downloads_per_day ?? {})
+      .map(([date, downloads]) => ({ date, downloads }))
+      .sort((a, b) => a.date.localeCompare(b.date))
+    // Remove current day, which is incomplete.
+    points.pop()
+    return points
+  }, [stats.downloads_per_day])
 
-  // Remove current day
-  data.pop()
+  const { monthFormat, dateFormat } = useMemo(() => {
+    const intlLocale = getIntlLocale(locale)
+    return {
+      monthFormat: new Intl.DateTimeFormat(intlLocale, {
+        calendar: "gregory",
+        month: "short",
+        year: "numeric",
+        timeZone: "UTC",
+      }),
+      dateFormat: new Intl.DateTimeFormat(intlLocale, {
+        calendar: "gregory",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "UTC",
+      }),
+    }
+  }, [locale])
+  const dateValue = (date: string, formatter: Intl.DateTimeFormat) =>
+    formatter.format(new Date(`${date}T00:00:00Z`))
 
   const stroke = primaryStroke
   const definition = useMemo(
@@ -148,13 +180,17 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
             stroke,
             strokeWidth: 3,
           }),
+          crosshair({ x: { label: true }, y: false }),
         ],
         scales: {
           x: {
             scale: () => scaleBand<string>().padding(0.2),
             axis: {
-              ticks: { size: 0, format: (date) => format(date, "MMM yyyy") },
-              tickLabels: { rotate: -35, anchor: "end" },
+              ticks: {
+                size: 0,
+                spacing: 104,
+                format: (date) => dateValue(date, monthFormat),
+              },
             },
           },
           y: {
@@ -168,13 +204,15 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
             },
           },
         },
+        focus: "nearest-x",
+        maxFocusDistance: Number.POSITIVE_INFINITY,
         tooltip: {
           use: tooltip,
           format: (point) =>
-            `${format(point.datum.date, "MMM yyyy")}: ${Number(point.yValue).toLocaleString(locale)}`,
+            `${dateValue(point.datum.date, dateFormat)}: ${Number(point.yValue).toLocaleString(locale)}`,
         },
       }),
-    [data, locale, stroke],
+    [data, dateFormat, locale, monthFormat, stroke],
   )
 
   return (
@@ -186,8 +224,10 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
         <TanstackChart
           definition={definition}
           ariaLabel={t("downloads-over-time")}
-          height={500}
-          className="min-h-[500px] w-full"
+          ariaDescription={t("chart-description", {
+            chart: t("downloads-over-time"),
+          })}
+          className="h-[clamp(18rem,42vw,30rem)] w-full"
         />
       </div>
     </>
@@ -252,8 +292,11 @@ const FailedByGuideline = () => {
             <TanstackChart
               definition={definition}
               ariaLabel="Failed by guideline"
-              height={500}
-              className="min-h-[500px] w-full"
+              ariaDescription={t("chart-description", {
+                chart: "Failed by guideline",
+              })}
+              height={Math.max(320, Math.min(720, data.length * 56))}
+              className="min-h-0 w-full"
             />
           </div>
         </>
@@ -277,11 +320,6 @@ const GuidelineStatsByCategory = () => {
       },
     })
 
-  const colors = {
-    passed: "oklch(var(--flathub-status-green))",
-    not_passed: "oklch(var(--flathub-status-red))",
-    unrated: "oklch(var(--flathub-sonic-silver))",
-  }
   const data = useMemo(
     () =>
       (query.data?.data ?? []).flatMap((row) => {
@@ -292,7 +330,7 @@ const GuidelineStatsByCategory = () => {
             `quality-guideline.${series === "unrated" ? "pending" : series === "not_passed" ? "not-passed" : "passed"}`,
           ),
           value: row[series],
-          color: colors[series],
+          color: GUIDELINE_CHART_COLORS[series],
         }))
       }),
     [query.data?.data, t],
@@ -347,25 +385,31 @@ const GuidelineStatsByCategory = () => {
             {t("quality-guideline.stats-by-category")}
           </h2>
           <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
-            <div className="min-h-[360px] w-full">
+            <div className="w-full">
               <TanstackChart
                 definition={definition}
                 ariaLabel={t("quality-guideline.stats-by-category")}
-                height={360}
+                ariaDescription={t("chart-description", {
+                  chart: t("quality-guideline.stats-by-category"),
+                })}
+                height={Math.max(
+                  320,
+                  Math.min(720, (query.data?.data.length ?? 0) * 56),
+                )}
               />
               <ChartLegendItems
                 items={[
                   {
                     label: t("quality-guideline.passed"),
-                    color: colors.passed,
+                    color: GUIDELINE_CHART_COLORS.passed,
                   },
                   {
                     label: t("quality-guideline.not-passed"),
-                    color: colors.not_passed,
+                    color: GUIDELINE_CHART_COLORS.not_passed,
                   },
                   {
                     label: t("quality-guideline.pending"),
-                    color: colors.unrated,
+                    color: GUIDELINE_CHART_COLORS.unrated,
                   },
                 ]}
               />
@@ -384,9 +428,8 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
   const category_data = useMemo(
     () =>
       stats.category_totals.map((category) => ({
-        name:
-          tryParseCategory(category.category, t) ??
-          tryParseCategory(category.category, t),
+        id: category.category,
+        name: tryParseCategory(category.category, t) ?? category.category,
         value: category.count,
       })),
     [stats.category_totals, t],
@@ -405,8 +448,10 @@ const CategoryDistribution = ({ stats }: { stats: StatsResult }) => {
         <TanstackChart
           definition={definition}
           ariaLabel={t("category-distribution")}
-          height={500}
-          className="min-h-[500px] w-full"
+          ariaDescription={t("chart-description", {
+            chart: t("category-distribution"),
+          })}
+          className="h-[clamp(20rem,48vw,32rem)] w-full"
         />
       </div>
     </>
@@ -419,7 +464,12 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
   const router = useRouter()
 
   const data = useMemo(
-    () => Object.entries(runtimes).map(([name, value]) => ({ name, value })),
+    () =>
+      Object.entries(runtimes).map(([runtime, value]) => ({
+        runtime,
+        label: formatRuntimeLabel(runtime),
+        value,
+      })),
     [runtimes],
   )
   const definition = useMemo(
@@ -429,7 +479,7 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
         marks: [
           barX(data, {
             x: "value",
-            y: "name",
+            y: "label",
             states: rectangleFocusStates,
             fill: "oklch(63.85% 0.1314 251.94)",
           }),
@@ -450,7 +500,7 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
           anchor: "pointer",
           offset: 12,
           content: (points) => ({
-            title: points[0]?.datum.name,
+            title: points[0]?.datum.runtime,
             rows: points.map((point) => ({
               label: t("count"),
               value: Number(point.xValue).toLocaleString(locale),
@@ -471,11 +521,14 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
         <TanstackChart
           definition={definition}
           ariaLabel={t("runtime-distribution")}
-          height={800}
-          className="min-h-[800px] w-full"
+          ariaDescription={t("chart-description", {
+            chart: t("runtime-distribution"),
+          })}
+          height={Math.max(360, Math.min(960, data.length * 30))}
+          className="min-h-0 w-full"
           onSelect={(point) => {
             const runtime = (point?.datum as (typeof data)[number] | undefined)
-              ?.name
+              ?.runtime
             if (runtime) {
               router.push(`/apps/search?runtime=${encodeURIComponent(runtime)}`)
             }
@@ -487,14 +540,16 @@ const RuntimeChart = ({ runtimes }: { runtimes: Record<string, number> }) => {
 }
 
 const CHART_COLORS = [
-  "oklch(63.85% 0.1314 251.94)",
-  "oklch(55.86% 0.1446 253.19)",
-  "oklch(72% 0.12 200)",
-  "oklch(65% 0.15 170)",
-  "oklch(60% 0.13 300)",
-  "oklch(70% 0.14 30)",
-  "oklch(65% 0.12 100)",
-  "oklch(58% 0.16 340)",
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+  "var(--chart-6)",
+  "var(--chart-7)",
+  "var(--chart-8)",
+  "var(--chart-9)",
+  "var(--chart-10)",
 ]
 
 const HIDDEN_OS = new Set([
@@ -551,6 +606,7 @@ function PercentageDistributionChart({
   title: string
   shareLabel: string
 }) {
+  const t = useTranslations()
   const definition = useMemo(
     () =>
       defineChart({
@@ -560,10 +616,7 @@ function PercentageDistributionChart({
             x: "value",
             y: "name",
             states: rectangleFocusStates,
-            fill: (row) => {
-              const index = data.indexOf(row)
-              return CHART_COLORS[index % CHART_COLORS.length]
-            },
+            fill: primaryStroke,
             radius: 2,
           }),
         ],
@@ -596,13 +649,16 @@ function PercentageDistributionChart({
   )
 
   return (
-    <TanstackChart
-      definition={definition}
-      ariaLabel={title}
-      height={Math.max(300, data.length * 40)}
-      style={{ height: Math.max(300, data.length * 40) }}
-      className="w-full"
-    />
+    <>
+      <TanstackChart
+        definition={definition}
+        ariaLabel={title}
+        ariaDescription={t("chart-description", { chart: title })}
+        height={Math.max(300, data.length * 40)}
+        style={{ height: Math.max(300, data.length * 40) }}
+        className="w-full"
+      />
+    </>
   )
 }
 
@@ -719,8 +775,7 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
   // All flatpak versions across kept rows
   const fpVersions = Array.from(
     new Set(topEntries.flatMap(({ fp }) => Object.keys(fp))),
-  ).sort()
-
+  ).sort(compareVersions)
   // Grand total for computing each OS row's share of overall installs
   const grandTotal = allEntries.reduce((s, e) => s + e.total, 0)
 
@@ -771,12 +826,8 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
             x: "value",
             y: "name",
             states: rectangleFocusStates,
-            z: "version",
-            fill: (row) =>
-              CHART_COLORS[
-                fpVersions.indexOf(row.version) % CHART_COLORS.length
-              ],
-            layout: stack(),
+            color: "version",
+            layout: stack({ order: fpVersions }),
           }),
         ],
         scales: {
@@ -786,6 +837,15 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
             axis: { ticks: { format: (value) => `${value}%` } },
           },
           y: { scale: () => scaleBand<string>().padding(0.2) },
+        },
+        color: {
+          scale: scaleOrdinal<string, string>()
+            .domain(fpVersions)
+            .range(
+              fpVersions.map(
+                (_, index) => CHART_COLORS[index % CHART_COLORS.length],
+              ),
+            ),
         },
         tooltip: {
           use: tooltip,
@@ -805,7 +865,7 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
           },
         },
       }),
-    [seriesData, fpVersions],
+    [fpVersions, seriesData],
   )
 
   if (data.length === 0) {
@@ -821,12 +881,15 @@ const OsFlatpakVersionsChart = ({ stats }: { stats: StatsResult }) => {
         <TanstackChart
           definition={definition}
           ariaLabel={t("os-flatpak-version-distribution")}
-          height={Math.max(300, data.length * 40) + 60}
+          ariaDescription={t("chart-description", {
+            chart: t("os-flatpak-version-distribution"),
+          })}
+          height={Math.max(320, data.length * 42)}
           className="w-full"
         />
         <ChartLegendItems
-          items={fpVersions.map((version, index) => ({
-            label: version,
+          items={fpVersions.map((label, index) => ({
+            label,
             color: CHART_COLORS[index % CHART_COLORS.length],
           }))}
         />

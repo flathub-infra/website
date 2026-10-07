@@ -4,10 +4,18 @@ import { tooltip } from "@tanstack/charts/tooltip"
 import { rectangleFocusStates } from "./rectangle-focus"
 
 export function createCategoryDistributionChart(
-  data: { name: string; value: number }[],
+  data: { id?: string; name: string; value: number }[],
   locale: string,
   colors: readonly string[],
 ) {
+  const colorById = new Map(
+    [...data]
+      .sort((left, right) =>
+        (left.id ?? left.name).localeCompare(right.id ?? right.name),
+      )
+      .map((row, index) => [row.id ?? row.name, colors[index % colors.length]]),
+  )
+
   return defineChart({
     focusRing: false,
     marks: [
@@ -17,13 +25,10 @@ export function createCategoryDistributionChart(
         // Squarify can exceed the bounds by floating-point residue, which
         // TanStack Charts 1.0.0 rejects during responsive layout.
         method: "binary",
-        fill: (node) => {
-          const index = data.findIndex(
-            (entry) => entry.name === node.data?.name,
-          )
-          return colors[index % colors.length]
-        },
+        fill: (node) =>
+          colorById.get(node.data?.id ?? node.data?.name ?? "") ?? colors[0],
         label: (node) => node.data?.name ?? node.name,
+        labelPadding: 8,
         paddingInner: 2,
         states: rectangleFocusStates,
       }),

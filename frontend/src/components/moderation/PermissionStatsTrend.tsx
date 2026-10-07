@@ -6,6 +6,7 @@ import { defineChart, lineY } from "@tanstack/charts"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { tooltip } from "@tanstack/charts/tooltip"
+import { crosshair } from "@tanstack/charts/crosshair"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
   Card,
@@ -64,6 +65,7 @@ export default function PermissionStatsTrend({
         strokeWidth: 2,
         points: true,
       }),
+      crosshair({ x: { label: true }, y: false }),
     ],
     scales: {
       x: {
@@ -82,6 +84,8 @@ export default function PermissionStatsTrend({
         },
       },
     },
+    focus: "nearest-x",
+    maxFocusDistance: Number.POSITIVE_INFINITY,
     tooltip: {
       use: tooltip,
       content: (points) => ({
@@ -149,9 +153,8 @@ export default function PermissionStatsTrend({
             <div className="flex flex-col gap-4">
               <TanstackChart
                 definition={definition}
-                className="h-60 w-full"
+                className="h-[clamp(15rem,34vw,18rem)] w-full"
                 ariaLabel={`Monthly ${metric === "count" ? "app count" : "recorded permission share"} for ${entry.value}`}
-                height={240}
               />
               <details className="text-xs">
                 <summary className="cursor-pointer text-muted-foreground">

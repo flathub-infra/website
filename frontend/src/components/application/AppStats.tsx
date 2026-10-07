@@ -36,8 +36,10 @@ const AppStatistics: FunctionComponent<Props> = ({ stats }) => {
       <TanstackChart
         definition={definition}
         ariaLabel={t("installs-over-time")}
-        height={400}
-        className="min-h-[400px] w-full"
+        ariaDescription={t("chart-description", {
+          chart: t("installs-over-time"),
+        })}
+        className="h-[clamp(18rem,42vw,26rem)] w-full"
       />
     </div>
   )
