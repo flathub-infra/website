@@ -3,7 +3,7 @@ import json
 import logging
 import re
 from dataclasses import asdict
-from typing import Annotated, Literal, NoReturn, Self, TypedDict
+from typing import Annotated, Any, Literal, NoReturn, Self, TypedDict
 
 import httpx
 from fastapi import HTTPException
@@ -21,6 +21,7 @@ from .ostree_permissions import (
 )
 from .permission_snapshot import (
     CANONICALIZATION_VERSION,
+    PermissionSnapshot,
     PermissionSnapshotError,
     compare_snapshots,
     fingerprint_snapshot,
@@ -91,8 +92,9 @@ class CandidateAssessmentResponse(BaseModel):
     assessment_id: int
     candidate_identity: CandidateIdentity
     snapshot_fingerprint: str | None
-    outcome: Literal["pending", "error"]
-    acceptance_basis: None = None
+    outcome: Literal["accepted", "pending", "error"]
+    acceptance_basis: Literal["baseline"] | None = None
+    baseline_id: int | None = None
     review_url: None = None
     mode: Literal["observational"] = "observational"
     canonicalization_version: Literal[2, 3] = 3
@@ -117,6 +119,8 @@ def _response(
         ),
         snapshot_fingerprint=row.fingerprint,
         outcome=row.outcome,
+        acceptance_basis=row.acceptance_basis,
+        baseline_id=row.baseline_id,
         canonicalization_version=row.canonicalization_version,
         assessment_identity=row.assessment_identity,
         expected_arches=row.expected_arches,
@@ -157,6 +161,27 @@ def _persist_observation(values: dict[str, object]) -> CandidateAssessmentRespon
         },
     )
     return response
+
+
+def _stored_baseline(request: CandidateAssessmentRequest) -> dict[str, Any] | None:
+    baseline = models.PermissionBaseline
+    with get_db("writer") as db:
+        row = db.session.execute(
+            select(baseline).where(
+                baseline.app_id == request.app_id,
+                baseline.channel == request.destination_channel,
+                baseline.flatpak_branch == request.flatpak_branch,
+                baseline.canonicalization_version == CANONICALIZATION_VERSION,
+            )
+        ).scalar_one_or_none()
+        if row is None:
+            return None
+        return {
+            "id": row.id,
+            "snapshot": row.snapshot,
+            "artifacts": row.artifacts,
+            "fingerprint": row.fingerprint,
+        }
 
 
 def _linked_assessment(
@@ -380,6 +405,9 @@ def assess_candidate(
     checks: list[_BuildCheck] = []
     candidate: CollectedPermissions | None = None
     published: CollectedPermissions | None = None
+    baseline: dict[str, Any] | None = None
+    comparison: PermissionSnapshot | None = None
+    comparison_artifacts: list[dict[str, Any]] = []
     fingerprint: str | None = None
     published_fingerprint: str | None = None
     differences: list[_PermissionDifference] | None = None
@@ -432,20 +460,31 @@ def assess_candidate(
             expected_arches=set(request.expected_arches),
             expected_commits=final,
         )
-        try:
-            published = collect_permissions(
-                repository_url=published_repo_url,
-                app_id=request.app_id,
-                flatpak_branch=request.flatpak_branch,
-            )
-        except PermissionSnapshotError as exc:
-            if exc.code != "missing_baseline":
-                raise
-        if published is not None:
-            published_fingerprint = fingerprint_snapshot(published.snapshot)
+        baseline = _stored_baseline(request)
+        if baseline is not None:
+            comparison = PermissionSnapshot(**baseline["snapshot"])
+            comparison_artifacts = baseline["artifacts"]
+            published_fingerprint = fingerprint_snapshot(comparison)
+            if published_fingerprint != baseline["fingerprint"]:
+                _conflict("invalid_baseline", "Stored baseline fingerprint differs")
+        else:
+            try:
+                published = collect_permissions(
+                    repository_url=published_repo_url,
+                    app_id=request.app_id,
+                    flatpak_branch=request.flatpak_branch,
+                )
+            except PermissionSnapshotError as exc:
+                if exc.code != "missing_baseline":
+                    raise
+            if published is not None:
+                comparison = published.snapshot
+                comparison_artifacts = [asdict(item) for item in published.artifacts]
+                published_fingerprint = fingerprint_snapshot(comparison)
+        if comparison is not None:
             differences = [
                 {"path": item.path, "before": item.before, "after": item.after}
-                for item in compare_snapshots(published.snapshot, candidate.snapshot)
+                for item in compare_snapshots(comparison, candidate.snapshot)
             ]
         fingerprint = fingerprint_snapshot(candidate.snapshot)
     except PermissionSnapshotError as exc:
@@ -459,7 +498,9 @@ def assess_candidate(
                 detail="permission_repository_unavailable",
             ) from exc
         error = exc
-        published = None
+        baseline = None
+        comparison = None
+        comparison_artifacts = []
         published_fingerprint = None
         differences = None
 
@@ -477,12 +518,15 @@ def assess_candidate(
             identity, sort_keys=True, separators=(",", ":"), ensure_ascii=True
         ).encode("utf-8")
     ).hexdigest()
+    accepted = error is None and baseline is not None and differences == []
     values = request.model_dump(
         exclude={"matrix_succeeded", "destination_repo", "destination_channel"}
     )
     values.update(
         assessment_identity=assessment_identity,
-        outcome="error" if error else "pending",
+        outcome="error" if error else "accepted" if accepted else "pending",
+        acceptance_basis="baseline" if accepted else None,
+        baseline_id=baseline["id"] if baseline is not None else None,
         base_revision=request.base_revision or "",
         intended_repo=request.destination_repo,
         intended_channel=request.destination_channel,
@@ -490,11 +534,9 @@ def assess_candidate(
         canonicalization_version=CANONICALIZATION_VERSION,
         uploaded_refs=uploaded,
         candidate_artifacts=artifacts,
-        published_artifacts=[asdict(item) for item in published.artifacts]
-        if published
-        else [],
+        published_artifacts=comparison_artifacts,
         candidate_snapshot=asdict(candidate.snapshot) if candidate else None,
-        published_snapshot=asdict(published.snapshot) if published else None,
+        published_snapshot=asdict(comparison) if comparison else None,
         fingerprint=fingerprint,
         published_fingerprint=published_fingerprint,
         differences=differences,

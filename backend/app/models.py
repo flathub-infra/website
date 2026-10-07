@@ -2494,6 +2494,8 @@ class PermissionAssessmentObservation(Base):
         Integer, ForeignKey("permissionassessmentobservation.id")
     )
     linked_fingerprint_match = mapped_column(Boolean)
+    acceptance_basis = mapped_column(String)
+    baseline_id = mapped_column(Integer, ForeignKey("permissionbaseline.id"))
     fingerprint = mapped_column(String)
     published_fingerprint = mapped_column(String)
     error_code = mapped_column(String)
@@ -2501,7 +2503,7 @@ class PermissionAssessmentObservation(Base):
 
     __table_args__ = (
         CheckConstraint(
-            "(outcome = 'pending' AND candidate_snapshot IS NOT NULL "
+            "(outcome IN ('pending', 'accepted') AND candidate_snapshot IS NOT NULL "
             "AND fingerprint IS NOT NULL AND error_code IS NULL "
             "AND error_message IS NULL) OR "
             "(outcome = 'error' AND fingerprint IS NULL "
@@ -2528,6 +2530,13 @@ class PermissionAssessmentObservation(Base):
         CheckConstraint(
             "linked_assessment_id IS NOT NULL OR linked_fingerprint_match IS NULL",
             name="permissionassessmentobservation_linked_match",
+        ),
+        CheckConstraint(
+            "(outcome = 'accepted' AND acceptance_basis IS NOT NULL "
+            "AND acceptance_basis = 'baseline' AND differences IS NOT NULL "
+            "AND baseline_id IS NOT NULL AND differences = '[]'::jsonb) OR "
+            "(outcome <> 'accepted' AND acceptance_basis IS NULL)",
+            name="permissionassessmentobservation_acceptance",
         ),
         CheckConstraint(
             "(candidate_snapshot IS NOT NULL "

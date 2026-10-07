@@ -10,6 +10,11 @@ from app import config
 from app.moderation import permission_assessment as assessment
 from app.moderation import permission_assessment_api as api
 from app.moderation.ostree_permissions import collect_permissions
+from app.moderation.permission_snapshot import (
+    CANONICALIZATION_VERSION,
+    PermissionSnapshot,
+    fingerprint_snapshot,
+)
 from tests.shared_fixtures import APP, ARM, REF, SourceRepo
 
 SECRET = "permission-assessment-test-secret-32-bytes"
@@ -123,6 +128,7 @@ def observed(monkeypatch):
         return assessment._response(SimpleNamespace(id=len(rows), **values))
 
     monkeypatch.setattr(assessment, "_persist_observation", persist)
+    monkeypatch.setattr(assessment, "_stored_baseline", lambda request: None)
     return rows
 
 
@@ -533,3 +539,105 @@ def test_push_records_linked_assessment(test_branch_source, observed, monkeypatc
     assert response.linked_fingerprint_match is True
     assert observed[0]["candidate_kind"] == "push"
     assert observed[0]["linked_assessment_id"] == 41
+
+
+def stored_baseline(monkeypatch, architectures, fingerprint=None):
+    snapshot = PermissionSnapshot(CANONICALIZATION_VERSION, architectures)
+    baseline = {
+        "id": 12,
+        "snapshot": {
+            "canonicalization_version": CANONICALIZATION_VERSION,
+            "architectures": architectures,
+        },
+        "artifacts": [
+            {"ref_name": REF, "arch": "x86_64", "commit": "e" * 64},
+            {"ref_name": ARM, "arch": "aarch64", "commit": "f" * 64},
+        ],
+        "fingerprint": fingerprint or fingerprint_snapshot(snapshot),
+    }
+    requests = []
+
+    def lookup(request):
+        requests.append(request)
+        return baseline
+
+    monkeypatch.setattr(assessment, "_stored_baseline", lookup)
+    return baseline, requests
+
+
+NETWORK = {"Context": {"shared": ["network"]}}
+
+
+def test_matching_baseline_accepts_candidate(
+    test_branch_source, observed, monkeypatch, tmp_path
+):
+    baseline, requests = stored_baseline(
+        monkeypatch, {"x86_64": NETWORK, "aarch64": NETWORK}
+    )
+    monkeypatch.setattr(
+        config.settings, "repo_url", (tmp_path / "unavailable").as_uri()
+    )
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert [request.destination_channel for request in requests] == ["stable"]
+    assert response.outcome == "accepted"
+    assert response.acceptance_basis == "baseline"
+    assert response.baseline_id == 12
+    assert response.differences == []
+    row = observed[0]
+    assert row["published_artifacts"] == baseline["artifacts"]
+    assert row["published_fingerprint"] == baseline["fingerprint"]
+    assert row["published_snapshot"] == baseline["snapshot"]
+
+
+def test_baseline_difference_needs_review_even_for_removals(
+    test_branch_source, observed, monkeypatch
+):
+    stored_baseline(
+        monkeypatch,
+        {
+            "x86_64": {"Context": {"shared": ["ipc", "network"]}},
+            "aarch64": NETWORK,
+        },
+    )
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert response.outcome == "pending"
+    assert response.acceptance_basis is None
+    assert response.baseline_id == 12
+    assert response.differences == [
+        {
+            "path": ("x86_64", "Context", "shared"),
+            "before": ["ipc", "network"],
+            "after": ["network"],
+        }
+    ]
+
+
+def test_inconsistent_baseline_is_an_error(test_branch_source, observed, monkeypatch):
+    stored_baseline(monkeypatch, {"x86_64": NETWORK, "aarch64": NETWORK}, "0" * 64)
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert response.outcome == "error"
+    assert response.error_code == "invalid_baseline"
+    assert response.baseline_id is None
+    assert observed[0]["published_snapshot"] is None
+
+
+def test_matching_live_repo_without_baseline_stays_pending(
+    test_branch_source, observed, monkeypatch, tmp_path
+):
+    published = SourceRepo(tmp_path / "identical")
+    published.commit(REF, "[Context]\nshared=network;\n")
+    published.commit(ARM, "[Context]\nshared=network;\n")
+    monkeypatch.setattr(config.settings, "repo_url", published.url)
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert response.outcome == "pending"
+    assert response.differences == []
+    assert response.acceptance_basis is None
+    assert response.baseline_id is None
