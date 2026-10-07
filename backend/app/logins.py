@@ -1179,6 +1179,34 @@ def continue_oauth_flow(
             # in then create a user
             user = login.user
             if user is None:
+                if provider_data.email:
+                    try:
+                        provider_email = normalize_login_email(provider_data.email)
+                    except ValueError:
+                        provider_email = None
+                    if provider_email:
+                        lock_email(db, provider_email)
+                        email_account = db.session.scalar(
+                            select(models.EmailAccount.id).where(
+                                models.EmailAccount.email == provider_email
+                            )
+                        )
+                        if email_account is not None or oauth_email_exists(
+                            db, provider_email
+                        ):
+                            _log_login_failure(
+                                request,
+                                login,
+                                method,
+                                "Provider email is already associated with a Flathub account",
+                            )
+                            return JSONResponse(
+                                {
+                                    "state": "error",
+                                    "error": "oauth-account-email-already-used",
+                                },
+                                status_code=409,
+                            )
                 user = models.FlathubUser(
                     display_name=provider_data.name,
                     default_account=account_model.provider,

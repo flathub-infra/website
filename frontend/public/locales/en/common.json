@@ -92,6 +92,7 @@
   "open-login-provider": "Open {provider}",
   "back-to-login": "Back to login",
   "error-already-logged-in": "The selected account is already logged in.",
+  "oauth-account-email-already-used": "This email is already associated with a Flathub account. Sign in using your previous login method (email or provider), then link this provider from Settings. Flathub accounts cannot be merged automatically.",
   "failed-to-load-refresh": "The resource failed to load. Try refreshing.",
   "loading-user-apps": "Loading user apps…",
   "authored-apps": "Authored apps",
