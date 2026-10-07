@@ -25,7 +25,7 @@ export default function DistroSetupClient({ distroData, locale }: Props) {
     },
     {
       name: translatedDistroName,
-      href: `/setup/${encodeURIComponent(distroData.name)}`,
+      href: `/setup/${encodeURIComponent(distroData.slug ?? distroData.name)}`,
       current: true,
     },
   ]
