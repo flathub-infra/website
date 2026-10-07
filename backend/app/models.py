@@ -2554,6 +2554,41 @@ class PermissionAssessmentObservation(Base):
     )
 
 
+class PermissionBaseline(Base):
+    __tablename__ = "permissionbaseline"
+
+    id = mapped_column(Integer, primary_key=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    app_id = mapped_column(String, nullable=False)
+    channel = mapped_column(String, nullable=False)
+    flatpak_branch = mapped_column(String, nullable=False)
+    source = mapped_column(String, nullable=False)
+    repository_url = mapped_column(String, nullable=False)
+    captured_at = mapped_column(DateTime, nullable=False)
+    canonicalization_version = mapped_column(Integer, nullable=False)
+    artifacts = mapped_column(JSONB, nullable=False)
+    snapshot = mapped_column(JSONB, nullable=False)
+    fingerprint = mapped_column(String, nullable=False)
+
+    __table_args__ = (
+        CheckConstraint(
+            "source = 'initialized'",
+            name="permissionbaseline_source",
+        ),
+        CheckConstraint(
+            "jsonb_typeof(artifacts) = 'array' AND artifacts <> '[]'::jsonb",
+            name="permissionbaseline_artifacts",
+        ),
+        Index(
+            "permissionbaseline_scope_unique",
+            app_id,
+            channel,
+            flatpak_branch,
+            unique=True,
+        ),
+    )
+
+
 class GuidelineCategory(Base):
     """A category of quality guidelines for an app"""
 
