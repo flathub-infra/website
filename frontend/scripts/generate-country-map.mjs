@@ -7,9 +7,9 @@ import { fileURLToPath } from "node:url"
 
 // Update the version and checksum together when adopting a new dataset.
 const sourceUrl =
-  "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_50m_admin_0_countries.geojson"
+  "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/v5.1.2/geojson/ne_10m_admin_0_countries_deu.geojson"
 const sourceSha256 =
-  "3e458fc036ad0a66411f2c1e6cac49c5d7bfb81cb1123bc513b22511a2b7fdeb"
+  "fc4d56c6bc256f779e0ba21579f81d64885f5296dba3c23c3e78a9b89a7aa0fb"
 const destination = fileURLToPath(
   new URL("../src/data/countries.topo.json", import.meta.url),
 )
@@ -45,7 +45,7 @@ try {
       "-dissolve",
       "countryCode",
       "-simplify",
-      "10%",
+      "1.5%",
       "keep-shapes",
       "-o",
       "format=topojson",
@@ -57,7 +57,7 @@ try {
   const topology = JSON.parse(await readFile(output, "utf8"))
   const geometries = topology.objects.countries.geometries
   const codes = geometries.map((country) => country.properties.countryCode)
-  if (new Set(codes).size !== 237 || codes.length !== 237) {
+  if (new Set(codes).size !== 239 || codes.length !== 239) {
     throw new Error(`Unexpected country coverage: ${codes.length}`)
   }
   await writeFile(destination, `${JSON.stringify(topology)}\n`)
