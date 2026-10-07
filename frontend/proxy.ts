@@ -67,7 +67,16 @@ export default async function proxy(request: NextRequest) {
 
     if (!authenticated) {
       const locale = pathname.split("/")[1] || "en"
-      const loginUrl = new URL(`/${locale}/login`, request.url)
+      const route = pathname.replace(`/${locale}`, "") || "/"
+      const developerRoute = [
+        "/developer-portal",
+        "/admin",
+        "/apps/new/register",
+      ].some((prefix) => route === prefix || route.startsWith(`${prefix}/`))
+      const loginUrl = new URL(
+        `/${locale}/login${developerRoute ? "/developer" : ""}`,
+        request.url,
+      )
       loginUrl.searchParams.set(
         "returnTo",
         pathname.replace(`/${locale}`, "") || "/",

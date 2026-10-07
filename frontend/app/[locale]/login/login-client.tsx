@@ -7,7 +7,6 @@ import LoginProviders from "../../../src/components/login/Providers"
 import { useUserContext } from "../../../src/context/user-info"
 import { getApiBaseUrl } from "../../../src/utils/api-url"
 import { Link, useRouter } from "src/i18n/navigation"
-import { Mail } from "lucide-react"
 
 import type { JSX } from "react"
 import type { LoginMethod } from "src/codegen"
@@ -16,6 +15,8 @@ interface LoginClientProps {
   providers: LoginMethod[]
   locale: string
   emailForm?: boolean
+  developerLogin?: boolean
+  embedded?: boolean
 }
 
 const RESEND_COOLDOWN_SECONDS = 60
@@ -24,6 +25,8 @@ const LoginClient = ({
   providers,
   locale,
   emailForm = false,
+  developerLogin = false,
+  embedded = false,
 }: LoginClientProps): JSX.Element => {
   const t = useTranslations()
   const user = useUserContext()
@@ -32,11 +35,6 @@ const LoginClient = ({
   const loginHref = returnTo
     ? `/login?returnTo=${encodeURIComponent(returnTo)}`
     : "/login"
-  const emailHref = returnTo
-    ? `/login/email?returnTo=${encodeURIComponent(returnTo)}`
-    : "/login/email"
-
-  const [emailLoginEnabled, setEmailLoginEnabled] = useState(false)
   const [email, setEmail] = useState("")
   const [submitState, setSubmitState] = useState<
     "idle" | "sending" | "sent" | "error"
@@ -50,26 +48,18 @@ const LoginClient = ({
   }, [locale])
 
   useEffect(() => {
-    // Already logged in, just redirect to userpage
-    if (user.info && !user.loading) {
+    // Let email-only users add a developer provider from the developer sign-in
+    // flow. Other signed-in users are already using a developer identity.
+    const hasProviderAccount = user.info
+      ? Object.entries(user.info.auths).some(
+          ([provider, account]) =>
+            provider !== "email" && account !== undefined && account !== null,
+        )
+      : false
+    if (user.info && !user.loading && (!developerLogin || hasProviderAccount)) {
       router.replace("/")
     }
-  }, [user, router])
-
-  useEffect(() => {
-    if (emailForm) return
-    let cancelled = false
-    fetch(`${getApiBaseUrl()}/auth/email/config`, { cache: "no-store" })
-      .then(async (res) => {
-        if (!res.ok) return
-        const data = await res.json()
-        if (!cancelled) setEmailLoginEnabled(data.enabled === true)
-      })
-      .catch(() => {})
-    return () => {
-      cancelled = true
-    }
-  }, [emailForm])
+  }, [user, router, developerLogin])
 
   useEffect(() => {
     if (cooldown <= 0) return
@@ -112,36 +102,41 @@ const LoginClient = ({
   return (
     <div className="flex flex-col items-center">
       {!emailForm && (
-        <LoginProviders providers={providers}>
-          {emailLoginEnabled && (
-            <Link
-              href={emailHref}
-              className="flex w-full flex-row items-center justify-start gap-3 rounded-xl bg-flathub-white p-5 font-bold text-inherit shadow-md transition-colors hover:bg-flathub-gainsborow dark:bg-flathub-arsenic dark:hover:bg-flathub-sonic-silver"
-            >
-              <div className="flex h-16 w-16 items-center justify-center">
-                <Mail size={48} strokeWidth={1.5} />
-              </div>
-              {t("email-login-log-in-with-email")}
-            </Link>
-          )}
-        </LoginProviders>
+        <LoginProviders providers={providers} compact={developerLogin} />
       )}
       {emailForm && (
         <form
-          className="flex w-full flex-col gap-3 p-5 sm:w-[400px]"
+          className={
+            embedded
+              ? "flex w-full flex-col gap-3"
+              : "flex w-full flex-col gap-3 p-5 sm:w-[400px]"
+          }
           onSubmit={submitEmail}
         >
-          <h2 className="text-xl font-bold">{t("email-login-with-email")}</h2>
-          {submitState === "sent" && <p>{t("email-login-check-your-inbox")}</p>}
+          {!embedded && (
+            <h2 className="text-xl font-bold">{t("email-login-with-email")}</h2>
+          )}
+          {submitState === "sent" && (
+            <p
+              role="status"
+              className="rounded-xl bg-flathub-celestial-blue/10 p-4 text-sm leading-relaxed"
+            >
+              {t("email-login-check-your-inbox")}
+            </p>
+          )}
+          <label htmlFor="login-email" className="text-sm font-semibold">
+            {t("email-login-email-address")}
+          </label>
           <input
+            id="login-email"
+            name="email"
             className={
-              "rounded-xl bg-flathub-white p-3 shadow-md dark:bg-flathub-arsenic " +
-              "placeholder:opacity-50 dark:placeholder:opacity-40"
+              "rounded-xl border border-flathub-sonic-silver/40 bg-flathub-white p-3.5 dark:border-flathub-gainsborow/25 dark:bg-flathub-arsenic " +
+              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flathub-celestial-blue"
             }
             type="email"
             required
             value={email}
-            placeholder={t("email-login-email-address")}
             autoComplete="email"
             onChange={(e) => {
               setEmail(e.target.value)
@@ -149,7 +144,7 @@ const LoginClient = ({
             }}
           />
           <button
-            className="flex flex-row items-center justify-center rounded-xl bg-flathub-celestial-blue p-3 font-bold text-flathub-white transition-colors hover:bg-flathub-celestial-blue-dark dark:hover:bg-flathub-celestial-blue-light disabled:cursor-not-allowed disabled:opacity-40"
+            className="mt-1 flex flex-row items-center justify-center rounded-xl bg-flathub-celestial-blue p-3.5 font-bold text-flathub-white transition-colors hover:bg-flathub-celestial-blue-dark dark:hover:bg-flathub-celestial-blue-light focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-flathub-celestial-blue disabled:cursor-not-allowed disabled:opacity-40"
             type="submit"
             disabled={submitState === "sending" || cooldown > 0}
           >
@@ -160,13 +155,13 @@ const LoginClient = ({
                 : t("email-login-send-link")}
           </button>
           {submitState === "error" && (
-            <p className="text-sm text-flathub-red">
+            <p role="alert" className="text-sm text-flathub-red">
               {t("network-error-try-again")}
             </p>
           )}
         </form>
       )}
-      {emailForm && (
+      {emailForm && !embedded && (
         <Link href={loginHref} className="text-flathub-celestial-blue">
           {t("email-login-other-methods")}
         </Link>

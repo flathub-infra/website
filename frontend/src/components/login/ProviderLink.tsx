@@ -17,11 +17,13 @@ import { LoginMethod } from "src/codegen"
 interface Props {
   provider: LoginMethod
   inACard?: boolean
+  compact?: boolean
 }
 
 const ProviderLink: FunctionComponent<Props> = ({
   provider,
   inACard = false,
+  compact = false,
 }) => {
   const t = useTranslations()
   const router = useRouter()
@@ -93,14 +95,23 @@ const ProviderLink: FunctionComponent<Props> = ({
     <button
       className={clsx(
         "flex w-full flex-row items-center justify-start gap-3 font-bold",
-        "p-5 transition-colors hover:cursor-pointer",
+        "transition-colors hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-flathub-celestial-blue",
+        compact
+          ? "gap-4 border border-flathub-sonic-silver/20 p-4 dark:border-flathub-gainsborow/15"
+          : "p-5",
         inACard
           ? "bg-flathub-gainsborow/40 hover:bg-flathub-gainsborow/70 dark:bg-flathub-gainsborow/10 dark:hover:bg-flathub-gainsborow/20 rounded-lg"
           : "bg-flathub-white hover:bg-flathub-gainsborow dark:bg-flathub-arsenic dark:hover:bg-flathub-sonic-silver rounded-xl shadow-md",
       )}
       onClick={onClick}
     >
-      <div className="flex h-16 w-16 items-center justify-center">
+      <div
+        className={
+          compact
+            ? "flex size-8 shrink-0 items-center justify-center [&>svg]:size-8"
+            : "flex h-16 w-16 items-center justify-center"
+        }
+      >
         {provider.method === "github" && <GithubLogo />}
         {provider.method === "google" && <GoogleLogo />}
         {provider.method === "gnome" && <GnomeLogo />}
