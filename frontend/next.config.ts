@@ -11,6 +11,7 @@ const buildId = process.env.GITHUB_SHA
 
 const CONTENT_SECURITY_POLICY = `
   base-uri 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
+  object-src 'none';
   form-action 'none';
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self' https://dl.flathub.org;
