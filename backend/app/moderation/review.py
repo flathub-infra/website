@@ -494,10 +494,10 @@ def _sort_json_lists(value: JSONValue) -> JSONValue:
     if isinstance(value, list):
         strings = [item for item in value if isinstance(item, str)]
         if len(strings) == len(value):
-            return sorted(strings)
+            return [item for item in sorted(strings)]
         numbers = [item for item in value if isinstance(item, (int, float, bool))]
         if len(numbers) == len(value):
-            return sorted(numbers)
+            return [item for item in sorted(numbers)]
         return [_sort_json_lists(item) for item in value if is_json_value(item)]
     return value
 
@@ -1198,7 +1198,7 @@ def _log_manifest_source_gate(
         {source for finding in findings for source in finding.sources_removed}
     )
     affected_arches = sorted({arch for finding in findings for arch in finding.arches})
-    extra: dict[str, JSONValue] = {
+    extra: dict[str, object] = {
         "build_id": review_request.build_id,
         "job_id": review_request.job_id,
         "app_id": app_id,
@@ -1848,8 +1848,16 @@ def submit_review_request(
                             },
                         )
             if extra_data_values is not None:
-                summary_current_values["extra-data"], summary_keys["extra-data"] = (
-                    extra_data_values
+                current_extra, build_extra = extra_data_values
+                summary_current_values["extra-data"] = (
+                    current_extra
+                    if isinstance(current_extra, bool)
+                    else [item for item in current_extra]
+                )
+                summary_keys["extra-data"] = (
+                    build_extra
+                    if isinstance(build_extra, bool)
+                    else [item for item in build_extra]
                 )
 
             if (
@@ -1926,8 +1934,10 @@ def submit_review_request(
             )
             for field in ("eol", "eol-rebase"):
                 if current_eol_values_app[field] != build_eol_values_app[field]:
-                    summary_current_values[field] = current_eol_values_app[field]
-                    summary_keys[field] = build_eol_values_app[field]
+                    summary_current_values[field] = [
+                        item for item in current_eol_values_app[field]
+                    ]
+                    summary_keys[field] = [item for item in build_eol_values_app[field]]
 
         if len(summary_keys) > 0:
             summary_keys = sort_lists_in_dict(summary_keys)

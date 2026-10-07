@@ -55,11 +55,12 @@ def add_to_search(
     if not isinstance(project_license, str):
         project_license = ""
 
-    categories = app.get("categories", [])
-    if not isinstance(categories, list) or not all(
-        isinstance(category, str) for category in categories
-    ):
-        categories = []
+    raw_categories = app.get("categories", [])
+    categories = (
+        [category for category in raw_categories if isinstance(category, str)]
+        if isinstance(raw_categories, list)
+        else []
+    )
     main_categories = [
         category for category in categories if category.lower() in all_main_categories
     ]
@@ -119,7 +120,7 @@ def add_to_search(
     bundle = bundle_value if is_json_object(bundle_value) else {}
 
     # order of the dict is important for attribute ranking
-    return {
+    document = {
         "id": utils.get_clean_app_id(app_id),
         "type": app_type,
         "name": app["name"],
@@ -149,6 +150,9 @@ def add_to_search(
         "verification_timestamp": metadata.get("flathub::verification::timestamp"),
         "runtime": bundle.get("runtime"),
     }
+    if not is_json_object(document):
+        raise TypeError("Search document must be a JSON object")
+    return document
 
 
 def load_appstream(sqldb) -> None:
@@ -185,7 +189,12 @@ def load_appstream(sqldb) -> None:
         locales = app_data.pop("locales")
         content_rating_details = app_data.pop("content_rating_details", None)
 
-        categories = app.get("categories", [])
+        raw_categories = app.get("categories", [])
+        categories = (
+            [category for category in raw_categories if isinstance(category, str)]
+            if isinstance(raw_categories, list)
+            else []
+        )
         main_categories_list = [
             category
             for category in categories

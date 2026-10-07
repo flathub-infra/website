@@ -1,9 +1,8 @@
-from collections.abc import Mapping, Sequence
 from enum import StrEnum
 from typing import Literal, TypedDict, TypeGuard
 
 type JSONValue = (
-    None | bool | int | float | str | Sequence[JSONValue] | Mapping[str, JSONValue]
+    None | bool | int | float | str | list[JSONValue] | dict[str, JSONValue]
 )
 type JSONObject = dict[str, JSONValue]
 
@@ -13,11 +12,11 @@ def is_json_value(value: object) -> TypeGuard[JSONValue]:
         return True
     if isinstance(value, (bytes, bytearray, memoryview)):
         return False
-    if isinstance(value, Mapping):
+    if isinstance(value, dict):
         return all(
             isinstance(key, str) and is_json_value(item) for key, item in value.items()
         )
-    if isinstance(value, Sequence):
+    if isinstance(value, list):
         return all(is_json_value(item) for item in value)
     return False
 

@@ -131,7 +131,7 @@ async def get_appstream(
         examples=["org.gnome.Glade"],
     ),
     locale: str = "en",
-):
+) -> api_models.Appstream:
     """
     Get the AppStream metadata for a specific application.
 
@@ -273,7 +273,7 @@ async def get_summary(
         examples=["org.gnome.Glade"],
     ),
     branch: str | None = None,
-):
+) -> api_models.SummaryResponse:
     """
     Get summary information for a specific application.
 
@@ -330,7 +330,7 @@ async def get_summary(
 
             # FastAPI will automatically validate and convert this dict
             # to SummaryResponse based on response_model
-            return summary
+            return api_models.SummaryResponse.model_validate(summary)
 
         raise HTTPException(status_code=404, detail="App not found")
 

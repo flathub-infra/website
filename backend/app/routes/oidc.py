@@ -4,7 +4,6 @@ import html
 import json
 import logging
 import re
-from collections.abc import Mapping
 from datetime import UTC, datetime, timedelta
 from typing import cast
 from urllib.parse import quote, unquote_plus, urlencode, urlsplit
@@ -191,10 +190,10 @@ def _load_private_key_set() -> jwk.KeySet:
         500: {"description": "OIDC JWKS is not configured"},
     },
 )
-def jwks() -> dict[str, list[Mapping[str, JSONValue]]]:
+def jwks() -> dict[str, list[dict[str, str | list[str]]]]:
     key_set = _load_private_key_set()
 
-    keys: list[Mapping[str, JSONValue]] = []
+    keys: list[dict[str, str | list[str]]] = []
     for key in key_set:
         if key.key_type != "RSA":
             raise HTTPException(status_code=500, detail="OIDC JWKS is invalid")

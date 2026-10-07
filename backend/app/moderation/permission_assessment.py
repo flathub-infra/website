@@ -25,6 +25,7 @@ from .permission_snapshot import (
     compare_snapshots,
     fingerprint_snapshot,
 )
+from .permission_snapshot import JSONValue as PermissionJSONValue
 
 logger = logging.getLogger(__name__)
 
@@ -73,6 +74,12 @@ class CandidateIdentity(BaseModel):
     build_id: int
 
 
+class _PermissionDifference(TypedDict):
+    path: tuple[str, ...]
+    before: PermissionJSONValue
+    after: PermissionJSONValue
+
+
 class _BuildCheck(TypedDict):
     check_name: str
     status: int
@@ -92,7 +99,7 @@ class CandidateAssessmentResponse(BaseModel):
     assessment_identity: str
     expected_arches: list[str]
     published_comparison_available: bool
-    differences: list[dict[str, JSONValue]] | None
+    differences: list[_PermissionDifference] | None
     build_checks: list[_BuildCheck]
     linked_assessment_id: int | None = None
     linked_fingerprint_match: bool | None = None
@@ -375,7 +382,7 @@ def assess_candidate(
     published: CollectedPermissions | None = None
     fingerprint: str | None = None
     published_fingerprint: str | None = None
-    differences: list[dict[str, JSONValue]] | None = None
+    differences: list[_PermissionDifference] | None = None
     error: PermissionSnapshotError | None = None
     try:
         if not request.matrix_succeeded:
@@ -437,7 +444,7 @@ def assess_candidate(
         if published is not None:
             published_fingerprint = fingerprint_snapshot(published.snapshot)
             differences = [
-                asdict(item)
+                {"path": item.path, "before": item.before, "after": item.after}
                 for item in compare_snapshots(published.snapshot, candidate.snapshot)
             ]
         fingerprint = fingerprint_snapshot(candidate.snapshot)

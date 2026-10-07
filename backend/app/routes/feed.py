@@ -53,7 +53,9 @@ async def get_new_apps_feed():
 
 
 @cache.cached(ttl=600)
-async def generate_feed(column_name: str, title: str, description: str, link: str):
+async def generate_feed(
+    column_name: str, title: str, description: str, link: str
+) -> str:
     feed = FeedGenerator()
     feed.title(title)
     feed.description(description)

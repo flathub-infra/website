@@ -83,7 +83,9 @@ def add_translation(
 
     if language not in apps_locale:
         apps_locale[language] = {}
-    apps_locale[language][key] = value
+    apps_locale[language][key] = (
+        value if isinstance(value, str) else [item for item in value]
+    )
 
 
 def appstream2dict(

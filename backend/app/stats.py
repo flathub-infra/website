@@ -631,7 +631,7 @@ def _build_stats_dict_from_aggregates(
         days=30
     )
 
-    return {
+    result = {
         "totals": {
             "downloads": sum(global_dict["downloads_per_day"].values()),
             "number_of_apps": app_count,
@@ -646,6 +646,9 @@ def _build_stats_dict_from_aggregates(
         "flatpak_versions": flatpak_versions,
         "os_flatpak_versions": os_flatpak_versions,
     }
+    if not is_json_object(result):
+        raise TypeError("Statistics must be a JSON object")
+    return result
 
 
 def update(sqldb):
@@ -1602,6 +1605,8 @@ async def _build_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
         "platform_stats": platform_stats,
     }
 
+    if not is_json_object(base_result):
+        raise TypeError("Year-in-review statistics must be a JSON object")
     return base_result
 
 
@@ -1661,8 +1666,8 @@ async def _add_translations_to_year_in_review(
 
     def _apply_translations(
         items: list[dict[str, JSONValue]],
-    ) -> list[dict[str, JSONValue]]:
-        translated_items: list[dict[str, JSONValue]] = []
+    ) -> list[JSONValue]:
+        translated_items: list[JSONValue] = []
         for item in items:
             app_id = item["app_id"]
             if not isinstance(app_id, str):
