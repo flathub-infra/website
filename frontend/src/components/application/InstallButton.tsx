@@ -53,7 +53,7 @@ export default function InstallButton({
           <PopoverBackdrop className="fixed inset-0 z-10 bg-black opacity-30" />
           <PopoverButton
             className={clsx(
-              "hover:opacity-75 active:opacity-50",
+              "transition-colors hover:bg-flathub-celestial-blue-dark dark:hover:bg-flathub-celestial-blue-light",
               "bg-flathub-celestial-blue text-gray-100 dark:bg-flathub-celestial-blue",
               "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer shadow-xs",
               "w-full",
@@ -113,7 +113,7 @@ export default function InstallButton({
         href={`/apps/${appId}/install`}
         onClick={installClicked}
         className={clsx(
-          "hover:opacity-75 active:opacity-50",
+          "transition-colors hover:bg-flathub-celestial-blue-dark dark:hover:bg-flathub-celestial-blue-light",
           "bg-flathub-celestial-blue text-gray-100 dark:bg-flathub-celestial-blue",
           "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-s-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer shadow-xs",
           "w-full",
@@ -126,7 +126,7 @@ export default function InstallButton({
         <PopoverBackdrop className="fixed inset-0 z-10 bg-black opacity-30" />
         <PopoverButton
           className={clsx(
-            "hover:opacity-75 active:opacity-50",
+            "transition-colors hover:bg-flathub-celestial-blue-dark dark:hover:bg-flathub-celestial-blue-light",
             "bg-flathub-celestial-blue text-gray-100 dark:bg-flathub-celestial-blue",
             "ms-[1px] h-11 rounded-e-lg px-2 py-2 outline-0 focus:z-10 shadow-xs",
           )}

@@ -82,6 +82,7 @@
   --text-4xl--line-height: 1.5;
   /* // colors used via tailwind */
   --flathub-celestial-blue: 63.85% 0.1314 251.94;
+  --flathub-celestial-blue-light: 70% 0.1314 251.94;
   --flathub-celestial-blue-dark: 49.79% 0.1314 251.94;
   --flathub-electric-red: 57.01% 0.2339 29.23;
   --flathub-sunset-pink: 72% 0.18 15;

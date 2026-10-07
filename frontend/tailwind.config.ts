@@ -38,6 +38,8 @@ export default {
       colors: {
         "flathub-celestial-blue":
           "oklch(var(--flathub-celestial-blue) / <alpha-value>)",
+        "flathub-celestial-blue-light":
+          "oklch(var(--flathub-celestial-blue-light) / <alpha-value>)",
         "flathub-celestial-blue-dark":
           "oklch(var(--flathub-celestial-blue-dark) / <alpha-value>)",
         "flathub-electric-red":
