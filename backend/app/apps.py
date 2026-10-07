@@ -49,7 +49,7 @@ def add_to_search(
             keyword for keyword in search_keywords if isinstance(keyword, str)
         ]
     else:
-        search_keywords = []
+        search_keywords = None
 
     project_license = app.get("project_license", "")
     if not isinstance(project_license, str):
@@ -80,7 +80,7 @@ def add_to_search(
     app_type = "desktop-application" if app_type == "desktop" else app_type
 
     translations = {}
-    localized_keywords_set: set[str] = set(search_keywords)
+    localized_keywords_set: set[str] = set(search_keywords or [])
     for key, apps in apps_locale.items():
         if key in localize.LANGUAGES:
             if not is_json_object(apps):
@@ -122,9 +122,9 @@ def add_to_search(
     return {
         "id": utils.get_clean_app_id(app_id),
         "type": app_type,
-        "name": app.get("name"),
+        "name": app["name"],
         "isMobileFriendly": app.get("isMobileFriendly", False),
-        "summary": app.get("summary"),
+        "summary": app["summary"],
         "translations": translations,
         "keywords": search_keywords,
         "localized_keywords": localized_keywords,
@@ -132,7 +132,7 @@ def add_to_search(
         "is_free_license": AppStream.license_is_free_license(project_license),
         "app_id": app_id,
         "description": search_description,
-        "icon": app.get("icon"),
+        "icon": app["icon"],
         "main_categories": main_categories,
         "sub_categories": sub_categories,
         "developer_name": app.get("developer_name"),
@@ -167,7 +167,10 @@ def load_appstream(sqldb) -> None:
         if app_id in non_eol_apps:
             search_apps.append(add_to_search(app_id, app, locales))
 
-        if isinstance(developer_name := app.get("developer_name"), str):
+        if (
+            isinstance(developer_name := app.get("developer_name"), str)
+            and developer_name
+        ):
             models.Developers.create(sqldb, developer_name)
             developers.add(developer_name)
 

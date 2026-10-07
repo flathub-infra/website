@@ -370,7 +370,14 @@ def _update_documents_with_fallback(
 def _queue_hybrid_task(
     operation: Literal["update", "delete"], task: _MeilisearchTask
 ) -> bool:
-    task_uid = task.task_uid
+    task_uid = getattr(task, "task_uid", None)
+    if task_uid is None:
+        search_health.mark_hybrid_task_failed("unknown")
+        logger.error(
+            "Hybrid Meilisearch task was returned without a task identifier",
+            extra={"operation": operation},
+        )
+        return False
     try:
         monitor_hybrid_index_task.send(operation, task_uid)
     except Exception:

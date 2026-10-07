@@ -1797,10 +1797,8 @@ def submit_review_request(
                 current_extradata = extra_data if is_json_object(extra_data) else None
 
         if current_summary:
-            build_summary_value = build_summary.get(app_id)
-            build_summary_app = (
-                build_summary_value if is_json_object(build_summary_value) else {}
-            )
+            # Parsed summaries contain architecture sets until persisted as JSON.
+            build_summary_app = build_summary.get(app_id) or {}
             build_summary_metadata_value = build_summary_app.get("metadata")
             build_summary_metadata = (
                 build_summary_metadata_value
@@ -1911,7 +1909,7 @@ def submit_review_request(
                 build_arches_value = build_summary_app.get("arches", [])
                 build_arches = (
                     {value for value in build_arches_value if isinstance(value, str)}
-                    if isinstance(build_arches_value, list)
+                    if isinstance(build_arches_value, (list, set))
                     else set()
                 )
 

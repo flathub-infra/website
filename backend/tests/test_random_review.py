@@ -1005,11 +1005,12 @@ def test_permission_only_request_is_summary(monkeypatch):
         },
         build_summary={
             "org.example.App": {
+                "arches": set(),
                 "metadata": {
                     "permissions": {
                         "shared": ["network", "ipc"],
                     }
-                }
+                },
             }
         },
     )
@@ -1032,7 +1033,7 @@ def test_architecture_only_request_is_summary(monkeypatch):
         enabled=False,
         current_values=_unchanged_values(),
         current_summaries={"org.example.App": {"arches": ["x86_64"]}},
-        build_summary={"org.example.App": {"arches": ["aarch64", "x86_64"]}},
+        build_summary={"org.example.App": {"arches": {"aarch64", "x86_64"}}},
     )
 
     result = harness.call()
@@ -1045,6 +1046,23 @@ def test_architecture_only_request_is_summary(monkeypatch):
         "keys": {"arches": ["aarch64", "x86_64"]},
         "current_values": {"arches": ["x86_64"]},
     }
+
+
+def test_unchanged_parsed_summary_does_not_require_review(monkeypatch):
+    metadata = {"permissions": {"shared": ["network"]}}
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        current_summaries={
+            "org.example.App": {"arches": ["x86_64"], "metadata": metadata}
+        },
+        # parse_summary returns sets before the summary is serialized to JSON.
+        build_summary={"org.example.App": {"arches": {"x86_64"}, "metadata": metadata}},
+    )
+
+    assert harness.call().requires_review is False
+    assert harness.db.session.persisted == []
 
 
 def test_appstream_and_summary_changes_create_disjoint_requests(monkeypatch):

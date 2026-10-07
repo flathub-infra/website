@@ -97,14 +97,11 @@ def get_parent_id(app_id: str) -> str | None:
     return None
 
 
-def _is_eol_cache(value: object) -> TypeGuard[dict[str, dict[str, str]]]:
+def _is_eol_cache(value: object) -> TypeGuard[dict[str, dict[str, object]]]:
     return isinstance(value, dict) and all(
         isinstance(app, str)
         and isinstance(eol_data, dict)
-        and all(
-            isinstance(key, str) and isinstance(item, str)
-            for key, item in eol_data.items()
-        )
+        and all(isinstance(key, str) for key in eol_data)
         for app, eol_data in value.items()
     )
 
@@ -126,7 +123,10 @@ def parse_eol_data(
             and not app_id.endswith(".Sources")
         ):
             if "eolr" in eol_dict:
-                new_id = eol_dict["eolr"].split("/")[1]
+                rebase = eol_dict["eolr"]
+                if not isinstance(rebase, str):
+                    raise TypeError("Summary EOL rebase must be a string")
+                new_id = rebase.split("/")[1]
                 if new_id == app_id:
                     logger.warning(
                         "Skipping self-referential eolr for %s/%s", app_id, branch
@@ -139,7 +139,10 @@ def parse_eol_data(
                 else:
                     eol_rebase[new_id] = [f"{app_id}:{branch}"]
             elif "eol" in eol_dict:
-                eol_message[f"{app_id}:{branch}"] = eol_dict["eol"]
+                message = eol_dict["eol"]
+                if not isinstance(message, str):
+                    raise TypeError("Summary EOL message must be a string")
+                eol_message[f"{app_id}:{branch}"] = message
 
     while True:
         found = False

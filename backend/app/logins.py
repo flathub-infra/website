@@ -1014,9 +1014,9 @@ def _upgrade_email_user(
         refreshable = cast("_OAuthRefreshableAccount", account)
         refreshable.refresh_token = login_result["refresh_token"]
         expires_in = login_result.get("expires_in", "7200")
-        refreshable.token_expiry = utils.utcnow() + timedelta(
-            seconds=int(expires_in) if isinstance(expires_in, (str, int)) else 7200
-        )
+        if not isinstance(expires_in, (str, int, float)):
+            raise TypeError("OAuth token expiry must be numeric or a string")
+        refreshable.token_expiry = utils.utcnow() + timedelta(seconds=int(expires_in))
     db.add(account)
     email_account.disabled_at = utils.utcnow()
     db.session.execute(
