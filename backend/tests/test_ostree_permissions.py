@@ -12,7 +12,10 @@ gi.require_version("GLib", "2.0")
 from gi.repository import GLib  # type: ignore
 
 from app.moderation import ostree_permissions
-from app.moderation.ostree_permissions import collect_permissions
+from app.moderation.ostree_permissions import (
+    collect_permissions,
+    collect_published_permissions,
+)
 from app.moderation.permission_snapshot import (
     CANONICALIZATION_VERSION,
     PermissionSnapshotError,
@@ -303,4 +306,146 @@ def test_summary_index_rejects_unverifiable_subsummaries(indexed_source):
     path.unlink()
     with pytest.raises(PermissionSnapshotError) as error:
         collect(source)
+    assert error.value.code == "transport_error"
+
+
+OTHER = "org.example.Other"
+BROKEN = "org.example.Broken"
+
+
+@pytest.fixture
+def published_source(source):
+    commits = {
+        REF: source.commit(REF, "[Context]\nshared=network;\n"),
+        ARM: source.commit(ARM, "[Context]\nshared=ipc;\n"),
+        f"app/{APP}/x86_64/24.08": source.commit(
+            f"app/{APP}/x86_64/24.08", "[Context]\nsockets=x11;\n"
+        ),
+        f"app/{OTHER}/x86_64/stable": source.commit(
+            f"app/{OTHER}/x86_64/stable", "[Context]\ndevices=dri;\n", name=OTHER
+        ),
+        f"app/{BROKEN}/x86_64/stable": source.commit(
+            f"app/{BROKEN}/x86_64/stable", None, name=BROKEN
+        ),
+    }
+    source.commit(f"runtime/{APP}.Locale/x86_64/stable", "", name=f"{APP}.Locale")
+    return source, commits
+
+
+def summarize(result):
+    return {
+        (item.app_id, item.flatpak_branch): {
+            arch: permissions["Context"]
+            for arch, permissions in item.snapshot.architectures.items()
+        }
+        for item in result.collected
+    }
+
+
+@pytest.mark.parametrize("batch_size", [1, 2, 200])
+def test_published_permissions_cover_every_app_and_branch(published_source, batch_size):
+    source, commits = published_source
+    result = collect_published_permissions(
+        source.url, batch_size=batch_size, timeout_seconds=10
+    )
+    assert summarize(result) == {
+        (APP, "24.08"): {"x86_64": {"sockets": ["x11"]}},
+        (APP, "stable"): {
+            "aarch64": {"shared": ["ipc"]},
+            "x86_64": {"shared": ["network"]},
+        },
+        (OTHER, "stable"): {"x86_64": {"devices": ["dri"]}},
+    }
+    stable = next(
+        item
+        for item in result.collected
+        if (item.app_id, item.flatpak_branch) == (APP, "stable")
+    )
+    assert [(a.arch, a.commit) for a in stable.artifacts] == [
+        ("aarch64", commits[ARM]),
+        ("x86_64", commits[REF]),
+    ]
+    assert stable.captured_at == result.captured_at
+    assert [(f.app_id, f.flatpak_branch, f.code) for f in result.failures] == [
+        (BROKEN, "stable", "missing_metadata")
+    ]
+
+
+def test_published_permissions_filter_app_ids(published_source):
+    source, _ = published_source
+    result = collect_published_permissions(
+        source.url, app_ids={OTHER}, timeout_seconds=10
+    )
+    assert list(summarize(result)) == [(OTHER, "stable")]
+    assert result.failures == ()
+
+
+def test_unavailable_commit_fails_only_its_app(published_source, monkeypatch):
+    source, _ = published_source
+    list_refs = ostree_permissions._list_remote_refs
+
+    def unavailable(repo, cancellable):
+        refs = list_refs(repo, cancellable)
+        refs[f"app/{OTHER}/x86_64/stable"] = "a" * 64
+        return refs
+
+    monkeypatch.setattr(ostree_permissions, "_list_remote_refs", unavailable)
+    result = collect_published_permissions(source.url, timeout_seconds=10)
+    assert (APP, "stable") in summarize(result)
+    assert (OTHER, "stable") not in summarize(result)
+    assert [(f.app_id, f.code) for f in result.failures] == [
+        (BROKEN, "missing_metadata"),
+        (OTHER, "transport_error"),
+    ]
+
+
+def test_invalid_published_checksum_fails_its_app(published_source, monkeypatch):
+    source, _ = published_source
+    list_refs = ostree_permissions._list_remote_refs
+
+    def invalid(repo, cancellable):
+        refs = list_refs(repo, cancellable)
+        refs[f"app/{OTHER}/x86_64/stable"] = "bad"
+        return refs
+
+    monkeypatch.setattr(ostree_permissions, "_list_remote_refs", invalid)
+    result = collect_published_permissions(
+        source.url, app_ids={OTHER}, timeout_seconds=10
+    )
+    assert result.collected == ()
+    assert [(f.app_id, f.code) for f in result.failures] == [
+        (OTHER, "checksum_mismatch")
+    ]
+
+
+def test_published_permissions_use_summary_index(indexed_source):
+    source, x86, arm, subsummaries = indexed_source
+    write_summary_index(source, subsummaries)
+    result = collect_published_permissions(source.url, timeout_seconds=10)
+    assert [(a.arch, a.commit) for a in result.collected[0].artifacts] == [
+        ("aarch64", arm),
+        ("x86_64", x86),
+    ]
+
+
+@pytest.mark.parametrize(
+    "kwargs",
+    [
+        {"batch_size": 0},
+        {"batch_size": True},
+        {"timeout_seconds": 0},
+        {"app_ids": {"a/b"}},
+    ],
+)
+def test_published_permissions_reject_invalid_inputs(source, kwargs):
+    with pytest.raises(PermissionSnapshotError) as error:
+        collect_published_permissions(source.url, **kwargs)
+    assert error.value.code == "invalid_input"
+
+
+def test_published_permissions_listing_failure(tmp_path):
+    with pytest.raises(PermissionSnapshotError) as error:
+        collect_published_permissions(
+            (tmp_path / "unavailable").as_uri(), timeout_seconds=1
+        )
     assert error.value.code == "transport_error"
