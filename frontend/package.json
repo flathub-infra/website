@@ -121,7 +121,7 @@
     "playwright": "^1.62.1",
     "postcss": "^8.5.28",
     "prettier": "^3.9.9",
-    "prettier-plugin-tailwindcss": "^0.7.1",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "redis": "4.7.0",
     "storybook": "^10.6.0",
     "storybook-addon-mock-date": "^3.2.1",
