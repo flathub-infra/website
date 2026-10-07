@@ -15,4 +15,5 @@ export interface Screenshot {
   sizes: ScreenshotSize[]
   caption?: ScreenshotCaption
   default?: ScreenshotDefault
+  environment?: string | null
 }

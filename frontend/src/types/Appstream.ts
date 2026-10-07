@@ -14,6 +14,25 @@ export type AppstreamListItem = Pick<
 > &
   Partial<Pick<GetAppstreamAppstreamAppIdGet200, "bundle" | "is_eol">>
 
+export function screenshotsForTheme(
+  screenshots: Screenshot[] | null | undefined,
+  theme: string | undefined,
+): Screenshot[] {
+  const allScreenshots = screenshots ?? []
+  if (theme !== "light" && theme !== "dark") {
+    return allScreenshots
+  }
+
+  const matchingScreenshots = allScreenshots.filter(
+    (screenshot) =>
+      (screenshot.environment !== "light" &&
+        screenshot.environment !== "dark") ||
+      screenshot.environment === theme,
+  )
+
+  return matchingScreenshots.length > 0 ? matchingScreenshots : allScreenshots
+}
+
 /**
  * Always returns the biggest screenshot available, as the image proxy will resize it as needed.
  *

@@ -32,6 +32,7 @@ class Screenshot(BaseModel):
     sizes: list[ScreenshotSize]
     caption: str | None = None
     default: bool | None = None
+    environment: str | None = None
 
 
 class Release(BaseModel):

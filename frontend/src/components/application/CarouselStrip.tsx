@@ -3,7 +3,7 @@ import {
   ChevronLeftIcon,
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/solid"
-import { mapScreenshot } from "../../types/Appstream"
+import { mapScreenshot, screenshotsForTheme } from "../../types/Appstream"
 
 import Lightbox from "yet-another-react-lightbox"
 import Zoom from "yet-another-react-lightbox/plugins/zoom"
@@ -43,7 +43,10 @@ export const CarouselStrip = ({
   }, [])
 
   // Handle both array and dict formats for screenshots
-  const screenshotsArray = Array.isArray(app.screenshots) ? app.screenshots : []
+  const screenshotsArray = screenshotsForTheme(
+    Array.isArray(app.screenshots) ? app.screenshots : [],
+    resolvedTheme,
+  )
 
   const slides = screenshotsArray.map(mapScreenshot).map((screenshot) => {
     return {
