@@ -735,7 +735,9 @@
     "show-branding-preview": "Zobraziť náhľad značky",
     "light": "Svetlý",
     "dark": "Tmavý",
-    "stats-by-category": "Stav preskúmania podľa kategórie"
+    "stats-by-category": "Stav preskúmania podľa kategórie",
+    "last-edited": "Upravil {editor} · {time}",
+    "system-editor": "Systém"
   },
   "lightbox": {
     "close": "Zavrieť",
@@ -876,5 +878,29 @@
   "login-failed-try-again": "Nepodarilo sa prihlásiť. Skúste to znova.",
   "gitlab-terms-not-accepted": "Váš účet {provider} vyžaduje, aby ste prijali jeho podmienky používania služby. Otvorte {provider} v prehliadači, prijmite podmienky a potom sa skúste znova prihlásiť.",
   "open-login-provider": "Otvoriť {provider}",
-  "back-to-login": "Späť na prihlásenie"
+  "back-to-login": "Späť na prihlásenie",
+  "quality-metadata-changed": "Metadáta zmenené {time}",
+  "quality-metadata-changed-since-review": "Zmenené od kontroly kvality",
+  "display-name": "Zobrazované meno",
+  "display-name-updated": "Zobrazované meno aktualizované",
+  "display-name-invalid": "Zadajte zobrazované meno s dĺžkou 1–100 znakov, aspoň jedným viditeľným znakom a bez riadiacich alebo smerových znakov textu.",
+  "save": "Uložiť",
+  "remove-bookmark": "Odstrániť záložku",
+  "remove-from-favorites": "Odstrániť {app} zo záložiek",
+  "email-login-with-email": "Prihlásiť sa e-mailom",
+  "email-login-log-in-with-email": "Prihlásiť sa e-mailom",
+  "email-login-other-methods": "Iné spôsoby prihlásenia",
+  "email-login-email-address": "E-mailová adresa",
+  "email-login-send-link": "Poslať odkaz na prihlásenie e-mailom",
+  "email-login-sending": "Odosielanie…",
+  "email-login-resend-in": "Opätovné odoslanie dostupné za {seconds}s",
+  "email-login-check-your-inbox": "Ak je adresa platná, odkaz na prihlásenie je na ceste. Platnosť vyprší za 15 minút. Ak ste si účet vytvorili cez GitHub, GitLab, GNOME alebo KDE, prihláste sa namiesto toho cez daného poskytovateľa.",
+  "email-login-sign-in": "Prihlásiť sa",
+  "email-login-invalid-or-expired": "Tento odkaz na prihlásenie je neplatný alebo mu vypršala platnosť. Požiadajte o nový, aby ste mohli pokračovať.",
+  "email-login-request-new-link": "Vráťte sa na stránku prihlásenia a požiadajte o nový odkaz.",
+  "email-login-rate-limited": "Príliš veľa pokusov. Počkajte minútu a skúste to znova.",
+  "email-login-session-conflict": "V tomto prehliadači ste už prihlásený ako iný používateľ. Ak chcete použiť tento odkaz, najprv sa odhláste.",
+  "email-login-oauth-upgrade-required": "Táto akcia vyžaduje účet poskytovateľa. Pre pokračovanie prepojte v nastaveniach účet GitHub, GitLab, GNOME alebo KDE.",
+  "verified-email": "Overený e-mail",
+  "email-login-replaced": "Prihlasovanie e-mailom bolo pre tento účet trvalo nahradené prihlasovaním cez poskytovateľa."
 }
