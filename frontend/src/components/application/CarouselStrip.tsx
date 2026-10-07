@@ -59,7 +59,7 @@ export const CarouselStrip = ({
 
   return (
     <section
-      aria-label={t("screenshots")}
+      aria-label={t("quality-guideline.screenshots")}
       className="col-start-1 col-end-4 bg-flathub-gainsborow dark:bg-flathub-arsenic"
       style={{
         backgroundColor: (isHydrated ? brandingColor : fallbackBrandingColor)
