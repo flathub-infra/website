@@ -1,0 +1,28 @@
+{
+  "type": "desktop-application",
+  "id": "org.example.App",
+  "name": "Beispiel",
+  "summary": "Eine Beispiel-App",
+  "description": "<p>Example description</p>",
+  "releases": [],
+  "content_rating_details": {
+    "de_DE": {
+      "categories": [
+        {
+          "id": "violence",
+          "level": "unknown",
+          "description": null
+        }
+      ],
+      "contentRatingSystem": "USK",
+      "minimumAge": 3,
+      "minimumAgeText": "3"
+    }
+  },
+  "bundle": {
+    "value": "org.example.App",
+    "type": "flatpak"
+  },
+  "is_free_license": true,
+  "is_eol": false
+}

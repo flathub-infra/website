@@ -4,7 +4,7 @@ import json
 import logging
 from datetime import date, datetime, timedelta
 from math import ceil
-from typing import Any, ClassVar, Optional, Union, cast
+from typing import Any, ClassVar, Optional, TypedDict, Union, cast
 from uuid import uuid4
 
 from fastapi import HTTPException
@@ -20,6 +20,7 @@ from sqlalchemy import (
     Index,
     Integer,
     String,
+    Table,
     and_,
     case,
     delete,
@@ -43,6 +44,7 @@ from sqlalchemy.orm import (
 
 from . import utils
 from .db_session import DBSession
+from .types import JSONObject
 
 logger = logging.getLogger(__name__)
 
@@ -181,7 +183,7 @@ class FlathubUser(Base):
         "EmailAccount", uselist=False, back_populates="user_entity"
     )
 
-    TABLES_FOR_DELETE: ClassVar[list] = []
+    TABLES_FOR_DELETE: ClassVar[list[type[Base] | Table]] = []
 
     @property
     def login_disabled(self) -> bool:
@@ -3483,7 +3485,7 @@ class App(Base):
         return db.session.query(App).filter(App.app_id == app_id).first()
 
     @classmethod
-    def get_appstream(cls, db, app_id: str) -> dict | None:
+    def get_appstream(cls, db, app_id: str) -> JSONObject | None:
         app = (
             db.session.query(App.appstream, App.content_rating_details)
             .filter(App.app_id == app_id)
@@ -3497,7 +3499,7 @@ class App(Base):
         return None
 
     @classmethod
-    def get_content_rating_details(cls, db, app_id: str) -> dict | None:
+    def get_content_rating_details(cls, db, app_id: str) -> JSONObject | None:
         """
         Retrieve content rating details for a given app_id
         """
@@ -4232,7 +4234,7 @@ class Exceptions(Base):
     updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
 
     @classmethod
-    def set_exception(cls, db, app_id: str, value: dict) -> "Exceptions":
+    def set_exception(cls, db, app_id: str, value: JSONObject) -> "Exceptions":
         exception = db.query(cls).filter(cls.app_id == app_id).first()
 
         if exception:
@@ -4245,14 +4247,14 @@ class Exceptions(Base):
         return exception
 
     @classmethod
-    def get_exception(cls, db, app_id: str) -> dict | None:
+    def get_exception(cls, db, app_id: str) -> JSONObject | None:
         exception = db.query(cls).filter(cls.app_id == app_id).first()
         if exception:
             return exception.value
         return None
 
     @classmethod
-    def get_all_exceptions(cls, db) -> dict:
+    def get_all_exceptions(cls, db) -> dict[str, JSONObject]:
         exceptions = db.query(cls).all()
         return {exception.app_id: exception.value for exception in exceptions}
 
@@ -4358,6 +4360,14 @@ class AppExtensionLookup(Base):
         db.commit()
 
 
+class AppStatsData(TypedDict, total=False):
+    installs_total: int
+    installs_last_month: int
+    installs_last_7_days: int
+    installs_per_day: dict[str, int]
+    installs_per_country: dict[str, int]
+
+
 class AppStats(Base):
     __tablename__ = "app_stats"
 
@@ -4372,8 +4382,12 @@ class AppStats(Base):
     installs_last_7_days: Mapped[int] = mapped_column(
         Integer, nullable=False, server_default=text("0")
     )
-    installs_per_day: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
-    installs_per_country: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    installs_per_day: Mapped[dict[str, int] | None] = mapped_column(
+        JSONB, nullable=True
+    )
+    installs_per_country: Mapped[dict[str, int] | None] = mapped_column(
+        JSONB, nullable=True
+    )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )
@@ -4388,7 +4402,7 @@ class AppStats(Base):
         return db.query(cls).filter(cls.app_id == app_id).first()
 
     @classmethod
-    def set_stats(cls, db, app_id: str, stats_data: dict) -> "AppStats":
+    def set_stats(cls, db, app_id: str, stats_data: AppStatsData) -> "AppStats":
         app_stats = db.query(cls).filter(cls.app_id == app_id).first()
 
         if app_stats:
@@ -4413,11 +4427,11 @@ class AppStats(Base):
         return app_stats
 
     @classmethod
-    def bulk_set_stats(cls, db, stats_dict: dict[str, dict]) -> None:
+    def bulk_set_stats(cls, db, stats_dict: dict[str, AppStatsData]) -> None:
         for app_id, stats_data in stats_dict.items():
             cls.set_stats(db, app_id, stats_data)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> AppStatsData:
         return {
             "installs_total": self.installs_total,
             "installs_last_month": self.installs_last_month,
@@ -4431,7 +4445,7 @@ class YearInReviewStats(Base):
     __tablename__ = "year_in_review_stats"
 
     year: Mapped[int] = mapped_column(Integer, primary_key=True)
-    data: Mapped[dict] = mapped_column(JSONB, nullable=False)
+    data: Mapped[JSONObject] = mapped_column(JSONB, nullable=False)
     computed_at: Mapped[datetime] = mapped_column(
         DateTime,
         nullable=False,
@@ -4444,7 +4458,7 @@ class YearInReviewStats(Base):
         return db.query(cls).filter(cls.year == year).first()
 
     @classmethod
-    def set_for_year(cls, db, year: int, data: dict) -> "YearInReviewStats":
+    def set_for_year(cls, db, year: int, data: JSONObject) -> "YearInReviewStats":
         record = cls.get_for_year(db, year)
 
         if record:
@@ -4512,7 +4526,7 @@ class AuditLog(Base):
     provider: Mapped[str | None] = mapped_column(String, nullable=True)
     ip_address: Mapped[str | None] = mapped_column(String, nullable=True)
     user_agent: Mapped[str | None] = mapped_column(String, nullable=True)
-    details: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    details: Mapped[JSONObject | None] = mapped_column(JSONB, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now(), index=True
     )
@@ -4534,7 +4548,7 @@ class AuditLog(Base):
         provider: str | None = None,
         ip_address: str | None = None,
         user_agent: str | None = None,
-        details: dict | None = None,
+        details: JSONObject | None = None,
     ) -> "AuditLog":
         entry = cls(
             user_id=user_id,

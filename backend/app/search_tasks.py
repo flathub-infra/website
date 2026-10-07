@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Literal
+from typing import Literal
 
 import dramatiq
 
@@ -89,7 +89,7 @@ def reconcile_hybrid_index(attempt: int = 0) -> None:
 def monitor_hybrid_index_task(
     operation: HybridOperation,
     task_uid: int | None,
-    payload: list[Any] | None = None,
+    payload: list[object] | None = None,
     failure_task_uid: int | str | None = None,
     attempt: int = 0,
 ) -> None:

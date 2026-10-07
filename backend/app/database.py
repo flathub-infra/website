@@ -1,5 +1,5 @@
 from contextlib import contextmanager
-from typing import Literal, cast
+from typing import Literal
 
 import orjson
 import redis.asyncio as aioredis
@@ -155,12 +155,14 @@ def get_json_key(key: str):
     from .worker.redis import redis_conn
 
     if value := redis_conn.get(key):
-        return orjson.loads(cast("str | bytes", value))
+        if not isinstance(value, (str, bytes, bytearray, memoryview)):
+            raise TypeError("Redis JSON value must be text or bytes")
+        return orjson.loads(value)
 
     return None
 
 
-def bulk_set_app_stats(stats_dict: dict[str, dict]):
+def bulk_set_app_stats(stats_dict: dict[str, models.AppStatsData]) -> None:
     """Bulk set app stats in PostgreSQL"""
     with get_db("writer") as sqldb:
         models.AppStats.bulk_set_stats(sqldb, stats_dict)

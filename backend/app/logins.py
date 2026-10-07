@@ -58,6 +58,7 @@ from .login_info import (
     LoginState,
     LoginStatusDep,
 )
+from .types import JSONValue
 
 
 def _log_login_failure(
@@ -969,7 +970,7 @@ def _upgrade_email_user(
     user: models.FlathubUser,
     method: str,
     provider_data: "ProviderInfo",
-    login_result: dict,
+    login_result: dict[str, JSONValue],
     account_model: type[models.ConnectedAccount],
 ):
     from .email_login import lock_email, normalize_login_email
@@ -1012,9 +1013,10 @@ def _upgrade_email_user(
     if "refresh_token" in login_result:
         refreshable = cast("_OAuthRefreshableAccount", account)
         refreshable.refresh_token = login_result["refresh_token"]
-        refreshable.token_expiry = utils.utcnow() + timedelta(
-            seconds=int(login_result.get("expires_in", "7200"))
-        )
+        expires_in = login_result.get("expires_in", "7200")
+        if not isinstance(expires_in, (str, int, float)):
+            raise TypeError("OAuth token expiry must be numeric or a string")
+        refreshable.token_expiry = utils.utcnow() + timedelta(seconds=int(expires_in))
     db.add(account)
     email_account.disabled_at = utils.utcnow()
     db.session.execute(
@@ -1049,9 +1051,9 @@ def continue_oauth_flow(
     login: LoginInformation,
     data: OauthLoginResponse,
     method: str,
-    token_to_data: Callable[[dict], ProviderInfo],
+    token_to_data: Callable[[dict[str, JSONValue]], ProviderInfo],
     account_model: "_OAuthAccountModel",
-    postlogin_handler: Callable | None = None,
+    postlogin_handler: Callable[..., object] | None = None,
 ):
     """
     Continue an oauth login flow.  This will complete the user's login using the

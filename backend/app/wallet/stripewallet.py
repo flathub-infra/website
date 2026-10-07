@@ -5,6 +5,7 @@ This will be used if the app starts with Stripe credentials available
 """
 
 from itertools import dropwhile
+from typing import NotRequired, TypedDict
 
 import stripe
 from fastapi import Request, Response
@@ -32,6 +33,15 @@ from .walletbase import (
 )
 
 GROUP_PREFIX = "flathub-txn-"
+
+
+class _StripeWebhookObject(TypedDict):
+    id: str
+    transfer_group: NotRequired[str | None]
+
+
+class _StripeWebhookData(TypedDict):
+    object: _StripeWebhookObject
 
 
 class StripeWallet(WalletBase):
@@ -546,7 +556,7 @@ class StripeWallet(WalletBase):
             raise WalletError(error="stripe error") from stripe_error
 
         def get_transaction_from_webhook(
-            data: dict,
+            data: _StripeWebhookData,
         ) -> tuple[DBSession | None, models.Transaction | None]:
             p_id = data["object"]["id"]
             transfer_group = data["object"].get("transfer_group")

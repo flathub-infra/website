@@ -7,7 +7,7 @@ import json
 import os
 import re
 from datetime import UTC, datetime, timedelta
-from typing import Any
+from typing import Any, TypedDict
 
 import gi
 import jwt
@@ -15,6 +15,13 @@ from lxml import etree  # ty: ignore[unresolved-import]
 from pydantic import BaseModel
 
 from . import config, http_client, localize, models
+from .types import (
+    ContentRatingCategory,
+    ContentRatingLevel,
+    ContentRatingResult,
+    JSONValue,
+    is_json_object,
+)
 
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream  # ty: ignore[unresolved-import]
@@ -57,7 +64,11 @@ class Hasher:
 
 
 def add_translation(
-    apps_locale: dict, language: str, appid: str, key: str, value: str | list[str]
+    apps_locale: dict[str, dict[str, JSONValue]],
+    language: str,
+    appid: str,
+    key: str,
+    value: str | list[str],
 ):
     # normalize multi part languages, as the frontend
     #  always asks for the ones with a dash
@@ -72,10 +83,14 @@ def add_translation(
 
     if language not in apps_locale:
         apps_locale[language] = {}
-    apps_locale[language][key] = value
+    apps_locale[language][key] = (
+        value if isinstance(value, str) else [item for item in value]
+    )
 
 
-def appstream2dict(appstream_url=None) -> dict[str, dict]:
+def appstream2dict(
+    appstream_url: str | None = None,
+) -> dict[str, dict[str, JSONValue]]:
     if config.settings.appstream_repos:
         appstream_path = os.path.join(
             config.settings.appstream_repos,
@@ -520,11 +535,11 @@ def appstream2dict(appstream_url=None) -> dict[str, dict]:
         apps[appid] = app
 
         if parsed_content_rating and parsed_content_rating.get("type") is not None:
-            content_rating = {}
+            content_rating: dict[str, JSONValue] = {}
             for lang in localize.LOCALES:
-                content_rating[lang] = get_content_rating_details(
-                    parsed_content_rating, lang
-                )
+                details = get_content_rating_details(parsed_content_rating, lang)
+                if is_json_object(details):
+                    content_rating[lang] = details
 
             apps[appid]["content_rating_details"] = content_rating
 
@@ -617,7 +632,31 @@ def _attr_to_category(attr: str) -> str | None:
     return _ATTR_CATEGORY.get(prefix)
 
 
-def get_content_rating_details(content_rating: dict, locale: str) -> dict:
+class _ContentRatingCategoryAccumulator(TypedDict):
+    id: str
+    level: ContentRatingLevel
+    all_known: bool
+    descriptions: list[str]
+    none_descriptions: list[str]
+
+
+def _content_rating_level(value: str) -> ContentRatingLevel:
+    match value:
+        case "none":
+            return "none"
+        case "mild":
+            return "mild"
+        case "moderate":
+            return "moderate"
+        case "intense":
+            return "intense"
+        case _:
+            raise ValueError(f"Invalid content rating level: {value}")
+
+
+def get_content_rating_details(
+    content_rating: dict[str, str], locale: str
+) -> ContentRatingResult:
     if content_rating is None or content_rating.get("type") is None:
         return {}
     system = AppStream.ContentRatingSystem.from_locale(locale)
@@ -640,7 +679,7 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
         explicit_attrs[hyphen_attr] = level
 
     # Group by category, tracking worst level and descriptions
-    categories: dict[str, dict[str, Any]] = {}
+    categories: dict[str, _ContentRatingCategoryAccumulator] = {}
 
     # Track which attrs we've processed from the known list
     processed_attrs: set[str] = set()
@@ -685,7 +724,7 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
         # Track worst level
         level_order = ["none", "mild", "moderate", "intense"]
         if level_order.index(level) > level_order.index(entry["level"]):
-            entry["level"] = level
+            entry["level"] = _content_rating_level(level)
 
         if description:
             if level != "none":
@@ -730,7 +769,7 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
         if level in level_order and level_order.index(level) > level_order.index(
             entry["level"]
         ):
-            entry["level"] = level
+            entry["level"] = _content_rating_level(level)
 
         if description:
             if level != "none":
@@ -742,7 +781,7 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
     # - non-none descriptions always shown (joined with bullet)
     # - all-none categories with ALL attrs explicit: show first none description
     # - incomplete categories (missing attrs): unknown, no description
-    result_categories = []
+    result_categories: list[ContentRatingCategory] = []
     for cat in _CATEGORY_ORDER:
         entry = categories.get(cat)
         if entry is None:
@@ -774,7 +813,7 @@ def get_content_rating_details(content_rating: dict, locale: str) -> dict:
     result_categories.sort(key=lambda c: _level_sort_order.get(c["level"], 5))
 
     min_age = AppStream.ContentRating.get_minimum_age(rating)
-    contentRatingResult: dict[str, Any] = {
+    contentRatingResult: ContentRatingResult = {
         "categories": result_categories,
         "contentRatingSystem": AppStream.ContentRatingSystem.to_string(system),
         "minimumAge": max(min_age, 3) if min_age != MAXUINT else 3,

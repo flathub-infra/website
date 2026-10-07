@@ -241,8 +241,8 @@ def create_upload_token(
         models.AuditEventType.UPLOAD_TOKEN_ISSUED,
         details={
             "app_id": app_id,
-            "scopes": request.scopes,
-            "repos": request.repos,
+            "scopes": [scope for scope in request.scopes],
+            "repos": [repo for repo in request.repos],
             "token_id": token_details.id,
         },
     )

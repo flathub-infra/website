@@ -1,5 +1,4 @@
 import logging
-from typing import Any, cast
 
 import redis
 
@@ -48,9 +47,8 @@ def record_lexical_mutation(task_uids: list[int]) -> None:
 
 
 def get_lexical_mutation_state() -> tuple[int, int | None]:
-    generation, task_uid = cast(
-        "list[Any]",
-        redis_conn.mget([HYBRID_MUTATION_GENERATION_KEY, HYBRID_MUTATION_TASK_KEY]),
+    generation, task_uid = redis_conn.mget(
+        [HYBRID_MUTATION_GENERATION_KEY, HYBRID_MUTATION_TASK_KEY]
     )
     return int(generation or 0), int(task_uid) if task_uid is not None else None
 

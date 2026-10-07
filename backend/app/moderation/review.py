@@ -4,10 +4,10 @@ import hmac
 import itertools
 import json
 import logging
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from collections.abc import Set as AbstractSet
 from datetime import UTC, datetime
-from typing import Annotated, Any, cast
+from typing import Annotated, cast
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
@@ -16,6 +16,7 @@ from github import Github, GithubException
 from pydantic import BaseModel, Field, model_validator
 from sqlalchemy import Table, func, not_, or_
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.orm import Session
 
 from .. import (
     audit_log,
@@ -30,7 +31,13 @@ from .. import (
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
 from ..login_info import LoginStatusDep, ModeratorDep
-from ..types import ModerationOriginKind, ModerationRequestType
+from ..types import (
+    JSONValue,
+    ModerationOriginKind,
+    ModerationRequestType,
+    is_json_object,
+    is_json_value,
+)
 from ..verification import is_appid_runtime
 from . import manifest_complexity, ostree_manifest, url_origin
 from .constants import should_skip_review
@@ -90,7 +97,7 @@ def _summaries_equivalent(current: str | None, candidate: str | None) -> bool:
     return _within_one_edit(normalized[0], normalized[1])
 
 
-def _extra_data_origins(extra_data: dict[str, Any]) -> list[str] | None:
+def _extra_data_origins(extra_data: Mapping[str, JSONValue]) -> list[str] | None:
     uri_values = [
         value
         for key, value in extra_data.items()
@@ -101,6 +108,8 @@ def _extra_data_origins(extra_data: dict[str, Any]) -> list[str] | None:
 
     origins: set[str] = set()
     for value in uri_values:
+        if not isinstance(value, str):
+            return None
         try:
             origin = url_origin.normalize_url_origin(value)
         except url_origin.InvalidUrlOrigin:
@@ -112,8 +121,8 @@ def _extra_data_origins(extra_data: dict[str, Any]) -> list[str] | None:
 
 
 def _extra_data_moderation_values(
-    current_extra_data: dict[str, Any] | None,
-    build_extra_data: dict[str, Any] | None,
+    current_extra_data: Mapping[str, JSONValue] | None,
+    build_extra_data: Mapping[str, JSONValue] | None,
     allowlisted: AbstractSet[str] = frozenset(),
 ) -> tuple[bool | list[str], bool | list[str]] | None:
     current_has_extra_data = bool(current_extra_data)
@@ -152,7 +161,7 @@ def _extra_data_moderation_values(
 
 
 def _eol_moderation_values(
-    metadata: dict[str, Any],
+    metadata: dict[str, object],
     valid_app_branches: dict[str, set[str]],
 ) -> dict[str, dict[str, list[str]]]:
     values = {app_id: {"eol": [], "eol-rebase": []} for app_id in valid_app_branches}
@@ -178,7 +187,8 @@ def _eol_moderation_values(
 
 
 def _canonical_random_review_identity(
-    build_metadata: dict[str, Any], build_refs: list[dict[str, Any]]
+    build_metadata: dict[str, JSONValue],
+    build_refs: list[dict[str, JSONValue]],
 ) -> bytes:
     if not isinstance(build_metadata, dict) or not isinstance(build_refs, list):
         raise TypeError("build metadata or references are missing")
@@ -250,8 +260,8 @@ class ModerationAppsResponse(BaseModel):
 
 
 class RequestData(BaseModel):
-    keys: dict[str, str | None | list | dict | bool]
-    current_values: dict[str, str | None | list | dict | bool]
+    keys: dict[str, JSONValue]
+    current_values: dict[str, JSONValue]
 
 
 class ManifestSourceOriginFindingData(BaseModel):
@@ -474,13 +484,35 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     return ret
 
 
-def sort_lists_in_dict(data: dict) -> dict:
-    if isinstance(data, dict):
-        for key, value in data.items():
-            data[key] = sort_lists_in_dict(value)
-    elif isinstance(data, list):
-        data.sort()
-    return data
+def _sort_json_lists(value: JSONValue) -> JSONValue:
+    if isinstance(value, dict):
+        return {
+            key: _sort_json_lists(item)
+            for key, item in value.items()
+            if isinstance(key, str) and is_json_value(item)
+        }
+    if isinstance(value, list):
+        strings = [item for item in value if isinstance(item, str)]
+        if len(strings) == len(value):
+            return [item for item in sorted(strings)]
+        numbers = [item for item in value if isinstance(item, (int, float, bool))]
+        if len(numbers) == len(value):
+            return [item for item in sorted(numbers)]
+        return [_sort_json_lists(item) for item in value if is_json_value(item)]
+    return value
+
+
+def sort_lists_in_dict(data: dict[str, JSONValue]) -> dict[str, JSONValue]:
+    sorted_data = _sort_json_lists(data)
+    if not is_json_object(sorted_data):
+        raise TypeError("Moderation payload is not a JSON object")
+    return sorted_data
+
+
+def _string_list(value: object) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, str)]
 
 
 @router.get(
@@ -1023,7 +1055,7 @@ def _manifest_analysis_observation_values(
     complexity_observe_only: bool,
     moderation_observe_only: bool,
     complexity_threshold_units: int,
-) -> dict[str, Any]:
+) -> dict[str, JSONValue]:
     candidate_ref_count = len(expected_refs)
     collected_ref_count = len(collected_refs)
     comparable_ref_count = len(comparable_refs)
@@ -1051,7 +1083,7 @@ def _manifest_analysis_observation_values(
     else:
         source_status = "unavailable"
 
-    values: dict[str, Any] = {
+    values: dict[str, JSONValue] = {
         "app_id": app_id,
         "build_id": review_request.build_id,
         "job_id": review_request.job_id,
@@ -1129,15 +1161,15 @@ def _manifest_analysis_observation_values(
 
 
 def _upsert_manifest_analysis_observations(
-    session: Any,
-    observations: Sequence[dict[str, Any]],
+    session: Session,
+    observations: Sequence[dict[str, JSONValue]],
 ) -> None:
     if not observations:
         return
     table = cast("Table", models.ManifestAnalysisObservation.__table__)
     statement = insert(table).values(observations)
     immutable_columns = {"id", "app_id", "build_id", "created_at"}
-    updated_values: dict[str, Any] = {
+    updated_values: dict[str, object] = {
         column.name: statement.excluded[column.name]
         for column in table.columns
         if column.name not in immutable_columns | {"updated_at"}
@@ -1166,7 +1198,7 @@ def _log_manifest_source_gate(
         {source for finding in findings for source in finding.sources_removed}
     )
     affected_arches = sorted({arch for finding in findings for arch in finding.arches})
-    extra: dict[str, Any] = {
+    extra: dict[str, object] = {
         "build_id": review_request.build_id,
         "job_id": review_request.job_id,
         "app_id": app_id,
@@ -1255,13 +1287,25 @@ def submit_review_request(
 
     # Skip beta and test builds
     build_extended = r.json()
-    build_metadata = build_extended.get("build")
+    if not is_json_object(build_extended):
+        raise HTTPException(status_code=500, detail="invalid_build")
+    build_metadata_value = build_extended.get("build")
+    if not is_json_object(build_metadata_value):
+        raise HTTPException(status_code=500, detail="invalid_build")
+    build_metadata = build_metadata_value
     build_target_repo = build_metadata.get("repo")
     if build_target_repo in ("beta", "test"):
         return ReviewRequestResponse(requires_review=False)
     build_log_url = build_metadata.get("build_log_url")
 
-    build_refs = build_extended.get("build_refs")
+    build_refs_value = build_extended.get("build_refs")
+    if not isinstance(build_refs_value, list):
+        raise HTTPException(status_code=500, detail="invalid_build")
+    build_refs = [
+        build_ref for build_ref in build_refs_value if is_json_object(build_ref)
+    ]
+    if len(build_refs) != len(build_refs_value):
+        raise HTTPException(status_code=500, detail="invalid_build")
     candidate_refs: tuple[ostree_manifest.CandidateManifestRef, ...] = ()
     manifest_pairs: tuple[ostree_manifest.ManifestPair, ...] = ()
     manifest_groups: tuple[tuple[ostree_manifest.ManifestPair, ...], ...] = ()
@@ -1418,14 +1462,16 @@ def submit_review_request(
     if random_review_enabled and not isinstance(build_refs, list):
         raise HTTPException(status_code=500, detail="invalid_build")
     build_ref_arches = {
-        build_ref.get("ref_name").split("/")[2]
-        for build_ref in build_refs
-        if len(build_ref.get("ref_name").split("/")) == 4
+        ref_parts[2]
+        for build_ref in (build_refs if isinstance(build_refs, list) else [])
+        if is_json_object(build_ref)
+        and isinstance((ref_name := build_ref.get("ref_name")), str)
+        and len(ref_parts := ref_name.split("/")) == 4
     }
 
     new_requests: list[models.ModerationRequest] = []
     persisted_requests: list[models.ModerationRequest] = []
-    analysis_observations: dict[str, dict[str, Any]] = {}
+    analysis_observations: dict[str, dict[str, JSONValue]] = {}
     new_observation_app_ids: set[str] = set()
     manifest_newly_actionable_requests: list[models.ModerationRequest] = []
     manifest_newly_actionable_app_ids: set[str] = set()
@@ -1501,8 +1547,13 @@ def submit_review_request(
     app_ids = list(build_appstream.keys())
     direct_upload_apps_by_id = {}
     valid_build_branches: dict[str, set[str]] = {}
-    for build_ref in build_refs:
-        ref_parts = build_ref.get("ref_name", "").split("/")
+    for build_ref in build_refs if isinstance(build_refs, list) else []:
+        if not is_json_object(build_ref):
+            continue
+        ref_name = build_ref.get("ref_name")
+        if not isinstance(ref_name, str):
+            continue
+        ref_parts = ref_name.split("/")
         if len(ref_parts) == 4 and ref_parts[0] == "app" and ref_parts[1] in app_ids:
             valid_build_branches.setdefault(ref_parts[1], set()).add(ref_parts[3])
     build_eol_values_by_app: dict[str, dict[str, list[str]]] | None = None
@@ -1554,15 +1605,15 @@ def submit_review_request(
     for app_id, app_data in build_appstream.items():
         is_new_submission = True
 
-        keys: dict[str, Any] = {
+        keys: dict[str, JSONValue] = {
             "name": app_data.get("name"),
             "summary": app_data.get("summary"),
             "developer_name": app_data.get("developer_name"),
             "project_license": app_data.get("project_license"),
         }
-        current_values: dict[str, Any] = {}
-        summary_keys: dict[str, Any] = {}
-        summary_current_values: dict[str, Any] = {}
+        current_values: dict[str, JSONValue] = {}
+        summary_keys: dict[str, JSONValue] = {}
+        summary_current_values: dict[str, JSONValue] = {}
         # Check if the app data matches the current appstream
         app_manifest_findings = manifest_findings_by_app.get(app_id, ())
         source_would_gate = _manifest_source_findings_would_gate(app_manifest_findings)
@@ -1575,8 +1626,12 @@ def submit_review_request(
             current_values["project_license"] = app.get("project_license")
 
             for key, value in current_values.items():
-                if value == keys[key] or (
-                    key == "summary" and _summaries_equivalent(value, keys[key])
+                candidate_value = keys[key]
+                if value == candidate_value or (
+                    key == "summary"
+                    and (value is None or isinstance(value, str))
+                    and (candidate_value is None or isinstance(candidate_value, str))
+                    and _summaries_equivalent(value, candidate_value)
                 ):
                     keys.pop(key, None)
 
@@ -1723,29 +1778,48 @@ def submit_review_request(
             eligible_app_ids.append(app_id)
             has_initial_submission = has_initial_submission or is_new_submission
 
-        current_summary = None
-        current_permissions = None
-        current_extradata = None
+        current_summary: dict[str, JSONValue] | None = None
+        current_permissions: dict[str, JSONValue] | None = None
+        current_extradata: dict[str, JSONValue] | None = None
 
         if (current_summary := apps_summary_by_id.get(app_id)) or (
             current_summary := get_json_key(f"summary:{app_id}:stable")
         ):
             sentry_context[f"summary:{app_id}:stable"] = current_summary
 
-            if current_metadata := current_summary.get("metadata", {}):
-                current_permissions = current_metadata.get("permissions")
-                current_extradata = current_metadata.get("extra-data")
+            current_metadata = current_summary.get("metadata")
+            if is_json_object(current_metadata):
+                permissions = current_metadata.get("permissions")
+                current_permissions = (
+                    permissions if is_json_object(permissions) else None
+                )
+                extra_data = current_metadata.get("extra-data")
+                current_extradata = extra_data if is_json_object(extra_data) else None
 
         if current_summary:
+            # Parsed summaries contain architecture sets until persisted as JSON.
             build_summary_app = build_summary.get(app_id) or {}
-            build_summary_metadata = build_summary_app.get("metadata") or {}
-            build_permissions = build_summary_metadata.get("permissions") or {}
-            build_extradata = build_summary_metadata.get("extra-data")
+            build_summary_metadata_value = build_summary_app.get("metadata")
+            build_summary_metadata = (
+                build_summary_metadata_value
+                if is_json_object(build_summary_metadata_value)
+                else {}
+            )
+            build_permissions_value = build_summary_metadata.get("permissions")
+            build_permissions = (
+                build_permissions_value
+                if is_json_object(build_permissions_value)
+                else {}
+            )
+            build_extra_data = build_summary_metadata.get("extra-data")
+            build_extradata = (
+                build_extra_data if is_json_object(build_extra_data) else None
+            )
 
             app_runtime = build_summary_metadata.get(
                 "runtime"
             ) or build_summary_metadata.get("sdk")
-            if app_runtime:
+            if isinstance(app_runtime, str) and app_runtime:
                 app_runtime_dref = (
                     f"{app_runtime.split('/')[0]}//{app_runtime.split('/')[2]}"
                     if app_runtime.count("/") == 2
@@ -1774,8 +1848,16 @@ def submit_review_request(
                             },
                         )
             if extra_data_values is not None:
-                summary_current_values["extra-data"], summary_keys["extra-data"] = (
-                    extra_data_values
+                current_extra, build_extra = extra_data_values
+                summary_current_values["extra-data"] = (
+                    current_extra
+                    if isinstance(current_extra, bool)
+                    else [item for item in current_extra]
+                )
+                summary_keys["extra-data"] = (
+                    build_extra
+                    if isinstance(build_extra, bool)
+                    else [item for item in build_extra]
                 )
 
             if (
@@ -1787,14 +1869,21 @@ def submit_review_request(
                     current_perm = current_permissions[perm]
                     build_perm = build_permissions.get(perm)
 
-                    if isinstance(current_perm, list) and sorted(
-                        current_perm or []
-                    ) != sorted(build_perm or []):
-                        summary_current_values[perm] = current_perm
-                        summary_keys[perm] = build_perm
+                    if isinstance(current_perm, list):
+                        current_strings = _string_list(current_perm)
+                        build_strings = _string_list(build_perm)
+                        if (
+                            len(current_strings) != len(current_perm)
+                            or len(build_strings)
+                            != (len(build_perm) if isinstance(build_perm, list) else 0)
+                            or sorted(current_strings) != sorted(build_strings)
+                        ):
+                            summary_current_values[perm] = current_perm
+                            if is_json_value(build_perm):
+                                summary_keys[perm] = build_perm
 
                     if isinstance(current_perm, dict):
-                        if build_perm is None:
+                        if not is_json_object(build_perm):
                             build_perm = {}
 
                         dict_keys = current_perm.keys() | build_perm.keys()
@@ -1802,19 +1891,35 @@ def submit_review_request(
                             current_val = current_perm.get(key)
                             build_val = build_perm.get(key)
 
-                            is_different = (
-                                sorted(current_val or []) != sorted(build_val or [])
-                                if isinstance(current_val, list)
-                                and isinstance(build_val, list)
-                                else current_val != build_val
-                            )
+                            if isinstance(current_val, list) and isinstance(
+                                build_val, list
+                            ):
+                                current_items = _string_list(current_val)
+                                build_items = _string_list(build_val)
+                                is_different = (
+                                    sorted(current_items) != sorted(build_items)
+                                    or len(current_items) != len(current_val)
+                                    or len(build_items) != len(build_val)
+                                )
+                            else:
+                                is_different = current_val != build_val
                             if is_different:
                                 summary_current_values[f"{key}-{perm}"] = current_val
                                 summary_keys[f"{key}-{perm}"] = build_val
 
             if app_id not in direct_upload_apps_by_id:
-                current_arches = set(current_summary.get("arches", []))
-                build_arches = set(build_summary_app.get("arches", []))
+                current_arches_value = current_summary.get("arches", [])
+                current_arches = (
+                    {value for value in current_arches_value if isinstance(value, str)}
+                    if isinstance(current_arches_value, list)
+                    else set()
+                )
+                build_arches_value = build_summary_app.get("arches", [])
+                build_arches = (
+                    {value for value in build_arches_value if isinstance(value, str)}
+                    if isinstance(build_arches_value, (list, set))
+                    else set()
+                )
 
                 if current_arches != build_arches:
                     summary_current_values["arches"] = list(current_arches)
@@ -1829,8 +1934,10 @@ def submit_review_request(
             )
             for field in ("eol", "eol-rebase"):
                 if current_eol_values_app[field] != build_eol_values_app[field]:
-                    summary_current_values[field] = current_eol_values_app[field]
-                    summary_keys[field] = build_eol_values_app[field]
+                    summary_current_values[field] = [
+                        item for item in current_eol_values_app[field]
+                    ]
+                    summary_keys[field] = [item for item in build_eol_values_app[field]]
 
         if len(summary_keys) > 0:
             summary_keys = sort_lists_in_dict(summary_keys)
@@ -1839,8 +1946,8 @@ def submit_review_request(
             request_ignored = False
 
             if "sockets" in summary_keys and "sockets" in summary_current_values:
-                cur_sockets = set(summary_current_values["sockets"])
-                new_sockets = set(summary_keys["sockets"])
+                cur_sockets = set(_string_list(summary_current_values["sockets"]))
+                new_sockets = set(_string_list(summary_keys["sockets"]))
 
                 x11_compat_transition = (
                     cur_sockets
@@ -1875,17 +1982,11 @@ def submit_review_request(
                         "talk-session-bus" in summary_keys
                         and "talk-session-bus" in summary_current_values
                     ):
-                        cur_session_talks = (
+                        cur_session_talks = _string_list(
                             summary_current_values["talk-session-bus"]
-                            if isinstance(
-                                summary_current_values["talk-session-bus"], list
-                            )
-                            else []
                         )
-                        new_session_talks = (
+                        new_session_talks = _string_list(
                             summary_keys["talk-session-bus"]
-                            if isinstance(summary_keys["talk-session-bus"], list)
-                            else []
                         )
 
                         if (is_ge_6_10 or runtime_br.startswith("5.15-")) and (
@@ -2598,7 +2699,7 @@ def submit_review(
     else:
         app_name = None
 
-    payload: dict[str, Any] = {
+    payload: dict[str, JSONValue] = {
         "messageId": f"{appid}/{build_id}/{'approved' if is_approved else 'rejected'}",
         "creation_timestamp": utils.utcnow().timestamp(),
         "subject": subject,

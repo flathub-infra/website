@@ -1,4 +1,5 @@
-from typing import Any
+from meilisearch.index import Index
+from meilisearch.models.task import TaskInfo
 
 SEARCHABLE_ATTRIBUTES = [
     "name",
@@ -44,7 +45,7 @@ RANKING_RULES = [
 ]
 
 
-def configure_index(index: Any) -> list[Any]:
+def configure_index(index: Index) -> list[TaskInfo]:
     return [
         index.update_sortable_attributes(SORTABLE_ATTRIBUTES),
         index.update_searchable_attributes(SEARCHABLE_ATTRIBUTES),

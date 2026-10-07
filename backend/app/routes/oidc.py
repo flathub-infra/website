@@ -5,7 +5,7 @@ import json
 import logging
 import re
 from datetime import UTC, datetime, timedelta
-from typing import Any, cast
+from typing import cast
 from urllib.parse import quote, unquote_plus, urlencode, urlsplit
 
 import redis
@@ -29,6 +29,7 @@ from ..oidc import (
     verify_client_secret,
     verify_pkce_s256,
 )
+from ..types import JSONValue
 
 
 def require_oidc_enabled():
@@ -47,7 +48,7 @@ OIDC_SIGNING_ALGORITHM = "RS256"
 logger = logging.getLogger(__name__)
 
 _signing_key_cache_source: str | None = None
-_signing_key_cache: Any | None = None
+_signing_key_cache: jwk.KeySet | None = None
 _token_rate_limit_store = redis.Redis(
     host=config.settings.redis_host,
     port=config.settings.redis_port,
@@ -111,7 +112,7 @@ async def oidc_token_error_handler(_request: Request, exc: Exception):
     )
 
 
-def _token_response(content: dict[str, Any]) -> JSONResponse:
+def _token_response(content: dict[str, JSONValue]) -> JSONResponse:
     return JSONResponse(content)
 
 
@@ -162,7 +163,7 @@ def invalidate_signing_key_cache():
     _signing_key_cache_source = None
 
 
-def _load_private_key_set():
+def _load_private_key_set() -> jwk.KeySet:
     global _signing_key_cache, _signing_key_cache_source
 
     private_jwks = config.settings.oidc_private_jwks
@@ -189,10 +190,10 @@ def _load_private_key_set():
         500: {"description": "OIDC JWKS is not configured"},
     },
 )
-def jwks():
+def jwks() -> dict[str, list[dict[str, str | list[str]]]]:
     key_set = _load_private_key_set()
 
-    keys: list[dict[str, Any]] = []
+    keys: list[dict[str, str | list[str]]] = []
     for key in key_set:
         if key.key_type != "RSA":
             raise HTTPException(status_code=500, detail="OIDC JWKS is invalid")
@@ -532,7 +533,7 @@ def submit_consent(
     )
 
 
-def _get_signing_key():
+def _get_signing_key() -> jwk.Key:
     """Load the first compatible RSA signing key from the private JWKS."""
     key_set = _load_private_key_set()
 
@@ -575,7 +576,7 @@ def _sign_id_token(
     signing_key = _get_signing_key()
     issuer = config.settings.oidc_issuer.rstrip("/")
     now_epoch = int(now.replace(tzinfo=UTC).timestamp())
-    id_claims: dict[str, Any] = {
+    id_claims: dict[str, JSONValue] = {
         "iss": issuer,
         "sub": subject,
         "aud": client_id,
@@ -911,7 +912,7 @@ def _handle_authorization_code_grant(
             authorization_code_id=row.id,
         )
 
-    response: dict[str, Any] = {
+    response: dict[str, JSONValue] = {
         "access_token": access_token,
         "token_type": "Bearer",
         "expires_in": config.settings.oidc_access_token_lifetime_seconds,
@@ -1030,7 +1031,7 @@ def _handle_refresh_token_grant(
         if "openid" in effective_scope.split():
             id_token = _sign_id_token(client_id, subject, now)
 
-    response: dict[str, Any] = {
+    response: dict[str, JSONValue] = {
         "access_token": access_token,
         "token_type": "Bearer",
         "expires_in": config.settings.oidc_access_token_lifetime_seconds,
@@ -1101,7 +1102,7 @@ def _userinfo(request: Request, access_token: str | None):
         subject = ensure_oidc_subject(db, user)
         scopes = access_token_obj.scope.split()
 
-        claims: dict[str, Any] = {"sub": subject}
+        claims: dict[str, JSONValue] = {"sub": subject}
 
         if "profile" in scopes:
             claims["name"] = user.display_name

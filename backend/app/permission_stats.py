@@ -1,10 +1,18 @@
 import datetime
 from collections.abc import Mapping
-from typing import Any
+from typing import TypedDict
 
 from sqlalchemy.dialects.postgresql import insert
 
 from . import models, utils
+from .types import JSONValue, PermissionCount
+
+
+class PermissionStatsSnapshot(TypedDict):
+    eligible_apps: int
+    apps_with_stable_metadata: int
+    permission_counts: dict[str, PermissionCount]
+
 
 ELIGIBLE_APP_TYPES = ("desktop-application", "console-application")
 
@@ -17,36 +25,39 @@ def validate_date_range(
 
 
 def add_stable_permissions(
-    stable_permissions_by_app: dict[str, dict[str, Any]],
+    stable_permissions_by_app: dict[str, dict[str, JSONValue]],
     stable_metadata_arch: dict[str, str],
     *,
     app_id: str,
     branch: str,
     arch: str,
-    metadata: Mapping[str, Any] | None,
+    metadata: Mapping[str, JSONValue] | None,
 ) -> None:
     """Keep stable metadata from the primary architecture, preferring x86_64."""
     if branch != "stable" or metadata is None:
         return
     current_arch = stable_metadata_arch.get(app_id)
     if current_arch is None or (arch == "x86_64" and current_arch != "x86_64"):
-        stable_permissions_by_app[app_id] = metadata.get("permissions", {})
+        permissions = metadata.get("permissions", {})
+        if isinstance(permissions, dict):
+            stable_permissions_by_app[app_id] = permissions
+        else:
+            stable_permissions_by_app[app_id] = {}
         stable_metadata_arch[app_id] = arch
 
 
 def build_permission_snapshot(
     eligible_app_ids: set[str],
-    stable_permissions_by_app: Mapping[str, Mapping[str, Any]],
-) -> dict[str, Any]:
+    stable_permissions_by_app: Mapping[str, Mapping[str, JSONValue]],
+) -> PermissionStatsSnapshot:
     """Count distinct permission values across eligible apps with stable metadata."""
     covered_app_ids = eligible_app_ids.intersection(stable_permissions_by_app)
-    counts: dict[str, Any] = {}
+    counts: dict[str, PermissionCount] = {}
 
-    def increment(*path: str) -> None:
-        current = counts
-        for key in path[:-1]:
-            current = current.setdefault(key, {})
-        current[path[-1]] = current.get(path[-1], 0) + 1
+    def increment(context: str, permission: str, value: str) -> None:
+        permission_counts = counts.setdefault(context, {})
+        value_counts = permission_counts.setdefault(permission, {})
+        value_counts[value] = value_counts.get(value, 0) + 1
 
     for app_id in covered_app_ids:
         permissions = stable_permissions_by_app[app_id]
@@ -59,18 +70,18 @@ def build_permission_snapshot(
                         bus_names = [bus_names]
                     if not isinstance(bus_names, (list, tuple, set)):
                         continue
-                    for bus_name in set(bus_names):
-                        if isinstance(bus_name, str):
-                            increment(context_key, str(policy), bus_name)
+                    for bus_name in {
+                        bus_name for bus_name in bus_names if isinstance(bus_name, str)
+                    }:
+                        increment(context_key, str(policy), bus_name)
                 continue
 
             if isinstance(values, str):
                 values = [values]
             if not isinstance(values, (list, tuple, set)):
                 continue
-            for value in set(values):
-                if isinstance(value, str):
-                    increment("context", str(context_key), value)
+            for value in {value for value in values if isinstance(value, str)}:
+                increment("context", str(context_key), value)
 
     return {
         "eligible_apps": len(eligible_app_ids),
@@ -81,9 +92,9 @@ def build_permission_snapshot(
 
 def record_permission_snapshot(
     sqldb,
-    stable_permissions_by_app: Mapping[str, Mapping[str, Any]],
+    stable_permissions_by_app: Mapping[str, Mapping[str, JSONValue]],
     snapshot_date: datetime.date | None = None,
-) -> dict[str, Any]:
+) -> PermissionStatsSnapshot:
     eligible_app_ids = {
         row[0]
         for row in (

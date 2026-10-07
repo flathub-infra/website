@@ -3,9 +3,17 @@ import hashlib
 import inspect
 import logging
 import time
-from collections.abc import Awaitable, Callable
+from collections.abc import Awaitable, Callable, Mapping
 from enum import Enum
-from typing import Annotated, Any, Literal, ParamSpec, TypeVar, get_args, get_origin
+from typing import (
+    Annotated,
+    Literal,
+    ParamSpec,
+    TypeVar,
+    get_args,
+    get_origin,
+    get_type_hints,
+)
 
 import orjson
 from fastapi import Response
@@ -23,7 +31,11 @@ R = TypeVar("R")
 STALE_THRESHOLD = 0.8
 
 
-def _get_response_from_args(func: Any, args: tuple, kwargs: dict) -> Response | None:
+def _get_response_from_args(
+    func: Callable[..., object],
+    args: tuple[object, ...],
+    kwargs: Mapping[str, object],
+) -> Response | None:
     sig = inspect.signature(func)
     bound = sig.bind_partial(*args, **kwargs)
     bound.apply_defaults()
@@ -37,7 +49,11 @@ def _should_cache_response(response: Response | None) -> bool:
     return response is None or response.status_code == 200
 
 
-def _make_cache_key(func: Any, args: tuple, kwargs: dict) -> str:
+def _make_cache_key(
+    func: Callable[..., object],
+    args: tuple[object, ...],
+    kwargs: Mapping[str, object],
+) -> str:
     sig = inspect.signature(func)
     bound = sig.bind_partial(*args, **kwargs)
     bound.apply_defaults()
@@ -48,21 +64,21 @@ def _make_cache_key(func: Any, args: tuple, kwargs: dict) -> str:
             normalized_kwargs[param_name] = param_value
 
     key_data = {
-        "func": func.__name__,
+        "func": getattr(func, "__name__", repr(func)),
         "kwargs": normalized_kwargs,
     }
 
     key_hash = hashlib.md5(
         orjson.dumps(key_data, option=orjson.OPT_SORT_KEYS, default=str)
     ).hexdigest()
-    return f"cache:endpoint:{func.__name__}:{key_hash}"
+    return f"cache:endpoint:{getattr(func, '__name__', repr(func))}:{key_hash}"
 
 
 def _make_refresh_lock_key(cache_key: str) -> str:
     return f"{cache_key}:refreshing"
 
 
-def _serialize_value(value: Any) -> dict:
+def _serialize_value(value: object) -> dict[str, object]:
     if isinstance(value, BaseModel):
         serialized_value = value.model_dump(mode="json", by_alias=True)
     else:
@@ -75,14 +91,13 @@ def _serialize_value(value: Any) -> dict:
     }
 
 
-def _deserialize_value(data: dict, expected_type: type | None) -> Any:
+def _deserialize_value[T](
+    data: object, adapter: TypeAdapter[T], expected_type: object
+) -> T:
     if not isinstance(data, dict) or "value" not in data:
-        return data
+        return adapter.validate_python(data)
 
     value = data.get("value")
-
-    if not expected_type:
-        return value
 
     origin = get_origin(expected_type)
     if origin is Annotated and isinstance(value, dict):
@@ -106,19 +121,10 @@ def _deserialize_value(data: dict, expected_type: type | None) -> Any:
                                     value[field_name] = arg
                                     break
 
-        try:
-            return TypeAdapter(expected_type).validate_python(value)
-        except Exception:
-            logger.debug("Failed to deserialize cached value", exc_info=True)
-            return value
-
-    if inspect.isclass(expected_type) and issubclass(expected_type, BaseModel):
-        return expected_type(**value) if isinstance(value, dict) else value
-
-    return value
+    return adapter.validate_python(value)
 
 
-def _is_cache_stale(cache_data: dict, ttl: int) -> bool:
+def _is_cache_stale(cache_data: object, ttl: int) -> bool:
     if not isinstance(cache_data, dict):
         return True
 
@@ -127,6 +133,8 @@ def _is_cache_stale(cache_data: dict, ttl: int) -> bool:
 
     created_at = cache_data.get("created_at")
     if created_at:
+        if not isinstance(created_at, (int, float)):
+            raise TypeError("Cache creation timestamp must be numeric")
         age = time.time() - created_at
         stale_threshold = ttl * STALE_THRESHOLD
         if age > stale_threshold:
@@ -140,9 +148,21 @@ def cached(
 ) -> Callable[[Callable[P, Awaitable[R]]], Callable[P, Awaitable[R]]]:
     def decorator(func: Callable[P, Awaitable[R]]) -> Callable[P, Awaitable[R]]:
         func_name: str = getattr(func, "__name__", repr(func))
+        adapter: TypeAdapter[R] | None = None
+        expected_type: object = None
 
         @functools.wraps(func)
         async def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+            nonlocal adapter, expected_type
+            # Resolve annotations lazily, after the endpoint module has loaded.
+            if adapter is None:
+                hints = get_type_hints(func, include_extras=True)
+                if "return" not in hints:
+                    # Without a declared contract, cached JSON cannot safely be
+                    # reconstructed as the function's return type.
+                    return await func(*args, **kwargs)
+                expected_type = hints["return"]
+                adapter = TypeAdapter[R](expected_type)
             redis = await database.get_redis()
             cache_key = _make_cache_key(func, args, kwargs)
             refresh_lock_key = _make_refresh_lock_key(cache_key)
@@ -155,13 +175,15 @@ def cached(
                     if not _is_cache_stale(cache_entry, ttl):
                         return _deserialize_value(
                             cache_entry,
-                            func.__annotations__.get("return"),
+                            adapter,
+                            expected_type,
                         )
 
                     if isinstance(cache_entry, dict) and "value" in cache_entry:
                         stale_value = _deserialize_value(
                             cache_entry,
-                            func.__annotations__.get("return"),
+                            adapter,
+                            expected_type,
                         )
 
                         try:
@@ -172,7 +194,11 @@ def cached(
                                         func, args, kwargs
                                     )
                                     if _should_cache_response(response_obj):
-                                        serialized = _serialize_value(fresh_result)
+                                        serialized = _serialize_value(
+                                            adapter.dump_python(
+                                                fresh_result, mode="json", by_alias=True
+                                            )
+                                        )
                                         await redis.setex(
                                             cache_key, ttl, orjson.dumps(serialized)
                                         )
@@ -192,13 +218,16 @@ def cached(
             response_obj = _get_response_from_args(func, args, kwargs)
             if _should_cache_response(response_obj):
                 try:
-                    serialized = _serialize_value(result)
+                    serialized = _serialize_value(
+                        adapter.dump_python(result, mode="json", by_alias=True)
+                    )
                     await redis.setex(cache_key, ttl, orjson.dumps(serialized))
                 except Exception:
                     logger.exception("Cache set error for %s", func_name)
 
             return result
 
+        # functools.wraps preserves metadata, but ty cannot infer this ParamSpec wrapper.
         return wrapper  # type: ignore[return-value]
 
     return decorator

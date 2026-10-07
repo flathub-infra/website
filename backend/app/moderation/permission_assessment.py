@@ -3,7 +3,7 @@ import json
 import logging
 import re
 from dataclasses import asdict
-from typing import Annotated, Any, Literal, NoReturn, Self
+from typing import Annotated, Literal, NoReturn, Self, TypedDict
 
 import httpx
 from fastapi import HTTPException
@@ -13,6 +13,7 @@ from sqlalchemy.dialects.postgresql import insert
 
 from .. import config, http_client, models, utils
 from ..database import get_db
+from ..types import JSONValue, is_json_object
 from .ostree_permissions import (
     CollectedPermissions,
     _valid_segment,
@@ -24,6 +25,7 @@ from .permission_snapshot import (
     compare_snapshots,
     fingerprint_snapshot,
 )
+from .permission_snapshot import JSONValue as PermissionJSONValue
 
 logger = logging.getLogger(__name__)
 
@@ -72,6 +74,19 @@ class CandidateIdentity(BaseModel):
     build_id: int
 
 
+class _PermissionDifference(TypedDict):
+    path: tuple[str, ...]
+    before: PermissionJSONValue
+    after: PermissionJSONValue
+
+
+class _BuildCheck(TypedDict):
+    check_name: str
+    status: int
+    status_reason: str | None
+    errors: list[str]
+
+
 class CandidateAssessmentResponse(BaseModel):
     assessment_id: int
     candidate_identity: CandidateIdentity
@@ -84,8 +99,8 @@ class CandidateAssessmentResponse(BaseModel):
     assessment_identity: str
     expected_arches: list[str]
     published_comparison_available: bool
-    differences: list[dict[str, Any]] | None
-    build_checks: list[dict[str, Any]]
+    differences: list[_PermissionDifference] | None
+    build_checks: list[_BuildCheck]
     linked_assessment_id: int | None = None
     linked_fingerprint_match: bool | None = None
     error_code: str | None = None
@@ -115,7 +130,7 @@ def _response(
     )
 
 
-def _persist_observation(values: dict[str, Any]) -> CandidateAssessmentResponse:
+def _persist_observation(values: dict[str, object]) -> CandidateAssessmentResponse:
     with get_db("writer") as db:
         db.session.execute(
             insert(models.PermissionAssessmentObservation)
@@ -185,7 +200,7 @@ def get_assessment(assessment_id: int) -> CandidateAssessmentResponse:
 
 def _fetch(
     url: str, headers: dict[str, str], *, commit: bool = False
-) -> dict[str, Any]:
+) -> dict[str, JSONValue]:
     try:
         if commit:
             with http_client.stream(
@@ -201,7 +216,7 @@ def _fetch(
     except (httpx.HTTPError, ValueError) as exc:
         logger.warning("Permission assessment upstream request failed", exc_info=True)
         raise HTTPException(status_code=502, detail="flat_manager_unavailable") from exc
-    if not isinstance(payload, dict):
+    if not is_json_object(payload):
         raise HTTPException(status_code=502, detail="invalid_flat_manager_response")
     return payload
 
@@ -210,20 +225,21 @@ def _conflict(code: str, message: str) -> NoReturn:
     raise PermissionSnapshotError(code, message)
 
 
-def _build_checks(extended: dict[str, Any], checks: list[dict[str, Any]]) -> None:
+def _build_checks(extended: dict[str, JSONValue], checks: list[_BuildCheck]) -> None:
     items = extended.get("checks")
     if not isinstance(items, list):
         _conflict("invalid_build", "Flat-manager response lacks build checks")
     for item in items:
-        if (
-            not isinstance(item, dict)
-            or not isinstance(item.get("check_name"), str)
-            or type(item.get("status")) is not int
-        ):
+        if not is_json_object(item):
+            _conflict("invalid_build", "Invalid build check metadata")
+        check_name = item.get("check_name")
+        status = item.get("status")
+        if not isinstance(check_name, str) or type(status) is not int:
             _conflict("invalid_build", "Invalid build check metadata")
         errors: set[str] = set()
+        raw_results = item.get("results")
         try:
-            results = json.loads(item.get("results") or "{}")
+            results = json.loads(raw_results) if isinstance(raw_results, str) else {}
         except (TypeError, ValueError):
             results = None
         diagnostics = results.get("diagnostics") if isinstance(results, dict) else None
@@ -236,8 +252,8 @@ def _build_checks(extended: dict[str, Any], checks: list[dict[str, Any]]) -> Non
         reason = item.get("status_reason")
         checks.append(
             {
-                "check_name": item["check_name"],
-                "status": item["status"],
+                "check_name": check_name,
+                "status": status,
                 "status_reason": reason if isinstance(reason, str) else None,
                 "errors": sorted(errors),
             }
@@ -247,14 +263,15 @@ def _build_checks(extended: dict[str, Any], checks: list[dict[str, Any]]) -> Non
 
 def _uploaded_refs(
     request: CandidateAssessmentRequest,
-    extended: dict[str, Any],
-    checks: list[dict[str, Any]],
+    extended: dict[str, JSONValue],
+    checks: list[_BuildCheck],
     uploaded: list[dict[str, str]],
 ) -> str:
     build = extended.get("build")
-    if not isinstance(build, dict):
+    if not is_json_object(build):
         _conflict("invalid_build", "Flat-manager response lacks build metadata")
-    if type(build.get("id")) is not int or build["id"] != request.build_id:
+    build_id = build.get("id")
+    if type(build_id) is not int or build_id != request.build_id:
         _conflict("identity_mismatch", "Flat-manager build ID differs from candidate")
     if build.get("app_id") is not None and build["app_id"] != request.app_id:
         _conflict("identity_mismatch", "Flat-manager app ID differs from candidate")
@@ -275,9 +292,11 @@ def _uploaded_refs(
     selected: dict[str, dict[str, str]] = {}
     branches: set[str] = set()
     for item in build_refs:
-        if not isinstance(item, dict) or not isinstance(item.get("ref_name"), str):
+        if not is_json_object(item):
             _conflict("invalid_build", "Invalid uploaded ref metadata")
-        ref_name = item["ref_name"]
+        ref_name = item.get("ref_name")
+        if not isinstance(ref_name, str):
+            _conflict("invalid_build", "Invalid uploaded ref metadata")
         parts = ref_name.split("/")
         if len(parts) != 4 or parts[0] != "app" or parts[1] != request.app_id:
             continue
@@ -312,7 +331,7 @@ def _uploaded_refs(
 
 
 def _final_commits(
-    job: dict[str, Any], job_id: int, uploaded: list[dict[str, str]]
+    job: dict[str, JSONValue], job_id: int, uploaded: list[dict[str, str]]
 ) -> dict[str, str]:
     if type(job.get("id")) is not int or job["id"] != job_id:
         _conflict("identity_mismatch", "Commit job ID differs from build commit job")
@@ -326,11 +345,18 @@ def _final_commits(
             results = json.loads(results)
         except ValueError:
             _conflict("invalid_commit_results", "Commit job results are not valid JSON")
-    if not isinstance(results, dict) or not isinstance(results.get("refs"), dict):
+    if not is_json_object(results):
+        _conflict("invalid_commit_results", "Commit job results lack final refs")
+    refs_value = results.get("refs")
+    if not is_json_object(refs_value):
         _conflict("invalid_commit_results", "Commit job results lack final refs")
     names = {item["ref_name"] for item in uploaded}
-    refs = results["refs"]
-    selected = {name: refs[name] for name in names if name in refs}
+    refs = refs_value
+    selected: dict[str, str] = {}
+    for name in names:
+        checksum = refs.get(name)
+        if isinstance(checksum, str):
+            selected[name] = checksum
     if selected.keys() != names:
         _conflict(
             "missing_architecture", "Commit job results lack selected uploaded refs"
@@ -351,12 +377,12 @@ def assess_candidate(
     request: CandidateAssessmentRequest,
 ) -> CandidateAssessmentResponse:
     uploaded: list[dict[str, str]] = []
-    checks: list[dict[str, Any]] = []
+    checks: list[_BuildCheck] = []
     candidate: CollectedPermissions | None = None
     published: CollectedPermissions | None = None
     fingerprint: str | None = None
     published_fingerprint: str | None = None
-    differences: list[dict[str, Any]] | None = None
+    differences: list[_PermissionDifference] | None = None
     error: PermissionSnapshotError | None = None
     try:
         if not request.matrix_succeeded:
@@ -390,7 +416,10 @@ def assess_candidate(
         extended = _fetch(f"{build_url}/extended", headers)
         _build_checks(extended, checks)
         candidate_branch = _uploaded_refs(request, extended, checks, uploaded)
-        job_id = extended["build"].get("commit_job_id")
+        build_metadata = extended.get("build")
+        if not is_json_object(build_metadata):
+            _conflict("invalid_build", "Flat-manager response lacks build metadata")
+        job_id = build_metadata.get("commit_job_id")
         if type(job_id) is not int or job_id <= 0:
             _conflict("missing_commit_job", "Build lacks a commit job")
         final = _final_commits(
@@ -415,7 +444,7 @@ def assess_candidate(
         if published is not None:
             published_fingerprint = fingerprint_snapshot(published.snapshot)
             differences = [
-                asdict(item)
+                {"path": item.path, "before": item.before, "after": item.after}
                 for item in compare_snapshots(published.snapshot, candidate.snapshot)
             ]
         fingerprint = fingerprint_snapshot(candidate.snapshot)

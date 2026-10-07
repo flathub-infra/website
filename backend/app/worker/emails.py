@@ -8,6 +8,7 @@ from sqlalchemy import select
 from .. import config, emails, models, utils
 from ..database import get_db
 from ..email_login import email_login_allowed, lock_email, oauth_email_exists
+from ..types import JSONObject
 
 
 @dramatiq.actor
@@ -17,7 +18,7 @@ def send_email_new(email):
 
 
 @dramatiq.actor
-def send_one_email_new(message: dict, dest: str):
+def send_one_email_new(message: JSONObject, dest: str) -> None:
     emails.send_one_email_new(message, dest)
 
 
