@@ -104,9 +104,9 @@ for (const distro of instructions) {
   })
 }
 
-test("postmarketOS renders its built-in Flatpak introduction", () => {
-  const html = render(pages.get("postmarketOS"))
-  expect(html).toContain("Flatpak is installed by default on postmarketOS!")
+test("Nura renders its built-in Flatpak introduction", () => {
+  const html = render(pages.get("Nura"))
+  expect(html).toContain("Flatpak is installed by default on Nura!")
   expect(html).toContain('href="/"')
 })
 

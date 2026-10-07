@@ -48,28 +48,28 @@ export const distroMap = (locale: string) => {
     ["Salix", <Salix locale={locale} />],
     ["Slackware", <Slackware locale={locale} />],
     ["T2 SDE", <T2_SDE locale={locale} />],
-    ["postmarketOS", <PostmarketOS locale={locale} />],
+    ["Nura", <Nura locale={locale} />],
   ])
 }
 
-const PostmarketOS = ({ locale }: { locale: string }) => {
+const Nura = ({ locale }: { locale: string }) => {
   const t = useTranslations()
   return (
     <>
       <div className="flex flex-col items-center">
-        <motion.picture layoutId="distro-logo-postmarketOS">
+        <motion.picture layoutId="distro-logo-Nura">
           <Image
             width={128}
             height={128}
             src={`${ASSET_BASE_URL}/img/distro/postmarketOS.svg`}
-            alt="postmarketOS Logo"
+            alt="Nura logo"
           />
         </motion.picture>
-        <motion.h1 layoutId="distro-name-postmarketOS">
-          {t("distros.postmarketos.distroName")}
+        <motion.h1 layoutId="distro-name-Nura">
+          {t("distros.nura.distroName")}
         </motion.h1>
       </div>
-      {t.rich("distros.postmarketos.introduction", {
+      {t.rich("distros.nura.introduction", {
         header: (chunk) => <h2>{chunk}</h2>,
         text: (chunk) => <p>{chunk}</p>,
         link: (chunk) => <Link href="/">{chunk}</Link>,

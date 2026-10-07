@@ -445,8 +445,8 @@
     "distroName": "T2 SDE",
     "introduction": "<header>Flatpak is installed by default on T2 SDE since version 26.6 — no setup required!</header> <text>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</text> <text>All you have to do is <link>install apps</link>!</text>"
   },
-  "postmarketos": {
-    "distroName": "postmarketOS",
-    "introduction": "<header>Flatpak is installed by default on postmarketOS!</header> <text>All you have to do is <link>install apps</link>!</text>"
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak is installed by default on Nura!</header> <text>All you have to do is <link>install apps</link>!</text>"
   }
 }
