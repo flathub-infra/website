@@ -1,0 +1,28 @@
+{
+  "totals": {
+    "installs_total": 12345,
+    "installs_last_month": 678
+  },
+  "countries": {
+    "US": 987,
+    "DE": 654
+  },
+  "downloads_per_day": {
+    "2026-01-14": 42
+  },
+  "updates_per_day": {
+    "2026-01-14": 12
+  },
+  "delta_downloads_per_day": {
+    "2026-01-14": 30
+  },
+  "category_totals": [
+    {
+      "category": "Utility",
+      "count": 14
+    }
+  ],
+  "os_versions": {},
+  "flatpak_versions": {},
+  "os_flatpak_versions": {}
+}
