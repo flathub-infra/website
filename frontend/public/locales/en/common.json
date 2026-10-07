@@ -707,7 +707,20 @@
   "confirm": "Confirm",
   "do-you-really-want-to-switch-to-direct-upload": "Are you sure? Once you switch an application to direct uploading, there is no going back.",
   "archive-app": "Archive this app",
-  "do-you-really-want-to-archive-app": "Are you sure? This will invalidate upload tokens and archive the application.",
+  "do-you-really-want-to-archive-app": "Review the effects below before archiving.",
+  "danger-zone-confirmation": {
+    "switch": {
+      "warning-title": "This change cannot be undone",
+      "warning-consequence": "Switching changes this app to Flathub direct uploads permanently.",
+      "acknowledgment": "I understand that switching <app>{app_id}</app> to direct upload cannot be undone"
+    },
+    "archive": {
+      "warning-title": "Archiving affects this app and its publishers",
+      "warning-tokens": "All active upload tokens for this app will be invalidated.",
+      "warning-eol": "The app will be marked end-of-life using the message below.",
+      "acknowledgment": "I understand the effects of archiving <app>{app_id}</app>"
+    }
+  },
   "archive": "Archive",
   "enter-end-of-life-message": "Enter end-of-life message",
   "rebase-onto-other-app": "Enter app ID your application will be rebased into",
