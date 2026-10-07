@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react"
+import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { distroMap } from "./Distros"
 
 const meta = {
@@ -111,7 +111,7 @@ export const RockyLinux: Story = {
 export const CentOSStream: Story = {
   render: () => (
     <div className="prose mx-auto dark:prose-invert prose-pre:rounded-xl">
-      <div className="space-y-4">{allDistros.get("CentOS")}</div>
+      <div className="space-y-4">{allDistros.get("CentOS Stream")}</div>
     </div>
   ),
 }

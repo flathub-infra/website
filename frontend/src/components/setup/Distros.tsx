@@ -48,7 +48,34 @@ export const distroMap = (locale: string) => {
     ["Salix", <Salix locale={locale} />],
     ["Slackware", <Slackware locale={locale} />],
     ["T2 SDE", <T2_SDE locale={locale} />],
+    ["postmarketOS", <PostmarketOS locale={locale} />],
   ])
+}
+
+const PostmarketOS = ({ locale }: { locale: string }) => {
+  const t = useTranslations()
+  return (
+    <>
+      <div className="flex flex-col items-center">
+        <motion.picture layoutId="distro-logo-postmarketOS">
+          <Image
+            width={128}
+            height={128}
+            src={`${ASSET_BASE_URL}/img/distro/postmarketOS.svg`}
+            alt="postmarketOS Logo"
+          />
+        </motion.picture>
+        <motion.h1 layoutId="distro-name-postmarketOS">
+          {t("distros.postmarketos.distroName")}
+        </motion.h1>
+      </div>
+      {t.rich("distros.postmarketos.introduction", {
+        header: (chunk) => <h2>{chunk}</h2>,
+        text: (chunk) => <p>{chunk}</p>,
+        link: (chunk) => <Link href="/">{chunk}</Link>,
+      })}
+    </>
+  )
 }
 
 const Ubuntu = ({ locale }: { locale: string }) => {
@@ -76,7 +103,7 @@ const Ubuntu = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/ubuntu",
+              url: "https://flathub.org/setup/Ubuntu",
               name: t("distros.ubuntu.step-1.name"),
               itemListElement: [
                 {
@@ -84,13 +111,13 @@ const Ubuntu = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.ubuntu.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/ubuntu",
+              url: "https://flathub.org/setup/Ubuntu",
               name: t("distros.ubuntu.step-2.name"),
               itemListElement: [
                 {
@@ -98,13 +125,13 @@ const Ubuntu = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.ubuntu.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/ubuntu",
+              url: "https://flathub.org/setup/Ubuntu",
               name: t("distros.ubuntu.step-3.name"),
               itemListElement: [
                 {
@@ -112,13 +139,13 @@ const Ubuntu = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.ubuntu.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/ubuntu",
+              url: "https://flathub.org/setup/Ubuntu",
               name: t("distros.ubuntu.step-4.name"),
               itemListElement: [
                 {
@@ -126,7 +153,7 @@ const Ubuntu = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.ubuntu.step-4.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -254,7 +281,7 @@ const Manjaro = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/manjaro",
+              url: "https://flathub.org/setup/Manjaro",
               name: t("distros.manjaro.step-1.name"),
               itemListElement: [
                 {
@@ -262,13 +289,13 @@ const Manjaro = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.manjaro.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/manjaro",
+              url: "https://flathub.org/setup/Manjaro",
               name: t("distros.manjaro.step-2.name"),
               itemListElement: [
                 {
@@ -276,7 +303,7 @@ const Manjaro = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.manjaro.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -359,7 +386,7 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/alt_linux",
+              url: "https://flathub.org/setup/ALT%20Linux",
               name: t("distros.alt_linux.step-1.name"),
               itemListElement: [
                 {
@@ -367,13 +394,13 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.alt_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/alt_linux",
+              url: "https://flathub.org/setup/ALT%20Linux",
               name: t("distros.alt_linux.step-2.name"),
               itemListElement: [
                 {
@@ -381,13 +408,13 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.alt_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/alt_linux",
+              url: "https://flathub.org/setup/ALT%20Linux",
               name: t("distros.alt_linux.step-3.name"),
               itemListElement: [
                 {
@@ -395,7 +422,7 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.alt_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -468,7 +495,7 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/chrome_os",
+              url: "https://flathub.org/setup/Chrome%20OS",
               name: t("distros.chrome_os.step-1.name"),
               itemListElement: [
                 {
@@ -476,13 +503,13 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.chrome_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/chrome_os",
+              url: "https://flathub.org/setup/Chrome%20OS",
               name: t("distros.chrome_os.step-2.name"),
               itemListElement: [
                 {
@@ -490,13 +517,13 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.chrome_os.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/chrome_os",
+              url: "https://flathub.org/setup/Chrome%20OS",
               name: t("distros.chrome_os.step-3.name"),
               itemListElement: [
                 {
@@ -504,13 +531,13 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.chrome_os.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/chrome_os",
+              url: "https://flathub.org/setup/Chrome%20OS",
               name: t("distros.chrome_os.step-4.name"),
               itemListElement: [
                 {
@@ -518,13 +545,13 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.chrome_os.step-4.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/chrome_os",
+              url: "https://flathub.org/setup/Chrome%20OS",
               name: t("distros.chrome_os.step-5.name"),
               itemListElement: [
                 {
@@ -532,7 +559,7 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.chrome_os.step-5.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -692,7 +719,7 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/opensuse",
+              url: "https://flathub.org/setup/openSUSE",
               name: t("distros.opensuse.step-1.name"),
               itemListElement: [
                 {
@@ -700,13 +727,13 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.opensuse.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/opensuse",
+              url: "https://flathub.org/setup/openSUSE",
               name: t("distros.opensuse.step-2.name"),
               itemListElement: [
                 {
@@ -714,13 +741,13 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.opensuse.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/opensuse",
+              url: "https://flathub.org/setup/openSUSE",
               name: t("distros.opensuse.step-3.name"),
               itemListElement: [
                 {
@@ -728,7 +755,7 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.opensuse.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -806,7 +833,7 @@ const Arch = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/arch",
+              url: "https://flathub.org/setup/Arch",
               name: t("distros.arch.step-1.name"),
               itemListElement: [
                 {
@@ -814,13 +841,13 @@ const Arch = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.arch.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/arch",
+              url: "https://flathub.org/setup/Arch",
               name: t("distros.arch.step-2.name"),
               itemListElement: [
                 {
@@ -828,7 +855,7 @@ const Arch = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.arch.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -881,7 +908,7 @@ const Debian = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/debian",
+              url: "https://flathub.org/setup/Debian",
               name: t("distros.debian.step-1.name"),
               itemListElement: [
                 {
@@ -889,13 +916,13 @@ const Debian = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.debian.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/debian",
+              url: "https://flathub.org/setup/Debian",
               name: t("distros.debian.step-2.name"),
               itemListElement: [
                 {
@@ -903,13 +930,13 @@ const Debian = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.debian.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/debian",
+              url: "https://flathub.org/setup/Debian",
               name: t("distros.debian.step-3.name"),
               itemListElement: [
                 {
@@ -917,13 +944,13 @@ const Debian = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.debian.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/debian",
+              url: "https://flathub.org/setup/Debian",
               name: t("distros.debian.step-4.name"),
               itemListElement: [
                 {
@@ -931,7 +958,7 @@ const Debian = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.debian.step-4.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -1020,7 +1047,7 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/rocky_linux",
+              url: "https://flathub.org/setup/Rocky%20Linux",
               name: t("distros.rocky_linux.step-1.name"),
               itemListElement: [
                 {
@@ -1028,13 +1055,13 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.rocky_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/rocky_linux",
+              url: "https://flathub.org/setup/Rocky%20Linux",
               name: t("distros.rocky_linux.step-2.name"),
               itemListElement: [
                 {
@@ -1042,13 +1069,13 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.rocky_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/rocky_linux",
+              url: "https://flathub.org/setup/Rocky%20Linux",
               name: t("distros.rocky_linux.step-3.name"),
               itemListElement: [
                 {
@@ -1056,7 +1083,7 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.rocky_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -1192,7 +1219,7 @@ const Gentoo = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/gentoo",
+              url: "https://flathub.org/setup/Gentoo",
               name: t("distros.gentoo.step-1.name"),
               itemListElement: [
                 {
@@ -1200,13 +1227,13 @@ const Gentoo = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.gentoo.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/gentoo",
+              url: "https://flathub.org/setup/Gentoo",
               name: t("distros.gentoo.step-2.name"),
               itemListElement: [
                 {
@@ -1214,13 +1241,13 @@ const Gentoo = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.gentoo.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/gentoo",
+              url: "https://flathub.org/setup/Gentoo",
               name: t("distros.gentoo.step-3.name"),
               itemListElement: [
                 {
@@ -1228,7 +1255,7 @@ const Gentoo = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.gentoo.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -1297,7 +1324,7 @@ const Kubuntu = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/kubuntu",
+              url: "https://flathub.org/setup/Kubuntu",
               name: t("distros.kubuntu.step-1.name"),
               itemListElement: [
                 {
@@ -1305,13 +1332,13 @@ const Kubuntu = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.kubuntu.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/kubuntu",
+              url: "https://flathub.org/setup/Kubuntu",
               name: t("distros.kubuntu.step-2.name"),
               itemListElement: [
                 {
@@ -1319,13 +1346,13 @@ const Kubuntu = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.kubuntu.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/kubuntu",
+              url: "https://flathub.org/setup/Kubuntu",
               name: t("distros.kubuntu.step-3.name"),
               itemListElement: [
                 {
@@ -1333,13 +1360,13 @@ const Kubuntu = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.kubuntu.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/kubuntu",
+              url: "https://flathub.org/setup/Kubuntu",
               name: t("distros.kubuntu.step-4.name"),
               itemListElement: [
                 {
@@ -1347,7 +1374,7 @@ const Kubuntu = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.kubuntu.step-4.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -1416,7 +1443,7 @@ const Solus = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/solus",
+              url: "https://flathub.org/setup/Solus",
               name: t("distros.solus.step-1.name"),
               itemListElement: [
                 {
@@ -1424,13 +1451,13 @@ const Solus = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.solus.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/solus",
+              url: "https://flathub.org/setup/Solus",
               name: t("distros.solus.step-2.name"),
               itemListElement: [
                 {
@@ -1438,13 +1465,13 @@ const Solus = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.solus.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/solus",
+              url: "https://flathub.org/setup/Solus",
               name: t("distros.solus.step-3.name"),
               itemListElement: [
                 {
@@ -1452,7 +1479,7 @@ const Solus = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.solus.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -1527,7 +1554,7 @@ const Alpine = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/alpine",
+              url: "https://flathub.org/setup/Alpine",
               name: t("distros.alpine.step-1.name"),
               itemListElement: [
                 {
@@ -1535,13 +1562,13 @@ const Alpine = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.alpine.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/alpine",
+              url: "https://flathub.org/setup/Alpine",
               name: t("distros.alpine.step-2.name"),
               itemListElement: [
                 {
@@ -1549,13 +1576,13 @@ const Alpine = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.alpine.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/alpine",
+              url: "https://flathub.org/setup/Alpine",
               name: t("distros.alpine.step-3.name"),
               itemListElement: [
                 {
@@ -1563,13 +1590,13 @@ const Alpine = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.alpine.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/alpine",
+              url: "https://flathub.org/setup/Alpine",
               name: t("distros.alpine.step-4.name"),
               itemListElement: [
                 {
@@ -1577,7 +1604,7 @@ const Alpine = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.alpine.step-4.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -1662,7 +1689,7 @@ const Mageia = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/mageia",
+              url: "https://flathub.org/setup/Mageia",
               name: t("distros.mageia.step-1.name"),
               itemListElement: [
                 {
@@ -1670,13 +1697,13 @@ const Mageia = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.mageia.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/mageia",
+              url: "https://flathub.org/setup/Mageia",
               name: t("distros.mageia.step-2.name"),
               itemListElement: [
                 {
@@ -1684,13 +1711,13 @@ const Mageia = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.mageia.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/mageia",
+              url: "https://flathub.org/setup/Mageia",
               name: t("distros.mageia.step-3.name"),
               itemListElement: [
                 {
@@ -1698,7 +1725,7 @@ const Mageia = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.mageia.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -1829,7 +1856,7 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/elementary_os",
+              url: "https://flathub.org/setup/elementary%20OS",
               name: t("distros.elementary_os.step-1.name"),
               itemListElement: [
                 {
@@ -1837,7 +1864,7 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.elementary_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -1882,7 +1909,7 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/raspberry_pi_os",
+              url: "https://flathub.org/setup/Raspberry%20Pi%20OS",
               name: t("distros.raspberry_pi_os.step-1.name"),
               itemListElement: [
                 {
@@ -1890,13 +1917,13 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.raspberry_pi_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/raspberry_pi_os",
+              url: "https://flathub.org/setup/Raspberry%20Pi%20OS",
               name: t("distros.raspberry_pi_os.step-2.name"),
               itemListElement: [
                 {
@@ -1904,13 +1931,13 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.raspberry_pi_os.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/raspberry_pi_os",
+              url: "https://flathub.org/setup/Raspberry%20Pi%20OS",
               name: t("distros.raspberry_pi_os.step-3.name"),
               itemListElement: [
                 {
@@ -1918,7 +1945,7 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.raspberry_pi_os.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -1990,7 +2017,7 @@ const Void_Linux = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/void_linux",
+              url: "https://flathub.org/setup/Void%20Linux",
               name: t("distros.void_linux.step-1.name"),
               itemListElement: [
                 {
@@ -1998,13 +2025,13 @@ const Void_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.void_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/void_linux",
+              url: "https://flathub.org/setup/Void%20Linux",
               name: t("distros.void_linux.step-2.name"),
               itemListElement: [
                 {
@@ -2012,13 +2039,13 @@ const Void_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.void_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/void_linux",
+              url: "https://flathub.org/setup/Void%20Linux",
               name: t("distros.void_linux.step-3.name"),
               itemListElement: [
                 {
@@ -2026,7 +2053,7 @@ const Void_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.void_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -2093,7 +2120,7 @@ const NixOS = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/nixos",
+              url: "https://flathub.org/setup/NixOS",
               name: t("distros.nixos.step-1.name"),
               itemListElement: [
                 {
@@ -2101,13 +2128,13 @@ const NixOS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.nixos.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/nixos",
+              url: "https://flathub.org/setup/NixOS",
               name: t("distros.nixos.step-2.name"),
               itemListElement: [
                 {
@@ -2115,13 +2142,13 @@ const NixOS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.nixos.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/nixos",
+              url: "https://flathub.org/setup/NixOS",
               name: t("distros.nixos.step-3.name"),
               itemListElement: [
                 {
@@ -2129,7 +2156,7 @@ const NixOS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.nixos.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -2275,7 +2302,7 @@ const Deepin = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/deepin",
+              url: "https://flathub.org/setup/Deepin",
               name: t("distros.deepin.step-1.name"),
               itemListElement: [
                 {
@@ -2283,13 +2310,13 @@ const Deepin = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.deepin.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/deepin",
+              url: "https://flathub.org/setup/Deepin",
               name: t("distros.deepin.step-2.name"),
               itemListElement: [
                 {
@@ -2297,13 +2324,13 @@ const Deepin = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.deepin.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/deepin",
+              url: "https://flathub.org/setup/Deepin",
               name: t("distros.deepin.step-3.name"),
               itemListElement: [
                 {
@@ -2311,13 +2338,13 @@ const Deepin = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.deepin.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/deepin",
+              url: "https://flathub.org/setup/Deepin",
               name: t("distros.deepin.step-4.name"),
               itemListElement: [
                 {
@@ -2325,7 +2352,7 @@ const Deepin = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.deepin.step-4.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -2405,7 +2432,7 @@ const Pardus = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/pardus",
+              url: "https://flathub.org/setup/Pardus",
               name: t("distros.pardus.step-1.name"),
               itemListElement: [
                 {
@@ -2413,13 +2440,13 @@ const Pardus = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.pardus.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/pardus",
+              url: "https://flathub.org/setup/Pardus",
               name: t("distros.pardus.step-2.name"),
               itemListElement: [
                 {
@@ -2427,13 +2454,13 @@ const Pardus = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.pardus.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/pardus",
+              url: "https://flathub.org/setup/Pardus",
               name: t("distros.pardus.step-3.name"),
               itemListElement: [
                 {
@@ -2441,13 +2468,13 @@ const Pardus = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.pardus.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/pardus",
+              url: "https://flathub.org/setup/Pardus",
               name: t("distros.pardus.step-4.name"),
               itemListElement: [
                 {
@@ -2455,7 +2482,7 @@ const Pardus = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.pardus.step-4.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -2539,7 +2566,7 @@ const MX_Linux = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/mx_linux",
+              url: "https://flathub.org/setup/MX%20Linux",
               name: t("distros.mx_linux.step-1.name"),
               itemListElement: [
                 {
@@ -2547,13 +2574,13 @@ const MX_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.mx_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/mx_linux",
+              url: "https://flathub.org/setup/MX%20Linux",
               name: t("distros.mx_linux.step-2.name"),
               itemListElement: [
                 {
@@ -2561,7 +2588,7 @@ const MX_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.mx_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -2618,7 +2645,7 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/pisi_gnulinux",
+              url: "https://flathub.org/setup/Pisi%20GNU%20Linux",
               name: t("distros.pisi_gnulinux.step-1.name"),
               itemListElement: [
                 {
@@ -2626,13 +2653,13 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.pisi_gnulinux.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/pisi_gnulinux",
+              url: "https://flathub.org/setup/Pisi%20GNU%20Linux",
               name: t("distros.pisi_gnulinux.step-2.name"),
               itemListElement: [
                 {
@@ -2640,13 +2667,13 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.pisi_gnulinux.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/pisi_gnulinux",
+              url: "https://flathub.org/setup/Pisi%20GNU%20Linux",
               name: t("distros.pisi_gnulinux.step-3.name"),
               itemListElement: [
                 {
@@ -2654,7 +2681,7 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.pisi_gnulinux.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -2725,7 +2752,7 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/endeavouros",
+              url: "https://flathub.org/setup/EndeavourOS",
               name: t("distros.endeavouros.step-1.name"),
               itemListElement: [
                 {
@@ -2733,13 +2760,13 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.endeavouros.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/endeavouros",
+              url: "https://flathub.org/setup/EndeavourOS",
               name: t("distros.endeavouros.step-2.name"),
               itemListElement: [
                 {
@@ -2747,13 +2774,13 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.endeavouros.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/endeavouros",
+              url: "https://flathub.org/setup/EndeavourOS",
               name: t("distros.endeavouros.step-3.name"),
               itemListElement: [
                 {
@@ -2761,7 +2788,7 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.endeavouros.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -2859,7 +2886,7 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/gnu_guix",
+              url: "https://flathub.org/setup/GNU%20Guix",
               name: t("distros.gnu_guix.step-1.name"),
               itemListElement: [
                 {
@@ -2867,13 +2894,13 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.gnu_guix.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/gnu_guix",
+              url: "https://flathub.org/setup/GNU%20Guix",
               name: t("distros.gnu_guix.step-2.name"),
               itemListElement: [
                 {
@@ -2881,13 +2908,13 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.gnu_guix.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/gnu_guix",
+              url: "https://flathub.org/setup/GNU%20Guix",
               name: t("distros.gnu_guix.step-3.name"),
               itemListElement: [
                 {
@@ -2895,7 +2922,7 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.gnu_guix.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -2962,7 +2989,7 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/crystal_linux",
+              url: "https://flathub.org/setup/Crystal%20Linux",
               name: t("distros.crystal_linux.step-1.name"),
               itemListElement: [
                 {
@@ -2970,13 +2997,13 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.crystal_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/crystal_linux",
+              url: "https://flathub.org/setup/Crystal%20Linux",
               name: t("distros.crystal_linux.step-2.name"),
               itemListElement: [
                 {
@@ -2984,13 +3011,13 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.crystal_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/crystal_linux",
+              url: "https://flathub.org/setup/Crystal%20Linux",
               name: t("distros.crystal_linux.step-3.name"),
               itemListElement: [
                 {
@@ -2998,7 +3025,7 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.crystal_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -3133,7 +3160,7 @@ const Slackware = ({ locale }: { locale: string }) => {
           estimatedCost={{ currency: "USD", value: "0" }}
           step={[
             {
-              url: "https://flathub.org/setup/slackware",
+              url: "https://flathub.org/setup/Slackware",
               name: t("distros.slackware.step-1.name"),
               itemListElement: [
                 {
@@ -3141,13 +3168,13 @@ const Slackware = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.slackware.step-1.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/slackware",
+              url: "https://flathub.org/setup/Slackware",
               name: t("distros.slackware.step-2.name"),
               itemListElement: [
                 {
@@ -3155,13 +3182,13 @@ const Slackware = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.slackware.step-2.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
             },
             {
-              url: "https://flathub.org/setup/slackware",
+              url: "https://flathub.org/setup/Slackware",
               name: t("distros.slackware.step-3.name"),
               itemListElement: [
                 {
@@ -3169,7 +3196,7 @@ const Slackware = ({ locale }: { locale: string }) => {
                   text: t
                     .raw("distros.slackware.step-3.text")
                     .replace(/<[^>]*>/g, "")
-                    .replace(/s{2,}/g, " ")
+                    .replace(/\s{2,}/g, " ")
                     .trim(),
                 },
               ],
@@ -3217,7 +3244,7 @@ const T2_SDE = ({ locale }: { locale: string }) => {
   return (
     <>
       <div className="flex flex-col items-center">
-        <motion.picture layoutId="distro-logo-T2SDE">
+        <motion.picture layoutId="distro-logo-T2-SDE">
           <Image
             width={128}
             height={128}
@@ -3225,7 +3252,7 @@ const T2_SDE = ({ locale }: { locale: string }) => {
             alt="T2 SDE Logo"
           />
         </motion.picture>
-        <motion.h1 layoutId="distro-name-T2SDE">
+        <motion.h1 layoutId="distro-name-T2-SDE">
           {t("distros.t2_sde.distroName")}
         </motion.h1>
       </div>
