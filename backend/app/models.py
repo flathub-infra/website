@@ -42,7 +42,7 @@ from sqlalchemy.orm import (
     relationship,
 )
 
-from . import utils
+from . import localize, utils
 from .db_session import DBSession
 from .types import JSONObject
 
@@ -3446,6 +3446,37 @@ class App(Base):
                 entry = self.content_rating_details.get("en_US")
             if entry:
                 result["content_rating_details"] = {posix_locale: entry}
+
+        if screenshots := result.get("screenshots"):
+            locale_key = localize.normalize_language(locale)
+            locale_candidates = [locale_key]
+            base_locale = locale_key.split("-")[0]
+            if base_locale not in locale_candidates:
+                locale_candidates.append(base_locale)
+
+            result["screenshots"] = []
+            for screenshot in screenshots:
+                sizes = screenshot.get("sizes", [])
+                localized_sizes = next(
+                    (
+                        [size for size in sizes if size.get("lang") == candidate]
+                        for candidate in locale_candidates
+                        if any(size.get("lang") == candidate for size in sizes)
+                    ),
+                    None,
+                )
+                screenshot_sizes = localized_sizes or [
+                    size for size in sizes if size.get("lang") is None
+                ]
+                result["screenshots"].append(
+                    {
+                        **screenshot,
+                        "sizes": [
+                            {key: value for key, value in size.items() if key != "lang"}
+                            for size in screenshot_sizes
+                        ],
+                    }
+                )
 
         if not self.localization:
             return result
