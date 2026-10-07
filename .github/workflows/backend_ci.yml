@@ -79,7 +79,11 @@ jobs:
         run: uv run ty check app
 
       - name: Run unit tests
-        run: uv run pytest -vvvv --ignore=tests/main.py --ignore=tests/test_storefront_smoke.py --ignore=tests/test_year_in_review_smoke.py
+        run: >-
+          uv run pytest -vvvv --ignore=tests/main.py
+          --ignore=tests/test_storefront_smoke.py
+          --ignore=tests/test_year_in_review_smoke.py
+          --ignore=tests/api_smoke
 
   smoketests:
     permissions:
