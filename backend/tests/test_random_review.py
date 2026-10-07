@@ -77,6 +77,10 @@ class FakeQuery:
                 return False
             if operator_name == "lt" and current >= value:
                 return False
+            if getattr(operator, "opstring", None) == "<@" and (
+                current is None or not set(current) <= set(value)
+            ):
+                return False
         return True
 
     def _requests(self):
@@ -3505,6 +3509,50 @@ def test_observation_does_not_suppress_random_review(monkeypatch):
     )
 
 
+@pytest.mark.parametrize("clean_replacement", [False, True])
+@pytest.mark.parametrize(
+    ("original_refs", "replacement_refs", "superseded"),
+    [
+        (["x86_64/stable"], ["aarch64/stable"], False),
+        (["aarch64/stable"], ["x86_64/stable"], False),
+        (["x86_64/stable"], ["x86_64/stable"], True),
+        (["x86_64/stable", "aarch64/stable"], ["x86_64/stable"], False),
+        (["x86_64/stable"], ["x86_64/stable", "aarch64/stable"], True),
+        (["x86_64/stable"], ["x86_64/other"], False),
+    ],
+)
+def test_replacement_only_outdates_fully_superseded_refs(
+    monkeypatch, original_refs, replacement_refs, superseded, clean_replacement
+):
+    def build_refs(refs):
+        return [
+            {"ref_name": f"app/org.example.App/{ref}", "commit": "a" * 64}
+            for ref in refs
+        ]
+
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["name"] = "Old name"
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=current_values,
+        build_refs=build_refs(original_refs),
+    )
+    assert harness.call().requires_review is True
+    original_requests = list(harness.db.session.persisted)
+
+    harness.build_id += 1
+    harness.job_id += 1
+    harness.build_refs = build_refs(replacement_refs)
+    if clean_replacement:
+        harness.current_values = _unchanged_values()
+
+    assert harness.call().requires_review is not clean_replacement
+    assert original_requests
+    assert all(request.is_outdated is superseded for request in original_requests)
+    assert all(request.is_approved is None for request in original_requests)
+
+
 def test_clean_replacement_build_outdates_only_older_requests_for_its_app(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
@@ -3520,6 +3568,7 @@ def test_clean_replacement_build_outdates_only_older_requests_for_its_app(monkey
             is_outdated=False,
             build_id=build_id,
             job_id=6,
+            app_refs=[f"app/{app_id}/x86_64/stable"],
         )
         for app_id, build_id in (
             ("org.example.App", 41),
@@ -3542,6 +3591,60 @@ def test_clean_replacement_build_outdates_only_older_requests_for_its_app(monkey
     assert harness.db.session.commit_calls == 1
 
 
+@pytest.mark.parametrize("app_refs", [None, []])
+def test_replacement_preserves_requests_with_unknown_ref_coverage(
+    monkeypatch, app_refs
+):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+    )
+    request = models.ModerationRequest(
+        appid="org.example.App",
+        request_type=ModerationRequestType.APPDATA,
+        request_data="{}",
+        is_new_submission=False,
+        is_outdated=False,
+        build_id=41,
+        job_id=6,
+        app_refs=app_refs,
+    )
+    harness.db.session.persisted.append(request)
+
+    assert harness.call().requires_review is False
+    assert request.is_outdated is False
+
+
+def test_manifest_observation_preserves_other_architecture_requests(monkeypatch):
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        manifest_enabled=True,
+        manifest_source_origin_observe_only=True,
+    )
+    monkeypatch.setattr(
+        moderation.ostree_manifest,
+        "collect_manifest_pairs",
+        lambda **kwargs: (
+            _source_manifest_pair(harness.build_refs[0]["ref_name"].split("/")[2]),
+        ),
+    )
+    assert harness.call().requires_review is False
+    first = harness.db.session.persisted[0]
+    assert first.is_observation is True
+
+    harness.build_id += 1
+    harness.job_id += 1
+    harness.build_refs = [
+        {"ref_name": "app/org.example.App/aarch64/stable", "commit": "b" * 64}
+    ]
+
+    assert harness.call().requires_review is False
+    assert first.is_outdated is False
+
+
 def test_manifest_observation_does_not_hold_clean_replacement_build(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
@@ -3559,6 +3662,7 @@ def test_manifest_observation_does_not_hold_clean_replacement_build(monkeypatch)
         is_outdated=False,
         build_id=41,
         job_id=6,
+        app_refs=["app/org.example.App/x86_64/stable"],
     )
     harness.db.session.persisted.append(appdata_request)
     monkeypatch.setattr(
@@ -4082,6 +4186,61 @@ def test_review_dispatches_each_architecture_job(monkeypatch):
         (7, "Passed", None, 42),
         (8, "Passed", None, None),
     ]
+
+
+def test_separate_architecture_builds_can_be_reviewed_and_published_independently(
+    monkeypatch,
+):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["name"] = "Old name"
+    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    assert harness.call().requires_review is True
+
+    harness.build_id = 43
+    harness.job_id = 8
+    harness.build_refs = [
+        {"ref_name": "app/org.example.App/aarch64/stable", "commit": "b" * 64}
+    ]
+    assert harness.call().requires_review is True
+    requests = harness.db.session.persisted
+    assert len(requests) == 2
+    assert all(request.is_outdated is False for request in requests)
+
+    # Supply the IDs/defaults that the database assigns on insert, then use the
+    # endpoint harness to review the requests created by the real callbacks.
+    db = EndpointDb()
+    db.session.requests = requests
+    for index, request in enumerate(requests, start=1):
+        request.id = index
+        request.is_observation = False
+    db.session.persisted_approvals = {request.id: None for request in requests}
+
+    @contextmanager
+    def get_db(db_type="replica"):
+        yield db
+
+    dispatches = []
+    monkeypatch.setattr(moderation, "get_db", get_db)
+    monkeypatch.setattr(
+        moderation.worker.review_check, "send", lambda *args: dispatches.append(args)
+    )
+    monkeypatch.setattr(
+        moderation.audit_log, "enqueue_audit_log", lambda *args, **kwargs: None
+    )
+    login = SimpleNamespace(user=SimpleNamespace(id=9))
+
+    moderation.submit_review(
+        1, moderation.Review(approve=True), login, SimpleNamespace(), object()
+    )
+    assert dispatches == [(7, "Passed", None, 42)]
+    assert requests[1].handled_at is None
+    assert requests[1].is_approved is None
+    assert requests[1].is_outdated is False
+
+    moderation.submit_review(
+        2, moderation.Review(approve=True), login, SimpleNamespace(), object()
+    )
+    assert dispatches == [(7, "Passed", None, 42), (8, "Passed", None, 43)]
 
 
 @pytest.mark.parametrize("approve", [True, False])

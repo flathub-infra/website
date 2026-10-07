@@ -2297,6 +2297,8 @@ class ModerationRequest(Base):
 
     build_id = mapped_column(Integer, nullable=False)
     job_id = mapped_column(Integer, nullable=False, index=True)
+    # Full refs for this app; NULL means the coverage of a legacy request is unknown.
+    app_refs: Mapped[list[str] | None] = mapped_column(ARRAY(String))
     is_outdated = mapped_column(
         Boolean, nullable=False, server_default=false(), index=True
     )

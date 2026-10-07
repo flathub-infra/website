@@ -1472,7 +1472,6 @@ def submit_review_request(
     new_requests: list[models.ModerationRequest] = []
     persisted_requests: list[models.ModerationRequest] = []
     analysis_observations: dict[str, dict[str, JSONValue]] = {}
-    new_observation_app_ids: set[str] = set()
     manifest_newly_actionable_requests: list[models.ModerationRequest] = []
     manifest_newly_actionable_app_ids: set[str] = set()
     eligible_app_ids: list[str] = []
@@ -1547,6 +1546,7 @@ def submit_review_request(
     app_ids = list(build_appstream.keys())
     direct_upload_apps_by_id = {}
     valid_build_branches: dict[str, set[str]] = {}
+    build_refs_by_app: dict[str, set[str]] = {}
     for build_ref in build_refs if isinstance(build_refs, list) else []:
         if not is_json_object(build_ref):
             continue
@@ -1554,6 +1554,12 @@ def submit_review_request(
         if not isinstance(ref_name, str):
             continue
         ref_parts = ref_name.split("/")
+        if (
+            len(ref_parts) == 4
+            and ref_parts[0] in ("app", "runtime")
+            and all(ref_parts)
+        ):
+            build_refs_by_app.setdefault(ref_parts[1], set()).add(ref_name)
         if len(ref_parts) == 4 and ref_parts[0] == "app" and ref_parts[1] in app_ids:
             valid_build_branches.setdefault(ref_parts[1], set()).add(ref_parts[3])
     build_eol_values_by_app: dict[str, dict[str, list[str]]] | None = None
@@ -2171,9 +2177,7 @@ def submit_review_request(
                     build_log_url=build_log_url,
                 )
                 persisted_requests.append(manifest_request)
-                if manifest_is_observation:
-                    new_observation_app_ids.add(app_id)
-                else:
+                if not manifest_is_observation:
                     new_requests.append(manifest_request)
             elif existing_matches:
                 reused_request = existing_manifest_requests[0]
@@ -2414,18 +2418,26 @@ def submit_review_request(
         for request in new_requests + manifest_newly_actionable_requests
     ]
 
-    # Mark previous requests as outdated, to avoid flooding the moderation queue with requests that probably aren't
-    # relevant anymore. Outdated requests can still be viewed and approved, but they're hidden by default.
+    # A newer build only supersedes requests whose app refs it fully replaces.
+    # Separate architecture/branch uploads must remain visible for review, as must
+    # legacy requests with unknown coverage. Outdated requests are hidden by default.
     with get_db("writer") as db:
         actionable_app_ids = {
             request.appid for request in new_requests
         } | manifest_newly_actionable_app_ids
         outdated_count = 0
         for app_id in set(app_ids) | actionable_app_ids:
+            app_refs = sorted(build_refs_by_app.get(app_id, ()))
+            if not app_refs:
+                continue
             outdated_count += (
                 db.session.query(models.ModerationRequest)
                 .filter_by(appid=app_id, is_outdated=False)
-                .filter(models.ModerationRequest.build_id < review_request.build_id)
+                .filter(
+                    models.ModerationRequest.build_id < review_request.build_id,
+                    models.ModerationRequest.app_refs != [],
+                    models.ModerationRequest.app_refs.contained_by(app_refs),
+                )
                 .update({"is_outdated": True})
             )
         promoted_request_ids = [
@@ -2436,15 +2448,8 @@ def submit_review_request(
                 models.ModerationRequest.id.in_(promoted_request_ids)
             ).update({"is_outdated": False})
 
-        for app_id in new_observation_app_ids - actionable_app_ids:
-            db.session.query(models.ModerationRequest).filter(
-                models.ModerationRequest.appid == app_id,
-                models.ModerationRequest.is_outdated.is_(False),
-                models.ModerationRequest.request_type == ModerationRequestType.MANIFEST,
-                models.ModerationRequest.is_observation.is_(True),
-            ).update({"is_outdated": True})
-
         for request in persisted_requests:
+            request.app_refs = sorted(build_refs_by_app.get(request.appid, ())) or None
             db.session.add(request)
         _upsert_manifest_analysis_observations(
             db.session,
