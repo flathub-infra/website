@@ -2,12 +2,10 @@
 
 import type { PipelineSummary } from "src/codegen-pipeline"
 import { defineChart, lineY } from "@tanstack/charts"
-import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { tooltip } from "@tanstack/charts/tooltip"
 import { crosshair } from "@tanstack/charts/crosshair"
-import { d3Curve } from "@tanstack/charts/d3/shape"
-import { curveMonotoneX } from "d3-shape"
+import { scaleUtc } from "d3-scale"
 import { ChartLegendItems, TanstackChart } from "src/components/charts/chart"
 import { useMemo } from "react"
 import { formatDuration } from "date-fns"
@@ -26,58 +24,57 @@ export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
   const locale = useLocale()
   const t = useTranslations()
   const lineColor = primaryStroke
-  const chartData = useMemo(() => {
-    const dateFormatter = new Intl.DateTimeFormat(
-      getIntlLocale(locale).toString(),
-      {
+  const axisDateFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat(getIntlLocale(locale).toString(), {
         month: "short",
         day: "numeric",
         timeZone: "UTC",
-      },
-    )
-    const points = toDurationSeries(builds, (startedAt) =>
-      dateFormatter.format(startedAt),
-    )
-    if (
-      points.length > 0 &&
-      points[0].startedAt.slice(0, 10) ===
-        points[points.length - 1].startedAt.slice(0, 10)
-    ) {
-      const timeFormatter = new Intl.DateTimeFormat(
-        getIntlLocale(locale).toString(),
-        {
-          month: "short",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          timeZone: "UTC",
-        },
-      )
-      return toDurationSeries(builds, (startedAt) =>
-        timeFormatter.format(startedAt),
-      )
-    }
-    return points
-  }, [builds, locale])
+      }),
+    [locale],
+  )
+  const tooltipDateFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat(getIntlLocale(locale).toString(), {
+        dateStyle: "medium",
+        timeStyle: "short",
+        timeZone: "UTC",
+      }),
+    [locale],
+  )
+  const chartData = useMemo(() => {
+    return toDurationSeries(builds, (startedAt) =>
+      tooltipDateFormatter.format(startedAt),
+    ).map((point) => ({
+      ...point,
+      startedAtDate: new Date(point.startedAt),
+    }))
+  }, [builds, tooltipDateFormatter])
 
   const definition = useMemo(
     () =>
       defineChart({
         marks: [
           lineY(chartData, {
-            x: "date",
+            x: "startedAtDate",
             y: "durationMinutes",
             stroke: lineColor,
             strokeWidth: 2,
             points: true,
-            curve: d3Curve(curveMonotoneX),
           }),
           crosshair({ x: { label: true }, y: false }),
         ],
         scales: {
           x: {
-            scale: () => scaleBand<string>().padding(0.2),
-            axis: { ticks: { spacing: 96, size: 0 } },
+            scale: scaleUtc,
+            nice: true,
+            axis: {
+              ticks: {
+                spacing: 96,
+                size: 0,
+                format: (value) => axisDateFormatter.format(value as Date),
+              },
+            },
           },
           y: {
             scale: scaleLinear,
@@ -94,7 +91,7 @@ export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
             `${point.datum.date}: ${formatDuration({ minutes: Number(point.yValue) })}`,
         },
       }),
-    [chartData, lineColor],
+    [axisDateFormatter, chartData, lineColor],
   )
 
   if (chartData.length === 0) {
