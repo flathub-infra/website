@@ -47,7 +47,7 @@ export function ScheduledAppSelectionSection({ selection }: Props) {
     >
       <h2
         id={headingId}
-        className="text-4xl leading-tight font-black md:text-5xl"
+        className="text-4xl leading-tight font-black text-flathub-dark-gunmetal md:text-5xl dark:text-flathub-gainsborow"
       >
         {title}
       </h2>
@@ -68,12 +68,12 @@ export function ScheduledAppSelectionSection({ selection }: Props) {
     return (
       <section
         aria-labelledby={headingId}
-        className="overflow-hidden rounded-xl bg-linear-to-r from-[#2dccb5] to-[#48cfca] p-6 text-flathub-dark-gunmetal shadow-md md:px-8 md:pt-8 md:pb-0"
+        className="overflow-hidden rounded-xl bg-linear-to-r from-[#2dccb5] to-[#48cfca] p-6 text-flathub-dark-gunmetal shadow-md md:px-8 md:pt-8 md:pb-0 dark:from-[#174f4b] dark:via-[#195c58] dark:to-[#234b65] dark:text-flathub-gainsborow"
       >
         {header}
         <div
           className={cn(
-            "grid grid-cols-1 gap-8 md:gap-6",
+            "grid grid-cols-1 gap-8 md:gap-x-10 md:gap-y-8",
             selection.apps.length > 2
               ? "md:grid-cols-3"
               : selection.apps.length === 2
@@ -92,13 +92,19 @@ export function ScheduledAppSelectionSection({ selection }: Props) {
                 href={`/apps/${app.id}`}
                 className="group min-w-0 rounded-lg hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-flathub-dark-gunmetal"
               >
-                <div className="mb-4 flex min-h-12 items-center gap-3">
-                  <LogoImage iconUrl={app.icon} appName={app.name} size={64} />
+                <div className="mb-4 flex min-h-16 items-center gap-4">
+                  <div className="relative flex h-[64px] w-[64px] shrink-0 flex-wrap items-center justify-center drop-shadow-md md:h-[96px] md:w-[96px]">
+                    <LogoImage
+                      iconUrl={app.icon}
+                      appName={app.name}
+                      size={96}
+                    />
+                  </div>
                   <div className="min-w-0">
-                    <h3 className="line-clamp-2 text-sm font-bold text-flathub-dark-gunmetal group-hover:underline">
+                    <h3 className="line-clamp-2 text-sm font-bold text-flathub-dark-gunmetal group-hover:underline dark:text-flathub-gainsborow">
                       {app.name}
                     </h3>
-                    <p className="line-clamp-2 text-sm text-flathub-dark-gunmetal">
+                    <p className="line-clamp-2 text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
                       {app.summary}
                     </p>
                   </div>
@@ -111,9 +117,10 @@ export function ScheduledAppSelectionSection({ selection }: Props) {
                       (640 * screenshot.height) / screenshot.width,
                     )}
                     alt=""
+                    fill
                     trim={{ threshold: 50, color: "FF00FF" }}
-                    pictureClassName="block md:h-44 lg:h-56"
-                    className="h-auto w-full rounded-md"
+                    pictureClassName="block aspect-[9/4] w-full overflow-hidden rounded-md"
+                    className="size-full rounded-md object-cover object-top"
                   />
                 ) : null}
               </Link>
