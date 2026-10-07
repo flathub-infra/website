@@ -16,6 +16,59 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Checkbox } from "@/components/ui/checkbox"
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline"
+
+function DangerAcknowledgement({
+  id,
+  checked,
+  onCheckedChange,
+  title,
+  consequences,
+  label,
+}: {
+  id: string
+  checked: boolean
+  onCheckedChange: (checked: boolean) => void
+  title: string
+  consequences: string[]
+  label: React.ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <div className="rounded-xl border border-destructive/50 bg-destructive/5 p-4 dark:bg-destructive/10">
+        <div className="flex items-start gap-3">
+          <ExclamationTriangleIcon
+            aria-hidden="true"
+            className="mt-0.5 size-6 shrink-0 text-destructive"
+          />
+          <div className="space-y-2">
+            <h4 className="font-semibold text-destructive">{title}</h4>
+            <ul className="list-disc space-y-1 ps-5 text-sm text-foreground">
+              {consequences.map((consequence) => (
+                <li key={consequence}>{consequence}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div className="flex items-start gap-3 rounded-lg border p-3">
+        <Checkbox
+          id={id}
+          className="mt-1"
+          checked={checked}
+          onCheckedChange={(value) => onCheckedChange(Boolean(value))}
+        />
+        <label
+          htmlFor={id}
+          className="cursor-pointer text-sm font-medium leading-relaxed"
+        >
+          {label}
+        </label>
+      </div>
+    </div>
+  )
+}
 
 const SwitchToDirectUpload = ({
   app,
@@ -24,6 +77,7 @@ const SwitchToDirectUpload = ({
 }) => {
   const t = useTranslations()
   const [modalVisible, setModalVisible] = useState(false)
+  const [acknowledged, setAcknowledged] = useState(false)
 
   const switchToDirectUploadMutation = useMutation({
     mutationFn: () =>
@@ -40,7 +94,13 @@ const SwitchToDirectUpload = ({
 
   return (
     <>
-      <Button onClick={() => setModalVisible(true)} variant="secondary">
+      <Button
+        onClick={() => {
+          setAcknowledged(false)
+          setModalVisible(true)
+        }}
+        variant="secondary"
+      >
         {t("switch-to-direct-upload")}
       </Button>
       <ConfirmDialog
@@ -48,10 +108,23 @@ const SwitchToDirectUpload = ({
         action={t("confirm")}
         prompt={t("switch-to-direct-upload")}
         actionVariant="destructive"
+        submitDisabled={!acknowledged || switchToDirectUploadMutation.isPending}
         onConfirmed={() => switchToDirectUploadMutation.mutate()}
         onCancelled={() => setModalVisible(false)}
       >
-        {t("do-you-really-want-to-switch-to-direct-upload")}
+        <DangerAcknowledgement
+          id="direct-upload-confirmation"
+          checked={acknowledged}
+          onCheckedChange={setAcknowledged}
+          title={t("danger-zone-confirmation.switch.warning-title")}
+          consequences={[
+            t("danger-zone-confirmation.switch.warning-consequence"),
+          ]}
+          label={t.rich("danger-zone-confirmation.switch.acknowledgment", {
+            app_id: app.id,
+            app: (chunks) => <strong>{chunks}</strong>,
+          })}
+        />
       </ConfirmDialog>
     </>
   )
@@ -62,6 +135,7 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [endoflife, setEndoflife] = useState("")
   const [endoflifeRebase, setEndoflifeRebase] = useState("")
+  const [acknowledged, setAcknowledged] = useState(false)
 
   const archiveAppMutation = useMutation({
     mutationFn: () =>
@@ -85,7 +159,13 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
 
   return (
     <>
-      <Button onClick={() => setModalVisible(true)} variant="secondary">
+      <Button
+        onClick={() => {
+          setAcknowledged(false)
+          setModalVisible(true)
+        }}
+        variant="secondary"
+      >
         {t("archive-app")}
       </Button>
       <Modal
@@ -93,13 +173,33 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
         title={t("archive-app")}
         onClose={() => setModalVisible(false)}
         description={t("do-you-really-want-to-archive-app")}
-        cancelButton={{ onClick: () => setModalVisible(false) }}
+        size="lg"
+        cancelButton={{
+          onClick: () => setModalVisible(false),
+          disabled: archiveAppMutation.isPending,
+        }}
         submitButton={{
           onClick: () => archiveAppMutation.mutate(),
           label: t("archive"),
+          disabled: !acknowledged || archiveAppMutation.isPending,
+          variant: "destructive",
         }}
       >
         <div className="space-y-3">
+          <DangerAcknowledgement
+            id="archive-app-confirmation"
+            checked={acknowledged}
+            onCheckedChange={setAcknowledged}
+            title={t("danger-zone-confirmation.archive.warning-title")}
+            consequences={[
+              t("danger-zone-confirmation.archive.warning-tokens"),
+              t("danger-zone-confirmation.archive.warning-eol"),
+            ]}
+            label={t.rich("danger-zone-confirmation.archive.acknowledgment", {
+              app_id: app.id,
+              app: (chunks) => <strong>{chunks}</strong>,
+            })}
+          />
           <div>
             {t("enter-end-of-life-message")}
             <Textarea

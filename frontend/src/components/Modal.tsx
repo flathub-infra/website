@@ -137,11 +137,11 @@ const Modal: FunctionComponent<Props> = ({
 
                   {children}
 
-                  <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse gap-3">
+                  <div className="mt-5 flex flex-col-reverse gap-3 sm:mt-4 sm:flex-row-reverse">
                     {submitButton && (
                       <Button
                         size="lg"
-                        className="w-full px-3 py-2 sm:ms-3 sm:w-auto"
+                        className="w-full px-3 py-2 sm:w-auto"
                         onClick={submitButton.onClick}
                         variant={submitButton.variant ?? "default"}
                         aria-label={submitButton.label ?? t("submit")}
