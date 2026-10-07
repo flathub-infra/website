@@ -41,4 +41,5 @@ docker compose exec backend python -m pytest -vvvv \
 	tests/main.py \
 	tests/test_storefront_smoke.py \
 	tests/test_year_in_review_smoke.py \
+	tests/api_smoke \
 	--insta update

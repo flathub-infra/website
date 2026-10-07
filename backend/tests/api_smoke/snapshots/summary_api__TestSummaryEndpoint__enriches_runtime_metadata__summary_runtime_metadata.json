@@ -1,0 +1,12 @@
+{
+  "arches": [
+    "x86_64"
+  ],
+  "metadata": {
+    "name": "Example",
+    "runtime": "org.example.Runtime/x86_64/stable",
+    "runtimeIsEol": false,
+    "runtimeInstalledSize": 1234,
+    "runtimeName": "Runtime"
+  }
+}
