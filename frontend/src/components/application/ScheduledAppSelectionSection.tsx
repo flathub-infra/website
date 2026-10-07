@@ -68,7 +68,10 @@ export function ScheduledAppSelectionSection({ selection }: Props) {
     return (
       <section
         aria-labelledby={headingId}
-        className="overflow-hidden rounded-xl bg-linear-to-r from-[#2dccb5] to-[#48cfca] p-6 text-flathub-dark-gunmetal shadow-md md:px-8 md:pt-8 md:pb-0 dark:from-[#174f4b] dark:via-[#195c58] dark:to-[#234b65] dark:text-flathub-gainsborow"
+        className={cn(
+          "overflow-hidden rounded-xl bg-linear-to-r p-6 text-flathub-dark-gunmetal shadow-md md:px-8 md:pt-8 md:pb-0 dark:text-flathub-gainsborow",
+          gradientBySlot[selection.slot],
+        )}
       >
         {header}
         <div
