@@ -139,7 +139,8 @@ const LoginServiceClient = ({
     const errorKey =
       termsError ||
       loginQuery.error.message === "error-already-logged-in" ||
-      loginQuery.error.message === "reauth-account-mismatch"
+      loginQuery.error.message === "reauth-account-mismatch" ||
+      loginQuery.error.message === "oauth-account-email-already-used"
         ? loginQuery.error.message
         : loginQuery.error.message === "network-error-try-again"
           ? "network-error-try-again"
