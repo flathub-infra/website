@@ -72,14 +72,7 @@ def add_translation(
 ):
     # normalize multi part languages, as the frontend
     #  always asks for the ones with a dash
-    language = language.replace("_", "-")
-
-    # map languages to the ones we use
-    if language == "zh-CN":
-        language = "zh-Hans"
-
-    if language == "zh-TW":
-        language = "zh-Hant"
+    language = localize.normalize_language(language)
 
     if language not in apps_locale:
         apps_locale[language] = {}
@@ -219,19 +212,14 @@ def appstream2dict(
 
                 attrs["sizes"] = []
                 for image in screenshot:
-                    if (
-                        image.attrib.get("type") == "thumbnail"
-                        and image.attrib.get(
-                            "{http://www.w3.org/XML/1998/namespace}lang"
-                        )
-                        is None
-                        or (
-                            image.attrib.get("type") == "source"
-                            and image.attrib.get("width") is not None
-                            and image.attrib.get("height") is not None
-                            and image.get("{http://www.w3.org/XML/1998/namespace}lang")
-                            is None
-                        )
+                    image_lang = image.get("{http://www.w3.org/XML/1998/namespace}lang")
+                    if image_lang is not None:
+                        image_lang = localize.normalize_language(image_lang)
+
+                    if image.attrib.get("type") == "thumbnail" or (
+                        image.attrib.get("type") == "source"
+                        and image.attrib.get("width") is not None
+                        and image.attrib.get("height") is not None
                     ):
                         scale = None
                         if image.attrib.get("scale") is not None:
@@ -253,14 +241,15 @@ def appstream2dict(
                         else:
                             src = f"{media_base_url}/{image.text}"
 
-                        attrs["sizes"].append(
-                            {
-                                "width": width,
-                                "height": height,
-                                "scale": scale if scale is not None else "1x",
-                                "src": src,
-                            }
-                        )
+                        size = {
+                            "width": width,
+                            "height": height,
+                            "scale": scale if scale is not None else "1x",
+                            "src": src,
+                        }
+                        if image_lang is not None:
+                            size["lang"] = image_lang
+                        attrs["sizes"].append(size)
 
                 if attrs and len(attrs["sizes"]) > 0:
                     app["screenshots"].append(attrs.copy())
