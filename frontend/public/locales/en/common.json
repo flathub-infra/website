@@ -909,7 +909,11 @@
     "none-money": "Contains no advertising or monetary transactions"
   },
   "email-login-with-email": "Sign in with email",
-  "email-login-log-in-with-email": "Log in with email",
+  "user-login-heading": "Sign in to Flathub",
+  "user-login-intro": "Enter your email and we’ll send you a sign-in link. No password needed.",
+  "user-login-unavailable": "Email sign-in is currently unavailable. Please try again later.",
+  "developer-login-hint-link": "Looking for the <link>developer login</link>?",
+  "developer-login-title": "Developer sign in",
   "email-login-other-methods": "Other sign-in methods",
   "email-login-email-address": "Email address",
   "email-login-send-link": "Email me a sign-in link",
