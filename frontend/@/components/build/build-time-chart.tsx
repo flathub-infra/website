@@ -5,13 +5,14 @@ import { defineChart, lineY } from "@tanstack/charts"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { tooltip } from "@tanstack/charts/tooltip"
+import { crosshair } from "@tanstack/charts/crosshair"
 import { d3Curve } from "@tanstack/charts/d3/shape"
 import { curveMonotoneX } from "d3-shape"
 import { ChartLegendItems, TanstackChart } from "src/components/charts/chart"
 import { useMemo } from "react"
 import { formatDuration } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { getIntlLocale } from "src/localize"
 import { primaryStroke } from "src/chartComponents"
 import { summarizeSeries, toDurationSeries } from "src/builds/pipeline-history"
@@ -23,6 +24,7 @@ interface BuildTimeChartProps {
 
 export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
   const locale = useLocale()
+  const t = useTranslations()
   const lineColor = primaryStroke
   const chartData = useMemo(() => {
     const dateFormatter = new Intl.DateTimeFormat(
@@ -70,9 +72,13 @@ export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
             points: true,
             curve: d3Curve(curveMonotoneX),
           }),
+          crosshair({ x: { label: true }, y: false }),
         ],
         scales: {
-          x: { scale: () => scaleBand<string>().padding(0.2) },
+          x: {
+            scale: () => scaleBand<string>().padding(0.2),
+            axis: { ticks: { spacing: 96, size: 0 } },
+          },
           y: {
             scale: scaleLinear,
             nice: true,
@@ -80,6 +86,8 @@ export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
             axis: { label: "Duration (minutes)" },
           },
         },
+        focus: "nearest-x",
+        maxFocusDistance: Number.POSITIVE_INFINITY,
         tooltip: {
           use: tooltip,
           format: (point) =>
@@ -107,7 +115,7 @@ export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
       <p className="text-sm text-muted-foreground">
         Successful builds: {count} of the last {sampleLimit} builds
       </p>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
         <div className="bg-muted p-3 rounded">
           <p className="text-xs text-muted-foreground">Average Duration</p>
           <p className="text-lg font-semibold">
@@ -126,8 +134,11 @@ export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
       <div className="w-full">
         <TanstackChart
           definition={definition}
-          ariaLabel="Build duration over time"
-          height={320}
+          ariaLabel={t("build-duration-over-time")}
+          ariaDescription={t("chart-description", {
+            chart: t("build-duration-over-time"),
+          })}
+          className="h-[clamp(16rem,35vw,20rem)] w-full"
         />
         <ChartLegendItems
           items={[{ label: "Successful build duration", color: lineColor }]}
