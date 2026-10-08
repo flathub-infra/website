@@ -25,12 +25,9 @@ export interface ContentRatingDisplay {
   categories: ContentRatingCategory[]
 }
 
-export function formatContentRatingAge(
-  age: number | null,
-  locale: string,
-): string {
+export function formatContentRatingAge(age: number | null): string {
   const minimumAge = age === null ? 3 : Math.max(age, 3)
-  return `\u2066${new Intl.NumberFormat(locale).format(minimumAge)}+\u2069`
+  return `\u2066${minimumAge}+\u2069`
 }
 
 export function getContentRating(
