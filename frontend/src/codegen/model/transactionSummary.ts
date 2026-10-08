@@ -16,6 +16,7 @@ export interface TransactionSummary {
   currency: string
   kind: TransactionSummaryKind
   status: TransactionSummaryStatus
+  recipient?: string | null
   reason?: TransactionSummaryReason
   created?: TransactionSummaryCreated
   updated?: TransactionSummaryUpdated
