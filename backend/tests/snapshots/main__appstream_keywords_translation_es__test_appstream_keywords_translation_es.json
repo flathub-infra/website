@@ -3,7 +3,7 @@
   "id": "org.sugarlabs.Maze",
   "name": "Laberinto",
   "summary": "Un simple juego de laberintos",
-  "description": "<p>\u00bfEres bueno encontrando la salida de situaciones dif\u00edciles?</p>",
+  "description": "<p>¿Eres bueno encontrando la salida de situaciones difíciles?</p>",
   "developer_name": "Sugar Labs Community",
   "icon": "https://dl.flathub.org/media/icons/128x128/org.sugarlabs.Maze.png",
   "icons": [],
@@ -132,12 +132,12 @@
         {
           "id": "drugs",
           "level": "none",
-          "description": "Sin referencias a bebidas alcoh\u00f3licas"
+          "description": "Sin referencias a bebidas alcohólicas"
         },
         {
           "id": "language",
           "level": "none",
-          "description": "Sin blasfemia de ning\u00fan tipo"
+          "description": "Sin blasfemia de ningún tipo"
         },
         {
           "id": "money",
@@ -147,7 +147,7 @@
         {
           "id": "sex",
           "level": "none",
-          "description": "Sin desnudos de ning\u00fan tipo"
+          "description": "Sin desnudos de ningún tipo"
         },
         {
           "id": "violence",
@@ -191,6 +191,38 @@
     "type": "gettext"
   },
   "is_free_license": true,
-  "isMobileFriendly": false,
+  "isMobileFriendly": true,
+  "requires": [
+    {
+      "type": "control",
+      "value": "keyboard"
+    },
+    {
+      "type": "memory",
+      "value": "6GB",
+      "compare": "ge"
+    },
+    {
+      "type": "display_length",
+      "value": "360",
+      "compare": "ge"
+    }
+  ],
+  "recommends": [
+    {
+      "type": "control",
+      "value": "pointing"
+    },
+    {
+      "type": "control",
+      "value": "touch"
+    }
+  ],
+  "supports": [
+    {
+      "type": "control",
+      "value": "gamepad"
+    }
+  ],
   "is_eol": false
 }

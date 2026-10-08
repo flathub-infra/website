@@ -57,6 +57,18 @@
     <kudos>
       <kudo>HiDpiIcon</kudo>
     </kudos>
+    <requires>
+      <control>keyboard</control>
+      <memory compare="ge">6GB</memory>
+      <display_length compare="ge">360</display_length>
+    </requires>
+    <recommends>
+      <control>pointing</control>
+      <control>touch</control>
+    </recommends>
+    <supports>
+      <control>gamepad</control>
+    </supports>
     <project_license>GPL-3.0-or-later</project_license>
     <url type="bugtracker">https://github.com/sugarlabs/maze-activity</url>
     <url type="homepage">https://github.com/sugarlabs/maze-activity</url>

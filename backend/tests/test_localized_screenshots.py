@@ -103,6 +103,28 @@ def test_appstream_parser_preserves_requirement_kinds_and_comparisons(monkeypatc
     assert app["supports"] == [{"type": "control", "value": "keyboard"}]
 
 
+def test_base_appstream_fixture_parses_device_metadata(monkeypatch):
+    monkeypatch.setattr(
+        utils.config.settings,
+        "appstream_repos",
+        os.path.join(ROOT_DIR, "tests", "appstream"),
+    )
+
+    app = utils.appstream2dict()["org.sugarlabs.Maze"]
+
+    assert app["requires"] == [
+        {"type": "control", "value": "keyboard"},
+        {"type": "memory", "value": "6GB", "compare": "ge"},
+        {"type": "display_length", "value": "360", "compare": "ge"},
+    ]
+    assert app["recommends"] == [
+        {"type": "control", "value": "pointing"},
+        {"type": "control", "value": "touch"},
+    ]
+    assert app["supports"] == [{"type": "control", "value": "gamepad"}]
+    assert app["isMobileFriendly"] is True
+
+
 def test_translated_appstream_selects_best_screenshot_locale():
     app = models.App(
         appstream={

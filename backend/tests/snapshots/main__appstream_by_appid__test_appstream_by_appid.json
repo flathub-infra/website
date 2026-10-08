@@ -191,6 +191,38 @@
     "type": "gettext"
   },
   "is_free_license": true,
-  "isMobileFriendly": false,
+  "isMobileFriendly": true,
+  "requires": [
+    {
+      "type": "control",
+      "value": "keyboard"
+    },
+    {
+      "type": "memory",
+      "value": "6GB",
+      "compare": "ge"
+    },
+    {
+      "type": "display_length",
+      "value": "360",
+      "compare": "ge"
+    }
+  ],
+  "recommends": [
+    {
+      "type": "control",
+      "value": "pointing"
+    },
+    {
+      "type": "control",
+      "value": "touch"
+    }
+  ],
+  "supports": [
+    {
+      "type": "control",
+      "value": "gamepad"
+    }
+  ],
   "is_eol": false
 }
