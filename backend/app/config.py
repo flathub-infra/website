@@ -104,6 +104,9 @@ class Settings(BaseSettings):
     ostree_manifest_complexity_gating_observe_only: bool = False
     ostree_manifest_complexity_threshold_units: int = Field(default=14, ge=1, le=40)
     ostree_manifest_timeout_seconds: float = Field(default=60.0, gt=0)
+    decisions_api: str | None = None
+    decisions_api_key: str | None = None
+    decisions_model: str = "jev-1.13.0"
 
     random_review_enabled: bool = False
     random_review_rate: float = Field(default=0.01, ge=0.0, le=1.0)

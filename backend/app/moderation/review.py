@@ -39,7 +39,7 @@ from ..types import (
     is_json_value,
 )
 from ..verification import is_appid_runtime
-from . import manifest_complexity, ostree_manifest, url_origin
+from . import manifest_complexity, ostree_manifest, summary_decisions, url_origin
 from .constants import should_skip_review
 
 router = APIRouter(prefix="/moderation")
@@ -245,6 +245,21 @@ def _is_random_review_request(request: models.ModerationRequest) -> bool:
         return False
 
     return request_data == _random_review_request_data()
+
+
+def _has_appdata_request(app_id: str, build_id: int, job_id: int) -> bool:
+    with get_db("writer") as db:
+        requests = (
+            db.session.query(models.ModerationRequest)
+            .filter(
+                models.ModerationRequest.appid == app_id,
+                models.ModerationRequest.build_id == build_id,
+                models.ModerationRequest.job_id == job_id,
+                models.ModerationRequest.request_type == ModerationRequestType.APPDATA,
+            )
+            .all()
+        )
+        return any(not _is_random_review_request(request) for request in requests)
 
 
 class ModerationAppItem(BaseModel):
@@ -2051,6 +2066,28 @@ def submit_review_request(
                 )
             # keys may become empty after pop above but empty keys
             # still triggers a moderation request, so re-check
+        if not is_new_submission and set(keys) == {"summary"}:
+            old_summary = current_values.get("summary")
+            new_summary = keys["summary"]
+            app_name = current_values.get("name")
+            if (
+                isinstance(old_summary, str)
+                and old_summary
+                and isinstance(new_summary, str)
+                and new_summary
+                and not _has_appdata_request(
+                    app_id, review_request.build_id, review_request.job_id
+                )
+                and summary_decisions.auto_approve_summary_change(
+                    app_id=app_id,
+                    app_name=app_name if isinstance(app_name, str) else None,
+                    old_summary=old_summary,
+                    new_summary=new_summary,
+                    build_id=review_request.build_id,
+                    job_id=review_request.job_id,
+                )
+            ):
+                keys.pop("summary")
         if len(keys) > 0:
             keys = sort_lists_in_dict(keys)
             current_values = sort_lists_in_dict(current_values)

@@ -21,6 +21,7 @@ sys.modules["app.search"] = SimpleNamespace()
 from app import config, models
 from app.moderation import review as moderation
 from app.types import ModerationOriginKind, ModerationRequestType
+from tests.shared_fixtures import decision_post, decision_reply, enable_decisions
 
 
 class FakeResponse:
@@ -227,6 +228,8 @@ class CallbackHarness:
             config.settings, "flat_manager_api", "https://flat-manager.example"
         )
         monkeypatch.setattr(config.settings, "moderation_observe_only", False)
+        monkeypatch.setattr(config.settings, "decisions_api", None)
+        monkeypatch.setattr(config.settings, "decisions_api_key", None)
         monkeypatch.setattr(
             config.settings,
             "ostree_manifest_comparison_enabled",
@@ -1533,6 +1536,167 @@ def test_exact_equal_summary_does_not_request_review(monkeypatch, summary):
 
     assert harness.call().requires_review is False
     assert harness.db.session.persisted == []
+
+
+_OLD_SUMMARY = "Import games from other launchers into Steam"
+_NEW_SUMMARY = "Import all your games into Steam"
+
+
+def _summary_change_harness(
+    monkeypatch,
+    post,
+    published=_OLD_SUMMARY,
+    candidate=_NEW_SUMMARY,
+    published_name="Example App",
+    initial=False,
+    **options,
+):
+    current_values = _unchanged_values()
+    current_values["org.example.App"].update(summary=published, name=published_name)
+    harness = CallbackHarness(
+        monkeypatch,
+        current_values=None if initial else current_values,
+        **{"enabled": False, **options},
+    )
+    metadata = _unchanged_values()["org.example.App"]
+    metadata["summary"] = candidate
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+    enable_decisions(monkeypatch, post)
+    return harness
+
+
+def _appdata_keys(harness):
+    return [
+        json.loads(request.request_data)["keys"]
+        for request in harness.db.session.persisted
+        if request.request_type == ModerationRequestType.APPDATA
+    ]
+
+
+def test_approved_summary_rewrite_needs_no_review(monkeypatch):
+    harness = _summary_change_harness(monkeypatch, decision_post())
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+
+
+@pytest.mark.parametrize(
+    "post",
+    [
+        pytest.param(
+            decision_post(decision_reply(choice="needs_review", benign=0.1)),
+            id="held",
+        ),
+        pytest.param(decision_post(status_code=429), id="rate-limited"),
+        pytest.param(
+            decision_post(decision_reply(same_app="0.95")), id="malformed-answer"
+        ),
+    ],
+)
+def test_unapproved_summary_rewrite_requests_review(monkeypatch, post):
+    harness = _summary_change_harness(monkeypatch, post)
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert _appdata_keys(harness) == [{"summary": _NEW_SUMMARY}]
+
+
+def test_callback_retry_keeps_queued_summary_review(monkeypatch):
+    harness = _summary_change_harness(monkeypatch, decision_post(status_code=429))
+    assert harness.call().requires_review is True
+
+    def post(url, **kwargs):
+        pytest.fail("summary decision requested on retry")
+
+    monkeypatch.setattr(moderation.http_client, "post", post)
+
+    assert harness.call().requires_review is True
+
+
+def test_approved_summary_keeps_permission_review(monkeypatch):
+    harness = _summary_change_harness(
+        monkeypatch,
+        decision_post(),
+        current_summaries={
+            "org.example.App": {"metadata": {"permissions": {"shared": ["network"]}}}
+        },
+        build_summary={
+            "org.example.App": {
+                "metadata": {"permissions": {"shared": ["network", "ipc"]}}
+            }
+        },
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert [request.request_type for request in harness.db.session.persisted] == [
+        ModerationRequestType.SUMMARY
+    ]
+
+
+@pytest.mark.parametrize(
+    ("options", "expected_keys"),
+    [
+        pytest.param(
+            {"published_name": "Old name"},
+            [{"name": "Example App", "summary": _NEW_SUMMARY}],
+            id="mixed-metadata",
+        ),
+        pytest.param(
+            {"initial": True},
+            [
+                {
+                    "developer_name": "Example",
+                    "name": "Example App",
+                    "project_license": "MIT",
+                    "summary": _NEW_SUMMARY,
+                }
+            ],
+            id="initial-submission",
+        ),
+        pytest.param({"skipped": ("org.example.App",)}, [], id="skipped"),
+        pytest.param(
+            {"published": ""}, [{"summary": _NEW_SUMMARY}], id="empty-published"
+        ),
+        pytest.param(
+            {"published": None}, [{"summary": _NEW_SUMMARY}], id="missing-published"
+        ),
+        pytest.param({"candidate": ""}, [{"summary": ""}], id="empty-candidate"),
+        pytest.param(
+            {"published": "Edit Photos", "candidate": "Edit photos"},
+            [],
+            id="equivalent",
+        ),
+    ],
+)
+def test_ineligible_summary_change_skips_decision(monkeypatch, options, expected_keys):
+    def post(url, **kwargs):
+        pytest.fail("summary decision requested")
+
+    harness = _summary_change_harness(monkeypatch, post, **options)
+
+    harness.call()
+
+    assert _appdata_keys(harness) == expected_keys
+
+
+def test_approved_summary_keeps_random_review(monkeypatch):
+    harness = _summary_change_harness(monkeypatch, decision_post(), enabled=True)
+    monkeypatch.setattr(moderation, "_random_review_sample_value", lambda *args: 0.0)
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    assert _is_marker(harness.db.session.persisted[0])
 
 
 @pytest.mark.parametrize(
