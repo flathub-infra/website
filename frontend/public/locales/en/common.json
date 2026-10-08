@@ -97,6 +97,7 @@
   "authored-apps": "Authored apps",
   "owned-apps": "Owned apps",
   "refresh": "Refresh",
+  "view-builds": "View builds",
   "app-logo": "{app_name} Logo",
   "user-wallet": "User Wallet",
   "flathub-statistics-description": "Overview of the usage and distribution of apps available on the platform.",
