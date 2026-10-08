@@ -1,5 +1,5 @@
 import clsx from "clsx"
-import { useLocale, useTranslations } from "next-intl"
+import { useTranslations } from "next-intl"
 import {
   categoryToIcon,
   contentRatingToColor,
@@ -53,8 +53,7 @@ const ContentRatingModal = ({
   appName: string
 }) => {
   const t = useTranslations()
-  const locale = useLocale()
-  const ageLabel = formatContentRatingAge(contentRating.minimumAge, locale)
+  const ageLabel = formatContentRatingAge(contentRating.minimumAge)
 
   const ageBadgeColor = ageToColor(contentRating.minimumAge)
 

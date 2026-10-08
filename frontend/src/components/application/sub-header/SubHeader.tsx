@@ -187,7 +187,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
 
   // Age Rating
   if (contentRating) {
-    const ageLabel = formatContentRatingAge(contentRating.minimumAge, locale)
+    const ageLabel = formatContentRatingAge(contentRating.minimumAge)
 
     items.push(
       <SubHeaderItem
