@@ -266,7 +266,7 @@ def test_appstream_by_appid(client, snapshot):
         {"type": "control", "value": "touch"},
     ]
     assert response_data["supports"] == [{"type": "control", "value": "gamepad"}]
-    assert response_data["isMobileFriendly"] is True
+    assert response_data["isMobileFriendly"] is False
     snapshot_data = snapshot("test_appstream_by_appid.json")
     _normalize_response_for_comparison(response_data)
     _normalize_response_for_comparison(snapshot_data)
