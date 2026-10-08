@@ -108,16 +108,29 @@ export function mapScreenshot(screenshot: Screenshot) {
 export function findBiggestIcon(
   icons: GetAppstreamAppstreamAppIdGet200["icons"],
 ): string | undefined {
-  if (!icons || icons.length === 0) {
+  if (!icons?.length) {
     return undefined
   }
 
-  const orderedBySize = icons.sort((a, b) => {
-    if (a.height !== b.height) {
-      return a.height - b.height
-    }
-    return a.scale - b.scale
-  })
+  return (
+    icons.reduce<(typeof icons)[number] | undefined>((biggest, icon) => {
+      if (!biggest) {
+        return icon
+      }
 
-  return orderedBySize[orderedBySize.length - 1].url
+      const pixelHeight = (icon.height ?? 0) * (icon.scale ?? 1)
+      const biggestPixelHeight = (biggest.height ?? 0) * (biggest.scale ?? 1)
+      const pixelWidth = (icon.width ?? 0) * (icon.scale ?? 1)
+      const biggestPixelWidth = (biggest.width ?? 0) * (biggest.scale ?? 1)
+      const pixelArea = pixelHeight * pixelWidth
+      const biggestPixelArea = biggestPixelHeight * biggestPixelWidth
+
+      return pixelArea > biggestPixelArea ||
+        (pixelArea === biggestPixelArea &&
+          Math.max(pixelHeight, pixelWidth) >
+            Math.max(biggestPixelHeight, biggestPixelWidth))
+        ? icon
+        : biggest
+    }, undefined)?.url ?? undefined
+  )
 }

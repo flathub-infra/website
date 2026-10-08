@@ -319,8 +319,10 @@ def appstream2dict(
         if len(icons):
             for icon in icons:
                 icon_type = icon.attrib.get("type")
-                if icon_type == "remote" and icon.text and icon.text.startswith(
-                    "https://dl.flathub.org/media/"
+                if (
+                    icon_type == "remote"
+                    and icon.text
+                    and icon.text.startswith("https://dl.flathub.org/media/")
                 ):
                     attrs = dict(icon.attrib)
                     attrs.update({"url": icon.text})
@@ -901,22 +903,32 @@ PLATFORMS_WITH_STRIPE = _load_platforms(True)
 
 
 def find_biggest_icon(icons: list[dict]) -> str | None:
-    """
-    Find the biggest available icon by height and scale.
-    Sorts icons by height (descending), then by scale (descending),
-    and returns the URL of the largest icon.
-    """
+    """Return the icon with the greatest effective pixel dimensions."""
     if not icons:
         return None
 
-    # Convert height to int for comparison, default to 0 if not present
-    def get_sort_key(icon: dict):
-        height = int(icon.get("height", 0)) if icon.get("height") else 0
-        scale = int(icon.get("scale", "1").replace("x", "")) if icon.get("scale") else 1
-        return (height, scale)
+    def dimension(icon: dict, key: str) -> int:
+        try:
+            return max(0, int(icon.get(key) or 0))
+        except (TypeError, ValueError):
+            return 0
 
-    sorted_icons = sorted(icons, key=get_sort_key, reverse=True)
-    return sorted_icons[0].get("url") if sorted_icons else None
+    def scale(icon: dict) -> int:
+        value = icon.get("scale")
+        if isinstance(value, str):
+            value = value.removesuffix("x")
+        try:
+            return max(1, int(value or 1))
+        except (TypeError, ValueError):
+            return 1
+
+    def sort_key(icon: dict) -> tuple[int, int, int, int]:
+        pixel_scale = scale(icon)
+        height = dimension(icon, "height") * pixel_scale
+        width = dimension(icon, "width") * pixel_scale
+        return (height * width, max(height, width), height, width)
+
+    return max(icons, key=sort_key).get("url")
 
 
 def is_valid_app_id(app_id: str) -> bool:
