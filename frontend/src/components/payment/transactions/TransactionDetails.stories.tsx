@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 
 import TransactionDetails from "./TransactionDetails"
+import { expect, within } from "storybook/test"
 
 const meta = {
   component: TransactionDetails,
@@ -51,6 +52,13 @@ export const Success: Story = {
       },
     },
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    expect(canvas.getByText("Payment complete")).toBeInTheDocument()
+    expect(
+      canvas.getByRole("link", { name: "View Wallet" }),
+    ).toBeInTheDocument()
+  },
 }
 
 export const Pending: Story = {
@@ -86,6 +94,13 @@ export const Cancelled: Story = {
         value: 200,
       },
     },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    expect(canvas.getByText("Transaction cancelled")).toBeInTheDocument()
+    expect(
+      canvas.getByRole("link", { name: "View Wallet" }),
+    ).toBeInTheDocument()
   },
 }
 
