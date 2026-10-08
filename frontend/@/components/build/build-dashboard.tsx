@@ -1,7 +1,4 @@
 import { useMemo, useState } from "react"
-import { useLocale } from "next-intl"
-import { getLangDir } from "rtl-detect"
-import { formatDistanceToNow } from "date-fns"
 import { keepPreviousData } from "@tanstack/react-query"
 import {
   useListPipelinesApiPipelinesGet,
@@ -9,7 +6,6 @@ import {
 } from "src/codegen-pipeline"
 import { BuildTable } from "./build-table"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Activity, Clock, CheckCircle2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { PipelineRepoWithAll } from "./build-repo-filter"
@@ -106,21 +102,7 @@ function DashboardGroup({
             {icons[group]}
           </div>
           <h2 className="text-lg font-semibold">{labels[group]}</h2>
-          <span className="font-mono text-xs text-muted-foreground">
-            {pipelines
-              ? `${pipelines.length} ${pipelines.length === 1 ? "record" : "records"} on this page`
-              : query.isPending
-                ? "Loading…"
-                : "—"}
-          </span>
         </div>
-        <span className="text-xs text-muted-foreground">
-          {query.isFetching
-            ? "Refreshing…"
-            : query.dataUpdatedAt > 0
-              ? `Updated ${formatDistanceToNow(new Date(query.dataUpdatedAt), { addSuffix: true })}`
-              : null}
-        </span>
       </div>
       {query.isError && (
         <div role="alert" className="px-6 py-3 text-destructive">
@@ -144,7 +126,7 @@ function DashboardGroup({
                 : "No builds in this category"}
             </p>
           ))}
-        {pipelines && (
+        {pipelines && (offset > 0 || pipelines.length >= PAGE_SIZE) && (
           <div className="flex items-center justify-end gap-2 mt-3">
             <Button
               variant="outline"
@@ -177,57 +159,24 @@ function DashboardGroup({
 }
 
 export function BuildDashboard(filters: DashboardFilters) {
-  const locale = useLocale()
-  const preferredGroup: StatusGroup =
-    filters.statusFilter === "committed"
-      ? filters.repoFilter === "test"
-        ? "completed"
-        : "awaiting-publishing"
-      : ["published", "failed", "cancelled", "superseded"].includes(
-            filters.statusFilter,
-          )
-        ? "completed"
-        : "in-progress"
-  const [activeGroup, setActiveGroup] = useState<StatusGroup>(preferredGroup)
-  const filterSelection = `${filters.statusFilter}:${filters.repoFilter}`
-  const [previousSelection, setPreviousSelection] = useState(filterSelection)
-  if (previousSelection !== filterSelection) {
-    setPreviousSelection(filterSelection)
-    if (filters.statusFilter !== "all") setActiveGroup(preferredGroup)
-  }
-
+  const showCompleted =
+    (filters.statusFilter === "committed" && filters.repoFilter === "test") ||
+    (filters.statusFilter !== "all" &&
+      ["published", "failed", "cancelled", "superseded", "succeeded"].includes(
+        filters.statusFilter,
+      ))
   return (
-    <Tabs
-      dir={getLangDir(locale)}
-      value={activeGroup}
-      onValueChange={(value) => setActiveGroup(value as StatusGroup)}
-      className="flex min-w-0 flex-col gap-4"
-    >
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <TabsList
-          className="h-auto flex-wrap justify-start"
-          aria-label="Build queues"
-        >
-          {groups.map((group) => (
-            <TabsTrigger key={group} value={group} className="gap-2 py-2">
-              {labels[group]}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+    <div className="flex min-w-0 flex-col gap-8">
+      <div className="flex justify-end">
         <span className="text-xs text-muted-foreground">
           Refreshes every 30 seconds
         </span>
       </div>
-      {groups.map((group) => (
-        <TabsContent
-          key={group}
-          value={group}
-          forceMount
-          className="data-[state=inactive]:hidden"
-        >
-          <DashboardGroup group={group} filters={filters} />
-        </TabsContent>
-      ))}
-    </Tabs>
+      {groups
+        .filter((group) => group !== "completed" || showCompleted)
+        .map((group) => (
+          <DashboardGroup key={group} group={group} filters={filters} />
+        ))}
+    </div>
   )
 }
