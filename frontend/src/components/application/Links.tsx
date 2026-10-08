@@ -163,7 +163,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
                   className={clsx(
                     "px-4",
                     "text-flathub-dark-gunmetal dark:text-flathub-gainsborow flex items-center text-start",
-                    "hover:bg-flathub-gainsborow/20 active:bg-flathub-gainsborow/50 dark:hover:bg-flathub-gainsborow/20 dark:active:bg-flathub-gainsborow/30 transition",
+                    "hover:bg-flathub-gainsborow/20 active:bg-flathub-gainsborow/50 dark:hover:bg-flathub-gainsborow/5 dark:active:bg-flathub-gainsborow/10 transition",
                     "last:rounded-b-xl",
                   )}
                   key={link.name}
@@ -183,7 +183,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
                     </div>
                     <span
                       className={clsx(
-                        "text-sm dark:text-flathub-spanish-gray leading-none text-flathub-granite-gray",
+                        "text-sm dark:text-flathub-gray-x11 leading-none text-flathub-granite-gray",
                       )}
                     >
                       {link.content.text}
