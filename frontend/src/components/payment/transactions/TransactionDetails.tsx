@@ -80,9 +80,32 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
   const { created, updated, kind, value, status } = transaction.summary
 
   const unresolved = ["new", "retry"].includes(transaction.summary.status)
+  const outcome =
+    status === "success"
+      ? {
+          title: "transaction-successful",
+          description: "transaction-successful-description",
+        }
+      : status === "cancelled"
+        ? {
+            title: "transaction-cancelled",
+            description: "transaction-cancelled-description",
+          }
+        : undefined
 
   return (
     <div>
+      {outcome && (
+        <Alert className="my-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <AlertTitle>{t(outcome.title)}</AlertTitle>
+            <AlertDescription>{t(outcome.description)}</AlertDescription>
+          </div>
+          <Button asChild variant="secondary">
+            <Link href="/wallet">{t("view-wallet")}</Link>
+          </Button>
+        </Alert>
+      )}
       <h3 className="my-4 text-xl font-semibold">{t("transaction-summary")}</h3>
       <div className="flex flex-col gap-3 rounded-xl bg-flathub-white p-3 shadow-md dark:bg-flathub-arsenic">
         <div className="grid grid-cols-3 md:grid-cols-6 gap-2 lg:max-w-6xl">
