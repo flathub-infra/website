@@ -447,6 +447,7 @@
   "verified-website-tooltip": "The ownership of the <appid></appid> app ID has been verified using <website></website>",
   "verified-login-provider-tooltip": "The ownership of the <appid></appid> app ID has been verified by <loginname></loginname> on <loginprovider></loginprovider>",
   "x-downloads": "{x} downloads",
+  "x-installs": "{x} installs",
   "website-verification-main-instruction": "Verify your right to use the app ID <bold>{id}</bold> by placing a token at a specific page on <bold>{domain}</bold>.",
   "dns-verification-main-instruction": "Verify your right to use the app ID <bold>{id}</bold> by publishing a DNS TXT record for <bold>{domain}</bold>.",
   "dns-validation-instruction": "Add the following DNS record without removing any existing TXT records. DNS changes can take time to propagate.",
