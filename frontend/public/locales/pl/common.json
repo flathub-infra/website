@@ -528,7 +528,7 @@
   "danger-zone": "Strefa zagrożenia",
   "switch-to-direct-upload": "Przełącz aplikację na bezpośrednie przesyłanie",
   "archive-app": "Zarchiwizuj tę aplikację",
-  "do-you-really-want-to-archive-app": "Jesteś pewien? Spowoduje to unieważnienie tokenów przesyłania i zarchiwizowanie aplikacji.",
+  "do-you-really-want-to-archive-app": "Przed archiwizacją zapoznaj się z poniższymi skutkami.",
   "enter-end-of-life-message": "Wprowadź komunikat o zakończeniu wsparcia",
   "rebase-onto-other-app": "Wprowadź identyfikator aplikacji, do którego aplikacja zostanie przekierowana",
   "manage-x": "Zarządzaj {app_name}",
@@ -902,5 +902,25 @@
   "email-login-session-conflict": "W tej przeglądarce jesteś już zalogowany jako inny użytkownik. Jeśli chcesz skorzystać z tego linku, najpierw się wyloguj.",
   "email-login-oauth-upgrade-required": "Do wykonania tej czynności potrzebne jest konto dostawcy. Aby kontynuować, połącz swoje konto z serwisem GitHub, GitLab, GNOME lub KDE w ustawieniach.",
   "verified-email": "Zweryfikowany adres e-mail",
-  "email-login-replaced": "W przypadku tego konta logowanie za pomocą adresu e-mail zostało na stałe zastąpione logowaniem za pomocą danych dostawcy."
+  "email-login-replaced": "W przypadku tego konta logowanie za pomocą adresu e-mail zostało na stałe zastąpione logowaniem za pomocą danych dostawcy.",
+  "duration-minutes": "Czas trwania (minuty)",
+  "category": "Kategoria",
+  "operating-system": "System operacyjny",
+  "flatpak-version": "Wersja Flatpak",
+  "share-of-installs": "Udział w liczbie instalacji",
+  "chart-description": "Wykres przedstawiający {chart}. Aby wyświetlić dokładne wartości, najedź kursorem na punkt danych lub zaznacz go.",
+  "build-duration-over-time": "Historia czasu kompilacji",
+  "danger-zone-confirmation": {
+    "switch": {
+      "warning-title": "Tej zmiany nie da się cofnąć",
+      "warning-consequence": "Przełączenie tej opcji powoduje trwałe przestawienie tej aplikacji na bezpośrednie przesyłanie plików na Flathub.",
+      "acknowledgment": "Rozumiem, że przejście z <app>{app_id}</app> na bezpośrednie przesyłanie nie może zostać cofnięte"
+    },
+    "archive": {
+      "warning-title": "Archiwizacja ma wpływ na tę aplikację i jej wydawców",
+      "warning-tokens": "Wszystkie aktywne tokeny przesyłania danych dla tej aplikacji zostaną unieważnione.",
+      "warning-eol": "Aplikacja zostanie oznaczona jako wycofana z użytku za pomocą poniższego komunikatu.",
+      "acknowledgment": "Rozumiem skutki archiwizacji <app>{app_id}</app>"
+    }
+  }
 }

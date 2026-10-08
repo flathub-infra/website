@@ -902,5 +902,12 @@
   "email-login-rate-limited": "Çok fazla deneme yaptınız. Lütfen 1 dakika bekleyin ve yeniden deneyin.",
   "email-login-session-conflict": "Bu tarayıcıda zaten farklı bir hesapla giriş yapmış durumdasınız. Bu bağlantıyı kullanmak için önce çıkış yapın.",
   "verified-email": "Doğrulanmış e-posta",
-  "email-login-replaced": "Bu hesap için e-posta ile girişin yerini kalıcı olarak sağlayıcıyla giriş alma aldı."
+  "email-login-replaced": "Bu hesap için e-posta ile girişin yerini kalıcı olarak sağlayıcıyla giriş alma aldı.",
+  "chart-description": "Grafik {chart} değerini göstermektedir. Kesin değerler için bir veri noktasının üzerine gelin veya odaklanın.",
+  "build-duration-over-time": "Zaman içindeki derleme süresi",
+  "duration-minutes": "Süre (dakika)",
+  "category": "Kategori",
+  "operating-system": "İşletim sistemi",
+  "flatpak-version": "Flatpak sürümü",
+  "share-of-installs": "Kurulumların payı"
 }

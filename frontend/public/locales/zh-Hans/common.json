@@ -531,7 +531,7 @@
   "issued": "发布",
   "issued-to": "发布给",
   "expires": "过期",
-  "do-you-really-want-to-archive-app": "您确定吗？这将使上传令牌无效并归档应用程序。",
+  "do-you-really-want-to-archive-app": "存档前请查看以下影响。",
   "archive-app": "归档此应用",
   "manage-x": "管理 {app_name}",
   "get-it-on": "下载应用，请到",
@@ -902,5 +902,25 @@
   "email-login-session-conflict": "你已经在这个浏览器中以其他用户身份登录。如果要使用该链接请先退出登录。",
   "email-login-oauth-upgrade-required": "此操作需要提供商账户。在设置中关联 GitHub、GitLab、GNOME 或 KDE 继续。",
   "verified-email": "已验证电子邮件地址",
-  "email-login-replaced": "对于该账户，提供商登录已永久性替换了电子邮件登录。"
+  "email-login-replaced": "对于该账户，提供商登录已永久性替换了电子邮件登录。",
+  "chart-description": "显示 {chart} 的图表。悬停或聚焦数据点获取精确数值。",
+  "build-duration-over-time": "版本持续时间",
+  "duration-minutes": "时长（分钟）",
+  "category": "类别",
+  "operating-system": "操作系统",
+  "flatpak-version": "Flatpak 版本",
+  "share-of-installs": "安装百分比",
+  "danger-zone-confirmation": {
+    "switch": {
+      "warning-title": "此更改无法撤销",
+      "warning-consequence": "切换会永久更改此应用到 Flathub 直接上传。",
+      "acknowledgment": "我理解无法撤销切换 <app>{app_id}</app> 到直传的操作"
+    },
+    "archive": {
+      "warning-title": "存档影响此应用及其发布者",
+      "warning-tokens": "此应用的所有活跃上传令牌将失效。",
+      "warning-eol": "将用下方消息将该应用标记为 EOL。",
+      "acknowledgment": "我理解存档 <app>{app_id}</app> 的影响"
+    }
+  }
 }

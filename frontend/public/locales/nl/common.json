@@ -465,7 +465,8 @@
     "light": "Licht",
     "dark": "Donker",
     "failing-x-checks": "{count, plural, one {# mislukte controle} other {# mislukte controles}}",
-    "general-runtime-not-eol": "Uitvoerings­omgeving niet aan einde levensduur"
+    "general-runtime-not-eol": "Uitvoerings­omgeving niet aan einde levensduur",
+    "system-editor": "Systeem"
   },
   "system-device-access": "Toegang tot systeem­apparaten",
   "no-permissions-description": "App is volledig in een zandbak",
@@ -786,5 +787,6 @@
     "new-year-new-workflows": {
       "header": "Nieuw jaar, nieuwe werk­processen"
     }
-  }
+  },
+  "moderation-manifest-removed": "Verwijderd"
 }
