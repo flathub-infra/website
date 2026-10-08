@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/button"
 import { formatCurrency } from "src/utils/localize"
 import { getIntlLocale } from "src/localize"
 import { redirect } from "src/i18n/navigation"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import * as Sentry from "@sentry/nextjs"
+import { isAxiosError } from "axios"
 
 interface Props {
   org: string
@@ -28,11 +31,13 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
   })
   const [submit, setSubmit] = useState(false)
   const [transaction, setTransaction] = useState<string>("")
+  const [error, setError] = useState<string | null>(null)
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     setSubmit(true)
+    setError(null)
     createTransactionWalletTransactionsPost(
       {
         summary: {
@@ -54,8 +59,21 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       },
     )
       .then((result) => setTransaction(result.data.id))
-      .catch((err) => {
-        toast.error(t(err))
+      .catch((err: unknown) => {
+        Sentry.withScope((scope) => {
+          scope.setTag("operation", "donation_transaction_creation")
+          if (isAxiosError(err) && err.response?.status) {
+            scope.setTag("http.status_code", String(err.response.status))
+          }
+          // Do not send the Axios error itself: it can include request headers
+          // and response payloads. Report a sanitized exception instead.
+          Sentry.captureException(
+            new Error("Donation transaction creation failed"),
+          )
+        })
+        const message = t("network-error-try-again")
+        toast.error(message)
+        setError(message)
         setSubmit(false)
       })
   }
@@ -93,6 +111,11 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       className="mx-0 mt-5 flex flex-col gap-5 rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic h-min shadow-md"
       onSubmit={handleSubmit}
     >
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
       <h4 className="m-0 text-lg font-semibold">
         {t("select-donation-amount")}
       </h4>
