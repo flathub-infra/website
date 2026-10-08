@@ -115,14 +115,14 @@ def test_base_appstream_fixture_parses_device_metadata(monkeypatch):
     assert app["requires"] == [
         {"type": "control", "value": "keyboard"},
         {"type": "memory", "value": "6GB", "compare": "ge"},
-        {"type": "display_length", "value": "360", "compare": "ge"},
+        {"type": "display_length", "value": "1024", "compare": "ge"},
     ]
     assert app["recommends"] == [
         {"type": "control", "value": "pointing"},
         {"type": "control", "value": "touch"},
     ]
     assert app["supports"] == [{"type": "control", "value": "gamepad"}]
-    assert app["isMobileFriendly"] is True
+    assert app["isMobileFriendly"] is False
 
 
 def test_translated_appstream_selects_best_screenshot_locale():

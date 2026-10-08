@@ -259,7 +259,7 @@ def test_appstream_by_appid(client, snapshot):
     assert response_data["requires"] == [
         {"type": "control", "value": "keyboard"},
         {"type": "memory", "value": "6GB", "compare": "ge"},
-        {"type": "display_length", "value": "360", "compare": "ge"},
+        {"type": "display_length", "value": "1024", "compare": "ge"},
     ]
     assert response_data["recommends"] == [
         {"type": "control", "value": "pointing"},

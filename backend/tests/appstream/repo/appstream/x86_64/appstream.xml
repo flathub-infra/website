@@ -60,7 +60,7 @@
     <requires>
       <control>keyboard</control>
       <memory compare="ge">6GB</memory>
-      <display_length compare="ge">360</display_length>
+      <display_length compare="ge">1024</display_length>
     </requires>
     <recommends>
       <control>pointing</control>

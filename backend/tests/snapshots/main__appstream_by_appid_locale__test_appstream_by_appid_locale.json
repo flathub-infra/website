@@ -191,7 +191,7 @@
     "type": "gettext"
   },
   "is_free_license": true,
-  "isMobileFriendly": true,
+  "isMobileFriendly": false,
   "requires": [
     {
       "type": "control",
@@ -204,7 +204,7 @@
     },
     {
       "type": "display_length",
-      "value": "360",
+      "value": "1024",
       "compare": "ge"
     }
   ],
