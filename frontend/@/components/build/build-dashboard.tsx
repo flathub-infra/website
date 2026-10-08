@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react"
+import { useLocale } from "next-intl"
+import { getLangDir } from "rtl-detect"
 import { formatDistanceToNow } from "date-fns"
 import { keepPreviousData } from "@tanstack/react-query"
 import {
@@ -7,13 +9,8 @@ import {
 } from "src/codegen-pipeline"
 import { BuildTable } from "./build-table"
 import { Button } from "@/components/ui/button"
-import {
-  ChevronDown,
-  ChevronUp,
-  Activity,
-  Clock,
-  CheckCircle2,
-} from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Activity, Clock, CheckCircle2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { PipelineRepoWithAll } from "./build-repo-filter"
 import type { PipelineStatusWithAll } from "./build-status-filter"
@@ -26,8 +23,8 @@ const groups: StatusGroup[] = [
   "completed",
 ]
 const labels: Record<StatusGroup, string> = {
-  "in-progress": "In Progress",
-  "awaiting-publishing": "Awaiting Publishing",
+  "in-progress": "In progress",
+  "awaiting-publishing": "Awaiting publish",
   completed: "Completed",
 }
 const icons: Record<StatusGroup, React.ReactNode> = {
@@ -58,7 +55,6 @@ function DashboardGroup({
 }) {
   const [offset, setOffset] = useState(0)
   const [displayOffset, setDisplayOffset] = useState(0)
-  const [expanded, setExpanded] = useState(true)
   const filterKey = useMemo(() => JSON.stringify(filters), [filters])
   const [lastFilterKey, setLastFilterKey] = useState(filterKey)
   if (lastFilterKey !== filterKey) {
@@ -103,17 +99,14 @@ function DashboardGroup({
     setDisplayOffset(offset)
   }
   return (
-    <div className="space-y-3">
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full px-6 py-4 flex items-center justify-between hover:bg-muted/50 transition-colors rounded-lg bg-card border"
-      >
-        <div className="flex items-center gap-3">
+    <section className="flex flex-col gap-4" aria-label={labels[group]}>
+      <div className="flex flex-wrap items-center justify-between gap-3 py-2">
+        <div className="flex flex-wrap items-center gap-3">
           <div className={cn("flex items-center", colors[group])}>
             {icons[group]}
           </div>
-          <h3 className="text-lg font-semibold">{labels[group]}</h3>
-          <span className="text-sm text-muted-foreground bg-muted px-3 py-1 rounded-full">
+          <h2 className="text-lg font-semibold">{labels[group]}</h2>
+          <span className="font-mono text-xs text-muted-foreground">
             {pipelines
               ? `${pipelines.length} ${pipelines.length === 1 ? "record" : "records"} on this page`
               : query.isPending
@@ -128,12 +121,7 @@ function DashboardGroup({
               ? `Updated ${formatDistanceToNow(new Date(query.dataUpdatedAt), { addSuffix: true })}`
               : null}
         </span>
-        {expanded ? (
-          <ChevronUp className="h-5 w-5 text-muted-foreground" />
-        ) : (
-          <ChevronDown className="h-5 w-5 text-muted-foreground" />
-        )}
-      </button>
+      </div>
       {query.isError && (
         <div role="alert" className="px-6 py-3 text-destructive">
           {pipelines
@@ -144,58 +132,102 @@ function DashboardGroup({
           </Button>
         </div>
       )}
-      {expanded && (
-        <div>
-          {query.isPending && <p className="px-6 py-8">Loading builds...</p>}
-          {pipelines &&
-            (pipelines.length ? (
-              <BuildTable pipelines={pipelines} />
-            ) : (
-              <p className="px-6 py-8 text-center rounded-lg bg-card border">
-                {offset > 0
-                  ? "No builds on this page"
-                  : "No builds in this category"}
-              </p>
-            ))}
-          {pipelines && (
-            <div className="flex items-center justify-end gap-2 mt-3">
-              <Button
-                variant="outline"
-                disabled={
-                  offset === 0 || query.isFetching || query.isPlaceholderData
-                }
-                onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
-              >
-                Previous
-              </Button>
-              <span className="text-sm text-muted-foreground">
-                Page {displayOffset / PAGE_SIZE + 1}
-              </span>
-              <Button
-                variant="outline"
-                disabled={
-                  pipelines.length < PAGE_SIZE ||
-                  query.isFetching ||
-                  query.isPlaceholderData
-                }
-                onClick={() => setOffset(offset + PAGE_SIZE)}
-              >
-                Next
-              </Button>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+      <div>
+        {query.isPending && <p className="px-6 py-8">Loading builds...</p>}
+        {pipelines &&
+          (pipelines.length ? (
+            <BuildTable pipelines={pipelines} />
+          ) : (
+            <p className="px-6 py-8 text-center rounded-lg bg-card border">
+              {offset > 0
+                ? "No builds on this page"
+                : "No builds in this category"}
+            </p>
+          ))}
+        {pipelines && (
+          <div className="flex items-center justify-end gap-2 mt-3">
+            <Button
+              variant="outline"
+              disabled={
+                offset === 0 || query.isFetching || query.isPlaceholderData
+              }
+              onClick={() => setOffset(Math.max(0, offset - PAGE_SIZE))}
+            >
+              Previous
+            </Button>
+            <span className="text-sm text-muted-foreground">
+              Page {displayOffset / PAGE_SIZE + 1}
+            </span>
+            <Button
+              variant="outline"
+              disabled={
+                pipelines.length < PAGE_SIZE ||
+                query.isFetching ||
+                query.isPlaceholderData
+              }
+              onClick={() => setOffset(offset + PAGE_SIZE)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
+      </div>
+    </section>
   )
 }
 
 export function BuildDashboard(filters: DashboardFilters) {
+  const locale = useLocale()
+  const preferredGroup: StatusGroup =
+    filters.statusFilter === "committed"
+      ? filters.repoFilter === "test"
+        ? "completed"
+        : "awaiting-publishing"
+      : ["published", "failed", "cancelled", "superseded"].includes(
+            filters.statusFilter,
+          )
+        ? "completed"
+        : "in-progress"
+  const [activeGroup, setActiveGroup] = useState<StatusGroup>(preferredGroup)
+  const filterSelection = `${filters.statusFilter}:${filters.repoFilter}`
+  const [previousSelection, setPreviousSelection] = useState(filterSelection)
+  if (previousSelection !== filterSelection) {
+    setPreviousSelection(filterSelection)
+    if (filters.statusFilter !== "all") setActiveGroup(preferredGroup)
+  }
+
   return (
-    <div className="space-y-6">
+    <Tabs
+      dir={getLangDir(locale)}
+      value={activeGroup}
+      onValueChange={(value) => setActiveGroup(value as StatusGroup)}
+      className="flex min-w-0 flex-col gap-4"
+    >
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <TabsList
+          className="h-auto flex-wrap justify-start"
+          aria-label="Build queues"
+        >
+          {groups.map((group) => (
+            <TabsTrigger key={group} value={group} className="gap-2 py-2">
+              {labels[group]}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        <span className="text-xs text-muted-foreground">
+          Refreshes every 30 seconds
+        </span>
+      </div>
       {groups.map((group) => (
-        <DashboardGroup key={group} group={group} filters={filters} />
+        <TabsContent
+          key={group}
+          value={group}
+          forceMount
+          className="data-[state=inactive]:hidden"
+        >
+          <DashboardGroup group={group} filters={filters} />
+        </TabsContent>
       ))}
-    </div>
+    </Tabs>
   )
 }

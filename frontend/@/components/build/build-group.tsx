@@ -9,7 +9,7 @@ import {
   Ban,
   Clock,
   Package,
-  ExternalLink,
+  ArrowRight,
   Repeat2,
 } from "lucide-react"
 import { AlertCircle } from "lucide-react"
@@ -107,7 +107,7 @@ export function BuildGroup({
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="build-data-table">
             <thead className="border-b">
               <tr>
                 <th className="px-4 py-3 text-start font-semibold">Status</th>
@@ -246,8 +246,11 @@ export function BuildGroup({
                   )}
                   <td className="px-4 py-3 text-end">
                     <Button variant="ghost" size="sm" asChild>
-                      <Link href={`/builds/${build.id}`}>
-                        <ExternalLink className="h-4 w-4" />
+                      <Link
+                        href={`/builds/${build.id}`}
+                        aria-label={`Details for build ${build.build_id ?? build.id}`}
+                      >
+                        Details <ArrowRight data-icon="inline-end" />
                       </Link>
                     </Button>
                   </td>

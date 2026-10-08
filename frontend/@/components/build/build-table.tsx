@@ -39,7 +39,9 @@ function getStatusIcon(status: PipelineStatus) {
     case "running":
       return <Clock className={cn(iconClass, "text-blue-500 animate-pulse")} />
     case "publishing":
-      return <Rocket className={cn(iconClass, "text-indigo-500 animate-pulse")} />
+      return (
+        <Rocket className={cn(iconClass, "text-indigo-500 animate-pulse")} />
+      )
     case "committed":
       return <Package className={cn(iconClass, "text-green-500")} />
     case "pending":
@@ -50,24 +52,6 @@ function getStatusIcon(status: PipelineStatus) {
       return <AlertCircle className={cn(iconClass, "text-yellow-500")} />
     default:
       return null
-  }
-}
-
-function getStatusColor(status: PipelineStatus): string {
-  switch (status) {
-    case "published":
-    case "committed":
-    case "succeeded":
-      return "bg-green-50 dark:bg-green-950/40"
-    case "failed":
-      return "bg-red-50 dark:bg-red-950/40"
-    case "running":
-    case "publishing":
-      return "bg-blue-50 dark:bg-blue-950/40"
-    case "cancelled":
-      return "bg-gray-50 dark:bg-gray-950/40"
-    default:
-      return ""
   }
 }
 
@@ -121,10 +105,8 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
   return (
     <>
       {/* Desktop view */}
-      <tr
-        className={cn("hidden md:table-row", getStatusColor(pipeline.status))}
-      >
-        <td className="px-6 py-4">
+      <tr className="hidden md:table-row">
+        <td className="whitespace-nowrap">
           {destination ? (
             <a
               href={destination}
@@ -151,17 +133,20 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
             </p>
           )}
         </td>
-        <td className="px-6 py-4 font-medium max-w-xs">
+        <td className="font-medium max-w-xs">
           <Link
             href={`/builds/apps/${pipeline.app_id}`}
             className="hover:text-primary transition-colors flex items-center gap-2 group"
           >
-            <span className="truncate group-hover:underline">
+            <span
+              className="truncate font-mono text-xs group-hover:underline"
+              title={pipeline.app_id}
+            >
               {pipeline.app_id}
             </span>
           </Link>
         </td>
-        <td className="px-6 py-4">
+        <td>
           {pipeline.repo ? (
             <Badge
               variant={getRepoBadgeVariant(pipeline.repo)}
@@ -173,7 +158,7 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
             <span className="text-muted-foreground text-xs">-</span>
           )}
         </td>
-        <td className="px-6 py-4 text-sm">
+        <td className="text-sm">
           {sourceInfo ? (
             <a
               href={sourceInfo.url}
@@ -196,7 +181,7 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
           )}
         </td>
         <td
-          className="px-6 py-4 text-sm text-muted-foreground"
+          className="whitespace-nowrap text-xs text-muted-foreground"
           title={
             pipeline.started_at
               ? new UTCDate(pipeline.started_at).toISOString()
@@ -223,10 +208,10 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
             "Pending"
           )}
         </td>
-        <td className="px-6 py-4 text-sm font-medium">
+        <td className="whitespace-nowrap font-mono text-xs tabular-nums">
           {buildDuration(pipeline)}
         </td>
-        <td className="px-6 py-4 text-end">
+        <td className="text-end">
           <Button
             variant="ghost"
             size="sm"
@@ -245,12 +230,7 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
       </tr>
 
       {/* Mobile view */}
-      <tr
-        className={cn(
-          "md:hidden border rounded-lg",
-          getStatusColor(pipeline.status),
-        )}
-      >
+      <tr className="md:hidden border rounded-lg bg-card">
         <td className="px-4 py-4 col-span-1 w-full">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
@@ -291,7 +271,7 @@ function BuildRow({ pipeline }: { pipeline: PipelineSummary }) {
 
             <Link
               href={`/builds/apps/${pipeline.app_id}`}
-              className="hover:text-primary transition-colors block text-sm font-medium truncate hover:underline text-foreground"
+              className="hover:text-primary transition-colors block font-mono text-xs break-all hover:underline text-foreground"
             >
               {pipeline.app_id}
             </Link>
@@ -387,31 +367,19 @@ export function BuildTable({ pipelines }: BuildTableProps) {
   return (
     <div className="w-full">
       {/* Desktop table */}
-      <div className="hidden md:block overflow-hidden border rounded-xl shadow-sm">
+      <div className="hidden md:block overflow-hidden border rounded-xl bg-card">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-gradient-to-r from-muted to-muted/60 border-b-2">
+          <table className="build-data-table">
+            <thead>
               <tr>
-                <th className="px-6 py-4 text-start font-bold text-xs uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-4 text-start font-bold text-xs uppercase tracking-wider">
-                  App ID
-                </th>
-                <th className="px-6 py-4 text-start font-bold text-xs uppercase tracking-wider">
-                  Repo
-                </th>
-                <th className="px-6 py-4 text-start font-bold text-xs uppercase tracking-wider">
-                  Source
-                </th>
-                <th className="px-6 py-4 text-start font-bold text-xs uppercase tracking-wider">
-                  Started
-                </th>
-                <th className="px-6 py-4 text-start font-bold text-xs uppercase tracking-wider">
-                  Duration
-                </th>
-                <th className="px-6 py-4 text-end font-bold text-xs uppercase tracking-wider">
-                  Actions
+                <th scope="col">Status</th>
+                <th scope="col">App ID</th>
+                <th scope="col">Repo</th>
+                <th scope="col">Source</th>
+                <th scope="col">Started</th>
+                <th scope="col">Duration</th>
+                <th scope="col">
+                  <span className="sr-only">Actions</span>
                 </th>
               </tr>
             </thead>

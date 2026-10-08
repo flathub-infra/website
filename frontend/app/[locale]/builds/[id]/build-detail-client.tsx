@@ -7,9 +7,12 @@ import { useGetPipelineApiPipelinesPipelineIdGet } from "../../../../src/codegen
 import { useQuery } from "@tanstack/react-query"
 import { formatDistanceStrict, formatDistanceToNow } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
-import Breadcrumbs from "src/components/Breadcrumbs"
 import { buildDuration } from "src/builds/pipeline-duration"
 import { BuildStatus } from "@/components/build/build-status"
+import {
+  BuildNavigation,
+  BuildPageHeader,
+} from "@/components/build/build-page-header"
 import Spinner from "../../../../src/components/Spinner"
 import { getRepoBadgeVariant } from "../../../../@/components/build/build-card"
 import { Badge } from "../../../../@/components/ui/badge"
@@ -22,8 +25,6 @@ import {
 import {
   Repeat2,
   ExternalLink,
-  GitCommit,
-  Rocket,
   Download,
   GitPullRequest,
   ListChecks,
@@ -185,13 +186,14 @@ export default function BuildDetailClient({ pipelineId }: Props) {
 
   if (query.isError || !query.data?.data) {
     return (
-      <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-        <Link href="/builds">
-          <Button variant="ghost" className="mb-6">
+      <div className="build-page">
+        <BuildNavigation />
+        <Button variant="ghost" className="w-fit" asChild>
+          <Link href="/builds">
             <ArrowLeftIcon className="h-4 w-4 me-2" />
             Back to Dashboard
-          </Button>
-        </Link>
+          </Link>
+        </Button>
         <p className="text-red-500">
           Error loading build details: {query.error?.message || "Unknown error"}
         </p>
@@ -241,8 +243,8 @@ export default function BuildDetailClient({ pipelineId }: Props) {
   const failureUrl = getPipelineFailureUrl(pipeline)
 
   return (
-    <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <Breadcrumbs
+    <div className="build-page">
+      <BuildNavigation
         pages={[
           { name: "Builds", href: "/builds", current: false },
           { name: app_id, href: `/builds/apps/${app_id}`, current: false },
@@ -253,19 +255,23 @@ export default function BuildDetailClient({ pipelineId }: Props) {
           },
         ]}
       />
-      <div className="space-y-4">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <h1 className="wrap-break-word text-3xl font-bold">
-              <Link href={`/builds/apps/${app_id}`} className="hover:underline">
-                {app_id}
-              </Link>
-            </h1>
-            <p className="mt-1 text-muted-foreground">
-              Build {build_id ?? pipelineId}
-            </p>
-          </div>
-          {((status === "failed" && failureUrl) || log_url) && (
+      <BuildPageHeader
+        title={
+          <Link
+            href={`/builds/apps/${app_id}`}
+            className="text-foreground hover:underline"
+          >
+            {app_id}
+          </Link>
+        }
+        technical
+        description={
+          <span className="font-mono text-sm">
+            Build {build_id ?? pipelineId}
+          </span>
+        }
+        actions={
+          ((status === "failed" && failureUrl) || log_url) && (
             <Button asChild>
               <a
                 href={status === "failed" && failureUrl ? failureUrl : log_url!}
@@ -275,48 +281,74 @@ export default function BuildDetailClient({ pipelineId }: Props) {
                 {status === "failed" && failureUrl
                   ? "View failed job"
                   : "Build logs"}
+                <ExternalLink data-icon="inline-end" />
               </a>
             </Button>
-          )}
-        </div>
+          )
+        }
+      />
+      <section
+        className="flex flex-col gap-5 rounded-xl border bg-card p-5 sm:p-6"
+        aria-label="Build summary"
+      >
         <BuildStatus pipelineSummary={pipeline} />
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
+        <dl className="build-metadata">
           {repo && (
-            <Badge variant={getRepoBadgeVariant(repo)}>
-              {repo.toUpperCase()}
-            </Badge>
+            <div>
+              <dt>Repository</dt>
+              <dd>
+                <Badge variant={getRepoBadgeVariant(repo)}>
+                  {repo.toUpperCase()}
+                </Badge>
+              </dd>
+            </div>
           )}
-          <span>{triggered_by === "manual" ? "Manual" : "Webhook"}</span>
-          <span>Duration: {buildDuration(pipeline)}</span>
+          <div>
+            <dt>Triggered by</dt>
+            <dd>{triggered_by === "manual" ? "Manual" : "Webhook"}</dd>
+          </div>
+          <div>
+            <dt>Duration</dt>
+            <dd className="font-mono">{buildDuration(pipeline)}</dd>
+          </div>
           {pipeline.started_at && (
-            <span title={new UTCDate(pipeline.started_at).toISOString()}>
-              Started{" "}
-              {formatDistanceToNow(new UTCDate(pipeline.started_at), {
-                addSuffix: true,
-              })}
-            </span>
+            <div>
+              <dt>Started</dt>
+              <dd title={new UTCDate(pipeline.started_at).toISOString()}>
+                {formatDistanceToNow(new UTCDate(pipeline.started_at), {
+                  addSuffix: true,
+                })}
+              </dd>
+            </div>
           )}
           {pipeline.finished_at && (
-            <span title={new UTCDate(pipeline.finished_at).toISOString()}>
-              Finished{" "}
-              {formatDistanceToNow(new UTCDate(pipeline.finished_at), {
-                addSuffix: true,
-              })}
-            </span>
+            <div>
+              <dt>Finished</dt>
+              <dd title={new UTCDate(pipeline.finished_at).toISOString()}>
+                {formatDistanceToNow(new UTCDate(pipeline.finished_at), {
+                  addSuffix: true,
+                })}
+              </dd>
+            </div>
           )}
           {pipeline.published_at && (
-            <span title={new UTCDate(pipeline.published_at).toISOString()}>
-              Published{" "}
-              {formatDistanceToNow(new UTCDate(pipeline.published_at), {
-                addSuffix: true,
-              })}
-            </span>
+            <div>
+              <dt>Published</dt>
+              <dd title={new UTCDate(pipeline.published_at).toISOString()}>
+                {formatDistanceToNow(new UTCDate(pipeline.published_at), {
+                  addSuffix: true,
+                })}
+              </dd>
+            </div>
           )}
           {total_cost !== undefined && total_cost !== null && (
-            <span>Cost ${total_cost.toFixed(4)}</span>
+            <div>
+              <dt>Cost</dt>
+              <dd>${total_cost.toFixed(4)}</dd>
+            </div>
           )}
-        </div>
-      </div>
+        </dl>
+      </section>
       {reprocheckResult && (
         <Card
           className={
@@ -559,16 +591,16 @@ export default function BuildDetailClient({ pipelineId }: Props) {
         targetBranch ||
         action ||
         buildType) && (
-        <Card className="border-2">
-          <CardHeader className="bg-muted/30 dark:bg-muted/20">
+        <Card>
+          <CardHeader>
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-purple-100 p-2 dark:bg-purple-900/30">
-                <GitPullRequest className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+              <div className="text-muted-foreground">
+                <GitPullRequest className="size-5" />
               </div>
-              <CardTitle className="text-2xl font-bold">Build Source</CardTitle>
+              <CardTitle>Build source</CardTitle>
             </div>
           </CardHeader>
-          <CardContent className="pt-6">
+          <CardContent>
             <div className="grid gap-3 md:grid-cols-3">
               {sourceRepo && (
                 <div className="rounded-lg border bg-muted/40 p-4">

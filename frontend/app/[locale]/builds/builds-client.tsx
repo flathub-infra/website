@@ -2,7 +2,13 @@
 
 import { useEffect, useState, Suspense } from "react"
 import { useSearchParams, useRouter, usePathname } from "next/navigation"
-import { Search, X, Activity } from "lucide-react"
+import { Search, X, CalendarDays, ChevronDown, Repeat2 } from "lucide-react"
+import { Link } from "src/i18n/navigation"
+import {
+  BuildNavigation,
+  BuildPageHeader,
+} from "@/components/build/build-page-header"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { BuildDashboard } from "../../../@/components/build/build-dashboard"
 import {
   BuildRepoFilter,
@@ -16,8 +22,6 @@ import {
 import { BuildStatusBanner } from "../../../@/components/build/build-status-banner"
 import { Input } from "../../../@/components/ui/input"
 import { Button } from "../../../@/components/ui/button"
-import { Card } from "../../../@/components/ui/card"
-import { Link } from "src/i18n/navigation"
 import Spinner from "src/components/Spinner"
 
 const repos: Record<PipelineRepoWithAll, true> = {
@@ -49,6 +53,9 @@ function BuildsContent() {
   const [searchInput, setSearchInput] = useState(appId)
   const [fromInput, setFromInput] = useState(dateFrom)
   const [toInput, setToInput] = useState(dateTo)
+  const [datesExpanded, setDatesExpanded] = useState(
+    Boolean(dateFrom || dateTo),
+  )
   useEffect(() => setSearchInput(appId), [appId])
   useEffect(() => setFromInput(dateFrom), [dateFrom])
   useEffect(() => setToInput(dateTo), [dateTo])
@@ -71,61 +78,79 @@ function BuildsContent() {
     (dateTo && !utcDate(dateTo)) ||
     (dateFrom && dateTo && utcDate(dateFrom)! > utcDate(dateTo)!),
   )
+  const hasFilters = Boolean(
+    appId ||
+    searchInput ||
+    repo !== "all" ||
+    status !== "all" ||
+    dateFrom ||
+    dateTo ||
+    fromInput ||
+    toInput,
+  )
 
   return (
-    <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <div className="space-y-6 pt-8">
-        <div className="flex items-start gap-6">
-          <div className="p-4 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl">
-            <Activity className="h-12 w-12 text-primary" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <h1 className="min-w-0 break-all text-3xl sm:text-5xl font-extrabold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
-              Builds
-            </h1>
-            <p className="text-lg text-muted-foreground mt-3">
-              Monitor build pipelines and deployment processes across all
-              repositories
-            </p>
-          </div>
-        </div>
-      </div>
+    <div className="build-page">
+      <BuildNavigation />
+      <BuildPageHeader
+        title="Build activity"
+        description="Follow builds, inspect results, and track what’s shipping across every repository."
+        actions={
+          <Button variant="outline" asChild>
+            <Link href="/builds/reproducible">
+              <Repeat2 data-icon="inline-start" />
+              Reproducibility
+            </Link>
+          </Button>
+        }
+      />
       <BuildStatusBanner />
-      <Card className="p-4">
+      <section
+        className="build-filter-panel"
+        aria-label="Search and filter builds"
+      >
         <div className="flex flex-wrap items-center gap-3">
           <h2 className="sr-only">Search and filter builds</h2>
-          <Input
-            aria-label="Search by app ID"
-            placeholder="Search by app ID"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") update({ appId: searchInput.trim() })
-            }}
-            className="h-9 flex-1 min-w-48"
-          />
+          <Field className="min-w-48 flex-1">
+            <FieldLabel htmlFor="builds-search" className="sr-only">
+              Search by app ID
+            </FieldLabel>
+            <Input
+              id="builds-search"
+              aria-label="Search by app ID"
+              placeholder="Search by app ID"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") update({ appId: searchInput.trim() })
+              }}
+              className="h-9 flex-1 min-w-48"
+            />
+          </Field>
           <Button onClick={() => update({ appId: searchInput.trim() })}>
-            <Search className="h-4 w-4 mr-2" />
+            <Search data-icon="inline-start" />
             Search
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => {
-              setSearchInput("")
-              setFromInput("")
-              setToInput("")
-              update({
-                appId: "",
-                repo: "",
-                status: "",
-                dateFrom: "",
-                dateTo: "",
-              })
-            }}
-          >
-            <X className="h-4 w-4 mr-2" />
-            Clear Filters
-          </Button>
+          {hasFilters && (
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setSearchInput("")
+                setFromInput("")
+                setToInput("")
+                update({
+                  appId: "",
+                  repo: "",
+                  status: "",
+                  dateFrom: "",
+                  dateTo: "",
+                })
+              }}
+            >
+              <X data-icon="inline-start" />
+              Reset
+            </Button>
+          )}
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <BuildRepoFilter
@@ -138,43 +163,68 @@ function BuildsContent() {
             className="h-9"
             setSelectedStatus={(value) => update({ status: value })}
           />
-          <label htmlFor="builds-date-from" className="sr-only">
-            From (UTC)
-          </label>
-          <Input
-            id="builds-date-from"
-            type="datetime-local"
-            value={fromInput}
-            onChange={(e) => setFromInput(e.target.value)}
-            className="h-9 w-52"
-          />
-          <label htmlFor="builds-date-to" className="sr-only">
-            To (UTC)
-          </label>
-          <Input
-            id="builds-date-to"
-            type="datetime-local"
-            value={toInput}
-            onChange={(e) => setToInput(e.target.value)}
-            className="h-9 w-52"
-          />
           <Button
-            variant="outline"
-            disabled={invalidDate}
-            onClick={() => update({ dateFrom: fromInput, dateTo: toInput })}
+            variant="ghost"
+            aria-expanded={datesExpanded}
+            aria-controls="builds-date-range"
+            onClick={() => setDatesExpanded((expanded) => !expanded)}
           >
-            Apply dates
+            <CalendarDays aria-hidden="true" data-icon="inline-start" />
+            Date range (UTC)
+            {(dateFrom || dateTo) && (
+              <>
+                <span className="size-1.5 rounded-full bg-primary" />
+                <span className="sr-only">Filter active</span>
+              </>
+            )}
+            <ChevronDown
+              aria-hidden="true"
+              data-icon="inline-end"
+              className={datesExpanded ? "rotate-180" : undefined}
+            />
           </Button>
-          <Button variant="ghost" asChild>
-            <Link href="/builds/reproducible">Fleet reproducibility</Link>
-          </Button>
+        </div>
+        <div id="builds-date-range" hidden={!datesExpanded}>
+          <FieldGroup className="flex-wrap gap-3 sm:flex-row sm:items-end">
+            <Field className="sm:w-auto" data-invalid={invalidDate}>
+              <FieldLabel htmlFor="builds-date-from">From (UTC)</FieldLabel>
+              <Input
+                id="builds-date-from"
+                type="datetime-local"
+                value={fromInput}
+                onChange={(e) => setFromInput(e.target.value)}
+                aria-invalid={invalidDate}
+                className="h-9 sm:w-56"
+              />
+            </Field>
+            <Field className="sm:w-auto" data-invalid={invalidDate}>
+              <FieldLabel htmlFor="builds-date-to">To (UTC)</FieldLabel>
+              <Input
+                id="builds-date-to"
+                type="datetime-local"
+                value={toInput}
+                onChange={(e) => setToInput(e.target.value)}
+                aria-invalid={invalidDate}
+                className="h-9 sm:w-56"
+              />
+            </Field>
+            <Button
+              variant="outline"
+              disabled={
+                invalidDate || (fromInput === dateFrom && toInput === dateTo)
+              }
+              onClick={() => update({ dateFrom: fromInput, dateTo: toInput })}
+            >
+              Apply dates
+            </Button>
+          </FieldGroup>
         </div>
         {invalidDate && (
           <p role="alert" className="text-destructive text-sm">
             Enter valid UTC dates with From no later than To.
           </p>
         )}
-      </Card>
+      </section>
       {invalidUrlDate ? (
         <p role="alert" className="text-destructive">
           Invalid date filter. Clear filters to load builds.

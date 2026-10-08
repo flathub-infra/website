@@ -9,7 +9,6 @@ import { scaleUtc } from "d3-scale"
 import { ChartLegendItems, TanstackChart } from "src/components/charts/chart"
 import { useMemo } from "react"
 import { formatDuration } from "date-fns"
-import { UTCDate } from "@date-fns/utc"
 import { useLocale, useTranslations } from "next-intl"
 import { getIntlLocale } from "src/localize"
 import { primaryStroke } from "src/chartComponents"
@@ -108,34 +107,38 @@ export function BuildTimeChart({ builds, sampleLimit }: BuildTimeChartProps) {
     formatDuration({ minutes: Math.round(minutes) })
 
   return (
-    <div className="space-y-6">
-      <p className="text-sm text-muted-foreground">
+    <div className="grid gap-5 md:grid-cols-[160px_minmax(0,1fr)]">
+      <p className="text-xs text-muted-foreground md:col-span-2">
         Successful builds: {count} of the last {sampleLimit} builds
       </p>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
-        <div className="bg-muted p-3 rounded">
-          <p className="text-xs text-muted-foreground">Average Duration</p>
-          <p className="text-lg font-semibold">
+      <dl className="grid grid-cols-3 gap-3 md:grid-cols-1 md:content-start md:gap-5">
+        <div>
+          <dt className="text-xs text-muted-foreground">Average</dt>
+          <dd className="mt-1 font-mono text-sm font-semibold tabular-nums sm:text-lg">
             {formatMinutes(averageMinutes)}
-          </p>
+          </dd>
         </div>
-        <div className="bg-muted p-3 rounded">
-          <p className="text-xs text-muted-foreground">Max Duration</p>
-          <p className="text-lg font-semibold">{formatMinutes(maxMinutes)}</p>
+        <div>
+          <dt className="text-xs text-muted-foreground">Longest</dt>
+          <dd className="mt-1 font-mono text-sm font-semibold tabular-nums sm:text-lg">
+            {formatMinutes(maxMinutes)}
+          </dd>
         </div>
-        <div className="bg-muted p-3 rounded">
-          <p className="text-xs text-muted-foreground">Min Duration</p>
-          <p className="text-lg font-semibold">{formatMinutes(minMinutes)}</p>
+        <div>
+          <dt className="text-xs text-muted-foreground">Shortest</dt>
+          <dd className="mt-1 font-mono text-sm font-semibold tabular-nums sm:text-lg">
+            {formatMinutes(minMinutes)}
+          </dd>
         </div>
-      </div>
-      <div className="w-full">
+      </dl>
+      <div className="min-w-0">
         <TanstackChart
           definition={definition}
           ariaLabel={t("build-duration-over-time")}
           ariaDescription={t("chart-description", {
             chart: t("build-duration-over-time"),
           })}
-          className="h-[clamp(16rem,35vw,20rem)] w-full"
+          className="h-56 w-full"
         />
         <ChartLegendItems
           items={[{ label: "Successful build duration", color: lineColor }]}

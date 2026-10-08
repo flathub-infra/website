@@ -2,6 +2,92 @@
 
 @config '../tailwind.config.ts';
 
+/* Build infrastructure: quiet surfaces, precise type, and a shared rhythm. */
+@layer components {
+  .build-workspace {
+    @apply mx-auto w-11/12 max-w-[1400px] pb-12;
+    --muted-foreground: var(--flathub-granite-gray);
+    --primary: var(--flathub-celestial-blue-dark);
+  }
+
+  .dark .build-workspace {
+    color-scheme: dark;
+    --muted-foreground: var(--flathub-gray-x11);
+    --primary: var(--flathub-celestial-blue-light);
+    --primary-foreground: var(--flathub-dark-gunmetal);
+  }
+
+  .build-page {
+    @apply flex min-w-0 flex-col gap-5;
+  }
+
+  .build-workspace p {
+    margin-bottom: 0;
+  }
+
+  .build-page-header {
+    @apply flex flex-col items-start justify-between gap-5 py-2 sm:flex-row sm:items-center;
+  }
+
+  .build-page-title {
+    @apply text-3xl leading-tight font-bold tracking-tight sm:text-4xl;
+    overflow-wrap: anywhere;
+  }
+
+  .build-page-title-technical {
+    @apply text-2xl sm:text-4xl;
+  }
+
+  .build-page-description {
+    @apply mt-3 max-w-2xl text-base text-muted-foreground;
+    overflow-wrap: anywhere;
+  }
+
+  .build-workspace [data-icon] {
+    @apply size-4;
+  }
+
+  .build-filter-panel {
+    @apply flex flex-col gap-4 rounded-xl border bg-card p-4 sm:p-5;
+  }
+
+  .build-data-table {
+    @apply w-full text-sm;
+  }
+
+  .build-data-table thead {
+    @apply border-b bg-muted;
+  }
+
+  .build-data-table th {
+    @apply px-4 py-3 text-start text-xs font-medium tracking-wide whitespace-nowrap text-muted-foreground;
+  }
+
+  .build-data-table td {
+    @apply px-4 py-3;
+  }
+
+  .build-data-table tbody tr {
+    @apply border-b border-border/60 transition-colors last:border-0 hover:bg-muted/60;
+  }
+
+  .build-data-table td:last-child {
+    @apply text-end;
+  }
+
+  .build-metadata {
+    @apply grid grid-cols-2 gap-x-6 gap-y-5 border-t pt-5 sm:grid-cols-3 lg:grid-cols-6;
+  }
+
+  .build-metadata dt {
+    @apply mb-1 text-xs text-muted-foreground;
+  }
+
+  .build-metadata dd {
+    @apply text-sm font-medium tabular-nums;
+  }
+}
+
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
