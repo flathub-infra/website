@@ -892,9 +892,9 @@
   "developer-portal": {
     "title": "Developer Portal",
     "runtime-version": "Runtime: {version}",
-    "downloads-last-week": "Downloads (last 7 days)",
-    "no-downloads-last-week": "No downloads last week",
-    "some-downloads-last-week": "Nice — great work this week!"
+    "downloads-last-week": "Downloads · last 7 days",
+    "downloads-across-apps": "Combined installs across your applications",
+    "downloads-unavailable": "Download totals are temporarily unavailable."
   },
   "vending": {
     "purchase-not-available": "This application is not available for purchase."
