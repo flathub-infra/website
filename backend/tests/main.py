@@ -256,6 +256,17 @@ def test_appstream_by_appid(client, snapshot):
     response = client.get("/appstream/org.sugarlabs.Maze")
     assert response.status_code == 200
     response_data = response.json()
+    assert response_data["requires"] == [
+        {"type": "control", "value": "keyboard"},
+        {"type": "memory", "value": "6GB", "compare": "ge"},
+        {"type": "display_length", "value": "1024", "compare": "ge"},
+    ]
+    assert response_data["recommends"] == [
+        {"type": "control", "value": "pointing"},
+        {"type": "control", "value": "touch"},
+    ]
+    assert response_data["supports"] == [{"type": "control", "value": "gamepad"}]
+    assert response_data["isMobileFriendly"] is False
     snapshot_data = snapshot("test_appstream_by_appid.json")
     _normalize_response_for_comparison(response_data)
     _normalize_response_for_comparison(snapshot_data)

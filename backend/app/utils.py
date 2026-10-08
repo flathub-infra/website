@@ -140,6 +140,25 @@ def appstream2dict(
 
         app["isMobileFriendly"] = isMobileFriendly and hasTouch
 
+        for relation in ("requires", "recommends", "supports"):
+            element = component.find(relation)
+            if element is None:
+                continue
+
+            app[relation] = []
+            for condition in element:
+                if not condition.text or not condition.text.strip():
+                    continue
+
+                parsed_condition = {
+                    **condition.attrib,
+                    "type": condition.tag,
+                    "value": condition.text.strip(),
+                }
+                app[relation].append(parsed_condition)
+
+            component.remove(element)
+
         descriptions = component.findall("description")
         if len(descriptions):
             for desc in descriptions:

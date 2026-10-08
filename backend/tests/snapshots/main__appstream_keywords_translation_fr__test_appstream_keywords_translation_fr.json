@@ -3,7 +3,7 @@
   "id": "org.sugarlabs.Maze",
   "name": "Labyrinthe",
   "summary": "Un simple jeu de labyrinthe",
-  "description": "<p>Vous \u00eates dou\u00e9 pour vous sortir de situations difficiles ?</p>",
+  "description": "<p>Vous êtes doué pour vous sortir de situations difficiles ?</p>",
   "developer_name": "Sugar Labs Community",
   "icon": "https://dl.flathub.org/media/icons/128x128/org.sugarlabs.Maze.png",
   "icons": [],
@@ -76,7 +76,7 @@
           "src": "https://dl.flathub.org/media/org.sugarlabs.Maze-stable/752x423/org.sugarlabs.Maze-4308958995b5f213eac85c7053e01a33.png"
         }
       ],
-      "caption": "\u00c9cran de jeu principal montrant le labyrinthe",
+      "caption": "Écran de jeu principal montrant le labyrinthe",
       "default": true
     },
     {
@@ -127,7 +127,7 @@
         {
           "id": "social",
           "level": "none",
-          "description": "Aucune possibilit\u00e9 de discuter avec les autres utilisateurs"
+          "description": "Aucune possibilité de discuter avec les autres utilisateurs"
         },
         {
           "id": "drugs",
@@ -142,7 +142,7 @@
         {
           "id": "money",
           "level": "none",
-          "description": "Aucune possibilit\u00e9 de d\u00e9penser de l\u2019argent"
+          "description": "Aucune possibilité de dépenser de l’argent"
         },
         {
           "id": "sex",
@@ -152,7 +152,7 @@
         {
           "id": "violence",
           "level": "none",
-          "description": "Aucune violence de dessins anim\u00e9s"
+          "description": "Aucune violence de dessins animés"
         }
       ],
       "minimumAge": 3,
@@ -172,7 +172,7 @@
   ],
   "keywords": [
     "labyrinthe",
-    "casse-t\u00eate",
+    "casse-tête",
     "jeu"
   ],
   "project_license": "GPL-3.0-or-later",
@@ -192,5 +192,37 @@
   },
   "is_free_license": true,
   "isMobileFriendly": false,
+  "requires": [
+    {
+      "type": "control",
+      "value": "keyboard"
+    },
+    {
+      "type": "memory",
+      "value": "6GB",
+      "compare": "ge"
+    },
+    {
+      "type": "display_length",
+      "value": "1024",
+      "compare": "ge"
+    }
+  ],
+  "recommends": [
+    {
+      "type": "control",
+      "value": "pointing"
+    },
+    {
+      "type": "control",
+      "value": "touch"
+    }
+  ],
+  "supports": [
+    {
+      "type": "control",
+      "value": "gamepad"
+    }
+  ],
   "is_eol": false
 }

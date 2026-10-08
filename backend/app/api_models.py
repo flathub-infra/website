@@ -197,6 +197,9 @@ class DesktopAppstream(BaseModel):
     metadata: Metadata | None = None
     is_free_license: bool
     isMobileFriendly: bool | None = None
+    requires: list[dict[str, str]] | None = None
+    recommends: list[dict[str, str]] | None = None
+    supports: list[dict[str, str]] | None = None
     branding: list[Branding] | None = None
     is_eol: bool = False
 
