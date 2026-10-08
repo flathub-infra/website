@@ -24,6 +24,7 @@ _FIXED_NAMESPACE_FORGES = frozenset(
     }
 )
 _GITLAB_FORGES = frozenset({"gitlab.com", "gitlab.gnome.org", "invent.kde.org"})
+_CASE_SENSITIVE_FORGES = frozenset({"git.sr.ht", "hg.sr.ht", "sr.ht"})
 
 
 class InvalidUrlOrigin(ValueError):
@@ -118,7 +119,10 @@ def normalize_manifest_source_url(
     if hostname not in _FIXED_NAMESPACE_FORGES and hostname not in _GITLAB_FORGES:
         return origin
 
-    segments = parsed.path.strip("/").split("/")
+    path = parsed.path
+    if hostname not in _CASE_SENSITIVE_FORGES:
+        path = path.lower()
+    segments = path.strip("/").split("/")
     if len(segments) < 2 or any(
         not segment or segment in {".", ".."} for segment in segments
     ):
