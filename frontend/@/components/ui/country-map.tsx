@@ -158,7 +158,7 @@ export default function CountryMap({
               const valueText =
                 metric === "downloads"
                   ? t("x-downloads", { x: formattedValue, count: value })
-                  : `${formattedValue} ${t("installs")}`
+                  : t("x-installs", { x: formattedValue, count: value })
               return `${countryName}: ${valueText}`
             },
           }
