@@ -35,6 +35,23 @@ from .walletbase import (
 GROUP_PREFIX = "flathub-txn-"
 
 
+def _get_transaction_recipients(
+    db, transactions: list[models.Transaction]
+) -> dict[int, str]:
+    if not transactions:
+        return {}
+
+    rows = (
+        db.session.query(
+            models.TransactionRow.txn, models.TransactionRow.recipient
+        )
+        .filter(models.TransactionRow.txn.in_([txn.id for txn in transactions]))
+        .filter(models.TransactionRow.idx == 0)
+        .all()
+    )
+    return dict(rows)
+
+
 class _StripeWebhookObject(TypedDict):
     id: str
     transfer_group: NotRequired[str | None]
@@ -130,6 +147,8 @@ class StripeWallet(WalletBase):
             if limit < len(txns):
                 txns = txns[:limit]
 
+            recipients = _get_transaction_recipients(db, txns)
+
             txns_needing_update = [
                 txn for txn in txns if txn.status in ["pending", "retry"]
             ]
@@ -142,6 +161,7 @@ class StripeWallet(WalletBase):
                         currency=txn.currency,
                         kind=txn.kind,
                         status=txn.status,
+                        recipient=recipients.get(txn.id),
                         reason=txn.reason,
                         created=int(txn.created.timestamp()),
                         updated=int(txn.updated.timestamp()),
@@ -169,6 +189,8 @@ class StripeWallet(WalletBase):
             if limit < len(txns):
                 txns = txns[:limit]
 
+            recipients = _get_transaction_recipients(db, txns)
+
             return [
                 TransactionSummary(
                     id=str(txn.id),
@@ -176,6 +198,7 @@ class StripeWallet(WalletBase):
                     currency=txn.currency,
                     kind=txn.kind,
                     status=txn.status,
+                    recipient=recipients.get(txn.id),
                     reason=txn.reason,
                     created=int(txn.created.timestamp()),
                     updated=int(txn.updated.timestamp()),
@@ -339,12 +362,14 @@ class StripeWallet(WalletBase):
             if self._update_transaction(user, txn, db):
                 db.session.add(txn)
                 db.session.commit()
+            rows = list(txn.rows(db))
             summary = TransactionSummary(
                 id=str(txn.id),
                 value=txn.value,
                 currency=txn.currency,
                 kind=txn.kind,
                 status=txn.status,
+                recipient=rows[0].recipient if rows else None,
                 reason=txn.reason,
                 created=int(txn.created.timestamp()),
                 updated=int(txn.updated.timestamp()),
@@ -356,7 +381,7 @@ class StripeWallet(WalletBase):
                     currency=row.currency,
                     kind=row.kind,
                 )
-                for row in txn.rows(db)
+                for row in rows
             ]
             stripe_pi = self._get_stripe_payment_intent_id(user, txn)
             card = None

@@ -43,6 +43,7 @@ export const Success: Story = {
         currency: "USD",
         id: "45",
         kind: "donation",
+        recipient: "org.flathub.Flathub",
         reason: "",
         status: "success",
         updated: 1612119600,

@@ -189,7 +189,7 @@ class FakeWallet(WalletBase):
         if limit < len(txns):
             txns = txns[:limit]
 
-        return [txn.summary for txn in txns]
+        return [self._summary_with_recipient(txn) for txn in txns]
 
     def transaction(
         self, request: Request, user: FlathubUser, transaction: str
@@ -201,7 +201,15 @@ class FakeWallet(WalletBase):
         if txn is None:
             raise WalletError(error="not found")
 
-        return txn
+        return txn.model_copy(update={"summary": self._summary_with_recipient(txn)})
+
+    @staticmethod
+    def _summary_with_recipient(txn: Transaction) -> TransactionSummary:
+        if txn.summary.recipient is not None or not txn.details:
+            return txn.summary
+        return txn.summary.model_copy(
+            update={"recipient": txn.details[0].recipient}
+        )
 
     def create_transaction(
         self, request: Request, user: FlathubUser, transaction: NascentTransaction
@@ -219,6 +227,9 @@ class FakeWallet(WalletBase):
             currency=transaction.summary.currency,
             kind=transaction.summary.kind,
             status="new",
+            recipient=(
+                transaction.details[0].recipient if transaction.details else None
+            ),
             reason=None,
             created=now,
             updated=now,

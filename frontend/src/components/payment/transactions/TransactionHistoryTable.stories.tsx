@@ -32,6 +32,7 @@ export const Default: Story = {
       {
         id: "2",
         kind: "purchase",
+        recipient: "org.example.App",
         created: faker.date.past().getTime() / 1000,
         status: "pending",
         value: faker.number.int({ min: 100, max: 5000 }),

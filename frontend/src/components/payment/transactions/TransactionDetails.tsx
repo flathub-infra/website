@@ -90,6 +90,14 @@ const TransactionDetails: FunctionComponent<Props> = ({ transaction }) => {
             <div>{t("transaction-summary-type")}</div>
             <div className="md:col-span-2">{t(`kind-${kind}`)}</div>
           </div>
+          {transaction.summary.recipient && (
+            <div className="grid col-span-3 md:col-span-3 grid-cols-subgrid">
+              <div>{t("recipient")}</div>
+              <div className="md:col-span-2">
+                {transaction.summary.recipient}
+              </div>
+            </div>
+          )}
           <div className="grid col-span-3 md:col-span-3 grid-cols-subgrid">
             <div>{t("transaction-summary-status")}</div>
             <div className="md:col-span-2">
