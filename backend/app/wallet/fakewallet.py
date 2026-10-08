@@ -207,9 +207,7 @@ class FakeWallet(WalletBase):
     def _summary_with_recipient(txn: Transaction) -> TransactionSummary:
         if txn.summary.recipient is not None or not txn.details:
             return txn.summary
-        return txn.summary.model_copy(
-            update={"recipient": txn.details[0].recipient}
-        )
+        return txn.summary.model_copy(update={"recipient": txn.details[0].recipient})
 
     def create_transaction(
         self, request: Request, user: FlathubUser, transaction: NascentTransaction

@@ -42,9 +42,7 @@ def _get_transaction_recipients(
         return {}
 
     rows = (
-        db.session.query(
-            models.TransactionRow.txn, models.TransactionRow.recipient
-        )
+        db.session.query(models.TransactionRow.txn, models.TransactionRow.recipient)
         .filter(models.TransactionRow.txn.in_([txn.id for txn in transactions]))
         .filter(models.TransactionRow.idx == 0)
         .all()
