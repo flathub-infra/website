@@ -100,8 +100,10 @@ export function AppHeader({
   isQualityModalOpen: boolean
 }) {
   const t = useTranslations()
+  const user = useUserContext()
   const { trackEvent } = useMatomo()
   const { push } = useRouter()
+  const isOwned = user.info?.owned_flatpaks?.includes(app.id) ?? false
 
   const donateClicked = (e) => {
     if (!app.urls?.donation) return
@@ -179,7 +181,7 @@ export function AppHeader({
             </a>
           </Button>
         )}
-        {!!vendingSetup?.recommended_donation && (
+        {!!vendingSetup?.recommended_donation && !isOwned && (
           <Button size="xl" asChild className="w-52 sm:w-32 md:w-40">
             <Link href={`/apps/purchase/${app.id}`}>{t("kind-purchase")}</Link>
           </Button>
