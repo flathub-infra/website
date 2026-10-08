@@ -11,6 +11,8 @@ import { formatCurrency } from "src/utils/localize"
 import { getIntlLocale } from "src/localize"
 import { redirect } from "src/i18n/navigation"
 import { Alert, AlertDescription } from "@/components/ui/alert"
+import * as Sentry from "@sentry/nextjs"
+import { isAxiosError } from "axios"
 
 interface Props {
   org: string
@@ -57,7 +59,18 @@ const DonationInput: FunctionComponent<Props> = ({ org }) => {
       },
     )
       .then((result) => setTransaction(result.data.id))
-      .catch(() => {
+      .catch((err: unknown) => {
+        Sentry.withScope((scope) => {
+          scope.setTag("operation", "donation_transaction_creation")
+          if (isAxiosError(err) && err.response?.status) {
+            scope.setTag("http.status_code", String(err.response.status))
+          }
+          // Do not send the Axios error itself: it can include request headers
+          // and response payloads. Report a sanitized exception instead.
+          Sentry.captureException(
+            new Error("Donation transaction creation failed"),
+          )
+        })
         const message = t("network-error-try-again")
         toast.error(message)
         setError(message)
