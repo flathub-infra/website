@@ -12,7 +12,19 @@ import { Link } from "src/i18n/navigation"
 import { BuildStatusBanner } from "@/components/build/build-status-banner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent } from "@/components/ui/card"
+import {
+  BuildNavigation,
+  BuildPageHeader,
+} from "@/components/build/build-page-header"
+import { Field, FieldLabel } from "@/components/ui/field"
+import {
+  Search,
+  ArrowUpRight,
+  CheckCircle2,
+  CircleHelp,
+  CircleX,
+  TriangleAlert,
+} from "lucide-react"
 import Spinner from "src/components/Spinner"
 
 const categories: {
@@ -25,6 +37,8 @@ const categories: {
   { key: "failed_to_rebuild", label: "Failed to rebuild", filter: "failed" },
   { key: "unknown", label: "Unknown", filter: "none" },
 ]
+
+const categoryIcons = [CheckCircle2, CircleX, TriangleAlert, CircleHelp]
 
 function FleetCategory({
   title,
@@ -41,16 +55,21 @@ function FleetCategory({
     <details
       open={expanded}
       key={`${title}:${expanded}`}
-      className="rounded-lg border bg-card"
+      className="overflow-hidden rounded-xl border bg-card"
     >
-      <summary className="cursor-pointer px-6 py-4 font-semibold">
-        {title} ({entries.length})
+      <summary className="cursor-pointer px-5 py-4 font-semibold hover:bg-muted/60">
+        {title}{" "}
+        <span className="ms-2 font-mono text-sm font-normal text-muted-foreground">
+          {entries.length.toLocaleString()}
+        </span>
       </summary>
-      <div className="overflow-x-auto px-6 pb-4">
+      <div className="overflow-x-auto border-t">
         {entries.length === 0 ? (
-          <p className="text-muted-foreground">No apps in this category</p>
+          <p className="p-6 text-sm text-muted-foreground">
+            No apps in this category
+          </p>
         ) : (
-          <table className="w-full text-sm">
+          <table className="build-data-table">
             <thead>
               <tr className="border-b">
                 <th className="py-2 text-left">App</th>
@@ -65,7 +84,7 @@ function FleetCategory({
                 <tr key={entry.app_id} className="border-b last:border-0">
                   <td className="py-3 pr-4">
                     <Link
-                      className="underline"
+                      className="font-mono text-xs hover:underline"
                       href={`/builds/apps/${entry.app_id}`}
                     >
                       {entry.app_id}
@@ -74,7 +93,7 @@ function FleetCategory({
                   <td className="py-3 pr-4">
                     {entry.git_repo && entry.build_commit ? (
                       <a
-                        className="underline"
+                        className="font-mono text-xs hover:underline"
                         href={`https://github.com/${entry.git_repo}/commit/${entry.build_commit}`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -176,30 +195,89 @@ function FleetContent() {
   )
   const data = query.data?.data
   return (
-    <div className="max-w-11/12 mx-auto mt-4 w-11/12 space-y-6 2xl:w-[1400px]">
-      <h1 className="text-4xl font-bold">Build reproducibility</h1>
-      <Link href="/builds" className="underline">
-        Back to Build Dashboard
-      </Link>
+    <div className="build-page">
+      <BuildNavigation
+        pages={[
+          { name: "Builds", href: "/builds", current: false },
+          {
+            name: "Reproducibility",
+            href: "/builds/reproducible",
+            current: true,
+          },
+        ]}
+      />
+      <BuildPageHeader
+        title="Build reproducibility"
+        description="Independent rebuilds check whether published apps can be reproduced from source. Explore the latest results across Flathub."
+      />
       <BuildStatusBanner />
-      <Card>
-        <CardContent className="flex flex-wrap gap-3 pt-6">
-          <Input
-            aria-label="Search apps"
-            className="max-w-md"
-            placeholder="Search app IDs"
-            value={draft}
-            onChange={(event) => setDraft(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") update({ appId: draft.trim() })
-            }}
-          />
+      {data && (
+        <section
+          aria-label="Reproducibility results for the current filters"
+          className="grid grid-cols-2 gap-3 lg:grid-cols-4"
+        >
+          {(appId || status) && (
+            <p className="col-span-full text-xs text-muted-foreground">
+              Results for the current filters
+            </p>
+          )}
+          {categories.map((category, index) => {
+            const Icon = categoryIcons[index]
+            return (
+              <button
+                key={category.key}
+                onClick={() =>
+                  update({
+                    status: status === category.filter ? "" : category.filter,
+                  })
+                }
+                aria-pressed={status === category.filter}
+                className="group flex flex-col gap-5 rounded-xl border bg-card p-4 text-start transition-colors hover:border-primary aria-pressed:border-primary aria-pressed:bg-primary/5 sm:p-5"
+              >
+                <span className="flex items-center justify-between gap-2 text-muted-foreground">
+                  <Icon aria-hidden="true" className="size-5" />
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    className="size-4 transition-transform motion-safe:group-hover:-translate-y-0.5 motion-safe:group-hover:translate-x-0.5"
+                  />
+                </span>
+                <span className="font-mono text-3xl tracking-tight tabular-nums">
+                  {data[category.key].length.toLocaleString()}
+                </span>
+                <span className="text-sm font-medium">{category.label}</span>
+              </button>
+            )
+          })}
+        </section>
+      )}
+      <section
+        className="build-filter-panel"
+        aria-label="Filter reproducibility results"
+      >
+        <div className="flex flex-wrap items-center gap-3">
+          <Field className="min-w-48 flex-1">
+            <FieldLabel htmlFor="repro-search" className="sr-only">
+              Search apps
+            </FieldLabel>
+            <Input
+              id="repro-search"
+              className="h-9"
+              aria-label="Search apps"
+              placeholder="Search app IDs"
+              value={draft}
+              onChange={(event) => setDraft(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") update({ appId: draft.trim() })
+              }}
+            />
+          </Field>
           <Button onClick={() => update({ appId: draft.trim() })}>
+            <Search data-icon="inline-start" />
             Search
           </Button>
           <select
             aria-label="Reproducibility status"
-            className="rounded border bg-background px-3"
+            className="h-9 max-w-full rounded-lg border bg-background px-3 text-sm"
             value={status || ""}
             onChange={(event) => update({ status: event.target.value })}
           >
@@ -211,7 +289,8 @@ function FleetContent() {
             ))}
           </select>
           <Button
-            variant="outline"
+            variant="ghost"
+            disabled={!draft && !status && !appId}
             onClick={() => {
               setDraft("")
               update({ appId: "", status: "" })
@@ -219,8 +298,8 @@ function FleetContent() {
           >
             Clear filters
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </section>
       {query.isPending && <Spinner size="m" />}
       {query.isError && !data && (
         <p role="alert" className="text-destructive">
@@ -245,7 +324,7 @@ function FleetContent() {
             key={category.key}
             title={category.label}
             entries={data[category.key]}
-            expanded={Boolean(appId)}
+            expanded={Boolean(appId || status)}
             unreproducible={category.key === "unreproducible"}
           />
         ))}

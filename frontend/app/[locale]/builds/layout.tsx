@@ -1,9 +1,9 @@
-import { ReactNode } from "react"
+import type { ReactNode } from "react"
 
 export default function BuildsLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      {children}
+      <div className="build-workspace">{children}</div>
       <footer className="mx-auto mt-10 w-11/12 text-center text-sm text-muted-foreground 2xl:w-[1400px]">
         Build infrastructure sponsored by{" "}
         <a href="https://aws.amazon.com" className="underline">
