@@ -1,9 +1,10 @@
 "use client"
 
-import { FormEvent, useCallback, useEffect, useState } from "react"
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useTranslations } from "next-intl"
 import LoginProviders from "../../../src/components/login/Providers"
+import PasskeyButton from "../../../src/components/login/PasskeyButton"
 import { useUserContext } from "../../../src/context/user-info"
 import { getApiBaseUrl } from "../../../src/utils/api-url"
 import { Link, useRouter } from "src/i18n/navigation"
@@ -40,6 +41,7 @@ const LoginClient = ({
     "idle" | "sending" | "sent" | "error"
   >("idle")
   const [cooldown, setCooldown] = useState(0)
+  const passkeyVerified = useRef(false)
 
   // Set NEXT_LOCALE cookie to match locale of this page
   useEffect(() => {
@@ -56,7 +58,12 @@ const LoginClient = ({
             provider !== "email" && account !== undefined && account !== null,
         )
       : false
-    if (user.info && !user.loading && (!developerLogin || hasProviderAccount)) {
+    if (
+      user.info &&
+      !user.loading &&
+      !passkeyVerified.current &&
+      (!developerLogin || hasProviderAccount)
+    ) {
       router.replace("/")
     }
   }, [user, router, developerLogin])
@@ -101,7 +108,7 @@ const LoginClient = ({
 
   return (
     <div className="flex flex-col items-center">
-      {!emailForm && (
+      {!emailForm && providers.length > 0 && (
         <LoginProviders providers={providers} compact={developerLogin} />
       )}
       {emailForm && (
@@ -160,6 +167,27 @@ const LoginClient = ({
             </p>
           )}
         </form>
+      )}
+      {!user.info && (
+        <div
+          className={
+            developerLogin
+              ? "mt-3 w-full"
+              : !emailForm
+                ? "w-full"
+                : embedded
+                  ? "mt-3 w-full"
+                  : "w-full px-5 pb-5 sm:w-[400px]"
+          }
+        >
+          <PasskeyButton
+            returnTo={returnTo}
+            compact={developerLogin}
+            onVerified={() => {
+              passkeyVerified.current = true
+            }}
+          />
+        </div>
       )}
       {emailForm && !embedded && (
         <Link href={loginHref} className="text-flathub-celestial-blue">

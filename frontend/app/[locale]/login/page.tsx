@@ -56,20 +56,24 @@ export default async function LoginPage({
         {t("user-login-heading")}
       </h1>
       <p className="mb-8 text-base leading-relaxed text-flathub-sonic-silver dark:text-flathub-gainsborow">
-        {t("user-login-intro")}
+        {emailLoginEnabled ? t("user-login-intro") : t("passkey-login-intro")}
       </p>
-      {emailLoginEnabled ? (
-        <Suspense fallback={<Spinner size="m" />}>
-          <LoginClient providers={[]} locale={locale} emailForm embedded />
-        </Suspense>
-      ) : (
+      {!emailLoginEnabled && (
         <p
           role="status"
-          className="rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic"
+          className="mb-6 rounded-xl bg-flathub-white p-5 dark:bg-flathub-arsenic"
         >
           {t("user-login-unavailable")}
         </p>
       )}
+      <Suspense fallback={<Spinner size="m" />}>
+        <LoginClient
+          providers={[]}
+          locale={locale}
+          emailForm={emailLoginEnabled}
+          embedded
+        />
+      </Suspense>
       <p className="mt-8 border-t border-flathub-gainsborow pt-6 text-center text-sm text-flathub-sonic-silver dark:border-flathub-arsenic dark:text-flathub-gainsborow">
         {t.rich("developer-login-hint-link", {
           link: (chunks) => (

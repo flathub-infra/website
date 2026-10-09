@@ -45,7 +45,7 @@ export async function login(
   }
 
   if (res.ok) {
-    getUserData(dispatch)
+    await getUserData(dispatch)
   } else {
     dispatch({ type: "interrupt" })
 
