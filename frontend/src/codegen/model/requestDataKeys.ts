@@ -4,8 +4,6 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { RequestDataKeysAnyOf } from "./requestDataKeysAnyOf"
+import type { AppTypesJSONValueOutput } from "./appTypesJSONValueOutput"
 
-export type RequestDataKeys = {
-  [key: string]: string | unknown[] | RequestDataKeysAnyOf | boolean | null
-}
+export type RequestDataKeys = { [key: string]: AppTypesJSONValueOutput | null }

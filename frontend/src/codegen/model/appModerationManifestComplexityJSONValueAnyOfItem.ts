@@ -6,5 +6,5 @@
  */
 import type { AppModerationManifestComplexityJSONValue } from "./appModerationManifestComplexityJSONValue"
 
-export type ManifestComplexityEventDataNewSummaryAnyOf =
+export type AppModerationManifestComplexityJSONValueAnyOfItem =
   AppModerationManifestComplexityJSONValue | null

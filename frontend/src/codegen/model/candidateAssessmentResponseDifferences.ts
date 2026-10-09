@@ -4,7 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { CandidateAssessmentResponseDifferencesAnyOfItem } from "./candidateAssessmentResponseDifferencesAnyOfItem"
+import type { _PermissionDifference } from "./_permissionDifference"
 
 export type CandidateAssessmentResponseDifferences =
-  CandidateAssessmentResponseDifferencesAnyOfItem[] | null
+  _PermissionDifference[] | null

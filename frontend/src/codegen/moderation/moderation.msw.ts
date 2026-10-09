@@ -67,23 +67,21 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
         {
           keys: {
             [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1,
-              ).map(() => ({})),
               faker.datatype.boolean(),
+              faker.number.int(),
+              faker.number.float({ fractionDigits: 2 }),
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              [],
               null,
             ]),
           },
           current_values: {
             [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1,
-              ).map(() => ({})),
               faker.datatype.boolean(),
+              faker.number.int(),
+              faker.number.float({ fractionDigits: 2 }),
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              [],
               null,
             ]),
           },
@@ -297,8 +295,19 @@ export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
     faker.string.alpha({ length: { min: 10, max: 20 } }),
     null,
   ]),
-  outcome: faker.helpers.arrayElement(["pending", "error"] as const),
-  acceptance_basis: faker.helpers.arrayElement([null, undefined]),
+  outcome: faker.helpers.arrayElement([
+    "accepted",
+    "pending",
+    "error",
+  ] as const),
+  acceptance_basis: faker.helpers.arrayElement([
+    faker.helpers.arrayElement(["baseline", null]),
+    undefined,
+  ]),
+  baseline_id: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([faker.number.int(), null]),
+    undefined,
+  ]),
   review_url: faker.helpers.arrayElement([null, undefined]),
   mode: "observational",
   canonicalization_version: faker.helpers.arrayElement([2, 3] as const),
@@ -312,13 +321,43 @@ export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
     Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => ({})),
+    ).map(() => ({
+      path: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+      before: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        faker.number.int(),
+        faker.datatype.boolean(),
+        [],
+        null,
+      ]),
+      after: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        faker.number.int(),
+        faker.datatype.boolean(),
+        [],
+        null,
+      ]),
+    })),
     null,
   ]),
   build_checks: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,
-  ).map(() => ({})),
+  ).map(() => ({
+    check_name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    status: faker.number.int(),
+    status_reason: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    errors: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+  })),
   linked_assessment_id: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.number.int(), null]),
     undefined,
@@ -359,8 +398,19 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    outcome: faker.helpers.arrayElement(["pending", "error"] as const),
-    acceptance_basis: faker.helpers.arrayElement([null, undefined]),
+    outcome: faker.helpers.arrayElement([
+      "accepted",
+      "pending",
+      "error",
+    ] as const),
+    acceptance_basis: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(["baseline", null]),
+      undefined,
+    ]),
+    baseline_id: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.number.int(), null]),
+      undefined,
+    ]),
     review_url: faker.helpers.arrayElement([null, undefined]),
     mode: "observational",
     canonicalization_version: faker.helpers.arrayElement([2, 3] as const),
@@ -374,13 +424,43 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
       Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
-      ).map(() => ({})),
+      ).map(() => ({
+        path: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        before: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          faker.number.int(),
+          faker.datatype.boolean(),
+          [],
+          null,
+        ]),
+        after: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          faker.number.int(),
+          faker.datatype.boolean(),
+          [],
+          null,
+        ]),
+      })),
       null,
     ]),
     build_checks: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
-    ).map(() => ({})),
+    ).map(() => ({
+      check_name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      status: faker.number.int(),
+      status_reason: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      errors: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    })),
     linked_assessment_id: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,

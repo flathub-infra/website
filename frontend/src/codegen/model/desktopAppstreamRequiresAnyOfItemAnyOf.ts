@@ -5,4 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type RequestDataKeysAnyOf = { [key: string]: unknown }
+export type DesktopAppstreamRequiresAnyOfItemAnyOf = { [key: string]: string }

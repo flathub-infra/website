@@ -19,7 +19,10 @@ import type { DesktopAppstreamMetadata } from "./desktopAppstreamMetadata"
 import type { DesktopAppstreamMimetypes } from "./desktopAppstreamMimetypes"
 import type { DesktopAppstreamProjectLicense } from "./desktopAppstreamProjectLicense"
 import type { DesktopAppstreamProvides } from "./desktopAppstreamProvides"
+import type { DesktopAppstreamRecommends } from "./desktopAppstreamRecommends"
+import type { DesktopAppstreamRequires } from "./desktopAppstreamRequires"
 import type { DesktopAppstreamScreenshots } from "./desktopAppstreamScreenshots"
+import type { DesktopAppstreamSupports } from "./desktopAppstreamSupports"
 import type { DesktopAppstreamTranslation } from "./desktopAppstreamTranslation"
 import type { DesktopAppstreamType } from "./desktopAppstreamType"
 import type { DesktopAppstreamUrls } from "./desktopAppstreamUrls"
@@ -53,6 +56,9 @@ export interface DesktopAppstream {
   metadata?: DesktopAppstreamMetadata
   is_free_license: boolean
   isMobileFriendly?: DesktopAppstreamIsMobileFriendly
+  requires?: DesktopAppstreamRequires
+  recommends?: DesktopAppstreamRecommends
+  supports?: DesktopAppstreamSupports
   branding?: DesktopAppstreamBranding
   is_eol?: boolean
 }

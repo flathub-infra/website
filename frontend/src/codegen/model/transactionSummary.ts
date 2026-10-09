@@ -7,6 +7,7 @@
 import type { TransactionSummaryCreated } from "./transactionSummaryCreated"
 import type { TransactionSummaryKind } from "./transactionSummaryKind"
 import type { TransactionSummaryReason } from "./transactionSummaryReason"
+import type { TransactionSummaryRecipient } from "./transactionSummaryRecipient"
 import type { TransactionSummaryStatus } from "./transactionSummaryStatus"
 import type { TransactionSummaryUpdated } from "./transactionSummaryUpdated"
 
@@ -16,7 +17,7 @@ export interface TransactionSummary {
   currency: string
   kind: TransactionSummaryKind
   status: TransactionSummaryStatus
-  recipient?: string | null
+  recipient?: TransactionSummaryRecipient
   reason?: TransactionSummaryReason
   created?: TransactionSummaryCreated
   updated?: TransactionSummaryUpdated

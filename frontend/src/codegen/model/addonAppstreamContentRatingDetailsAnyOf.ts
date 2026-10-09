@@ -4,5 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { AppTypesJSONValueOutput } from "./appTypesJSONValueOutput"
 
-export type AddonAppstreamContentRatingDetailsAnyOf = { [key: string]: unknown }
+export type AddonAppstreamContentRatingDetailsAnyOf = {
+  [key: string]: AppTypesJSONValueOutput | null
+}

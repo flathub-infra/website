@@ -5,6 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type CandidateAssessmentResponseDifferencesAnyOfItem = {
-  [key: string]: unknown
-}
+export type DesktopAppstreamSupportsAnyOfItemAnyOf = { [key: string]: string }

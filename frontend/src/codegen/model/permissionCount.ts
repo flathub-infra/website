@@ -5,6 +5,6 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type GetAppFavoritesCountFavoritesAppIdCountGet200 = {
-  [key: string]: number
+export interface PermissionCount {
+  [key: string]: { [key: string]: number }
 }

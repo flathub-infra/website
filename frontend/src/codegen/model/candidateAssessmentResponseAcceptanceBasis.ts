@@ -5,6 +5,4 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type CandidateAssessmentResponseBuildChecksItem = {
-  [key: string]: unknown
-}
+export type CandidateAssessmentResponseAcceptanceBasis = "baseline" | null

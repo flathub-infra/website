@@ -4,6 +4,5 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { JSONValue } from "./jSONValue"
 
-export type JSONValueAnyOfItem = JSONValue | null
+export type CandidateAssessmentResponseBaselineId = number | null

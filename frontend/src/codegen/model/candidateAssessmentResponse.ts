@@ -4,7 +4,9 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { CandidateAssessmentResponseBuildChecksItem } from "./candidateAssessmentResponseBuildChecksItem"
+import type { _BuildCheck } from "./_buildCheck"
+import type { CandidateAssessmentResponseAcceptanceBasis } from "./candidateAssessmentResponseAcceptanceBasis"
+import type { CandidateAssessmentResponseBaselineId } from "./candidateAssessmentResponseBaselineId"
 import type { CandidateAssessmentResponseCanonicalizationVersion } from "./candidateAssessmentResponseCanonicalizationVersion"
 import type { CandidateAssessmentResponseDifferences } from "./candidateAssessmentResponseDifferences"
 import type { CandidateAssessmentResponseErrorCode } from "./candidateAssessmentResponseErrorCode"
@@ -20,8 +22,8 @@ export interface CandidateAssessmentResponse {
   candidate_identity: CandidateIdentity
   snapshot_fingerprint: CandidateAssessmentResponseSnapshotFingerprint
   outcome: CandidateAssessmentResponseOutcome
-  /** @nullable */
-  acceptance_basis?: null
+  acceptance_basis?: CandidateAssessmentResponseAcceptanceBasis
+  baseline_id?: CandidateAssessmentResponseBaselineId
   /** @nullable */
   review_url?: null
   mode?: "observational"
@@ -30,7 +32,7 @@ export interface CandidateAssessmentResponse {
   expected_arches: string[]
   published_comparison_available: boolean
   differences: CandidateAssessmentResponseDifferences
-  build_checks: CandidateAssessmentResponseBuildChecksItem[]
+  build_checks: _BuildCheck[]
   linked_assessment_id?: CandidateAssessmentResponseLinkedAssessmentId
   linked_fingerprint_match?: CandidateAssessmentResponseLinkedFingerprintMatch
   error_code?: CandidateAssessmentResponseErrorCode

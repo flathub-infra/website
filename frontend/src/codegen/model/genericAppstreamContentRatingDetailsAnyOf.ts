@@ -4,7 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { AppTypesJSONValueOutput } from "./appTypesJSONValueOutput"
 
 export type GenericAppstreamContentRatingDetailsAnyOf = {
-  [key: string]: unknown
+  [key: string]: AppTypesJSONValueOutput | null
 }
