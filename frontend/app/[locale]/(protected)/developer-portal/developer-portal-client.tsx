@@ -144,7 +144,7 @@ const DeveloperApps = ({ locale }: { locale: string }) => {
     <UserApps
       locale={locale}
       variant="dev"
-      renderItemAction={(application) => (
+      renderItemFooter={(application) => (
         <DeveloperStats application={application} />
       )}
       customButtons={

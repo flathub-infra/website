@@ -65,14 +65,16 @@ function AppCards({ single = false }: { single?: boolean }) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div
+        className={`grid auto-rows-fr grid-cols-1 gap-4 ${single ? "" : "md:grid-cols-2 lg:grid-cols-3"}`}
+      >
         {(single ? applications.slice(0, 1) : applications).map(
           (application) => (
             <Card
               key={application.id}
-              className="gap-0 overflow-hidden rounded-lg bg-flathub-gainsborow/40 p-0 shadow-md dark:bg-flathub-gainsborow/10"
+              className={`h-full gap-0 overflow-hidden rounded-lg bg-flathub-gainsborow/40 p-0 shadow-md dark:bg-flathub-gainsborow/10 ${single ? "mx-auto w-full max-w-2xl" : ""}`}
             >
-              <CardContent className="p-0">
+              <CardContent className="flex-1 p-0">
                 <ApplicationCard application={application} variant="nested" />
               </CardContent>
               <CardFooter className="justify-end border-t border-flathub-gainsborow/80 px-1 py-0 dark:border-flathub-granite-gray/30 [.border-t]:pt-0">

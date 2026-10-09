@@ -1,5 +1,11 @@
 import { useTranslations } from "next-intl"
-import { FunctionComponent, useEffect, useState, type JSX } from "react"
+import {
+  FunctionComponent,
+  useEffect,
+  useState,
+  type JSX,
+  type ReactNode,
+} from "react"
 import { getAppsInfo } from "../../asyncs/app"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
 import ApplicationCollectionSuspense from "../application/ApplicationCollectionSuspense"
@@ -17,6 +23,9 @@ interface Props {
   renderItemAction?: (
     application: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
   ) => JSX.Element
+  renderItemFooter?: (
+    application: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
+  ) => ReactNode
 }
 
 const UserApps: FunctionComponent<Props> = ({
@@ -24,6 +33,7 @@ const UserApps: FunctionComponent<Props> = ({
   customButtons,
   locale,
   renderItemAction,
+  renderItemFooter,
 }) => {
   const t = useTranslations()
   const user = useUserContext()
@@ -104,6 +114,7 @@ const UserApps: FunctionComponent<Props> = ({
         showEolBadge
         link={link}
         renderItemAction={renderItemAction}
+        renderItemFooter={renderItemFooter}
       />
       <Pagination currentPage={page} pages={pages} onClick={setPage} />
     </>

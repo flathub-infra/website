@@ -27,6 +27,9 @@ interface Props {
   renderItemAction?: (
     application: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
   ) => ReactNode
+  renderItemFooter?: (
+    application: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
+  ) => ReactNode
 }
 
 const itemActionContainerClasses: Record<
@@ -89,6 +92,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
   showEolBadge = false,
   customButtons,
   renderItemAction,
+  renderItemFooter,
 }) => {
   const t = useTranslations()
   const searchParams = useSearchParams()
@@ -134,16 +138,24 @@ const ApplicationCollection: FunctionComponent<Props> = ({
         refresh={refresh}
         customButtons={customButtons}
       />
-      <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
+      <div
+        className={`grid auto-rows-fr grid-cols-1 justify-around gap-4 ${
+          applications.length > 1
+            ? "md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3"
+            : ""
+        }`}
+      >
         {applications.map((app, index) => {
           const itemAction = renderItemAction?.(app)
+          const itemFooter = renderItemFooter?.(app)
+          const hasCardFooter = itemAction || itemFooter
           const applicationCard = (
             <ApplicationCard
               application={app}
               link={link}
               variant={variant}
               className={
-                itemAction
+                hasCardFooter
                   ? "rounded-none bg-transparent shadow-none hover:bg-transparent"
                   : undefined
               }
@@ -157,11 +169,23 @@ const ApplicationCollection: FunctionComponent<Props> = ({
           )
 
           return (
-            <div key={app.id}>
-              {itemAction ? (
-                <Card className={itemActionContainerClasses[variant]}>
-                  <CardContent className="p-0">{applicationCard}</CardContent>
+            <div
+              key={app.id}
+              className={
+                hasCardFooter
+                  ? `h-full ${applications.length === 1 ? "mx-auto w-full max-w-2xl" : ""}`
+                  : undefined
+              }
+            >
+              {hasCardFooter ? (
+                <Card
+                  className={`h-full ${itemActionContainerClasses[variant]}`}
+                >
+                  <CardContent className="flex-1 p-0">
+                    {applicationCard}
+                  </CardContent>
                   <CardFooter className="justify-end border-t border-flathub-gainsborow/80 px-1 py-0 dark:border-flathub-granite-gray/30 [.border-t]:pt-0">
+                    {itemFooter}
                     {itemAction}
                   </CardFooter>
                 </Card>
