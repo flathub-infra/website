@@ -53,6 +53,9 @@ export interface DesktopAppstream {
   metadata?: DesktopAppstreamMetadata
   is_free_license: boolean
   isMobileFriendly?: DesktopAppstreamIsMobileFriendly
+  requires?: Record<string, string>[] | null
+  recommends?: Record<string, string>[] | null
+  supports?: Record<string, string>[] | null
   branding?: DesktopAppstreamBranding
   is_eol?: boolean
 }

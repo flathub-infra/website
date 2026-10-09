@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import SubHeader from "./SubHeader"
+import { expect, userEvent, within } from "storybook/test"
 import {
   CircleCheckIcon,
   ShieldCheckIcon,
@@ -144,6 +145,34 @@ export const MobileFriendly: Story = {
     summary: baseSummary,
     stats: baseStats,
     safetyRating: safeSafetyRating,
+  },
+}
+
+export const DeviceSupport: Story = {
+  args: {
+    app: {
+      ...baseApp,
+      isMobileFriendly: true,
+      requires: [{ type: "memory", value: "6GB", compare: "ge" }],
+      recommends: [{ type: "control", value: "gamepad" }],
+      supports: [{ type: "control", value: "keyboard" }],
+    },
+    summary: baseSummary,
+    stats: baseStats,
+    safetyRating: safeSafetyRating,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByText("Desktop & Mobile"))
+
+    const page = within(canvasElement.ownerDocument.body)
+    expect(
+      page.getByText("Example App works on most devices"),
+    ).toBeInTheDocument()
+    expect(page.getByText("Keyboard support")).toBeInTheDocument()
+    expect(page.getByText("Supports keyboards")).toBeInTheDocument()
+    expect(page.getByText("Recommends gamepads")).toBeInTheDocument()
+    expect(page.getByText("Memory requirement")).toBeInTheDocument()
   },
 }
 
