@@ -1,5 +1,11 @@
 import { useTranslations } from "next-intl"
-import { FunctionComponent, useEffect, useState, type JSX } from "react"
+import {
+  FunctionComponent,
+  useEffect,
+  useState,
+  type JSX,
+  type ReactNode,
+} from "react"
 import { getAppsInfo } from "../../asyncs/app"
 import { useUserContext, useUserDispatch } from "../../context/user-info"
 import ApplicationCollectionSuspense from "../application/ApplicationCollectionSuspense"
@@ -7,17 +13,27 @@ import Spinner from "../Spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Pagination from "../Pagination"
 import { doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost } from "src/codegen"
+import type { GetAppstreamAppstreamAppIdGet200 } from "src/codegen/model/getAppstreamAppstreamAppIdGet200"
+import type { AppstreamListItem } from "../../types/Appstream"
 
 interface Props {
   variant: "dev" | "owned" | "invited"
   customButtons?: JSX.Element
   locale: string
+  renderItemAction?: (
+    application: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
+  ) => JSX.Element
+  renderItemFooter?: (
+    application: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
+  ) => ReactNode
 }
 
 const UserApps: FunctionComponent<Props> = ({
   variant,
   customButtons,
   locale,
+  renderItemAction,
+  renderItemFooter,
 }) => {
   const t = useTranslations()
   const user = useUserContext()
@@ -97,6 +113,8 @@ const UserApps: FunctionComponent<Props> = ({
         showRuntime
         showEolBadge
         link={link}
+        renderItemAction={renderItemAction}
+        renderItemFooter={renderItemFooter}
       />
       <Pagination currentPage={page} pages={pages} onClick={setPage} />
     </>

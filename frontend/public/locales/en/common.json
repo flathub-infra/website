@@ -892,7 +892,10 @@
   },
   "developer-portal": {
     "title": "Developer Portal",
-    "runtime-version": "Runtime: {version}"
+    "runtime-version": "Runtime: {version}",
+    "downloads-last-month": "Downloads last month",
+    "downloads-last-month-count": "Downloads last month: {count}",
+    "downloads-unavailable": "Download totals are temporarily unavailable."
   },
   "vending": {
     "purchase-not-available": "This application is not available for purchase."
