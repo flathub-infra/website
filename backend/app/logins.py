@@ -8,13 +8,16 @@ And we present the full /auth/ sub-namespace
 
 import hashlib
 import hmac
+import json
 import secrets
+import time
 import unicodedata
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from enum import StrEnum
-from typing import cast
+from typing import Annotated, cast
+from urllib.parse import urlsplit
 
 import httpx
 import redis
@@ -28,9 +31,33 @@ from github import Github
 from github.AuthenticatedUser import AuthenticatedUser
 from gitlab import Gitlab
 from gitlab.exceptions import GitlabError
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, StringConstraints, field_validator
 from sqlalchemy import select, update
+from sqlalchemy.exc import IntegrityError
 from starlette.middleware.sessions import SessionMiddleware
+from webauthn import (
+    base64url_to_bytes,
+    generate_authentication_options,
+    generate_registration_options,
+    verify_authentication_response,
+    verify_registration_response,
+)
+from webauthn.helpers import (
+    bytes_to_base64url,
+    options_to_json_dict,
+    parse_authentication_credential_json,
+    parse_client_data_json,
+    parse_registration_credential_json,
+)
+from webauthn.helpers.exceptions import WebAuthnException
+from webauthn.helpers.structs import (
+    AttestationConveyancePreference,
+    AuthenticatorSelectionCriteria,
+    AuthenticatorTransport,
+    PublicKeyCredentialDescriptor,
+    ResidentKeyRequirement,
+    UserVerificationRequirement,
+)
 
 from . import (
     apps,
@@ -1707,6 +1734,476 @@ def do_change_display_name(body: DisplayNameRequest, login: LoggedInDep):
         db.commit()
 
 
+_PASSKEY_FRESHNESS_SECONDS = 300
+_PASSKEY_CHALLENGE_TTL_SECONDS = 300
+_PASSKEY_CONSUME_SCRIPT = """
+local value = redis.call('GET', KEYS[1])
+if value then redis.call('DEL', KEYS[1]) end
+return value
+"""
+_PASSKEY_ERRORS = (WebAuthnException, ValueError, TypeError, KeyError)
+_TOKEN_PATTERN = r"^[A-Za-z0-9_-]{43}$"
+
+PasskeyChallengeId = Annotated[
+    str, Field(min_length=43, max_length=43, pattern=_TOKEN_PATTERN)
+]
+PasskeyName = Annotated[
+    str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)
+]
+
+
+class PasskeyRegistrationOptionsRequest(BaseModel):
+    pass
+
+
+class PasskeyAuthenticationOptionsRequest(BaseModel):
+    return_to: str | None = None
+
+
+class PasskeyOptions(BaseModel):
+    challenge_id: str
+    options: dict[str, JSONValue]
+
+
+class PasskeyRegistrationVerifyRequest(BaseModel):
+    challenge_id: PasskeyChallengeId
+    credential: dict[str, JSONValue]
+    name: PasskeyName
+
+
+class PasskeyAuthenticationVerifyRequest(BaseModel):
+    challenge_id: PasskeyChallengeId
+    credential: dict[str, JSONValue]
+
+
+class PasskeyRenameRequest(BaseModel):
+    name: PasskeyName
+
+
+class PasskeySummary(BaseModel):
+    id: int
+    name: str
+    created_at: datetime
+    last_used_at: datetime | None
+
+
+class PasskeyList(BaseModel):
+    credentials: list[PasskeySummary]
+    recent_authentication: bool
+
+
+class PasskeyLoginResult(BaseModel):
+    status: str = "ok"
+    return_to: str
+
+
+def _passkey_rp() -> tuple[str, str]:
+    parts = urlsplit(config.settings.frontend_url)
+    return cast("str", parts.hostname), f"{parts.scheme}://{parts.netloc}"
+
+
+def _recently_authenticated(request: Request) -> bool:
+    auth_time = request.session.get("auth-time")
+    return (
+        isinstance(auth_time, int | float)
+        and not isinstance(auth_time, bool)
+        and 0 <= time.time() - auth_time < _PASSKEY_FRESHNESS_SECONDS
+    )
+
+
+def _require_recent_authentication(request: Request) -> None:
+    if not _recently_authenticated(request):
+        raise HTTPException(status_code=403, detail="reauthentication_required")
+
+
+def _require_passkey_origin(request: Request) -> None:
+    if request.headers.get("origin") != _passkey_rp()[1]:
+        raise HTTPException(status_code=403, detail="invalid_origin")
+
+
+def _limit_passkey_ceremony(request: Request) -> None:
+    _require_passkey_origin(request)
+    ip = request.client.host if request.client else "unknown"
+    try:
+        count = cast(
+            "list[int]",
+            _email_rate_store.eval(_EMAIL_RATE_SCRIPT, 1, f"passkey:rate:{ip}", 60),
+        )[0]
+    except (redis.RedisError, OSError) as exc:
+        raise HTTPException(status_code=503, detail="passkey_unavailable") from exc
+    if count > 30:
+        raise HTTPException(
+            status_code=429,
+            detail="passkey_rate_limited",
+            headers={"Retry-After": "60"},
+        )
+
+
+def _invalid_passkey_response() -> HTTPException:
+    return HTTPException(status_code=400, detail="invalid_passkey_response")
+
+
+def _passkey_challenge_key(purpose: str, nonce: str, challenge_id: str) -> str:
+    return f"passkey:challenge:{purpose}:{nonce}:{challenge_id}"
+
+
+def _store_passkey_challenge(
+    request: Request, purpose: str, challenge: bytes, **values: JSONValue
+) -> str:
+    nonce = request.session.get("passkey-flow")
+    if not isinstance(nonce, str):
+        nonce = secrets.token_urlsafe(32)
+        request.session["passkey-flow"] = nonce
+    challenge_id = secrets.token_urlsafe(32)
+    payload = {
+        "challenge": bytes_to_base64url(challenge),
+        "purpose": purpose,
+        **values,
+    }
+    try:
+        _email_rate_store.set(
+            _passkey_challenge_key(purpose, nonce, challenge_id),
+            json.dumps(payload),
+            ex=_PASSKEY_CHALLENGE_TTL_SECONDS,
+        )
+    except (redis.RedisError, OSError) as exc:
+        raise HTTPException(status_code=503, detail="passkey_unavailable") from exc
+    return challenge_id
+
+
+def _consume_passkey_challenge(
+    request: Request, purpose: str, challenge_id: str
+) -> dict[str, JSONValue]:
+    nonce = request.session.get("passkey-flow")
+    if not isinstance(nonce, str):
+        raise _invalid_passkey_response()
+    try:
+        raw = _email_rate_store.eval(
+            _PASSKEY_CONSUME_SCRIPT,
+            1,
+            _passkey_challenge_key(purpose, nonce, challenge_id),
+        )
+    except (redis.RedisError, OSError) as exc:
+        raise HTTPException(status_code=503, detail="passkey_unavailable") from exc
+    if not isinstance(raw, str):
+        raise _invalid_passkey_response()
+    stored = json.loads(raw)
+    if stored.get("purpose") != purpose:
+        raise _invalid_passkey_response()
+    return stored
+
+
+def _lock_passkey_user(db, request: Request, user_id: int) -> models.FlathubUser:
+    user = db.session.scalar(
+        select(models.FlathubUser)
+        .where(models.FlathubUser.id == user_id)
+        .with_for_update()
+        .execution_options(populate_existing=True)
+    )
+    if user is None or user.login_disabled:
+        raise HTTPException(status_code=401, detail="not_logged_in")
+    if request.session.get("auth-method") == "passkey":
+        current = db.session.scalar(
+            select(models.PasskeyCredential)
+            .where(
+                models.PasskeyCredential.id == request.session.get("passkey-id"),
+                models.PasskeyCredential.user == user.id,
+            )
+            .with_for_update()
+            .execution_options(populate_existing=True)
+        )
+        if current is None:
+            request.session.clear()
+            raise HTTPException(status_code=401, detail="not_logged_in")
+    return user
+
+
+def _lock_owned_passkey(
+    db, user: models.FlathubUser, passkey_id: int
+) -> models.PasskeyCredential:
+    credential = db.session.scalar(
+        select(models.PasskeyCredential)
+        .where(
+            models.PasskeyCredential.id == passkey_id,
+            models.PasskeyCredential.user == user.id,
+        )
+        .with_for_update()
+        .execution_options(populate_existing=True)
+    )
+    if credential is None:
+        raise HTTPException(status_code=404, detail="passkey_not_found")
+    return credential
+
+
+def _passkey_summary(credential: models.PasskeyCredential) -> PasskeySummary:
+    return PasskeySummary(
+        id=credential.id,
+        name=credential.name,
+        created_at=credential.created_at,
+        last_used_at=credential.last_used_at,
+    )
+
+
+@router.get("/passkeys", tags=["passkeys"])
+@cache.no_store
+def list_passkeys(request: Request, login: LoggedInDep) -> PasskeyList:
+    with get_db("writer") as db:
+        credentials = models.PasskeyCredential.all_by_user(db, login.user)
+        return PasskeyList(
+            credentials=[_passkey_summary(credential) for credential in credentials],
+            recent_authentication=_recently_authenticated(request),
+        )
+
+
+@router.post(
+    "/passkeys/registration/options",
+    tags=["passkeys"],
+    dependencies=[Depends(_limit_passkey_ceremony)],
+)
+@cache.no_store
+def passkey_registration_options(
+    body: PasskeyRegistrationOptionsRequest, request: Request, login: LoggedInDep
+) -> PasskeyOptions:
+    _require_recent_authentication(request)
+    rp_id, _origin = _passkey_rp()
+    with get_db("writer") as db:
+        user = _lock_passkey_user(db, request, login.user.id)
+        if user.webauthn_user_handle is None:
+            user.webauthn_user_handle = secrets.token_bytes(64)
+        user_name = f"user-{user.id}"
+        options = generate_registration_options(
+            rp_id=rp_id,
+            rp_name="Flathub",
+            user_name=user_name,
+            user_id=user.webauthn_user_handle,
+            user_display_name=user.display_name or user_name,
+            attestation=AttestationConveyancePreference.NONE,
+            authenticator_selection=AuthenticatorSelectionCriteria(
+                resident_key=ResidentKeyRequirement.REQUIRED,
+                user_verification=UserVerificationRequirement.REQUIRED,
+            ),
+            exclude_credentials=[
+                PublicKeyCredentialDescriptor(
+                    id=credential.credential_id,
+                    transports=[
+                        AuthenticatorTransport(transport)
+                        for transport in credential.transports
+                    ],
+                )
+                for credential in models.PasskeyCredential.all_by_user(db, user)
+            ],
+        )
+        user_id = user.id
+        db.commit()
+    challenge_id = _store_passkey_challenge(
+        request, "registration", options.challenge, user_id=user_id
+    )
+    return PasskeyOptions(
+        challenge_id=challenge_id, options=options_to_json_dict(options)
+    )
+
+
+@router.post(
+    "/passkeys/registration/verify",
+    status_code=201,
+    tags=["passkeys"],
+    dependencies=[Depends(_limit_passkey_ceremony)],
+)
+@cache.no_store
+def passkey_registration_verify(
+    body: PasskeyRegistrationVerifyRequest, request: Request, login: LoggedInDep
+) -> PasskeySummary:
+    stored = _consume_passkey_challenge(request, "registration", body.challenge_id)
+    if stored.get("user_id") != login.user.id:
+        raise _invalid_passkey_response()
+    rp_id, origin = _passkey_rp()
+    with get_db("writer") as db:
+        user = _lock_passkey_user(db, request, login.user.id)
+        _require_recent_authentication(request)
+        try:
+            parsed = parse_registration_credential_json(body.credential)
+            client_data = parse_client_data_json(parsed.response.client_data_json)
+            verified = verify_registration_response(
+                credential=parsed,
+                expected_challenge=base64url_to_bytes(cast("str", stored["challenge"])),
+                expected_rp_id=rp_id,
+                expected_origin=origin,
+                require_user_verification=True,
+            )
+        except _PASSKEY_ERRORS as exc:
+            raise _invalid_passkey_response() from exc
+        if client_data.cross_origin:
+            raise _invalid_passkey_response()
+        credential = models.PasskeyCredential(
+            user=user.id,
+            credential_id=verified.credential_id,
+            public_key=verified.credential_public_key,
+            sign_count=verified.sign_count,
+            transports=[
+                transport.value for transport in parsed.response.transports or []
+            ],
+            name=body.name,
+            created_at=utils.utcnow(),
+        )
+        db.session.add(credential)
+        try:
+            db.commit()
+        except IntegrityError as exc:
+            db.rollback()
+            raise HTTPException(
+                status_code=409, detail="passkey_already_registered"
+            ) from exc
+        return _passkey_summary(credential)
+
+
+@router.post(
+    "/passkeys/authentication/options",
+    tags=["passkeys"],
+    dependencies=[Depends(_limit_passkey_ceremony)],
+)
+@cache.no_store
+def passkey_authentication_options(
+    body: PasskeyAuthenticationOptionsRequest,
+    request: Request,
+    login: LoginStatusDep,
+) -> PasskeyOptions:
+    if login.user is not None:
+        raise HTTPException(status_code=409, detail="already_logged_in")
+    options = generate_authentication_options(
+        rp_id=_passkey_rp()[0],
+        user_verification=UserVerificationRequirement.REQUIRED,
+    )
+    challenge_id = _store_passkey_challenge(
+        request,
+        "authentication",
+        options.challenge,
+        user_id=None,
+        return_to=safe_return_to(body.return_to),
+    )
+    return PasskeyOptions(
+        challenge_id=challenge_id, options=options_to_json_dict(options)
+    )
+
+
+@router.post(
+    "/passkeys/authentication/verify",
+    tags=["passkeys"],
+    dependencies=[Depends(_limit_passkey_ceremony)],
+)
+@cache.no_store
+def passkey_authentication_verify(
+    body: PasskeyAuthenticationVerifyRequest,
+    request: Request,
+    login: LoginStatusDep,
+) -> PasskeyLoginResult:
+    if login.user is not None:
+        raise HTTPException(status_code=409, detail="already_logged_in")
+    stored = _consume_passkey_challenge(request, "authentication", body.challenge_id)
+    rp_id, origin = _passkey_rp()
+    with get_db("writer") as db:
+        try:
+            parsed = parse_authentication_credential_json(body.credential)
+            client_data = parse_client_data_json(parsed.response.client_data_json)
+            initial = db.session.scalar(
+                select(models.PasskeyCredential).where(
+                    models.PasskeyCredential.credential_id == parsed.raw_id
+                )
+            )
+            user = None
+            credential = None
+            if initial is not None:
+                user = db.session.scalar(
+                    select(models.FlathubUser)
+                    .where(models.FlathubUser.id == initial.user)
+                    .with_for_update()
+                    .execution_options(populate_existing=True)
+                )
+                credential = db.session.scalar(
+                    select(models.PasskeyCredential)
+                    .where(models.PasskeyCredential.id == initial.id)
+                    .with_for_update()
+                    .execution_options(populate_existing=True)
+                )
+            user_handle = parsed.response.user_handle
+            if (
+                client_data.cross_origin
+                or user is None
+                or credential is None
+                or credential.user != user.id
+                or user.login_disabled
+                or user.webauthn_user_handle is None
+                or user_handle is None
+                or not hmac.compare_digest(user_handle, user.webauthn_user_handle)
+            ):
+                raise _invalid_passkey_response()
+            verified = verify_authentication_response(
+                credential=parsed,
+                expected_challenge=base64url_to_bytes(cast("str", stored["challenge"])),
+                expected_rp_id=rp_id,
+                expected_origin=origin,
+                credential_public_key=credential.public_key,
+                credential_current_sign_count=credential.sign_count,
+                require_user_verification=True,
+            )
+        except (*_PASSKEY_ERRORS, HTTPException) as exc:
+            db.rollback()
+            _log_login_failure(request, login, "passkey", "invalid_passkey_response")
+            raise _invalid_passkey_response() from exc
+        credential.sign_count = verified.new_sign_count
+        credential.last_used_at = utils.utcnow()
+        user_id = user.id
+        passkey_id = credential.id
+        db.commit()
+    _clear_oauth_session(request)
+    set_authenticated_session(request, user_id, "passkey", passkey_id)
+    pending_oidc = request.session.get("oidc_authorize_params")
+    if isinstance(pending_oidc, dict):
+        pending_oidc["_login_flow_started"] = True
+        request.session["oidc_authorize_params"] = pending_oidc
+    audit_log.enqueue_audit_log(
+        request, user_id, models.AuditEventType.LOGIN_SUCCESS, provider="passkey"
+    )
+    return PasskeyLoginResult(return_to=cast("str", stored["return_to"]))
+
+
+@router.patch(
+    "/passkeys/{passkey_id}",
+    tags=["passkeys"],
+    dependencies=[Depends(_require_passkey_origin)],
+)
+@cache.no_store
+def rename_passkey(
+    passkey_id: int, body: PasskeyRenameRequest, request: Request, login: LoggedInDep
+) -> PasskeySummary:
+    with get_db("writer") as db:
+        user = _lock_passkey_user(db, request, login.user.id)
+        credential = _lock_owned_passkey(db, user, passkey_id)
+        credential.name = body.name
+        db.commit()
+        return _passkey_summary(credential)
+
+
+@router.delete(
+    "/passkeys/{passkey_id}",
+    status_code=204,
+    tags=["passkeys"],
+    dependencies=[Depends(_require_passkey_origin)],
+)
+@cache.no_store
+def delete_passkey(passkey_id: int, request: Request, login: LoggedInDep) -> None:
+    _require_recent_authentication(request)
+    with get_db("writer") as db:
+        user = _lock_passkey_user(db, request, login.user.id)
+        _require_recent_authentication(request)
+        db.session.delete(_lock_owned_passkey(db, user, passkey_id))
+        db.commit()
+    if (
+        request.session.get("auth-method") == "passkey"
+        and request.session.get("passkey-id") == passkey_id
+    ):
+        request.session.clear()
+
+
 def register_to_app(app: FastAPI):
     """
     Register the login and authentication flows with the FastAPI application
@@ -1742,6 +2239,23 @@ async def _email_validation_error(request: Request, exc: Exception) -> Response:
         )
         return JSONResponse(
             {"detail": "invalid_email_link"},
+            status_code=400,
+            headers={"Cache-Control": "no-store"},
+        )
+    if request.url.path.endswith(
+        ("/auth/passkeys/registration/verify", "/auth/passkeys/authentication/verify")
+    ):
+        errors = exc.errors()
+        if errors and all(
+            tuple(error["loc"][:2]) == ("body", "name") for error in errors
+        ):
+            return JSONResponse(
+                {"detail": "invalid_passkey_name"},
+                status_code=422,
+                headers={"Cache-Control": "no-store"},
+            )
+        return JSONResponse(
+            {"detail": "invalid_passkey_response"},
             status_code=400,
             headers={"Cache-Control": "no-store"},
         )

@@ -128,6 +128,12 @@ jobs:
           docker compose --env-file .env.ci up --no-build -d
           bash tests/run_tests.sh
 
+      - name: Execute passkey integration tests
+        run: >-
+          docker compose --env-file .env.ci exec -T
+          -e OIDC_TEST_DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/postgres
+          backend pytest -q tests/test_passkeys.py
+
       - name: Diagnose smoke test process failures
         if: failure()
         run: |
