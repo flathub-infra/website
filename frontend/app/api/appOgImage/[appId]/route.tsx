@@ -1,6 +1,6 @@
 import { DesktopAppstream, getAppstreamAppstreamAppIdGet } from "src/codegen"
 import { getContrastColor, hexToRgb } from "@/lib/helpers"
-import { mapScreenshot } from "src/types/Appstream"
+import { findBiggestIcon, mapScreenshot } from "src/types/Appstream"
 import { getIsFullscreenAppIsFullscreenAppAppIdGet } from "src/codegen"
 import { NextRequest } from "next/server"
 import axios from "axios"
@@ -92,12 +92,7 @@ export async function GET(
     textColor === "white" ? "rgba(255,255,255,0.95)" : "rgba(0,0,0,0.8)"
 
   const scale = 1
-  const icon =
-    (Array.isArray(app.icons)
-      ? [...app.icons].sort(
-          (a, b) => (b.scale ?? 0) - (a.scale ?? 0) || b.height - a.height,
-        )?.[0]?.url
-      : undefined) ?? app.icon
+  const icon = findBiggestIcon(app.icons) ?? app.icon
   const iconImage = icon
     ? await getOgImageDataUrl(icon, 160 * scale, 160 * scale)
     : undefined
