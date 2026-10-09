@@ -1,4 +1,4 @@
-import { ArrowDownToLine } from "lucide-react"
+import { ChartColumnIncreasing } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
 import { useQueries } from "@tanstack/react-query"
 import { FunctionComponent } from "react"
@@ -55,7 +55,7 @@ const DeveloperStats: FunctionComponent = () => {
       <CardContent className="flex flex-col items-start justify-between gap-4 p-5 sm:flex-row sm:items-center sm:gap-6 sm:p-6">
         <div className="flex items-center gap-4">
           <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-flathub-celestial-blue/10 text-flathub-celestial-blue dark:bg-flathub-celestial-blue/20">
-            <ArrowDownToLine aria-hidden="true" className="size-6" />
+            <ChartColumnIncreasing aria-hidden="true" className="size-6" />
           </div>
           <div>
             <h2 className="text-base font-semibold">
