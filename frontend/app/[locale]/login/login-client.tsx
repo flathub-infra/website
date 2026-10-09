@@ -138,6 +138,8 @@ const LoginClient = ({
             required
             value={email}
             autoComplete="email"
+            autoCapitalize="none"
+            spellCheck={false}
             onChange={(e) => {
               setEmail(e.target.value)
               if (submitState === "error") setSubmitState("idle")
