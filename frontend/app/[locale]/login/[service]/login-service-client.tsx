@@ -137,7 +137,9 @@ const LoginServiceClient = ({
       loginQuery.error.message === "gitlab-terms-not-accepted" &&
       gitlabProvider !== undefined
     const errorKey =
-      termsError || loginQuery.error.message === "error-already-logged-in"
+      termsError ||
+      loginQuery.error.message === "error-already-logged-in" ||
+      loginQuery.error.message === "oauth-account-email-already-used"
         ? loginQuery.error.message
         : loginQuery.error.message === "network-error-try-again"
           ? "network-error-try-again"
