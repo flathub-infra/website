@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import SubHeader from "./SubHeader"
+import { expect, userEvent, within } from "storybook/test"
 import {
   CircleCheckIcon,
   ShieldCheckIcon,
@@ -144,6 +145,61 @@ export const MobileFriendly: Story = {
     summary: baseSummary,
     stats: baseStats,
     safetyRating: safeSafetyRating,
+  },
+}
+
+export const DeviceSupport: Story = {
+  args: {
+    app: {
+      ...baseApp,
+      requires: [{ type: "memory", value: "6GB", compare: "ge" }],
+      recommends: [{ type: "control", value: "gamepad" }],
+      supports: [
+        { type: "control", value: "keyboard" },
+        { type: "control", value: "pointing" },
+        { type: "control", value: "touch" },
+        { type: "display_length", value: "360", compare: "ge" },
+      ],
+    },
+    summary: baseSummary,
+    stats: baseStats,
+    safetyRating: safeSafetyRating,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByText("Adaptive"))
+
+    const page = within(canvasElement.ownerDocument.body)
+    expect(page.getAllByText("Adaptive")).toHaveLength(2)
+    expect(
+      page.getByText("Works on phones, tablets and desktops"),
+    ).toBeInTheDocument()
+    expect(page.getByText("Works well on mobile devices")).toBeInTheDocument()
+    expect(page.getByText("Works well on large screens")).toBeInTheDocument()
+    expect(page.getByText("Keyboard support")).toBeInTheDocument()
+    expect(page.getByText("Supports keyboards")).toBeInTheDocument()
+    expect(page.getByText("Recommends gamepads")).toBeInTheDocument()
+  },
+}
+
+export const UnknownControlsAreHidden: Story = {
+  args: {
+    app: baseApp,
+    summary: baseSummary,
+    stats: baseStats,
+    safetyRating: safeSafetyRating,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByText("Hardware support"))
+
+    const page = within(canvasElement.ownerDocument.body)
+    expect(page.queryByText("Gamepad support")).not.toBeInTheDocument()
+    expect(
+      page.queryByText("Unknown support for gamepads"),
+    ).not.toBeInTheDocument()
+    expect(page.getByText("Unknown support for keyboards")).toBeInTheDocument()
+    expect(page.queryByText("Memory requirement")).not.toBeInTheDocument()
   },
 }
 
