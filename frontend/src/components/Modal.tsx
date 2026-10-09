@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils"
 
 interface Props {
   shown: boolean
-  title: string
+  title: React.ReactNode
   centerTitle?: boolean
   description?: string
   onClose: () => void
