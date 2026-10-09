@@ -276,6 +276,7 @@ def test_conflict_and_expiry_keep_proof_usable(isolated_email_db):
         )
         assert result.status == "ok"
         assert fresh_session["auth-method"] == "email"
+        assert 0 <= time.time() - fresh_session["auth-time"] < 5
         expired = issue(
             writer,
             f"expired-{uuid4().hex}@example.com",
@@ -712,6 +713,7 @@ def test_display_name_follows_provider_until_user_saves_one(
                 models.GithubAccount,
             )
         assert request.session["user-id"] == user.id
+        assert 0 <= time.time() - request.session["auth-time"] < 5
 
     def change_default(client, provider):
         response = client.post(

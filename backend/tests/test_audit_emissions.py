@@ -419,6 +419,9 @@ def test_email_upgrade_runs_postlogin_and_sends_security_email(
     assert result == {"status": "ok", "result": "logged_in"}
     assert request.session["oidc_authorize_params"] == {"client_id": "test-client"}
     assert "obsolete" not in request.session
+    assert request.session["user-id"] == 42
+    assert request.session["auth-method"] == "github"
+    assert isinstance(request.session["auth-time"], int)
     assert commits == [True]
     assert refreshed == [account]
     assert len(sent) == 1

@@ -57,6 +57,7 @@ from .login_info import (
     LoginInformation,
     LoginState,
     LoginStatusDep,
+    set_authenticated_session,
 )
 from .types import JSONValue
 
@@ -452,8 +453,7 @@ def confirm_email_login(
         return_to = challenge.return_to
         db.commit()
     _clear_oauth_session(request)
-    request.session["user-id"] = user_id
-    request.session["auth-method"] = "email"
+    set_authenticated_session(request, user_id, "email")
     pending_oidc = request.session.get("oidc_authorize_params")
     if isinstance(pending_oidc, dict):
         pending_oidc["_login_flow_started"] = True
@@ -1192,8 +1192,6 @@ def continue_oauth_flow(
                 if upgraded is not None:
                     pending_oidc = request.session.get("oidc_authorize_params")
                     request.session.clear()
-                    request.session["user-id"] = user.id
-                    request.session["auth-method"] = method
                     if isinstance(pending_oidc, dict):
                         request.session["oidc_authorize_params"] = pending_oidc
                 if upgraded is None:
@@ -1284,11 +1282,10 @@ def continue_oauth_flow(
                     seconds=int(login_result.get("expires_in", "7200"))
                 )
             db.add(account)
-        request.session["user-id"] = account.user
-        request.session["auth-method"] = method
 
         # The session is now ready
         db.commit()
+        set_authenticated_session(request, account.user, method)
 
         audit_log.enqueue_audit_log(
             request,
@@ -1523,6 +1520,7 @@ def do_logout(request: Request, login: LoginStatusDep):
     and will clear the session cookie so that the user is not logged in.
     """
     try:
+        request.session.pop("passkey-flow", None)
         if login.state == LoginState.LOGGED_OUT:
             return {}
 
@@ -1530,6 +1528,8 @@ def do_logout(request: Request, login: LoginStatusDep):
         if "user-id" in request.session:
             del request.session["user-id"]
         request.session.pop("auth-method", None)
+        request.session.pop("auth-time", None)
+        request.session.pop("passkey-id", None)
 
         if login.state.logging_in():
             # Also clear any pending login-flow from the session
