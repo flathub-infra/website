@@ -92,6 +92,7 @@
   "open-login-provider": "Open {provider}",
   "back-to-login": "Back to login",
   "error-already-logged-in": "The selected account is already logged in.",
+  "reauth-account-mismatch": "That sign-in did not match this account. Sign in with one of your linked accounts.",
   "failed-to-load-refresh": "The resource failed to load. Try refreshing.",
   "loading-user-apps": "Loading user apps…",
   "authored-apps": "Authored apps",
@@ -956,8 +957,11 @@
   "passkey-already-registered": "This passkey is already registered.",
   "passkey-name-invalid": "Enter a passkey name of up to 100 characters.",
   "passkey-action-failed": "The passkey could not be saved. Try again.",
-  "passkey-reauth-required": "For your security, adding or removing a passkey requires a sign-in from the last five minutes.",
-  "passkey-reauth-action": "Sign out and sign in again",
+  "reauth-title": "Confirm it's you",
+  "reauth-description": "For your security, confirm your identity before changing your passkeys.",
+  "reauth-return-hint": "After confirming your identity, return here, close this dialog if it is still open, and retry your passkey change.",
+  "reauth-method-email": "Email me a sign-in link",
+  "reauth-sign-out": "Sign out and sign in again",
   "passkey-remove-prompt": "Remove passkey “{name}”?",
   "passkey-remove-description": "You will no longer be able to sign in with this passkey. Sessions that signed in with it will end."
 }

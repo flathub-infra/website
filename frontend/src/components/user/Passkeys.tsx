@@ -20,7 +20,7 @@ import { useListPasskeysAuthPasskeysGet } from "src/codegen/passkeys/passkeys"
 import { getUserData } from "src/asyncs/login"
 import { useUserContext, useUserDispatch } from "src/context/user-info"
 import { useRouter } from "src/i18n/navigation"
-import { getApiBaseUrl } from "src/utils/api-url"
+import { useReauth } from "src/hooks/useReauth"
 import ConfirmDialog from "../ConfirmDialog"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -36,6 +36,7 @@ const Passkeys = (): JSX.Element => {
   const user = useUserContext()
   const dispatch = useUserDispatch()
   const router = useRouter()
+  const { withReauth, reauthDialog } = useReauth()
 
   const profile = user.info?.invite_code
   const passkeys = useListPasskeysAuthPasskeysGet({
@@ -55,8 +56,6 @@ const Passkeys = (): JSX.Element => {
   const [name, setName] = useState("")
   const [busy, setBusy] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
-  const [reauthError, setReauthError] = useState(false)
-  const reauthRequired = reauthError || list?.recent_authentication === false
   const [renaming, setRenaming] = useState<{ id: number; name: string } | null>(
     null,
   )
@@ -77,9 +76,6 @@ const Passkeys = (): JSX.Element => {
         detail === "passkey_already_registered"
       ) {
         setStatus(t("passkey-already-registered"))
-      } else if (detail === "reauthentication_required") {
-        setStatus(null)
-        setReauthError(true)
       } else if (detail === "invalid_passkey_name") {
         setStatus(t("passkey-name-invalid"))
       } else if (responseStatus === 401) {
@@ -106,11 +102,13 @@ const Passkeys = (): JSX.Element => {
     setBusy(true)
     setStatus(null)
     try {
-      const options =
-        await passkeyRegistrationOptionsAuthPasskeysRegistrationOptionsPost(
+      const options = await withReauth(() =>
+        passkeyRegistrationOptionsAuthPasskeysRegistrationOptionsPost(
           {},
           withCredentials,
-        )
+        ),
+      )
+      if (options === undefined) return
       const credential = await startRegistration({
         optionsJSON: options.data
           .options as unknown as PublicKeyCredentialCreationOptionsJSON,
@@ -162,7 +160,10 @@ const Passkeys = (): JSX.Element => {
     setBusy(true)
     setStatus(null)
     try {
-      await deletePasskeyAuthPasskeysPasskeyIdDelete(passkeyId, withCredentials)
+      const deleted = await withReauth(() =>
+        deletePasskeyAuthPasskeysPasskeyIdDelete(passkeyId, withCredentials),
+      )
+      if (deleted === undefined) return
       setStatus(t("passkey-removed"))
       const refreshed = await passkeys.refetch()
       if (refreshed.error) await fail(refreshed.error)
@@ -171,27 +172,6 @@ const Passkeys = (): JSX.Element => {
     } finally {
       setBusy(false)
     }
-  }
-
-  const reauthenticate = async () => {
-    setBusy(true)
-    try {
-      const response = await fetch(`${getApiBaseUrl()}/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-      })
-      if (!response.ok) {
-        setStatus(t("network-error-try-again"))
-        return
-      }
-    } catch {
-      setStatus(t("network-error-try-again"))
-      return
-    } finally {
-      setBusy(false)
-    }
-    dispatch({ type: "logout" })
-    router.push(`/login?returnTo=${encodeURIComponent("/settings")}`)
   }
 
   if (!user.info) {
@@ -302,7 +282,7 @@ const Passkeys = (): JSX.Element => {
                       <Button
                         size="sm"
                         variant="destructive"
-                        disabled={busy || reauthRequired}
+                        disabled={busy}
                         onClick={() => setRemoving(credential)}
                       >
                         {t("remove")}
@@ -312,20 +292,6 @@ const Passkeys = (): JSX.Element => {
                 </li>
               ))}
             </ul>
-          )}
-
-          {reauthRequired && (
-            <div className="flex flex-wrap items-center gap-3 rounded-lg border border-flathub-sonic-silver/30 p-4">
-              <p className="flex-1 text-sm">{t("passkey-reauth-required")}</p>
-              <Button
-                size="sm"
-                variant="secondary"
-                disabled={busy}
-                onClick={() => void reauthenticate()}
-              >
-                {t("passkey-reauth-action")}
-              </Button>
-            </div>
           )}
 
           <form className="flex flex-wrap items-end gap-3" onSubmit={add}>
@@ -342,13 +308,10 @@ const Passkeys = (): JSX.Element => {
                 maxLength={100}
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                disabled={!supported || reauthRequired}
+                disabled={!supported}
               />
             </div>
-            <Button
-              type="submit"
-              disabled={busy || !supported || reauthRequired || !name.trim()}
-            >
+            <Button type="submit" disabled={busy || !supported || !name.trim()}>
               {t("passkey-add")}
             </Button>
           </form>
@@ -371,6 +334,7 @@ const Passkeys = (): JSX.Element => {
         onConfirmed={() => void remove()}
         onCancelled={() => setRemoving(null)}
       />
+      {reauthDialog}
     </section>
   )
 }

@@ -11,22 +11,25 @@ import { GitlabLogo } from "./GitlabLogo"
 import { GithubLogo } from "./GithubLogo"
 import { KdeLogo } from "./KdeLogo"
 import { clsx } from "clsx"
-import { useRouter } from "src/i18n/navigation"
+import { usePathname, useRouter } from "src/i18n/navigation"
 import { LoginMethod } from "src/codegen"
 
 interface Props {
   provider: LoginMethod
   inACard?: boolean
   compact?: boolean
+  reauth?: boolean
 }
 
 const ProviderLink: FunctionComponent<Props> = ({
   provider,
   inACard = false,
   compact = false,
+  reauth = false,
 }) => {
   const t = useTranslations()
   const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
 
   // Using state to prevent user repeatedly initiating fetches
@@ -40,7 +43,7 @@ const ProviderLink: FunctionComponent<Props> = ({
     if (clicked) return
     setClicked(true)
 
-    const url = `${LOGIN_PROVIDERS_URL}/${provider.method}`
+    const url = `${LOGIN_PROVIDERS_URL}/${provider.method}${reauth ? "?reauth=1" : ""}`
 
     let res: Response
     try {
@@ -60,7 +63,7 @@ const ProviderLink: FunctionComponent<Props> = ({
     if (res.ok) {
       try {
         const data: LoginRedirect = await res.json()
-        const returnTo = searchParams.get("returnTo")
+        const returnTo = reauth ? pathname : searchParams.get("returnTo")
         if (returnTo) {
           setReturnTo(
             returnTo.startsWith(process.env.NEXT_PUBLIC_SITE_BASE_URI) ||
@@ -87,6 +90,8 @@ const ProviderLink: FunctionComponent<Props> = ({
     setReturnTo,
     provider.method,
     searchParams,
+    reauth,
+    pathname,
   ])
 
   const loginText = t(`login-with-provider`, { provider: provider.name })
