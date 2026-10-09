@@ -1,4 +1,5 @@
 import hashlib
+import json
 import os
 import secrets
 import sys
@@ -7,11 +8,12 @@ from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from datetime import timedelta
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 from uuid import uuid4
 
 import pytest
-from fastapi import FastAPI, HTTPException
+import redis
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.testclient import TestClient
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
@@ -752,3 +754,471 @@ def test_passkey_storage_changes_deletion_token_and_is_removed(
             == 0
         )
         assert session.get(models.PasskeyCredential, other_passkey) is not None
+
+
+@pytest.fixture
+def reauth_oauth_client(monkeypatch):
+    client = SimpleNamespace(
+        fetch_token=Mock(
+            return_value={"token_type": "bearer", "access_token": "refreshed-token"}
+        ),
+        create_authorization_url=Mock(
+            side_effect=lambda url, state=None, **kwargs: (
+                "https://provider.example/authorize",
+                state or "s",
+            )
+        ),
+    )
+
+    @contextmanager
+    def oauth_client(method):
+        yield client
+
+    monkeypatch.setattr(logins.oauth_providers, "get_oauth_client", oauth_client)
+    monkeypatch.setattr(
+        logins.oauth_providers,
+        "get_provider_config",
+        lambda method: SimpleNamespace(
+            authorize_url="https://provider.example/authorize",
+            authorize_params={},
+            token_url="https://provider.example/token",
+        ),
+    )
+    return client
+
+
+def test_oauth_reauth_start_requires_own_linked_account(
+    isolated_email_db, reauth_oauth_client
+):
+    writer, _engine = isolated_email_db
+    request = request_for({})
+    result = logins.start_github_flow(
+        request, LoginInformation(LoginState.LOGGED_OUT, None, None), reauth=True
+    )
+    assert result.status_code == 401
+    assert json.loads(result.body)["error"] == "reauth-account-mismatch"
+    user = add_user(writer, "email", None)
+    session = {
+        "user-id": user.id,
+        "auth-method": "passkey",
+        "passkey-id": 42,
+        "auth-time": 1,
+    }
+    request = request_for(session)
+    login = LoginInformation(LoginState.LOGGED_IN, user, None)
+    result = logins.start_github_flow(request, login, reauth=True)
+    assert result.status_code == 400
+    assert json.loads(result.body)["error"] == "reauth-account-mismatch"
+    assert session["user-id"] == user.id
+    assert session["auth-method"] == "passkey"
+    assert session["passkey-id"] == 42
+    assert session["auth-time"] == 1
+    reauth_oauth_client.create_authorization_url.assert_not_called()
+    with writer() as db:
+        db.session.add(
+            models.GithubAccount(
+                user=user.id,
+                github_userid=7,
+                token="existing-token",
+                login="linked-login",
+                avatar_url=None,
+                display_name=None,
+            )
+        )
+    result = logins.start_github_flow(request, login, reauth=True)
+    assert result["state"] == "ok"
+    assert request.session["active-login-flow"] == "github"
+    assert request.session["reauth-flow"] == "github"
+    assert request.session["_oauth_state_github"]["state"] == "s"
+    assert request.session["user-id"] == user.id
+    assert request.session["auth-method"] == "passkey"
+    assert request.session["passkey-id"] == 42
+    assert request.session["auth-time"] == 1
+
+
+@pytest.mark.parametrize("reauth", [False, True])
+def test_switching_oauth_reauth_preserves_signed_in_session(
+    isolated_email_db, reauth_oauth_client, reauth
+):
+    writer, _engine = isolated_email_db
+    user = add_user(writer, "github", None)
+    with writer() as db:
+        db.session.add(
+            models.GitlabAccount(
+                user=user.id,
+                gitlab_userid=7,
+                login="linked-login",
+                avatar_url=None,
+                display_name=None,
+            )
+        )
+    session = {
+        "user-id": user.id,
+        "auth-method": "passkey",
+        "passkey-id": 42,
+        "auth-time": 1,
+        "active-login-flow": "github",
+        "reauth-flow": "github",
+        "_oauth_state_github": {"state": "old", "created": time.time()},
+    }
+    request = request_for(session)
+    result = logins.start_gitlab_flow(
+        request,
+        LoginInformation(LoginState.LOGGING_IN_AGAIN, user, "github"),
+        reauth=reauth,
+    )
+    assert result["state"] == "ok"
+    assert session["user-id"] == user.id
+    assert session["auth-method"] == "passkey"
+    assert session["passkey-id"] == 42
+    assert session["auth-time"] == 1
+    assert session["active-login-flow"] == "gitlab"
+    assert "_oauth_state_github" not in session
+    assert session.get("reauth-flow") == ("gitlab" if reauth else None)
+
+
+def test_oauth_reauth_refreshes_only_auth_time(
+    isolated_email_db, monkeypatch, reauth_oauth_client
+):
+    writer, engine = isolated_email_db
+    user = add_user(writer, "github", "Provider Name")
+    with writer() as db:
+        account = models.GithubAccount.by_user(db, user)
+        provider_id = account.github_userid
+    session = {
+        "user-id": user.id,
+        "auth-method": "passkey",
+        "passkey-id": 42,
+        "passkey-flow": {"unchanged": True},
+        "auth-time": 1,
+        "active-login-flow": "github",
+        "reauth-flow": "github",
+        "_oauth_state_github": {"state": "s", "created": time.time()},
+        "oidc_authorize_params": {"client_id": "unchanged"},
+    }
+    request = request_for(session)
+    email = Mock()
+    postlogin = Mock()
+    monkeypatch.setitem(
+        sys.modules,
+        "app.worker.emails",
+        SimpleNamespace(send_email_new=SimpleNamespace(send=email)),
+    )
+    with (
+        patch("app.login_info.time.time", return_value=2_000_000_000),
+        patch.object(logins.audit_log, "enqueue_audit_log") as audit,
+    ):
+        result = logins.continue_oauth_flow(
+            request,
+            LoginInformation(LoginState.LOGGING_IN_AGAIN, user, "github"),
+            logins.OauthLoginResponseSuccess(code="c", state="s"),
+            "github",
+            lambda tokens: logins.ProviderInfo(
+                id=provider_id, login="refreshed-login", name="Provider Name"
+            ),
+            models.GithubAccount,
+            postlogin_handler=postlogin,
+        )
+    assert result["result"] == "reauthenticated"
+    assert session["user-id"] == user.id
+    assert session["auth-method"] == "passkey"
+    assert session["passkey-id"] == 42
+    assert session["passkey-flow"] == {"unchanged": True}
+    assert session["auth-time"] == 2_000_000_000
+    assert session["oidc_authorize_params"] == {"client_id": "unchanged"}
+    assert "reauth-flow" not in session
+    assert "active-login-flow" not in session
+    assert "_oauth_state_github" not in session
+    email.assert_not_called()
+    postlogin.assert_not_called()
+    audit.assert_called_once()
+    assert audit.call_args.args[1] == user.id
+    assert audit.call_args.args[2] == models.AuditEventType.LOGIN_SUCCESS
+    assert audit.call_args.kwargs["provider"] == "github"
+    assert audit.call_args.kwargs["details"]["reauth"] is True
+    with Session(engine) as db:
+        account = db.scalar(
+            select(models.GithubAccount).where(models.GithubAccount.user == user.id)
+        )
+        assert account.token == "refreshed-token"
+        assert account.login == "refreshed-login"
+        assert account.last_used is not None
+
+
+@pytest.mark.parametrize(
+    "account_state", ["missing", "other", "logged_out", "banned", "deleted"]
+)
+def test_oauth_reauth_rejection_keeps_auth_time(
+    isolated_email_db, reauth_oauth_client, account_state
+):
+    writer, engine = isolated_email_db
+    user = add_user(writer, "github", None)
+    provider_user = (
+        add_user(writer, "github", None) if account_state == "other" else user
+    )
+    with writer() as db:
+        account = models.GithubAccount.by_user(db, provider_user)
+        provider_id = account.github_userid
+        account.token = "unchanged-token"
+        if account_state in ("banned", "deleted"):
+            setattr(
+                db.session.get(models.FlathubUser, provider_user.id),
+                account_state,
+                True,
+            )
+    if account_state == "missing":
+        provider_id = -1
+    session = {
+        "user-id": user.id,
+        "auth-method": "passkey",
+        "passkey-id": 42,
+        "auth-time": 1,
+        "active-login-flow": "github",
+        "reauth-flow": "github",
+        "_oauth_state_github": {"state": "s", "created": time.time()},
+    }
+    if account_state == "logged_out":
+        session.pop("user-id")
+    request = request_for(session)
+    with patch.object(logins.audit_log, "enqueue_audit_log") as audit:
+        result = logins.continue_oauth_flow(
+            request,
+            LoginInformation(
+                LoginState.LOGGING_IN
+                if account_state == "logged_out"
+                else LoginState.LOGGING_IN_AGAIN,
+                None if account_state == "logged_out" else user,
+                "github",
+            ),
+            logins.OauthLoginResponseSuccess(code="c", state="s"),
+            "github",
+            lambda tokens: logins.ProviderInfo(id=provider_id, login="provider-login"),
+            models.GithubAccount,
+        )
+    unavailable = account_state in ("banned", "deleted")
+    assert result.status_code == (403 if unavailable else 400)
+    if unavailable:
+        assert json.loads(result.body)["error"] == (
+            "account_banned" if account_state == "banned" else "account_unavailable"
+        )
+    else:
+        assert json.loads(result.body)["error"] == "reauth-account-mismatch"
+    assert session["auth-time"] == 1
+    assert session["auth-method"] == "passkey"
+    assert session["passkey-id"] == 42
+    assert session.get("user-id") == (
+        None if account_state == "logged_out" else user.id
+    )
+    assert "reauth-flow" not in session
+    assert "active-login-flow" not in session
+    assert "_oauth_state_github" not in session
+    audit.assert_called_once()
+    assert audit.call_args.args[1] == (
+        None if account_state == "logged_out" else user.id
+    )
+    assert audit.call_args.args[2] == (
+        models.AuditEventType.LOGIN_REJECTED_BANNED
+        if account_state == "banned"
+        else models.AuditEventType.LOGIN_FAILURE
+    )
+    assert audit.call_args.kwargs["provider"] == "github"
+    with Session(engine) as db:
+        account = db.scalar(
+            select(models.GithubAccount).where(
+                models.GithubAccount.user == provider_user.id
+            )
+        )
+        assert account.token == "unchanged-token"
+        assert db.scalar(select(func.count(models.FlathubUser.id))) == (
+            2 if account_state == "other" else 1
+        )
+
+
+@pytest.mark.parametrize(
+    ("target", "throttled"),
+    [("own", False), ("own", True), ("other", False), ("unknown", False)],
+)
+def test_email_reauth_requests_only_own_linked_address(
+    isolated_email_db, monkeypatch, target, throttled
+):
+    writer, _engine = isolated_email_db
+    user = add_user(writer, "email", None)
+    other = add_user(writer, "email", None)
+    with writer() as db:
+        own_email = models.EmailAccount.by_user(db, user).email
+        other_email = models.EmailAccount.by_user(db, other).email
+    address = {
+        "own": own_email,
+        "other": other_email,
+        "unknown": "unknown@example.com",
+    }[target]
+    session = {
+        "user-id": user.id,
+        "auth-method": "passkey",
+        "passkey-id": 42,
+        "passkey-flow": {"unchanged": True},
+        "auth-time": 1,
+        "active-login-flow": "github",
+        "reauth-flow": "github",
+        "_oauth_state_github": {"state": "s", "created": time.time()},
+        "oidc_authorize_params": {"client_id": "unchanged"},
+    }
+    request = request_for(session)
+    request.scope["headers"] = [
+        (b"origin", config.settings.frontend_url.rstrip("/").encode())
+    ]
+    monkeypatch.setattr(
+        logins._email_rate_store,
+        "eval",
+        lambda *args: [1, 2, 6] if throttled else [1, 1, 1],
+    )
+    send = Mock()
+    monkeypatch.setitem(
+        sys.modules,
+        "app.worker.emails",
+        SimpleNamespace(send_email_login_link=SimpleNamespace(send=send)),
+    )
+    body = logins.EmailLinkRequest(
+        email=f" {address.upper()} ", locale="en", return_to="/en/settings"
+    )
+    login = LoginInformation(LoginState.LOGGED_IN, user, None)
+    response = Response()
+    if target != "own":
+        with pytest.raises(HTTPException) as rejected:
+            logins.request_email_login(body, request, response, login)
+        assert rejected.value.status_code == 409
+        assert rejected.value.detail == "already_logged_in"
+        send.assert_not_called()
+    else:
+        result = logins.request_email_login(body, request, response, login)
+        assert result.status == "accepted"
+        if throttled:
+            send.assert_not_called()
+        else:
+            send.assert_called_once()
+    assert response.headers["cache-control"] == "no-store"
+    assert session["user-id"] == user.id
+    assert session["auth-method"] == "passkey"
+    assert session["passkey-id"] == 42
+    assert session["passkey-flow"] == {"unchanged": True}
+    assert session["auth-time"] == 1
+    assert session["active-login-flow"] == "github"
+    assert session["reauth-flow"] == "github"
+    assert session["_oauth_state_github"]["state"] == "s"
+    assert session["oidc_authorize_params"] == {"client_id": "unchanged"}
+
+
+def test_rejected_email_reauth_does_not_suppress_legitimate_link(
+    isolated_email_db, monkeypatch
+):
+    store = logins._email_rate_store
+    try:
+        store.ping()
+    except redis.RedisError:
+        pytest.skip("Redis is not available")
+    writer, _engine = isolated_email_db
+    user = add_user(writer, "email", None)
+    other = add_user(writer, "email", None)
+    with writer() as db:
+        email = models.EmailAccount.by_user(db, other).email
+    ip = f"test-{uuid4().hex}"
+    send = Mock()
+    monkeypatch.setitem(
+        sys.modules,
+        "app.worker.emails",
+        SimpleNamespace(send_email_login_link=SimpleNamespace(send=send)),
+    )
+    body = logins.EmailLinkRequest(email=email)
+    request = request_for({"user-id": user.id})
+    request.scope["client"] = (ip, 12345)
+    request.scope["headers"] = [
+        (b"origin", config.settings.frontend_url.rstrip("/").encode())
+    ]
+    try:
+        with pytest.raises(HTTPException) as rejected:
+            logins.request_email_login(
+                body,
+                request,
+                Response(),
+                LoginInformation(LoginState.LOGGED_IN, user, None),
+            )
+        assert rejected.value.status_code == 409
+        send.assert_not_called()
+        request.scope["session"] = {}
+        result = logins.request_email_login(
+            body,
+            request,
+            Response(),
+            LoginInformation(LoginState.LOGGED_OUT, None, None),
+        )
+        assert result.status == "accepted"
+        send.assert_called_once()
+    finally:
+        address_key = logins.hmac.new(
+            config.settings.session_secret_key.encode(),
+            email.encode("ascii"),
+            logins.hashlib.sha256,
+        ).hexdigest()
+        store.delete(
+            f"email-login:ip:{ip}:hour",
+            f"email-login:address:{address_key}:minute",
+            f"email-login:address:{address_key}:hour",
+        )
+
+
+def test_email_reauth_confirmation_refreshes_only_auth_time(isolated_email_db):
+    writer, engine = isolated_email_db
+    user = add_user(writer, "email", None)
+    with writer() as db:
+        email = models.EmailAccount.by_user(db, user).email
+    token = issue(writer, email, user.id)
+    issue(writer, email, user.id)
+    session = {
+        "user-id": user.id,
+        "auth-method": "passkey",
+        "passkey-id": 42,
+        "passkey-flow": {"unchanged": True},
+        "auth-time": 1,
+        "active-login-flow": "github",
+        "reauth-flow": "github",
+        "_oauth_state_github": {"state": "s", "created": time.time()},
+        "oidc_authorize_params": {"client_id": "unchanged"},
+    }
+    oauth_state = session["_oauth_state_github"].copy()
+    request = request_for(session)
+    with (
+        patch("app.login_info.time.time", return_value=2_000_000_000),
+        patch.object(logins.audit_log, "enqueue_audit_log") as audit,
+    ):
+        result = logins.confirm_email_login(
+            logins.EmailConfirmRequest(token=token),
+            request,
+            LoginInformation(LoginState.LOGGED_IN, user, None),
+        )
+    assert result.return_to == "/en/apps/org.example.App"
+    assert session["user-id"] == user.id
+    assert session["auth-method"] == "passkey"
+    assert session["passkey-id"] == 42
+    assert session["passkey-flow"] == {"unchanged": True}
+    assert session["auth-time"] == 2_000_000_000
+    assert session["active-login-flow"] == "github"
+    assert session["reauth-flow"] == "github"
+    assert session["_oauth_state_github"] == oauth_state
+    assert session["oidc_authorize_params"] == {"client_id": "unchanged"}
+    audit.assert_called_once()
+    assert audit.call_args.args[1] == user.id
+    assert audit.call_args.args[2] == models.AuditEventType.LOGIN_SUCCESS
+    assert audit.call_args.kwargs["provider"] == "email"
+    assert audit.call_args.kwargs["details"]["reauth"] is True
+    with Session(engine) as db:
+        challenges = db.scalars(
+            select(models.EmailLoginChallenge).where(
+                models.EmailLoginChallenge.email == email
+            )
+        ).all()
+        assert len(challenges) == 2
+        assert all(challenge.consumed_at is not None for challenge in challenges)
+        account = db.scalar(
+            select(models.EmailAccount).where(models.EmailAccount.user == user.id)
+        )
+        assert account.last_used is not None

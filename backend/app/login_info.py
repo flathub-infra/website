@@ -8,6 +8,26 @@ from fastapi import Depends, HTTPException, Request
 from . import models
 from .database import get_db
 
+REAUTH_FRESHNESS_SECONDS = 300
+
+
+def mark_recently_authenticated(request: Request) -> None:
+    request.session["auth-time"] = int(time.time())
+
+
+def recently_authenticated(request: Request) -> bool:
+    auth_time = request.session.get("auth-time")
+    return (
+        isinstance(auth_time, int | float)
+        and not isinstance(auth_time, bool)
+        and 0 <= time.time() - auth_time < REAUTH_FRESHNESS_SECONDS
+    )
+
+
+def require_recent_authentication(request: Request) -> None:
+    if not recently_authenticated(request):
+        raise HTTPException(status_code=403, detail="reauthentication_required")
+
 
 class LoginState(StrEnum):
     """Login state, used to track state machine for login flows etc."""
@@ -46,7 +66,7 @@ def set_authenticated_session(
 ) -> None:
     request.session["user-id"] = user_id
     request.session["auth-method"] = method
-    request.session["auth-time"] = int(time.time())
+    mark_recently_authenticated(request)
     if method == "passkey":
         request.session["passkey-id"] = passkey_id
     else:

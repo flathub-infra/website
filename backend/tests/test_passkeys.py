@@ -157,7 +157,7 @@ def session_of(client):
 
 
 def clock(seconds):
-    return patch.object(logins, "time", SimpleNamespace(time=lambda: seconds))
+    return patch.object(login_info, "time", SimpleNamespace(time=lambda: seconds))
 
 
 @pytest.fixture
@@ -604,8 +604,7 @@ def test_sensitive_actions_require_recent_authentication(
     with env.writer() as db:
         passkey_id = db.session.scalar(select(models.PasskeyCredential.id))
     with clock(now + offset):
-        listing = client.get("/auth/passkeys")
-        assert listing.json()["recent_authentication"] is allowed
+        assert client.get("/auth/passkeys").status_code == 200
         assert session_of(client).get("auth-time") == session.get("auth-time")
         options = client.post(
             "/auth/passkeys/registration/options", json={}, headers=ORIGIN
@@ -643,6 +642,144 @@ def test_enrollment_rechecks_freshness_at_verification(env):
         )
     assert retried.status_code == 400
     assert passkey_count(env.engine, user.id) == 0
+
+
+def test_passkey_reauthentication_refreshes_auth_time_only(env):
+    user, authenticator = enrolled_user(env)
+    with env.writer() as db:
+        passkey_id = db.session.scalar(select(models.PasskeyCredential.id))
+    now = int(time.time())
+    client = env.client(
+        {
+            "user-id": user.id,
+            "auth-method": "passkey",
+            "passkey-id": passkey_id,
+            "auth-time": now,
+        }
+    )
+    pending_authenticator = Authenticator()
+    with clock(now):
+        pending = client.post(
+            "/auth/passkeys/registration/options", json={}, headers=ORIGIN
+        ).json()
+    flow = session_of(client)["passkey-flow"]
+    with clock(now + 400):
+        stale = client.post(
+            "/auth/passkeys/registration/options", json={}, headers=ORIGIN
+        )
+        assert stale.status_code == 403
+        options = client.post(
+            "/auth/passkeys/reauthentication/options", json={}, headers=ORIGIN
+        )
+        assert options.status_code == 200, options.text
+        body = options.json()
+        assert body["options"]["allowCredentials"][0]["id"] == b64(
+            authenticator.credential_id
+        )
+        response = client.post(
+            "/auth/passkeys/reauthentication/verify",
+            json={
+                "challenge_id": body["challenge_id"],
+                "credential": authenticator.sign_in(
+                    body["options"], handle_of(env.engine, user.id)
+                ),
+            },
+            headers=ORIGIN,
+        )
+        assert response.status_code == 200, response.text
+        assert response.json() == {"status": "ok"}
+        session = session_of(client)
+        assert session["auth-time"] == now + 400
+        assert session["auth-method"] == "passkey"
+        assert session["passkey-id"] == passkey_id
+        assert session["passkey-flow"] == flow
+        audit = env.audit.call_args
+        assert audit.args[2] == models.AuditEventType.LOGIN_SUCCESS
+        assert audit.kwargs["details"]["reauth"] is True
+        completed = client.post(
+            "/auth/passkeys/registration/verify",
+            json={
+                "challenge_id": pending["challenge_id"],
+                "credential": pending_authenticator.register(pending["options"]),
+                "name": "Pending",
+            },
+            headers=ORIGIN,
+        )
+        assert completed.status_code == 201, completed.text
+        assert (
+            client.post(
+                "/auth/passkeys/registration/options", json={}, headers=ORIGIN
+            ).status_code
+            == 200
+        )
+
+
+@pytest.mark.parametrize(
+    "invalid",
+    [
+        "other-user",
+        "cross-origin",
+        "no-uv",
+        "wrong-handle",
+        "bad-signature",
+        "other-session",
+    ],
+)
+def test_passkey_reauthentication_rejects_invalid_assertions(env, invalid):
+    user, authenticator = enrolled_user(env)
+    other, other_authenticator = enrolled_user(env)
+    now = int(time.time())
+    client = env.client({"user-id": user.id, "auth-method": "email", "auth-time": now})
+    with clock(now + 400):
+        options = client.post(
+            "/auth/passkeys/reauthentication/options", json={}, headers=ORIGIN
+        ).json()
+        handle = handle_of(env.engine, user.id)
+        kwargs = {}
+        if invalid == "other-session":
+            client.post(
+                "/seed-session",
+                json={**session_of(client), "user-id": other.id},
+            )
+        if invalid == "other-user":
+            authenticator = other_authenticator
+            handle = handle_of(env.engine, other.id)
+        elif invalid == "cross-origin":
+            kwargs["cross_origin"] = True
+        elif invalid == "no-uv":
+            kwargs["flags"] = UP
+        elif invalid == "wrong-handle":
+            handle = handle_of(env.engine, other.id)
+        elif invalid == "bad-signature":
+            kwargs["key"] = other_authenticator.key
+        response = client.post(
+            "/auth/passkeys/reauthentication/verify",
+            json={
+                "challenge_id": options["challenge_id"],
+                "credential": authenticator.sign_in(
+                    options["options"], handle, **kwargs
+                ),
+            },
+            headers=ORIGIN,
+        )
+    assert response.status_code == 400
+    assert response.json() == {"detail": "invalid_passkey_response"}
+    assert session_of(client)["auth-time"] == now
+    assert env.audit.call_args.args[2] == models.AuditEventType.LOGIN_FAILURE
+
+
+def test_passkey_reauthentication_requires_login_and_credentials(env):
+    logged_out = env.client().post(
+        "/auth/passkeys/reauthentication/options", json={}, headers=ORIGIN
+    )
+    assert logged_out.status_code == 401
+    assert logged_out.json() == {"detail": "not_logged_in"}
+    user = add_user(env.writer, "email", None)
+    no_passkey = env.fresh(user.id).post(
+        "/auth/passkeys/reauthentication/options", json={}, headers=ORIGIN
+    )
+    assert no_passkey.status_code == 404
+    assert no_passkey.json() == {"detail": "passkey_not_found"}
 
 
 def test_removal_revokes_only_sessions_of_that_credential(env, monkeypatch):

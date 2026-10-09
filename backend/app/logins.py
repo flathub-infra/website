@@ -10,7 +10,6 @@ import hashlib
 import hmac
 import json
 import secrets
-import time
 import unicodedata
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -84,6 +83,8 @@ from .login_info import (
     LoginInformation,
     LoginState,
     LoginStatusDep,
+    mark_recently_authenticated,
+    require_recent_authentication,
     set_authenticated_session,
 )
 from .types import JSONValue
@@ -147,6 +148,7 @@ def _get_oauth_state(request: Request, method: str) -> tuple[str, float] | None:
 def _clear_oauth_session(request: Request, method: str | None = None):
     request.session.pop("active-login-flow", None)
     request.session.pop("active-login-flow-intermediate", None)
+    request.session.pop("reauth-flow", None)
 
     if method is None:
         for provider in oauth_providers.PROVIDERS:
@@ -272,6 +274,17 @@ end
 """
 
 
+def _release_email_login_reservation(
+    minute_key: str, hour_key: str, reservation: str
+) -> None:
+    try:
+        _email_rate_store.eval(
+            _EMAIL_RELEASE_RATE_SCRIPT, 2, minute_key, hour_key, reservation
+        )
+    except (redis.RedisError, OSError):
+        pass
+
+
 class EmailLinkRequest(BaseModel):
     email: str
     locale: str = "en"
@@ -301,8 +314,6 @@ def request_email_login(
     response.headers["Cache-Control"] = "no-store"
     if not config.settings.email_login_enabled:
         raise HTTPException(status_code=404, detail="email_login_disabled")
-    if login.user is not None:
-        raise HTTPException(status_code=409, detail="already_logged_in")
     if request.headers.get("origin") != config.settings.frontend_url.rstrip("/"):
         raise HTTPException(status_code=403, detail="invalid_origin")
     try:
@@ -339,6 +350,11 @@ def request_email_login(
         )
     with get_db("writer") as db:
         account = db.session.query(models.EmailAccount).filter_by(email=email).first()
+        if login.user is not None and (
+            account is None or account.user != login.user.id
+        ):
+            _release_email_login_reservation(keys[1], keys[2], reservation)
+            raise HTTPException(status_code=409, detail="already_logged_in")
         user_id = account.user if account is not None else None
     if counts[1] > 1 or counts[2] > 5:
         return EmailLinkAccepted()
@@ -353,12 +369,7 @@ def request_email_login(
             user_id,
         )
     except Exception as exc:
-        try:
-            _email_rate_store.eval(
-                _EMAIL_RELEASE_RATE_SCRIPT, 2, keys[1], keys[2], reservation
-            )
-        except (redis.RedisError, OSError):
-            pass
+        _release_email_login_reservation(keys[1], keys[2], reservation)
         raise HTTPException(status_code=503, detail="email_login_unavailable") from exc
     return EmailLinkAccepted()
 
@@ -479,6 +490,16 @@ def confirm_email_login(
         user_id = user.id
         return_to = challenge.return_to
         db.commit()
+    if login.user is not None:
+        mark_recently_authenticated(request)
+        audit_log.enqueue_audit_log(
+            request,
+            user_id,
+            models.AuditEventType.LOGIN_SUCCESS,
+            provider="email",
+            details={"reauth": True},
+        )
+        return EmailConfirmResult(return_to=return_to)
     _clear_oauth_session(request)
     set_authenticated_session(request, user_id, "email")
     pending_oidc = request.session.get("oidc_authorize_params")
@@ -531,7 +552,7 @@ def get_login_methods() -> list[LoginMethod]:
     },
 )
 @cache.no_store
-def start_github_flow(request: Request, login: LoginStatusDep):
+def start_github_flow(request: Request, login: LoginStatusDep, reauth: bool = False):
     """
     Starts a github login flow.  This will set session cookie values and
     will return a redirect.  The frontend is expected to save the cookie
@@ -548,6 +569,7 @@ def start_github_flow(request: Request, login: LoginStatusDep):
         login,
         "github",
         models.GithubAccount,
+        reauth,
     )
 
 
@@ -560,7 +582,7 @@ def start_github_flow(request: Request, login: LoginStatusDep):
     },
 )
 @cache.no_store
-def start_gitlab_flow(request: Request, login: LoginStatusDep):
+def start_gitlab_flow(request: Request, login: LoginStatusDep, reauth: bool = False):
     """
     Starts a gitlab login flow.  This will set session cookie values and
     will return a redirect.  The frontend is expected to save the cookie
@@ -577,6 +599,7 @@ def start_gitlab_flow(request: Request, login: LoginStatusDep):
         login,
         "gitlab",
         models.GitlabAccount,
+        reauth,
     )
 
 
@@ -589,7 +612,7 @@ def start_gitlab_flow(request: Request, login: LoginStatusDep):
     },
 )
 @cache.no_store
-def start_gnome_flow(request: Request, login: LoginStatusDep):
+def start_gnome_flow(request: Request, login: LoginStatusDep, reauth: bool = False):
     """
     Starts a GNOME login flow.  This will set session cookie values and
     will return a redirect.  The frontend is expected to save the cookie
@@ -606,6 +629,7 @@ def start_gnome_flow(request: Request, login: LoginStatusDep):
         login,
         "gnome",
         models.GnomeAccount,
+        reauth,
     )
 
 
@@ -618,12 +642,13 @@ def start_gnome_flow(request: Request, login: LoginStatusDep):
     },
 )
 @cache.no_store
-def start_kde_flow(request: Request, login: LoginStatusDep):
+def start_kde_flow(request: Request, login: LoginStatusDep, reauth: bool = False):
     return start_oauth_flow(
         request,
         login,
         "kde",
         models.KdeAccount,
+        reauth,
     )
 
 
@@ -632,6 +657,7 @@ def start_oauth_flow(
     login: LoginInformation,
     method: str,
     account_model: "_OAuthAccountModel",
+    reauth: bool = False,
 ):
     """
     Start an oauth login flow. This uses the session-backed flow state, the
@@ -647,14 +673,27 @@ def start_oauth_flow(
             # and send them back with the same in-progress login
             pass
         else:
-            request.session.pop("user-id", None)
+            if not reauth and not request.session.get("reauth-flow"):
+                request.session.pop("user-id", None)
             _clear_oauth_session(request)
+    if not reauth:
+        request.session.pop("reauth-flow", None)
 
     user = login["user"]
+    if reauth and user is None:
+        return JSONResponse(
+            {"state": "error", "error": "reauth-account-mismatch"},
+            status_code=401,
+        )
     if user:
         with get_db("replica") as db:
             account = account_model.by_user(db, user)
-            if account is not None and account.token is not None:
+            if reauth and account is None:
+                return JSONResponse(
+                    {"state": "error", "error": "reauth-account-mismatch"},
+                    status_code=400,
+                )
+            if not reauth and account is not None and account.token is not None:
                 return JSONResponse(
                     {"state": "error", "error": f"User already logged into {method}"},
                     status_code=400,
@@ -685,6 +724,8 @@ def start_oauth_flow(
         )
 
     request.session["active-login-flow"] = method
+    if reauth:
+        request.session["reauth-flow"] = method
     request.session.pop("active-login-flow-intermediate", None)
     request.session[_oauth_state_key(method)] = {
         "state": state,
@@ -1098,6 +1139,7 @@ def continue_oauth_flow(
             },
             status_code=400,
         )
+    reauth = request.session.pop("reauth-flow", None) == method
     stored = _get_oauth_state(request, method)
     _clear_oauth_session(request, method)
 
@@ -1200,6 +1242,17 @@ def continue_oauth_flow(
     with get_db("writer") as db:
         # Do we have a provider's user noted with this ID already?
         account = account_model.by_provider_id(db, provider_data.id)
+        if reauth and (
+            account is None or login.user is None or account.user != login.user.id
+        ):
+            db.commit()
+            _log_login_failure(
+                request, login, method, "reauthentication_account_mismatch"
+            )
+            return JSONResponse(
+                {"status": "error", "error": "reauth-account-mismatch"},
+                status_code=400,
+            )
         upgraded = None
         if account is None:
             # We've never seen this provider's user before, if we're not already logged
@@ -1256,7 +1309,7 @@ def continue_oauth_flow(
             # The provider's user has been seen before, if we're logged in already and
             # things don't match then abort now
             user = login.user
-            if user is not None:
+            if user is not None and not reauth:
                 # Eventually we might do user-merge here?
                 db.commit()
                 # Distinct event type so it doesn't pollute failure-rate queries.
@@ -1312,6 +1365,16 @@ def continue_oauth_flow(
 
         # The session is now ready
         db.commit()
+        if reauth:
+            mark_recently_authenticated(request)
+            audit_log.enqueue_audit_log(
+                request,
+                account.user,
+                models.AuditEventType.LOGIN_SUCCESS,
+                provider=method,
+                details={"reauth": True, "login": provider_data.login},
+            )
+            return {"status": "ok", "result": "reauthenticated"}
         set_authenticated_session(request, account.user, method)
 
         audit_log.enqueue_audit_log(
@@ -1734,7 +1797,6 @@ def do_change_display_name(body: DisplayNameRequest, login: LoggedInDep):
         db.commit()
 
 
-_PASSKEY_FRESHNESS_SECONDS = 300
 _PASSKEY_CHALLENGE_TTL_SECONDS = 300
 _PASSKEY_CONSUME_SCRIPT = """
 local value = redis.call('GET', KEYS[1])
@@ -1776,6 +1838,19 @@ class PasskeyAuthenticationVerifyRequest(BaseModel):
     credential: dict[str, JSONValue]
 
 
+class PasskeyReauthenticationOptionsRequest(BaseModel):
+    pass
+
+
+class PasskeyReauthenticationVerifyRequest(BaseModel):
+    challenge_id: PasskeyChallengeId
+    credential: dict[str, JSONValue]
+
+
+class ReauthenticationResult(BaseModel):
+    status: str = "ok"
+
+
 class PasskeyRenameRequest(BaseModel):
     name: PasskeyName
 
@@ -1789,7 +1864,6 @@ class PasskeySummary(BaseModel):
 
 class PasskeyList(BaseModel):
     credentials: list[PasskeySummary]
-    recent_authentication: bool
 
 
 class PasskeyLoginResult(BaseModel):
@@ -1800,20 +1874,6 @@ class PasskeyLoginResult(BaseModel):
 def _passkey_rp() -> tuple[str, str]:
     parts = urlsplit(config.settings.frontend_url)
     return cast("str", parts.hostname), f"{parts.scheme}://{parts.netloc}"
-
-
-def _recently_authenticated(request: Request) -> bool:
-    auth_time = request.session.get("auth-time")
-    return (
-        isinstance(auth_time, int | float)
-        and not isinstance(auth_time, bool)
-        and 0 <= time.time() - auth_time < _PASSKEY_FRESHNESS_SECONDS
-    )
-
-
-def _require_recent_authentication(request: Request) -> None:
-    if not _recently_authenticated(request):
-        raise HTTPException(status_code=403, detail="reauthentication_required")
 
 
 def _require_passkey_origin(request: Request) -> None:
@@ -1951,7 +2011,6 @@ def list_passkeys(request: Request, login: LoggedInDep) -> PasskeyList:
         credentials = models.PasskeyCredential.all_by_user(db, login.user)
         return PasskeyList(
             credentials=[_passkey_summary(credential) for credential in credentials],
-            recent_authentication=_recently_authenticated(request),
         )
 
 
@@ -1964,7 +2023,7 @@ def list_passkeys(request: Request, login: LoggedInDep) -> PasskeyList:
 def passkey_registration_options(
     body: PasskeyRegistrationOptionsRequest, request: Request, login: LoggedInDep
 ) -> PasskeyOptions:
-    _require_recent_authentication(request)
+    require_recent_authentication(request)
     rp_id, _origin = _passkey_rp()
     with get_db("writer") as db:
         user = _lock_passkey_user(db, request, login.user.id)
@@ -2023,7 +2082,7 @@ def passkey_registration_verify(
     rp_id, origin = _passkey_rp()
     with get_db("writer") as db:
         user = _lock_passkey_user(db, request, login.user.id)
-        _require_recent_authentication(request)
+        require_recent_authentication(request)
         try:
             parsed = parse_registration_credential_json(body.credential)
             client_data = parse_client_data_json(parsed.response.client_data_json)
@@ -2170,6 +2229,104 @@ def passkey_authentication_verify(
     return PasskeyLoginResult(return_to=cast("str", stored["return_to"]))
 
 
+@router.post(
+    "/passkeys/reauthentication/options",
+    tags=["passkeys"],
+    dependencies=[Depends(_limit_passkey_ceremony)],
+)
+@cache.no_store
+def passkey_reauthentication_options(
+    body: PasskeyReauthenticationOptionsRequest, request: Request, login: LoggedInDep
+) -> PasskeyOptions:
+    with get_db("writer") as db:
+        user = _lock_passkey_user(db, request, login.user.id)
+        credentials = models.PasskeyCredential.all_by_user(db, user)
+        if not credentials:
+            raise HTTPException(status_code=404, detail="passkey_not_found")
+        options = generate_authentication_options(
+            rp_id=_passkey_rp()[0],
+            user_verification=UserVerificationRequirement.REQUIRED,
+            allow_credentials=[
+                PublicKeyCredentialDescriptor(
+                    id=credential.credential_id,
+                    transports=[
+                        AuthenticatorTransport(transport)
+                        for transport in credential.transports
+                    ],
+                )
+                for credential in credentials
+            ],
+        )
+        challenge_id = _store_passkey_challenge(
+            request, "reauthentication", options.challenge, user_id=user.id
+        )
+    return PasskeyOptions(
+        challenge_id=challenge_id, options=options_to_json_dict(options)
+    )
+
+
+@router.post(
+    "/passkeys/reauthentication/verify",
+    tags=["passkeys"],
+    dependencies=[Depends(_limit_passkey_ceremony)],
+)
+@cache.no_store
+def passkey_reauthentication_verify(
+    body: PasskeyReauthenticationVerifyRequest, request: Request, login: LoggedInDep
+) -> ReauthenticationResult:
+    stored = _consume_passkey_challenge(request, "reauthentication", body.challenge_id)
+    if stored.get("user_id") != login.user.id:
+        _log_login_failure(request, login, "passkey", "invalid_passkey_response")
+        raise _invalid_passkey_response()
+    rp_id, origin = _passkey_rp()
+    with get_db("writer") as db:
+        user = _lock_passkey_user(db, request, login.user.id)
+        try:
+            parsed = parse_authentication_credential_json(body.credential)
+            client_data = parse_client_data_json(parsed.response.client_data_json)
+            credential = db.session.scalar(
+                select(models.PasskeyCredential)
+                .where(models.PasskeyCredential.credential_id == parsed.raw_id)
+                .with_for_update()
+                .execution_options(populate_existing=True)
+            )
+            user_handle = parsed.response.user_handle
+            if (
+                client_data.cross_origin
+                or credential is None
+                or credential.user != user.id
+                or user.webauthn_user_handle is None
+                or user_handle is None
+                or not hmac.compare_digest(user_handle, user.webauthn_user_handle)
+            ):
+                raise _invalid_passkey_response()
+            verified = verify_authentication_response(
+                credential=parsed,
+                expected_challenge=base64url_to_bytes(cast("str", stored["challenge"])),
+                expected_rp_id=rp_id,
+                expected_origin=origin,
+                credential_public_key=credential.public_key,
+                credential_current_sign_count=credential.sign_count,
+                require_user_verification=True,
+            )
+        except (*_PASSKEY_ERRORS, HTTPException) as exc:
+            db.rollback()
+            _log_login_failure(request, login, "passkey", "invalid_passkey_response")
+            raise _invalid_passkey_response() from exc
+        credential.sign_count = verified.new_sign_count
+        credential.last_used_at = utils.utcnow()
+        db.commit()
+    mark_recently_authenticated(request)
+    audit_log.enqueue_audit_log(
+        request,
+        login.user.id,
+        models.AuditEventType.LOGIN_SUCCESS,
+        provider="passkey",
+        details={"reauth": True},
+    )
+    return ReauthenticationResult()
+
+
 @router.patch(
     "/passkeys/{passkey_id}",
     tags=["passkeys"],
@@ -2197,7 +2354,7 @@ def rename_passkey(
 def delete_passkey(passkey_id: int, request: Request, login: LoggedInDep) -> None:
     with get_db("writer") as db:
         user = _lock_passkey_user(db, request, login.user.id)
-        _require_recent_authentication(request)
+        require_recent_authentication(request)
         db.session.delete(_lock_owned_passkey(db, user, passkey_id))
         db.commit()
     if (
@@ -2246,7 +2403,11 @@ async def _email_validation_error(request: Request, exc: Exception) -> Response:
             headers={"Cache-Control": "no-store"},
         )
     if request.url.path.endswith(
-        ("/auth/passkeys/registration/verify", "/auth/passkeys/authentication/verify")
+        (
+            "/auth/passkeys/registration/verify",
+            "/auth/passkeys/authentication/verify",
+            "/auth/passkeys/reauthentication/verify",
+        )
     ):
         errors = exc.errors()
         if errors and all(
