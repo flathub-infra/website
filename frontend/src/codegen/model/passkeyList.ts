@@ -8,5 +8,4 @@ import type { PasskeySummary } from "./passkeySummary"
 
 export interface PasskeyList {
   credentials: PasskeySummary[]
-  recent_authentication: boolean
 }

@@ -44,6 +44,10 @@ import type {
   HTTPValidationError,
   LoginMethod,
   RefreshDevFlatpaksReturn,
+  StartGithubFlowAuthLoginGithubGetParams,
+  StartGitlabFlowAuthLoginGitlabGetParams,
+  StartGnomeFlowAuthLoginGnomeGetParams,
+  StartKdeFlowAuthLoginKdeGetParams,
   UserDeleteRequest,
 } from "../model"
 
@@ -554,37 +558,49 @@ export function useGetLoginMethodsAuthLoginGet<
  * @summary Start Github Flow
  */
 export const startGithubFlowAuthLoginGithubGet = (
+  params?: StartGithubFlowAuthLoginGithubGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/auth/login/github`, options)
+  return axios.get(`/auth/login/github`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
-export const getStartGithubFlowAuthLoginGithubGetQueryKey = () => {
-  return [`/auth/login/github`] as const
+export const getStartGithubFlowAuthLoginGithubGetQueryKey = (
+  params?: StartGithubFlowAuthLoginGithubGetParams,
+) => {
+  return [`/auth/login/github`, ...(params ? [params] : [])] as const
 }
 
 export const getStartGithubFlowAuthLoginGithubGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<void>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-      TError,
-      TData
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: StartGithubFlowAuthLoginGithubGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}) => {
+    axios?: AxiosRequestConfig
+  },
+) => {
   const { query: queryOptions, axios: axiosOptions } = options ?? {}
 
   const queryKey =
-    queryOptions?.queryKey ?? getStartGithubFlowAuthLoginGithubGetQueryKey()
+    queryOptions?.queryKey ??
+    getStartGithubFlowAuthLoginGithubGetQueryKey(params)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>
   > = ({ signal }) =>
-    startGithubFlowAuthLoginGithubGet({ signal, ...axiosOptions })
+    startGithubFlowAuthLoginGithubGet(params, { signal, ...axiosOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
@@ -596,12 +612,14 @@ export const getStartGithubFlowAuthLoginGithubGetQueryOptions = <
 export type StartGithubFlowAuthLoginGithubGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>
 >
-export type StartGithubFlowAuthLoginGithubGetQueryError = AxiosError<void>
+export type StartGithubFlowAuthLoginGithubGetQueryError =
+  AxiosError<void | HTTPValidationError>
 
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params: undefined | StartGithubFlowAuthLoginGithubGetParams,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -626,8 +644,9 @@ export function useStartGithubFlowAuthLoginGithubGet<
 }
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartGithubFlowAuthLoginGithubGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -652,8 +671,9 @@ export function useStartGithubFlowAuthLoginGithubGet<
 }
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartGithubFlowAuthLoginGithubGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -674,8 +694,9 @@ export function useStartGithubFlowAuthLoginGithubGet<
 
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartGithubFlowAuthLoginGithubGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -690,7 +711,10 @@ export function useStartGithubFlowAuthLoginGithubGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
-  const queryOptions = getStartGithubFlowAuthLoginGithubGetQueryOptions(options)
+  const queryOptions = getStartGithubFlowAuthLoginGithubGetQueryOptions(
+    params,
+    options,
+  )
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
@@ -825,37 +849,49 @@ export const useContinueGithubFlowAuthLoginGithubPost = <
  * @summary Start Gitlab Flow
  */
 export const startGitlabFlowAuthLoginGitlabGet = (
+  params?: StartGitlabFlowAuthLoginGitlabGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/auth/login/gitlab`, options)
+  return axios.get(`/auth/login/gitlab`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
-export const getStartGitlabFlowAuthLoginGitlabGetQueryKey = () => {
-  return [`/auth/login/gitlab`] as const
+export const getStartGitlabFlowAuthLoginGitlabGetQueryKey = (
+  params?: StartGitlabFlowAuthLoginGitlabGetParams,
+) => {
+  return [`/auth/login/gitlab`, ...(params ? [params] : [])] as const
 }
 
 export const getStartGitlabFlowAuthLoginGitlabGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<void>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-      TError,
-      TData
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: StartGitlabFlowAuthLoginGitlabGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}) => {
+    axios?: AxiosRequestConfig
+  },
+) => {
   const { query: queryOptions, axios: axiosOptions } = options ?? {}
 
   const queryKey =
-    queryOptions?.queryKey ?? getStartGitlabFlowAuthLoginGitlabGetQueryKey()
+    queryOptions?.queryKey ??
+    getStartGitlabFlowAuthLoginGitlabGetQueryKey(params)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>
   > = ({ signal }) =>
-    startGitlabFlowAuthLoginGitlabGet({ signal, ...axiosOptions })
+    startGitlabFlowAuthLoginGitlabGet(params, { signal, ...axiosOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
@@ -867,12 +903,14 @@ export const getStartGitlabFlowAuthLoginGitlabGetQueryOptions = <
 export type StartGitlabFlowAuthLoginGitlabGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>
 >
-export type StartGitlabFlowAuthLoginGitlabGetQueryError = AxiosError<void>
+export type StartGitlabFlowAuthLoginGitlabGetQueryError =
+  AxiosError<void | HTTPValidationError>
 
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params: undefined | StartGitlabFlowAuthLoginGitlabGetParams,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -897,8 +935,9 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 }
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartGitlabFlowAuthLoginGitlabGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -923,8 +962,9 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 }
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartGitlabFlowAuthLoginGitlabGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -945,8 +985,9 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartGitlabFlowAuthLoginGitlabGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -961,7 +1002,10 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
-  const queryOptions = getStartGitlabFlowAuthLoginGitlabGetQueryOptions(options)
+  const queryOptions = getStartGitlabFlowAuthLoginGitlabGetQueryOptions(
+    params,
+    options,
+  )
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
@@ -1096,37 +1140,48 @@ export const useContinueGitlabFlowAuthLoginGitlabPost = <
  * @summary Start Gnome Flow
  */
 export const startGnomeFlowAuthLoginGnomeGet = (
+  params?: StartGnomeFlowAuthLoginGnomeGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/auth/login/gnome`, options)
+  return axios.get(`/auth/login/gnome`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
-export const getStartGnomeFlowAuthLoginGnomeGetQueryKey = () => {
-  return [`/auth/login/gnome`] as const
+export const getStartGnomeFlowAuthLoginGnomeGetQueryKey = (
+  params?: StartGnomeFlowAuthLoginGnomeGetParams,
+) => {
+  return [`/auth/login/gnome`, ...(params ? [params] : [])] as const
 }
 
 export const getStartGnomeFlowAuthLoginGnomeGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<void>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-      TError,
-      TData
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: StartGnomeFlowAuthLoginGnomeGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}) => {
+    axios?: AxiosRequestConfig
+  },
+) => {
   const { query: queryOptions, axios: axiosOptions } = options ?? {}
 
   const queryKey =
-    queryOptions?.queryKey ?? getStartGnomeFlowAuthLoginGnomeGetQueryKey()
+    queryOptions?.queryKey ?? getStartGnomeFlowAuthLoginGnomeGetQueryKey(params)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>
   > = ({ signal }) =>
-    startGnomeFlowAuthLoginGnomeGet({ signal, ...axiosOptions })
+    startGnomeFlowAuthLoginGnomeGet(params, { signal, ...axiosOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
@@ -1138,12 +1193,14 @@ export const getStartGnomeFlowAuthLoginGnomeGetQueryOptions = <
 export type StartGnomeFlowAuthLoginGnomeGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>
 >
-export type StartGnomeFlowAuthLoginGnomeGetQueryError = AxiosError<void>
+export type StartGnomeFlowAuthLoginGnomeGetQueryError =
+  AxiosError<void | HTTPValidationError>
 
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params: undefined | StartGnomeFlowAuthLoginGnomeGetParams,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1168,8 +1225,9 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 }
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartGnomeFlowAuthLoginGnomeGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1194,8 +1252,9 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 }
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartGnomeFlowAuthLoginGnomeGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1216,8 +1275,9 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartGnomeFlowAuthLoginGnomeGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1232,7 +1292,10 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
-  const queryOptions = getStartGnomeFlowAuthLoginGnomeGetQueryOptions(options)
+  const queryOptions = getStartGnomeFlowAuthLoginGnomeGetQueryOptions(
+    params,
+    options,
+  )
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
@@ -1358,36 +1421,48 @@ export const useContinueGnomeFlowAuthLoginGnomePost = <
  * @summary Start Kde Flow
  */
 export const startKdeFlowAuthLoginKdeGet = (
+  params?: StartKdeFlowAuthLoginKdeGetParams,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  return axios.get(`/auth/login/kde`, options)
+  return axios.get(`/auth/login/kde`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
 }
 
-export const getStartKdeFlowAuthLoginKdeGetQueryKey = () => {
-  return [`/auth/login/kde`] as const
+export const getStartKdeFlowAuthLoginKdeGetQueryKey = (
+  params?: StartKdeFlowAuthLoginKdeGetParams,
+) => {
+  return [`/auth/login/kde`, ...(params ? [params] : [])] as const
 }
 
 export const getStartKdeFlowAuthLoginKdeGetQueryOptions = <
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<void>,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-      TError,
-      TData
+  TError = AxiosError<void | HTTPValidationError>,
+>(
+  params?: StartKdeFlowAuthLoginKdeGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
+        TError,
+        TData
+      >
     >
-  >
-  axios?: AxiosRequestConfig
-}) => {
+    axios?: AxiosRequestConfig
+  },
+) => {
   const { query: queryOptions, axios: axiosOptions } = options ?? {}
 
   const queryKey =
-    queryOptions?.queryKey ?? getStartKdeFlowAuthLoginKdeGetQueryKey()
+    queryOptions?.queryKey ?? getStartKdeFlowAuthLoginKdeGetQueryKey(params)
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>
-  > = ({ signal }) => startKdeFlowAuthLoginKdeGet({ signal, ...axiosOptions })
+  > = ({ signal }) =>
+    startKdeFlowAuthLoginKdeGet(params, { signal, ...axiosOptions })
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
@@ -1399,12 +1474,14 @@ export const getStartKdeFlowAuthLoginKdeGetQueryOptions = <
 export type StartKdeFlowAuthLoginKdeGetQueryResult = NonNullable<
   Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>
 >
-export type StartKdeFlowAuthLoginKdeGetQueryError = AxiosError<void>
+export type StartKdeFlowAuthLoginKdeGetQueryError =
+  AxiosError<void | HTTPValidationError>
 
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params: undefined | StartKdeFlowAuthLoginKdeGetParams,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -1429,8 +1506,9 @@ export function useStartKdeFlowAuthLoginKdeGet<
 }
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartKdeFlowAuthLoginKdeGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1455,8 +1533,9 @@ export function useStartKdeFlowAuthLoginKdeGet<
 }
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartKdeFlowAuthLoginKdeGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1477,8 +1556,9 @@ export function useStartKdeFlowAuthLoginKdeGet<
 
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
-  TError = AxiosError<void>,
+  TError = AxiosError<void | HTTPValidationError>,
 >(
+  params?: StartKdeFlowAuthLoginKdeGetParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -1493,7 +1573,10 @@ export function useStartKdeFlowAuthLoginKdeGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 } {
-  const queryOptions = getStartKdeFlowAuthLoginKdeGetQueryOptions(options)
+  const queryOptions = getStartKdeFlowAuthLoginKdeGetQueryOptions(
+    params,
+    options,
+  )
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

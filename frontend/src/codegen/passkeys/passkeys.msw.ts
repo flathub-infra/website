@@ -14,6 +14,7 @@ import type {
   PasskeyLoginResult,
   PasskeyOptions,
   PasskeySummary,
+  ReauthenticationResult,
 } from "../model"
 
 export const getListPasskeysAuthPasskeysGetResponseMock = (
@@ -31,7 +32,6 @@ export const getListPasskeysAuthPasskeysGetResponseMock = (
       null,
     ]),
   })),
-  recent_authentication: faker.datatype.boolean(),
   ...overrideResponse,
 })
 
@@ -91,6 +91,32 @@ export const getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostR
   ): PasskeyLoginResult => ({
     status: faker.string.alpha({ length: { min: 10, max: 20 } }),
     return_to: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    ...overrideResponse,
+  })
+
+export const getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<PasskeyOptions, object>> = {},
+  ): PasskeyOptions => ({
+    challenge_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    options: {
+      [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+        faker.datatype.boolean(),
+        faker.number.int(),
+        faker.number.float({ fractionDigits: 2 }),
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        [],
+        null,
+      ]),
+    },
+    ...overrideResponse,
+  })
+
+export const getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<ReauthenticationResult, object>> = {},
+  ): ReauthenticationResult => ({
+    status: faker.string.alpha({ length: { min: 10, max: 20 } }),
     ...overrideResponse,
   })
 
@@ -231,6 +257,56 @@ export const getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostM
     )
   }
 
+export const getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMockHandler =
+  (
+    overrideResponse?:
+      | PasskeyOptions
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<PasskeyOptions> | PasskeyOptions),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/auth/passkeys/reauthentication/options",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMockHandler =
+  (
+    overrideResponse?:
+      | ReauthenticationResult
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<ReauthenticationResult> | ReauthenticationResult),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/auth/passkeys/reauthentication/verify",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
 export const getRenamePasskeyAuthPasskeysPasskeyIdPatchMockHandler = (
   overrideResponse?:
     | PasskeySummary
@@ -281,6 +357,8 @@ export const getPasskeysMock = () => [
   getPasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMockHandler(),
   getPasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMockHandler(),
   getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMockHandler(),
+  getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMockHandler(),
+  getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMockHandler(),
   getRenamePasskeyAuthPasskeysPasskeyIdPatchMockHandler(),
   getDeletePasskeyAuthPasskeysPasskeyIdDeleteMockHandler(),
 ]

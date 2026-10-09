@@ -30,10 +30,13 @@ import type {
   PasskeyList,
   PasskeyLoginResult,
   PasskeyOptions,
+  PasskeyReauthenticationOptionsRequest,
+  PasskeyReauthenticationVerifyRequest,
   PasskeyRegistrationOptionsRequest,
   PasskeyRegistrationVerifyRequest,
   PasskeyRenameRequest,
   PasskeySummary,
+  ReauthenticationResult,
 } from "../model"
 
 const withQueryKey = <T extends object, K>(
@@ -665,6 +668,240 @@ export const usePasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPost 
   > => {
     return useMutation(
       getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationOptions(
+        options,
+      ),
+      queryClient,
+    )
+  }
+/**
+ * @summary Passkey Reauthentication Options
+ */
+export const passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost =
+  (
+    passkeyReauthenticationOptionsRequest: PasskeyReauthenticationOptionsRequest,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<PasskeyOptions>> => {
+    return axios.post(
+      `/auth/passkeys/reauthentication/options`,
+      passkeyReauthenticationOptionsRequest,
+      options,
+    )
+  }
+
+export const getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost
+        >
+      >,
+      TError,
+      { data: PasskeyReauthenticationOptionsRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost
+      >
+    >,
+    TError,
+    { data: PasskeyReauthenticationOptionsRequest },
+    TContext
+  > => {
+    const mutationKey = [
+      "passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost
+        >
+      >,
+      { data: PasskeyReauthenticationOptionsRequest }
+    > = (props) => {
+      const { data } = props ?? {}
+
+      return passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost(
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost
+      >
+    >
+  >
+export type PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationBody =
+  PasskeyReauthenticationOptionsRequest
+export type PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Passkey Reauthentication Options
+ */
+export const usePasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost
+          >
+        >,
+        TError,
+        { data: PasskeyReauthenticationOptionsRequest },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost
+      >
+    >,
+    TError,
+    { data: PasskeyReauthenticationOptionsRequest },
+    TContext
+  > => {
+    return useMutation(
+      getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationOptions(
+        options,
+      ),
+      queryClient,
+    )
+  }
+/**
+ * @summary Passkey Reauthentication Verify
+ */
+export const passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost =
+  (
+    passkeyReauthenticationVerifyRequest: PasskeyReauthenticationVerifyRequest,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<ReauthenticationResult>> => {
+    return axios.post(
+      `/auth/passkeys/reauthentication/verify`,
+      passkeyReauthenticationVerifyRequest,
+      options,
+    )
+  }
+
+export const getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost
+        >
+      >,
+      TError,
+      { data: PasskeyReauthenticationVerifyRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost
+      >
+    >,
+    TError,
+    { data: PasskeyReauthenticationVerifyRequest },
+    TContext
+  > => {
+    const mutationKey = [
+      "passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost
+        >
+      >,
+      { data: PasskeyReauthenticationVerifyRequest }
+    > = (props) => {
+      const { data } = props ?? {}
+
+      return passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost(
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost
+      >
+    >
+  >
+export type PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationBody =
+  PasskeyReauthenticationVerifyRequest
+export type PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Passkey Reauthentication Verify
+ */
+export const usePasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost
+          >
+        >,
+        TError,
+        { data: PasskeyReauthenticationVerifyRequest },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost
+      >
+    >,
+    TError,
+    { data: PasskeyReauthenticationVerifyRequest },
+    TContext
+  > => {
+    return useMutation(
+      getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationOptions(
         options,
       ),
       queryClient,
