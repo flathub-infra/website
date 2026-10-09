@@ -10,6 +10,7 @@ from uuid import uuid4
 from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy import (
+    BigInteger,
     Boolean,
     CheckConstraint,
     Date,
@@ -19,6 +20,7 @@ from sqlalchemy import (
     Identity,
     Index,
     Integer,
+    LargeBinary,
     String,
     Table,
     and_,
@@ -160,6 +162,9 @@ class FlathubUser(Base):
 
     invite_code: Mapped[str | None] = mapped_column(
         String, nullable=True, unique=True, index=True
+    )
+    webauthn_user_handle: Mapped[bytes | None] = mapped_column(
+        LargeBinary(64), nullable=True, unique=True
     )
 
     roles: Mapped[list["Role"]] = relationship(
@@ -1227,6 +1232,54 @@ class EmailLoginChallenge(Base):
     consumed_at: Mapped[datetime | None] = mapped_column(DateTime)
     locale: Mapped[str] = mapped_column(String, nullable=False)
     return_to: Mapped[str] = mapped_column(String, nullable=False)
+
+
+class PasskeyCredential(Base):
+    __tablename__ = "passkeycredential"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user: Mapped[int] = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    credential_id: Mapped[bytes] = mapped_column(
+        LargeBinary, nullable=False, unique=True
+    )
+    public_key: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
+    sign_count: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    transports: Mapped[list[str]] = mapped_column(JSONB, nullable=False)
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    last_used_at: Mapped[datetime | None] = mapped_column(DateTime)
+
+    @staticmethod
+    def all_by_user(db, user: FlathubUser) -> list["PasskeyCredential"]:
+        return (
+            db.session.query(PasskeyCredential)
+            .filter_by(user=user.id)
+            .order_by(PasskeyCredential.id)
+            .all()
+        )
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        hasher.add_string(
+            json.dumps(
+                [
+                    [credential.id, credential.name]
+                    for credential in PasskeyCredential.all_by_user(db, user)
+                ]
+            )
+        )
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        db.session.execute(
+            delete(PasskeyCredential).where(PasskeyCredential.user == user.id)
+        )
+        user.webauthn_user_handle = None
+
+
+FlathubUser.TABLES_FOR_DELETE.append(PasskeyCredential)
 
 
 ConnectedAccountTables = [

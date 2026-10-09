@@ -50,6 +50,7 @@ def isolated_email_db(monkeypatch):
         "flathubuser_role",
         "directuploadappdeveloper",
         "appverification",
+        "passkeycredential",
     )
     with admin.begin() as connection:
         connection.execute(text(f"CREATE SCHEMA {schema}"))
@@ -59,7 +60,12 @@ def isolated_email_db(monkeypatch):
                     f"CREATE TABLE {schema}.{table} (LIKE public.{table} INCLUDING ALL)"
                 )
             )
-        for table in ("flathubuser", "emailaccount", "emailloginchallenge"):
+        for table in (
+            "flathubuser",
+            "emailaccount",
+            "emailloginchallenge",
+            "passkeycredential",
+        ):
             connection.execute(text(f"CREATE SEQUENCE {schema}.{table}_id_seq"))
             connection.execute(
                 text(
@@ -733,3 +739,76 @@ def test_display_name_follows_provider_until_user_saves_one(
         info = client.get("/auth/userinfo").json()
         assert info["default_account"]["provider"] == "github"
         assert info["displayname"] == "Chosen"
+
+
+def test_passkey_storage_changes_deletion_token_and_is_removed(
+    isolated_email_db, monkeypatch
+):
+    writer, engine = isolated_email_db
+    monkeypatch.setattr(
+        models.FlathubUser,
+        "TABLES_FOR_DELETE",
+        [models.EmailAccount, models.PasskeyCredential],
+    )
+    user = add_user(writer, "email", None)
+    other = add_user(writer, "email", None)
+
+    def token(user_id):
+        with writer() as db:
+            return models.FlathubUser.generate_token(
+                db, db.session.get(models.FlathubUser, user_id)
+            )
+
+    def add_passkey(user_id, name):
+        with writer() as db:
+            credential = models.PasskeyCredential(
+                user=user_id,
+                credential_id=secrets.token_bytes(32),
+                public_key=b"public",
+                sign_count=0,
+                transports=["internal"],
+                name=name,
+                created_at=utcnow(),
+            )
+            db.session.add(credential)
+            db.session.get(
+                models.FlathubUser, user_id
+            ).webauthn_user_handle = secrets.token_bytes(64)
+        return credential.id
+
+    initial = token(user.id)
+    first = add_passkey(user.id, "Laptop")
+    added = token(user.id)
+    other_passkey = add_passkey(other.id, "Other")
+    assert initial != added
+
+    with writer() as db:
+        credential = db.session.get(models.PasskeyCredential, first)
+        credential.sign_count = 7
+        credential.last_used_at = utcnow()
+    assert token(user.id) == added
+
+    with writer() as db:
+        db.session.get(models.PasskeyCredential, first).name = "Phone"
+    renamed = token(user.id)
+    assert renamed != added
+
+    with writer() as db:
+        db.session.delete(db.session.get(models.PasskeyCredential, first))
+    assert token(user.id) not in (added, renamed)
+
+    add_passkey(user.id, "Key")
+    with writer() as db:
+        stored = db.session.get(models.FlathubUser, user.id)
+        models.FlathubUser.delete_user(
+            db, stored, models.FlathubUser.generate_token(db, stored)
+        )
+    with Session(engine) as session:
+        assert session.get(models.FlathubUser, user.id).webauthn_user_handle is None
+        assert (
+            session.scalar(
+                select(func.count()).where(models.PasskeyCredential.user == user.id)
+            )
+            == 0
+        )
+        assert session.get(models.PasskeyCredential, other_passkey) is not None
