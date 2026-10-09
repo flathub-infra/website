@@ -2,6 +2,7 @@ import { FunctionComponent, useState, createElement } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import clsx from "clsx"
 import { ScaleIcon, Users2Icon, FileTextIcon, Monitor } from "lucide-react"
+import { isDesktopAppstreamTypeGuard } from "@/lib/helpers"
 import { calculateHumanReadableSize } from "../../../size"
 import { getIntlLocale } from "../../../localize"
 import {
@@ -54,6 +55,13 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
       : 0
 
   const isMobileFriendly = "isMobileFriendly" in app && !!app.isMobileFriendly
+  const deviceRequirements = isDesktopAppstreamTypeGuard(app)
+    ? {
+        requires: app.requires,
+        recommends: app.recommends,
+        supports: app.supports,
+      }
+    : {}
 
   const licenseType =
     !app.project_license ||
@@ -269,6 +277,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
         onClose={() => setPlatformOpen(false)}
         appName={app.name}
         isMobileFriendly={isMobileFriendly}
+        {...deviceRequirements}
       />
 
       <StatsModal
