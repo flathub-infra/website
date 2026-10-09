@@ -2376,6 +2376,21 @@ class ModerationRequest(Base):
     )
 
 
+class SummaryDecision(Base):
+    __tablename__ = "summarydecision"
+
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(String, nullable=False, index=True)
+    build_id = mapped_column(Integer, nullable=False)
+    job_id = mapped_column(Integer, nullable=False)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    old_summary = mapped_column(String, nullable=False)
+    new_summary = mapped_column(String, nullable=False)
+    model = mapped_column(String, nullable=False)
+    answers = mapped_column(JSONB, nullable=False)
+    approved = mapped_column(Boolean, nullable=False, index=True)
+
+
 class ModerationOriginAllowlist(Base):
     __tablename__ = "moderationoriginallowlist"
 

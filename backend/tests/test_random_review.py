@@ -1569,10 +1569,18 @@ def _summary_change_harness(
     return harness
 
 
+def _moderation_requests(harness):
+    return [
+        request
+        for request in harness.db.session.persisted
+        if isinstance(request, models.ModerationRequest)
+    ]
+
+
 def _appdata_keys(harness):
     return [
         json.loads(request.request_data)["keys"]
-        for request in harness.db.session.persisted
+        for request in _moderation_requests(harness)
         if request.request_type == ModerationRequestType.APPDATA
     ]
 
@@ -1583,29 +1591,45 @@ def test_approved_summary_rewrite_needs_no_review(monkeypatch):
     result = harness.call()
 
     assert result.requires_review is False
-    assert harness.db.session.persisted == []
+    [decision] = harness.db.session.persisted
+    assert isinstance(decision, models.SummaryDecision)
+    assert (decision.app_id, decision.build_id, decision.approved) == (
+        "org.example.App",
+        harness.build_id,
+        True,
+    )
+    assert decision.model == "jev-1.13.0"
+    assert (decision.old_summary, decision.new_summary) == (_OLD_SUMMARY, _NEW_SUMMARY)
 
 
 @pytest.mark.parametrize(
-    "post",
+    ("post", "recorded"),
     [
         pytest.param(
             decision_post(decision_reply(choice="needs_review", benign=0.1)),
+            [False],
             id="held",
         ),
-        pytest.param(decision_post(status_code=429), id="rate-limited"),
+        pytest.param(decision_post(status_code=429), [], id="rate-limited"),
         pytest.param(
-            decision_post(decision_reply(same_app="0.95")), id="malformed-answer"
+            decision_post(decision_reply(same_app="0.95")),
+            [],
+            id="malformed-answer",
         ),
     ],
 )
-def test_unapproved_summary_rewrite_requests_review(monkeypatch, post):
+def test_unapproved_summary_rewrite_requests_review(monkeypatch, post, recorded):
     harness = _summary_change_harness(monkeypatch, post)
 
     result = harness.call()
 
     assert result.requires_review is True
     assert _appdata_keys(harness) == [{"summary": _NEW_SUMMARY}]
+    assert [
+        request.approved
+        for request in harness.db.session.persisted
+        if isinstance(request, models.SummaryDecision)
+    ] == recorded
 
 
 def test_callback_retry_keeps_queued_summary_review(monkeypatch):
@@ -1637,7 +1661,7 @@ def test_approved_summary_keeps_permission_review(monkeypatch):
     result = harness.call()
 
     assert result.requires_review is True
-    assert [request.request_type for request in harness.db.session.persisted] == [
+    assert [request.request_type for request in _moderation_requests(harness)] == [
         ModerationRequestType.SUMMARY
     ]
 
@@ -1695,8 +1719,8 @@ def test_approved_summary_keeps_random_review(monkeypatch):
     result = harness.call()
 
     assert result.requires_review is True
-    assert len(harness.db.session.persisted) == 1
-    assert _is_marker(harness.db.session.persisted[0])
+    [request] = _moderation_requests(harness)
+    assert _is_marker(request)
 
 
 @pytest.mark.parametrize(

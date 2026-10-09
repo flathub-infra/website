@@ -60,7 +60,7 @@ def _timeout(url, **kwargs):
 def test_decision_thresholds(monkeypatch, scores, approved):
     enable_decisions(monkeypatch, decision_post(decision_reply(**scores)))
 
-    assert _decide() is approved
+    assert _decide().approved is approved
 
 
 @pytest.mark.parametrize(
@@ -97,7 +97,7 @@ def test_decision_failure_retains_review(monkeypatch, post):
             config.settings, "decisions_api", "https://decisions.example:port/v1"
         )
 
-    assert _decide() is False
+    assert _decide() is None
 
 
 @pytest.mark.parametrize(
@@ -120,4 +120,4 @@ def test_unconfigured_decision_skips_request(monkeypatch, settings, summaries):
     for name, value in settings.items():
         monkeypatch.setattr(config.settings, name, value)
 
-    assert _decide(**summaries) is False
+    assert _decide(**summaries) is None

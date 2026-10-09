@@ -2,7 +2,7 @@ import logging
 
 import httpx
 
-from .. import config, http_client
+from .. import config, http_client, models
 from ..types import JSONValue, is_json_object
 
 logger = logging.getLogger(__name__)
@@ -108,7 +108,7 @@ def auto_approve_summary_change(
     new_summary: str,
     build_id: int,
     job_id: int,
-) -> bool:
+) -> models.SummaryDecision | None:
     endpoint = config.settings.decisions_api
     api_key = config.settings.decisions_api_key
     requested_model = config.settings.decisions_model
@@ -120,7 +120,7 @@ def auto_approve_summary_change(
             for value in (endpoint, api_key, requested_model, old_summary, new_summary)
         )
     ):
-        return False
+        return None
 
     try:
         response = http_client.post(
@@ -151,7 +151,7 @@ def auto_approve_summary_change(
                 "error_type": type(exc).__name__,
             },
         )
-        return False
+        return None
 
     logger.info(
         "Evaluated summary change for app",
@@ -165,4 +165,13 @@ def auto_approve_summary_change(
             "decision": "auto_approve" if approve else "human_review",
         },
     )
-    return approve
+    return models.SummaryDecision(
+        app_id=app_id,
+        build_id=build_id,
+        job_id=job_id,
+        old_summary=old_summary,
+        new_summary=new_summary,
+        model=model,
+        answers=answers,
+        approved=approve,
+    )

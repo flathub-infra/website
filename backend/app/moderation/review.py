@@ -1486,6 +1486,7 @@ def submit_review_request(
 
     new_requests: list[models.ModerationRequest] = []
     persisted_requests: list[models.ModerationRequest] = []
+    summary_decision_records: list[models.SummaryDecision] = []
     analysis_observations: dict[str, dict[str, JSONValue]] = {}
     new_observation_app_ids: set[str] = set()
     manifest_newly_actionable_requests: list[models.ModerationRequest] = []
@@ -2078,7 +2079,8 @@ def submit_review_request(
                 and not _has_appdata_request(
                     app_id, review_request.build_id, review_request.job_id
                 )
-                and summary_decisions.auto_approve_summary_change(
+            ):
+                summary_decision = summary_decisions.auto_approve_summary_change(
                     app_id=app_id,
                     app_name=app_name if isinstance(app_name, str) else None,
                     old_summary=old_summary,
@@ -2086,8 +2088,10 @@ def submit_review_request(
                     build_id=review_request.build_id,
                     job_id=review_request.job_id,
                 )
-            ):
-                keys.pop("summary")
+                if summary_decision is not None:
+                    summary_decision_records.append(summary_decision)
+                    if summary_decision.approved:
+                        keys.pop("summary")
         if len(keys) > 0:
             keys = sort_lists_in_dict(keys)
             current_values = sort_lists_in_dict(current_values)
@@ -2483,11 +2487,18 @@ def submit_review_request(
 
         for request in persisted_requests:
             db.session.add(request)
+        for decision in summary_decision_records:
+            db.session.add(decision)
         _upsert_manifest_analysis_observations(
             db.session,
             list(analysis_observations.values()),
         )
-        if persisted_requests or analysis_observations or outdated_count:
+        if (
+            persisted_requests
+            or summary_decision_records
+            or analysis_observations
+            or outdated_count
+        ):
             db.session.commit()
 
     if config.settings.moderation_observe_only:
