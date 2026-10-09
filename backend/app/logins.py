@@ -1970,7 +1970,11 @@ def passkey_registration_options(
         user = _lock_passkey_user(db, request, login.user.id)
         if user.webauthn_user_handle is None:
             user.webauthn_user_handle = secrets.token_bytes(64)
-        user_name = f"user-{user.id}"
+        account = user.get_default_account(db)
+        if isinstance(account, models.EmailAccount):
+            user_name = account.email
+        else:
+            user_name = (account.login if account else None) or f"user-{user.id}"
         options = generate_registration_options(
             rp_id=rp_id,
             rp_name="Flathub",

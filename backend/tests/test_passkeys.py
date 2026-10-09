@@ -311,6 +311,17 @@ def test_enrollment_keeps_identity_and_cannot_move_credentials(env):
         assert len(options["excludeCredentials"]) == 2
         assert options["authenticatorSelection"]["residentKey"] == "required"
         assert options["authenticatorSelection"]["userVerification"] == "required"
+        with Session(env.engine) as session:
+            expected = session.scalar(
+                select(models.EmailAccount.email).where(
+                    models.EmailAccount.user == user.id
+                )
+            )
+        expected = expected or "provider-login"
+        assert (options["user"]["name"], options["user"]["displayName"]) == (
+            expected,
+            user.display_name or expected,
+        )
 
     duplicate = enroll(env.fresh(github_user.id, "github"), shared)
     assert duplicate.status_code == 409
