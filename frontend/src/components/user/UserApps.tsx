@@ -7,19 +7,23 @@ import Spinner from "../Spinner"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Pagination from "../Pagination"
 import { doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost } from "src/codegen"
+import type { GetAppstreamAppstreamAppIdGet200 } from "src/codegen/model/getAppstreamAppstreamAppIdGet200"
+import type { AppstreamListItem } from "../../types/Appstream"
 
 interface Props {
   variant: "dev" | "owned" | "invited"
   customButtons?: JSX.Element
   locale: string
-  topContent?: JSX.Element
+  renderItemAction?: (
+    application: GetAppstreamAppstreamAppIdGet200 | AppstreamListItem,
+  ) => JSX.Element
 }
 
 const UserApps: FunctionComponent<Props> = ({
   variant,
   customButtons,
   locale,
-  topContent,
+  renderItemAction,
 }) => {
   const t = useTranslations()
   const user = useUserContext()
@@ -99,9 +103,7 @@ const UserApps: FunctionComponent<Props> = ({
         showRuntime
         showEolBadge
         link={link}
-        // forward topContent to the underlying Collection component
-        // so it renders below the title/header
-        {...(topContent ? { topContent } : {})}
+        renderItemAction={renderItemAction}
       />
       <Pagination currentPage={page} pages={pages} onClick={setPage} />
     </>

@@ -132,13 +132,7 @@ const News = ({ feed }: { feed: DocusaurusFeed }) => {
   )
 }
 
-const DeveloperApps = ({
-  locale,
-  topContent,
-}: {
-  locale: string
-  topContent?: JSX.Element
-}) => {
+const DeveloperApps = ({ locale }: { locale: string }) => {
   const t = useTranslations()
   const user = useUserContext()
 
@@ -150,7 +144,9 @@ const DeveloperApps = ({
     <UserApps
       locale={locale}
       variant="dev"
-      topContent={topContent}
+      renderItemAction={(application) => (
+        <DeveloperStats application={application} />
+      )}
       customButtons={
         (!IS_PRODUCTION ||
           user.info?.permissions.some((a) => a === Permission.moderation)) && (
@@ -190,7 +186,7 @@ const DeveloperPortalClient = ({
           </h1>
           <div className="space-y-12 w-full">
             <News feed={feed} />
-            <DeveloperApps locale={locale} topContent={<DeveloperStats />} />
+            <DeveloperApps locale={locale} />
             <InviteCode locale={locale} />
             <AcceptingPayment />
           </div>

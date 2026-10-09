@@ -892,8 +892,8 @@
   "developer-portal": {
     "title": "Developer Portal",
     "runtime-version": "Runtime: {version}",
-    "downloads-last-week": "Downloads · last 7 days",
-    "downloads-across-apps": "Combined installs across your applications",
+    "downloads-last-month": "Downloads last month",
+    "downloads-last-month-count": "Downloads last month: {count}",
     "downloads-unavailable": "Download totals are temporarily unavailable."
   },
   "vending": {
