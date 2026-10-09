@@ -5,6 +5,13 @@ import Links from "./Links"
 const meta = {
   component: Links,
   title: "Components/Application/Links",
+  decorators: [
+    (Story) => (
+      <div className="max-w-xl overflow-hidden rounded-xl bg-flathub-white dark:bg-flathub-arsenic">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Links>
 
 export default meta
