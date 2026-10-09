@@ -168,7 +168,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
         </div>
         <div className="flex flex-1 flex-col">
           <div className="flex items-center gap-2">
-            <span className="font-semibold">{t("email-login-with-email")}</span>
+            <span className="font-semibold">{t("email-account")}</span>
             {isEmailDefault && (
               <span className="rounded bg-flathub-celestial-blue px-2 py-0.5 text-xs font-medium text-white dark:bg-flathub-celestial-blue">
                 {t("default-account")}

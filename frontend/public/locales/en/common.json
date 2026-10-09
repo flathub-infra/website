@@ -913,6 +913,7 @@
     "none-money": "Contains no advertising or monetary transactions"
   },
   "email-login-with-email": "Sign in with email",
+  "email-account": "Email",
   "user-login-heading": "Sign in to Flathub",
   "user-login-intro": "Enter your email and we’ll send you a sign-in link. No password needed.",
   "user-login-unavailable": "Email sign-in is currently unavailable. Please try again later.",
