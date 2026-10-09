@@ -2191,7 +2191,6 @@ def rename_passkey(
 )
 @cache.no_store
 def delete_passkey(passkey_id: int, request: Request, login: LoggedInDep) -> None:
-    _require_recent_authentication(request)
     with get_db("writer") as db:
         user = _lock_passkey_user(db, request, login.user.id)
         _require_recent_authentication(request)
