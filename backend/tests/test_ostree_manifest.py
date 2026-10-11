@@ -629,6 +629,18 @@ def source_findings(candidate, published, *, arch="x86_64"):
                 source(url="https://gitlab.gnome.org/gnome/glib/-/archive/v1.tar"),
             ),
         ),
+        (
+            source_manifest(
+                source(
+                    url="https://gitlab.com/api/v4/projects/48404603/packages/generic/pipeline/4.1.1/tubefeeder-4.1.1.tar.xz"
+                )
+            ),
+            source_manifest(
+                source(
+                    url="https://gitlab.com/api/v4/projects/48404603/packages/generic/pipeline/4.1.0/tubefeeder-4.1.0.tar.xz"
+                )
+            ),
+        ),
     ],
 )
 def test_manifest_changes_without_source_identity_changes_do_not_gate(
@@ -769,6 +781,12 @@ def test_source_move_to_existing_identity_still_reports_removed_repository():
             "https://invent.kde.org/frameworks/kio/-/archive/v1/archive.tar",
             ("https://invent.kde.org/frameworks/kio-fork",),
             ("https://invent.kde.org/frameworks/kio",),
+        ),
+        (
+            "https://gitlab.com/api/v4/projects/2/packages/generic/app/1/app.tar",
+            "https://gitlab.com/api/v4/projects/1/packages/generic/app/1/app.tar",
+            ("https://gitlab.com/api/v4/projects/2",),
+            ("https://gitlab.com/api/v4/projects/1",),
         ),
         (
             "https://codeberg.org/fork/bar/archive/v2.tar",

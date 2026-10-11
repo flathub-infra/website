@@ -130,6 +130,8 @@ def normalize_manifest_source_url(
 
     if hostname in _FIXED_NAMESPACE_FORGES:
         repository_segments = segments[:2]
+    elif segments[:3] == ["api", "v4", "projects"] and len(segments) > 3:
+        repository_segments = segments[:4]
     else:
         delimiter = segments.index("-") if "-" in segments else len(segments)
         repository_segments = segments[:delimiter]
