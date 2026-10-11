@@ -47,7 +47,9 @@ const CurrencyInput: FunctionComponent<Props> = ({
   const handleChange = useCallback(
     (event: FormEvent<HTMLInputElement>) => {
       // Prevent entering negatives or fractional cents
-      if (event.currentTarget.validity.patternMismatch) return
+      if (event.currentTarget.validity.patternMismatch) {
+        return
+      }
 
       // Don't enforce futher validation on users input
       const text = event.currentTarget.value

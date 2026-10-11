@@ -106,7 +106,9 @@ export function AppHeader({
   const isOwned = user.info?.owned_flatpaks?.includes(app.id) ?? false
 
   const donateClicked = (e) => {
-    if (!app.urls?.donation) return
+    if (!app.urls?.donation) {
+      return
+    }
 
     e.preventDefault()
     trackEvent({ category: "App", action: "Donate", name: app.id })

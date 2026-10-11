@@ -38,7 +38,9 @@ export async function getOgImageDataUrl(
     const response = await fetch(
       getOgImageUrl(src, width, height, resizingType),
     )
-    if (!response.ok) return undefined
+    if (!response.ok) {
+      return undefined
+    }
 
     const contentType = response.headers.get("content-type") ?? "image/png"
     const data = Buffer.from(await response.arrayBuffer()).toString("base64")

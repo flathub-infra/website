@@ -127,7 +127,9 @@ const Header = () => {
 
   const onLogout = () => {
     // Only make a request on first logout click
-    if (clickedLogout) return
+    if (clickedLogout) {
+      return
+    }
     setClickedLogout(true)
 
     logoutMutation.mutate()

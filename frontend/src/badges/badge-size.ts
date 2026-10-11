@@ -38,7 +38,11 @@ export const BADGE_SIZES = {
 } as const satisfies Record<BadgeSize, Record<string, number>>
 
 export function parseBadgeSize(value: string | null): BadgeSize | null {
-  if (value === null || value === "default") return "default"
-  if (value === "padded") return "padded"
+  if (value === null || value === "default") {
+    return "default"
+  }
+  if (value === "padded") {
+    return "padded"
+  }
   return null
 }

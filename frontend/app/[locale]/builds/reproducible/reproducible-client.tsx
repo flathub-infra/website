@@ -184,8 +184,11 @@ function FleetContent() {
   const update = (changes: Record<string, string>) => {
     const params = new URLSearchParams(searchParams.toString())
     for (const [key, value] of Object.entries(changes)) {
-      if (value) params.set(key, value)
-      else params.delete(key)
+      if (value) {
+        params.set(key, value)
+      } else {
+        params.delete(key)
+      }
     }
     router.push(params.size ? `${pathname}?${params}` : pathname)
   }
@@ -267,7 +270,9 @@ function FleetContent() {
               value={draft}
               onChange={(event) => setDraft(event.target.value)}
               onKeyDown={(event) => {
-                if (event.key === "Enter") update({ appId: draft.trim() })
+                if (event.key === "Enter") {
+                  update({ appId: draft.trim() })
+                }
               }}
             />
           </Field>

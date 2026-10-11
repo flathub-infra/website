@@ -57,7 +57,9 @@ const ReauthDialog = ({ shown, onReauthenticated, onCancelled }: Props) => {
   const generation = useRef(0)
 
   useEffect(() => {
-    if (!shown) return
+    if (!shown) {
+      return
+    }
     const current = ++generation.current
 
     Promise.all([
@@ -65,7 +67,9 @@ const ReauthDialog = ({ shown, onReauthenticated, onCancelled }: Props) => {
       listPasskeysAuthPasskeysGet(credentials),
     ])
       .then(([providers, passkeys]) => {
-        if (generation.current !== current) return
+        if (generation.current !== current) {
+          return
+        }
         setMethods({ providers: providers.data, passkeys: passkeys.data })
       })
       .catch(() => {
@@ -74,7 +78,9 @@ const ReauthDialog = ({ shown, onReauthenticated, onCancelled }: Props) => {
         }
       })
       .finally(() => {
-        if (generation.current === current) setLoading(false)
+        if (generation.current === current) {
+          setLoading(false)
+        }
       })
 
     return () => {
@@ -88,7 +94,9 @@ const ReauthDialog = ({ shown, onReauthenticated, onCancelled }: Props) => {
   }
 
   const authenticatePasskey = async () => {
-    if (busy) return
+    if (busy) {
+      return
+    }
     const current = generation.current
     setBusy(true)
     setStatus(null)
@@ -98,12 +106,16 @@ const ReauthDialog = ({ shown, onReauthenticated, onCancelled }: Props) => {
           {},
           credentials,
         )
-      if (generation.current !== current) return
+      if (generation.current !== current) {
+        return
+      }
       const credential = await startAuthentication({
         optionsJSON: options.data
           .options as unknown as PublicKeyCredentialRequestOptionsJSON,
       })
-      if (generation.current !== current) return
+      if (generation.current !== current) {
+        return
+      }
       await passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost(
         {
           challenge_id: options.data.challenge_id,
@@ -112,9 +124,13 @@ const ReauthDialog = ({ shown, onReauthenticated, onCancelled }: Props) => {
         },
         credentials,
       )
-      if (generation.current === current) onReauthenticated()
+      if (generation.current === current) {
+        onReauthenticated()
+      }
     } catch (error) {
-      if (generation.current !== current) return
+      if (generation.current !== current) {
+        return
+      }
       const responseStatus = isAxiosError(error)
         ? error.response?.status
         : undefined
@@ -128,12 +144,16 @@ const ReauthDialog = ({ shown, onReauthenticated, onCancelled }: Props) => {
         setStatus(t("passkey-login-failed"))
       }
     } finally {
-      if (generation.current === current) setBusy(false)
+      if (generation.current === current) {
+        setBusy(false)
+      }
     }
   }
 
   const authenticateEmail = async () => {
-    if (busy || !user.info?.email_login?.enabled) return
+    if (busy || !user.info?.email_login?.enabled) {
+      return
+    }
     const current = generation.current
     setBusy(true)
     setStatus(null)
@@ -142,18 +162,24 @@ const ReauthDialog = ({ shown, onReauthenticated, onCancelled }: Props) => {
         { email: user.info.email_login.email, locale, return_to: pathname },
         credentials,
       )
-      if (generation.current === current) setEmailSent(true)
+      if (generation.current === current) {
+        setEmailSent(true)
+      }
     } catch {
       if (generation.current === current) {
         setStatus(t("network-error-try-again"))
       }
     } finally {
-      if (generation.current === current) setBusy(false)
+      if (generation.current === current) {
+        setBusy(false)
+      }
     }
   }
 
   const signOut = async () => {
-    if (busy) return
+    if (busy) {
+      return
+    }
     const current = generation.current
     setBusy(true)
     setStatus(null)
@@ -162,7 +188,9 @@ const ReauthDialog = ({ shown, onReauthenticated, onCancelled }: Props) => {
         method: "POST",
         credentials: "include",
       })
-      if (!response.ok) throw new Error("Logout failed")
+      if (!response.ok) {
+        throw new Error("Logout failed")
+      }
       dispatch({ type: "logout" })
       cancel()
       router.push(`/login?returnTo=${encodeURIComponent(pathname)}`)
@@ -171,7 +199,9 @@ const ReauthDialog = ({ shown, onReauthenticated, onCancelled }: Props) => {
         setStatus(t("network-error-try-again"))
       }
     } finally {
-      if (generation.current === current) setBusy(false)
+      if (generation.current === current) {
+        setBusy(false)
+      }
     }
   }
 

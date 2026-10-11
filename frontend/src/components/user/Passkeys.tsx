@@ -98,7 +98,9 @@ const Passkeys = (): JSX.Element => {
   const add = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const trimmed = name.trim()
-    if (busy || !trimmed) return
+    if (busy || !trimmed) {
+      return
+    }
     setBusy(true)
     setStatus(null)
     try {
@@ -108,7 +110,9 @@ const Passkeys = (): JSX.Element => {
           withCredentials,
         ),
       )
-      if (options === undefined) return
+      if (options === undefined) {
+        return
+      }
       const credential = await startRegistration({
         optionsJSON: options.data
           .options as unknown as PublicKeyCredentialCreationOptionsJSON,
@@ -134,7 +138,9 @@ const Passkeys = (): JSX.Element => {
 
   const rename = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (busy || renaming === null || !renaming.name.trim()) return
+    if (busy || renaming === null || !renaming.name.trim()) {
+      return
+    }
     setBusy(true)
     setStatus(null)
     try {
@@ -154,7 +160,9 @@ const Passkeys = (): JSX.Element => {
   }
 
   const remove = async () => {
-    if (busy || removing === null) return
+    if (busy || removing === null) {
+      return
+    }
     const passkeyId = removing.id
     setRemoving(null)
     setBusy(true)
@@ -163,10 +171,14 @@ const Passkeys = (): JSX.Element => {
       const deleted = await withReauth(() =>
         deletePasskeyAuthPasskeysPasskeyIdDelete(passkeyId, withCredentials),
       )
-      if (deleted === undefined) return
+      if (deleted === undefined) {
+        return
+      }
       setStatus(t("passkey-removed"))
       const refreshed = await passkeys.refetch()
-      if (refreshed.error) await fail(refreshed.error)
+      if (refreshed.error) {
+        await fail(refreshed.error)
+      }
     } catch (error) {
       await fail(error)
     } finally {

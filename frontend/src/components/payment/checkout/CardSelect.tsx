@@ -45,7 +45,9 @@ const CardSelect: FunctionComponent<Props> = ({
 
   const mutation = useMutation({
     mutationFn: async ({ id }: { id: string }) => {
-      if (!useCard) return
+      if (!useCard) {
+        return
+      }
 
       setIsProcessing(true)
 
@@ -57,9 +59,13 @@ const CardSelect: FunctionComponent<Props> = ({
       })
     },
     onSuccess: async () => {
-      if (!stripe) return
+      if (!stripe) {
+        return
+      }
 
-      if (!useCard) return
+      if (!useCard) {
+        return
+      }
 
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: useCard.id,

@@ -50,7 +50,9 @@ const EmailConfirmClient = (): JSX.Element => {
     if (token !== null) {
       const url = new URL(window.location.href)
       url.searchParams.delete("token")
-      if (fromFragment !== null) url.hash = ""
+      if (fromFragment !== null) {
+        url.hash = ""
+      }
       window.history.replaceState(
         window.history.state,
         "",
@@ -63,7 +65,9 @@ const EmailConfirmClient = (): JSX.Element => {
     }
   }, [searchParams])
   useEffect(() => {
-    if (state !== "rate-limited") return
+    if (state !== "rate-limited") {
+      return
+    }
     const timer = window.setTimeout(() => setState("idle"), retryAfter * 1000)
     return () => window.clearTimeout(timer)
   }, [state, retryAfter])

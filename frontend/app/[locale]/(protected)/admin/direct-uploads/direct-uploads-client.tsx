@@ -62,7 +62,9 @@ function RepoCheckboxes({
 }) {
   const toggle = (repo: string, checked: boolean) => {
     if (checked) {
-      if (!repos.includes(repo)) onChange([...repos, repo])
+      if (!repos.includes(repo)) {
+        onChange([...repos, repo])
+      }
     } else {
       onChange(repos.filter((r) => r !== repo))
     }
@@ -228,7 +230,9 @@ function RuntimeScopeSection({
     axios: { withCredentials: true },
   })
 
-  if (!app.scope) return null
+  if (!app.scope) {
+    return null
+  }
   const {
     prefixes: currentPrefixes,
     extra_ids: currentExtraIds,
@@ -472,7 +476,9 @@ function MaintainersSection({
         action="Remove"
         actionVariant="destructive"
         onConfirmed={() => {
-          if (!confirmRemove) return
+          if (!confirmRemove) {
+            return
+          }
           removeMutation.mutate(
             { appId: app.app_id, userId: confirmRemove.userId },
             {

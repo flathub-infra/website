@@ -45,7 +45,9 @@ const LoginClient = ({
 
   // Set NEXT_LOCALE cookie to match locale of this page
   useEffect(() => {
-    if (!locale) return
+    if (!locale) {
+      return
+    }
     document.cookie = `NEXT_LOCALE=${locale};path=/;SameSite=Strict`
   }, [locale])
 
@@ -69,7 +71,9 @@ const LoginClient = ({
   }, [user, router, developerLogin])
 
   useEffect(() => {
-    if (cooldown <= 0) return
+    if (cooldown <= 0) {
+      return
+    }
     const timer = setInterval(() => setCooldown((c) => c - 1), 1000)
     return () => clearInterval(timer)
   }, [cooldown])
@@ -77,7 +81,9 @@ const LoginClient = ({
   const submitEmail = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault()
-      if (submitState === "sending" || cooldown > 0) return
+      if (submitState === "sending" || cooldown > 0) {
+        return
+      }
       setSubmitState("sending")
       const returnTo = new URLSearchParams(window.location.search).get(
         "returnTo",
@@ -147,7 +153,9 @@ const LoginClient = ({
             autoComplete="email"
             onChange={(e) => {
               setEmail(e.target.value)
-              if (submitState === "error") setSubmitState("idle")
+              if (submitState === "error") {
+                setSubmitState("idle")
+              }
             }}
           />
           <button
