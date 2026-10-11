@@ -34,6 +34,7 @@ const config: StorybookConfig = {
         alias: {
           ...(config.resolve?.alias ?? {}),
           "@": path.resolve(__dirname, "../@"),
+          src: path.resolve(__dirname, "../src"),
           "@imgproxy/imgproxy-node": path.resolve(
             __dirname,
             "./mocks/imgproxy-node.ts",

@@ -22,7 +22,6 @@ import { useUserContext, useUserDispatch } from "src/context/user-info"
 import { useRouter } from "src/i18n/navigation"
 import { useReauth } from "src/hooks/useReauth"
 import ConfirmDialog from "../ConfirmDialog"
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -198,144 +197,151 @@ const Passkeys = (): JSX.Element => {
 
   return (
     <section aria-labelledby="passkeys-heading">
-      <h3 id="passkeys-heading" className="my-4 text-xl font-semibold">
+      <h3 id="passkeys-heading" className="mb-2 text-base font-semibold">
         {t("passkeys")}
       </h3>
-      <Card className="w-full py-0">
-        <CardContent className="flex flex-col gap-4 p-5">
-          <p className="text-sm opacity-75">{t("passkeys-description")}</p>
+      <div className="flex flex-col gap-3">
+        <p className="m-0 text-sm text-foreground/75">
+          {t("passkeys-description")}
+        </p>
 
-          {passkeys.isError && (
-            <p role="alert" className="text-sm text-flathub-red">
-              {t("network-error-try-again")}
-            </p>
-          )}
-
-          {list !== null && list.credentials.length === 0 && (
-            <p>{t("passkeys-empty")}</p>
-          )}
-
-          {list !== null && list.credentials.length > 0 && (
-            <ul className="flex flex-col gap-3">
-              {list.credentials.map((credential) => (
-                <li
-                  key={credential.id}
-                  className="flex flex-wrap items-center gap-3 rounded-lg bg-flathub-gainsborow/40 p-4 dark:bg-flathub-gainsborow/10"
-                >
-                  {renaming?.id === credential.id ? (
-                    <form
-                      className="flex flex-1 flex-wrap items-center gap-3"
-                      onSubmit={rename}
-                    >
-                      <label
-                        htmlFor={`passkey-name-${credential.id}`}
-                        className="sr-only"
-                      >
-                        {t("passkey-name")}
-                      </label>
-                      <Input
-                        id={`passkey-name-${credential.id}`}
-                        className="max-w-xs"
-                        maxLength={100}
-                        value={renaming.name}
-                        onChange={(event) =>
-                          setRenaming({
-                            id: credential.id,
-                            name: event.target.value,
-                          })
-                        }
-                      />
-                      <Button
-                        type="submit"
-                        size="sm"
-                        disabled={busy || !renaming.name.trim()}
-                      >
-                        {t("save")}
-                      </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="secondary"
-                        onClick={() => setRenaming(null)}
-                      >
-                        {t("cancel")}
-                      </Button>
-                    </form>
-                  ) : (
-                    <>
-                      <div className="flex flex-1 flex-col">
-                        <span className="font-semibold">{credential.name}</span>
-                        <span className="text-sm opacity-75">
-                          {t("passkey-created-at", {
-                            time: formatTime(credential.created_at),
-                          })}
-                        </span>
-                        <span className="text-sm opacity-75">
-                          {credential.last_used_at
-                            ? t("passkey-last-used-at", {
-                                time: formatTime(credential.last_used_at),
-                              })
-                            : t("passkey-never-used")}
-                        </span>
-                      </div>
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        disabled={busy}
-                        onClick={() =>
-                          setRenaming({
-                            id: credential.id,
-                            name: credential.name,
-                          })
-                        }
-                      >
-                        {t("passkey-rename")}
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        disabled={busy}
-                        onClick={() => setRemoving(credential)}
-                      >
-                        {t("remove")}
-                      </Button>
-                    </>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <form className="flex flex-wrap items-end gap-3" onSubmit={add}>
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="new-passkey-name"
-                className="text-sm font-semibold"
-              >
-                {t("passkey-name")}
-              </label>
-              <Input
-                id="new-passkey-name"
-                className="max-w-xs"
-                maxLength={100}
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                disabled={!supported}
-              />
-            </div>
-            <Button type="submit" disabled={busy || !supported || !name.trim()}>
-              {t("passkey-add")}
-            </Button>
-          </form>
-          {supported === false && (
-            <p className="text-sm opacity-75">{t("passkey-unsupported")}</p>
-          )}
-
-          <p role="status" aria-live="polite" className="text-sm">
-            {status}
+        {passkeys.isError && (
+          <p role="alert" className="text-sm text-flathub-red">
+            {t("network-error-try-again")}
           </p>
-        </CardContent>
-      </Card>
+        )}
+
+        {list !== null && list.credentials.length === 0 && (
+          <p className="m-0 text-sm text-foreground/75">
+            {t("passkeys-empty")}
+          </p>
+        )}
+
+        {list !== null && list.credentials.length > 0 && (
+          <ul className="flex flex-col gap-3">
+            {list.credentials.map((credential) => (
+              <li
+                key={credential.id}
+                className="flex flex-wrap items-center gap-3 rounded-lg border border-border p-3"
+              >
+                {renaming?.id === credential.id ? (
+                  <form
+                    className="flex flex-1 flex-wrap items-center gap-3"
+                    onSubmit={rename}
+                  >
+                    <label
+                      htmlFor={`passkey-name-${credential.id}`}
+                      className="sr-only"
+                    >
+                      {t("passkey-name")}
+                    </label>
+                    <Input
+                      id={`passkey-name-${credential.id}`}
+                      className="max-w-xs"
+                      maxLength={100}
+                      value={renaming.name}
+                      onChange={(event) =>
+                        setRenaming({
+                          id: credential.id,
+                          name: event.target.value,
+                        })
+                      }
+                    />
+                    <Button
+                      type="submit"
+                      size="sm"
+                      disabled={busy || !renaming.name.trim()}
+                    >
+                      {t("save")}
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => setRenaming(null)}
+                    >
+                      {t("cancel")}
+                    </Button>
+                  </form>
+                ) : (
+                  <>
+                    <div className="flex flex-1 flex-col">
+                      <span className="font-semibold">{credential.name}</span>
+                      <span className="text-sm opacity-75">
+                        {t("passkey-created-at", {
+                          time: formatTime(credential.created_at),
+                        })}
+                      </span>
+                      <span className="text-sm opacity-75">
+                        {credential.last_used_at
+                          ? t("passkey-last-used-at", {
+                              time: formatTime(credential.last_used_at),
+                            })
+                          : t("passkey-never-used")}
+                      </span>
+                    </div>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      disabled={busy}
+                      onClick={() =>
+                        setRenaming({
+                          id: credential.id,
+                          name: credential.name,
+                        })
+                      }
+                    >
+                      {t("passkey-rename")}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      disabled={busy}
+                      onClick={() => setRemoving(credential)}
+                    >
+                      {t("remove")}
+                    </Button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <form
+          className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 pt-1 sm:max-w-sm"
+          onSubmit={add}
+        >
+          <label
+            htmlFor="new-passkey-name"
+            className="col-span-2 text-sm font-semibold"
+          >
+            {t("passkey-name")}
+          </label>
+          <Input
+            id="new-passkey-name"
+            className="w-full"
+            maxLength={100}
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            disabled={!supported}
+          />
+          <Button type="submit" disabled={busy || !supported || !name.trim()}>
+            {t("passkey-add")}
+          </Button>
+        </form>
+        {supported === false && (
+          <p className="text-sm opacity-75">{t("passkey-unsupported")}</p>
+        )}
+
+        <p
+          role="status"
+          aria-live="polite"
+          className={status ? "text-sm" : "sr-only"}
+        >
+          {status}
+        </p>
+      </div>
 
       <ConfirmDialog
         isVisible={removing !== null}
