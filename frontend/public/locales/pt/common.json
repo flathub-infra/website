@@ -302,7 +302,7 @@
   "flathub-index-description": "Obtenha as versões mais recentes de todas as suas aplicações favoritas, para qualquer distribuição Linux",
   "app-eol": "Esta aplicação já não se encontra disponível no Flathub",
   "distribution-flathub-setup": "Configuração do Flathub da {distribution}",
-  "find-your-distribution": "Encontre a sua distribuição",
+  "find-your-distribution": "Encontre a sua distribuição…",
   "no-results-found": "Não foram encontrados resultados",
   "desktop-application": "Aplicação de Ambiente de Trabalho",
   "console-application": "Aplicação de Linha de Comandos",
@@ -742,7 +742,7 @@
     "works-well-on-large-screens": "Funciona corretamente em ecrãs grandes",
     "may-not-work-well-on-mobile": "Pode não funcionar corretamente em dispositivos móveis",
     "works-well-on-mobile": "Funciona corretamente em dispositivos móveis",
-    "total-installs": "Total de instalações",
+    "total-installs": "Total de Instalações {count}",
     "age-rating": "Classificação etária"
   },
   "content-rating": {

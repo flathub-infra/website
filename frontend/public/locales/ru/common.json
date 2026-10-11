@@ -888,7 +888,6 @@
   "remove-from-favorites": "Убрать {app} из закладок",
   "runtime": "Среда выполнения",
   "email-login-with-email": "Вход по электронной почте",
-  "email-login-log-in-with-email": "Войти по электронной почте",
   "email-login-other-methods": "Другие способы входа",
   "email-login-email-address": "Электронная почта",
   "email-login-send-link": "Отправить ссылку для входа",

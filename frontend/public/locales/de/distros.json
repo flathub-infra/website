@@ -444,5 +444,9 @@
   "t2_sde": {
     "distroName": "T2 SDE",
     "introduction": "<header>Flatpak ist seit Version 26.6 standardmäßig auf T2 SDE installiert – es ist keine Einrichtung erforderlich!</header> <text>Flatpak ist bereits mit dem Flathub-Repository vorkonfiguriert und enthält Werkzeug zur Desktop-Integration, die eine 1-Klick-Installation von Flathub aus ermöglichen.</text> <text>Du musst lediglich <link>Apps installieren</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak ist auf Nura standardmäßig installiert!</header> <text>Du musst nur noch <link>Apps installieren</link>!</text>"
   }
 }

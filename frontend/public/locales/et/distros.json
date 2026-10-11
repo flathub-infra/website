@@ -444,5 +444,9 @@
   "t2_sde": {
     "distroName": "T2 SDE",
     "introduction": "<header>Alates T2 SDE versioonist 26.6 on Flatpak vaikimisi paigaldatud — lisatoimingud pole vajalikud!</header> <text>Flathubi tarkvarahoidla on eelseadistatud ja olemas on töölauatarvikud, mis võimaldavad rakenduste paigaldamist Flathubist ühe klõpsuga.</text> <text>Sul pole vaja muud teha, <link>kui paigaldada rakendusi</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak on vaikimisi Nuras juba paigaldatud!</header> <text>Sa ei saagi teha muud, kui <link>hakata rakendusi paigaldama</link>!</text>"
   }
 }

@@ -406,7 +406,7 @@
   "website-verification-main-instruction": "Verifitseeri oma õigused rakenduse <bold>{id}</bold> haldamiseks lisades tunnusluba kindlale lehele domeenis <bold>{domain}</bold>.",
   "verified-website-tooltip": "Kontroll rakenduse tunnuse <appid></appid> üle on verifitseeritud veebisaidi <website></website> alusel",
   "verify-app-id": "Verifitseeri rakendus tunnusega",
-  "do-you-really-want-to-archive-app": "Kas sa oled kindel? Sellega muutuvad üleslaadimise tunnusload kehtetuks ja rakendus arhiveeritakse.",
+  "do-you-really-want-to-archive-app": "Enne arhiveerimist vaata üle läbi allpool toodud mõjud.",
   "archive-app": "Arhiveeri see rakendus",
   "archive": "Arhiveeri",
   "verify-app": "Verifitseeri rakendus",
@@ -884,7 +884,6 @@
   "quality-metadata-changed": "Metateave muutus {time}",
   "quality-metadata-changed-since-review": "Muutunud peale kvaliteedikontrolli",
   "email-login-with-email": "Logi sisse e-posti aadressga",
-  "email-login-log-in-with-email": "Logi sisse e-posti aadressga",
   "email-login-other-methods": "Muud sisselogimise meetodid",
   "email-login-email-address": "E-posti aadress",
   "email-login-send-link": "Saada mulle sisselogimislink e-kirjaga",
@@ -902,5 +901,35 @@
   "display-name": "Kuvatav nimi",
   "display-name-updated": "Kuvatav nimi on uuendatud",
   "display-name-invalid": "Sisesta kuvatav nime pikkusega 1 kuni 100 tähemärki, kus peab olema vähemalt üks nähtav tähemärk ning pole juht- ega tekstisuuna märke.",
-  "save": "Salvesta"
+  "save": "Salvesta",
+  "build-duration-over-time": "Kompileerimise kestus läbi aegade",
+  "duration-minutes": "Kestus (minutites)",
+  "category": "Kategooria",
+  "operating-system": "Operatsioonisüsteem",
+  "flatpak-version": "Flatpaki versioon",
+  "share-of-installs": "Paigalduste jagunemine",
+  "chart-description": "Joonise andmed: {chart}. Täpsete andmete nähemiseks säti fookus soovitud kohale.",
+  "transaction-cancelled-description": "See tehing on katkestatud. Makse on tegemata.",
+  "transaction-successful": "Makse on tehtud",
+  "danger-zone-confirmation": {
+    "switch": {
+      "warning-title": "Seda muudatust ei saa tagasi pöörata",
+      "acknowledgment": "Ma mõistan, et kui võtan „<app>{app_id}</app>“ rakenduse puhul kasutusele otsese üleslaadimise, siis seda ei saa tagasi pöörata",
+      "warning-consequence": "Selle valiku puhul muutub see rakenduse püsivalt Flathubi ainult otseselt üleslaaditavaks."
+    },
+    "archive": {
+      "acknowledgment": "Ma mõistan, mis juhtub „<app>{app_id}</app>“ rakenduse arhiveerimisel",
+      "warning-eol": "Järgnevaga märgitakse, et rakenduse kasutuseaeg on lõppenud ning kuvatakse järgnev teade.",
+      "warning-tokens": "Kõik selle rakenduse aktiivsed üleslaadimise tunnusload tühistuvad.",
+      "warning-title": "Arhiveerimine mõjutab seda rakendust ja neid, kes rakenduse on avaldanud"
+    }
+  },
+  "transaction-successful-description": "Sinu makse on tehtud. Tehingu üksikasjad on alljärgnevas.",
+  "view-builds": "Vaata kompileerimiste tulemusi",
+  "x-installs": "{x} paigaldust",
+  "user-login-heading": "Logi sisse Flathubi",
+  "user-login-intro": "Sisesta oma e-posti aadress ja me saadame sulle sisselogimislingi. Salasõna pole vaja.",
+  "user-login-unavailable": "Sisselogimine e-posti aadressige pole hetkel saadaval. Palun proovi hiljem uuesti.",
+  "developer-login-hint-link": "Kas otsid <link>sisselogimist arendajatele</link>?",
+  "developer-login-title": "Sisselogimine arendajatele"
 }
