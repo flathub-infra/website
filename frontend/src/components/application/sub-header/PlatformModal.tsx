@@ -122,7 +122,9 @@ const PlatformModal = ({
   const deviceInfoItems = [
     ...controlInfo.flatMap(({ value, label, plural, Icon }, index) => {
       const relation = getControlRelation(value, requires, recommends, supports)
-      if (value === "gamepad" && relation === "unknown") return []
+      if (value === "gamepad" && relation === "unknown") {
+        return []
+      }
 
       const colorClass = {
         required:

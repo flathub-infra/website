@@ -22,7 +22,9 @@ const CodeCopy: FunctionComponent<Props> = ({
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (copied) setCopied(false)
+      if (copied) {
+        setCopied(false)
+      }
     }, 1200)
 
     return () => clearTimeout(timeout)
@@ -45,7 +47,9 @@ const CodeCopy: FunctionComponent<Props> = ({
         text={text.trim()}
         onCopy={() => {
           setCopied(true)
-          if (onCopy) onCopy()
+          if (onCopy) {
+            onCopy()
+          }
         }}
       >
         <button

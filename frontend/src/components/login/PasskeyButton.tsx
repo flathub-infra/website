@@ -66,7 +66,9 @@ const PasskeyButton = ({
   const statusId = useId()
 
   const signIn = useCallback(async () => {
-    if (state === "busy") return
+    if (state === "busy") {
+      return
+    }
     setState("busy")
     const credentials = { withCredentials: true }
     try {

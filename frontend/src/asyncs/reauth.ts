@@ -15,9 +15,13 @@ export async function runWithReauth<T>(
   try {
     return await action()
   } catch (error) {
-    if (!isReauthenticationRequired(error)) throw error
+    if (!isReauthenticationRequired(error)) {
+      throw error
+    }
   }
 
-  if (!(await reauthenticate())) return undefined
+  if (!(await reauthenticate())) {
+    return undefined
+  }
   return action()
 }

@@ -19,7 +19,9 @@ export function useReauth() {
   }, [])
 
   const reauthenticate = useCallback(() => {
-    if (!mounted.current) return Promise.resolve(false)
+    if (!mounted.current) {
+      return Promise.resolve(false)
+    }
     resolver.current?.(false)
     return new Promise<boolean>((resolve) => {
       resolver.current = resolve

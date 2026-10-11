@@ -20,7 +20,9 @@ export default function AdminLayoutClient({
 
   // Check if user has any admin permissions
   const hasAdminAccess = (user: any) => {
-    if (!user?.permissions) return false
+    if (!user?.permissions) {
+      return false
+    }
 
     const adminPermissions = [
       Permission.moderation,

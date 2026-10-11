@@ -32,7 +32,9 @@ const repos: Record<PipelineRepoWithAll, true> = {
 }
 
 function utcDate(value: string): string | undefined {
-  if (!value) return undefined
+  if (!value) {
+    return undefined
+  }
   const date = new Date(`${value}Z`)
   return Number.isNaN(date.getTime()) ? undefined : date.toISOString()
 }
@@ -63,8 +65,11 @@ function BuildsContent() {
   const update = (changes: Record<string, string>) => {
     const params = new URLSearchParams(searchParams.toString())
     for (const [key, value] of Object.entries(changes)) {
-      if (value && value !== "all") params.set(key, value)
-      else params.delete(key)
+      if (value && value !== "all") {
+        params.set(key, value)
+      } else {
+        params.delete(key)
+      }
     }
     router.push(params.size ? `${pathname}?${params}` : pathname)
   }
@@ -122,7 +127,9 @@ function BuildsContent() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") update({ appId: searchInput.trim() })
+                if (e.key === "Enter") {
+                  update({ appId: searchInput.trim() })
+                }
               }}
               className="h-9 flex-1 min-w-48"
             />

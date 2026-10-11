@@ -48,19 +48,27 @@ function Tooltip({
     if (touchOpenRef.current) {
       touchOpenRef.current = false
       setTouchOpen(false)
-      if (isControlled) onOpenChange?.(false)
-      else setRadixOpen(false)
+      if (isControlled) {
+        onOpenChange?.(false)
+      } else {
+        setRadixOpen(false)
+      }
       return
     }
 
     touchOpenRef.current = true
     setTouchOpen(true)
-    if (isControlled) onOpenChange?.(true)
+    if (isControlled) {
+      onOpenChange?.(true)
+    }
     touchTimeoutRef.current = setTimeout(() => {
       touchOpenRef.current = false
       setTouchOpen(false)
-      if (isControlled) onOpenChange?.(false)
-      else setRadixOpen(false)
+      if (isControlled) {
+        onOpenChange?.(false)
+      } else {
+        setRadixOpen(false)
+      }
       touchTimeoutRef.current = null
     }, 4000)
   }, [clearTouchTimeout, isControlled, onOpenChange])
@@ -68,8 +76,12 @@ function Tooltip({
   React.useEffect(() => clearTouchTimeout, [clearTouchTimeout])
 
   const handleOpenChange = (nextOpen: boolean) => {
-    if (!nextOpen && touchOpenRef.current) return
-    if (!isControlled) setRadixOpen(nextOpen)
+    if (!nextOpen && touchOpenRef.current) {
+      return
+    }
+    if (!isControlled) {
+      setRadixOpen(nextOpen)
+    }
     onOpenChange?.(nextOpen)
   }
 

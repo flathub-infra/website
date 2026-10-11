@@ -23,9 +23,15 @@ export const getControlRelation = (
   recommends: AppstreamCondition[] | null | undefined,
   supports: AppstreamCondition[] | null | undefined,
 ): Relation => {
-  if (includesCondition(requires, "control", value)) return "required"
-  if (includesCondition(recommends, "control", value)) return "recommended"
-  if (includesCondition(supports, "control", value)) return "supported"
+  if (includesCondition(requires, "control", value)) {
+    return "required"
+  }
+  if (includesCondition(recommends, "control", value)) {
+    return "recommended"
+  }
+  if (includesCondition(supports, "control", value)) {
+    return "supported"
+  }
   return "unknown"
 }
 
@@ -98,7 +104,9 @@ export const getDisplaySupport = (
       .map((condition) => ({ relation, condition })),
   )
 
-  if (displayRelations.length === 0) return "unknown"
+  if (displayRelations.length === 0) {
+    return "unknown"
+  }
 
   const categoryRange: [number, number] =
     category === "mobile" ? [360, 768] : [1024, 3840]
@@ -110,8 +118,12 @@ export const getDisplaySupport = (
     )
   })
 
-  if (matches.some(({ relation }) => relation === "required")) return "required"
-  if (matches.length > 0) return "supported"
+  if (matches.some(({ relation }) => relation === "required")) {
+    return "required"
+  }
+  if (matches.length > 0) {
+    return "supported"
+  }
   return "unsupported"
 }
 

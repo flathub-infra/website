@@ -40,7 +40,9 @@ const ProviderLink: FunctionComponent<Props> = ({
   // When user clicks a provider, a redirect is fetched to initiate login flow
   const onClick = useCallback(async () => {
     // Prevent multiple async requests
-    if (clicked) return
+    if (clicked) {
+      return
+    }
     setClicked(true)
 
     const url = `${LOGIN_PROVIDERS_URL}/${provider.method}${reauth ? "?reauth=1" : ""}`

@@ -12,7 +12,9 @@ export function isSuccessfulBuild(status: PipelineStatus): boolean {
 }
 
 export function buildDurationMinutes(build: PipelineSummary): number | null {
-  if (!build.started_at || !build.finished_at) return null
+  if (!build.started_at || !build.finished_at) {
+    return null
+  }
   return Math.max(
     0,
     Math.round(
@@ -36,9 +38,13 @@ export function toDurationSeries(
 ): BuildDurationPoint[] {
   const points: BuildDurationPoint[] = []
   for (const build of builds) {
-    if (!isSuccessfulBuild(build.status)) continue
+    if (!isSuccessfulBuild(build.status)) {
+      continue
+    }
     const durationMinutes = buildDurationMinutes(build)
-    if (durationMinutes === null) continue
+    if (durationMinutes === null) {
+      continue
+    }
     points.push({
       startedAt: build.started_at!,
       date: formatDate(new UTCDate(build.started_at!)),
@@ -58,8 +64,9 @@ export function summarizeSeries(points: BuildDurationPoint[]): {
   maxMinutes: number
   minMinutes: number
 } {
-  if (points.length === 0)
+  if (points.length === 0) {
     return { count: 0, averageMinutes: 0, maxMinutes: 0, minMinutes: 0 }
+  }
   let sum = 0
   let maxMinutes = -Infinity
   let minMinutes = Infinity

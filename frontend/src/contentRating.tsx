@@ -40,7 +40,9 @@ export function getContentRating(
       data.content_rating_details["en_US"] ||
       Object.values(data.content_rating_details)[0]) as any
 
-    if (!localeData || localeData.categories === undefined) return null
+    if (!localeData || localeData.categories === undefined) {
+      return null
+    }
 
     return {
       minimumAge: localeData.minimumAge ?? null,
@@ -73,12 +75,15 @@ export function contentRatingToColor(level: ContentRatingLevel): string {
 
 export function ageToColor(age: number | null): string {
   const effective = age === null ? 3 : Math.max(age, 3)
-  if (effective <= 9)
+  if (effective <= 9) {
     return "bg-flathub-gainsborow/60 dark:bg-flathub-granite-gray/60"
-  if (effective <= 10)
+  }
+  if (effective <= 10) {
     return "text-flathub-status-yellow bg-flathub-status-yellow/25 dark:bg-flathub-status-yellow-dark/25 dark:text-flathub-status-yellow-dark"
-  if (effective <= 15)
+  }
+  if (effective <= 15) {
     return "text-flathub-status-orange bg-flathub-status-orange/25 dark:bg-flathub-status-orange-dark/25 dark:text-flathub-status-orange-dark"
+  }
   return "text-flathub-status-red bg-flathub-status-red/25 dark:bg-flathub-status-red-dark/25 dark:text-flathub-status-red-dark"
 }
 

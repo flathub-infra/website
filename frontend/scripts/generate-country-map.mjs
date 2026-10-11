@@ -15,16 +15,21 @@ const destination = fileURLToPath(
 )
 
 const response = await fetch(sourceUrl)
-if (!response.ok)
+if (!response.ok) {
   throw new Error(`Boundary download failed: ${response.status}`)
+}
 const source = Buffer.from(await response.arrayBuffer())
 const checksum = createHash("sha256").update(source).digest("hex")
-if (checksum !== sourceSha256) throw new Error("Boundary checksum mismatch")
+if (checksum !== sourceSha256) {
+  throw new Error("Boundary checksum mismatch")
+}
 
 const countries = JSON.parse(source.toString())
 countries.features = countries.features.flatMap((country) => {
   const countryCode = country.properties.ISO_A2_EH
-  if (!/^[A-Z]{2}$/.test(countryCode)) return []
+  if (!/^[A-Z]{2}$/.test(countryCode)) {
+    return []
+  }
   return [{ ...country, properties: { countryCode } }]
 })
 

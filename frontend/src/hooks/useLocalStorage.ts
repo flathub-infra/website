@@ -7,7 +7,9 @@ export function useLocalStorage<T>(
   initialValue: T,
 ): [T, (arg: T | ((arg: T) => T)) => void] {
   const [value, setValue] = useState(() => {
-    if (typeof window === "undefined") return initialValue
+    if (typeof window === "undefined") {
+      return initialValue
+    }
 
     try {
       const item = window.localStorage.getItem(key)
@@ -20,7 +22,9 @@ export function useLocalStorage<T>(
 
   const setter = (newValue: T | ((arg: T) => T)) => {
     try {
-      if (newValue instanceof Function) newValue = newValue(value)
+      if (newValue instanceof Function) {
+        newValue = newValue(value)
+      }
 
       window.localStorage.setItem(key, JSON.stringify(newValue))
       setValue(newValue)

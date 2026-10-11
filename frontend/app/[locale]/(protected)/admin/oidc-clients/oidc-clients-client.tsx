@@ -41,7 +41,9 @@ function emptyCreateForm(): OidcClientCreate {
 }
 
 function errorMessage(error: unknown): string {
-  if (error instanceof Error) return error.message
+  if (error instanceof Error) {
+    return error.message
+  }
   if (typeof error === "object" && error !== null) {
     const response = Reflect.get(error, "response")
     const data =
@@ -50,13 +52,17 @@ function errorMessage(error: unknown): string {
         : undefined
     const detail =
       data && typeof data === "object" ? Reflect.get(data, "detail") : undefined
-    if (typeof detail === "string") return detail
+    if (typeof detail === "string") {
+      return detail
+    }
   }
   return "The request could not be completed. Please try again."
 }
 
 function formatDate(value: string | null | undefined): string {
-  if (!value) return "—"
+  if (!value) {
+    return "—"
+  }
   const date = new Date(value)
   return Number.isNaN(date.valueOf()) ? value : date.toLocaleString()
 }
@@ -99,7 +105,9 @@ export default function OidcClientsClient() {
   const detail = detailQuery.data?.data
 
   useEffect(() => {
-    if (!detail) return
+    if (!detail) {
+      return
+    }
     setEditForm({
       name: detail.name,
       description: detail.description,
@@ -124,7 +132,9 @@ export default function OidcClientsClient() {
   }
 
   const closeSecret = () => {
-    if (!secretAcknowledged) return
+    if (!secretAcknowledged) {
+      return
+    }
     setSecret(null)
     setSecretAcknowledged(false)
     setSecretCopied(false)
@@ -136,8 +146,9 @@ export default function OidcClientsClient() {
       !createForm.name.trim() ||
       createForm.redirect_uris.some((uri) => !uri.trim()) ||
       createPending
-    )
+    ) {
       return
+    }
     setCreatePending(true)
     setCreateError(null)
     try {
@@ -166,7 +177,9 @@ export default function OidcClientsClient() {
   }
 
   const handleRotate = async () => {
-    if (!selectedClientId || rotatePending) return
+    if (!selectedClientId || rotatePending) {
+      return
+    }
     setRotatePending(true)
     setRotateError(null)
     try {
@@ -189,7 +202,9 @@ export default function OidcClientsClient() {
 
   const handleUpdate = async (event: FormEvent) => {
     event.preventDefault()
-    if (!selectedClientId || updateMutation.isPending) return
+    if (!selectedClientId || updateMutation.isPending) {
+      return
+    }
     setUpdateSuccess(false)
     try {
       await updateMutation.mutateAsync({
@@ -213,7 +228,9 @@ export default function OidcClientsClient() {
   }
 
   const handleDisable = () => {
-    if (!selectedClientId || disableMutation.isPending) return
+    if (!selectedClientId || disableMutation.isPending) {
+      return
+    }
     disableMutation.mutate(
       { clientId: selectedClientId },
       {
@@ -602,7 +619,9 @@ export default function OidcClientsClient() {
         title="Register OIDC client"
         description="The client secret will be shown once after registration."
         onClose={() => {
-          if (!createPending) setCreateShown(false)
+          if (!createPending) {
+            setCreateShown(false)
+          }
         }}
         cancelButton={{
           onClick: () => setCreateShown(false),
@@ -788,7 +807,9 @@ export default function OidcClientsClient() {
         submitDisabled={rotatePending}
         onConfirmed={() => void handleRotate()}
         onCancelled={() => {
-          if (!rotatePending) setRotateConfirmShown(false)
+          if (!rotatePending) {
+            setRotateConfirmShown(false)
+          }
         }}
       >
         {rotateError && (
@@ -805,7 +826,9 @@ export default function OidcClientsClient() {
         submitDisabled={disableMutation.isPending}
         onConfirmed={handleDisable}
         onCancelled={() => {
-          if (!disableMutation.isPending) setDisableConfirmShown(false)
+          if (!disableMutation.isPending) {
+            setDisableConfirmShown(false)
+          }
         }}
       >
         {disableMutation.isError && (
