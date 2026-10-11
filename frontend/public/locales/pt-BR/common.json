@@ -876,5 +876,12 @@
   "login-failed-try-again": "Não foi possível entrar. Tente novamente.",
   "gitlab-terms-not-accepted": "Sua conta {provider} requer que você aceito seus Termos de Serviço. Abra {provider} em um navegador, aceite os termos e tente entrar novamente.",
   "open-login-provider": "Abrir {provider}",
-  "back-to-login": "Voltar ao login"
+  "back-to-login": "Voltar ao login",
+  "chart-description": "Gráfico mostrando {chart}. Passe ou mude o foco para um ponto de dados para valores exatos.",
+  "build-duration-over-time": "Duração de construção ao longo do tempo",
+  "duration-minutes": "Duração (minutos)",
+  "category": "Categoria",
+  "operating-system": "Sistema operacional",
+  "flatpak-version": "Versão do Flatpak",
+  "share-of-installs": "Compartilhamento de instalações"
 }

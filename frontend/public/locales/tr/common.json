@@ -521,7 +521,7 @@
   "revoked": "İptal edilmiş",
   "app-of-the-day": "Günün Uygulaması",
   "not-logged-in": "Giriş yapmadınız",
-  "do-you-really-want-to-archive-app": "Emin misiniz? Bu, kurulum jetonlarını geçersiz kılacak ve uygulamayı arşivleyecek.",
+  "do-you-really-want-to-archive-app": "Arşivlemeden önce aşağıdaki etkileri inceleyin.",
   "install-x": "{app_name} uygulamasını Linux'ta kur",
   "cannot-abandon-app": "Uygulama terk edilemiyor",
   "invalid-appid": "Geçersiz uygulama kimliği",
@@ -888,7 +888,6 @@
   "display-name-invalid": "1–100 karakter uzunluğunda, en az bir görünür karakter içeren ve denetim veya metin yönü karakterleri içermeyen bir görünen ad girin.",
   "save": "Kaydet",
   "email-login-with-email": "E-posta ile giriş yapın",
-  "email-login-log-in-with-email": "E-posta ile giriş yap",
   "email-login-other-methods": "Diğer oturum açma seçenekleri",
   "email-login-email-address": "E-posta adresi",
   "email-login-sending": "Gönderiliyor…",
@@ -909,5 +908,34 @@
   "category": "Kategori",
   "operating-system": "İşletim sistemi",
   "flatpak-version": "Flatpak sürümü",
-  "share-of-installs": "Kurulumların payı"
+  "share-of-installs": "Kurulumların payı",
+  "danger-zone-confirmation": {
+    "switch": {
+      "acknowledgment": "<app>{app_id}</app> uygulamasını doğrudan yüklemeye geçirmenin geri alınamayacağını anlıyorum",
+      "warning-title": "Bu değişiklik geri alınamaz",
+      "warning-consequence": "Bu değişiklik, bu uygulamanın Flathub'a doğrudan yükleme yöntemine kalıcı olarak geçmesini sağlar."
+    },
+    "archive": {
+      "warning-title": "Arşivleme, bu uygulamayı ve yayıncılarını etkiler",
+      "warning-tokens": "Bu uygulamaya ait tüm etkin yükleme belirteçleri geçersiz kılınacak.",
+      "warning-eol": "Uygulama, aşağıdaki mesaj kullanılarak kullanım ömrünün sonuna (End-of-Life) ulaşmış olarak işaretlenecektir.",
+      "acknowledgment": "<app>{app_id}</app> uygulamasını arşivlemenin sonuçlarını anlıyorum"
+    }
+  },
+  "view-builds": "Derlemeleri görüntüle",
+  "transaction-cancelled-description": "Bu işlem iptal edildi. Herhangi bir ödeme gerçekleştirilmedi.",
+  "transaction-successful": "Ödeme tamamlandı",
+  "transaction-successful-description": "Ödemeniz başarıyla tamamlandı. İşlem detaylatı aşağıdadır.",
+  "x-installs": "{x} kurulum",
+  "user-login-heading": "Flathub'a giriş yap",
+  "user-login-intro": "E-posta adresinizi girin, size bir giriş bağlantısı gönderelim. Şifreye gerek yok.",
+  "user-login-unavailable": "E-posta ile giriş şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.",
+  "developer-login-hint-link": "<link>Geliştirici girişini</link> mi arıyorsunuz?",
+  "developer-login-title": "Geliştirici girişi",
+  "email-account": "E-posta",
+  "login-with-passkey": "Geçiş anahtarı ile giriş yapın",
+  "passkey-login-intro": "Flathub hesabınız için kaydedilmiş bir geçiş anahtarı kullanın.",
+  "passkey-unsupported": "Bu tarayıcı geçiş anahtarlarını desteklemiyor. Başka bir giriş yöntemi deneyin.",
+  "passkey-login-canceled": "Geçiş anahtarıyla giriş iptal edildi veya zaman aşımına uğradı. Tekrar deneyin.",
+  "passkey-login-failed": "\"Bu geçiş anahtarıyla oturum açılamadı. Tekrar deneyin veya başka bir giriş yöntemi kullanın."
 }

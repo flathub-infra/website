@@ -69,7 +69,7 @@
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",
-      "text": "<text>O Flathub é o melhor lugar para obter aplicações Flatpak. Para ativá-lo, execute o seguinte comando no Terminal:</text> <code></code>"
+      "text": "<text>O Flathub é o melhor sítio para obter aplicações Flatpak. Para o ativar, descarregue e instale o <filelink>ficheiro do repositório do Flathub</filelink> ou execute:</text><code></code>"
     },
     "step-4": {
       "name": "Reiniciar",
@@ -92,7 +92,7 @@
     },
     "step-2": {
       "name": "Adicione o repositório Flathub",
-      "text": "<text>O Flathub é o melhor lugar para obter aplicações Flatpak. Para o ativar, execute o seguinte comando no Terminal:</text> <code></code>"
+      "text": "<text>O Flathub é o melhor sítio para obter aplicações Flatpak. Para o ativar, descarregue e instale o <filelink>ficheiro do repositório do Flathub</filelink> ou execute:</text> <code></code>"
     },
     "step-3": {
       "name": "Reiniciar",
@@ -289,7 +289,7 @@
     },
     "step-2": {
       "name": "Adicione o repositório Flathub",
-      "text": "<text>O Flathub é o melhor lugar para obter aplicações Flatpak. Para ativá-lo, execute o seguinte comando no Terminal:</text> <code></code>"
+      "text": "<text>O Flathub é o melhor sítio para obter aplicações Flatpak. Para o ativar, descarregue e instale o <filelink>ficheiro do repositório do Flathub</filelink> ou execute:</text> <code></code>"
     },
     "step-3": {
       "name": "Reiniciar",
@@ -335,7 +335,7 @@
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",
-      "text": "<text>O Flathub é o melhor lugar para obter aplicações Flatpak. Para ativá-lo, execute o seguinte comando no Terminal:</text> <code></code>"
+      "text": "<text>O Flathub é o melhor sítio para obter aplicações Flatpak. Para o ativar, descarregue e instale o <filelink>ficheiro do repositório do Flathub</filelink> ou execute:</text> <code></code>"
     },
     "step-4": {
       "name": "Reiniciar",
@@ -425,5 +425,28 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>O Flatpak está instalado por predefinição no Salix desde a versão 15.0 — não é necessário alterar configurações!</header> <text>O Flatpak vem pré-configurado com o repositório do Flathub e as ferramentas de integração do ambiente de trabalho estão incluídas para permitir a instalação com um clique no Flathub.</text> <text>Tudo o que precisa de fazer agora é <link>instalar aplicações</link>!</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Instalar Flatpak",
+      "text": "<text>Está disponível um pacote Flatpak no SlackBuilds. Para o instalar (partindo do princípio de que utiliza o Sbopkg/sqg), crie primeiro o queuefile e execute o seguinte como root:</text> <codeQueue></codeQueue> <text>Em seguida compile-o. Carregue o queuefile, prima 'Q', e aguarde:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adicionar o repositório Flathub",
+      "text": "<text>O Flathub é o melhor sítio para obter aplicações Flatpak. Para o ativar, execute:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Reiniciar",
+      "text": "<text>Para concluir a configuração, reinicie o seu sistema. Agora só tem de <link>instalar aplicações</link>!</text> <text>Nota: a instalação gráfica de aplicações Flatpak poderá não ser possível no Slackware.</text>"
+    }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>O Flatpak vem instalado por predefinição no T2 SDE desde a versão 26.6 — não é necessária qualquer configuração!</header> <text>O Flatpak vem pré-configurado com o repositório Flathub e inclui ferramentas de integração com o ambiente de trabalho que permitem a instalação com um clique a partir do Flathub.</text> <text>Tudo o que tem de fazer é <link>instalar aplicações</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>O Flatpak vem instalado por predefinição no Nura!</header> <text>Tudo o que tem de fazer é <link>instalar aplicações</link>!</text>"
   }
 }

@@ -252,7 +252,7 @@
   "login-provider-verification-main-instruction-unknown-is-organization": "أكِّد حقَّك في استخدام معرِّف التطبيق <appid></appid> بتسجيل دخولك في الحساب <loginname></loginname> (أو حساب له حقٌّ وصول إن كانت <orgname></orgname> منظَّمةً) في <loginprovider></loginprovider>.",
   "browse": "تصفَّح",
   "setup-flathub": "أعِدَّ فلاتهب",
-  "setup-flathub-description": "أعِدَّ فلاتهب لتثبِّت وتحدِّث التطبيقات في نظامك.",
+  "setup-flathub-description": "اتبع الخطوات الخاصة بتوزيعة لينكس التي تستخدمها لتثبيت Flatpak، وإضافة مستودع Flathub، والبدء في تثبيت التطبيقات.",
   "apps": "التطبيقات",
   "count-desktop-apps": "إجماليُّ تطبيقات سطح المكتب",
   "apps-by-developer": "تطبيقات {developer}",
@@ -302,7 +302,7 @@
   "flathub-index-description": "هنا تجد أحدث إصدارات التطبيقات لكلِّ توزيعات لينكس",
   "app-eol": "ما عاد هذا التطبيق في فلاتهب",
   "distribution-flathub-setup": "{distribution} إعداد فلاتهب",
-  "find-your-distribution": "جِد توزيعتك",
+  "find-your-distribution": "جِد توزيعتك…",
   "no-results-found": "لا توجد نتائج",
   "desktop-application": "تطبيق سطح المكتب",
   "console-application": "تطبيق وحدة التحكم",
@@ -790,7 +790,7 @@
   "manage": "أدِر",
   "curated-app-selection-themes": {
     "new-year-new-workflows": {
-      "description": "تطبيقات لتدوين الملاحظات، وتتبع المهام، ووضع الخُطّط",
+      "description": "تطبيقات لبداية جديدة، مهما كانت طريقة عملك",
       "header": "عام جديد، سير عمل جديد"
     },
     "free-software-favorites": {
@@ -799,7 +799,7 @@
     },
     "spring-creativity": {
       "header": "أطلق العنان لإبداعك",
-      "description": "التطبيقات الأساسية للرسم وتحرير الصور والتصميم الرقمي"
+      "description": "التعامل مع الصور والصوت والفيديو وغير ذلك"
     },
     "fresh-desktop-releases": {
       "header": "ابني تطبيقات أصلية",
@@ -807,19 +807,19 @@
     },
     "staying-connected": {
       "header": "ابقِ على تواصل",
-      "description": "تطبيقات التعاون والتواصل الأساسية"
+      "description": "تطبيقات للمشاركة والتواصل وقضاء الوقت معًا"
     },
     "summer-travel": {
       "header": "جاهز لقضاء العطلات",
-      "description": "تطبيقات الخرائط ووسائل النقل والطقس وتخطيط الرحلات"
+      "description": "تطبيقات ترافقك أينما كانت وجهة رحلتك القادمة"
     },
     "back-to-learning": {
       "header": "أذكى كل يوم",
-      "description": "تطبيقات تساعدك على الدراسة والبحث والكتابة"
+      "description": "تطبيقات لاكتشاف المعرفة وتعلمها وابتكارها"
     },
     "winter-comforts": {
       "header": "استمتع بالدفء",
-      "description": "تطبيقات رائعة للقراءة ومشاهدة الأفلام وممارسة الألعاب"
+      "description": "تطبيقات للاسترخاء وتخفيف التوتر"
     },
     "tools-for-developers": {
       "header": "أساسيات مطوِّري الويب",
@@ -827,11 +827,11 @@
     },
     "take-better-notes": {
       "header": "دوّن الملاحظات بشكل أفضل",
-      "description": "اكتشف أداة تدوين الملاحظات المفضلة الجديدة لديك"
+      "description": "أدوات جديدة لتدوين أفضل أفكارك"
     },
     "get-focused": {
       "header": "ركِّز",
-      "description": "تطبيقات رائعة لإدارة المهام"
+      "description": "كل ما تحتاجه لتبقى في حالة انسيابية"
     },
     "get-to-work": {
       "header": "ابدأ العمل",
@@ -863,5 +863,21 @@
   "moderation-manifest-added": "أُضيف",
   "moderation-manifest-removed": "أُزيل",
   "moderation-build-changes": "تغييرات البنية",
-  "moderation-build-log": "سجلّ البنية"
+  "moderation-build-log": "سجلّ البنية",
+  "x-installs": "{x} تثبيتات",
+  "chart-description": "رسم بياني يعرض {chart}. مرر المؤشر فوق نقطة بيانات أو ركز عليها للاطلاع على القيم الدقيقة.",
+  "build-duration-over-time": "مدة البناء بمرور الوقت",
+  "duration-minutes": "المدة (دقائق)",
+  "category": "التصنيف",
+  "operating-system": "نظام التشغيل",
+  "flatpak-version": "إصدار Flatpak",
+  "share-of-installs": "حصة التثبيتات",
+  "login-failed": "فشل الولوج",
+  "login-failed-try-again": "تعذّر الولوج. حاول مجددًا.",
+  "gitlab-terms-not-accepted": "يتطلب حسابك لدى {provider} الموافقة على شروط الخدمة الخاصة به. افتح موقع {provider} في متصفح، ووافق على الشروط، ثم حاول الولوج مرة أخرى.",
+  "open-login-provider": "افتح {provider}",
+  "back-to-login": "ارجع للولوج",
+  "view-builds": "اعرض البنيات",
+  "remove-bookmark": "أزِل العلامة",
+  "remove-from-favorites": "أزِل {app} من العلامات"
 }

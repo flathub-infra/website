@@ -531,7 +531,7 @@
   "archive-app": "Archivovat tuto aplikaci",
   "manage-x": "Spravovat aplikaci {app_name}",
   "switch-to-direct-upload": "Přepnout aplikaci na přímé nahrávání",
-  "do-you-really-want-to-archive-app": "Opravdu to chcete? Tento krok zneplatní nahrané tokeny a archivuje aplikaci.",
+  "do-you-really-want-to-archive-app": "Než přemístíte do archivu, zkontrolujte níže uvedené důsledky.",
   "archive": "Archivovat",
   "enter-end-of-life-message": "Zadejte zprávu „end-of-life“",
   "rebase-onto-other-app": "Zadejte ID aplikace, do kterého bude vaše aplikace přenesena",
@@ -867,7 +867,6 @@
   "remove-bookmark": "Odebrat záložku",
   "remove-from-favorites": "Odebrat {app} ze záložek",
   "runtime": "Běhové prostředí",
-  "email-login-log-in-with-email": "Přihlásit se pomocí e-mailu",
   "email-login-with-email": "Přihlásit se pomocí e-mailu",
   "email-login-other-methods": "Ostatní metody přihlašování",
   "email-login-email-address": "E-mailová adresa",
@@ -902,5 +901,26 @@
   "other-apps-to-explore": "Tady jsou nějaké ostatní úžasné aplikace k prozkoumání.",
   "clear-filters": "Vyčistit filtry",
   "email-login-sign-in": "Přihlásit se",
-  "email-login-invalid-or-expired": "Tento přihlašovací odkaz není platný nebo jeho platnost skončila. Aby bylo možné pokračovat, vyžádejte si jiný."
+  "email-login-invalid-or-expired": "Tento přihlašovací odkaz není platný nebo jeho platnost skončila. Aby bylo možné pokračovat, vyžádejte si jiný.",
+  "chart-description": "Graf zobrazující {chart}. Pro konkrétní hodnoty najeďte ukazatelem (nebo zaměřte).",
+  "build-duration-over-time": "Doba trvání sestavení v čase",
+  "duration-minutes": "Doba trvání (minuty)",
+  "category": "Kategorie",
+  "operating-system": "Operační systém",
+  "flatpak-version": "Verze Flatpak",
+  "share-of-installs": "Podíl instalací",
+  "view-builds": "Zobrazit sestavení",
+  "danger-zone-confirmation": {
+    "switch": {
+      "warning-title": "Tuto změnu nelze vzít zpět",
+      "warning-consequence": "Natrvalo se přepínají změny této aplikace na Flathub na přímá nahrání.",
+      "acknowledgment": "Rozumím, že přepnutí <app>{app_id}</app> na přímé nahrávání není možné vzít zpět"
+    },
+    "archive": {
+      "warning-title": "Přemístění této aplikace do archivu ovlivní ji a její vydavatele",
+      "warning-tokens": "Veškeré aktivní tokeny pro nahrávání pro tuto aplikaci budou zneplatněny.",
+      "warning-eol": "Aplikace bude označena jako s ukončenou životností s použitím níže uvedené zprávy.",
+      "acknowledgment": "Rozumím důsledkům přemístění <app>{app_id}</app> do archivu"
+    }
+  }
 }
