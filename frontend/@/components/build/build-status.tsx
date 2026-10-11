@@ -218,11 +218,13 @@ export function getDashboardStatusLabel(status: PipelineStatus): string {
 }
 
 export function getPipelineOutcome(
-  pipeline: Pick<PipelineSummary, "status" | "repo">,
+  pipeline: Pick<PipelineSummary, "status" | "repo" | "review_required">,
 ): string | null {
   if (pipeline.status !== "committed") return null
   if (pipeline.repo === "stable" || pipeline.repo === "beta")
-    return "Awaiting publication"
+    return pipeline.review_required
+      ? "Awaiting moderation"
+      : "Awaiting publication"
   if (pipeline.repo === "test") return "Test build ready"
   return "Committed"
 }

@@ -43,6 +43,7 @@ export interface PipelineSummary {
   failure_issue_url?: PipelineSummaryFailureIssueUrl
   reprocheck_status_code?: PipelineSummaryReprocheckStatusCode
   reprocheck_result_url?: PipelineSummaryReprocheckResultUrl
+  review_required?: boolean
   created_at: string
   started_at?: PipelineSummaryStartedAt
   finished_at?: PipelineSummaryFinishedAt
