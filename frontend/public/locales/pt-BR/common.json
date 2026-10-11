@@ -729,19 +729,10 @@
   "sub-header": {
     "download": "Download",
     "free": "Gratuito",
-    "desktop-only": "Apenas desktop",
-    "desktop-and-mobile": "Desktop e móvel",
     "downloads-per-month": "Downloads/mês",
     "amount-to-download": "Quantidade de dados a baixar",
     "size-on-disk": "Tamanho em disco",
     "installed-runtime-size": "Tamanho do runtime instalado",
-    "appname-works-best-on-specific-hardware": "{appName} funciona melhor em hardware específico",
-    "appname-works-on-all-devices": "{appName} funciona em todos os dispositivos",
-    "mobile-support": "Compatível com dispositivos móveis",
-    "desktop-support": "Compatível com desktop",
-    "works-well-on-large-screens": "Funciona bem em telas grandes",
-    "may-not-work-well-on-mobile": "Pode não funcionar bem em dispositivos móveis",
-    "works-well-on-mobile": "Funciona bem em dispositivos móveis",
     "total-installs": "{count} instalações totais",
     "age-rating": "Classificação etária"
   },
@@ -876,5 +867,12 @@
   "login-failed-try-again": "Não foi possível entrar. Tente novamente.",
   "gitlab-terms-not-accepted": "Sua conta {provider} requer que você aceito seus Termos de Serviço. Abra {provider} em um navegador, aceite os termos e tente entrar novamente.",
   "open-login-provider": "Abrir {provider}",
-  "back-to-login": "Voltar ao login"
+  "back-to-login": "Voltar ao login",
+  "chart-description": "Gráfico mostrando {chart}. Passe ou mude o foco para um ponto de dados para valores exatos.",
+  "build-duration-over-time": "Duração de construção ao longo do tempo",
+  "duration-minutes": "Duração (minutos)",
+  "category": "Categoria",
+  "operating-system": "Sistema operacional",
+  "flatpak-version": "Versão do Flatpak",
+  "share-of-installs": "Compartilhamento de instalações"
 }

@@ -726,8 +726,6 @@
   },
   "sub-header": {
     "download": "ダウンロード",
-    "desktop-only": "デスクトップ専用",
-    "desktop-and-mobile": "デスクトップ・モバイル対応",
     "downloads-per-month": "月間ダウンロード数",
     "amount-to-download": "インターネットからのダウンロード容量",
     "size-on-disk": "ディスク使用量",

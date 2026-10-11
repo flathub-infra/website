@@ -444,5 +444,9 @@
   "t2_sde": {
     "distroName": "T2 SDE",
     "introduction": "<header>Flatpak je v T2 SDE od verzie 26.6 nainštalovaný predvolene — nie je potrebné žiadne nastavovanie!</header> <text>Flatpak je už predkonfigurovaný s repozitárom Flathub a obsahuje nástroje na integráciu do pracovného prostredia, ktoré umožňujú inštaláciu aplikácií jedným kliknutím z Flathubu.</text> <text>Všetko, čo musíte urobiť, je <link>nainštalovať aplikácie</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak je predinštalovaný v Nure!</header><text>Všetko, čo musíte urobiť, je <link>nainštalovať aplikácie</link>!</text>"
   }
 }

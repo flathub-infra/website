@@ -466,17 +466,8 @@
     "downloads-per-month": "Nedladdningar/månad",
     "amount-to-download": "Mängd att ladda ner från internet",
     "size-on-disk": "Storlek på hårddisken",
-    "appname-works-on-all-devices": "{appName} fungerar på alla enheter",
-    "works-well-on-large-screens": "Fungerar bra på stora skärmar",
-    "may-not-work-well-on-mobile": "Fungerar kanske inte så bra på mobila enheter",
-    "works-well-on-mobile": "Fungerar bra på mobila enheter",
     "total-installs": "{count} installationer totalt",
-    "installed-runtime-size": "Installerad runtime-storlek",
-    "appname-works-best-on-specific-hardware": "{appName} fungerar bäst på specifik maskinvara",
-    "mobile-support": "Stöd för mobila enheter",
-    "desktop-support": "Stöd för skrivbord",
-    "desktop-only": "Endast för dator",
-    "desktop-and-mobile": "Datorer & mobiltelefoner"
+    "installed-runtime-size": "Installerad runtime-storlek"
   },
   "content-rating": {
     "subtitle": "{appName} är lämpligt för barn i åldern {age}",
