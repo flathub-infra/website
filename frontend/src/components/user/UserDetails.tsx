@@ -12,9 +12,11 @@ import {
 import { useMeUsersMeGet } from "src/codegen/users/users"
 import { toast } from "sonner"
 import { isAxiosError } from "axios"
-import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Copy } from "lucide-react"
 
 interface Props {
   logins: LoginMethod[]
@@ -106,35 +108,38 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
       const isDefault = user.info.default_account.provider === provider.method
 
       return (
-        <Card key={provider.method} className="w-full py-0 md:w-auto">
-          <CardContent className="flex items-center gap-3 p-5">
+        <li
+          key={provider.method}
+          className="flex flex-wrap items-center gap-3 py-3"
+        >
+          <span aria-hidden="true" className="shrink-0">
             <Avatar
               userName={user.info.displayname}
               avatarUrl={authData.avatar}
             />
-            <div className="flex flex-1 flex-col">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold">{provider.name}</span>
-                {isDefault && (
-                  <span className="rounded bg-flathub-celestial-blue px-2 py-0.5 text-xs font-medium text-white dark:bg-flathub-celestial-blue">
-                    {t("default-account")}
-                  </span>
-                )}
-              </div>
-              <span>{authData.login}</span>
+          </span>
+          <div className="flex min-w-0 flex-1 flex-col">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-semibold">{provider.name}</span>
+              {isDefault && (
+                <Badge variant="outline">{t("default-account")}</Badge>
+              )}
             </div>
-            {!isDefault && (
-              <Button
-                onClick={() => handleSetDefault(provider.method)}
-                disabled={changingDefault}
-                variant="secondary"
-                size="sm"
-              >
-                {t("set-as-default")}
-              </Button>
-            )}
-          </CardContent>
-        </Card>
+            <span className="break-all text-sm text-foreground/75">
+              {authData.login}
+            </span>
+          </div>
+          {!isDefault && (
+            <Button
+              onClick={() => handleSetDefault(provider.method)}
+              disabled={changingDefault}
+              variant="outline"
+              size="sm"
+            >
+              {t("set-as-default")}
+            </Button>
+          )}
+        </li>
       )
     })
 
@@ -148,56 +153,54 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   const isEmailDefault = user.info.default_account.provider === "email"
 
   const emailAccountCard = user.info.email_login ? (
-    <Card key="email" className="w-full py-0 md:w-auto">
-      <CardContent className="flex items-center gap-3 p-5">
-        <div className="flex h-16 w-16 items-center justify-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1.5}
-            className="h-8 w-8"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-            />
-          </svg>
+    <li key="email" className="flex items-center gap-3 py-3">
+      <div className="flex size-10 shrink-0 items-center justify-center">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          className="h-8 w-8"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
+          />
+        </svg>
+      </div>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex items-center gap-2">
+          <span className="font-semibold">{t("email-account")}</span>
+          {isEmailDefault && (
+            <Badge variant="outline">{t("default-account")}</Badge>
+          )}
         </div>
-        <div className="flex flex-1 flex-col">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold">{t("email-account")}</span>
-            {isEmailDefault && (
-              <span className="rounded bg-flathub-celestial-blue px-2 py-0.5 text-xs font-medium text-white dark:bg-flathub-celestial-blue">
-                {t("default-account")}
-              </span>
-            )}
-          </div>
-          <span>{user.info.email_login.email}</span>
-          <span
-            className={
-              user.info.email_login.enabled
-                ? "text-sm opacity-75"
-                : "text-sm font-medium text-flathub-red"
-            }
-          >
-            {user.info.email_login.enabled
-              ? t("verified-email")
-              : t("email-login-replaced")}
-          </span>
-        </div>
-      </CardContent>
-    </Card>
+        <span className="break-all text-sm text-foreground/75">
+          {user.info.email_login.email}
+        </span>
+        <span
+          className={
+            user.info.email_login.enabled
+              ? "text-sm opacity-75"
+              : "text-sm font-medium text-flathub-red"
+          }
+        >
+          {user.info.email_login.enabled
+            ? t("verified-email")
+            : t("email-login-replaced")}
+        </span>
+      </div>
+    </li>
   ) : undefined
 
   const loginSection = linkOptions.length ? (
     <div>
-      <h3 className="my-4 text-xl font-semibold">{t("link-more-accounts")}</h3>
-      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-        {linkOptions}
-      </div>
+      <h3 className="mb-3 text-base font-semibold">
+        {t("link-more-accounts")}
+      </h3>
+      <div className="grid gap-3 sm:grid-cols-2">{linkOptions}</div>
     </div>
   ) : (
     <></>
@@ -206,74 +209,67 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
   const displayNameWithFallback = getUserName(user.info)
 
   return (
-    <>
-      <h1 className="col-start-1 row-start-1 mb-3 mt-0 text-4xl font-extrabold">
-        {displayNameWithFallback}
-      </h1>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-xl font-semibold">{displayNameWithFallback}</h2>
 
-      {userId !== undefined && (
-        <div className="mb-4">
-          <h3 className="my-4 text-xl font-semibold">{t("user-id")}</h3>
-          <Card className="inline-flex py-0">
-            <CardContent className="flex items-center gap-3 p-5">
-              <span className="font-mono">{userId}</span>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => navigator.clipboard.writeText(String(userId))}
-              >
-                {t("copy-text")}
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      <div className="mb-4">
-        <h3 className="my-4 text-xl font-semibold">
-          <label htmlFor="display-name">{t("display-name")}</label>
-        </h3>
-        <Card className="w-full py-0 md:w-auto">
-          <CardContent className="p-5">
-            <form
-              className="flex items-center gap-3"
-              onSubmit={handleSaveDisplayName}
+        {userId !== undefined && (
+          <div className="flex items-center gap-3 text-sm text-foreground/75">
+            <span>{t("user-id")}</span>
+            <Button
+              variant="outline"
+              size="sm"
+              aria-label={`${t("copy-text")}: ${t("user-id")} ${userId}`}
+              title={t("copy-text")}
+              onClick={() => navigator.clipboard.writeText(String(userId))}
             >
-              <Input
-                id="display-name"
-                value={displayName}
-                onChange={(event) => setDisplayNameDraft(event.target.value)}
-                aria-invalid={showDisplayNameError}
-                aria-describedby={
-                  showDisplayNameError ? "display-name-error" : undefined
-                }
-              />
-              <Button type="submit" disabled={!canSaveDisplayName}>
-                {t("save")}
-              </Button>
-            </form>
-            {showDisplayNameError && (
-              <p
-                id="display-name-error"
-                className="mt-2 text-sm text-destructive"
-              >
-                {t("display-name-invalid")}
-              </p>
-            )}
-          </CardContent>
-        </Card>
+              <span className="font-mono">{userId}</span>
+              <Copy size={14} aria-hidden="true" data-icon="inline-end" />
+            </Button>
+          </div>
+        )}
       </div>
+      <Separator className="opacity-40" />
 
       <div>
-        <h3 className="my-4 text-xl font-semibold">{t("linked-accounts")}</h3>
-        <div className="flex flex-row flex-wrap gap-3">
+        <div className="mb-2 text-sm font-semibold">
+          <label htmlFor="display-name">{t("display-name")}</label>
+        </div>
+        <form
+          className="flex items-center gap-3"
+          onSubmit={handleSaveDisplayName}
+        >
+          <Input
+            id="display-name"
+            value={displayName}
+            onChange={(event) => setDisplayNameDraft(event.target.value)}
+            aria-invalid={showDisplayNameError}
+            aria-describedby={
+              showDisplayNameError ? "display-name-error" : undefined
+            }
+          />
+          <Button type="submit" disabled={!canSaveDisplayName}>
+            {t("save")}
+          </Button>
+        </form>
+        {showDisplayNameError && (
+          <p id="display-name-error" className="mt-2 text-sm text-destructive">
+            {t("display-name-invalid")}
+          </p>
+        )}
+      </div>
+      <Separator className="opacity-40" />
+
+      <div>
+        <h3 className="mb-1 text-base font-semibold">{t("linked-accounts")}</h3>
+        <ul className="divide-y divide-border/40">
           {linkedAccounts}
           {emailAccountCard}
-        </div>
+        </ul>
       </div>
 
       {loginSection}
-    </>
+    </div>
   )
 }
 

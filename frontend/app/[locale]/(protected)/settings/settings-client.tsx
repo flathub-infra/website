@@ -8,6 +8,7 @@ import Passkeys from "../../../../src/components/user/Passkeys"
 import UserDetails from "../../../../src/components/user/UserDetails"
 import type { JSX } from "react"
 import { LoginMethod } from "src/codegen"
+import { Separator } from "@/components/ui/separator"
 
 interface SettingsClientProps {
   providers: LoginMethod[]
@@ -18,13 +19,20 @@ const SettingsClient = ({ providers }: SettingsClientProps): JSX.Element => {
   const user = useUserContext()
 
   return (
-    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
+    <div className="mx-auto w-full max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
       <LoginGuard>
-        <div className="mt-4 p-4 flex flex-wrap gap-3 rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
-          <div className="space-y-3">
+        <div className="flex flex-col gap-7">
+          <header>
+            <h1 className="text-3xl font-bold tracking-tight">
+              {t("settings")}
+            </h1>
+          </header>
+          <div className="flex flex-col gap-7">
             <UserDetails logins={providers} />
+            <Separator className="opacity-40" />
             <Passkeys key={user.info?.invite_code ?? "signed-out"} />
-            <div className="pt-12">
+            <Separator className="opacity-40" />
+            <div>
               <DeleteButton />
             </div>
           </div>
