@@ -5,7 +5,7 @@ import logging
 import re
 import struct
 from collections import defaultdict
-from typing import Literal, TypedDict, TypeGuard
+from typing import Literal, TypedDict, TypeGuard, cast
 
 logger = logging.getLogger(__name__)
 
@@ -185,7 +185,7 @@ def parse_metadata(ini: str) -> dict[str, JSONValue] | None:
             tags: list[JSONValue] = [x for x in tags_value.split(";") if x]
             metadata["tags"] = tags
 
-        permissions: defaultdict[str, JSONValue] = defaultdict(dict)
+        permissions: dict[str, JSONValue] = {}
 
         try:
             context_keys = key_file.get_keys("Context")[0]
@@ -201,7 +201,7 @@ def parse_metadata(ini: str) -> dict[str, JSONValue] | None:
             for busname in session_bus_keys:
                 bus_permission = key_file.get_value("Session Bus Policy", busname)
                 bus[bus_permission].append(busname)
-            permissions["session-bus"] = dict(bus)
+            permissions["session-bus"] = cast("JSONValue", dict(bus))
         except GLib.Error:
             pass
 
@@ -211,7 +211,7 @@ def parse_metadata(ini: str) -> dict[str, JSONValue] | None:
             for busname in system_bus_keys:
                 bus_permission = key_file.get_value("System Bus Policy", busname)
                 bus[bus_permission].append(busname)
-            permissions["system-bus"] = dict(bus)
+            permissions["system-bus"] = cast("JSONValue", dict(bus))
         except GLib.Error:
             pass
 
