@@ -241,6 +241,7 @@ const UserDetails: FunctionComponent<Props> = ({ logins }) => {
         >
           <Input
             id="display-name"
+            className="h-9 rounded-lg"
             value={displayName}
             onChange={(event) => setDisplayNameDraft(event.target.value)}
             aria-invalid={showDisplayNameError}
