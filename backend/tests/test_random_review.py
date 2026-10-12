@@ -1278,47 +1278,8 @@ def test_rejection_accepts_nonblank_comment():
     )
 
 
-def test_rejection_issue_includes_reviewer_comment(monkeypatch):
-    created = {}
-
-    class FakeRepo:
-        def get_pulls(self, **kwargs):
-            return []
-
-        def create_issue(self, title, body):
-            created["title"] = title
-            created["body"] = body
-            return SimpleNamespace()
-
-    class FakeGithub:
-        def __init__(self, token):
-            pass
-
-        def get_repo(self, name):
-            return FakeRepo()
-
-    monkeypatch.setattr(config.settings, "github_bot_token", "token")
-    monkeypatch.setattr(moderation, "Github", FakeGithub)
-
-    request = SimpleNamespace(
-        appid="org.example.App",
-        build_id=123,
-        build_log_url="https://flathub.org/builds/123",
-        comment="Not acceptable",
-        request_data=json.dumps(moderation._random_review_request_data()),
-    )
-
-    moderation.create_github_build_rejection_issue(request)
-
-    assert created["title"] == "Change in build 123 rejected"
-    assert created["body"] == (
-        "A change in [build 123](https://flathub.org/builds/123) has been reviewed by "
-        "the Flathub team (@flathub/build-moderation), and rejected for the "
-        "following reason:\n\n> Not acceptable\n"
-    )
-
-
-def test_manifest_rejection_issue_excludes_moderation_details(monkeypatch):
+@pytest.mark.parametrize("discussion", [True, False])
+def test_build_issue_excludes_moderation_details(monkeypatch, discussion):
     created = {}
 
     class FakeRepo:
@@ -1389,14 +1350,20 @@ def test_manifest_rejection_issue_excludes_moderation_details(monkeypatch):
         ),
     )
 
-    moderation.create_github_build_rejection_issue(request)
-
-    assert created["title"] == "Change in build 123 rejected"
-    assert created["body"] == (
-        "A change in [build 123](https://flathub.org/builds/123) has been reviewed by "
-        "the Flathub team (@flathub/build-moderation), and rejected for the "
-        "following reason:\n\n> Not acceptable\n"
+    moderation.create_github_build_issue(
+        request, "Not acceptable", discussion=discussion
     )
+
+    assert "> Not acceptable" in created["body"]
+    for private in (
+        "https://github.com/foo",
+        "modules/main",
+        'modules["app"]',
+        "module_match_ambiguous",
+        "score",
+        "complexity",
+    ):
+        assert private not in created["title"] + created["body"]
 
 
 def test_random_review_missing_secret_fails_only_when_selection_needed(monkeypatch):
@@ -3957,6 +3924,9 @@ class EndpointQuery:
     def with_for_update(self):
         return self
 
+    def populate_existing(self):
+        return self
+
     def _matches(self, request):
         for key, value in self.filter_by_criteria.items():
             if getattr(request, key, None) != value:
@@ -4105,6 +4075,7 @@ def test_observations_are_hidden_from_moderation_endpoints_and_actions(
         yield db
 
     monkeypatch.setattr(moderation, "get_db", get_db)
+    monkeypatch.setattr(models.DirectUploadApp, "by_app_id", lambda db, appid: None)
     apps = moderation.get_moderation_apps(_moderator=object())
     login = SimpleNamespace(
         user=SimpleNamespace(
@@ -4291,8 +4262,8 @@ def test_review_approval_records_allowlisted_origins(monkeypatch, approve):
     monkeypatch.setattr(moderation, "get_json_key", lambda key: None)
     monkeypatch.setattr(
         moderation,
-        "create_github_build_rejection_issue",
-        lambda request: None,
+        "create_github_build_issue",
+        lambda request, comment, *, discussion: None,
     )
     monkeypatch.setattr(models.DirectUploadApp, "by_app_id", lambda db, appid: object())
 
