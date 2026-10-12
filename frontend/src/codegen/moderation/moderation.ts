@@ -28,6 +28,7 @@ import qs from "qs"
 import type {
   CandidateAssessmentRequest,
   CandidateAssessmentResponse,
+  Discussion,
   GetModerationAppModerationAppsAppIdGetParams,
   GetModerationAppsModerationAppsGetParams,
   HTTPValidationError,
@@ -595,6 +596,112 @@ export const useSubmitReviewModerationRequestsIdReviewPost = <
 > => {
   return useMutation(
     getSubmitReviewModerationRequestsIdReviewPostMutationOptions(options),
+    queryClient,
+  )
+}
+/**
+ * @summary Submit Discussion
+ */
+export const submitDiscussionModerationRequestsIdDiscussionPost = (
+  id: number,
+  discussion: Discussion,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<ReviewResponse>> => {
+  return axios.post(
+    `/moderation/requests/${id}/discussion`,
+    discussion,
+    options,
+  )
+}
+
+export const getSubmitDiscussionModerationRequestsIdDiscussionPostMutationOptions =
+  <TError = AxiosError<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+      >,
+      TError,
+      { id: number; data: Discussion },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+    >,
+    TError,
+    { id: number; data: Discussion },
+    TContext
+  > => {
+    const mutationKey = ["submitDiscussionModerationRequestsIdDiscussionPost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+      >,
+      { id: number; data: Discussion }
+    > = (props) => {
+      const { id, data } = props ?? {}
+
+      return submitDiscussionModerationRequestsIdDiscussionPost(
+        id,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+    >
+  >
+export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationBody =
+  Discussion
+export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationError =
+  AxiosError<void>
+
+/**
+ * @summary Submit Discussion
+ */
+export const useSubmitDiscussionModerationRequestsIdDiscussionPost = <
+  TError = AxiosError<void>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+      >,
+      TError,
+      { id: number; data: Discussion },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<
+    ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+  >,
+  TError,
+  { id: number; data: Discussion },
+  TContext
+> => {
+  return useMutation(
+    getSubmitDiscussionModerationRequestsIdDiscussionPostMutationOptions(
+      options,
+    ),
     queryClient,
   )
 }

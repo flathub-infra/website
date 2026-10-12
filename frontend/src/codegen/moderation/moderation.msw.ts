@@ -263,6 +263,14 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
       ]),
       undefined,
     ]),
+    discussion_url: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      undefined,
+    ]),
+    can_open_discussion: faker.datatype.boolean(),
   })),
   requests_count: faker.number.int(),
   ...overrideResponse,
@@ -282,6 +290,14 @@ export const getSubmitReviewModerationRequestsIdReviewPostResponseMock = (
   github_issue_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
   ...overrideResponse,
 })
+
+export const getSubmitDiscussionModerationRequestsIdDiscussionPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<ReviewResponse, object>> = {},
+  ): ReviewResponse => ({
+    github_issue_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    ...overrideResponse,
+  })
 
 export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
   overrideResponse: Partial<Extract<CandidateAssessmentResponse, object>> = {},
@@ -583,6 +599,31 @@ export const getSubmitReviewModerationRequestsIdReviewPostMockHandler = (
   )
 }
 
+export const getSubmitDiscussionModerationRequestsIdDiscussionPostMockHandler =
+  (
+    overrideResponse?:
+      | ReviewResponse
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<ReviewResponse> | ReviewResponse),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/moderation/requests/:id/discussion",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getSubmitDiscussionModerationRequestsIdDiscussionPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
 export const getPostAssessmentModerationPermissionsAssessPostMockHandler = (
   overrideResponse?:
     | CandidateAssessmentResponse
@@ -637,6 +678,7 @@ export const getModerationMock = () => [
   getGetModerationAppModerationAppsAppIdGetMockHandler(),
   getSubmitReviewRequestModerationSubmitReviewRequestPostMockHandler(),
   getSubmitReviewModerationRequestsIdReviewPostMockHandler(),
+  getSubmitDiscussionModerationRequestsIdDiscussionPostMockHandler(),
   getPostAssessmentModerationPermissionsAssessPostMockHandler(),
   getReadAssessmentModerationPermissionsAssessmentIdGetMockHandler(),
 ]
