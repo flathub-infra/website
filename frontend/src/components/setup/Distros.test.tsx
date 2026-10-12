@@ -75,14 +75,15 @@ for (const distro of instructions) {
       .filter((schema) => schema["@type"] === "HowTo")
     const key = distro.translatedNameKey.split(".")[1]
     const messages = distros[key]
-    const stepCount = Object.keys(messages).filter((key) =>
-      key.startsWith("step-"),
-    ).length
+    // Translation keys identify content, not visible step numbers. Their order
+    // must match the rendered instructions and HowTo structured data.
+    const translatedSteps = Object.entries(messages)
+      .filter(([, value]) => typeof value === "object" && "name" in value)
+      .map(([, value]) => value as { name: string; text: string })
+    const stepCount = translatedSteps.length
     expect(schemas.length).toBe(stepCount ? 1 : 0)
     for (const schema of schemas) {
-      expect(schema.step.length).toBe(
-        Object.keys(messages).filter((key) => key.startsWith("step-")).length,
-      )
+      expect(schema.step.length).toBe(stepCount)
       for (const [index, step] of schema.step.entries()) {
         expect(step.url).toBe(
           `https://flathub.org/setup/${encodeURIComponent(distro.slug ?? distro.name)}`,
@@ -94,12 +95,15 @@ for (const distro of instructions) {
             ({ quot: '"', apos: "'", amp: "&", lt: "<", gt: ">" })[entity],
         )
         expect(text).toBe(
-          messages[`step-${index + 1}`].text
+          translatedSteps[index].text
             .replace(/<[^>]*>/g, "")
             .replace(/\s{2,}/g, " ")
             .trim(),
         )
       }
+      expect(schema.step.map((step) => step.name)).toEqual(
+        translatedSteps.map((step) => step.name),
+      )
     }
   })
 }

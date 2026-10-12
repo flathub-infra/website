@@ -5,15 +5,15 @@
       text: "
         <p>To install Flatpak on <strong>Ubuntu 18.10 (Cosmic Cuttlefish) or later</strong>, open the Terminal app and run:</p>
         <terminal-command>sudo apt install flatpak</terminal-command>"
-    - name: Install GNOME Software Flatpak plugin
-      text: '
-        <p>The GNOME Software plugin makes it possible to install apps without needing the command line. To install, run:</p>
-        <terminal-command>sudo apt install gnome-software-plugin-flatpak</terminal-command>
-        <p><strong>Note:</strong> Ubuntu distributes GNOME Software as a Snap in versions 20.04 to 23.04, and replaced it with App Center in 23.10 and newer—neither of which support installing Flatpak apps. Installing the Flatpak plugin will also install a deb version of GNOME Software, resulting in two "Software" apps being installed at the same time on Ubuntu 20.04 to 23.04, and a single new \"Software\" app on Ubuntu 23.10 and newer.</p>'
     - name: Add the Flathub repository
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run:</p>
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
+    - name: Install Bazaar
+      text: "
+        <p>With Flathub enabled, install Bazaar directly from Flathub by running:</p>
+        <terminal-command>flatpak install flathub io.github.kolunmi.Bazaar</terminal-command>
+        <p>Then launch it from your desktop to install Flatpak apps graphically.</p>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
@@ -142,16 +142,15 @@
       text: "
         <p>A flatpak package is available in Debian 10 (Buster) and newer. To install it, run the following as root:</p>
         <terminal-command>sudo apt install flatpak</terminal-command>"
-    - name: Install the Software Flatpak plugin
-      text: "
-        <p>If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run:</p>
-        <terminal-command>sudo apt install gnome-software-plugin-flatpak</terminal-command>
-        <p>If you are running KDE, you should instead install the Plasma Discover Flatpak backend:</p>
-        <terminal-command>sudo apt install plasma-discover-backend-flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run:</p>
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
+    - name: Install Bazaar
+      text: "
+        <p>With Flathub enabled, install Bazaar directly from Flathub by running:</p>
+        <terminal-command>flatpak install flathub io.github.kolunmi.Bazaar</terminal-command>
+        <p>Then launch it from your desktop to install Flatpak apps graphically.</p>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
@@ -204,14 +203,17 @@
   steps:
     - name: Install Flatpak
       text: "
-        <p>To install Flatpak on Kubuntu, open Discover, go to Settings, install the Flatpak backend and restart Discover.</p>"
-    - name: Install the Flatpak system settings add-on
-      text: "
-        <p>To integrate Flatpak support into the Plasma System Settings, open the Terminal app and run:</p>
-        <terminal-command>sudo apt install kde-config-flatpak</terminal-command>"
+        <p>To install Flatpak on Kubuntu, open the Terminal app and run:</p>
+        <terminal-command>sudo apt install flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: "
-        <p>Flathub is the best place to get Flatpak apps. To enable it, open Discover, go to Settings and add the Flathub repository.</p>"
+        <p>Flathub is the best place to get Flatpak apps. To enable it, run:</p>
+        <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>"
+    - name: Install Bazaar
+      text: "
+        <p>With Flathub enabled, install Bazaar directly from Flathub by running:</p>
+        <terminal-command>flatpak install flathub io.github.kolunmi.Bazaar</terminal-command>
+        <p>Then launch it from your desktop to install Flatpak apps graphically.</p>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
@@ -227,10 +229,14 @@
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run:</p>
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
+    - name: Install Bazaar
+      text: "
+        <p>With Flathub enabled, install Bazaar directly from Flathub by running:</p>
+        <terminal-command>flatpak install flathub io.github.kolunmi.Bazaar</terminal-command>
+        <p>Then launch it from your desktop to install Flatpak apps graphically.</p>"
     - name: Restart
       text: '
-        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>
-        <p>Note: graphical installation of Flatpak apps is not yet possible with Solus, but will be available in the near future.</p>'
+        <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
 
 - name: Alpine
   logo: "alpine.svg"
@@ -243,6 +249,11 @@
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run:</p>
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
+    - name: Install Bazaar
+      text: "
+        <p>With Flathub enabled, install Bazaar directly from Flathub by running:</p>
+        <terminal-command>flatpak install flathub io.github.kolunmi.Bazaar</terminal-command>
+        <p>Then launch it from your desktop to install Flatpak apps graphically.</p>"
     - name: Restart
       text: '
         <p>To complete the setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
@@ -377,14 +388,15 @@
       text: "
         <p>A flatpak package is available in Pardus 2019 and newer. To install it, run the following as root:</p>
         <terminal-command>sudo apt install flatpak</terminal-command>"
-    - name: Install the Software Flatpak plugin
-      text: "
-        <p>If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run:</p>
-        <terminal-command>sudo apt install gnome-software-plugin-flatpak</terminal-command>"
     - name: Add the Flathub repository
       text: '
         <p>Flathub is the best place to get Flatpak apps. To enable it, download and install the <a class="btn btn-default" href="https://dl.flathub.org/repo/flathub.flatpakrepo">Flathub repository file</a> or run:</p>
         <terminal-command>flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo</terminal-command>'
+    - name: Install Bazaar
+      text: "
+        <p>With Flathub enabled, install Bazaar directly from Flathub by running:</p>
+        <terminal-command>flatpak install flathub io.github.kolunmi.Bazaar</terminal-command>
+        <p>Then launch it from your desktop to install Flatpak apps graphically.</p>"
     - name: Restart
       text: '
         <p>To complete setup, restart your system. Now all you have to do is <a href="https://flathub.org/">install apps</a>!</p>'
