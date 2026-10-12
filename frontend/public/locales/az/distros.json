@@ -1,5 +1,89 @@
 {
   "ubuntu": {
-    "distroName": "Ubuntu"
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Flatpak quraşdır"
+    },
+    "step-4": {
+      "name": "Yenidən başlat"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "step-5": {
+      "name": "Yenidən başlat"
+    }
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-2": {
+      "name": "Yenidən başlat",
+      "text": "<text>Quraşdırmanı tamamlamaq üçün sisteminizi yenidən başladın. İndi etməli olduğunuz tək şey <link>tətbiqləri quraşdırmaqdır</link>!</text>"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "alt_linux": {
+    "step-1": {
+      "name": "Flatpak quraşdır"
+    },
+    "step-3": {
+      "name": "Yenidən başlat"
+    }
+  },
+  "kubuntu": {
+    "step-4": {
+      "name": "Yenidən başlat"
+    }
+  },
+  "solus": {
+    "step-3": {
+      "name": "Yenidən başlat"
+    }
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix",
+    "step-1": {
+      "name": "Flatpak quraşdır",
+      "text": "<text>Flatpak-ı GNU Guix-ə quraşdırmaq üçün bunu terminalda icra edin:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Yenidən başlat"
+    }
+  },
+  "crystal_linux": {
+    "step-1": {
+      "name": "Flatpak quraşdır"
+    }
+  },
+  "endeavouros": {
+    "step-3": {
+      "name": "Yenidən başlat"
+    },
+    "step-1": {
+      "name": "Flatpak quraşdır"
+    }
+  },
+  "mx_linux": {
+    "distroName": "MX Linux"
+  },
+  "deepin": {
+    "step-4": {
+      "name": "Yenidən başlat"
+    }
+  },
+  "nixos": {
+    "step-3": {
+      "name": "Yenidən başlat"
+    }
+  },
+  "opensuse": {
+    "step-3": {
+      "name": "Yenidən başlat"
+    }
   }
 }

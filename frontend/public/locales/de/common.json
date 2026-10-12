@@ -539,7 +539,10 @@
   "flathub-the-linux-app-store": "Flathub ist der App Store für Linux",
   "developer-portal": {
     "title": "Entwicklerportal",
-    "runtime-version": "Laufzeit-Umgebung: {version}"
+    "runtime-version": "Laufzeit-Umgebung: {version}",
+    "downloads-last-month": "Downloads im letzten Monat",
+    "downloads-last-month-count": "Downloads im letzten Monat: {count}",
+    "downloads-unavailable": "Downloads sind vorübergehend nicht verfügbar."
   },
   "news": "Neuigkeiten",
   "nothing-to-do": "Nichts zu tun",
@@ -954,5 +957,40 @@
   "reauth-method-email": "Sende mir einen Anmeldelink per E-Mail",
   "reauth-sign-out": "Abmelden und erneut anmelden",
   "passkey-remove-prompt": "Passkey „{name}“ entfernen?",
-  "passkey-remove-description": "Du wirst dich mit diesem Passkey nicht mehr anmelden können. Alle Sitzungen, bei denen du dich damit angemeldet hast, werden beendet."
+  "passkey-remove-description": "Du wirst dich mit diesem Passkey nicht mehr anmelden können. Alle Sitzungen, bei denen du dich damit angemeldet hast, werden beendet.",
+  "platform-support": {
+    "adaptive": "Adaptiv",
+    "appname-works-on-most-devices": "{appName} funktioniert auf den meisten Geräten",
+    "support-unknown": "Unterstützung unbekannt",
+    "appname-works-best-on-specific-hardware": "{appName} funktioniert am besten auf bestimmter Hardware",
+    "appname-hardware-support": "Hardware-Unterstützungsinformationen für {appName}",
+    "mobile-support": "Mobilgerätunterstützung",
+    "desktop-support": "Desktop-Unterstützung",
+    "mobile-support-unknown": "Mobile Unterstützung Unbekannt",
+    "desktop-support-unknown": "Desktop-Unterstützung Unbekannt",
+    "mobile-only": "Nur mobil",
+    "desktop-only": "Nur Desktop",
+    "works-well-on-large-screens": "Funktioniert gut auf großen Bildschirmen",
+    "works-well-on-mobile": "Funktioniert gut auf mobilen Geräten",
+    "may-not-work-well-on-mobile": "Funktioniert unter Umständen nicht gut auf mobilen Geräten",
+    "may-not-work-well-on-large-screens": "Funktioniert auf großen Bildschirmen möglicherweise nicht optimal",
+    "mobile-display-support-unknown": "Nicht genug Informationen, um zu wissen, ob kleine Bildschirme unterstützt werden",
+    "desktop-display-support-unknown": "Nicht genug Informationen, um zu wissen, ob große Bildschirme unterstützt werden",
+    "keyboard-support": "Tastatur Unterstützung",
+    "keyboards": "Tastaturen",
+    "mouse-support": "Maus Unterstützung",
+    "pointing-devices": "Mäuse oder Zeigegeräte",
+    "touchscreen-support": "Touchscreen Unterstützung",
+    "touchscreens": "Touchscreen",
+    "gamepad-support": "Gamepad Unterstützung",
+    "gamepads": "Gamepads",
+    "control-required": "Erfordert {device}",
+    "control-recommended": "Empfiehlt {device}",
+    "control-supported": "Unterstützt {device}",
+    "control-unknown": "Unbekannte Unterstützung für {device}"
+  },
+  "moderation-open-discussion": "Offene Diskussion",
+  "moderation-discussion-description": "Eröffne ein GitHub-Issue mit deinem Kommentar. Der Build wird bis zur Entscheidung über die Überprüfung zurückgehalten.",
+  "moderation-view-discussion": "Diskussion anzeigen",
+  "moderation-discussion-comment": "Kommentar"
 }

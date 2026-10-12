@@ -504,7 +504,10 @@
   "rebase-onto-other-app": "شناسهٔ کاره‌ای که برنامه‌تان بر پایهٔ آن خواهد شد را وارد کنید",
   "developer-portal": {
     "title": "درگاه توسعه‌دهندگان",
-    "runtime-version": "زمان اجرا: {version}"
+    "runtime-version": "زمان اجرا: {version}",
+    "downloads-unavailable": "مجموع بارگیری‌ها به طور موفّتی در دسترس نیست.",
+    "downloads-last-month": "بارگیری‌ها در ماه گذشته",
+    "downloads-last-month-count": "بارگیری‌ها در ماه گذشته: {count}"
   },
   "nothing-to-do": "کاری برای انجام نیست",
   "do-you-really-want-to-archive-app": "بازبینی تأثیرات زیر پیش از بایگانی کردن.",
@@ -954,5 +957,40 @@
   "passkey-name-invalid": "ورود نامی برای کلید عبور تا ۱۰۰ نویسه.",
   "reauth-description": "برای امنیتتان هویتتان را پیش از تغییر دادن کلید عبور تأیید کنید.",
   "passkeys-description": "کلیدهای عبور می‌گذارند بدون استفاده از پیوند رایانامه‌ای یا فراهم‌کنندگان خارجی وارد این حساب شوید.",
-  "reauth-return-hint": "بازگشت به این‌جا پس از تأیید هویتتان. بستن این گفت‌وگو در صورت باز بودن و تلاش دوباره برای تغییر کلید عبورتان."
+  "reauth-return-hint": "بازگشت به این‌جا پس از تأیید هویتتان. بستن این گفت‌وگو در صورت باز بودن و تلاش دوباره برای تغییر کلید عبورتان.",
+  "platform-support": {
+    "adaptive": "سازگار",
+    "appname-works-on-most-devices": "{appName} روی بیش‌تر افزاره‌ها کار می‌کند",
+    "support-unknown": "پشتیبانی ناشناخته",
+    "appname-works-best-on-specific-hardware": "‫‏{appName} روی سخت‌افزارهای خاصی بهتر کار می‌کند",
+    "appname-hardware-support": "اطلاعات پشتیبانی سخت‌افزاری {appName}",
+    "mobile-support": "پشتیبانی همراه",
+    "desktop-support": "پشتیبانی میزکار",
+    "mobile-support-unknown": "پشتیبانی همراه نامشخّص",
+    "desktop-support-unknown": "پشتیبانی میزکار نامشخّص",
+    "mobile-only": "فقط همراه",
+    "desktop-only": "فقط میزکار",
+    "works-well-on-large-screens": "روی صفحه‌های بزرگ خوب کار می‌کند",
+    "works-well-on-mobile": "روی افزاره‌های همراه خوب کار می‌کند",
+    "may-not-work-well-on-mobile": "ممکن است روی افزاره‌های همراه خوب کار نکند",
+    "may-not-work-well-on-large-screens": "ممکن است روی صفحه‌های بزرگ خوب کار نکند",
+    "mobile-display-support-unknown": "اطّلاعات کافی برای دانستن پشتیبانی از صفحه‌های کوچک وجود ندارد",
+    "desktop-display-support-unknown": "اطّلاعات کافی برای دانستن پشتیبانی از صفحه‌های بزرگ وجود ندارد",
+    "keyboard-support": "پشتیبانی از صفحه‌کلید",
+    "keyboards": "صفحه‌کلیدها",
+    "mouse-support": "پشتیبانی از موشی",
+    "pointing-devices": "موشی‌ها یا افزاره‌های اشاره‌گر",
+    "touchscreen-support": "پشتیبانی از صفحهٔ لمسی",
+    "touchscreens": "صفحه‌های لمسی",
+    "gamepad-support": "پشتیبانی از دستهٔ بازی",
+    "gamepads": "دسته‌های بازی",
+    "control-required": "نیازمند {device}",
+    "control-recommended": "توصیه به {device}",
+    "control-supported": "پشتبانی از {device}",
+    "control-unknown": "پشتبانی نامشخّص از {device}"
+  },
+  "moderation-open-discussion": "گشودن بحث",
+  "moderation-discussion-description": "گشودن موضوعی در گیت‌هاب با نظرتان. ساخت تا زمان تصمیم بازبینی معلّق می‌ماند.",
+  "moderation-view-discussion": "دیدن بحث",
+  "moderation-discussion-comment": "نظر"
 }
