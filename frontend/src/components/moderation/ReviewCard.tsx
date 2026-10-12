@@ -96,7 +96,9 @@ const ReviewCard: FunctionComponent<Props> = ({
   const cancel = () => {
     setModal(null)
     setComment(undefined)
-    discussionMutation.reset()
+    if (discussionMutation.isError) {
+      discussionMutation.reset()
+    }
   }
 
   let buttons: ReactElement
