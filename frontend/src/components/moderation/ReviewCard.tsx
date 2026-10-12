@@ -194,52 +194,53 @@ const ReviewCard: FunctionComponent<Props> = ({
   return (
     <>
       <Modal
-        shown={modal !== null}
-        title={modal === "discuss" ? t("moderation-open-discussion") : "Reject"}
-        description={
-          modal === "discuss"
-            ? t("moderation-discussion-description")
-            : undefined
-        }
+        shown={modal === "reject"}
+        title="Reject"
         onClose={cancel}
         cancelButton={{ onClick: cancel }}
-        submitButton={
-          modal === "discuss"
-            ? {
-                onClick: confirmDiscussion,
-                label: t("moderation-open-discussion"),
-                disabled: !comment?.trim() || discussionMutation.isPending,
-              }
-            : {
-                onClick: confirm,
-                label: "Reject",
-                disabled: !comment?.trim(),
-              }
-        }
+        submitButton={{
+          onClick: confirm,
+          label: "Reject",
+          disabled: !comment?.trim(),
+        }}
       >
-        {modal === "discuss" && (
-          <label
-            htmlFor={`discussion-comment-${request.id}`}
-            className="mb-2 block text-sm font-medium"
-          >
-            {t("moderation-discussion-comment")}
-          </label>
-        )}
         <Textarea
-          id={
-            modal === "discuss" ? `discussion-comment-${request.id}` : undefined
-          }
           className="h-40"
           value={comment}
           placeholder="Comment"
           onInput={(e) => setComment((e.target as HTMLTextAreaElement).value)}
         />
-        {modal === "discuss" && (
-          <InlineError
-            shown={discussionMutation.isError}
-            error={discussionMutation.error?.message ?? ""}
-          />
-        )}
+      </Modal>
+
+      <Modal
+        shown={modal === "discuss"}
+        title={t("moderation-open-discussion")}
+        description={t("moderation-discussion-description")}
+        onClose={cancel}
+        cancelButton={{ onClick: cancel }}
+        submitButton={{
+          onClick: confirmDiscussion,
+          label: t("moderation-open-discussion"),
+          disabled: !comment?.trim() || discussionMutation.isPending,
+        }}
+      >
+        <label
+          htmlFor={`discussion-comment-${request.id}`}
+          className="mb-2 block text-sm font-medium"
+        >
+          {t("moderation-discussion-comment")}
+        </label>
+        <Textarea
+          id={`discussion-comment-${request.id}`}
+          className="h-40"
+          value={comment ?? ""}
+          placeholder="Comment"
+          onInput={(e) => setComment((e.target as HTMLTextAreaElement).value)}
+        />
+        <InlineError
+          shown={discussionMutation.isError}
+          error={discussionMutation.error?.message ?? ""}
+        />
       </Modal>
 
       <div className="rounded-xl bg-flathub-white p-6 shadow-md dark:bg-flathub-arsenic">
