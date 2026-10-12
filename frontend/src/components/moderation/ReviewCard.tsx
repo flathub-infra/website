@@ -6,11 +6,12 @@ import Spinner from "../Spinner"
 import Tag from "../application/Tag"
 import { formatDistanceToNow, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import Modal from "../Modal"
 import CodeCopy from "../application/CodeCopy"
 import {
   submitReviewModerationRequestsIdReviewPost,
+  submitDiscussionModerationRequestsIdDiscussionPost,
   ModerationRequestResponse,
   Permission,
 } from "src/codegen"
@@ -38,7 +39,8 @@ const ReviewCard: FunctionComponent<Props> = ({
   const request =
     requests.find((groupedRequest) => !groupedRequest.handled_at) ?? requests[0]
 
-  const [modalVisible, setModalVisible] = useState(false)
+  const queryClient = useQueryClient()
+  const [modal, setModal] = useState<"reject" | "discuss" | null>(null)
 
   const [comment, setComment] = useState<string | undefined>(undefined)
   const [issueUrl, setIssueUrl] = useState<string>()
@@ -59,15 +61,42 @@ const ReviewCard: FunctionComponent<Props> = ({
     },
   })
 
+  const discussionMutation = useMutation({
+    mutationKey: ["discussion", request.id],
+    mutationFn: (body: { comment: string }) =>
+      submitDiscussionModerationRequestsIdDiscussionPost(request.id, body, {
+        withCredentials: true,
+      }),
+    onSuccess: () => {
+      setModal(null)
+      setComment(undefined)
+      queryClient.invalidateQueries({
+        queryKey: ["moderation", request.app_id],
+      })
+    },
+  })
+
+  const discussionUrl =
+    discussionMutation.data?.data.github_issue_url ??
+    requests.find((groupedRequest) => groupedRequest.discussion_url)
+      ?.discussion_url
+
   const confirm = () => {
     mutation.mutate({ approve: false, comment: comment })
-    setModalVisible(false)
+    setModal(null)
     setComment(undefined)
   }
 
+  const confirmDiscussion = () => {
+    if (comment?.trim()) {
+      discussionMutation.mutate({ comment })
+    }
+  }
+
   const cancel = () => {
-    setModalVisible(false)
+    setModal(null)
     setComment(undefined)
+    discussionMutation.reset()
   }
 
   let buttons: ReactElement
@@ -126,8 +155,9 @@ const ReviewCard: FunctionComponent<Props> = ({
           size="lg"
           variant="destructive"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
+          disabled={discussionMutation.isPending}
           onClick={() => {
-            setModalVisible(true)
+            setModal("reject")
           }}
         >
           Reject
@@ -135,12 +165,26 @@ const ReviewCard: FunctionComponent<Props> = ({
         <Button
           size="lg"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
+          disabled={discussionMutation.isPending}
           onClick={() => {
             mutation.mutate({ approve: true })
           }}
         >
           Approve
         </Button>
+        {request.can_open_discussion && !discussionUrl && (
+          <Button
+            size="lg"
+            variant="secondary"
+            className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
+            disabled={discussionMutation.isPending}
+            onClick={() => {
+              setModal("discuss")
+            }}
+          >
+            {t("moderation-open-discussion")}
+          </Button>
+        )}
       </>
     )
   } else {
@@ -150,22 +194,52 @@ const ReviewCard: FunctionComponent<Props> = ({
   return (
     <>
       <Modal
-        shown={modalVisible}
-        title="Reject"
+        shown={modal !== null}
+        title={modal === "discuss" ? t("moderation-open-discussion") : "Reject"}
+        description={
+          modal === "discuss"
+            ? t("moderation-discussion-description")
+            : undefined
+        }
         onClose={cancel}
         cancelButton={{ onClick: cancel }}
-        submitButton={{
-          onClick: confirm,
-          label: "Reject",
-          disabled: !comment?.trim(),
-        }}
+        submitButton={
+          modal === "discuss"
+            ? {
+                onClick: confirmDiscussion,
+                label: t("moderation-open-discussion"),
+                disabled: !comment?.trim() || discussionMutation.isPending,
+              }
+            : {
+                onClick: confirm,
+                label: "Reject",
+                disabled: !comment?.trim(),
+              }
+        }
       >
+        {modal === "discuss" && (
+          <label
+            htmlFor={`discussion-comment-${request.id}`}
+            className="mb-2 block text-sm font-medium"
+          >
+            {t("moderation-discussion-comment")}
+          </label>
+        )}
         <Textarea
+          id={
+            modal === "discuss" ? `discussion-comment-${request.id}` : undefined
+          }
           className="h-40"
           value={comment}
           placeholder="Comment"
           onInput={(e) => setComment((e.target as HTMLTextAreaElement).value)}
         />
+        {modal === "discuss" && (
+          <InlineError
+            shown={discussionMutation.isError}
+            error={discussionMutation.error?.message ?? ""}
+          />
+        )}
       </Modal>
 
       <div className="rounded-xl bg-flathub-white p-6 shadow-md dark:bg-flathub-arsenic">
@@ -196,6 +270,17 @@ const ReviewCard: FunctionComponent<Props> = ({
                   >
                     <ExternalLink className="h-3.5 w-3.5" />
                     {t("moderation-build-log")}
+                  </a>
+                )}
+                {discussionUrl && (
+                  <a
+                    className="inline-flex items-center gap-1 text-flathub-celestial-blue hover:underline dark:text-flathub-celestial-blue"
+                    href={discussionUrl}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <ExternalLink className="h-3.5 w-3.5" />
+                    {t("moderation-view-discussion")}
                   </a>
                 )}
               </div>
