@@ -2365,6 +2365,8 @@ class ModerationRequest(Base):
     comment = mapped_column(String)
 
     build_log_url = mapped_column(String)
+    discussion_url = mapped_column(String)
+    discussion_comment = mapped_column(String)
 
     __table_args__ = (
         Index(
@@ -4636,6 +4638,7 @@ class AuditEventType(enum.StrEnum):
     APP_UNARCHIVED = "app-unarchived"
     MODERATION_APPROVED = "moderation-approved"
     MODERATION_REJECTED = "moderation-rejected"
+    MODERATION_DISCUSSION_OPENED = "moderation-discussion-opened"
     VERIFICATION_GRANTED = "verification-granted"
     VERIFICATION_REVOKED = "verification-revoked"
     ROLE_GRANTED = "role-granted"
