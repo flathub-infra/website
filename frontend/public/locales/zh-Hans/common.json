@@ -541,7 +541,10 @@
   "news": "新闻",
   "developer-portal": {
     "title": "开发者门户",
-    "runtime-version": "运行时：{version}"
+    "runtime-version": "运行时：{version}",
+    "downloads-last-month": "上月下载量",
+    "downloads-last-month-count": "上月下载量：{count}",
+    "downloads-unavailable": "下载总数暂不可用。"
   },
   "unverified": "未验证",
   "trending-apps": "飙升应用",
@@ -954,5 +957,36 @@
   "reauth-method-email": "用电子邮件给我发一个登录链接",
   "reauth-sign-out": "退出登录并再次登录",
   "passkey-remove-prompt": "删除通行密钥“{name}”？",
-  "passkey-remove-description": "你将无法再用这个通行密钥登录。已用它登录的会话将终止。"
+  "passkey-remove-description": "你将无法再用这个通行密钥登录。已用它登录的会话将终止。",
+  "platform-support": {
+    "adaptive": "自适应",
+    "appname-works-on-most-devices": "{appName} 可在多数设备上运行",
+    "support-unknown": "支持未知",
+    "appname-works-best-on-specific-hardware": "{appName} 在特定硬件上运行得最好",
+    "appname-hardware-support": "{appName} 的硬件支持信息",
+    "mobile-support": "移动端支持",
+    "desktop-support": "桌面端支持",
+    "mobile-support-unknown": "移动端支持未知",
+    "desktop-support-unknown": "桌面端支持未知",
+    "mobile-only": "仅移动端",
+    "desktop-only": "仅桌面端",
+    "works-well-on-large-screens": "在大屏幕上运行良好",
+    "works-well-on-mobile": "在移动设备上运行良好",
+    "may-not-work-well-on-mobile": "可能在移动设备上无法良好运行",
+    "may-not-work-well-on-large-screens": "可能无法在大屏幕上良好运行",
+    "mobile-display-support-unknown": "信息不足，不清楚是否支持小屏幕",
+    "desktop-display-support-unknown": "信息不足，不清楚是否支持大屏幕",
+    "keyboard-support": "键盘支持",
+    "keyboards": "键盘",
+    "mouse-support": "鼠标支持",
+    "pointing-devices": "鼠标或定位设备",
+    "touchscreen-support": "触摸屏支持",
+    "touchscreens": "触摸屏",
+    "gamepad-support": "游戏板支持",
+    "gamepads": "游戏板",
+    "control-required": "需要 {device}",
+    "control-recommended": "推荐 {device}",
+    "control-supported": "支持 {device}",
+    "control-unknown": "{device} 支持未知"
+  }
 }

@@ -541,7 +541,10 @@
   "news": "Aktualności",
   "developer-portal": {
     "title": "Portal programisty",
-    "runtime-version": "Środowisko uruchomieniowe: {version}"
+    "runtime-version": "Środowisko uruchomieniowe: {version}",
+    "downloads-last-month": "Pobrania w zeszłym miesiącu",
+    "downloads-last-month-count": "Pobrania w zeszłym miesiącu: {count}",
+    "downloads-unavailable": "Łączna liczba pobrań jest chwilowo niedostępna."
   },
   "unverified": "Niezweryfikowana",
   "new": "Nowe",
@@ -954,5 +957,36 @@
   "reauth-account-mismatch": "To logowanie nie pasowało do tego konta. Zaloguj się za pomocą jednego ze swoich połączonych kont.",
   "reauth-return-hint": "Po potwierdzeniu tożsamości wróć tutaj, zamknij to okno dialogowe, jeśli nadal jest otwarte, i spróbuj ponownie zmienić hasło.",
   "reauth-method-email": "Wyślij mi e-mailem link do logowania",
-  "reauth-sign-out": "Wyloguj się i zaloguj ponownie"
+  "reauth-sign-out": "Wyloguj się i zaloguj ponownie",
+  "platform-support": {
+    "adaptive": "Adaptacyjny",
+    "appname-works-on-most-devices": "Aplikacja {appName} działa na większości urządzeń",
+    "support-unknown": "Obsługa platformy nieznana",
+    "appname-works-best-on-specific-hardware": "Aplikacja {appName} działa najlepiej na określonym sprzęcie",
+    "appname-hardware-support": "Informacje dotyczące obsługi sprzętowej aplikacji {appName}",
+    "mobile-support": "Wspiera urządzenia mobilne",
+    "desktop-support": "Wspiera komputery stacjonarne",
+    "mobile-support-unknown": "Obsługa urządzeń mobilnych - nieznana",
+    "desktop-support-unknown": "Obsługa komputerów stacjonarnych – nieznana",
+    "mobile-only": "Tylko urządzenia mobilne",
+    "desktop-only": "Tylko komputery stacjonarne",
+    "works-well-on-large-screens": "Działa dobrze na dużych ekranach",
+    "works-well-on-mobile": "Działa dobrze na urządzeniach mobilnych",
+    "may-not-work-well-on-mobile": "Może nie działać dobrze na urządzeniach mobilnych",
+    "may-not-work-well-on-large-screens": "Może nie działać dobrze na dużych ekranach",
+    "mobile-display-support-unknown": "Za mało informacji, by stwierdzić, czy obsługuje małe ekrany",
+    "desktop-display-support-unknown": "Za mało informacji, by stwierdzić, czy obsługuje duże ekrany",
+    "keyboard-support": "Obsługa klawiatury",
+    "keyboards": "klawiatury",
+    "mouse-support": "Obsługa myszy",
+    "pointing-devices": "Myszy lub urządzenia wskazujące",
+    "touchscreen-support": "Obsługa ekranów dotykowych",
+    "touchscreens": "ekrany dotykowe",
+    "gamepad-support": "Obsługa kontrolerów do gier",
+    "gamepads": "kontrolery do gier",
+    "control-required": "Wymaga {device}",
+    "control-recommended": "Zalecane urządzenie: {device}",
+    "control-supported": "Obsługuje urządzenie: {device}",
+    "control-unknown": "Obsługa {device} nieznana"
+  }
 }
