@@ -2847,7 +2847,6 @@ def submit_review(
 def submit_discussion(
     id: int,
     discussion: Discussion,
-    login: LoginStatusDep,
     http_request: Request,
     _moderator: ModeratorDep,
 ) -> ReviewResponse:
@@ -2894,6 +2893,22 @@ def submit_discussion(
         request_ids = [row.id for row in pending]
         request_types = [row.request_type for row in pending]
 
+        if existing is None:
+            models.AuditLog.create(
+                db,
+                user_id=_moderator.user.id,
+                event_type=models.AuditEventType.MODERATION_DISCUSSION_OPENED,
+                ip_address=http_request.client.host if http_request.client else None,
+                user_agent=http_request.headers.get("user-agent"),
+                details={
+                    "app_id": appid,
+                    "build_id": build_id,
+                    "request_ids": request_ids,
+                    "request_types": request_types,
+                    "discussion_url": discussion_url,
+                },
+            )
+
         try:
             db.session.commit()
         except Exception:
@@ -2905,20 +2920,6 @@ def submit_discussion(
                 build_id,
             )
             raise HTTPException(status_code=500, detail="discussion_persistence_failed")
-
-    if existing is None:
-        audit_log.enqueue_audit_log(
-            http_request,
-            _moderator.user.id,
-            models.AuditEventType.MODERATION_DISCUSSION_OPENED,
-            details={
-                "app_id": appid,
-                "build_id": build_id,
-                "request_ids": request_ids,
-                "request_types": request_types,
-                "discussion_url": discussion_url,
-            },
-        )
 
     if app_metadata := get_json_key(f"apps:{appid}"):
         app_name = app_metadata["name"]

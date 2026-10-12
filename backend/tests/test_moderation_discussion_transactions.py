@@ -42,6 +42,7 @@ TABLES = (
     "directuploadapp",
     "moderationrequest",
     "moderationoriginallowlist",
+    "auditlog",
 )
 
 
@@ -316,9 +317,10 @@ def test_discussion_keeps_build_pending_until_approval(discussion_api):
     assert email["messageId"] == f"{APP_ID}/42/discussion"
     assert email["messageInfo"]["discussionUrl"] == url
     assert email["messageInfo"]["comment"] == "Please explain why this source changed."
-    assert [event for event, _ in api.calls.audits] == [
-        models.AuditEventType.MODERATION_DISCUSSION_OPENED
-    ]
+    with api.engine.connect() as connection:
+        assert connection.execute(text("SELECT event_type FROM auditlog")).all() == [
+            (models.AuditEventType.MODERATION_DISCUSSION_OPENED,)
+        ]
 
     response = api.client.post("/moderation/requests/2/review", json={"approve": True})
     assert response.status_code == 200
@@ -370,7 +372,10 @@ def test_failed_discussion_steps_can_be_retried(discussion_api):
     assert len(api.github.issues) == 1
     (email,) = api.calls.emails
     assert email["messageInfo"]["comment"] == "Original"
-    assert len(api.calls.audits) == 1
+    with api.engine.connect() as connection:
+        assert (
+            connection.execute(text("SELECT count(*) FROM auditlog")).scalar_one() == 1
+        )
 
 
 def test_concurrent_discussions_share_one_issue(discussion_api):
