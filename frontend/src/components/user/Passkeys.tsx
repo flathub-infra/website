@@ -237,7 +237,7 @@ const Passkeys = (): JSX.Element => {
                     </label>
                     <Input
                       id={`passkey-name-${credential.id}`}
-                      className="max-w-xs"
+                      className="h-8 max-w-xs rounded-lg"
                       maxLength={100}
                       value={renaming.name}
                       onChange={(event) =>
@@ -320,7 +320,7 @@ const Passkeys = (): JSX.Element => {
           </label>
           <Input
             id="new-passkey-name"
-            className="w-full"
+            className="h-9 w-full rounded-lg"
             maxLength={100}
             value={name}
             onChange={(event) => setName(event.target.value)}
