@@ -22,11 +22,11 @@
     "nodemailer": "10.0.15",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "react-email": "6.11.0",
+    "react-email": "6.11.1",
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@react-email/ui": "6.11.0",
+    "@react-email/ui": "6.11.1",
     "@types/html-to-text": "^9.0.4",
     "@types/node": "^26.6.4",
     "@types/nodemailer": "^8.0.2",
