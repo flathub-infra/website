@@ -52,6 +52,7 @@ export const Primary = () => {
     is_outdated: false,
 
     is_new_submission: false,
+    can_open_discussion: true,
 
     handled_by: "Kolja",
     handled_at: faker.date.past().toISOString(),
@@ -78,6 +79,7 @@ export const RandomReview = () => {
     job_id: 456,
     is_outdated: false,
     is_new_submission: false,
+    can_open_discussion: true,
   }
 
   return <AppstreamChangesRow request={request} />
@@ -102,6 +104,7 @@ export const PermissionChange = () => {
       },
     },
     is_new_submission: false,
+    can_open_discussion: true,
   }
 
   return <AppstreamChangesRow request={request} />
@@ -127,6 +130,7 @@ export const PermissionChangeAdded = () => {
       },
     },
     is_new_submission: false,
+    can_open_discussion: true,
   }
 
   return <AppstreamChangesRow request={request} />
@@ -155,6 +159,7 @@ export const PermissionChangeRemoval = () => {
       },
     },
     is_new_submission: false,
+    can_open_discussion: true,
   }
 
   return <AppstreamChangesRow request={request} />
@@ -181,6 +186,7 @@ export const PermissionObjectChangeAdded = () => {
       },
     },
     is_new_submission: false,
+    can_open_discussion: true,
   }
 
   return <AppstreamChangesRow request={request} />
@@ -210,6 +216,7 @@ export const PermissionObjectChangeRemoval = () => {
       },
     },
     is_new_submission: false,
+    can_open_discussion: true,
   }
 
   return <AppstreamChangesRow request={request} />

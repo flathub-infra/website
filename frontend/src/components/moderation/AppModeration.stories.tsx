@@ -1,13 +1,16 @@
-import { Meta } from "@storybook/nextjs-vite"
+import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import AppModeration from "./AppModeration"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { faker } from "@faker-js/faker"
 import { http, HttpResponse } from "msw"
-import { ModerationRequestResponse } from "../../codegen/model"
+import { ModerationRequestResponse, Permission } from "../../codegen/model"
+import { expect, userEvent, waitFor, within } from "storybook/test"
+import { UserContext } from "../../context/user-info"
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: Infinity, refetchOnMount: true } },
 })
+let discussionClient = new QueryClient()
 
 export default {
   title: "Components/Moderation/AppModeration",
@@ -61,6 +64,7 @@ const generateMockRequest = (
     },
   },
   is_new_submission: false,
+  can_open_discussion: true,
   handled_by: isHandled ? "John Doe" : null,
   handled_at: isHandled ? faker.date.recent({ days: 2 }).toISOString() : null,
   is_approved: isHandled ? true : null,
@@ -325,5 +329,120 @@ export const Error = {
   },
   args: {
     appId: "org.gnome.TextEditor",
+  },
+}
+
+const discussionIssueUrl =
+  "https://github.com/flathub/org.gnome.TextEditor/issues/12"
+let savedDiscussionUrl: string | undefined
+let discussionBodies: unknown[] = []
+let reviewBodies: unknown[] = []
+
+export const DiscussionFlow: StoryObj<typeof AppModeration> = {
+  beforeEach: () => {
+    discussionClient = new QueryClient()
+    savedDiscussionUrl = undefined
+    discussionBodies = []
+    reviewBodies = []
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/moderation/apps/org.gnome.TextEditor", () => {
+          return HttpResponse.json({
+            requests: [1, 2].map((id) => ({
+              ...generateMockRequest(
+                id,
+                false,
+                false,
+                150000,
+                id === 1 ? "appdata" : "summary",
+              ),
+              created_at: "2024-01-01T00:00:00",
+              discussion_url: savedDiscussionUrl,
+            })),
+            requests_count: 2,
+          })
+        }),
+        http.post(
+          "*/moderation/requests/:id/discussion",
+          async ({ request }) => {
+            discussionBodies.push(await request.json())
+            savedDiscussionUrl = discussionIssueUrl
+            return HttpResponse.json({ github_issue_url: discussionIssueUrl })
+          },
+        ),
+        http.post("*/moderation/requests/:id/review", async ({ request }) => {
+          reviewBodies.push(await request.json())
+          return HttpResponse.json(null)
+        }),
+        http.get("*/moderation/apps", () => {
+          return HttpResponse.json({
+            apps: [
+              {
+                appid: "org.gnome.TextEditor",
+                updated_at: "2024-01-01T00:00:00",
+              },
+            ],
+            apps_count: 1,
+          })
+        }),
+        http.post("*/appstream", () => {
+          return HttpResponse.json([mockAppInfo])
+        }),
+      ],
+    },
+  },
+  args: {
+    appId: "org.gnome.TextEditor",
+  },
+  render: (args) => (
+    <QueryClientProvider client={discussionClient}>
+      <UserContext
+        value={{
+          loading: false,
+          info: { permissions: [Permission.moderation] },
+        }}
+      >
+        <AppModeration {...args} />
+      </UserContext>
+    </QueryClientProvider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const body = within(canvasElement.ownerDocument.body)
+
+    await userEvent.click(
+      await canvas.findByRole("button", { name: "Open discussion" }),
+    )
+    const dialog = within(await body.findByRole("dialog"))
+    const submit = dialog.getByRole("button", { name: "Open discussion" })
+    await expect(submit).toBeDisabled()
+    await userEvent.type(dialog.getByLabelText("Comment"), "   ")
+    await expect(submit).toBeDisabled()
+    await userEvent.clear(dialog.getByLabelText("Comment"))
+    await userEvent.type(
+      dialog.getByLabelText("Comment"),
+      "Please explain why this source changed.",
+    )
+    await userEvent.click(submit)
+
+    await waitFor(() => expect(body.queryByRole("dialog")).toBeNull())
+    await expect(
+      await canvas.findByRole("link", { name: "View discussion" }),
+    ).toHaveAttribute("href", discussionIssueUrl)
+    await expect(discussionBodies).toEqual([
+      { comment: "Please explain why this source changed." },
+    ])
+    await expect(
+      canvas.queryByRole("button", { name: "Open discussion" }),
+    ).toBeNull()
+    await expect(canvas.getByRole("button", { name: "Reject" })).toBeEnabled()
+
+    await userEvent.click(canvas.getByRole("button", { name: "Approve" }))
+    await waitFor(() =>
+      expect(canvas.queryByRole("button", { name: "Approve" })).toBeNull(),
+    )
+    await expect(reviewBodies).toEqual([{ approve: true }])
   },
 }
