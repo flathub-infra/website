@@ -2769,7 +2769,6 @@ def submit_review(
         )
 
     logger.info(f"Moderation review completed for requests {request_ids}, job {job_id}")
-    inform_only_moderators = False
 
     issue = None
     if is_approved:
@@ -2781,7 +2780,6 @@ def submit_review(
 
         with get_db("replica") as db:
             if not models.DirectUploadApp.by_app_id(db, appid):
-                inform_only_moderators = True
                 with get_db("writer") as db:
                     request = (
                         db.session.query(models.ModerationRequest)
@@ -2803,7 +2801,6 @@ def submit_review(
         "subject": subject,
         "previewText": subject,
         "inform_moderators": True,
-        "inform_only_moderators": inform_only_moderators,
         "messageInfo": {
             "category": category,
             "appId": appid,
