@@ -28,8 +28,8 @@ const AdminLayoutClient = ({
         user?.permissions.some((a) => a === Permission.moderation),
     },
     {
-      name: "Permissions",
-      href: "/admin/permissions",
+      name: "Permission statistics",
+      href: "/admin/permission-statistics",
       condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission.moderation),
     },
