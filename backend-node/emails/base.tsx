@@ -42,10 +42,7 @@ export const Base = ({
   const appNameAndId = buildAppName(appId, appName)
 
   let footerMode:
-    | "developer_invite"
-    | "developer_app"
-    | "moderator"
-    | "default" = "default"
+    "developer_invite" | "developer_app" | "moderator" | "default" = "default"
 
   if (category === "developer_invite" && appNameAndId) {
     footerMode = "developer_invite"
