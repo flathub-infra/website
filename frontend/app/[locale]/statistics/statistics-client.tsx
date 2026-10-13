@@ -14,9 +14,12 @@ import {
   useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet,
   useGetQualityModerationStatsQualityModerationFailedByGuidelineGet,
 } from "../../../src/codegen"
-import { barX, defineChart, lineY, stack } from "@tanstack/charts"
-import { crosshair } from "@tanstack/charts/crosshair"
+import { barX, defineChart, stack } from "@tanstack/charts"
 import { createCategoryDistributionChart } from "src/components/charts/category-distribution"
+import {
+  aggregateDownloadsByMonth,
+  createDownloadsOverTimeChart,
+} from "src/components/charts/downloads-over-time"
 import { rectangleFocusStates } from "src/components/charts/rectangle-focus"
 import {
   compareVersions,
@@ -33,7 +36,6 @@ import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
 import { useLocale, useTranslations } from "next-intl"
 import { useRouter } from "src/i18n/navigation"
-import { getIntlLocale } from "src/localize"
 import CountryMap, { type CountryMapValue } from "@/components/ui/country-map"
 
 interface StatisticsClientProps {
@@ -139,80 +141,14 @@ const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()
   const locale = useLocale()
 
-  const data = useMemo(() => {
-    const points = Object.entries(stats.downloads_per_day ?? {})
-      .map(([date, downloads]) => ({ date, downloads }))
-      .sort((a, b) => a.date.localeCompare(b.date))
-    // Remove current day, which is incomplete.
-    points.pop()
-    return points
-  }, [stats.downloads_per_day])
+  const data = useMemo(
+    () => aggregateDownloadsByMonth(stats.downloads_per_day),
+    [stats.downloads_per_day],
+  )
 
-  const { monthFormat, dateFormat } = useMemo(() => {
-    const intlLocale = getIntlLocale(locale)
-    return {
-      monthFormat: new Intl.DateTimeFormat(intlLocale, {
-        calendar: "gregory",
-        month: "short",
-        year: "numeric",
-        timeZone: "UTC",
-      }),
-      dateFormat: new Intl.DateTimeFormat(intlLocale, {
-        calendar: "gregory",
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-        timeZone: "UTC",
-      }),
-    }
-  }, [locale])
-  const dateValue = (date: string, formatter: Intl.DateTimeFormat) =>
-    formatter.format(new Date(`${date}T00:00:00Z`))
-
-  const stroke = primaryStroke
   const definition = useMemo(
-    () =>
-      defineChart({
-        marks: [
-          lineY(data, {
-            x: "date",
-            y: "downloads",
-            stroke,
-            strokeWidth: 3,
-          }),
-          crosshair({ x: { label: true }, y: false }),
-        ],
-        scales: {
-          x: {
-            scale: () => scaleBand<string>().padding(0.2),
-            axis: {
-              ticks: {
-                size: 0,
-                spacing: 104,
-                format: (date) => dateValue(date, monthFormat),
-              },
-            },
-          },
-          y: {
-            scale: scaleLinear,
-            nice: true,
-            grid: true,
-            axis: {
-              ticks: {
-                format: (value) => value.toLocaleString(locale),
-              },
-            },
-          },
-        },
-        focus: "nearest-x",
-        maxFocusDistance: Number.POSITIVE_INFINITY,
-        tooltip: {
-          use: tooltip,
-          format: (point) =>
-            `${dateValue(point.datum.date, dateFormat)}: ${Number(point.yValue).toLocaleString(locale)}`,
-        },
-      }),
-    [data, dateFormat, locale, monthFormat, stroke],
+    () => createDownloadsOverTimeChart(data, locale),
+    [data, locale],
   )
 
   return (
