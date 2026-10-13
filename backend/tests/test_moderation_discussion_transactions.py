@@ -338,6 +338,37 @@ def test_discussion_keeps_build_pending_until_approval(discussion_api):
     assert len(api.github.issues) == 1
 
 
+def test_discussion_excludes_permission_requests(discussion_api):
+    api = discussion_api
+    api.login_as(1)
+    with api.engine.begin() as connection:
+        connection.execute(
+            text(
+                "INSERT INTO moderationrequest (id, appid, build_id, job_id, "
+                "request_type, request_data, is_observation) VALUES "
+                "(6, :appid, 42, 7, 'permissions', :data, false)"
+            ),
+            {
+                "appid": APP_ID,
+                "data": json.dumps({"channel": "stable", "differences": []}),
+            },
+        )
+
+    response = _discuss(api, 6, "Why?")
+    assert (response.status_code, response.json()["detail"]) == (
+        409,
+        "discussion_not_supported",
+    )
+    assert api.github.issues == []
+
+    url = _discuss(api, 1, "Why?").json()["github_issue_url"]
+    listing = api.client.get(f"/moderation/apps/{APP_ID}").json()["requests"]
+    assert {
+        item["id"]: (item.get("discussion_url"), item["can_open_discussion"])
+        for item in listing
+    } == {1: (url, True), 2: (url, True), 4: (None, True), 6: (None, False)}
+
+
 def test_failed_discussion_steps_can_be_retried(discussion_api):
     api = discussion_api
     api.login_as(1)

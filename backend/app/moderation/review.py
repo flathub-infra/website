@@ -723,7 +723,8 @@ def get_moderation_app(
                     is_new_submission=row.is_new_submission,
                     created_at=row.created_at,
                     discussion_url=row.discussion_url,
-                    can_open_discussion=can_open_discussion,
+                    can_open_discussion=can_open_discussion
+                    and row.request_type != ModerationRequestType.PERMISSIONS,
                 )
             )
 
@@ -2912,11 +2913,19 @@ def submit_discussion(
     with get_db("writer") as db:
         request, locked_requests = _lock_review_requests(db.session, id)
 
-        if models.DirectUploadApp.by_app_id(db, request.appid) is not None:
+        if (
+            request.request_type == ModerationRequestType.PERMISSIONS
+            or models.DirectUploadApp.by_app_id(db, request.appid) is not None
+        ):
             raise HTTPException(status_code=409, detail="discussion_not_supported")
 
-        pending = [row for row in locked_requests if row.handled_at is None]
-        existing = next((row for row in locked_requests if row.discussion_url), None)
+        build_requests = [
+            row
+            for row in locked_requests
+            if row.request_type != ModerationRequestType.PERMISSIONS
+        ]
+        pending = [row for row in build_requests if row.handled_at is None]
+        existing = next((row for row in build_requests if row.discussion_url), None)
         if existing is not None:
             discussion_url = existing.discussion_url
             discussion_comment = existing.discussion_comment
