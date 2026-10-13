@@ -1,5 +1,6 @@
 import base64
 import os
+from typing import Literal
 
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings
@@ -97,6 +98,8 @@ class Settings(BaseSettings):
     # When set to True, moderation reviews will still be logged, but they do not have to be approved for the build to
     # be published.
     moderation_observe_only: bool = False
+    permission_publication_mode: Literal["off", "observe", "enforce"] = "off"
+    permission_publication_beta: bool = False
     ostree_manifest_comparison_enabled: bool = False
     ostree_manifest_source_origin_gating_enabled: bool = False
     ostree_manifest_source_origin_observe_only: bool = False

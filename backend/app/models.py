@@ -2674,7 +2674,7 @@ class PermissionBaseline(Base):
 
     __table_args__ = (
         CheckConstraint(
-            "source = 'initialized'",
+            "source IN ('initialized', 'approved')",
             name="permissionbaseline_source",
         ),
         CheckConstraint(

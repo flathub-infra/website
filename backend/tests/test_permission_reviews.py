@@ -1,28 +1,34 @@
+import json
 import os
 import sys
 from contextlib import contextmanager
+from datetime import UTC, datetime
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 from uuid import uuid4
 
 import pytest
 from fastapi import HTTPException
-from sqlalchemy import create_engine, event, text
+from sqlalchemy import create_engine, event, select, text
 from sqlalchemy.orm import sessionmaker
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
-from app import models
+from app import config, models
 from app.db_session import DBSession
+from app.moderation import ostree_permissions
 from app.moderation import permission_assessment as assessment
+from app.moderation import permission_publication as publication
 from app.moderation import permission_reviews as reviews
+from app.moderation import review as moderation_review
 from app.moderation.permission_snapshot import (
     CANONICALIZATION_VERSION,
     PermissionSnapshot,
     PermissionSnapshotError,
     fingerprint_snapshot,
 )
+from app.types import ModerationRequestType
 
 APP = "org.example.App"
 REF = f"app/{APP}/x86_64/stable"
@@ -31,6 +37,7 @@ TABLES = (
     models.PermissionBaseline,
     models.PermissionDecision,
     models.PermissionAssessmentObservation,
+    models.ModerationRequest,
 )
 
 
@@ -148,7 +155,7 @@ def db(monkeypatch):
             session.close()
 
     monkeypatch.setattr(reviews, "audit_log", MagicMock())
-    for module in (assessment, reviews):
+    for module in (assessment, publication, reviews, moderation_review):
         monkeypatch.setattr(module, "get_db", real_db)
     with real_db() as session:
         session.add(models.FlathubUser(id=1, display_name="Moderator"))
@@ -258,3 +265,122 @@ def test_review_listing_filters_stored_outcome_and_superseded(db):
     everything = listed("pending", True)
     assert everything.keys() == pending | {superseded.assessment_id}
     assert everything[superseded.assessment_id].superseded_by == newest.assessment_id
+
+
+def collected(snap):
+    return ostree_permissions.CollectedPermissions(
+        app_id=APP,
+        flatpak_branch="stable",
+        repository_url="https://dl.flathub.org/build-repo/9",
+        captured_at="2026-10-04T00:00:00+00:00",
+        artifacts=(
+            ostree_permissions.PermissionArtifact(
+                ref_name=REF, arch="x86_64", commit="a" * 64
+            ),
+        ),
+        snapshot=PermissionSnapshot(**snap),
+    )
+
+
+@pytest.fixture
+def publish(db, monkeypatch):
+    monkeypatch.setattr(config.settings, "permission_publication_mode", "enforce")
+    monkeypatch.setattr(
+        assessment, "collect_final_candidate", lambda *args: collected(SNAP)
+    )
+    return lambda: publication.check_build(
+        build_id=9,
+        job_id=5,
+        repo="stable",
+        build_extended={"build_refs": [{"ref_name": REF}]},
+        build_log_url=None,
+    )
+
+
+def set_baseline(db, snap, fingerprint):
+    with db() as session:
+        session.add(
+            models.PermissionBaseline(
+                app_id=APP,
+                channel="stable",
+                flatpak_branch="stable",
+                source="initialized",
+                repository_url="https://dl.flathub.org/repo",
+                captured_at=datetime.now(UTC).replace(tzinfo=None),
+                canonicalization_version=CANONICALIZATION_VERSION,
+                artifacts=[{"ref_name": REF, "arch": "x86_64", "commit": "c"}],
+                snapshot=snap,
+                fingerprint=fingerprint,
+            )
+        )
+
+
+def baseline(db):
+    with db() as session:
+        row = session.execute(select(models.PermissionBaseline)).scalar_one()
+        return row.source, row.fingerprint
+
+
+def test_publication_accepts_matching_baseline(db, publish):
+    set_baseline(db, SNAP, FP)
+    assert publish() == []
+    assert baseline(db) == ("initialized", FP)
+
+
+def test_publication_reuses_push_assessment_decision_and_advances_baseline(db, publish):
+    set_baseline(db, OLD_SNAP, OLD_FP)
+    decide(persist(1).assessment_id)
+    assert persist(2, candidate_kind="push").acceptance_basis == "permission_decision"
+    assert publish() == []
+    assert baseline(db) == ("approved", FP)
+
+
+def test_approving_permissions_request_advances_baseline_only(db, publish, monkeypatch):
+    set_baseline(db, OLD_SNAP, OLD_FP)
+    (request,) = publish()
+    data = json.loads(request.request_data)
+    assert (data["comparison_source"], data["candidate_fingerprint"]) == (
+        "baseline",
+        FP,
+    )
+    assert data["differences"]
+    assert baseline(db) == ("initialized", OLD_FP)
+
+    appdata = models.ModerationRequest(
+        appid=APP,
+        build_id=9,
+        job_id=5,
+        request_type=ModerationRequestType.APPDATA,
+        request_data="{}",
+    )
+    with db() as session:
+        session.add_all([request, appdata])
+    for name in ("audit_log", "worker"):
+        monkeypatch.setattr(moderation_review, name, MagicMock())
+    monkeypatch.setattr(moderation_review, "get_json_key", lambda key: None)
+    moderation_review.submit_review(
+        request.id,
+        moderation_review.Review(approve=True),
+        SimpleNamespace(user=SimpleNamespace(id=1)),
+        MagicMock(),
+        None,
+    )
+
+    with db() as session:
+        handled = {
+            row.request_type: row.handled_at is not None
+            for row in session.execute(select(models.ModerationRequest)).scalars()
+        }
+    assert handled == {"permissions": True, "appdata": False}
+    assert baseline(db) == ("approved", FP)
+    moderation_review.worker.review_check.send.assert_not_called()
+
+
+@pytest.mark.parametrize("mode", ["off", "observe"])
+def test_publication_without_enforcement_changes_nothing(
+    db, publish, monkeypatch, mode
+):
+    monkeypatch.setattr(config.settings, "permission_publication_mode", mode)
+    set_baseline(db, OLD_SNAP, OLD_FP)
+    assert publish() == []
+    assert baseline(db) == ("initialized", OLD_FP)

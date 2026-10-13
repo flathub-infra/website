@@ -11,9 +11,10 @@ OBSERVATION = "permissionassessmentobservation"
 OUTCOME = f"{OBSERVATION}_outcome_consistency"
 ACCEPTANCE = f"{OBSERVATION}_acceptance"
 DECISION_FK = "pao_decision_fkey"
+BASELINE_SOURCE = "permissionbaseline_source"
 
 
-def _constraints(outcomes: str, acceptance_basis: str) -> None:
+def _constraints(outcomes: str, acceptance_basis: str, baseline_sources: str) -> None:
     op.drop_constraint(OUTCOME, OBSERVATION, type_="check")
     op.create_check_constraint(
         OUTCOME,
@@ -31,6 +32,10 @@ def _constraints(outcomes: str, acceptance_basis: str) -> None:
         f"(outcome = 'accepted' AND acceptance_basis IS NOT NULL "
         f"AND {acceptance_basis}) OR "
         "(outcome <> 'accepted' AND acceptance_basis IS NULL)",
+    )
+    op.drop_constraint(BASELINE_SOURCE, "permissionbaseline", type_="check")
+    op.create_check_constraint(
+        BASELINE_SOURCE, "permissionbaseline", f"source IN ({baseline_sources})"
     )
 
 
@@ -76,11 +81,12 @@ def upgrade():
     _constraints(
         "'pending', 'accepted', 'rejected'",
         f"(({BASELINE_BASIS}) OR acceptance_basis = 'permission_decision')",
+        "'initialized', 'approved'",
     )
 
 
 def downgrade():
-    _constraints("'pending', 'accepted'", BASELINE_BASIS)
+    _constraints("'pending', 'accepted'", BASELINE_BASIS, "'initialized'")
     op.drop_index("ix_pao_pr", table_name=OBSERVATION)
     op.drop_constraint(DECISION_FK, OBSERVATION, type_="foreignkey")
     op.drop_column(OBSERVATION, "decision_id")

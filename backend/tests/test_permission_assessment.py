@@ -559,8 +559,8 @@ def stored_baseline(monkeypatch, architectures, fingerprint=None):
     }
     requests = []
 
-    def lookup(request):
-        requests.append(request)
+    def lookup(app_id, channel, flatpak_branch):
+        requests.append(channel)
         return baseline
 
     monkeypatch.setattr(assessment, "_stored_baseline", lookup)
@@ -582,7 +582,7 @@ def test_matching_baseline_accepts_candidate(
     response = assessment.assess_candidate(
         assessment.CandidateAssessmentRequest(**request_body())
     )
-    assert [request.destination_channel for request in requests] == ["stable"]
+    assert requests == ["stable"]
     assert response.outcome == "accepted"
     assert response.acceptance_basis == "baseline"
     assert response.baseline_id == 12

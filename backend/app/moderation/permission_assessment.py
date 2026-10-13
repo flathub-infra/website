@@ -2,6 +2,7 @@ import hashlib
 import json
 import logging
 import re
+from collections.abc import Iterable
 from dataclasses import asdict
 from types import SimpleNamespace
 from typing import Annotated, Any, Literal, NoReturn, Self, TypedDict
@@ -249,14 +250,16 @@ def _persist_observation(values: dict[str, object]) -> CandidateAssessmentRespon
     return response
 
 
-def _stored_baseline(request: CandidateAssessmentRequest) -> dict[str, Any] | None:
+def _stored_baseline(
+    app_id: str, channel: str, flatpak_branch: str
+) -> dict[str, Any] | None:
     baseline = models.PermissionBaseline
     with get_db("writer") as db:
         row = db.session.execute(
             select(baseline).where(
-                baseline.app_id == request.app_id,
-                baseline.channel == request.destination_channel,
-                baseline.flatpak_branch == request.flatpak_branch,
+                baseline.app_id == app_id,
+                baseline.channel == channel,
+                baseline.flatpak_branch == flatpak_branch,
                 baseline.canonicalization_version == CANONICALIZATION_VERSION,
             )
         ).scalar_one_or_none()
@@ -373,7 +376,10 @@ def _build_checks(extended: dict[str, JSONValue], checks: list[_BuildCheck]) -> 
 
 
 def _uploaded_refs(
-    request: CandidateAssessmentRequest,
+    build_id: int,
+    app_id: str,
+    destination_repo: str,
+    expected_arches: Iterable[str],
     extended: dict[str, JSONValue],
     checks: list[_BuildCheck],
     uploaded: list[dict[str, str]],
@@ -381,12 +387,12 @@ def _uploaded_refs(
     build = extended.get("build")
     if not is_json_object(build):
         _conflict("invalid_build", "Flat-manager response lacks build metadata")
-    build_id = build.get("id")
-    if type(build_id) is not int or build_id != request.build_id:
+    build_id_value = build.get("id")
+    if type(build_id_value) is not int or build_id_value != build_id:
         _conflict("identity_mismatch", "Flat-manager build ID differs from candidate")
-    if build.get("app_id") is not None and build["app_id"] != request.app_id:
+    if build.get("app_id") is not None and build["app_id"] != app_id:
         _conflict("identity_mismatch", "Flat-manager app ID differs from candidate")
-    if build.get("repo") != request.destination_repo:
+    if build.get("repo") != destination_repo:
         _conflict(
             "identity_mismatch",
             "Flat-manager repository differs from candidate destination",
@@ -409,7 +415,7 @@ def _uploaded_refs(
         if not isinstance(ref_name, str):
             _conflict("invalid_build", "Invalid uploaded ref metadata")
         parts = ref_name.split("/")
-        if len(parts) != 4 or parts[0] != "app" or parts[1] != request.app_id:
+        if len(parts) != 4 or parts[0] != "app" or parts[1] != app_id:
             continue
         if not _valid_segment(parts[2]) or not _valid_segment(parts[3]):
             _conflict("invalid_build", f"Invalid uploaded app ref: {ref_name}")
@@ -427,7 +433,7 @@ def _uploaded_refs(
         )
     uploaded.extend(selected[name] for name in sorted(selected))
     arches = {name.split("/")[2] for name in selected}
-    expected = set(request.expected_arches)
+    expected = set(expected_arches)
     if arches - expected:
         _conflict(
             "identity_mismatch",
@@ -519,6 +525,56 @@ def _check_linter_report_bindings(
             _conflict("linter_report_mismatch", f"Unknown artifacts for {arch}")
 
 
+def collect_final_candidate(
+    build_id: int,
+    app_id: str,
+    destination_repo: str,
+    expected_arches: Iterable[str],
+    uploaded: list[dict[str, str]],
+    checks: list[_BuildCheck],
+) -> CollectedPermissions:
+    if (
+        not config.settings.flat_manager_api
+        or not config.settings.flat_manager_build_secret
+    ):
+        raise HTTPException(status_code=500, detail="flat_manager_not_configured")
+    try:
+        token = utils.create_flat_manager_token(
+            "assess_permission_candidate",
+            ["build", "jobs"],
+            repos=["stable", "beta", "test"],
+        )
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=500, detail="flat_manager_not_configured"
+        ) from exc
+    headers = {"Authorization": token, "Content-Type": "application/json"}
+    build_url = (
+        f"{config.settings.flat_manager_api.rstrip('/')}/api/v1/build/{build_id}"
+    )
+    extended = _fetch(f"{build_url}/extended", headers)
+    _build_checks(extended, checks)
+    candidate_branch = _uploaded_refs(
+        build_id, app_id, destination_repo, expected_arches, extended, checks, uploaded
+    )
+    build_metadata = extended.get("build")
+    if not is_json_object(build_metadata):
+        _conflict("invalid_build", "Flat-manager response lacks build metadata")
+    job_id = build_metadata.get("commit_job_id")
+    if type(job_id) is not int or job_id <= 0:
+        _conflict("missing_commit_job", "Build lacks a commit job")
+    final = _final_commits(
+        _fetch(f"{build_url}/commit", headers, commit=True), job_id, uploaded
+    )
+    return collect_permissions(
+        repository_url=f"https://dl.flathub.org/build-repo/{build_id}",
+        app_id=app_id,
+        flatpak_branch=candidate_branch,
+        expected_arches=set(expected_arches),
+        expected_commits=final,
+    )
+
+
 def assess_candidate(
     request: CandidateAssessmentRequest,
 ) -> CandidateAssessmentResponse:
@@ -547,44 +603,18 @@ def assess_candidate(
                 "unsupported_destination",
                 f"Unsupported destination channel: {request.destination_channel}",
             )
-        if (
-            not config.settings.flat_manager_api
-            or not config.settings.flat_manager_build_secret
-        ):
-            raise HTTPException(status_code=500, detail="flat_manager_not_configured")
-        try:
-            token = utils.create_flat_manager_token(
-                "assess_permission_candidate",
-                ["build", "jobs"],
-                repos=["stable", "beta", "test"],
-            )
-        except ValueError as exc:
-            raise HTTPException(
-                status_code=500, detail="flat_manager_not_configured"
-            ) from exc
-        headers = {"Authorization": token, "Content-Type": "application/json"}
-        build_url = f"{config.settings.flat_manager_api.rstrip('/')}/api/v1/build/{request.build_id}"
-        extended = _fetch(f"{build_url}/extended", headers)
-        _build_checks(extended, checks)
-        candidate_branch = _uploaded_refs(request, extended, checks, uploaded)
-        build_metadata = extended.get("build")
-        if not is_json_object(build_metadata):
-            _conflict("invalid_build", "Flat-manager response lacks build metadata")
-        job_id = build_metadata.get("commit_job_id")
-        if type(job_id) is not int or job_id <= 0:
-            _conflict("missing_commit_job", "Build lacks a commit job")
-        final = _final_commits(
-            _fetch(f"{build_url}/commit", headers, commit=True), job_id, uploaded
-        )
-        candidate = collect_permissions(
-            repository_url=f"https://dl.flathub.org/build-repo/{request.build_id}",
-            app_id=request.app_id,
-            flatpak_branch=candidate_branch,
-            expected_arches=set(request.expected_arches),
-            expected_commits=final,
+        candidate = collect_final_candidate(
+            request.build_id,
+            request.app_id,
+            request.destination_repo,
+            request.expected_arches,
+            uploaded,
+            checks,
         )
         _check_linter_report_bindings(request, reports, uploaded)
-        baseline = _stored_baseline(request)
+        baseline = _stored_baseline(
+            request.app_id, request.destination_channel, request.flatpak_branch
+        )
         if baseline is not None:
             comparison = PermissionSnapshot(**baseline["snapshot"])
             comparison_artifacts = baseline["artifacts"]

@@ -24,6 +24,7 @@ from app.moderation.permission_snapshot import (
     fingerprint_snapshot,
 )
 
+APP = "org.example.App"
 PERMISSION_TABLES = [
     models.FlathubUser.__table__,
     models.PermissionBaseline.__table__,
@@ -362,41 +363,12 @@ def test_stored_baseline_lookup_and_acceptance_constraint(monkeypatch):
                 )
             session.commit()
 
-        def request(**changes):
-            return permission_assessment.CandidateAssessmentRequest(
-                **{
-                    "pipeline_id": "pipeline",
-                    "build_id": 1,
-                    "forge_instance": "github.com",
-                    "source_repository": "flathub/org.example.App",
-                    "pull_request_head_revision": "1" * 40,
-                    "built_revision": "1" * 40,
-                    "target_git_branch": "master",
-                    "candidate_kind": "head",
-                    "app_id": "org.example.App",
-                    "destination_repo": "test",
-                    "destination_channel": "stable",
-                    "flatpak_branch": "stable",
-                    "expected_arches": ["x86_64"],
-                    "matrix_succeeded": True,
-                    **changes,
-                }
-            )
-
-        stored = permission_assessment._stored_baseline(request())
+        stored = permission_assessment._stored_baseline(APP, "stable", "stable")
         assert stored is not None
         assert stored["snapshot"] == snapshot
         assert stored["fingerprint"] == "f" * 64
-        assert (
-            permission_assessment._stored_baseline(
-                request(destination_channel="beta", flatpak_branch="beta")
-            )
-            is None
-        )
-        assert (
-            permission_assessment._stored_baseline(request(flatpak_branch="24.08"))
-            is None
-        )
+        assert permission_assessment._stored_baseline(APP, "beta", "beta") is None
+        assert permission_assessment._stored_baseline(APP, "stable", "24.08") is None
 
         def observation(identity, **changes):
             return {

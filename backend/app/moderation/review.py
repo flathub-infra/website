@@ -7,7 +7,7 @@ import logging
 from collections.abc import Mapping, Sequence
 from collections.abc import Set as AbstractSet
 from datetime import UTC, datetime
-from typing import Annotated, cast
+from typing import Annotated, Any, cast
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
@@ -39,7 +39,13 @@ from ..types import (
     is_json_value,
 )
 from ..verification import is_appid_runtime
-from . import manifest_complexity, ostree_manifest, summary_decisions, url_origin
+from . import (
+    manifest_complexity,
+    ostree_manifest,
+    permission_publication,
+    summary_decisions,
+    url_origin,
+)
 from .constants import should_skip_review
 
 router = APIRouter(prefix="/moderation")
@@ -427,6 +433,20 @@ class ManifestSourceOriginRequestData(BaseModel):
     complexity: ManifestComplexityRequestData | None = None
 
 
+class PermissionsRequestData(BaseModel):
+    channel: str
+    flatpak_branch: str | None = None
+    comparison_source: str | None = None
+    candidate_fingerprint: str | None = None
+    comparison_fingerprint: str | None = None
+    differences: list[dict[str, Any]]
+    error_code: str | None = None
+    error_message: str | None = None
+    linked_assessment_id: int | None = None
+    linked_review_url: str | None = None
+    approved_baseline: dict[str, Any] | None = None
+
+
 class ModerationRequestResponse(BaseModel):
     id: int
     app_id: str
@@ -437,7 +457,9 @@ class ModerationRequestResponse(BaseModel):
     is_outdated: bool
 
     request_type: ModerationRequestType
-    request_data: RequestData | ManifestSourceOriginRequestData | None = None
+    request_data: (
+        RequestData | ManifestSourceOriginRequestData | PermissionsRequestData | None
+    ) = None
     build_log_url: str | None = None
     is_new_submission: bool
 
@@ -1332,9 +1354,27 @@ def submit_review_request(
         raise HTTPException(status_code=500, detail="invalid_build")
     build_metadata = build_metadata_value
     build_target_repo = build_metadata.get("repo")
-    if build_target_repo in ("beta", "test"):
-        return ReviewRequestResponse(requires_review=False)
     build_log_url = build_metadata.get("build_log_url")
+    if not isinstance(build_target_repo, str) or not isinstance(
+        build_log_url, str | None
+    ):
+        raise HTTPException(status_code=500, detail="invalid_build")
+    if build_target_repo in ("beta", "test"):
+        beta_requests = permission_publication.check_build(
+            build_id=review_request.build_id,
+            job_id=review_request.job_id,
+            repo=build_target_repo,
+            build_extended=build_extended,
+            build_log_url=build_log_url,
+        )
+        if beta_requests:
+            with get_db("writer") as db:
+                db.session.add_all(beta_requests)
+                db.session.commit()
+        return ReviewRequestResponse(
+            requires_review=bool(beta_requests)
+            and not config.settings.moderation_observe_only
+        )
 
     build_refs_value = build_extended.get("build_refs")
     if not isinstance(build_refs_value, list):
@@ -1518,6 +1558,18 @@ def submit_review_request(
     has_initial_submission = False
     manifest_reused_app_ids: set[str] = set()
     manifest_reuse_requires_review = False
+    permission_requests = permission_publication.check_build(
+        build_id=review_request.build_id,
+        job_id=review_request.job_id,
+        repo=build_target_repo,
+        build_extended=build_extended,
+        build_log_url=build_log_url,
+    )
+    new_requests += permission_requests
+    persisted_requests += permission_requests
+    permission_enforced = (
+        permission_publication.mode_for(build_target_repo) == "enforce"
+    )
 
     def stage_analysis_observation(
         app_id: str,
@@ -1903,6 +1955,7 @@ def submit_review_request(
                 current_permissions
                 and build_permissions
                 and current_permissions != build_permissions
+                and not permission_enforced
             ):
                 for perm in current_permissions:
                     current_perm = current_permissions[perm]
@@ -2665,6 +2718,11 @@ def submit_review(
             grouped_request
             for grouped_request in locked_requests
             if grouped_request.handled_at is None
+            and (
+                grouped_request.id == request.id
+                if request.request_type == ModerationRequestType.PERMISSIONS
+                else grouped_request.request_type != ModerationRequestType.PERMISSIONS
+            )
         ]
 
         for grouped_request in requests:
@@ -2710,6 +2768,10 @@ def submit_review(
                     )
                     .on_conflict_do_nothing(index_elements=["kind", "origin"])
                 )
+            if request_type == ModerationRequestType.PERMISSIONS and (
+                baseline := json.loads(request_data).get("approved_baseline")
+            ):
+                permission_publication.advance_baseline(db.session, appid, baseline)
             db.session.flush()
             remaining = (
                 db.session.query(models.ModerationRequest)
