@@ -56,7 +56,14 @@ export type SummaryRequest = Omit<AppdataRequest, "requestType"> & {
   requestType: "summary"
 }
 
-export type Request = AppdataRequest | SummaryRequest | ManifestRequest
+export interface PermissionsRequest {
+  requestType: "permissions"
+  requestData: { channel: string }
+  isNewSubmission: false
+}
+
+export type Request =
+  AppdataRequest | SummaryRequest | ManifestRequest | PermissionsRequest
 
 export const RANDOM_REVIEW_MARKER = "Randomly selected for human review"
 
