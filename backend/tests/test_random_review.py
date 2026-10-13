@@ -58,31 +58,38 @@ class FakeQuery:
         for key, value in self.filter_by_criteria.items():
             if getattr(request, key, None) != value:
                 return False
-        for criterion in self.criteria:
-            left = getattr(criterion, "left", None)
-            key = getattr(left, "key", None)
-            value = getattr(getattr(criterion, "right", None), "value", None)
-            right_name = type(getattr(criterion, "right", None)).__name__
-            if right_name == "False_":
-                value = False
-            elif right_name == "True_":
-                value = True
-            operator = getattr(criterion, "operator", None)
-            current = getattr(request, key, None)
-            operator_name = getattr(operator, "__name__", "")
-            if operator_name in {"eq", "is_"} and current != value:
-                return False
-            if operator_name in {"ne", "is_not"} and current == value:
-                return False
-            if operator_name == "in_op" and current not in (value or []):
-                return False
-            if operator_name == "lt" and current >= value:
-                return False
-            if getattr(operator, "opstring", None) == "<@" and (
-                current is None or not set(current) <= set(value)
-            ):
-                return False
-        return True
+        return all(
+            self._criterion_matches(request, criterion) for criterion in self.criteria
+        )
+
+    def _criterion_matches(self, request, criterion):
+        operator = getattr(criterion, "operator", None)
+        operator_name = getattr(operator, "__name__", "")
+        if operator_name == "or_":
+            return any(
+                self._criterion_matches(request, clause) for clause in criterion.clauses
+            )
+        left = getattr(criterion, "left", None)
+        key = getattr(left, "key", None)
+        value = getattr(getattr(criterion, "right", None), "value", None)
+        right_name = type(getattr(criterion, "right", None)).__name__
+        if right_name == "False_":
+            value = False
+        elif right_name == "True_":
+            value = True
+        current = getattr(request, key, None)
+        if operator_name in {"eq", "is_"} and current != value:
+            return False
+        if operator_name in {"ne", "is_not"} and current == value:
+            return False
+        if operator_name == "in_op" and current not in (value or []):
+            return False
+        if operator_name == "lt" and current >= value:
+            return False
+        return not (
+            getattr(operator, "opstring", None) == "<@"
+            and (current is None or not set(current) <= set(value))
+        )
 
     def _requests(self):
         if self.model is not models.ModerationRequest:
@@ -3746,10 +3753,7 @@ def test_clean_replacement_build_outdates_only_older_requests_for_its_app(monkey
     assert harness.db.session.commit_calls == 1
 
 
-@pytest.mark.parametrize("app_refs", [None, []])
-def test_replacement_preserves_requests_with_unknown_ref_coverage(
-    monkeypatch, app_refs
-):
+def test_replacement_outdates_legacy_requests_without_refs(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
         enabled=False,
@@ -3763,12 +3767,12 @@ def test_replacement_preserves_requests_with_unknown_ref_coverage(
         is_outdated=False,
         build_id=41,
         job_id=6,
-        app_refs=app_refs,
+        app_refs=None,
     )
     harness.db.session.persisted.append(request)
 
     assert harness.call().requires_review is False
-    assert request.is_outdated is False
+    assert request.is_outdated is True
 
 
 def test_manifest_observation_preserves_other_architecture_requests(monkeypatch):
@@ -4295,56 +4299,6 @@ def test_review_handles_all_requests_from_the_build(monkeypatch):
     ]
     assert review_dispatches == [(7, "Passed", None, 42)]
     assert len(emails) == 1
-
-
-def test_review_dispatches_each_architecture_job(monkeypatch):
-    db = EndpointDb()
-    db.session.requests[0].job_id = 7
-    db.session.requests[0].build_id = 42
-    db.session.requests.append(
-        models.ModerationRequest(
-            id=3,
-            created_at=datetime.now(UTC),
-            appid="org.example.App",
-            request_type=ModerationRequestType.APPDATA,
-            request_data=json.dumps({"keys": {}, "current_values": {}}),
-            is_new_submission=False,
-            is_observation=False,
-            is_outdated=False,
-            build_id=42,
-            job_id=8,
-        )
-    )
-    review_dispatches = []
-
-    @contextmanager
-    def get_db(db_type="replica"):
-        yield db
-
-    monkeypatch.setattr(moderation, "get_db", get_db)
-    monkeypatch.setattr(
-        moderation.worker.review_check,
-        "send",
-        lambda *args: review_dispatches.append(args),
-    )
-    monkeypatch.setattr(moderation.worker.send_email_new, "send", lambda payload: None)
-    monkeypatch.setattr(
-        moderation.audit_log, "enqueue_audit_log", lambda *args, **kwargs: None
-    )
-    monkeypatch.setattr(moderation, "get_json_key", lambda key: None)
-
-    moderation.submit_review(
-        1,
-        moderation.Review(approve=True),
-        SimpleNamespace(user=SimpleNamespace(id=9)),
-        SimpleNamespace(),
-        object(),
-    )
-
-    assert review_dispatches == [
-        (7, "Passed", None, 42),
-        (8, "Passed", None, None),
-    ]
 
 
 def test_separate_architecture_builds_can_be_reviewed_and_published_independently(

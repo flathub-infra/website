@@ -2537,8 +2537,8 @@ def submit_review_request(
     ]
 
     # A newer build only supersedes requests whose app refs it fully replaces.
-    # Separate architecture/branch uploads must remain visible for review, as must
-    # legacy requests with unknown coverage. Outdated requests are hidden by default.
+    # Separate architecture/branch uploads must remain visible for review. Outdated
+    # requests are hidden by default.
     with get_db("writer") as db:
         actionable_app_ids = {
             request.appid for request in new_requests
@@ -2553,8 +2553,10 @@ def submit_review_request(
                 .filter_by(appid=app_id, is_outdated=False)
                 .filter(
                     models.ModerationRequest.build_id < review_request.build_id,
-                    models.ModerationRequest.app_refs != [],
-                    models.ModerationRequest.app_refs.contained_by(app_refs),
+                    or_(
+                        models.ModerationRequest.app_refs.is_(None),
+                        models.ModerationRequest.app_refs.contained_by(app_refs),
+                    ),
                 )
                 .update({"is_outdated": True})
             )
@@ -2737,7 +2739,6 @@ def submit_review(
             grouped_request.handled_at = func.now()
             grouped_request.comment = review.comment
 
-        job_ids = sorted({grouped_request.job_id for grouped_request in requests})
         job_id = request.job_id
         build_id = request.build_id
         is_approved = review.approve
@@ -2749,7 +2750,7 @@ def submit_review(
         comment = review.comment
         request_ids = [grouped_request.id for grouped_request in requests]
         request_types = [grouped_request.request_type for grouped_request in requests]
-        jobs_to_trigger: list[int] = []
+        worker_should_be_triggered = False
         approved_origins: dict[tuple[ModerationOriginKind, str], int] = {}
         if is_approved:
             for grouped_request in requests:
@@ -2780,22 +2781,17 @@ def submit_review(
             ):
                 permission_publication.advance_baseline(db.session, appid, baseline)
             db.session.flush()
-            for affected_job_id in job_ids:
-                remaining = (
-                    db.session.query(models.ModerationRequest)
-                    .filter_by(job_id=affected_job_id)
-                    .filter(models.ModerationRequest.is_approved.is_(None))
-                    .filter(models.ModerationRequest.is_observation.is_(False))
-                    .count()
-                )
-                if remaining == 0:
-                    jobs_to_trigger.append(affected_job_id)
-                logger.info(
-                    "Approval for job %s: remaining unapproved requests: %s, will trigger worker: %s",
-                    affected_job_id,
-                    remaining,
-                    remaining == 0,
-                )
+            remaining = (
+                db.session.query(models.ModerationRequest)
+                .filter_by(job_id=job_id)
+                .filter(models.ModerationRequest.is_approved.is_(None))
+                .filter(models.ModerationRequest.is_observation.is_(False))
+                .count()
+            )
+            worker_should_be_triggered = remaining == 0
+            logger.info(
+                f"Approval for job {job_id}: remaining unapproved requests: {remaining}, will trigger worker: {worker_should_be_triggered}"
+            )
 
         db.session.commit()
         logger.info(f"Moderation requests {request_ids} updated successfully")
@@ -2820,30 +2816,22 @@ def submit_review(
 
     try:
         if is_approved:
-            for index, affected_job_id in enumerate(jobs_to_trigger):
+            if worker_should_be_triggered:
                 logger.info(
-                    "Triggering worker for job %s, build %s - all requests approved",
-                    affected_job_id,
-                    build_id,
+                    f"Triggering worker for job {job_id}, build {build_id} - all requests approved"
                 )
-                worker.review_check.send(
-                    affected_job_id,
-                    "Passed",
-                    None,
-                    build_id if index == 0 else None,
+                worker.review_check.send(job_id, "Passed", None, build_id)
+                logger.info(f"Worker successfully queued for job {job_id}")
+            else:
+                logger.info(
+                    f"Worker not triggered for job {job_id} - still has pending requests"
                 )
-                logger.info("Worker successfully queued for job %s", affected_job_id)
         else:
-            for affected_job_id in job_ids:
-                logger.info(
-                    "Triggering worker for job %s - request rejected", affected_job_id
-                )
-                worker.review_check.send(
-                    affected_job_id, "Failed", "The review was rejected by a moderator."
-                )
-                logger.info(
-                    "Worker successfully queued for rejected job %s", affected_job_id
-                )
+            logger.info(f"Triggering worker for job {job_id} - request rejected")
+            worker.review_check.send(
+                job_id, "Failed", "The review was rejected by a moderator."
+            )
+            logger.info(f"Worker successfully queued for rejected job {job_id}")
     except Exception:
         logger.exception("Failed to dispatch worker for job %s", job_id)
         raise HTTPException(
