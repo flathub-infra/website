@@ -3,13 +3,15 @@ import json
 import logging
 import re
 from dataclasses import asdict
+from types import SimpleNamespace
 from typing import Annotated, Any, Literal, NoReturn, Self, TypedDict
 
 import httpx
 from fastapi import HTTPException
-from pydantic import BaseModel, ConfigDict, Field, model_validator
-from sqlalchemy import select
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
+from sqlalchemy import func, select
 from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy.orm import aliased
 
 from .. import config, http_client, models, utils
 from ..database import get_db
@@ -35,6 +37,29 @@ type RefSegment = Annotated[str, Field(min_length=1, pattern=r"^[^/\s\x00-\x1f\x
 type Revision = Annotated[str, Field(pattern=r"^[0-9a-fA-F]{40}$")]
 
 
+class LinterReportEnvelope(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+    kind: Literal["manifest", "repo"]
+    arch: str | None = None
+    report: dict[str, Any]
+
+
+class _Finding(BaseModel):
+    rule_code: str
+    explanation: str
+    ref: str | None
+    affected_permissions: list[dict[str, str | None]]
+
+
+class LinterReport(BaseModel):
+    schema_version: Literal[1]
+    kind: Literal["manifest", "builddir", "repo"]
+    app_id: str | None
+    artifacts: list[dict[str, str]]
+    review_findings: list[_Finding]
+
+
 class CandidateAssessmentRequest(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
 
@@ -55,6 +80,7 @@ class CandidateAssessmentRequest(BaseModel):
     flatpak_branch: RefSegment
     expected_arches: Annotated[list[RefSegment], Field(min_length=1)]
     matrix_succeeded: bool
+    linter_reports: list[LinterReportEnvelope] = []
 
     @model_validator(mode="after")
     def check_pull_request(self) -> Self:
@@ -92,11 +118,12 @@ class CandidateAssessmentResponse(BaseModel):
     assessment_id: int
     candidate_identity: CandidateIdentity
     snapshot_fingerprint: str | None
-    outcome: Literal["accepted", "pending", "error"]
-    acceptance_basis: Literal["baseline"] | None = None
+    outcome: Literal["accepted", "pending", "rejected", "error"]
+    acceptance_basis: Literal["baseline", "permission_decision"] | None = None
+    decision_id: int | None = None
     baseline_id: int | None = None
-    review_url: None = None
-    mode: Literal["observational"] = "observational"
+    review_url: str
+    superseded_by: int | None = None
     canonicalization_version: Literal[2, 3] = 3
     assessment_identity: str
     expected_arches: list[str]
@@ -109,8 +136,52 @@ class CandidateAssessmentResponse(BaseModel):
     error_message: str | None = None
 
 
+def review_url(assessment_id: int) -> str:
+    return f"{config.settings.frontend_url.rstrip('/')}/admin/moderation/permissions/{assessment_id}"
+
+
+SCOPE = (
+    "forge_instance",
+    "source_repository",
+    "pull_request_number",
+    "app_id",
+    "target_git_branch",
+    "intended_channel",
+    "flatpak_branch",
+    "canonicalization_version",
+    "fingerprint",
+)
+
+
+def same_scope(a, b) -> list[Any]:
+    return [getattr(a, name) == getattr(b, name) for name in SCOPE]
+
+
+def decision_outcome(decision: str, decision_id: int) -> dict[str, Any]:
+    approved = decision == "approved"
+    return {
+        "outcome": "accepted" if approved else "rejected",
+        "acceptance_basis": "permission_decision" if approved else None,
+        "decision_id": decision_id,
+    }
+
+
+def superseded_by(session, row: models.PermissionAssessmentObservation) -> int | None:
+    if row.pull_request_number is None:
+        return None
+    observation = models.PermissionAssessmentObservation
+    newest = session.execute(
+        select(func.max(observation.id)).where(
+            observation.forge_instance == row.forge_instance,
+            observation.source_repository == row.source_repository,
+            observation.pull_request_number == row.pull_request_number,
+        )
+    ).scalar_one()
+    return newest if newest > row.id else None
+
+
 def _response(
-    row: models.PermissionAssessmentObservation,
+    row: models.PermissionAssessmentObservation, newer: int | None = None
 ) -> CandidateAssessmentResponse:
     return CandidateAssessmentResponse(
         assessment_id=row.id,
@@ -120,7 +191,10 @@ def _response(
         snapshot_fingerprint=row.fingerprint,
         outcome=row.outcome,
         acceptance_basis=row.acceptance_basis,
+        decision_id=row.decision_id,
         baseline_id=row.baseline_id,
+        review_url=review_url(row.id),
+        superseded_by=newer,
         canonicalization_version=row.canonicalization_version,
         assessment_identity=row.assessment_identity,
         expected_arches=row.expected_arches,
@@ -136,6 +210,18 @@ def _response(
 
 def _persist_observation(values: dict[str, object]) -> CandidateAssessmentResponse:
     with get_db("writer") as db:
+        if values["outcome"] == "pending" and values.get("pull_request_number"):
+            source = aliased(models.PermissionAssessmentObservation)
+            decision = models.PermissionDecision
+            latest = db.session.execute(
+                select(decision.id, decision.decision)
+                .join(source, source.id == decision.assessment_id)
+                .where(*same_scope(SimpleNamespace(**values), source))
+                .order_by(decision.id.desc())
+                .limit(1)
+            ).first()
+            if latest is not None:
+                values |= decision_outcome(latest.decision, latest.id)
         db.session.execute(
             insert(models.PermissionAssessmentObservation)
             .values(**values)
@@ -147,7 +233,7 @@ def _persist_observation(values: dict[str, object]) -> CandidateAssessmentRespon
                 == values["assessment_identity"]
             )
         ).scalar_one()
-        response = _response(row)
+        response = _response(row, superseded_by(db.session, row))
     logger.info(
         "Recorded permission assessment observation",
         extra={
@@ -220,7 +306,7 @@ def get_assessment(assessment_id: int) -> CandidateAssessmentResponse:
         row = db.session.get(models.PermissionAssessmentObservation, assessment_id)
         if row is None:
             raise HTTPException(status_code=404, detail="assessment_not_found")
-        return _response(row)
+        return _response(row, superseded_by(db.session, row))
 
 
 def _fetch(
@@ -398,6 +484,41 @@ def _final_commits(
     return selected
 
 
+def _parse_linter_reports(
+    request: CandidateAssessmentRequest,
+) -> list[tuple[LinterReportEnvelope, LinterReport]]:
+    parsed = []
+    for entry in request.linter_reports:
+        try:
+            report = LinterReport.model_validate(entry.report, strict=True)
+        except ValidationError as exc:
+            _conflict("unsupported_linter_report", str(exc.errors()[0]["msg"]))
+        is_repo = entry.kind == "repo"
+        if is_repo != (entry.arch is not None) or is_repo != (report.kind == "repo"):
+            _conflict(
+                "unsupported_linter_report", f"Invalid report entry: {entry.kind}"
+            )
+        if report.app_id not in (None, request.app_id):
+            _conflict("linter_report_mismatch", "Linter report app ID differs")
+        parsed.append((entry, report))
+    return parsed
+
+
+def _check_linter_report_bindings(
+    request,
+    parsed: list[tuple[LinterReportEnvelope, LinterReport]],
+    uploaded: list[dict[str, str]],
+) -> None:
+    repo = {entry.arch: report for entry, report in parsed if entry.kind == "repo"}
+    if repo and repo.keys() != set(request.expected_arches):
+        _conflict("linter_report_mismatch", "Reports do not cover expected arches")
+    for arch, report in repo.items():
+        refs = {artifact["ref"] for artifact in report.artifacts}
+        known = {u["ref_name"] for u in uploaded if u["ref_name"].split("/")[2] == arch}
+        if not refs or not refs <= known:
+            _conflict("linter_report_mismatch", f"Unknown artifacts for {arch}")
+
+
 def assess_candidate(
     request: CandidateAssessmentRequest,
 ) -> CandidateAssessmentResponse:
@@ -412,9 +533,11 @@ def assess_candidate(
     published_fingerprint: str | None = None
     differences: list[_PermissionDifference] | None = None
     error: PermissionSnapshotError | None = None
+    reports: list[tuple[LinterReportEnvelope, LinterReport]] = []
     try:
         if not request.matrix_succeeded:
             _conflict("matrix_failed", "Expected architecture matrix did not succeed")
+        reports = _parse_linter_reports(request)
         published_repo_url = {
             "stable": config.settings.repo_url,
             "beta": config.settings.beta_repo_url,
@@ -460,6 +583,7 @@ def assess_candidate(
             expected_arches=set(request.expected_arches),
             expected_commits=final,
         )
+        _check_linter_report_bindings(request, reports, uploaded)
         baseline = _stored_baseline(request)
         if baseline is not None:
             comparison = PermissionSnapshot(**baseline["snapshot"])
@@ -526,6 +650,7 @@ def assess_candidate(
         assessment_identity=assessment_identity,
         outcome="error" if error else "accepted" if accepted else "pending",
         acceptance_basis="baseline" if accepted else None,
+        linter_reports=[entry.model_dump() for entry, _ in reports],
         baseline_id=baseline["id"] if baseline is not None else None,
         base_revision=request.base_revision or "",
         intended_repo=request.destination_repo,

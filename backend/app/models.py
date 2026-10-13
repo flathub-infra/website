@@ -2560,10 +2560,17 @@ class PermissionAssessmentObservation(Base):
     build_checks = mapped_column(
         JSONB, nullable=False, server_default=text("'[]'::jsonb")
     )
+    linter_reports = mapped_column(
+        JSONB, nullable=False, server_default=text("'[]'::jsonb")
+    )
     linked_assessment_id = mapped_column(
         Integer, ForeignKey("permissionassessmentobservation.id")
     )
     linked_fingerprint_match = mapped_column(Boolean)
+    decision_id = mapped_column(
+        Integer,
+        ForeignKey("permissiondecision.id", use_alter=True, name="pao_decision_fkey"),
+    )
     acceptance_basis = mapped_column(String)
     baseline_id = mapped_column(Integer, ForeignKey("permissionbaseline.id"))
     fingerprint = mapped_column(String)
@@ -2573,7 +2580,8 @@ class PermissionAssessmentObservation(Base):
 
     __table_args__ = (
         CheckConstraint(
-            "(outcome IN ('pending', 'accepted') AND candidate_snapshot IS NOT NULL "
+            "(outcome IN ('pending', 'accepted', 'rejected') "
+            "AND candidate_snapshot IS NOT NULL "
             "AND fingerprint IS NOT NULL AND error_code IS NULL "
             "AND error_message IS NULL) OR "
             "(outcome = 'error' AND fingerprint IS NULL "
@@ -2603,8 +2611,9 @@ class PermissionAssessmentObservation(Base):
         ),
         CheckConstraint(
             "(outcome = 'accepted' AND acceptance_basis IS NOT NULL "
-            "AND acceptance_basis = 'baseline' AND differences IS NOT NULL "
-            "AND baseline_id IS NOT NULL AND differences = '[]'::jsonb) OR "
+            "AND ((acceptance_basis = 'baseline' AND baseline_id IS NOT NULL "
+            "AND differences IS NOT NULL AND differences = '[]'::jsonb) "
+            "OR acceptance_basis = 'permission_decision')) OR "
             "(outcome <> 'accepted' AND acceptance_basis IS NULL)",
             name="permissionassessmentobservation_acceptance",
         ),
@@ -2630,7 +2639,21 @@ class PermissionAssessmentObservation(Base):
             created_at,
         ),
         Index("ix_permissionassessmentobservation_created_at", created_at),
+        Index("ix_pao_pr", forge_instance, source_repository, pull_request_number),
     )
+
+
+class PermissionDecision(Base):
+    __tablename__ = "permissiondecision"
+
+    id = mapped_column(Integer, primary_key=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    assessment_id = mapped_column(
+        Integer, ForeignKey("permissionassessmentobservation.id"), nullable=False
+    )
+    reviewer_id = mapped_column(Integer, ForeignKey("flathubuser.id"), nullable=False)
+    decision = mapped_column(String, nullable=False)
+    rationale = mapped_column(String)
 
 
 class PermissionBaseline(Base):
@@ -4639,6 +4662,8 @@ class AuditEventType(enum.StrEnum):
     MODERATION_APPROVED = "moderation-approved"
     MODERATION_REJECTED = "moderation-rejected"
     MODERATION_DISCUSSION_OPENED = "moderation-discussion-opened"
+    PERMISSION_DECISION_APPROVED = "permission-decision-approved"
+    PERMISSION_DECISION_REJECTED = "permission-decision-rejected"
     VERIFICATION_GRANTED = "verification-granted"
     VERIFICATION_REVOKED = "verification-revoked"
     ROLE_GRANTED = "role-granted"

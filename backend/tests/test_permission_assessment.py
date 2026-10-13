@@ -125,10 +125,12 @@ def observed(monkeypatch):
 
     def persist(values):
         rows.append(values)
-        return assessment._response(SimpleNamespace(id=len(rows), **values))
+        return assessment._response(
+            SimpleNamespace(id=len(rows), decision_id=None, **values)
+        )
 
     monkeypatch.setattr(assessment, "_persist_observation", persist)
-    monkeypatch.setattr(assessment, "_stored_baseline", lambda request: None)
+    monkeypatch.setattr(assessment, "_stored_baseline", lambda *args: None)
     return rows
 
 
@@ -194,7 +196,7 @@ def test_missing_baseline_preserves_candidate_without_authorization(
     )
     assert response.outcome == "pending"
     assert response.acceptance_basis is None
-    assert response.review_url is None
+    assert response.review_url.endswith("/admin/moderation/permissions/1")
     assert response.published_comparison_available is False
     assert response.differences is None
     row = observed[0]

@@ -24,6 +24,13 @@ from app.moderation.permission_snapshot import (
     fingerprint_snapshot,
 )
 
+PERMISSION_TABLES = [
+    models.FlathubUser.__table__,
+    models.PermissionBaseline.__table__,
+    models.PermissionDecision.__table__,
+    models.PermissionAssessmentObservation.__table__,
+]
+
 
 def test_concurrent_identical_observations_persist_once(monkeypatch):
     database_url = os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL")
@@ -48,8 +55,7 @@ def test_concurrent_identical_observations_persist_once(monkeypatch):
 
         event.listen(isolated_engine, "connect", set_search_path)
         with isolated_engine.begin() as connection:
-            models.PermissionBaseline.__table__.create(connection)
-            models.PermissionAssessmentObservation.__table__.create(connection)
+            models.Base.metadata.create_all(connection, tables=PERMISSION_TABLES)
 
         Session = sessionmaker(bind=isolated_engine, expire_on_commit=False)
         barrier = Barrier(2, timeout=30)
@@ -183,8 +189,7 @@ def test_push_links_latest_matching_pull_request_assessment(monkeypatch):
 
         event.listen(isolated_engine, "connect", set_search_path)
         with isolated_engine.begin() as connection:
-            models.PermissionBaseline.__table__.create(connection)
-            models.PermissionAssessmentObservation.__table__.create(connection)
+            models.Base.metadata.create_all(connection, tables=PERMISSION_TABLES)
         Session = sessionmaker(bind=isolated_engine, expire_on_commit=False)
 
         @contextmanager
@@ -320,8 +325,7 @@ def test_stored_baseline_lookup_and_acceptance_constraint(monkeypatch):
 
         event.listen(isolated_engine, "connect", set_search_path)
         with isolated_engine.begin() as connection:
-            models.PermissionBaseline.__table__.create(connection)
-            models.PermissionAssessmentObservation.__table__.create(connection)
+            models.Base.metadata.create_all(connection, tables=PERMISSION_TABLES)
         Session = sessionmaker(bind=isolated_engine, expire_on_commit=False)
 
         @contextmanager
