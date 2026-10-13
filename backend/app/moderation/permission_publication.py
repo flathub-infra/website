@@ -156,6 +156,9 @@ def check_build(
                     build_id=build_id,
                     job_id=job_id,
                     build_log_url=build_log_url,
+                    app_refs=sorted(
+                        "/".join(p) for p in _refs(build_extended) if p[1] == app_id
+                    ),
                 )
             )
     return requests

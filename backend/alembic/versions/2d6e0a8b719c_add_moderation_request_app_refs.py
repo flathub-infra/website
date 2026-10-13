@@ -1,7 +1,7 @@
 """Add app refs to moderation requests
 
 Revision ID: 2d6e0a8b719c
-Revises: 123b6483fbe5
+Revises: c5e8a2d71f94
 Create Date: 2026-10-08 00:00:00.000000
 
 """
@@ -12,7 +12,7 @@ from sqlalchemy.dialects import postgresql
 
 
 revision = "2d6e0a8b719c"
-down_revision = "123b6483fbe5"
+down_revision = "c5e8a2d71f94"
 branch_labels = None
 depends_on = None
 
