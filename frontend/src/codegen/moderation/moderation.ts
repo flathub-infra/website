@@ -28,11 +28,16 @@ import qs from "qs"
 import type {
   CandidateAssessmentRequest,
   CandidateAssessmentResponse,
+  Discussion,
   GetModerationAppModerationAppsAppIdGetParams,
   GetModerationAppsModerationAppsGetParams,
   HTTPValidationError,
+  ListPermissionReviewsModerationPermissionReviewsGet200,
+  ListPermissionReviewsModerationPermissionReviewsGetParams,
   ModerationApp,
   ModerationAppsResponse,
+  PermissionDecisionRequest,
+  PermissionReviewDetail,
   Review,
   ReviewRequest,
   ReviewRequestResponse,
@@ -599,6 +604,112 @@ export const useSubmitReviewModerationRequestsIdReviewPost = <
   )
 }
 /**
+ * @summary Submit Discussion
+ */
+export const submitDiscussionModerationRequestsIdDiscussionPost = (
+  id: number,
+  discussion: Discussion,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<ReviewResponse>> => {
+  return axios.post(
+    `/moderation/requests/${id}/discussion`,
+    discussion,
+    options,
+  )
+}
+
+export const getSubmitDiscussionModerationRequestsIdDiscussionPostMutationOptions =
+  <TError = AxiosError<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+      >,
+      TError,
+      { id: number; data: Discussion },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+    >,
+    TError,
+    { id: number; data: Discussion },
+    TContext
+  > => {
+    const mutationKey = ["submitDiscussionModerationRequestsIdDiscussionPost"]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+      >,
+      { id: number; data: Discussion }
+    > = (props) => {
+      const { id, data } = props ?? {}
+
+      return submitDiscussionModerationRequestsIdDiscussionPost(
+        id,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+    >
+  >
+export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationBody =
+  Discussion
+export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationError =
+  AxiosError<void>
+
+/**
+ * @summary Submit Discussion
+ */
+export const useSubmitDiscussionModerationRequestsIdDiscussionPost = <
+  TError = AxiosError<void>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+      >,
+      TError,
+      { id: number; data: Discussion },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<
+    ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
+  >,
+  TError,
+  { id: number; data: Discussion },
+  TContext
+> => {
+  return useMutation(
+    getSubmitDiscussionModerationRequestsIdDiscussionPostMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
+}
+/**
  * @summary Post Assessment
  */
 export const postAssessmentModerationPermissionsAssessPost = (
@@ -908,3 +1019,593 @@ export function useReadAssessmentModerationPermissionsAssessmentIdGet<
 
   return withQueryKey(query, queryOptions.queryKey)
 }
+
+/**
+ * @summary List Permission Reviews
+ */
+export const listPermissionReviewsModerationPermissionReviewsGet = (
+  params?: ListPermissionReviewsModerationPermissionReviewsGetParams,
+  options?: AxiosRequestConfig,
+): Promise<
+  AxiosResponse<ListPermissionReviewsModerationPermissionReviewsGet200>
+> => {
+  return axios.get(`/moderation/permission-reviews`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
+}
+
+export const getListPermissionReviewsModerationPermissionReviewsGetQueryKey = (
+  params?: ListPermissionReviewsModerationPermissionReviewsGetParams,
+) => {
+  return [
+    `/moderation/permission-reviews`,
+    ...(params ? [params] : []),
+  ] as const
+}
+
+export const getListPermissionReviewsModerationPermissionReviewsGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+    >,
+    TError = AxiosError<HTTPValidationError>,
+  >(
+    params?: ListPermissionReviewsModerationPermissionReviewsGetParams,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof listPermissionReviewsModerationPermissionReviewsGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getListPermissionReviewsModerationPermissionReviewsGetQueryKey(params)
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+      >
+    > = ({ signal }) =>
+      listPermissionReviewsModerationPermissionReviewsGet(params, {
+        signal,
+        ...axiosOptions,
+      })
+
+    return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+      Awaited<
+        ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type ListPermissionReviewsModerationPermissionReviewsGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+    >
+  >
+export type ListPermissionReviewsModerationPermissionReviewsGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useListPermissionReviewsModerationPermissionReviewsGet<
+  TData = Awaited<
+    ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params: undefined | ListPermissionReviewsModerationPermissionReviewsGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof listPermissionReviewsModerationPermissionReviewsGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof listPermissionReviewsModerationPermissionReviewsGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useListPermissionReviewsModerationPermissionReviewsGet<
+  TData = Awaited<
+    ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ListPermissionReviewsModerationPermissionReviewsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof listPermissionReviewsModerationPermissionReviewsGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof listPermissionReviewsModerationPermissionReviewsGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useListPermissionReviewsModerationPermissionReviewsGet<
+  TData = Awaited<
+    ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ListPermissionReviewsModerationPermissionReviewsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary List Permission Reviews
+ */
+
+export function useListPermissionReviewsModerationPermissionReviewsGet<
+  TData = Awaited<
+    ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  params?: ListPermissionReviewsModerationPermissionReviewsGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getListPermissionReviewsModerationPermissionReviewsGetQueryOptions(
+      params,
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Read Permission Review
+ */
+export const readPermissionReviewModerationPermissionReviewsAssessmentIdGet = (
+  assessmentId: number,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<PermissionReviewDetail>> => {
+  return axios.get(`/moderation/permission-reviews/${assessmentId}`, options)
+}
+
+export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetQueryKey =
+  (assessmentId: number) => {
+    return [`/moderation/permission-reviews/${assessmentId}`] as const
+  }
+
+export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<
+        typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+      >
+    >,
+    TError = AxiosError<HTTPValidationError>,
+  >(
+    assessmentId: number,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetQueryKey(
+        assessmentId,
+      )
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+        >
+      >
+    > = ({ signal }) =>
+      readPermissionReviewModerationPermissionReviewsAssessmentIdGet(
+        assessmentId,
+        { signal, ...axiosOptions },
+      )
+
+    return {
+      queryKey,
+      queryFn,
+      enabled: assessmentId !== null && assessmentId !== undefined,
+      ...queryOptions,
+    } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type ReadPermissionReviewModerationPermissionReviewsAssessmentIdGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+      >
+    >
+  >
+export type ReadPermissionReviewModerationPermissionReviewsAssessmentIdGetQueryError =
+  AxiosError<HTTPValidationError>
+
+export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet<
+  TData = Awaited<
+    ReturnType<
+      typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+    >
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  assessmentId: number,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet<
+  TData = Awaited<
+    ReturnType<
+      typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+    >
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  assessmentId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet<
+  TData = Awaited<
+    ReturnType<
+      typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+    >
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  assessmentId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary Read Permission Review
+ */
+
+export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet<
+  TData = Awaited<
+    ReturnType<
+      typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+    >
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  assessmentId: number,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof readPermissionReviewModerationPermissionReviewsAssessmentIdGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetQueryOptions(
+      assessmentId,
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Decide Permission Review
+ */
+export const decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost =
+  (
+    assessmentId: number,
+    permissionDecisionRequest: PermissionDecisionRequest,
+    options?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<PermissionReviewDetail>> => {
+    return axios.post(
+      `/moderation/permission-reviews/${assessmentId}/decision`,
+      permissionDecisionRequest,
+      options,
+    )
+  }
+
+export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost
+        >
+      >,
+      TError,
+      { assessmentId: number; data: PermissionDecisionRequest },
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost
+      >
+    >,
+    TError,
+    { assessmentId: number; data: PermissionDecisionRequest },
+    TContext
+  > => {
+    const mutationKey = [
+      "decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost",
+    ]
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost
+        >
+      >,
+      { assessmentId: number; data: PermissionDecisionRequest }
+    > = (props) => {
+      const { assessmentId, data } = props ?? {}
+
+      return decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost(
+        assessmentId,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost
+      >
+    >
+  >
+export type DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationBody =
+  PermissionDecisionRequest
+export type DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * @summary Decide Permission Review
+ */
+export const useDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
+    options?: {
+      mutation?: UseMutationOptions<
+        Awaited<
+          ReturnType<
+            typeof decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost
+          >
+        >,
+        TError,
+        { assessmentId: number; data: PermissionDecisionRequest },
+        TContext
+      >
+      axios?: AxiosRequestConfig
+    },
+    queryClient?: QueryClient,
+  ): UseMutationResult<
+    Awaited<
+      ReturnType<
+        typeof decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost
+      >
+    >,
+    TError,
+    { assessmentId: number; data: PermissionDecisionRequest },
+    TContext
+  > => {
+    return useMutation(
+      getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationOptions(
+        options,
+      ),
+      queryClient,
+    )
+  }

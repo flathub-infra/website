@@ -249,7 +249,9 @@ export default function AppPicksClient() {
   ])
 
   const selectableAppsAppsOfTheWeek = useMemo(() => {
-    if (!queryQualityApps.data) return []
+    if (!queryQualityApps.data) {
+      return []
+    }
 
     const apps = queryQualityApps.data
       .filter((app) => app.id !== firstApp?.id)

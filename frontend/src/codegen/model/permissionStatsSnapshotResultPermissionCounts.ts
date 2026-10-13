@@ -4,7 +4,8 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { PermissionCount } from "./permissionCount"
 
 export type PermissionStatsSnapshotResultPermissionCounts = {
-  [key: string]: { [key: string]: { [key: string]: number } }
+  [key: string]: PermissionCount
 }

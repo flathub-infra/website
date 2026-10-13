@@ -71,4 +71,9 @@ export default typescriptEslint.config(
     },
   },
   prettierConfig,
+  {
+    rules: {
+      curly: ["error", "all"],
+    },
+  },
 )

@@ -9,6 +9,8 @@ export type CandidateAssessmentResponseOutcome =
   (typeof CandidateAssessmentResponseOutcome)[keyof typeof CandidateAssessmentResponseOutcome]
 
 export const CandidateAssessmentResponseOutcome = {
+  accepted: "accepted",
   pending: "pending",
+  rejected: "rejected",
   error: "error",
 } as const

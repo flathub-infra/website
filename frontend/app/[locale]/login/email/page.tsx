@@ -32,7 +32,9 @@ export default async function EmailLoginPage({
   } catch {
     notFound()
   }
-  if (!enabled) notFound()
+  if (!enabled) {
+    notFound()
+  }
 
   const { locale } = await params
   return (

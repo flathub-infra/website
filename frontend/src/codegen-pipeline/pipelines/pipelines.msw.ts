@@ -106,6 +106,7 @@ export const getListPipelinesApiPipelinesGetResponseMock =
         ]),
         undefined,
       ]),
+      review_required: faker.datatype.boolean(),
       created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
       started_at: faker.helpers.arrayElement([
         faker.helpers.arrayElement([

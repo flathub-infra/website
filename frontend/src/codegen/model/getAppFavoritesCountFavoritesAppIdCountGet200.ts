@@ -6,5 +6,5 @@
  */
 
 export type GetAppFavoritesCountFavoritesAppIdCountGet200 = {
-  [key: string]: unknown
+  [key: string]: number
 }

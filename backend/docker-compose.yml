@@ -30,6 +30,9 @@ services:
       FLAT_MANAGER_API: $FLAT_MANAGER_API
       BACKEND_NODE_URL: ${BACKEND_NODE_URL-http://backend-node:8001}
       REPO_URL: ${REPO_URL-https://dl.flathub.org/repo}
+      DECISIONS_API: ${DECISIONS_API:-}
+      DECISIONS_API_KEY: ${DECISIONS_API_KEY:-}
+      DECISIONS_MODEL: ${DECISIONS_MODEL:-jev-1.13.0}
     ports:
       - "8000:8000"
     depends_on:

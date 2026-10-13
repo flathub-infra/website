@@ -6,18 +6,19 @@ import Spinner from "../Spinner"
 import Tag from "../application/Tag"
 import { formatDistanceToNow, parseISO } from "date-fns"
 import { useUserContext } from "src/context/user-info"
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import Modal from "../Modal"
 import CodeCopy from "../application/CodeCopy"
 import {
   submitReviewModerationRequestsIdReviewPost,
+  submitDiscussionModerationRequestsIdDiscussionPost,
   ModerationRequestResponse,
   Permission,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Link, useRouter } from "src/i18n/navigation"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, MessagesSquareIcon } from "lucide-react"
 
 interface Props {
   title: string
@@ -38,7 +39,8 @@ const ReviewCard: FunctionComponent<Props> = ({
   const request =
     requests.find((groupedRequest) => !groupedRequest.handled_at) ?? requests[0]
 
-  const [modalVisible, setModalVisible] = useState(false)
+  const queryClient = useQueryClient()
+  const [modal, setModal] = useState<"reject" | "discuss" | null>(null)
 
   const [comment, setComment] = useState<string | undefined>(undefined)
   const [issueUrl, setIssueUrl] = useState<string>()
@@ -59,15 +61,44 @@ const ReviewCard: FunctionComponent<Props> = ({
     },
   })
 
+  const discussionMutation = useMutation({
+    mutationKey: ["discussion", request.id],
+    mutationFn: (body: { comment: string }) =>
+      submitDiscussionModerationRequestsIdDiscussionPost(request.id, body, {
+        withCredentials: true,
+      }),
+    onSuccess: () => {
+      setModal(null)
+      setComment(undefined)
+      queryClient.invalidateQueries({
+        queryKey: ["moderation", request.app_id],
+      })
+    },
+  })
+
+  const discussionUrl =
+    discussionMutation.data?.data.github_issue_url ??
+    requests.find((groupedRequest) => groupedRequest.discussion_url)
+      ?.discussion_url
+
   const confirm = () => {
     mutation.mutate({ approve: false, comment: comment })
-    setModalVisible(false)
+    setModal(null)
     setComment(undefined)
   }
 
+  const confirmDiscussion = () => {
+    if (comment?.trim()) {
+      discussionMutation.mutate({ comment })
+    }
+  }
+
   const cancel = () => {
-    setModalVisible(false)
+    setModal(null)
     setComment(undefined)
+    if (discussionMutation.isError) {
+      discussionMutation.reset()
+    }
   }
 
   let buttons: ReactElement
@@ -126,8 +157,9 @@ const ReviewCard: FunctionComponent<Props> = ({
           size="lg"
           variant="destructive"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
+          disabled={discussionMutation.isPending}
           onClick={() => {
-            setModalVisible(true)
+            setModal("reject")
           }}
         >
           Reject
@@ -135,12 +167,26 @@ const ReviewCard: FunctionComponent<Props> = ({
         <Button
           size="lg"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
+          disabled={discussionMutation.isPending}
           onClick={() => {
             mutation.mutate({ approve: true })
           }}
         >
           Approve
         </Button>
+        {request.can_open_discussion && !discussionUrl && (
+          <Button
+            size="lg"
+            variant="secondary"
+            className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
+            disabled={discussionMutation.isPending}
+            onClick={() => {
+              setModal("discuss")
+            }}
+          >
+            {t("moderation-open-discussion")}
+          </Button>
+        )}
       </>
     )
   } else {
@@ -150,7 +196,7 @@ const ReviewCard: FunctionComponent<Props> = ({
   return (
     <>
       <Modal
-        shown={modalVisible}
+        shown={modal === "reject"}
         title="Reject"
         onClose={cancel}
         cancelButton={{ onClick: cancel }}
@@ -165,6 +211,37 @@ const ReviewCard: FunctionComponent<Props> = ({
           value={comment}
           placeholder="Comment"
           onInput={(e) => setComment((e.target as HTMLTextAreaElement).value)}
+        />
+      </Modal>
+
+      <Modal
+        shown={modal === "discuss"}
+        title={t("moderation-open-discussion")}
+        description={t("moderation-discussion-description")}
+        onClose={cancel}
+        cancelButton={{ onClick: cancel }}
+        submitButton={{
+          onClick: confirmDiscussion,
+          label: t("moderation-open-discussion"),
+          disabled: !comment?.trim() || discussionMutation.isPending,
+        }}
+      >
+        <label
+          htmlFor={`discussion-comment-${request.id}`}
+          className="mb-2 block text-sm font-medium"
+        >
+          {t("moderation-discussion-comment")}
+        </label>
+        <Textarea
+          id={`discussion-comment-${request.id}`}
+          className="h-40"
+          value={comment ?? ""}
+          placeholder="Comment"
+          onInput={(e) => setComment((e.target as HTMLTextAreaElement).value)}
+        />
+        <InlineError
+          shown={discussionMutation.isError}
+          error={discussionMutation.error?.message ?? ""}
         />
       </Modal>
 
@@ -239,8 +316,26 @@ const ReviewCard: FunctionComponent<Props> = ({
             </div>
           )}
 
-        <div className="mt-6 flex flex-col gap-3 border-t border-flathub-gainsborow pt-6 dark:border-flathub-dark-gunmetal sm:flex-row-reverse">
-          {buttons}
+        <div className="mt-6 border-t border-flathub-gainsborow pt-6 dark:border-flathub-dark-gunmetal">
+          {discussionUrl && (
+            <div className="mb-3 flex sm:justify-end">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="w-full px-3 py-2 sm:w-auto"
+              >
+                <a href={discussionUrl} rel="noreferrer" target="_blank">
+                  <MessagesSquareIcon className="h-4 w-4" />
+                  {t("moderation-view-discussion")}
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              </Button>
+            </div>
+          )}
+          <div className="flex flex-col gap-3 sm:flex-row-reverse">
+            {buttons}
+          </div>
         </div>
       </div>
     </>

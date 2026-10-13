@@ -15,7 +15,9 @@ import { renderOgImage } from "app/api/renderOgImage"
 
 function adjustBrightness(hex: string, percent: number): string {
   const rgb = hexToRgb(hex)
-  if (!rgb) return hex
+  if (!rgb) {
+    return hex
+  }
 
   const adjust = (value: number) =>
     Math.min(255, Math.max(0, Math.round(value + (255 * percent) / 100)))
@@ -129,7 +131,9 @@ export async function GET(
           : maxW
       const height = computedHeight ? Math.min(computedHeight, maxH) : maxH
       const src = await getOgImageDataUrl(screenshot.src, width, height)
-      if (src) screenshotImage = { src, width, height }
+      if (src) {
+        screenshotImage = { src, width, height }
+      }
     } else {
       const maxPortraitWidth = 350 * scale
       const targetH = 420 * scale
@@ -145,7 +149,9 @@ export async function GET(
           : targetH
       const width = Math.min(rawWidth, maxPortraitWidth)
       const src = await getOgImageDataUrl(screenshot.src, width, height)
-      if (src) screenshotImage = { src, width, height }
+      if (src) {
+        screenshotImage = { src, width, height }
+      }
     }
   }
 

@@ -11,6 +11,7 @@ import ModerationHeldEmail from "../emails/moderation-held"
 import ModerationRejectedEmail from "../emails/moderation-rejected"
 import UploadTokenCreatedEmail from "../emails/upload-token-created"
 import ModerationApprovedEmail from "../emails/moderation-approved"
+import ModerationDiscussionEmail from "../emails/moderation-discussion"
 import DeveloperLeftEmail from "../emails/developer-left"
 import DeveloperInviteDeclinedEmail from "../emails/developer-invite-declined"
 import DeveloperInviteAcceptedEmail from "../emails/developer-invite-accepted"
@@ -118,6 +119,25 @@ const EmailBody = z.object({
         .optional()
         .openapi({ example: "There is something wrong" }),
       request: RequestSchema,
+      references: z.string().min(3).openapi({
+        example: "1212121",
+      }),
+    }),
+    z.object({
+      category: z
+        .literal("moderation_discussion")
+        .openapi({ example: "moderation_discussion" }),
+      appId: z.string().min(3).openapi({ example: "tv.kodi.Kodi" }),
+      appName: z.string().min(2).nullable().openapi({ example: "Kodi" }),
+      buildId: z.number().openapi({ example: 1 }),
+      buildLogUrl: z
+        .string()
+        .nullable()
+        .openapi({ example: "https://flathub.org" }),
+      comment: z.string().openapi({ example: "Please explain this change" }),
+      discussionUrl: z.string().url().openapi({
+        example: "https://github.com/flathub/tv.kodi.Kodi/issues/1",
+      }),
       references: z.string().min(3).openapi({
         example: "1212121",
       }),
@@ -337,6 +357,14 @@ app.openapi(route, async (c) => {
   } else if (messageInfo.category === "moderation_held") {
     emailHtml = await render(
       ModerationHeldEmail({
+        subject,
+        previewText,
+        ...messageInfo,
+      }),
+    )
+  } else if (messageInfo.category === "moderation_discussion") {
+    emailHtml = await render(
+      ModerationDiscussionEmail({
         subject,
         previewText,
         ...messageInfo,

@@ -9,15 +9,25 @@ import type { UseQueryResult } from "@tanstack/react-query"
 import { formatDistanceToNow } from "date-fns"
 import { UTCDate } from "@date-fns/utc"
 import { useLocale } from "next-intl"
+import { getLangDir } from "rtl-detect"
 import { getIntlLocale } from "src/localize"
 import { toDurationSeries } from "src/builds/pipeline-history"
 import { Button } from "@/components/ui/button"
-import Breadcrumbs from "src/components/Breadcrumbs"
 import { BuildGroup } from "@/components/build/build-group"
 import { BuildTimeChart } from "@/components/build/build-time-chart"
 import { BuildStatusBanner } from "@/components/build/build-status-banner"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Package, BarChart3, Layers } from "lucide-react"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card"
+import {
+  BuildNavigation,
+  BuildPageHeader,
+} from "@/components/build/build-page-header"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 type RepoType = "stable" | "beta" | "test"
 const repos: { key: RepoType; label: string }[] = [
@@ -27,13 +37,11 @@ const repos: { key: RepoType; label: string }[] = [
 ]
 
 function RepoHistory({
-  appId,
   repo,
   title,
   withChart,
   query,
 }: {
-  appId: string
   repo: RepoType
   title: string
   withChart: boolean
@@ -75,16 +83,14 @@ function RepoHistory({
         </Card>
       ) : null}
       {hasChart && (
-        <Card className="border-2">
-          <CardHeader className="bg-muted/30 dark:bg-muted/20">
-            <div className="flex items-center gap-3">
-              <BarChart3 className="h-5 w-5 text-blue-600" />
-              <CardTitle className="text-2xl font-bold">
-                Build Duration Trend
-              </CardTitle>
-            </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Build duration</CardTitle>
+            <CardDescription>
+              Recent {repo} builds · duration over time
+            </CardDescription>
           </CardHeader>
-          <CardContent className="pt-6">
+          <CardContent>
             <BuildTimeChart builds={builds} sampleLimit={50} />
           </CardContent>
         </Card>
@@ -108,6 +114,7 @@ function RepoHistory({
 }
 
 export default function AppBuildStatusClient({ appId }: { appId: string }) {
+  const locale = useLocale()
   const stableQuery = useListPipelinesApiPipelinesGet(
     {
       app_id: appId,
@@ -140,51 +147,56 @@ export default function AppBuildStatusClient({ appId }: { appId: string }) {
   )
   const queries = [stableQuery, betaQuery, testQuery]
   return (
-    <div className="max-w-11/12 mx-auto my-0 mt-4 w-11/12 space-y-10 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <Breadcrumbs
+    <div className="build-page">
+      <BuildNavigation
         pages={[
           { name: "Builds", href: "/builds", current: false },
           { name: appId, href: `/builds/apps/${appId}`, current: true },
         ]}
       />
+      <BuildPageHeader
+        title={appId}
+        technical
+        description="Build results, duration trends, and reproducibility across repositories."
+      />
       <BuildStatusBanner />
-      <div className="flex items-center gap-4">
-        <Package className="h-8 w-8 text-primary" />
-        <div>
-          <h1 className="wrap-break-word text-4xl font-extrabold">{appId}</h1>
-          <p className="mt-2 text-muted-foreground">App build history</p>
+      <Tabs
+        dir={getLangDir(locale)}
+        defaultValue="stable"
+        className="flex min-w-0 flex-col gap-4"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <TabsList className="w-fit" aria-label="Build repository">
+            {repos.map(({ key }) => (
+              <TabsTrigger key={key} value={key}>
+                {key === "stable" ? "Stable" : key === "beta" ? "Beta" : "Test"}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          {queries.some((query) => query.dataUpdatedAt > 0) && (
+            <p className="text-xs text-muted-foreground">
+              {queries.some((query) => query.isFetching)
+                ? "Refreshing…"
+                : `Updated ${formatDistanceToNow(new UTCDate(Math.max(...queries.map((query) => query.dataUpdatedAt))), { addSuffix: true })}`}
+            </p>
+          )}
         </div>
-      </div>
-      <div className="space-y-2">
-        <div className="flex items-center gap-3">
-          <Layers className="h-6 w-6 text-purple-600" />
-          <h2 className="text-3xl font-bold">Build History by Repository</h2>
-        </div>
-        <p className="text-muted-foreground">
-          Recent builds organized by target repository
-        </p>
-      </div>
-      {(stableQuery.dataUpdatedAt > 0 ||
-        (queries.some((query) => query.dataUpdatedAt > 0) &&
-          queries.some((query) => query.isFetching))) && (
-        <p className="text-sm text-muted-foreground">
-          {queries.some((query) => query.isFetching)
-            ? "Refreshing…"
-            : `Updated ${formatDistanceToNow(new UTCDate(stableQuery.dataUpdatedAt), { addSuffix: true })}`}
-        </p>
-      )}
-      <div className="space-y-8">
         {repos.map(({ key, label }, index) => (
-          <RepoHistory
+          <TabsContent
             key={key}
-            appId={appId}
-            repo={key}
-            title={label}
-            withChart={key === "stable"}
-            query={queries[index]}
-          />
+            value={key}
+            forceMount
+            className="data-[state=inactive]:hidden"
+          >
+            <RepoHistory
+              repo={key}
+              title={label}
+              withChart={key === "stable"}
+              query={queries[index]}
+            />
+          </TabsContent>
         ))}
-      </div>
+      </Tabs>
     </div>
   )
 }

@@ -10,13 +10,17 @@ export function getPipelineFailureUrl(
     | "log_url"
   >,
 ): string | null {
-  if (pipeline.failure_issue_url) return pipeline.failure_issue_url
+  if (pipeline.failure_issue_url) {
+    return pipeline.failure_issue_url
+  }
   for (const id of [
     pipeline.update_repo_job_id,
     pipeline.publish_job_id,
     pipeline.commit_job_id,
   ]) {
-    if (id != null) return `https://hub.flathub.org/status/${id}`
+    if (id != null) {
+      return `https://hub.flathub.org/status/${id}`
+    }
   }
   return pipeline.log_url ?? null
 }

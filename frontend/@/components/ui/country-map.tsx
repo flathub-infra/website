@@ -66,7 +66,9 @@ export default function CountryMap({
     number
   > | null>(null)
   const getCountryCode = (target: EventTarget | null) => {
-    if (!(target instanceof Element)) return null
+    if (!(target instanceof Element)) {
+      return null
+    }
     const key = target
       .closest(".ts-chart__geo [data-ts-key]")
       ?.getAttribute("data-ts-key")
@@ -75,7 +77,9 @@ export default function CountryMap({
 
   const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
     const context = renderContextRef.current
-    if (!context) return
+    if (!context) {
+      return
+    }
     const countryCode = getCountryCode(event.target)
     const point = context.scene.points.find(
       (candidate) => candidate.datum.properties.countryCode === countryCode,
@@ -158,7 +162,7 @@ export default function CountryMap({
               const valueText =
                 metric === "downloads"
                   ? t("x-downloads", { x: formattedValue, count: value })
-                  : `${formattedValue} ${t("installs")}`
+                  : t("x-installs", { x: formattedValue, count: value })
               return `${countryName}: ${valueText}`
             },
           }
@@ -175,7 +179,9 @@ export default function CountryMap({
       }
       onClickCapture={(event) => {
         const countryCode = getCountryCode(event.target)
-        if (countryCode) onCountrySelect?.(countryCode)
+        if (countryCode) {
+          onCountrySelect?.(countryCode)
+        }
       }}
     >
       <Chart
@@ -187,7 +193,9 @@ export default function CountryMap({
           renderContextRef.current = context
         }}
         onSelect={(point) => {
-          if (point) onCountrySelect?.(point.datum.properties.countryCode)
+          if (point) {
+            onCountrySelect?.(point.datum.properties.countryCode)
+          }
         }}
       />
     </div>

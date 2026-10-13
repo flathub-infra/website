@@ -7,13 +7,13 @@ import logging
 from collections.abc import Mapping, Sequence
 from collections.abc import Set as AbstractSet
 from datetime import UTC, datetime
-from typing import Annotated, cast
+from typing import Annotated, Any, cast
 
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from github import Github, GithubException
-from pydantic import BaseModel, Field, model_validator
+from pydantic import AfterValidator, BaseModel, Field, model_validator
 from sqlalchemy import Table, func, not_, or_
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
@@ -39,7 +39,13 @@ from ..types import (
     is_json_value,
 )
 from ..verification import is_appid_runtime
-from . import manifest_complexity, ostree_manifest, url_origin
+from . import (
+    manifest_complexity,
+    ostree_manifest,
+    permission_publication,
+    summary_decisions,
+    url_origin,
+)
 from .constants import should_skip_review
 
 router = APIRouter(prefix="/moderation")
@@ -247,6 +253,21 @@ def _is_random_review_request(request: models.ModerationRequest) -> bool:
     return request_data == _random_review_request_data()
 
 
+def _has_appdata_request(app_id: str, build_id: int, job_id: int) -> bool:
+    with get_db("writer") as db:
+        requests = (
+            db.session.query(models.ModerationRequest)
+            .filter(
+                models.ModerationRequest.appid == app_id,
+                models.ModerationRequest.build_id == build_id,
+                models.ModerationRequest.job_id == job_id,
+                models.ModerationRequest.request_type == ModerationRequestType.APPDATA,
+            )
+            .all()
+        )
+        return any(not _is_random_review_request(request) for request in requests)
+
+
 class ModerationAppItem(BaseModel):
     appid: str
     is_new_submission: bool
@@ -412,6 +433,20 @@ class ManifestSourceOriginRequestData(BaseModel):
     complexity: ManifestComplexityRequestData | None = None
 
 
+class PermissionsRequestData(BaseModel):
+    channel: str
+    flatpak_branch: str | None = None
+    comparison_source: str | None = None
+    candidate_fingerprint: str | None = None
+    comparison_fingerprint: str | None = None
+    differences: list[dict[str, Any]]
+    error_code: str | None = None
+    error_message: str | None = None
+    linked_assessment_id: int | None = None
+    linked_review_url: str | None = None
+    approved_baseline: dict[str, Any] | None = None
+
+
 class ModerationRequestResponse(BaseModel):
     id: int
     app_id: str
@@ -422,7 +457,9 @@ class ModerationRequestResponse(BaseModel):
     is_outdated: bool
 
     request_type: ModerationRequestType
-    request_data: RequestData | ManifestSourceOriginRequestData | None = None
+    request_data: (
+        RequestData | ManifestSourceOriginRequestData | PermissionsRequestData | None
+    ) = None
     build_log_url: str | None = None
     is_new_submission: bool
 
@@ -430,6 +467,8 @@ class ModerationRequestResponse(BaseModel):
     handled_at: datetime | None = None
     is_approved: bool | None = None
     comment: str | None = None
+    discussion_url: str | None = None
+    can_open_discussion: bool
 
 
 class ModerationApp(BaseModel):
@@ -437,7 +476,9 @@ class ModerationApp(BaseModel):
     requests_count: int
 
 
-def create_github_build_rejection_issue(request: models.ModerationRequest):
+def create_github_build_issue(
+    request: models.ModerationRequest, comment: str, *, discussion: bool
+):
     gh_token = config.settings.github_bot_token
     if not gh_token:
         return
@@ -447,7 +488,6 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     app_id = request.appid
     build_id = request.build_id
     build_log_url = request.build_log_url
-    comment = request.comment
     quoted_comment = "\n".join(f"> {line}" for line in comment.rstrip().splitlines())
 
     repo = gh.get_repo(f"flathub/{app_id}")
@@ -465,12 +505,26 @@ def create_github_build_rejection_issue(request: models.ModerationRequest):
     except GithubException:
         pass
 
-    title = f"Change in build {build_id} rejected"
-    body = (
-        f"A change in [build {build_id}]({build_log_url}) has been reviewed by "
-        "the Flathub team (@flathub/build-moderation), and rejected for the "
-        "following reason:\n"
-    )
+    if discussion:
+        title = f"Moderation discussion for build {build_id}"
+        build_ref = (
+            f"[build {build_id}]({build_log_url})"
+            if build_log_url
+            else f"build {build_id}"
+        )
+        body = (
+            "The Flathub team (@flathub/build-moderation) opened a discussion "
+            f"about {build_ref}.\n\n"
+            "The build remains withheld pending review. This discussion does not "
+            "approve or reject it.\n"
+        )
+    else:
+        title = f"Change in build {build_id} rejected"
+        body = (
+            f"A change in [build {build_id}]({build_log_url}) has been reviewed by "
+            "the Flathub team (@flathub/build-moderation), and rejected for the "
+            "following reason:\n"
+        )
     body += f"\n{quoted_comment}\n"
 
     ret = repo.create_issue(title=title, body=body)
@@ -641,6 +695,10 @@ def get_moderation_app(
                 query = query.filter_by(is_outdated=False)
 
         query = query.join(models.FlathubUser, isouter=True)
+        can_open_discussion = (
+            bool(config.settings.github_bot_token)
+            and models.DirectUploadApp.by_app_id(db, app_id) is None
+        )
 
         total = query.count()
         query = query.offset(offset).limit(limit)
@@ -664,6 +722,9 @@ def get_moderation_app(
                     is_outdated=row.is_outdated,
                     is_new_submission=row.is_new_submission,
                     created_at=row.created_at,
+                    discussion_url=row.discussion_url,
+                    can_open_discussion=can_open_discussion
+                    and row.request_type != ModerationRequestType.PERMISSIONS,
                 )
             )
 
@@ -1294,9 +1355,27 @@ def submit_review_request(
         raise HTTPException(status_code=500, detail="invalid_build")
     build_metadata = build_metadata_value
     build_target_repo = build_metadata.get("repo")
-    if build_target_repo in ("beta", "test"):
-        return ReviewRequestResponse(requires_review=False)
     build_log_url = build_metadata.get("build_log_url")
+    if not isinstance(build_target_repo, str) or not isinstance(
+        build_log_url, str | None
+    ):
+        raise HTTPException(status_code=500, detail="invalid_build")
+    if build_target_repo in ("beta", "test"):
+        beta_requests = permission_publication.check_build(
+            build_id=review_request.build_id,
+            job_id=review_request.job_id,
+            repo=build_target_repo,
+            build_extended=build_extended,
+            build_log_url=build_log_url,
+        )
+        if beta_requests:
+            with get_db("writer") as db:
+                db.session.add_all(beta_requests)
+                db.session.commit()
+        return ReviewRequestResponse(
+            requires_review=bool(beta_requests)
+            and not config.settings.moderation_observe_only
+        )
 
     build_refs_value = build_extended.get("build_refs")
     if not isinstance(build_refs_value, list):
@@ -1471,6 +1550,7 @@ def submit_review_request(
 
     new_requests: list[models.ModerationRequest] = []
     persisted_requests: list[models.ModerationRequest] = []
+    summary_decision_records: list[models.SummaryDecision] = []
     analysis_observations: dict[str, dict[str, JSONValue]] = {}
     manifest_newly_actionable_requests: list[models.ModerationRequest] = []
     manifest_newly_actionable_app_ids: set[str] = set()
@@ -1478,6 +1558,18 @@ def submit_review_request(
     has_initial_submission = False
     manifest_reused_app_ids: set[str] = set()
     manifest_reuse_requires_review = False
+    permission_requests = permission_publication.check_build(
+        build_id=review_request.build_id,
+        job_id=review_request.job_id,
+        repo=build_target_repo,
+        build_extended=build_extended,
+        build_log_url=build_log_url,
+    )
+    new_requests += permission_requests
+    persisted_requests += permission_requests
+    permission_enforced = (
+        permission_publication.mode_for(build_target_repo) == "enforce"
+    )
 
     def stage_analysis_observation(
         app_id: str,
@@ -1870,6 +1962,7 @@ def submit_review_request(
                 current_permissions
                 and build_permissions
                 and current_permissions != build_permissions
+                and not permission_enforced
             ):
                 for perm in current_permissions:
                     current_perm = current_permissions[perm]
@@ -2057,6 +2150,31 @@ def submit_review_request(
                 )
             # keys may become empty after pop above but empty keys
             # still triggers a moderation request, so re-check
+        if not is_new_submission and set(keys) == {"summary"}:
+            old_summary = current_values.get("summary")
+            new_summary = keys["summary"]
+            app_name = current_values.get("name")
+            if (
+                isinstance(old_summary, str)
+                and old_summary
+                and isinstance(new_summary, str)
+                and new_summary
+                and not _has_appdata_request(
+                    app_id, review_request.build_id, review_request.job_id
+                )
+            ):
+                summary_decision = summary_decisions.auto_approve_summary_change(
+                    app_id=app_id,
+                    app_name=app_name if isinstance(app_name, str) else None,
+                    old_summary=old_summary,
+                    new_summary=new_summary,
+                    build_id=review_request.build_id,
+                    job_id=review_request.job_id,
+                )
+                if summary_decision is not None:
+                    summary_decision_records.append(summary_decision)
+                    if summary_decision.approved:
+                        keys.pop("summary")
         if len(keys) > 0:
             keys = sort_lists_in_dict(keys)
             current_values = sort_lists_in_dict(current_values)
@@ -2451,11 +2569,18 @@ def submit_review_request(
         for request in persisted_requests:
             request.app_refs = sorted(build_refs_by_app.get(request.appid, ())) or None
             db.session.add(request)
+        for decision in summary_decision_records:
+            db.session.add(decision)
         _upsert_manifest_analysis_observations(
             db.session,
             list(analysis_observations.values()),
         )
-        if persisted_requests or analysis_observations or outdated_count:
+        if (
+            persisted_requests
+            or summary_decision_records
+            or analysis_observations
+            or outdated_count
+        ):
             db.session.commit()
 
     if config.settings.moderation_observe_only:
@@ -2525,6 +2650,45 @@ class ReviewResponse(BaseModel):
     github_issue_url: str
 
 
+def _require_text(value: str) -> str:
+    if not value.strip():
+        raise ValueError("a discussion requires a comment")
+    return value
+
+
+class Discussion(BaseModel):
+    comment: Annotated[str, AfterValidator(_require_text)]
+
+
+def _lock_review_requests(
+    session: Session, request_id: int
+) -> tuple[models.ModerationRequest, list[models.ModerationRequest]]:
+    target = (
+        session.query(models.ModerationRequest)
+        .filter_by(id=request_id)
+        .filter(models.ModerationRequest.is_observation.is_(False))
+        .first()
+    )
+    if target is None:
+        raise HTTPException(status_code=404, detail="not_found")
+
+    requests = (
+        session.query(models.ModerationRequest)
+        .filter_by(appid=target.appid, build_id=target.build_id)
+        .filter(models.ModerationRequest.is_observation.is_(False))
+        .order_by(models.ModerationRequest.id)
+        .with_for_update()
+        .populate_existing()
+        .all()
+    )
+    request = next((row for row in requests if row.id == request_id), None)
+    if request is None:
+        raise HTTPException(status_code=404, detail="not_found")
+    if request.handled_at is not None:
+        raise HTTPException(status_code=400, detail="already_handled")
+    return request, requests
+
+
 @router.post(
     "/requests/{id}/review",
     status_code=200,
@@ -2551,30 +2715,21 @@ def submit_review(
     )
 
     with get_db("writer") as db:
-        request = (
-            db.session.query(models.ModerationRequest)
-            .filter_by(id=id)
-            .filter(models.ModerationRequest.is_observation.is_(False))
-            .with_for_update()
-            .first()
-        )
-
-        if request is None:
-            raise HTTPException(status_code=404, detail="not_found")
-        elif request.handled_at is not None:
-            raise HTTPException(status_code=400, detail="already_handled")
+        request, locked_requests = _lock_review_requests(db.session, id)
 
         if login.user is None:
             raise HTTPException(status_code=401, detail="not_logged_in")
 
-        requests = (
-            db.session.query(models.ModerationRequest)
-            .filter_by(appid=request.appid, build_id=request.build_id)
-            .filter(models.ModerationRequest.handled_at.is_(None))
-            .filter(models.ModerationRequest.is_observation.is_(False))
-            .with_for_update()
-            .all()
-        )
+        requests = [
+            grouped_request
+            for grouped_request in locked_requests
+            if grouped_request.handled_at is None
+            and (
+                grouped_request.id == request.id
+                if request.request_type == ModerationRequestType.PERMISSIONS
+                else grouped_request.request_type != ModerationRequestType.PERMISSIONS
+            )
+        ]
 
         for grouped_request in requests:
             grouped_request.is_approved = review.approve
@@ -2620,6 +2775,10 @@ def submit_review(
                     )
                     .on_conflict_do_nothing(index_elements=["kind", "origin"])
                 )
+            if request_type == ModerationRequestType.PERMISSIONS and (
+                baseline := json.loads(request_data).get("approved_baseline")
+            ):
+                permission_publication.advance_baseline(db.session, appid, baseline)
             db.session.flush()
             for affected_job_id in job_ids:
                 remaining = (
@@ -2692,7 +2851,6 @@ def submit_review(
         )
 
     logger.info(f"Moderation review completed for requests {request_ids}, job {job_id}")
-    inform_only_moderators = False
 
     issue = None
     if is_approved:
@@ -2704,14 +2862,15 @@ def submit_review(
 
         with get_db("replica") as db:
             if not models.DirectUploadApp.by_app_id(db, appid):
-                inform_only_moderators = True
                 with get_db("writer") as db:
                     request = (
                         db.session.query(models.ModerationRequest)
                         .filter_by(id=id)
                         .first()
                     )
-                    issue = create_github_build_rejection_issue(request)
+                    issue = create_github_build_issue(
+                        request, request.comment, discussion=False
+                    )
 
     if app_metadata := get_json_key(f"apps:{appid}"):
         app_name = app_metadata["name"]
@@ -2724,7 +2883,6 @@ def submit_review(
         "subject": subject,
         "previewText": subject,
         "inform_moderators": True,
-        "inform_only_moderators": inform_only_moderators,
         "messageInfo": {
             "category": category,
             "appId": appid,
@@ -2746,6 +2904,146 @@ def submit_review(
     worker.send_email_new.send(payload)
 
     return ReviewResponse(github_issue_url=issue.html_url) if issue else None
+
+
+@router.post(
+    "/requests/{id}/discussion",
+    status_code=200,
+    tags=["moderation"],
+    response_model=ReviewResponse,
+    responses={
+        400: {"description": "Moderation request already handled"},
+        401: {"description": "Unauthorized"},
+        403: {"description": "Forbidden - moderator required"},
+        404: {"description": "Moderation request not found"},
+        409: {"description": "Discussion not supported for this app"},
+        422: {"description": "Validation error"},
+        500: {"description": "Internal server error"},
+        502: {"description": "GitHub issue creation failed"},
+        503: {"description": "Discussion unavailable or notification failed"},
+    },
+)
+def submit_discussion(
+    id: int,
+    discussion: Discussion,
+    http_request: Request,
+    _moderator: ModeratorDep,
+) -> ReviewResponse:
+    with get_db("writer") as db:
+        request, locked_requests = _lock_review_requests(db.session, id)
+
+        if (
+            request.request_type == ModerationRequestType.PERMISSIONS
+            or models.DirectUploadApp.by_app_id(db, request.appid) is not None
+        ):
+            raise HTTPException(status_code=409, detail="discussion_not_supported")
+
+        build_requests = [
+            row
+            for row in locked_requests
+            if row.request_type != ModerationRequestType.PERMISSIONS
+        ]
+        pending = [row for row in build_requests if row.handled_at is None]
+        existing = next((row for row in build_requests if row.discussion_url), None)
+        if existing is not None:
+            discussion_url = existing.discussion_url
+            discussion_comment = existing.discussion_comment
+        else:
+            if not config.settings.github_bot_token:
+                raise HTTPException(status_code=503, detail="discussion_unavailable")
+            try:
+                issue = create_github_build_issue(
+                    request, discussion.comment, discussion=True
+                )
+            except Exception:
+                logger.exception(
+                    "Failed to create discussion issue for app %s build %s",
+                    request.appid,
+                    request.build_id,
+                )
+                issue = None
+            if issue is None:
+                raise HTTPException(
+                    status_code=502, detail="discussion_creation_failed"
+                )
+            discussion_url = issue.html_url
+            discussion_comment = discussion.comment
+
+        for row in pending:
+            if row.discussion_url is None:
+                row.discussion_url = discussion_url
+                row.discussion_comment = discussion_comment
+
+        appid = request.appid
+        build_id = request.build_id
+        build_log_url = request.build_log_url
+        request_ids = [row.id for row in pending]
+        request_types = [row.request_type for row in pending]
+
+        if existing is None:
+            models.AuditLog.create(
+                db,
+                user_id=_moderator.user.id,
+                event_type=models.AuditEventType.MODERATION_DISCUSSION_OPENED,
+                ip_address=http_request.client.host if http_request.client else None,
+                user_agent=http_request.headers.get("user-agent"),
+                details={
+                    "app_id": appid,
+                    "build_id": build_id,
+                    "request_ids": request_ids,
+                    "request_types": request_types,
+                    "discussion_url": discussion_url,
+                },
+            )
+
+        try:
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            logger.exception(
+                "Failed to persist discussion %s for app %s build %s",
+                discussion_url,
+                appid,
+                build_id,
+            )
+            raise HTTPException(status_code=500, detail="discussion_persistence_failed")
+
+    if app_metadata := get_json_key(f"apps:{appid}"):
+        app_name = app_metadata["name"]
+    else:
+        app_name = None
+
+    subject = f"Discussion opened for build #{build_id}"
+    payload: dict[str, JSONValue] = {
+        "messageId": f"{appid}/{build_id}/discussion",
+        "creation_timestamp": utils.utcnow().timestamp(),
+        "subject": subject,
+        "previewText": subject,
+        "inform_moderators": True,
+        "inform_only_moderators": True,
+        "messageInfo": {
+            "category": EmailCategory.MODERATION_DISCUSSION,
+            "appId": appid,
+            "appName": app_name,
+            "buildId": build_id,
+            "buildLogUrl": build_log_url,
+            "comment": discussion_comment,
+            "discussionUrl": discussion_url,
+            "references": f"{appid}/{build_id}/held",
+        },
+    }
+
+    try:
+        worker.send_email_new.send(payload)
+    except Exception:
+        logger.exception(
+            "Failed to queue discussion notification for app %s build %s",
+            appid,
+            build_id,
+        )
+        raise HTTPException(status_code=503, detail="discussion_notification_failed")
+
+    return ReviewResponse(github_issue_url=discussion_url)
 
 
 def register_to_app(app: FastAPI):

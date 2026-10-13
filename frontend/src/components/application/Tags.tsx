@@ -10,7 +10,9 @@ interface Props {
 const Tags: FunctionComponent<Props> = ({ keywords }) => {
   const t = useTranslations()
 
-  if (!keywords) return null
+  if (!keywords) {
+    return null
+  }
 
   // Remove duplicates
   const keywordSet = new Set(keywords.map((keyword) => keyword.toLowerCase()))

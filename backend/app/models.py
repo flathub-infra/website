@@ -10,6 +10,7 @@ from uuid import uuid4
 from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy import (
+    BigInteger,
     Boolean,
     CheckConstraint,
     Date,
@@ -19,6 +20,7 @@ from sqlalchemy import (
     Identity,
     Index,
     Integer,
+    LargeBinary,
     String,
     Table,
     and_,
@@ -42,7 +44,7 @@ from sqlalchemy.orm import (
     relationship,
 )
 
-from . import utils
+from . import localize, utils
 from .db_session import DBSession
 from .types import JSONObject
 
@@ -160,6 +162,9 @@ class FlathubUser(Base):
 
     invite_code: Mapped[str | None] = mapped_column(
         String, nullable=True, unique=True, index=True
+    )
+    webauthn_user_handle: Mapped[bytes | None] = mapped_column(
+        LargeBinary(64), nullable=True, unique=True
     )
 
     roles: Mapped[list["Role"]] = relationship(
@@ -1227,6 +1232,54 @@ class EmailLoginChallenge(Base):
     consumed_at: Mapped[datetime | None] = mapped_column(DateTime)
     locale: Mapped[str] = mapped_column(String, nullable=False)
     return_to: Mapped[str] = mapped_column(String, nullable=False)
+
+
+class PasskeyCredential(Base):
+    __tablename__ = "passkeycredential"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user: Mapped[int] = mapped_column(
+        Integer, ForeignKey(FlathubUser.id), nullable=False, index=True
+    )
+    credential_id: Mapped[bytes] = mapped_column(
+        LargeBinary, nullable=False, unique=True
+    )
+    public_key: Mapped[bytes] = mapped_column(LargeBinary, nullable=False)
+    sign_count: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    transports: Mapped[list[str]] = mapped_column(JSONB, nullable=False)
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    last_used_at: Mapped[datetime | None] = mapped_column(DateTime)
+
+    @staticmethod
+    def all_by_user(db, user: FlathubUser) -> list["PasskeyCredential"]:
+        return (
+            db.session.query(PasskeyCredential)
+            .filter_by(user=user.id)
+            .order_by(PasskeyCredential.id)
+            .all()
+        )
+
+    @staticmethod
+    def delete_hash(hasher: utils.Hasher, db, user: FlathubUser):
+        hasher.add_string(
+            json.dumps(
+                [
+                    [credential.id, credential.name]
+                    for credential in PasskeyCredential.all_by_user(db, user)
+                ]
+            )
+        )
+
+    @staticmethod
+    def delete_user(db, user: FlathubUser):
+        db.session.execute(
+            delete(PasskeyCredential).where(PasskeyCredential.user == user.id)
+        )
+        user.webauthn_user_handle = None
+
+
+FlathubUser.TABLES_FOR_DELETE.append(PasskeyCredential)
 
 
 ConnectedAccountTables = [
@@ -2314,6 +2367,8 @@ class ModerationRequest(Base):
     comment = mapped_column(String)
 
     build_log_url = mapped_column(String)
+    discussion_url = mapped_column(String)
+    discussion_comment = mapped_column(String)
 
     __table_args__ = (
         Index(
@@ -2323,6 +2378,21 @@ class ModerationRequest(Base):
             is_outdated,
         ),
     )
+
+
+class SummaryDecision(Base):
+    __tablename__ = "summarydecision"
+
+    id = mapped_column(Integer, primary_key=True)
+    app_id = mapped_column(String, nullable=False, index=True)
+    build_id = mapped_column(Integer, nullable=False)
+    job_id = mapped_column(Integer, nullable=False)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    old_summary = mapped_column(String, nullable=False)
+    new_summary = mapped_column(String, nullable=False)
+    model = mapped_column(String, nullable=False)
+    answers = mapped_column(JSONB, nullable=False)
+    approved = mapped_column(Boolean, nullable=False, index=True)
 
 
 class ModerationOriginAllowlist(Base):
@@ -2492,10 +2562,19 @@ class PermissionAssessmentObservation(Base):
     build_checks = mapped_column(
         JSONB, nullable=False, server_default=text("'[]'::jsonb")
     )
+    linter_reports = mapped_column(
+        JSONB, nullable=False, server_default=text("'[]'::jsonb")
+    )
     linked_assessment_id = mapped_column(
         Integer, ForeignKey("permissionassessmentobservation.id")
     )
     linked_fingerprint_match = mapped_column(Boolean)
+    decision_id = mapped_column(
+        Integer,
+        ForeignKey("permissiondecision.id", use_alter=True, name="pao_decision_fkey"),
+    )
+    acceptance_basis = mapped_column(String)
+    baseline_id = mapped_column(Integer, ForeignKey("permissionbaseline.id"))
     fingerprint = mapped_column(String)
     published_fingerprint = mapped_column(String)
     error_code = mapped_column(String)
@@ -2503,7 +2582,8 @@ class PermissionAssessmentObservation(Base):
 
     __table_args__ = (
         CheckConstraint(
-            "(outcome = 'pending' AND candidate_snapshot IS NOT NULL "
+            "(outcome IN ('pending', 'accepted', 'rejected') "
+            "AND candidate_snapshot IS NOT NULL "
             "AND fingerprint IS NOT NULL AND error_code IS NULL "
             "AND error_message IS NULL) OR "
             "(outcome = 'error' AND fingerprint IS NULL "
@@ -2532,6 +2612,14 @@ class PermissionAssessmentObservation(Base):
             name="permissionassessmentobservation_linked_match",
         ),
         CheckConstraint(
+            "(outcome = 'accepted' AND acceptance_basis IS NOT NULL "
+            "AND ((acceptance_basis = 'baseline' AND baseline_id IS NOT NULL "
+            "AND differences IS NOT NULL AND differences = '[]'::jsonb) "
+            "OR acceptance_basis = 'permission_decision')) OR "
+            "(outcome <> 'accepted' AND acceptance_basis IS NULL)",
+            name="permissionassessmentobservation_acceptance",
+        ),
+        CheckConstraint(
             "(candidate_snapshot IS NOT NULL "
             "AND fingerprint IS NOT NULL "
             "AND published_snapshot IS NOT NULL "
@@ -2553,6 +2641,55 @@ class PermissionAssessmentObservation(Base):
             created_at,
         ),
         Index("ix_permissionassessmentobservation_created_at", created_at),
+        Index("ix_pao_pr", forge_instance, source_repository, pull_request_number),
+    )
+
+
+class PermissionDecision(Base):
+    __tablename__ = "permissiondecision"
+
+    id = mapped_column(Integer, primary_key=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    assessment_id = mapped_column(
+        Integer, ForeignKey("permissionassessmentobservation.id"), nullable=False
+    )
+    reviewer_id = mapped_column(Integer, ForeignKey("flathubuser.id"), nullable=False)
+    decision = mapped_column(String, nullable=False)
+    rationale = mapped_column(String)
+
+
+class PermissionBaseline(Base):
+    __tablename__ = "permissionbaseline"
+
+    id = mapped_column(Integer, primary_key=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    app_id = mapped_column(String, nullable=False)
+    channel = mapped_column(String, nullable=False)
+    flatpak_branch = mapped_column(String, nullable=False)
+    source = mapped_column(String, nullable=False)
+    repository_url = mapped_column(String, nullable=False)
+    captured_at = mapped_column(DateTime, nullable=False)
+    canonicalization_version = mapped_column(Integer, nullable=False)
+    artifacts = mapped_column(JSONB, nullable=False)
+    snapshot = mapped_column(JSONB, nullable=False)
+    fingerprint = mapped_column(String, nullable=False)
+
+    __table_args__ = (
+        CheckConstraint(
+            "source IN ('initialized', 'approved')",
+            name="permissionbaseline_source",
+        ),
+        CheckConstraint(
+            "jsonb_typeof(artifacts) = 'array' AND artifacts <> '[]'::jsonb",
+            name="permissionbaseline_artifacts",
+        ),
+        Index(
+            "permissionbaseline_scope_unique",
+            app_id,
+            channel,
+            flatpak_branch,
+            unique=True,
+        ),
     )
 
 
@@ -3448,6 +3585,37 @@ class App(Base):
                 entry = self.content_rating_details.get("en_US")
             if entry:
                 result["content_rating_details"] = {posix_locale: entry}
+
+        if screenshots := result.get("screenshots"):
+            locale_key = localize.normalize_language(locale)
+            locale_candidates = [locale_key]
+            base_locale = locale_key.split("-")[0]
+            if base_locale not in locale_candidates:
+                locale_candidates.append(base_locale)
+
+            result["screenshots"] = []
+            for screenshot in screenshots:
+                sizes = screenshot.get("sizes", [])
+                localized_sizes = next(
+                    (
+                        [size for size in sizes if size.get("lang") == candidate]
+                        for candidate in locale_candidates
+                        if any(size.get("lang") == candidate for size in sizes)
+                    ),
+                    None,
+                )
+                screenshot_sizes = localized_sizes or [
+                    size for size in sizes if size.get("lang") is None
+                ]
+                result["screenshots"].append(
+                    {
+                        **screenshot,
+                        "sizes": [
+                            {key: value for key, value in size.items() if key != "lang"}
+                            for size in screenshot_sizes
+                        ],
+                    }
+                )
 
         if not self.localization:
             return result
@@ -4495,6 +4663,9 @@ class AuditEventType(enum.StrEnum):
     APP_UNARCHIVED = "app-unarchived"
     MODERATION_APPROVED = "moderation-approved"
     MODERATION_REJECTED = "moderation-rejected"
+    MODERATION_DISCUSSION_OPENED = "moderation-discussion-opened"
+    PERMISSION_DECISION_APPROVED = "permission-decision-approved"
+    PERMISSION_DECISION_REJECTED = "permission-decision-rejected"
     VERIFICATION_GRANTED = "verification-granted"
     VERIFICATION_REVOKED = "verification-revoked"
     ROLE_GRANTED = "role-granted"

@@ -35,6 +35,7 @@ class TransactionSummary(BaseModel):
     currency: str
     kind: TransactionKind
     status: TransactionStatus
+    recipient: str | None = None
     reason: str | None = None
     created: int | None = None
     updated: int | None = None

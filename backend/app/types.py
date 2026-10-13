@@ -48,6 +48,7 @@ class ModerationRequestType(StrEnum):
     APPDATA = "appdata"
     SUMMARY = "summary"
     MANIFEST = "manifest"
+    PERMISSIONS = "permissions"
 
 
 class ModerationOriginKind(StrEnum):

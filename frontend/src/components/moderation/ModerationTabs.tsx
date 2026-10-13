@@ -86,8 +86,9 @@ const ModerationTabs: FunctionComponent = () => {
     return <InlineError error={t(query.error.message)} shown={true} />
   } else {
     const link = (appid: string) => {
-      if (showHandledQuery)
+      if (showHandledQuery) {
         return `/admin/moderation/${appid}?includeHandled=true`
+      }
 
       return `/admin/moderation/${appid}`
     }

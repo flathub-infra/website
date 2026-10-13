@@ -53,6 +53,13 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
         "success",
         "cancelled",
       ] as const),
+      recipient: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        undefined,
+      ]),
       reason: faker.helpers.arrayElement([
         faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -93,6 +100,13 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
       "success",
       "cancelled",
     ] as const),
+    recipient: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      undefined,
+    ]),
     reason: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),

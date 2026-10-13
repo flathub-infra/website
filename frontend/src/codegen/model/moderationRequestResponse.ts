@@ -6,6 +6,7 @@
  */
 import type { ModerationRequestResponseBuildLogUrl } from "./moderationRequestResponseBuildLogUrl"
 import type { ModerationRequestResponseComment } from "./moderationRequestResponseComment"
+import type { ModerationRequestResponseDiscussionUrl } from "./moderationRequestResponseDiscussionUrl"
 import type { ModerationRequestResponseHandledAt } from "./moderationRequestResponseHandledAt"
 import type { ModerationRequestResponseHandledBy } from "./moderationRequestResponseHandledBy"
 import type { ModerationRequestResponseIsApproved } from "./moderationRequestResponseIsApproved"
@@ -27,4 +28,6 @@ export interface ModerationRequestResponse {
   handled_at?: ModerationRequestResponseHandledAt
   is_approved?: ModerationRequestResponseIsApproved
   comment?: ModerationRequestResponseComment
+  discussion_url?: ModerationRequestResponseDiscussionUrl
+  can_open_discussion: boolean
 }

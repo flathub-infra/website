@@ -4,6 +4,7 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
-import type { JSONValue } from "./jSONValue"
+import type { AppModerationManifestComplexityJSONValue } from "./appModerationManifestComplexityJSONValue"
 
-export type ManifestComplexityEventDataOldSummaryAnyOf = JSONValue | null
+export type ManifestComplexityEventDataOldSummaryAnyOf =
+  AppModerationManifestComplexityJSONValue | null

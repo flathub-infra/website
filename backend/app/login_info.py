@@ -1,3 +1,4 @@
+import time
 from dataclasses import dataclass
 from enum import StrEnum
 from typing import Annotated, cast
@@ -6,6 +7,26 @@ from fastapi import Depends, HTTPException, Request
 
 from . import models
 from .database import get_db
+
+REAUTH_FRESHNESS_SECONDS = 300
+
+
+def mark_recently_authenticated(request: Request) -> None:
+    request.session["auth-time"] = int(time.time())
+
+
+def recently_authenticated(request: Request) -> bool:
+    auth_time = request.session.get("auth-time")
+    return (
+        isinstance(auth_time, int | float)
+        and not isinstance(auth_time, bool)
+        and 0 <= time.time() - auth_time < REAUTH_FRESHNESS_SECONDS
+    )
+
+
+def require_recent_authentication(request: Request) -> None:
+    if not recently_authenticated(request):
+        raise HTTPException(status_code=403, detail="reauthentication_required")
 
 
 class LoginState(StrEnum):
@@ -38,6 +59,37 @@ class LoginInformation:
 @dataclass
 class LoggedInInformation(LoginInformation):
     user: models.FlathubUser
+
+
+def set_authenticated_session(
+    request: Request, user_id: int, method: str, passkey_id: int | None = None
+) -> None:
+    request.session["user-id"] = user_id
+    request.session["auth-method"] = method
+    mark_recently_authenticated(request)
+    if method == "passkey":
+        request.session["passkey-id"] = passkey_id
+    else:
+        request.session.pop("passkey-id", None)
+    request.session.pop("passkey-flow", None)
+
+
+def _passkey_session_user(request: Request, user_id) -> models.FlathubUser | None:
+    passkey_id = request.session.get("passkey-id")
+    if type(passkey_id) is int:
+        with get_db("writer") as db:
+            user = db.session.get(models.FlathubUser, user_id)
+            credential = db.session.get(models.PasskeyCredential, passkey_id)
+            if (
+                user is not None
+                and not user.login_disabled
+                and credential is not None
+                and credential.user == user.id
+            ):
+                db.session.expunge(user)
+                return user
+    request.session.clear()
+    return None
 
 
 def _email_session_revoked(request: Request, db, user: models.FlathubUser) -> bool:
@@ -79,7 +131,9 @@ def login_state(request: Request) -> LoginInformation:
 
     user_id = request.session.get("user-id", None)
     user = None
-    if user_id is not None:
+    if user_id is not None and request.session.get("auth-method") == "passkey":
+        user = _passkey_session_user(request, user_id)
+    elif user_id is not None:
         with get_db("replica") as db:
             user = db.session.get(models.FlathubUser, user_id)
             if user is not None and user.login_disabled:

@@ -4,8 +4,28 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import { faker } from "@faker-js/faker"
+
 import { HttpResponse, http } from "msw"
 import type { RequestHandlerOptions } from "msw"
+
+import type { JwksOidcJwksJsonGet200 } from "../model"
+
+export const getJwksOidcJwksJsonGetResponseMock =
+  (): JwksOidcJwksJsonGet200 => ({
+    [faker.string.alphanumeric(5)]: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+      ]),
+    })),
+  })
 
 export const getOpenidConfigurationWellKnownOpenidConfigurationGetMockHandler =
   (
@@ -31,20 +51,23 @@ export const getOpenidConfigurationWellKnownOpenidConfigurationGetMockHandler =
 
 export const getJwksOidcJwksJsonGetMockHandler = (
   overrideResponse?:
-    | unknown
+    | JwksOidcJwksJsonGet200
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0],
-      ) => Promise<unknown> | unknown),
+      ) => Promise<JwksOidcJwksJsonGet200> | JwksOidcJwksJsonGet200),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/oidc/jwks.json",
     async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-
-      return new HttpResponse(null, { status: 200 })
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getJwksOidcJwksJsonGetResponseMock(),
+        { status: 200 },
+      )
     },
     options,
   )

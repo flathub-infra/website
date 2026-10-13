@@ -103,7 +103,9 @@ export default function PermissionStatsDashboard({
   const number = new Intl.NumberFormat(locale)
   const percentage = (count: number, total: number) => {
     const value = getPermissionPercentage(count, total)
-    if (value !== null && value > 0 && value < 0.1) return "<0.1%"
+    if (value !== null && value > 0 && value < 0.1) {
+      return "<0.1%"
+    }
     return value === null
       ? "Unavailable"
       : new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(

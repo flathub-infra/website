@@ -1,7 +1,8 @@
 import { FunctionComponent, useState, createElement } from "react"
 import { useLocale, useTranslations } from "next-intl"
 import clsx from "clsx"
-import { ScaleIcon, Users2Icon, FileTextIcon, Monitor } from "lucide-react"
+import { ScaleIcon, Users2Icon, FileTextIcon } from "lucide-react"
+import { isDesktopAppstreamTypeGuard } from "@/lib/helpers"
 import { calculateHumanReadableSize } from "../../../size"
 import { getIntlLocale } from "../../../localize"
 import {
@@ -19,6 +20,8 @@ import SafetyModal from "./SafetyModal"
 import PlatformModal from "./PlatformModal"
 import StatsModal from "./StatsModal"
 import ContentRatingModal from "./ContentRatingModal"
+import { getPlatformSupportStatus } from "./platform-support"
+import PlatformSupportSummary from "./PlatformSupportSummary"
 import {
   getContentRating,
   ageToColor,
@@ -53,7 +56,16 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
       ? Math.max(...safetyRating.map((x) => x.safetyRating))
       : 0
 
-  const isMobileFriendly = "isMobileFriendly" in app && !!app.isMobileFriendly
+  const deviceRequirements = {
+    requires: isDesktopAppstreamTypeGuard(app) ? app.requires : undefined,
+    recommends: isDesktopAppstreamTypeGuard(app) ? app.recommends : undefined,
+    supports: isDesktopAppstreamTypeGuard(app) ? app.supports : undefined,
+  }
+  const platformSupportStatus = getPlatformSupportStatus(
+    deviceRequirements.requires,
+    deviceRequirements.recommends,
+    deviceRequirements.supports,
+  )
 
   const licenseType =
     !app.project_license ||
@@ -167,27 +179,17 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
   // Platform
   items.push(
     <SubHeaderItem key="platform" onClick={() => setPlatformOpen(true)}>
-      <div
-        className={clsx(
-          "h-8 w-8 rounded-full p-1.5",
-          isMobileFriendly
-            ? "text-flathub-status-green bg-flathub-status-green/20 dark:bg-flathub-status-green-dark/20 dark:text-flathub-status-green-dark"
-            : "text-flathub-dark-gunmetal bg-flathub-gainsborow/50 dark:bg-flathub-granite-gray/60 dark:text-flathub-lotion",
-        )}
-      >
-        <Monitor className="w-full h-full" />
-      </div>
-      <span className="text-xs text-flathub-sonic-silver dark:text-flathub-lotion">
-        {isMobileFriendly
-          ? t("sub-header.desktop-and-mobile")
-          : t("sub-header.desktop-only")}
-      </span>
+      <PlatformSupportSummary
+        status={platformSupportStatus}
+        appName={app.name}
+        variant="compact"
+      />
     </SubHeaderItem>,
   )
 
   // Age Rating
   if (contentRating) {
-    const ageLabel = formatContentRatingAge(contentRating.minimumAge, locale)
+    const ageLabel = formatContentRatingAge(contentRating.minimumAge)
 
     items.push(
       <SubHeaderItem
@@ -268,7 +270,8 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
         isOpen={platformOpen}
         onClose={() => setPlatformOpen(false)}
         appName={app.name}
-        isMobileFriendly={isMobileFriendly}
+        status={platformSupportStatus}
+        {...deviceRequirements}
       />
 
       <StatsModal

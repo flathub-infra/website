@@ -74,7 +74,7 @@ const DeleteButton: FunctionComponent = () => {
   return (
     <>
       <Button
-        size="xl"
+        size="sm"
         onClick={() => prepareDeleteUserMutation.mutate()}
         variant="destructive"
       >

@@ -227,7 +227,19 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       ]),
     })),
     content_rating_details: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([null]),
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+            faker.datatype.boolean(),
+            faker.number.int(),
+            faker.number.float({ fractionDigits: 2 }),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            [],
+            null,
+          ]),
+        },
+        null,
+      ]),
       undefined,
     ]),
     urls: faker.helpers.arrayElement([
@@ -488,6 +500,63 @@ export const getGetAppstreamAppstreamAppIdGetResponseDesktopAppstreamMock = (
       faker.helpers.arrayElement([faker.datatype.boolean(), null]),
       undefined,
     ]),
+    requires: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() =>
+          faker.helpers.arrayElement([
+            {
+              [faker.string.alphanumeric(5)]: faker.string.alpha({
+                length: { min: 10, max: 20 },
+              }),
+            },
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+          ]),
+        ),
+        null,
+      ]),
+      undefined,
+    ]),
+    recommends: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() =>
+          faker.helpers.arrayElement([
+            {
+              [faker.string.alphanumeric(5)]: faker.string.alpha({
+                length: { min: 10, max: 20 },
+              }),
+            },
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+          ]),
+        ),
+        null,
+      ]),
+      undefined,
+    ]),
+    supports: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() =>
+          faker.helpers.arrayElement([
+            {
+              [faker.string.alphanumeric(5)]: faker.string.alpha({
+                length: { min: 10, max: 20 },
+              }),
+            },
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+          ]),
+        ),
+        null,
+      ]),
+      undefined,
+    ]),
     branding: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
         Array.from(
@@ -592,7 +661,19 @@ export const getGetAppstreamAppstreamAppIdGetResponseAddonAppstreamMock = (
       undefined,
     ]),
     content_rating_details: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([null]),
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+            faker.datatype.boolean(),
+            faker.number.int(),
+            faker.number.float({ fractionDigits: 2 }),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            [],
+            null,
+          ]),
+        },
+        null,
+      ]),
       undefined,
     ]),
     urls: faker.helpers.arrayElement([
@@ -910,7 +991,19 @@ export const getGetAppstreamAppstreamAppIdGetResponseLocalizationAppstreamMock =
         undefined,
       ]),
       content_rating_details: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([null]),
+        faker.helpers.arrayElement([
+          {
+            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+              faker.datatype.boolean(),
+              faker.number.int(),
+              faker.number.float({ fractionDigits: 2 }),
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              [],
+              null,
+            ]),
+          },
+          null,
+        ]),
         undefined,
       ]),
       urls: {
@@ -1222,7 +1315,19 @@ export const getGetAppstreamAppstreamAppIdGetResponseGenericAppstreamMock = (
       undefined,
     ]),
     content_rating_details: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([null]),
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+            faker.datatype.boolean(),
+            faker.number.int(),
+            faker.number.float({ fractionDigits: 2 }),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            [],
+            null,
+          ]),
+        },
+        null,
+      ]),
       undefined,
     ]),
     urls: {
@@ -1539,7 +1644,19 @@ export const getGetAppstreamAppstreamAppIdGetResponseRuntimeAppstreamMock = (
       undefined,
     ]),
     content_rating_details: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([null]),
+      faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+            faker.datatype.boolean(),
+            faker.number.int(),
+            faker.number.float({ fractionDigits: 2 }),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            [],
+            null,
+          ]),
+        },
+        null,
+      ]),
       undefined,
     ]),
     urls: {
@@ -2207,7 +2324,9 @@ export const getIsFavoritedFavoritesAppIdGetResponseMock = (): boolean =>
   faker.datatype.boolean()
 
 export const getGetAppFavoritesCountFavoritesAppIdCountGetResponseMock =
-  (): GetAppFavoritesCountFavoritesAppIdCountGet200 => ({})
+  (): GetAppFavoritesCountFavoritesAppIdCountGet200 => ({
+    [faker.string.alphanumeric(5)]: faker.number.int(),
+  })
 
 export const getGetEolRebaseEolRebaseGetMockHandler = (
   overrideResponse?:

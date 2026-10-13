@@ -39,6 +39,7 @@ dependencies = [
     "dnspython>=2.8.0",
     "email-validator>=2.3.0",
     "idna>=3.18",
+    "webauthn>=3.0.1,<4",
 ]
 
 [dependency-groups]

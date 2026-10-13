@@ -61,6 +61,16 @@ LANGUAGES = [
     "sk",
 ]
 
+
+def normalize_language(language: str) -> str:
+    language = language.replace("_", "-")
+    if language == "zh-CN":
+        return "zh-Hans"
+    if language == "zh-TW":
+        return "zh-Hant"
+    return language
+
+
 LOCALES = [
     "en_US",
     "en_GB",

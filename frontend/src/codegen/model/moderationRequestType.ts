@@ -12,4 +12,5 @@ export const ModerationRequestType = {
   appdata: "appdata",
   summary: "summary",
   manifest: "manifest",
+  permissions: "permissions",
 } as const

@@ -446,6 +446,7 @@
     "introduction": "<header>从 26.6 版本开始，Flatpak 默认安装在 T2 SDE 上——无需设置！</header> <text>Flatpak 预先配置了 Flathub 仓库，并包括桌面集成工具，允许从 Flathub 一键安装。</text> <text>您只需 <link>安装应用</link> 即可！</text>"
   },
   "nura": {
-    "distroName": "Nura"
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak 默认安装在 Nura 上！</header> <text>你只需 <link>安装应用</link>！</text>"
   }
 }

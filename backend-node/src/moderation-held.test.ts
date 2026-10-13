@@ -195,6 +195,15 @@ test("accepts manifest moderation request schema", () => {
   assert.equal(RequestSchema.safeParse(complexityRequest).success, true)
 })
 
+test("accepts permissions moderation request schema", () => {
+  const request = {
+    requestType: "permissions",
+    requestData: { channel: "stable", differences: [] },
+    isNewSubmission: false,
+  }
+  assert.equal(RequestSchema.safeParse(request).success, true)
+})
+
 test("does not render permission changes in held email", async () => {
   const html = await render(
     ModerationHeldEmail({

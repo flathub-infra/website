@@ -29,6 +29,7 @@ import type {
   AuthorizeOidcAuthorizeGetParams,
   BodyTokenOidcTokenPost,
   HTTPValidationError,
+  JwksOidcJwksJsonGet200,
 } from "../model"
 
 const withQueryKey = <T extends object, K>(
@@ -255,7 +256,7 @@ export function useOpenidConfigurationWellKnownOpenidConfigurationGet<
  */
 export const jwksOidcJwksJsonGet = (
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<unknown>> => {
+): Promise<AxiosResponse<JwksOidcJwksJsonGet200>> => {
   return axios.get(`/oidc/jwks.json`, options)
 }
 

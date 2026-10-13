@@ -20,62 +20,92 @@ const AdminLayoutClient = ({
 
   const user = useUserContext()
 
-  const adminNavigation = [
+  const adminNavigationGroups = [
     {
-      name: "Moderation",
-      href: "/admin/moderation",
-      condition: (user: GetUserinfoAuthUserinfoGet200) =>
-        user?.permissions.some((a) => a === Permission.moderation),
+      name: "Review",
+      items: [
+        {
+          name: "Moderation",
+          href: "/admin/moderation",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some((a) => a === Permission.moderation),
+        },
+        {
+          name: "Permission statistics",
+          href: "/admin/permission-statistics",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some((a) => a === Permission.moderation),
+        },
+      ],
     },
     {
-      name: "Permissions",
-      href: "/admin/permissions",
-      condition: (user: GetUserinfoAuthUserinfoGet200) =>
-        user?.permissions.some((a) => a === Permission.moderation),
+      name: "Curation",
+      items: [
+        {
+          name: "Quality Moderation",
+          href: "/admin/quality-moderation",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some(
+              (a) => a === Permission["quality-moderation"],
+            ),
+        },
+        {
+          name: "App Picks",
+          href: "/admin/app-picks",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some(
+              (a) => a === Permission["quality-moderation"],
+            ),
+        },
+        {
+          name: "Homepage Selections",
+          href: "/admin/homepage-selections",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some(
+              (a) => a === Permission["quality-moderation"],
+            ),
+        },
+      ],
     },
     {
-      name: "Quality Moderation",
-      href: "/admin/quality-moderation",
-      condition: (user: GetUserinfoAuthUserinfoGet200) =>
-        user?.permissions.some((a) => a === Permission["quality-moderation"]),
+      name: "People & access",
+      items: [
+        {
+          name: "Users",
+          href: "/admin/users",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some((a) => a === Permission["view-users"]),
+        },
+        {
+          name: "Roles",
+          href: "/admin/roles",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some((a) => a === Permission["view-users"]),
+        },
+        {
+          name: "Direct uploads",
+          href: "/admin/direct-uploads",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some((a) => a === Permission["modify-users"]),
+        },
+        {
+          name: "OIDC clients",
+          href: "/admin/oidc-clients",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some(
+              (a) => a === Permission["manage-oidc-clients"],
+            ),
+        },
+      ],
     },
-    {
-      name: "App Picks",
-      href: "/admin/app-picks",
-      condition: (user: GetUserinfoAuthUserinfoGet200) =>
-        user?.permissions.some((a) => a === Permission["quality-moderation"]),
-    },
-    {
-      name: "Homepage Selections",
-      href: "/admin/homepage-selections",
-      condition: (user: GetUserinfoAuthUserinfoGet200) =>
-        user?.permissions.some((a) => a === Permission["quality-moderation"]),
-    },
-    {
-      name: "Users",
-      href: "/admin/users",
-      condition: (user: GetUserinfoAuthUserinfoGet200) =>
-        user?.permissions.some((a) => a === Permission["view-users"]),
-    },
-    {
-      name: "Roles",
-      href: "/admin/roles",
-      condition: (user: GetUserinfoAuthUserinfoGet200) =>
-        user?.permissions.some((a) => a === Permission["view-users"]),
-    },
-    {
-      name: "Direct uploads",
-      href: "/admin/direct-uploads",
-      condition: (user: GetUserinfoAuthUserinfoGet200) =>
-        user?.permissions.some((a) => a === Permission["modify-users"]),
-    },
-    {
-      name: "OIDC clients",
-      href: "/admin/oidc-clients",
-      condition: (user: GetUserinfoAuthUserinfoGet200) =>
-        user?.permissions.some((a) => a === Permission["manage-oidc-clients"]),
-    },
-  ].filter((nav) => !nav.condition || nav.condition(user?.info))
+  ]
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => item.condition(user?.info)),
+    }))
+    .filter((group) => group.items.length > 0)
+
+  const adminNavigation = adminNavigationGroups.flatMap((group) => group.items)
 
   useEffect(() => {
     if (adminNavigation.length > 0 && pathname.endsWith("/admin")) {
@@ -109,23 +139,33 @@ const AdminLayoutClient = ({
           )}
         >
           <nav className="flex flex-1 flex-col" aria-label="Sidebar">
-            <ul className="space-y-1">
-              {adminNavigation.map((item) => (
-                <li key={item.name}>
-                  <a
-                    href={item.href}
-                    className={clsx(
-                      pathname === item.href
-                        ? "bg-flathub-gainsborow text-flathub-black dark:bg-flathub-arsenic dark:text-flathub-white"
-                        : "text-flathub-black hover:bg-flathub-gainsborow/50 dark:text-flathub-white dark:hover:bg-flathub-arsenic",
-                      "group flex gap-x-3 rounded-md p-2 ps-3 text-sm leading-6 font-semibold",
-                    )}
-                  >
-                    {item.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {adminNavigationGroups.map((group) => (
+              <section key={group.name} className="mb-5 last:mb-0">
+                <h2 className="px-3 pb-1 text-xs font-semibold uppercase tracking-wider text-flathub-black/55 dark:text-flathub-white/55">
+                  {group.name}
+                </h2>
+                <ul className="space-y-1">
+                  {group.items.map((item) => (
+                    <li key={item.name}>
+                      <a
+                        href={item.href}
+                        aria-current={
+                          pathname === item.href ? "page" : undefined
+                        }
+                        className={clsx(
+                          pathname === item.href
+                            ? "bg-flathub-gainsborow text-flathub-black dark:bg-flathub-arsenic dark:text-flathub-white"
+                            : "text-flathub-black hover:bg-flathub-gainsborow/50 dark:text-flathub-white dark:hover:bg-flathub-arsenic",
+                          "group flex gap-x-3 rounded-md p-2 ps-3 text-sm leading-6 font-semibold",
+                        )}
+                      >
+                        {item.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
           </nav>
         </aside>
 

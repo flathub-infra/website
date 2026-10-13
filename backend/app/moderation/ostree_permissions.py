@@ -46,6 +46,23 @@ class CollectedPermissions:
     snapshot: PermissionSnapshot
 
 
+@dataclass(frozen=True)
+class PermissionCollectionFailure:
+    app_id: str
+    flatpak_branch: str
+    code: str
+    message: str
+    ref_name: str | None
+
+
+@dataclass(frozen=True)
+class PublishedPermissions:
+    repository_url: str
+    captured_at: str
+    collected: tuple[CollectedPermissions, ...]
+    failures: tuple[PermissionCollectionFailure, ...]
+
+
 def _invalid(message: str) -> PermissionSnapshotError:
     return PermissionSnapshotError("invalid_input", message)
 
@@ -227,6 +244,72 @@ def _read_root_metadata(
         ) from exc
 
 
+def _open_remote(
+    path: str, repository_url: str, cancellable: Gio.Cancellable
+) -> OSTree.Repo:
+    repo = OSTree.Repo.new(Gio.File.new_for_path(path))
+    repo.create(OSTree.RepoMode.BARE_USER_ONLY, cancellable)
+    remote_options = GLib.Variant(
+        "a{sv}",
+        {
+            "gpg-verify": GLib.Variant("b", False),
+            "gpg-verify-summary": GLib.Variant("b", False),
+        },
+    )
+    repo.remote_add("source", repository_url, remote_options, cancellable)
+    return repo
+
+
+def _pull_metadata(
+    repo: OSTree.Repo,
+    artifacts: tuple[PermissionArtifact, ...],
+    cancellable: Gio.Cancellable,
+) -> None:
+    options = GLib.Variant(
+        "a{sv}",
+        {
+            "refs": GLib.Variant("as", [item.ref_name for item in artifacts]),
+            "override-commit-ids": GLib.Variant(
+                "as", [item.commit for item in artifacts]
+            ),
+            "flags": GLib.Variant("i", int(OSTree.RepoPullFlags.NONE)),
+            "subdirs": GLib.Variant("as", ["/metadata"]),
+            "depth": GLib.Variant("i", 0),
+            "disable-static-deltas": GLib.Variant("b", True),
+            "n-network-retries": GLib.Variant("u", 1),
+            "http-headers": GLib.Variant("a(ss)", [("User-Agent", "flathub-backend")]),
+        },
+    )
+    repo.pull_with_options("source", options, None, cancellable)
+
+
+def _read_artifacts(
+    repo: OSTree.Repo,
+    artifacts: tuple[PermissionArtifact, ...],
+    app_id: str,
+    cancellable: Gio.Cancellable,
+) -> dict[str, PermissionMap]:
+    architectures = {}
+    parsed_commits = {}
+    for artifact in artifacts:
+        _, local_commit = repo.resolve_rev(f"source:{artifact.ref_name}", False)
+        if local_commit != artifact.commit:
+            raise PermissionSnapshotError(
+                "checksum_mismatch",
+                f"Local checksum differs for {artifact.ref_name}",
+                ref_name=artifact.ref_name,
+            )
+        if artifact.commit not in parsed_commits:
+            parsed_commits[artifact.commit] = _read_root_metadata(
+                repo,
+                artifact,
+                app_id,
+                cancellable,
+            )
+        architectures[artifact.arch] = parsed_commits[artifact.commit]
+    return architectures
+
+
 def collect_permissions(
     repository_url: str,
     *,
@@ -292,16 +375,7 @@ def collect_permissions(
         timer.daemon = True
         timer.start()
         try:
-            repo = OSTree.Repo.new(Gio.File.new_for_path(temp_dir))
-            repo.create(OSTree.RepoMode.BARE_USER_ONLY, cancellable)
-            remote_options = GLib.Variant(
-                "a{sv}",
-                {
-                    "gpg-verify": GLib.Variant("b", False),
-                    "gpg-verify-summary": GLib.Variant("b", False),
-                },
-            )
-            repo.remote_add("source", repository_url, remote_options, cancellable)
+            repo = _open_remote(temp_dir, repository_url, cancellable)
             remote_refs = _list_remote_refs(repo, cancellable)
             captured_at = datetime.now(UTC).isoformat()
             if cancellable.is_cancelled():
@@ -349,42 +423,8 @@ def collect_permissions(
                 PermissionArtifact(ref_name, arch, commit)
                 for arch, (ref_name, commit) in sorted(selected.items())
             )
-            options = GLib.Variant(
-                "a{sv}",
-                {
-                    "refs": GLib.Variant("as", [item.ref_name for item in artifacts]),
-                    "override-commit-ids": GLib.Variant(
-                        "as", [item.commit for item in artifacts]
-                    ),
-                    "flags": GLib.Variant("i", int(OSTree.RepoPullFlags.NONE)),
-                    "subdirs": GLib.Variant("as", ["/metadata"]),
-                    "depth": GLib.Variant("i", 0),
-                    "disable-static-deltas": GLib.Variant("b", True),
-                    "n-network-retries": GLib.Variant("u", 1),
-                    "http-headers": GLib.Variant(
-                        "a(ss)", [("User-Agent", "flathub-backend")]
-                    ),
-                },
-            )
-            repo.pull_with_options("source", options, None, cancellable)
-            architectures = {}
-            parsed_commits = {}
-            for artifact in artifacts:
-                _, local_commit = repo.resolve_rev(f"source:{artifact.ref_name}", False)
-                if local_commit != artifact.commit:
-                    raise PermissionSnapshotError(
-                        "checksum_mismatch",
-                        f"Local checksum differs for {artifact.ref_name}",
-                        ref_name=artifact.ref_name,
-                    )
-                if artifact.commit not in parsed_commits:
-                    parsed_commits[artifact.commit] = _read_root_metadata(
-                        repo,
-                        artifact,
-                        app_id,
-                        cancellable,
-                    )
-                architectures[artifact.arch] = parsed_commits[artifact.commit]
+            _pull_metadata(repo, artifacts, cancellable)
+            architectures = _read_artifacts(repo, artifacts, app_id, cancellable)
             if cancellable.is_cancelled():
                 raise PermissionSnapshotError(
                     "timeout", "Permission collection timed out"
@@ -408,3 +448,181 @@ def collect_permissions(
             ) from exc
         finally:
             timer.cancel()
+
+
+def _check_timeout(timeout_seconds: float) -> None:
+    if (
+        isinstance(timeout_seconds, bool)
+        or not isinstance(timeout_seconds, (int, float))
+        or not math.isfinite(timeout_seconds)
+        or timeout_seconds <= 0
+    ):
+        raise _invalid("Timeout must be a positive finite number")
+
+
+def _published_groups(
+    remote_refs: Mapping[str, str],
+    app_ids: AbstractSet[str] | None,
+    failures: list[PermissionCollectionFailure],
+) -> dict[tuple[str, str], tuple[PermissionArtifact, ...]]:
+    groups: dict[tuple[str, str], list[PermissionArtifact]] = {}
+    invalid: set[tuple[str, str]] = set()
+    for ref_name, commit in sorted(remote_refs.items()):
+        parts = ref_name.split("/")
+        if (
+            len(parts) != 4
+            or parts[0] != "app"
+            or not all(_valid_segment(part) for part in parts[1:])
+            or (app_ids is not None and parts[1] not in app_ids)
+        ):
+            continue
+        key = (parts[1], parts[3])
+        try:
+            _checksum(commit, ref_name=ref_name, remote=True)
+        except PermissionSnapshotError as exc:
+            if key not in invalid:
+                invalid.add(key)
+                failures.append(
+                    PermissionCollectionFailure(*key, exc.code, exc.message, ref_name)
+                )
+            continue
+        groups.setdefault(key, []).append(
+            PermissionArtifact(ref_name, parts[2], commit)
+        )
+    return {
+        key: tuple(sorted(artifacts, key=lambda item: item.arch))
+        for key, artifacts in sorted(groups.items())
+        if key not in invalid
+    }
+
+
+def _collect_group(
+    repo: OSTree.Repo,
+    repository_url: str,
+    captured_at: str,
+    key: tuple[str, str],
+    artifacts: tuple[PermissionArtifact, ...],
+    cancellable: Gio.Cancellable,
+) -> CollectedPermissions:
+    app_id, flatpak_branch = key
+    try:
+        architectures = _read_artifacts(repo, artifacts, app_id, cancellable)
+    except GLib.Error as exc:
+        raise PermissionSnapshotError(
+            "transport_error", f"OSTree read error: {exc}"
+        ) from exc
+    return CollectedPermissions(
+        app_id,
+        flatpak_branch,
+        repository_url,
+        captured_at,
+        artifacts,
+        PermissionSnapshot(CANONICALIZATION_VERSION, architectures),
+    )
+
+
+def _pull_batch(
+    repo: OSTree.Repo,
+    artifacts: tuple[PermissionArtifact, ...],
+    timeout_seconds: float,
+) -> PermissionSnapshotError | None:
+    cancellable = Gio.Cancellable()
+    timer = Timer(timeout_seconds, cancellable.cancel)
+    timer.daemon = True
+    timer.start()
+    try:
+        _pull_metadata(repo, artifacts, cancellable)
+    except GLib.Error as exc:
+        if cancellable.is_cancelled():
+            return PermissionSnapshotError(
+                "timeout", f"Permission collection timed out: {exc}"
+            )
+        return PermissionSnapshotError(
+            "transport_error", f"OSTree transport error: {exc}"
+        )
+    finally:
+        timer.cancel()
+    return None
+
+
+def collect_published_permissions(
+    repository_url: str,
+    *,
+    app_ids: AbstractSet[str] | None = None,
+    batch_size: int = 200,
+    timeout_seconds: float = 600.0,
+) -> PublishedPermissions:
+    if not isinstance(repository_url, str):
+        raise _invalid("Repository URL must be a string")
+    _check_url(repository_url)
+    _check_timeout(timeout_seconds)
+    if (
+        isinstance(batch_size, bool)
+        or not isinstance(batch_size, int)
+        or batch_size < 1
+    ):
+        raise _invalid("Batch size must be a positive integer")
+    if app_ids is not None and any(not _valid_segment(app) for app in app_ids):
+        raise _invalid("App IDs must be nonempty single segments")
+
+    failures: list[PermissionCollectionFailure] = []
+    collected: list[CollectedPermissions] = []
+    with tempfile.TemporaryDirectory(prefix="ostree-permissions-") as temp_dir:
+        cancellable = Gio.Cancellable()
+        timer = Timer(timeout_seconds, cancellable.cancel)
+        timer.daemon = True
+        timer.start()
+        try:
+            repo = _open_remote(temp_dir, repository_url, cancellable)
+            remote_refs = _list_remote_refs(repo, cancellable)
+        except GLib.Error as exc:
+            if cancellable.is_cancelled():
+                raise PermissionSnapshotError(
+                    "timeout", f"Permission collection timed out: {exc}"
+                ) from exc
+            raise PermissionSnapshotError(
+                "transport_error", f"OSTree transport error: {exc}"
+            ) from exc
+        finally:
+            timer.cancel()
+        captured_at = datetime.now(UTC).isoformat()
+        groups = list(_published_groups(remote_refs, app_ids, failures).items())
+
+        for start in range(0, len(groups), batch_size):
+            batch = groups[start : start + batch_size]
+            batch_error = _pull_batch(
+                repo,
+                tuple(item for _, artifacts in batch for item in artifacts),
+                timeout_seconds,
+            )
+            for key, artifacts in batch:
+                error = None
+                if batch_error is not None:
+                    error = _pull_batch(repo, artifacts, timeout_seconds)
+                if error is None:
+                    try:
+                        collected.append(
+                            _collect_group(
+                                repo,
+                                repository_url,
+                                captured_at,
+                                key,
+                                artifacts,
+                                Gio.Cancellable(),
+                            )
+                        )
+                        continue
+                    except PermissionSnapshotError as exc:
+                        error = exc
+                failures.append(
+                    PermissionCollectionFailure(
+                        *key, error.code, error.message, error.ref_name
+                    )
+                )
+
+    return PublishedPermissions(
+        repository_url,
+        captured_at,
+        tuple(collected),
+        tuple(sorted(failures, key=lambda item: (item.app_id, item.flatpak_branch))),
+    )

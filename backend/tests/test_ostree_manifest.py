@@ -619,6 +619,28 @@ def source_findings(candidate, published, *, arch="x86_64"):
             source_manifest(source(url="https://github.com/settings")),
             source_manifest(source(url="https://github.com/login")),
         ),
+        (
+            source_manifest(
+                source(url="https://GitHub.com/Foo/Bar/archive/v2.tar"),
+                source(url="https://gitlab.gnome.org/GNOME/GLib.GIT"),
+            ),
+            source_manifest(
+                source(url="https://github.com/foo/bar.git"),
+                source(url="https://gitlab.gnome.org/gnome/glib/-/archive/v1.tar"),
+            ),
+        ),
+        (
+            source_manifest(
+                source(
+                    url="https://gitlab.com/api/v4/projects/48404603/packages/generic/pipeline/4.1.1/tubefeeder-4.1.1.tar.xz"
+                )
+            ),
+            source_manifest(
+                source(
+                    url="https://gitlab.com/api/v4/projects/48404603/packages/generic/pipeline/4.1.0/tubefeeder-4.1.0.tar.xz"
+                )
+            ),
+        ),
     ],
 )
 def test_manifest_changes_without_source_identity_changes_do_not_gate(
@@ -751,8 +773,8 @@ def test_source_move_to_existing_identity_still_reports_removed_repository():
         (
             "https://gitlab.gnome.org/GNOME/gtk-fork/-/archive/v2/archive.tar",
             "https://gitlab.gnome.org/GNOME/gtk/-/archive/v1/archive.tar",
-            ("https://gitlab.gnome.org/GNOME/gtk-fork",),
-            ("https://gitlab.gnome.org/GNOME/gtk",),
+            ("https://gitlab.gnome.org/gnome/gtk-fork",),
+            ("https://gitlab.gnome.org/gnome/gtk",),
         ),
         (
             "https://invent.kde.org/frameworks/kio-fork/-/archive/v2/archive.tar",
@@ -761,10 +783,22 @@ def test_source_move_to_existing_identity_still_reports_removed_repository():
             ("https://invent.kde.org/frameworks/kio",),
         ),
         (
+            "https://gitlab.com/api/v4/projects/2/packages/generic/app/1/app.tar",
+            "https://gitlab.com/api/v4/projects/1/packages/generic/app/1/app.tar",
+            ("https://gitlab.com/api/v4/projects/2",),
+            ("https://gitlab.com/api/v4/projects/1",),
+        ),
+        (
             "https://codeberg.org/fork/bar/archive/v2.tar",
             "https://codeberg.org/foo/bar/archive/v1.tar",
             ("https://codeberg.org/fork/bar",),
             ("https://codeberg.org/foo/bar",),
+        ),
+        (
+            "https://git.sr.ht/~foo/Bar/archive/v2.tar.gz",
+            "https://git.sr.ht/~foo/bar/archive/v1.tar.gz",
+            ("https://git.sr.ht/~foo/Bar",),
+            ("https://git.sr.ht/~foo/bar",),
         ),
     ],
 )

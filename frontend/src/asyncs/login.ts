@@ -45,7 +45,7 @@ export async function login(
   }
 
   if (res.ok) {
-    getUserData(dispatch)
+    await getUserData(dispatch)
   } else {
     dispatch({ type: "interrupt" })
 
@@ -58,7 +58,8 @@ export async function login(
     }
     if (
       data?.error === "gitlab-terms-not-accepted" ||
-      data?.error === "error-already-logged-in"
+      data?.error === "error-already-logged-in" ||
+      data?.error === "reauth-account-mismatch"
     ) {
       throw new Error(data.error)
     }

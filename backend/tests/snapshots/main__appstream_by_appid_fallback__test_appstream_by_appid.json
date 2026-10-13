@@ -192,5 +192,37 @@
   },
   "is_free_license": true,
   "isMobileFriendly": false,
+  "requires": [
+    {
+      "type": "control",
+      "value": "keyboard"
+    },
+    {
+      "type": "memory",
+      "value": "6GB",
+      "compare": "ge"
+    },
+    {
+      "type": "display_length",
+      "value": "1024",
+      "compare": "ge"
+    }
+  ],
+  "recommends": [
+    {
+      "type": "control",
+      "value": "pointing"
+    },
+    {
+      "type": "control",
+      "value": "touch"
+    }
+  ],
+  "supports": [
+    {
+      "type": "control",
+      "value": "gamepad"
+    }
+  ],
   "is_eol": false
 }

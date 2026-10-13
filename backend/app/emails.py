@@ -25,6 +25,7 @@ class EmailCategory(StrEnum):
     DEVELOPER_LEFT = "developer_left"
     MODERATION_APPROVED = "moderation_approved"
     MODERATION_HELD = "moderation_held"
+    MODERATION_DISCUSSION = "moderation_discussion"
     MODERATION_REJECTED = "moderation_rejected"
     SECURITY_LOGIN = "security_login"
     UPLOAD_TOKEN_CREATED = "upload_token_created"
@@ -199,7 +200,7 @@ def send_email_new(payload: JSONObject, db) -> None:
         payload["subject"] = app_name + " | " + subject
 
     app_id = message_info.get("appId")
-    if isinstance(app_id, str) and not message_info.get("inform_only_moderators"):
+    if isinstance(app_id, str) and not payload.get("inform_only_moderators"):
         # Get the developers of the app
         by_github_repo = (
             db.session.query(models.FlathubUser)

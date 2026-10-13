@@ -41,10 +41,13 @@ export const Base = ({
 }) => {
   const appNameAndId = buildAppName(appId, appName)
 
-  let footerMode: "developer_invite" | "developer_app" | "default" = "default"
+  let footerMode:
+    "developer_invite" | "developer_app" | "moderator" | "default" = "default"
 
   if (category === "developer_invite" && appNameAndId) {
     footerMode = "developer_invite"
+  } else if (category === "moderation_discussion") {
+    footerMode = "moderator"
   } else if (appId) {
     footerMode = "developer_app"
   }
@@ -107,6 +110,13 @@ export const Base = ({
                     {appNameAndId}
                   </Link>{" "}
                   on Flathub.
+                </Text>
+              )}
+
+              {footerMode === "moderator" && (
+                <Text>
+                  You are receiving this email because you are a Flathub
+                  moderator.
                 </Text>
               )}
 

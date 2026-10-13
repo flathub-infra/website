@@ -64,8 +64,9 @@ export function buildPermissionInventory(
   }
   const latest = sorted.at(-1)
   if (latest) {
-    for (const entry of flattenPermissionCounts(latest.permission_counts))
+    for (const entry of flattenPermissionCounts(latest.permission_counts)) {
       union.set(permissionKey(entry.path), entry)
+    }
   }
   return [...union.values()]
 }
@@ -92,7 +93,9 @@ export function buildMonthlyPermissionTrend(
   let date = new Date(Date.UTC(year, month - 1, 1))
   for (let i = 0; i < 12; i++) {
     const key = date.toISOString().slice(0, 7)
-    if (key > window.end_month) break
+    if (key > window.end_month) {
+      break
+    }
     const snapshot = snapshots.get(key)
     let node: unknown = snapshot?.permission_counts
     for (const segment of entryPath) {

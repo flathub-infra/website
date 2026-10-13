@@ -21,7 +21,7 @@ from . import (
     verification,
     wallet,
 )
-from .moderation import permission_assessment_api
+from .moderation import permission_assessment_api, permission_reviews
 from .moderation import review as moderation
 from .routes import (
     app_picks,
@@ -89,6 +89,7 @@ emails.register_to_app(router)
 logins.register_to_app(router)
 moderation.register_to_app(router)
 permission_assessment_api.register_to_app(router)
+permission_reviews.register_to_app(router)
 wallet.register_to_app(router)
 vending.register_to_app(router)
 

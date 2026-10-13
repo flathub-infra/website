@@ -50,4 +50,9 @@ export const RequestSchema = z.discriminatedUnion("requestType", [
     }),
     isNewSubmission: z.literal(false),
   }),
+  z.object({
+    requestType: z.literal("permissions"),
+    requestData: z.object({ channel: z.string() }),
+    isNewSubmission: z.literal(false),
+  }),
 ])

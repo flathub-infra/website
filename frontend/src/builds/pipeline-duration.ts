@@ -1,15 +1,10 @@
 import { UTCDate } from "@date-fns/utc"
 import type { PipelineSummary } from "src/codegen-pipeline"
 
-export function buildDuration(pipeline: PipelineSummary): string {
-  if (!pipeline.started_at)
-    return pipeline.status === "pending" ? "Pending" : "-"
-  if (!pipeline.finished_at)
-    return ["pending", "running", "succeeded", "publishing"].includes(
-      pipeline.status,
-    )
-      ? "In progress"
-      : "-"
+export function buildDuration(pipeline: PipelineSummary): string | null {
+  if (!pipeline.started_at || !pipeline.finished_at) {
+    return null
+  }
   const seconds = Math.max(
     0,
     Math.floor(
@@ -18,7 +13,11 @@ export function buildDuration(pipeline: PipelineSummary): string {
         1000,
     ),
   )
-  if (seconds < 60) return `${seconds}s`
-  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ${seconds % 60}s`
+  if (seconds < 60) {
+    return `${seconds}s`
+  }
+  if (seconds < 3600) {
+    return `${Math.floor(seconds / 60)}m ${seconds % 60}s`
+  }
   return `${Math.floor(seconds / 3600)}h ${Math.floor((seconds % 3600) / 60)}m`
 }

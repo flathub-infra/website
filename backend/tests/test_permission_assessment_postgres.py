@@ -3,11 +3,13 @@ import sys
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from dataclasses import asdict
+from datetime import UTC, datetime
 from threading import Barrier
 from uuid import uuid4
 
 import pytest
 from sqlalchemy import create_engine, event, select, text
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import sessionmaker
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,6 +23,14 @@ from app.moderation.permission_snapshot import (
     PermissionSnapshot,
     fingerprint_snapshot,
 )
+
+APP = "org.example.App"
+PERMISSION_TABLES = [
+    models.FlathubUser.__table__,
+    models.PermissionBaseline.__table__,
+    models.PermissionDecision.__table__,
+    models.PermissionAssessmentObservation.__table__,
+]
 
 
 def test_concurrent_identical_observations_persist_once(monkeypatch):
@@ -46,7 +56,7 @@ def test_concurrent_identical_observations_persist_once(monkeypatch):
 
         event.listen(isolated_engine, "connect", set_search_path)
         with isolated_engine.begin() as connection:
-            models.PermissionAssessmentObservation.__table__.create(connection)
+            models.Base.metadata.create_all(connection, tables=PERMISSION_TABLES)
 
         Session = sessionmaker(bind=isolated_engine, expire_on_commit=False)
         barrier = Barrier(2, timeout=30)
@@ -180,7 +190,7 @@ def test_push_links_latest_matching_pull_request_assessment(monkeypatch):
 
         event.listen(isolated_engine, "connect", set_search_path)
         with isolated_engine.begin() as connection:
-            models.PermissionAssessmentObservation.__table__.create(connection)
+            models.Base.metadata.create_all(connection, tables=PERMISSION_TABLES)
         Session = sessionmaker(bind=isolated_engine, expire_on_commit=False)
 
         @contextmanager
@@ -285,6 +295,138 @@ def test_push_links_latest_matching_pull_request_assessment(monkeypatch):
         )
         assert pushed.linked_assessment_id == latest.assessment_id
         assert link(request(), "b" * 64) == (latest.assessment_id, True)
+    finally:
+        if isolated_engine is not None:
+            isolated_engine.dispose()
+        if schema_created:
+            with admin_engine.begin() as connection:
+                connection.execute(text(f'DROP SCHEMA "{schema_name}" CASCADE'))
+        admin_engine.dispose()
+
+
+def test_stored_baseline_lookup_and_acceptance_constraint(monkeypatch):
+    database_url = os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL")
+    if not database_url:
+        pytest.skip("PERMISSION_ASSESSMENT_TEST_DATABASE_URL is not configured")
+
+    schema_name = f"permission_assessment_test_{uuid4().hex}"
+    admin_engine = create_engine(database_url)
+    isolated_engine = None
+    schema_created = False
+    try:
+        with admin_engine.begin() as connection:
+            connection.execute(text(f'CREATE SCHEMA "{schema_name}"'))
+        schema_created = True
+        isolated_engine = create_engine(database_url)
+
+        def set_search_path(dbapi_connection, _connection_record):
+            cursor = dbapi_connection.cursor()
+            cursor.execute(f'SET search_path TO "{schema_name}"')
+            cursor.close()
+
+        event.listen(isolated_engine, "connect", set_search_path)
+        with isolated_engine.begin() as connection:
+            models.Base.metadata.create_all(connection, tables=PERMISSION_TABLES)
+        Session = sessionmaker(bind=isolated_engine, expire_on_commit=False)
+
+        @contextmanager
+        def real_db(db_type="writer"):
+            session = Session()
+            try:
+                yield DBSession(session)
+                session.commit()
+            finally:
+                session.close()
+
+        monkeypatch.setattr(permission_assessment, "get_db", real_db)
+        snapshot = {
+            "canonicalization_version": CANONICALIZATION_VERSION,
+            "architectures": {"x86_64": {}},
+        }
+        with Session() as session:
+            for channel, version in (("stable", CANONICALIZATION_VERSION), ("beta", 2)):
+                session.add(
+                    models.PermissionBaseline(
+                        app_id="org.example.App",
+                        channel=channel,
+                        flatpak_branch=channel,
+                        source="initialized",
+                        repository_url="https://dl.flathub.org/repo",
+                        captured_at=datetime(2026, 10, 2, tzinfo=UTC).replace(
+                            tzinfo=None
+                        ),
+                        canonicalization_version=version,
+                        artifacts=[{"ref_name": "r", "arch": "x86_64", "commit": "c"}],
+                        snapshot=snapshot,
+                        fingerprint="f" * 64,
+                    )
+                )
+            session.commit()
+
+        stored = permission_assessment._stored_baseline(APP, "stable", "stable")
+        assert stored is not None
+        assert stored["snapshot"] == snapshot
+        assert stored["fingerprint"] == "f" * 64
+        assert permission_assessment._stored_baseline(APP, "beta", "beta") is None
+        assert permission_assessment._stored_baseline(APP, "stable", "24.08") is None
+
+        def observation(identity, **changes):
+            return {
+                "assessment_identity": identity,
+                "outcome": "accepted",
+                "acceptance_basis": "baseline",
+                "baseline_id": stored["id"],
+                "app_id": "org.example.App",
+                "pipeline_id": identity,
+                "forge_instance": "github.com",
+                "source_repository": "flathub/org.example.App",
+                "pull_request_head_revision": "1" * 40,
+                "built_revision": "1" * 40,
+                "target_git_branch": "master",
+                "base_revision": "",
+                "candidate_kind": "head",
+                "intended_repo": "test",
+                "intended_channel": "stable",
+                "flatpak_branch": "stable",
+                "build_id": 1,
+                "expected_arches": ["x86_64"],
+                "canonicalization_version": CANONICALIZATION_VERSION,
+                "candidate_artifacts": [],
+                "published_artifacts": [],
+                "uploaded_refs": [],
+                "candidate_snapshot": snapshot,
+                "published_snapshot": snapshot,
+                "differences": [],
+                "fingerprint": "f" * 64,
+                "published_fingerprint": "f" * 64,
+                "error_code": None,
+                "error_message": None,
+                **changes,
+            }
+
+        accepted = permission_assessment._persist_observation(observation("ok"))
+        assert accepted.outcome == "accepted"
+        assert accepted.acceptance_basis == "baseline"
+        assert accepted.baseline_id == stored["id"]
+
+        for identity, changes in (
+            ("changed", {"differences": [{"path": ["x86_64"]}]}),
+            ("no-basis", {"acceptance_basis": None}),
+            ("no-baseline", {"baseline_id": None}),
+            ("pending-basis", {"outcome": "pending"}),
+            (
+                "no-comparison",
+                {
+                    "differences": None,
+                    "published_snapshot": None,
+                    "published_fingerprint": None,
+                },
+            ),
+        ):
+            with pytest.raises(IntegrityError):
+                permission_assessment._persist_observation(
+                    observation(identity, **changes)
+                )
     finally:
         if isolated_engine is not None:
             isolated_engine.dispose()

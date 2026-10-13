@@ -444,5 +444,9 @@
   "t2_sde": {
     "distroName": "T2 SDE",
     "introduction": "<header>Flatpak, 26.6 sürümünden itibaren T2 SDE ile varsayılan olarak kurulu gelir — herhangi bir kurulum gerekmez!</header> <text>Flatpak, Flathub deposu önceden yapılandırılmış olarak gelir ve Flathub üzerinden tek tıklamayla uygulama yüklemeye olanak tanıyan masaüstü tümleştirme araçları dahildir.</text> <text>Tek yapmanız gereken <link>uygulamaları yüklemeye başlamak</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak, Nura üzerinde varsayılan olarak kuruludur!</header> <text>Tek yapmanız gereken <link>uygulamalar indirmeye başlamak</link>!</text>"
   }
 }

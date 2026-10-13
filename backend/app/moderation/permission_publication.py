@@ -1,0 +1,161 @@
+import json
+import logging
+from dataclasses import asdict
+from typing import Any
+
+from fastapi import HTTPException
+from sqlalchemy import func, select
+from sqlalchemy.dialects.postgresql import insert
+
+from .. import config, models
+from ..database import get_db
+from ..types import ModerationRequestType
+from . import permission_assessment as assessment
+from .constants import should_skip_review
+from .permission_snapshot import (
+    CANONICALIZATION_VERSION,
+    PermissionSnapshot,
+    PermissionSnapshotError,
+    compare_snapshots,
+    fingerprint_snapshot,
+)
+
+logger = logging.getLogger(__name__)
+
+
+def mode_for(repo: str | None) -> str:
+    beta = repo == "beta" and config.settings.permission_publication_beta
+    mode = config.settings.permission_publication_mode
+    return mode if repo == "stable" or beta else "off"
+
+
+def _refs(build_extended: dict[str, Any]) -> list[list[str]]:
+    parts = (ref["ref_name"].split("/") for ref in build_extended["build_refs"])
+    return [p for p in parts if len(p) == 4 and p[0] == "app"]
+
+
+def advance_baseline(session, app_id: str, values: dict[str, Any]) -> None:
+    values = {**values, "source": "approved", "captured_at": func.now()}
+    session.execute(
+        insert(models.PermissionBaseline)
+        .values(app_id=app_id, **values)
+        .on_conflict_do_update(
+            index_elements=["app_id", "channel", "flatpak_branch"],
+            set_={**values, "created_at": func.now()},
+        )
+    )
+
+
+def _evaluate(
+    build_id: int, app_id: str, channel: str, build_extended: dict[str, Any]
+) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    arches = sorted({p[2] for p in _refs(build_extended) if p[1] == app_id})
+    data: dict[str, Any] = {
+        "channel": channel,
+        "flatpak_branch": None,
+        "comparison_source": None,
+        "candidate_fingerprint": None,
+        "comparison_fingerprint": None,
+        "differences": [],
+        "error_code": None,
+        "error_message": None,
+        "linked_assessment_id": None,
+        "linked_review_url": None,
+    }
+    try:
+        candidate = assessment.collect_final_candidate(
+            build_id, app_id, channel, arches, [], []
+        )
+        fingerprint = fingerprint_snapshot(candidate.snapshot)
+        approved = {
+            "channel": channel,
+            "flatpak_branch": candidate.flatpak_branch,
+            "repository_url": candidate.repository_url,
+            "canonicalization_version": candidate.snapshot.canonicalization_version,
+            "artifacts": [asdict(item) for item in candidate.artifacts],
+            "snapshot": asdict(candidate.snapshot),
+            "fingerprint": fingerprint,
+        }
+        data.update(
+            flatpak_branch=candidate.flatpak_branch,
+            candidate_fingerprint=fingerprint,
+            approved_baseline=approved,
+        )
+        baseline = assessment._stored_baseline(
+            app_id, channel, candidate.flatpak_branch
+        )
+        if baseline is not None:
+            if baseline["fingerprint"] == fingerprint:
+                return None, None
+            before = PermissionSnapshot(**baseline["snapshot"])
+            data.update(
+                comparison_source="baseline",
+                comparison_fingerprint=baseline["fingerprint"],
+                differences=[
+                    asdict(d) for d in compare_snapshots(before, candidate.snapshot)
+                ],
+            )
+        observation = models.PermissionAssessmentObservation
+        with get_db("writer") as db:
+            push = db.session.execute(
+                select(observation.fingerprint, observation.acceptance_basis)
+                .where(
+                    observation.candidate_kind == "push",
+                    observation.build_id == build_id,
+                    observation.app_id == app_id,
+                    observation.intended_channel == channel,
+                    observation.flatpak_branch == candidate.flatpak_branch,
+                    observation.canonicalization_version == CANONICALIZATION_VERSION,
+                )
+                .order_by(observation.id.desc())
+                .limit(1)
+            ).first()
+        if push == (fingerprint, "permission_decision"):
+            return None, approved
+    except PermissionSnapshotError as exc:
+        data.update(error_code=exc.code, error_message=exc.message)
+    except HTTPException as exc:
+        data.update(error_code="collection_failed", error_message=str(exc.detail))
+    return data, None
+
+
+def check_build(
+    *,
+    build_id: int,
+    job_id: int,
+    repo: str,
+    build_extended: dict[str, Any],
+    build_log_url: str | None,
+) -> list[models.ModerationRequest]:
+    mode = mode_for(repo)
+    requests = []
+    app_ids = sorted({p[1] for p in _refs(build_extended)}) if mode != "off" else []
+    for app_id in filter(lambda app_id: not should_skip_review(app_id), app_ids):
+        try:
+            data, approved = _evaluate(build_id, app_id, repo, build_extended)
+        except Exception:
+            if mode == "enforce":
+                raise
+            logger.exception("Publication permission check failed: %s", app_id)
+            continue
+        logger.info("Publication permissions %s: review=%s", app_id, data is not None)
+        if mode != "enforce":
+            continue
+        if approved is not None:
+            with get_db("writer") as db:
+                advance_baseline(db.session, app_id, approved)
+        if data is not None:
+            requests.append(
+                models.ModerationRequest(
+                    appid=app_id,
+                    request_type=ModerationRequestType.PERMISSIONS,
+                    request_data=json.dumps(data),
+                    is_new_submission=False,
+                    is_observation=False,
+                    is_outdated=False,
+                    build_id=build_id,
+                    job_id=job_id,
+                    build_log_url=build_log_url,
+                )
+            )
+    return requests

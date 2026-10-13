@@ -21,6 +21,7 @@ sys.modules["app.search"] = SimpleNamespace()
 from app import config, models
 from app.moderation import review as moderation
 from app.types import ModerationOriginKind, ModerationRequestType
+from tests.shared_fixtures import decision_post, decision_reply, enable_decisions
 
 
 class FakeResponse:
@@ -231,6 +232,8 @@ class CallbackHarness:
             config.settings, "flat_manager_api", "https://flat-manager.example"
         )
         monkeypatch.setattr(config.settings, "moderation_observe_only", False)
+        monkeypatch.setattr(config.settings, "decisions_api", None)
+        monkeypatch.setattr(config.settings, "decisions_api_key", None)
         monkeypatch.setattr(
             config.settings,
             "ostree_manifest_comparison_enabled",
@@ -1279,47 +1282,8 @@ def test_rejection_accepts_nonblank_comment():
     )
 
 
-def test_rejection_issue_includes_reviewer_comment(monkeypatch):
-    created = {}
-
-    class FakeRepo:
-        def get_pulls(self, **kwargs):
-            return []
-
-        def create_issue(self, title, body):
-            created["title"] = title
-            created["body"] = body
-            return SimpleNamespace()
-
-    class FakeGithub:
-        def __init__(self, token):
-            pass
-
-        def get_repo(self, name):
-            return FakeRepo()
-
-    monkeypatch.setattr(config.settings, "github_bot_token", "token")
-    monkeypatch.setattr(moderation, "Github", FakeGithub)
-
-    request = SimpleNamespace(
-        appid="org.example.App",
-        build_id=123,
-        build_log_url="https://flathub.org/builds/123",
-        comment="Not acceptable",
-        request_data=json.dumps(moderation._random_review_request_data()),
-    )
-
-    moderation.create_github_build_rejection_issue(request)
-
-    assert created["title"] == "Change in build 123 rejected"
-    assert created["body"] == (
-        "A change in [build 123](https://flathub.org/builds/123) has been reviewed by "
-        "the Flathub team (@flathub/build-moderation), and rejected for the "
-        "following reason:\n\n> Not acceptable\n"
-    )
-
-
-def test_manifest_rejection_issue_excludes_moderation_details(monkeypatch):
+@pytest.mark.parametrize("discussion", [True, False])
+def test_build_issue_excludes_moderation_details(monkeypatch, discussion):
     created = {}
 
     class FakeRepo:
@@ -1390,14 +1354,20 @@ def test_manifest_rejection_issue_excludes_moderation_details(monkeypatch):
         ),
     )
 
-    moderation.create_github_build_rejection_issue(request)
-
-    assert created["title"] == "Change in build 123 rejected"
-    assert created["body"] == (
-        "A change in [build 123](https://flathub.org/builds/123) has been reviewed by "
-        "the Flathub team (@flathub/build-moderation), and rejected for the "
-        "following reason:\n\n> Not acceptable\n"
+    moderation.create_github_build_issue(
+        request, "Not acceptable", discussion=discussion
     )
+
+    assert "> Not acceptable" in created["body"]
+    for private in (
+        "https://github.com/foo",
+        "modules/main",
+        'modules["app"]',
+        "module_match_ambiguous",
+        "score",
+        "complexity",
+    ):
+        assert private not in created["title"] + created["body"]
 
 
 def test_random_review_missing_secret_fails_only_when_selection_needed(monkeypatch):
@@ -1537,6 +1507,191 @@ def test_exact_equal_summary_does_not_request_review(monkeypatch, summary):
 
     assert harness.call().requires_review is False
     assert harness.db.session.persisted == []
+
+
+_OLD_SUMMARY = "Import games from other launchers into Steam"
+_NEW_SUMMARY = "Import all your games into Steam"
+
+
+def _summary_change_harness(
+    monkeypatch,
+    post,
+    published=_OLD_SUMMARY,
+    candidate=_NEW_SUMMARY,
+    published_name="Example App",
+    initial=False,
+    **options,
+):
+    current_values = _unchanged_values()
+    current_values["org.example.App"].update(summary=published, name=published_name)
+    harness = CallbackHarness(
+        monkeypatch,
+        current_values=None if initial else current_values,
+        **{"enabled": False, **options},
+    )
+    metadata = _unchanged_values()["org.example.App"]
+    metadata["summary"] = candidate
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+    enable_decisions(monkeypatch, post)
+    return harness
+
+
+def _moderation_requests(harness):
+    return [
+        request
+        for request in harness.db.session.persisted
+        if isinstance(request, models.ModerationRequest)
+    ]
+
+
+def _appdata_keys(harness):
+    return [
+        json.loads(request.request_data)["keys"]
+        for request in _moderation_requests(harness)
+        if request.request_type == ModerationRequestType.APPDATA
+    ]
+
+
+def test_approved_summary_rewrite_needs_no_review(monkeypatch):
+    harness = _summary_change_harness(monkeypatch, decision_post())
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    [decision] = harness.db.session.persisted
+    assert isinstance(decision, models.SummaryDecision)
+    assert (decision.app_id, decision.build_id, decision.approved) == (
+        "org.example.App",
+        harness.build_id,
+        True,
+    )
+    assert decision.model == "jev-1.13.0"
+    assert (decision.old_summary, decision.new_summary) == (_OLD_SUMMARY, _NEW_SUMMARY)
+
+
+@pytest.mark.parametrize(
+    ("post", "recorded"),
+    [
+        pytest.param(
+            decision_post(decision_reply(choice="needs_review", benign=0.1)),
+            [False],
+            id="held",
+        ),
+        pytest.param(decision_post(status_code=429), [], id="rate-limited"),
+        pytest.param(
+            decision_post(decision_reply(same_app="0.95")),
+            [],
+            id="malformed-answer",
+        ),
+    ],
+)
+def test_unapproved_summary_rewrite_requests_review(monkeypatch, post, recorded):
+    harness = _summary_change_harness(monkeypatch, post)
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert _appdata_keys(harness) == [{"summary": _NEW_SUMMARY}]
+    assert [
+        request.approved
+        for request in harness.db.session.persisted
+        if isinstance(request, models.SummaryDecision)
+    ] == recorded
+
+
+def test_callback_retry_keeps_queued_summary_review(monkeypatch):
+    harness = _summary_change_harness(monkeypatch, decision_post(status_code=429))
+    assert harness.call().requires_review is True
+
+    def post(url, **kwargs):
+        pytest.fail("summary decision requested on retry")
+
+    monkeypatch.setattr(moderation.http_client, "post", post)
+
+    assert harness.call().requires_review is True
+
+
+def test_approved_summary_keeps_permission_review(monkeypatch):
+    harness = _summary_change_harness(
+        monkeypatch,
+        decision_post(),
+        current_summaries={
+            "org.example.App": {"metadata": {"permissions": {"shared": ["network"]}}}
+        },
+        build_summary={
+            "org.example.App": {
+                "metadata": {"permissions": {"shared": ["network", "ipc"]}}
+            }
+        },
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert [request.request_type for request in _moderation_requests(harness)] == [
+        ModerationRequestType.SUMMARY
+    ]
+
+
+@pytest.mark.parametrize(
+    ("options", "expected_keys"),
+    [
+        pytest.param(
+            {"published_name": "Old name"},
+            [{"name": "Example App", "summary": _NEW_SUMMARY}],
+            id="mixed-metadata",
+        ),
+        pytest.param(
+            {"initial": True},
+            [
+                {
+                    "developer_name": "Example",
+                    "name": "Example App",
+                    "project_license": "MIT",
+                    "summary": _NEW_SUMMARY,
+                }
+            ],
+            id="initial-submission",
+        ),
+        pytest.param({"skipped": ("org.example.App",)}, [], id="skipped"),
+        pytest.param(
+            {"published": ""}, [{"summary": _NEW_SUMMARY}], id="empty-published"
+        ),
+        pytest.param(
+            {"published": None}, [{"summary": _NEW_SUMMARY}], id="missing-published"
+        ),
+        pytest.param({"candidate": ""}, [{"summary": ""}], id="empty-candidate"),
+        pytest.param(
+            {"published": "Edit Photos", "candidate": "Edit photos"},
+            [],
+            id="equivalent",
+        ),
+    ],
+)
+def test_ineligible_summary_change_skips_decision(monkeypatch, options, expected_keys):
+    def post(url, **kwargs):
+        pytest.fail("summary decision requested")
+
+    harness = _summary_change_harness(monkeypatch, post, **options)
+
+    harness.call()
+
+    assert _appdata_keys(harness) == expected_keys
+
+
+def test_approved_summary_keeps_random_review(monkeypatch):
+    harness = _summary_change_harness(monkeypatch, decision_post(), enabled=True)
+    monkeypatch.setattr(moderation, "_random_review_sample_value", lambda *args: 0.0)
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    [request] = _moderation_requests(harness)
+    assert _is_marker(request)
 
 
 @pytest.mark.parametrize(
@@ -3873,6 +4028,9 @@ class EndpointQuery:
     def with_for_update(self):
         return self
 
+    def populate_existing(self):
+        return self
+
     def _matches(self, request):
         for key, value in self.filter_by_criteria.items():
             if getattr(request, key, None) != value:
@@ -4021,6 +4179,7 @@ def test_observations_are_hidden_from_moderation_endpoints_and_actions(
         yield db
 
     monkeypatch.setattr(moderation, "get_db", get_db)
+    monkeypatch.setattr(models.DirectUploadApp, "by_app_id", lambda db, appid: None)
     apps = moderation.get_moderation_apps(_moderator=object())
     login = SimpleNamespace(
         user=SimpleNamespace(
@@ -4312,8 +4471,8 @@ def test_review_approval_records_allowlisted_origins(monkeypatch, approve):
     monkeypatch.setattr(moderation, "get_json_key", lambda key: None)
     monkeypatch.setattr(
         moderation,
-        "create_github_build_rejection_issue",
-        lambda request: None,
+        "create_github_build_issue",
+        lambda request, comment, *, discussion: None,
     )
     monkeypatch.setattr(models.DirectUploadApp, "by_app_id", lambda db, appid: object())
 

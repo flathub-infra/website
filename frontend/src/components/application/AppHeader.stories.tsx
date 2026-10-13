@@ -2,7 +2,8 @@ import React from "react"
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { faker } from "@faker-js/faker"
 import { AppHeader } from "./AppHeader"
-import { UserInfoProvider } from "../../../src/context/user-info"
+import { UserContext, UserInfoProvider } from "../../../src/context/user-info"
+import { expect, within } from "storybook/test"
 
 const meta = {
   component: AppHeader,
@@ -104,6 +105,35 @@ export const WithVending: Story = {
       </UserInfoProvider>
     ),
   ],
+}
+
+export const WithVendingOwnedApp: Story = {
+  args: {
+    app: {
+      id: "org.example.OwnedApp",
+      icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
+      name: "Owned app",
+      urls: { donation: "https://example.org/donate" },
+    },
+    vendingSetup: { recommended_donation: 5 },
+    verificationStatus: { verified: true },
+    isQualityModalOpen: false,
+  },
+  render: (args) => (
+    <UserContext
+      value={{
+        loading: false,
+        info: { owned_flatpaks: ["org.example.OwnedApp"] },
+      }}
+    >
+      <AppHeader {...args} />
+    </UserContext>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    expect(canvas.queryByRole("link", { name: "Purchase" })).toBeNull()
+    expect(canvas.getByRole("link", { name: "Donate" })).toBeInTheDocument()
+  },
 }
 
 export const WithQualityModalOpen: Story = {

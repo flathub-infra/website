@@ -62,7 +62,9 @@ function RepoCheckboxes({
 }) {
   const toggle = (repo: string, checked: boolean) => {
     if (checked) {
-      if (!repos.includes(repo)) onChange([...repos, repo])
+      if (!repos.includes(repo)) {
+        onChange([...repos, repo])
+      }
     } else {
       onChange(repos.filter((r) => r !== repo))
     }
@@ -228,7 +230,9 @@ function RuntimeScopeSection({
     axios: { withCredentials: true },
   })
 
-  if (!app.scope) return null
+  if (!app.scope) {
+    return null
+  }
   const {
     prefixes: currentPrefixes,
     extra_ids: currentExtraIds,
@@ -472,7 +476,9 @@ function MaintainersSection({
         action="Remove"
         actionVariant="destructive"
         onConfirmed={() => {
-          if (!confirmRemove) return
+          if (!confirmRemove) {
+            return
+          }
           removeMutation.mutate(
             { appId: app.app_id, userId: confirmRemove.userId },
             {
@@ -682,6 +688,9 @@ export default function DirectUploadsClient() {
   const query = useListDirectUploadAppsDirectUploadAppsGet({
     axios: { withCredentials: true },
   })
+  const apps = query.data?.data ?? []
+  const activeApps = apps.filter((app) => !app.archived)
+  const archivedApps = apps.filter((app) => app.archived)
 
   return (
     <AdminLayoutClient
@@ -697,14 +706,46 @@ export default function DirectUploadsClient() {
 
             {query.isLoading && <Spinner size="m" />}
 
+            {query.isSuccess && activeApps.length === 0 && (
+              <p className="text-sm text-muted-foreground">
+                No active direct-upload apps.
+              </p>
+            )}
+
             {query.isSuccess &&
-              query.data.data.map((app) => (
+              activeApps.map((app) => (
                 <ManagedAppCard
                   key={`${app.app_id}:${app.maintainers.map((m) => `${m.id}-${m.is_primary ? "P" : "S"}`).join(",")}:${app.scope?.prefixes.join(",") ?? ""}:${app.scope?.extra_ids.join(",") ?? ""}:${app.scope?.repos.join(",") ?? ""}`}
                   app={app}
                   onChanged={() => query.refetch()}
                 />
               ))}
+
+            {query.isSuccess && archivedApps.length > 0 && (
+              <details className="group border-t pt-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold marker:hidden [&::-webkit-details-marker]:hidden">
+                  <span>Archived apps</span>
+                  <span className="flex items-center gap-2 text-muted-foreground">
+                    {archivedApps.length}
+                    <span
+                      aria-hidden="true"
+                      className="transition-transform group-open:rotate-180"
+                    >
+                      ⌄
+                    </span>
+                  </span>
+                </summary>
+                <div className="mt-4 flex flex-col gap-6">
+                  {archivedApps.map((app) => (
+                    <ManagedAppCard
+                      key={`${app.app_id}:${app.maintainers.map((m) => `${m.id}-${m.is_primary ? "P" : "S"}`).join(",")}:${app.scope?.prefixes.join(",") ?? ""}:${app.scope?.extra_ids.join(",") ?? ""}:${app.scope?.repos.join(",") ?? ""}`}
+                      app={app}
+                      onChanged={() => query.refetch()}
+                    />
+                  ))}
+                </div>
+              </details>
+            )}
           </div>
         </div>
       </div>

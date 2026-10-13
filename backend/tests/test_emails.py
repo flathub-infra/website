@@ -5,6 +5,8 @@ from types import SimpleNamespace
 ROOT_DIR = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT_DIR))
 
+import pytest
+
 import app
 from app import emails
 
@@ -111,3 +113,39 @@ def test_send_email_new_deduplicates_admin_developer(monkeypatch):
     emails.send_email_new(payload, FakeDb())
 
     assert sent == [("admin@example.com", payload)]
+
+
+@pytest.mark.parametrize(
+    ("inform_only_moderators", "expected"),
+    [
+        (True, ["moderator@example.com"]),
+        (False, ["developer@example.com", "moderator@example.com"]),
+    ],
+)
+def test_send_email_new_moderator_only_excludes_developers(
+    monkeypatch, inform_only_moderators, expected
+):
+    sent = []
+    developer = FakeUser(1, "developer@example.com")
+    moderator = FakeUser(2, "moderator@example.com")
+    set_fake_worker(monkeypatch, sent)
+    monkeypatch.setattr(
+        emails.models.DirectUploadApp, "by_app_id", lambda db, app_id: None
+    )
+    monkeypatch.setattr(
+        emails.models.FlathubUser, "by_permission", lambda db, permission: [moderator]
+    )
+
+    payload = {
+        "messageId": "org.example.App/42/discussion",
+        "subject": "Discussion opened for build #42",
+        "inform_moderators": True,
+        "inform_only_moderators": inform_only_moderators,
+        "messageInfo": {
+            "category": "moderation_discussion",
+            "appId": "org.example.App",
+        },
+    }
+    emails.send_email_new(payload, FakeDb(github_users=[developer]))
+
+    assert [dest for dest, _message in sent] == expected

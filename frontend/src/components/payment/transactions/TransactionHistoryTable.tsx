@@ -66,6 +66,7 @@ export const TransactionHistoryTable = ({
             <TableHeader>
               <TableRow>
                 <TableHead>{t("type")}</TableHead>
+                <TableHead>{t("recipient")}</TableHead>
                 <TableHead>{t("created")}</TableHead>
                 <TableHead>{t("status")}</TableHead>
                 <TableHead className="text-end">{t("amount")}</TableHead>
@@ -81,6 +82,7 @@ export const TransactionHistoryTable = ({
                     className="cursor-pointer"
                   >
                     <TableCell>{t(`kind-${entry.kind}`)}</TableCell>
+                    <TableCell>{entry.recipient ?? "—"}</TableCell>
                     <TableCell>
                       {format(new UTCDate(entry.created * 1000), "Pp")}
                     </TableCell>

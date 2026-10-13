@@ -11,20 +11,25 @@ import { GitlabLogo } from "./GitlabLogo"
 import { GithubLogo } from "./GithubLogo"
 import { KdeLogo } from "./KdeLogo"
 import { clsx } from "clsx"
-import { useRouter } from "src/i18n/navigation"
+import { usePathname, useRouter } from "src/i18n/navigation"
 import { LoginMethod } from "src/codegen"
 
 interface Props {
   provider: LoginMethod
   inACard?: boolean
+  compact?: boolean
+  reauth?: boolean
 }
 
 const ProviderLink: FunctionComponent<Props> = ({
   provider,
   inACard = false,
+  compact = false,
+  reauth = false,
 }) => {
   const t = useTranslations()
   const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
 
   // Using state to prevent user repeatedly initiating fetches
@@ -35,10 +40,12 @@ const ProviderLink: FunctionComponent<Props> = ({
   // When user clicks a provider, a redirect is fetched to initiate login flow
   const onClick = useCallback(async () => {
     // Prevent multiple async requests
-    if (clicked) return
+    if (clicked) {
+      return
+    }
     setClicked(true)
 
-    const url = `${LOGIN_PROVIDERS_URL}/${provider.method}`
+    const url = `${LOGIN_PROVIDERS_URL}/${provider.method}${reauth ? "?reauth=1" : ""}`
 
     let res: Response
     try {
@@ -58,7 +65,7 @@ const ProviderLink: FunctionComponent<Props> = ({
     if (res.ok) {
       try {
         const data: LoginRedirect = await res.json()
-        const returnTo = searchParams.get("returnTo")
+        const returnTo = reauth ? pathname : searchParams.get("returnTo")
         if (returnTo) {
           setReturnTo(
             returnTo.startsWith(process.env.NEXT_PUBLIC_SITE_BASE_URI) ||
@@ -85,6 +92,8 @@ const ProviderLink: FunctionComponent<Props> = ({
     setReturnTo,
     provider.method,
     searchParams,
+    reauth,
+    pathname,
   ])
 
   const loginText = t(`login-with-provider`, { provider: provider.name })
@@ -93,14 +102,23 @@ const ProviderLink: FunctionComponent<Props> = ({
     <button
       className={clsx(
         "flex w-full flex-row items-center justify-start gap-3 font-bold",
-        "p-5 transition-colors hover:cursor-pointer",
+        "transition-colors hover:cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-flathub-celestial-blue",
+        compact
+          ? "gap-4 border border-flathub-sonic-silver/20 p-4 dark:border-flathub-gainsborow/15"
+          : "p-5",
         inACard
           ? "bg-flathub-gainsborow/40 hover:bg-flathub-gainsborow/70 dark:bg-flathub-gainsborow/10 dark:hover:bg-flathub-gainsborow/20 rounded-lg"
           : "bg-flathub-white hover:bg-flathub-gainsborow dark:bg-flathub-arsenic dark:hover:bg-flathub-sonic-silver rounded-xl shadow-md",
       )}
       onClick={onClick}
     >
-      <div className="flex h-16 w-16 items-center justify-center">
+      <div
+        className={
+          compact
+            ? "flex size-8 shrink-0 items-center justify-center [&>svg]:size-8"
+            : "flex h-16 w-16 items-center justify-center"
+        }
+      >
         {provider.method === "github" && <GithubLogo />}
         {provider.method === "google" && <GoogleLogo />}
         {provider.method === "gnome" && <GnomeLogo />}

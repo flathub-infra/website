@@ -1,3 +1,4 @@
+import { MailIcon } from "lucide-react"
 import { ConnectedAccountProvider } from "src/codegen"
 import { GithubLogo } from "./GithubLogo"
 import { GitlabLogo } from "./GitlabLogo"
@@ -22,6 +23,8 @@ export const ProviderLogo = ({
     logo = KdeLogo
   } else if (provider === ConnectedAccountProvider.google) {
     logo = GoogleLogo
+  } else if (provider === ConnectedAccountProvider.email) {
+    logo = MailIcon
   }
 
   return (

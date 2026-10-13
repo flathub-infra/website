@@ -325,7 +325,9 @@ def _update_aggregates_for_date(
                 arch_totals[2] += downloads[0] - downloads[1]
 
             per_day_for_app = agg["per_day"].setdefault(clean_id, {})
-            per_day_for_app[date_str] = _sum_installs_by_arch(app_stats)
+            per_day_for_app[date_str] = per_day_for_app.get(
+                date_str, 0
+            ) + _sum_installs_by_arch(app_stats)
 
     if stats.get("ref_by_country"):
         for app_id, country_stats in stats["ref_by_country"].items():
@@ -402,9 +404,11 @@ def _get_app_stats_per_day() -> dict[str, dict[str, int]]:
                     app_id_without_architecture = _remove_architecture_from_id(app_id)
                     if app_id_without_architecture not in app_stats_per_day:
                         app_stats_per_day[app_id_without_architecture] = {}
-                    app_stats_per_day[app_id_without_architecture][date.isoformat()] = (
-                        _sum_installs_by_arch(app_stats)
-                    )
+                    per_day_for_app = app_stats_per_day[app_id_without_architecture]
+                    date_str = date.isoformat()
+                    per_day_for_app[date_str] = per_day_for_app.get(
+                        date_str, 0
+                    ) + _sum_installs_by_arch(app_stats)
 
     for app_id, stats_by_date in app_stats_per_day.items():
         app_stats_per_day[app_id] = dict(sorted(stats_by_date.items()))

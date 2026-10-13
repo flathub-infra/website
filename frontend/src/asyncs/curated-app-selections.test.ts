@@ -85,7 +85,9 @@ describe("getHomepageCuratedAppSelections", () => {
       },
     } as never)
     getAppstream.mockImplementation(async (id) => {
-      if (id === "missing") throw new Error("Unavailable")
+      if (id === "missing") {
+        throw new Error("Unavailable")
+      }
       return { data: { id, name: id, summary: "Example" } } as never
     })
 
