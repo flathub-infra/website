@@ -8,6 +8,7 @@ import type { _BuildCheck } from "./_buildCheck"
 import type { CandidateAssessmentResponseAcceptanceBasis } from "./candidateAssessmentResponseAcceptanceBasis"
 import type { CandidateAssessmentResponseBaselineId } from "./candidateAssessmentResponseBaselineId"
 import type { CandidateAssessmentResponseCanonicalizationVersion } from "./candidateAssessmentResponseCanonicalizationVersion"
+import type { CandidateAssessmentResponseDecisionId } from "./candidateAssessmentResponseDecisionId"
 import type { CandidateAssessmentResponseDifferences } from "./candidateAssessmentResponseDifferences"
 import type { CandidateAssessmentResponseErrorCode } from "./candidateAssessmentResponseErrorCode"
 import type { CandidateAssessmentResponseErrorMessage } from "./candidateAssessmentResponseErrorMessage"
@@ -15,6 +16,7 @@ import type { CandidateAssessmentResponseLinkedAssessmentId } from "./candidateA
 import type { CandidateAssessmentResponseLinkedFingerprintMatch } from "./candidateAssessmentResponseLinkedFingerprintMatch"
 import type { CandidateAssessmentResponseOutcome } from "./candidateAssessmentResponseOutcome"
 import type { CandidateAssessmentResponseSnapshotFingerprint } from "./candidateAssessmentResponseSnapshotFingerprint"
+import type { CandidateAssessmentResponseSupersededBy } from "./candidateAssessmentResponseSupersededBy"
 import type { CandidateIdentity } from "./candidateIdentity"
 
 export interface CandidateAssessmentResponse {
@@ -23,10 +25,10 @@ export interface CandidateAssessmentResponse {
   snapshot_fingerprint: CandidateAssessmentResponseSnapshotFingerprint
   outcome: CandidateAssessmentResponseOutcome
   acceptance_basis?: CandidateAssessmentResponseAcceptanceBasis
+  decision_id?: CandidateAssessmentResponseDecisionId
   baseline_id?: CandidateAssessmentResponseBaselineId
-  /** @nullable */
-  review_url?: null
-  mode?: "observational"
+  review_url: string
+  superseded_by?: CandidateAssessmentResponseSupersededBy
   canonicalization_version?: CandidateAssessmentResponseCanonicalizationVersion
   assessment_identity: string
   expected_arches: string[]

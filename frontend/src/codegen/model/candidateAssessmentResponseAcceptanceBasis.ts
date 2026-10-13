@@ -5,4 +5,11 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export type CandidateAssessmentResponseAcceptanceBasis = "baseline" | null
+export type CandidateAssessmentResponseAcceptanceBasis =
+  | (typeof CandidateAssessmentResponseAcceptanceBasis)[keyof typeof CandidateAssessmentResponseAcceptanceBasis]
+  | null
+
+export const CandidateAssessmentResponseAcceptanceBasis = {
+  baseline: "baseline",
+  permission_decision: "permission_decision",
+} as const

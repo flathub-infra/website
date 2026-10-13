@@ -11,5 +11,6 @@ export type CandidateAssessmentResponseOutcome =
 export const CandidateAssessmentResponseOutcome = {
   accepted: "accepted",
   pending: "pending",
+  rejected: "rejected",
   error: "error",
 } as const

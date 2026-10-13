@@ -16,8 +16,10 @@ import {
 } from "../model"
 import type {
   CandidateAssessmentResponse,
+  ListPermissionReviewsModerationPermissionReviewsGet200,
   ModerationApp,
   ModerationAppsResponse,
+  PermissionReviewDetail,
   ReviewRequestResponse,
   ReviewResponse,
 } from "../model"
@@ -314,18 +316,29 @@ export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
   outcome: faker.helpers.arrayElement([
     "accepted",
     "pending",
+    "rejected",
     "error",
   ] as const),
   acceptance_basis: faker.helpers.arrayElement([
-    faker.helpers.arrayElement(["baseline", null]),
+    faker.helpers.arrayElement([
+      faker.helpers.arrayElement(["baseline", "permission_decision"] as const),
+      null,
+    ]),
+    undefined,
+  ]),
+  decision_id: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([faker.number.int(), null]),
     undefined,
   ]),
   baseline_id: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.number.int(), null]),
     undefined,
   ]),
-  review_url: faker.helpers.arrayElement([null, undefined]),
-  mode: "observational",
+  review_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  superseded_by: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([faker.number.int(), null]),
+    undefined,
+  ]),
   canonicalization_version: faker.helpers.arrayElement([2, 3] as const),
   assessment_identity: faker.string.alpha({ length: { min: 10, max: 20 } }),
   expected_arches: Array.from(
@@ -417,18 +430,32 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
     outcome: faker.helpers.arrayElement([
       "accepted",
       "pending",
+      "rejected",
       "error",
     ] as const),
     acceptance_basis: faker.helpers.arrayElement([
-      faker.helpers.arrayElement(["baseline", null]),
+      faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          "baseline",
+          "permission_decision",
+        ] as const),
+        null,
+      ]),
+      undefined,
+    ]),
+    decision_id: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
     baseline_id: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
-    review_url: faker.helpers.arrayElement([null, undefined]),
-    mode: "observational",
+    review_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    superseded_by: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([faker.number.int(), null]),
+      undefined,
+    ]),
     canonicalization_version: faker.helpers.arrayElement([2, 3] as const),
     assessment_identity: faker.string.alpha({ length: { min: 10, max: 20 } }),
     expected_arches: Array.from(
@@ -499,6 +526,245 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
       ]),
       undefined,
     ]),
+    ...overrideResponse,
+  })
+
+export const getListPermissionReviewsModerationPermissionReviewsGetResponseMock =
+  (): ListPermissionReviewsModerationPermissionReviewsGet200 => ({})
+
+export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetResponseMock =
+  (
+    overrideResponse: Partial<Extract<PermissionReviewDetail, object>> = {},
+  ): PermissionReviewDetail => ({
+    assessment_id: faker.number.int(),
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+    outcome: faker.helpers.arrayElement([
+      "accepted",
+      "pending",
+      "rejected",
+      "error",
+    ] as const),
+    acceptance_basis: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(["baseline", "permission_decision"] as const),
+      null,
+    ]),
+    candidate_kind: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    forge_instance: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    source_repository: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    pull_request_number: faker.helpers.arrayElement([faker.number.int(), null]),
+    pull_request_url: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    target_git_branch: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    destination_channel: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    flatpak_branch: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    difference_count: faker.helpers.arrayElement([faker.number.int(), null]),
+    review_finding_count: faker.number.int(),
+    superseded_by: faker.helpers.arrayElement([faker.number.int(), null]),
+    review_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    pipeline_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    build_id: faker.number.int(),
+    built_revision: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    pull_request_head_revision: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    base_revision: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    expected_arches: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    snapshot_fingerprint: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    comparison_fingerprint: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    comparison_source: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(["baseline", "published"] as const),
+      null,
+    ]),
+    candidate_artifacts: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({})),
+    comparison_artifacts: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({})),
+    candidate_snapshot: faker.helpers.arrayElement([null]),
+    comparison_snapshot: faker.helpers.arrayElement([null]),
+    differences: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({})),
+      null,
+    ]),
+    review_findings: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({})),
+    linter_reports_present: faker.datatype.boolean(),
+    build_checks: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({})),
+    error_code: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    error_message: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    linked_assessment_id: faker.helpers.arrayElement([
+      faker.number.int(),
+      null,
+    ]),
+    decision_id: faker.helpers.arrayElement([faker.number.int(), null]),
+    decisions: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int(),
+      created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
+      rationale: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      reviewer_id: faker.number.int(),
+      reviewer_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      fingerprint: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      assessment_id: faker.number.int(),
+      applies: faker.datatype.boolean(),
+    })),
+    ...overrideResponse,
+  })
+
+export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<PermissionReviewDetail, object>> = {},
+  ): PermissionReviewDetail => ({
+    assessment_id: faker.number.int(),
+    app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+    outcome: faker.helpers.arrayElement([
+      "accepted",
+      "pending",
+      "rejected",
+      "error",
+    ] as const),
+    acceptance_basis: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(["baseline", "permission_decision"] as const),
+      null,
+    ]),
+    candidate_kind: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    forge_instance: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    source_repository: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    pull_request_number: faker.helpers.arrayElement([faker.number.int(), null]),
+    pull_request_url: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    target_git_branch: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    destination_channel: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    flatpak_branch: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    difference_count: faker.helpers.arrayElement([faker.number.int(), null]),
+    review_finding_count: faker.number.int(),
+    superseded_by: faker.helpers.arrayElement([faker.number.int(), null]),
+    review_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    pipeline_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    build_id: faker.number.int(),
+    built_revision: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    pull_request_head_revision: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    base_revision: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    expected_arches: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+    snapshot_fingerprint: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    comparison_fingerprint: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    comparison_source: faker.helpers.arrayElement([
+      faker.helpers.arrayElement(["baseline", "published"] as const),
+      null,
+    ]),
+    candidate_artifacts: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({})),
+    comparison_artifacts: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({})),
+    candidate_snapshot: faker.helpers.arrayElement([null]),
+    comparison_snapshot: faker.helpers.arrayElement([null]),
+    differences: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({})),
+      null,
+    ]),
+    review_findings: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({})),
+    linter_reports_present: faker.datatype.boolean(),
+    build_checks: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({})),
+    error_code: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    error_message: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    linked_assessment_id: faker.helpers.arrayElement([
+      faker.number.int(),
+      null,
+    ]),
+    decision_id: faker.helpers.arrayElement([faker.number.int(), null]),
+    decisions: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      id: faker.number.int(),
+      created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
+      rationale: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      reviewer_id: faker.number.int(),
+      reviewer_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      fingerprint: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      assessment_id: faker.number.int(),
+      applies: faker.datatype.boolean(),
+    })),
     ...overrideResponse,
   })
 
@@ -673,6 +939,83 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetMockHandler =
       options,
     )
   }
+
+export const getListPermissionReviewsModerationPermissionReviewsGetMockHandler =
+  (
+    overrideResponse?:
+      | ListPermissionReviewsModerationPermissionReviewsGet200
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) =>
+          | Promise<ListPermissionReviewsModerationPermissionReviewsGet200>
+          | ListPermissionReviewsModerationPermissionReviewsGet200),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get(
+      "*/moderation/permission-reviews",
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getListPermissionReviewsModerationPermissionReviewsGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetMockHandler =
+  (
+    overrideResponse?:
+      | PermissionReviewDetail
+      | ((
+          info: Parameters<Parameters<typeof http.get>[1]>[0],
+        ) => Promise<PermissionReviewDetail> | PermissionReviewDetail),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get(
+      "*/moderation/permission-reviews/:assessmentId",
+      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMockHandler =
+  (
+    overrideResponse?:
+      | PermissionReviewDetail
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<PermissionReviewDetail> | PermissionReviewDetail),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/moderation/permission-reviews/:assessmentId/decision",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
 export const getModerationMock = () => [
   getGetModerationAppsModerationAppsGetMockHandler(),
   getGetModerationAppModerationAppsAppIdGetMockHandler(),
@@ -681,4 +1024,7 @@ export const getModerationMock = () => [
   getSubmitDiscussionModerationRequestsIdDiscussionPostMockHandler(),
   getPostAssessmentModerationPermissionsAssessPostMockHandler(),
   getReadAssessmentModerationPermissionsAssessmentIdGetMockHandler(),
+  getListPermissionReviewsModerationPermissionReviewsGetMockHandler(),
+  getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetMockHandler(),
+  getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMockHandler(),
 ]
