@@ -20,13 +20,13 @@ _QUESTIONS: dict[str, JSONValue] = {
         "type": "noul",
         "instructions": "Do old_summary and new_summary describe the same application with the same core purpose?",
         "criteria": {
-            "true": "Same product; wording, scope or feature list may differ.",
+            "true": "Same product; wording, scope or feature list may differ. A vaguer, more specific or differently framed description of the same purpose is the same product. When old_summary is a slogan or too vague to pin down a purpose, a new_summary consistent with it is the same product.",
             "false": "The new summary describes a different kind of product, or is not a description of the product at all.",
         },
     },
     "brand": {
         "type": "noul",
-        "instructions": "Does new_summary claim official status, affiliation with, or identity of a company, brand or trademark that old_summary did not claim?",
+        "instructions": "Does new_summary claim official status, affiliation with, or identity of a company, brand or trademark that old_summary did not claim? Naming products, services, formats or platforms that the app works with, is a client for, integrates with, imports from or exports to is not such a claim, nor is a trademark already named in old_summary.",
     },
     "harmful": {
         "type": "noul",
@@ -34,7 +34,7 @@ _QUESTIONS: dict[str, JSONValue] = {
     },
     "junk": {
         "type": "noul",
-        "instructions": "Is new_summary a placeholder, test string, junk text, release note, or wrapped in quotation marks rather than a real description of the app?",
+        "instructions": "Is new_summary a placeholder, test string, junk text, release note, or wrapped in quotation marks rather than a real description of the app? A short, plain description of what the app does is not junk.",
     },
     "promo": {
         "type": "noul",
