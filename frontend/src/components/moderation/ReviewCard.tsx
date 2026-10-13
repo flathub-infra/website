@@ -18,7 +18,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Link, useRouter } from "src/i18n/navigation"
-import { ExternalLink } from "lucide-react"
+import { ExternalLink, MessagesSquareIcon } from "lucide-react"
 
 interface Props {
   title: string
@@ -275,17 +275,6 @@ const ReviewCard: FunctionComponent<Props> = ({
                     {t("moderation-build-log")}
                   </a>
                 )}
-                {discussionUrl && (
-                  <a
-                    className="inline-flex items-center gap-1 text-flathub-celestial-blue hover:underline dark:text-flathub-celestial-blue"
-                    href={discussionUrl}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    <ExternalLink className="h-3.5 w-3.5" />
-                    {t("moderation-view-discussion")}
-                  </a>
-                )}
               </div>
             </div>
             <div className="flex flex-col items-end gap-2 text-sm">
@@ -327,8 +316,26 @@ const ReviewCard: FunctionComponent<Props> = ({
             </div>
           )}
 
-        <div className="mt-6 flex flex-col gap-3 border-t border-flathub-gainsborow pt-6 dark:border-flathub-dark-gunmetal sm:flex-row-reverse">
-          {buttons}
+        <div className="mt-6 border-t border-flathub-gainsborow pt-6 dark:border-flathub-dark-gunmetal">
+          {discussionUrl && (
+            <div className="mb-3 flex sm:justify-end">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="w-full px-3 py-2 sm:w-auto"
+              >
+                <a href={discussionUrl} rel="noreferrer" target="_blank">
+                  <MessagesSquareIcon className="h-4 w-4" />
+                  {t("moderation-view-discussion")}
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              </Button>
+            </div>
+          )}
+          <div className="flex flex-col gap-3 sm:flex-row-reverse">
+            {buttons}
+          </div>
         </div>
       </div>
     </>
