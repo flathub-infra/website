@@ -228,6 +228,70 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
             undefined,
           ]),
         },
+        {
+          channel: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          flatpak_branch: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+          comparison_source: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+          candidate_fingerprint: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+          comparison_fingerprint: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+          differences: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1,
+          ).map(() => ({})),
+          error_code: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+          error_message: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+          linked_assessment_id: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([faker.number.int(), null]),
+            undefined,
+          ]),
+          linked_review_url: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
+          approved_baseline: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([null]),
+            undefined,
+          ]),
+        },
         null,
       ]),
       undefined,
