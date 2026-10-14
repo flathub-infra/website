@@ -29,9 +29,7 @@ const PlatformSupportSummary = ({
     "inline-flex items-center justify-center rounded-full",
     isAdaptive
       ? "bg-flathub-status-green/25 text-flathub-status-green dark:bg-flathub-status-green-dark/25 dark:text-flathub-status-green-dark"
-      : isSpecific || isMobileOnly || isDesktopOnly
-        ? "bg-flathub-status-yellow/25 text-flathub-status-yellow dark:bg-flathub-status-yellow-dark/25 dark:text-flathub-status-yellow-dark"
-        : "bg-flathub-gainsborow/40 text-flathub-sonic-silver dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray",
+      : "bg-flathub-gainsborow/40 text-flathub-sonic-silver dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray",
     isCompact
       ? isAdaptive
         ? "h-8 gap-1 px-2.5"
