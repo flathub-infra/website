@@ -90,7 +90,7 @@
     "@storybook/nextjs-vite": "^10.6.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@tailwindcss/typography": "^0.5.20",
-    "@tanstack/eslint-plugin-query": "^5.100.14",
+    "@tanstack/eslint-plugin-query": "^5.104.1",
     "@tanstack/react-query-devtools": "^5.102.2",
     "@trieb.work/nextjs-turbo-redis-cache": "^1.17.0",
     "@types/d3-geo": "^3.1.1",
