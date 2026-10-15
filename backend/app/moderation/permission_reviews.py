@@ -13,8 +13,6 @@ from . import permission_assessment as assessment
 
 router = APIRouter(prefix="/moderation/permission-reviews", tags=["moderation"])
 
-PR_CANDIDATE_KINDS = ("head", "merge")
-
 
 class PermissionReviewSummary(BaseModel):
     assessment_id: int
@@ -158,7 +156,7 @@ def list_permission_reviews(
     observation = models.PermissionAssessmentObservation
     newer = aliased(observation)
     query = select(observation).where(
-        observation.candidate_kind.in_(PR_CANDIDATE_KINDS)
+        observation.candidate_kind.in_(assessment.PR_CANDIDATE_KINDS)
     )
     if outcome != "all":
         query = query.where(observation.outcome == outcome)
@@ -168,6 +166,7 @@ def list_permission_reviews(
                 newer.forge_instance == observation.forge_instance,
                 newer.source_repository == observation.source_repository,
                 newer.pull_request_number == observation.pull_request_number,
+                newer.candidate_kind.in_(assessment.PR_CANDIDATE_KINDS),
                 newer.id > observation.id,
             )
         )
@@ -202,18 +201,17 @@ def decide_permission_review(
 ) -> PermissionReviewDetail:
     observation = models.PermissionAssessmentObservation
     with get_db("writer") as db:
-        row = db.session.execute(
-            select(observation).where(observation.id == assessment_id).with_for_update()
-        ).scalar_one_or_none()
+        row = db.session.get(observation, assessment_id)
         if row is None:
             raise HTTPException(status_code=404, detail="assessment_not_found")
+        assessment.lock_pull_request(db.session, row)
         if assessment.superseded_by(db.session, row) is not None:
             raise HTTPException(status_code=409, detail="assessment_superseded")
         if (
             row.outcome == "error"
             or row.fingerprint is None
             or row.pull_request_number is None
-            or row.candidate_kind not in PR_CANDIDATE_KINDS
+            or row.candidate_kind not in assessment.PR_CANDIDATE_KINDS
         ):
             raise HTTPException(status_code=409, detail="assessment_not_reviewable")
         if body.fingerprint != row.fingerprint:

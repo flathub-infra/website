@@ -152,6 +152,7 @@ SCOPE = (
     "canonicalization_version",
     "fingerprint",
 )
+PR_CANDIDATE_KINDS = ("head", "merge")
 
 
 def same_scope(a, b) -> list[Any]:
@@ -176,9 +177,15 @@ def superseded_by(session, row: models.PermissionAssessmentObservation) -> int |
             observation.forge_instance == row.forge_instance,
             observation.source_repository == row.source_repository,
             observation.pull_request_number == row.pull_request_number,
+            observation.candidate_kind.in_(PR_CANDIDATE_KINDS),
         )
     ).scalar_one()
-    return newest if newest > row.id else None
+    return newest if newest is not None and newest > row.id else None
+
+
+def lock_pull_request(session, row) -> None:
+    key = f"{row.forge_instance}/{row.source_repository}/{row.pull_request_number}"
+    session.execute(select(func.pg_advisory_xact_lock(func.hashtext(key))))
 
 
 def _response(
@@ -211,6 +218,8 @@ def _response(
 
 def _persist_observation(values: dict[str, object]) -> CandidateAssessmentResponse:
     with get_db("writer") as db:
+        if values.get("pull_request_number"):
+            lock_pull_request(db.session, SimpleNamespace(**values))
         if values["outcome"] == "pending" and values.get("pull_request_number"):
             source = aliased(models.PermissionAssessmentObservation)
             decision = models.PermissionDecision

@@ -81,8 +81,8 @@ def _baseline_values(channel: str, candidate) -> dict[str, Any]:
     }
 
 
-def advance_moderated(build_id: int, app_ids: set[str]) -> None:
-    mode = mode_for("stable")
+def advance_published(build_id: int, channel: str, app_ids: set[str]) -> None:
+    mode = mode_for(channel)
     for app_id in sorted(app_ids):
         if mode == "off" or should_skip_review(app_id):
             continue
@@ -90,23 +90,36 @@ def advance_moderated(build_id: int, app_ids: set[str]) -> None:
             with get_db("replica") as db:
                 direct_upload = models.DirectUploadApp.by_app_id(db, app_id)
             if direct_upload or (
-                mode == "enforce" and _linked_push(build_id, app_id, "stable")
+                channel != "stable" and not _linked_push(build_id, app_id, channel)
             ):
                 continue
             candidate = assessment.collect_final_candidate(
-                build_id, app_id, "stable", None, [], []
+                build_id, app_id, channel, None, [], []
             )
             with get_db("writer") as db:
                 advance_baseline(
-                    db.session, app_id, _baseline_values("stable", candidate)
+                    db.session, app_id, _baseline_values(channel, candidate)
                 )
         except Exception:
             logger.exception("Could not advance permission baseline: %s", app_id)
 
 
+def _existing_request(build_id: int, job_id: int, app_id: str):
+    request = models.ModerationRequest
+    with get_db("writer") as db:
+        return db.session.execute(
+            select(request.is_approved).where(
+                request.appid == app_id,
+                request.build_id == build_id,
+                request.job_id == job_id,
+                request.request_type == ModerationRequestType.PERMISSIONS,
+            )
+        ).first()
+
+
 def _evaluate(
     build_id: int, app_id: str, channel: str, build_extended: dict[str, Any], push
-) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+) -> dict[str, Any] | None:
     arches = sorted({p[2] for p in _refs(build_extended) if p[1] == app_id})
     linked = push.linked_assessment_id
     data: dict[str, Any] = {
@@ -138,7 +151,7 @@ def _evaluate(
         )
         if baseline is not None:
             if baseline["fingerprint"] == fingerprint:
-                return None, None
+                return None
             before = PermissionSnapshot(**baseline["snapshot"])
             data.update(
                 comparison_source="baseline",
@@ -151,12 +164,12 @@ def _evaluate(
             fingerprint,
             "permission_decision",
         ):
-            return None, approved
+            return None
     except PermissionSnapshotError as exc:
         data.update(error_code=exc.code, error_message=exc.message)
     except HTTPException as exc:
         data.update(error_code="collection_failed", error_message=str(exc.detail))
-    return data, None
+    return data
 
 
 def check_build(
@@ -166,16 +179,20 @@ def check_build(
     repo: str,
     build_extended: dict[str, Any],
     build_log_url: str | None,
-) -> tuple[list[models.ModerationRequest], set[str]]:
+) -> tuple[list[models.ModerationRequest], set[str], bool]:
     mode = mode_for(repo)
-    requests, handled = [], set()
+    requests, handled, held = [], set(), False
     app_ids = sorted({p[1] for p in _refs(build_extended)}) if mode != "off" else []
     for app_id in filter(lambda app_id: not should_skip_review(app_id), app_ids):
         try:
             push = _linked_push(build_id, app_id, repo)
             if push is None:
                 continue
-            data, approved = _evaluate(build_id, app_id, repo, build_extended, push)
+            if (existing := _existing_request(build_id, job_id, app_id)) is not None:
+                handled.add(app_id)
+                held = held or not existing.is_approved
+                continue
+            data = _evaluate(build_id, app_id, repo, build_extended, push)
         except Exception:
             if mode == "enforce":
                 raise
@@ -185,9 +202,6 @@ def check_build(
         if mode != "enforce":
             continue
         handled.add(app_id)
-        if approved is not None:
-            with get_db("writer") as db:
-                advance_baseline(db.session, app_id, approved)
         if data is not None:
             requests.append(
                 models.ModerationRequest(
@@ -205,4 +219,4 @@ def check_build(
                     ),
                 )
             )
-    return requests, handled
+    return requests, handled, held

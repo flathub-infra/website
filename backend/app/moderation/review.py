@@ -1362,21 +1362,27 @@ def submit_review_request(
     ):
         raise HTTPException(status_code=500, detail="invalid_build")
     if build_target_repo in ("beta", "test"):
-        beta_requests, _ = permission_publication.check_build(
+        beta_requests, beta_handled, beta_held = permission_publication.check_build(
             build_id=review_request.build_id,
             job_id=review_request.job_id,
             repo=build_target_repo,
             build_extended=build_extended,
             build_log_url=build_log_url,
         )
+        beta_emails = _email_requests(beta_requests)
         if beta_requests:
             with get_db("writer") as db:
                 db.session.add_all(beta_requests)
                 db.session.commit()
-        return ReviewRequestResponse(
-            requires_review=bool(beta_requests)
-            and not config.settings.moderation_observe_only
-        )
+        if config.settings.moderation_observe_only:
+            return ReviewRequestResponse(requires_review=False)
+        if not (beta_requests or beta_held):
+            permission_publication.advance_published(
+                review_request.build_id, build_target_repo, beta_handled
+            )
+            return ReviewRequestResponse(requires_review=False)
+        _send_held_emails(review_request.build_id, beta_emails)
+        return ReviewRequestResponse(requires_review=True)
 
     build_refs_value = build_extended.get("build_refs")
     if not isinstance(build_refs_value, list):
@@ -1559,12 +1565,14 @@ def submit_review_request(
     has_initial_submission = False
     manifest_reused_app_ids: set[str] = set()
     manifest_reuse_requires_review = False
-    permission_requests, permission_handled = permission_publication.check_build(
-        build_id=review_request.build_id,
-        job_id=review_request.job_id,
-        repo=build_target_repo,
-        build_extended=build_extended,
-        build_log_url=build_log_url,
+    permission_requests, permission_handled, permission_held = (
+        permission_publication.check_build(
+            build_id=review_request.build_id,
+            job_id=review_request.job_id,
+            repo=build_target_repo,
+            build_extended=build_extended,
+            build_log_url=build_log_url,
+        )
     )
     new_requests += permission_requests
     persisted_requests += permission_requests
@@ -2523,16 +2531,7 @@ def submit_review_request(
                         persisted_requests.append(random_request)
                         new_requests.append(random_request)
 
-    email_requests = [
-        {
-            "appid": request.appid,
-            "build_log_url": request.build_log_url,
-            "request_type": request.request_type,
-            "request_data": request.request_data,
-            "is_new_submission": request.is_new_submission,
-        }
-        for request in new_requests + manifest_newly_actionable_requests
-    ]
+    email_requests = _email_requests(new_requests + manifest_newly_actionable_requests)
 
     # A newer build only supersedes requests whose app refs it fully replaces.
     # Separate architecture/branch uploads must remain visible for review. Outdated
@@ -2588,13 +2587,36 @@ def submit_review_request(
 
     requires_review = (
         bool(new_requests)
+        or permission_held
         or manifest_reuse_requires_review
         or random_review_reuse_requires_review
     )
     if not requires_review:
-        permission_publication.advance_moderated(review_request.build_id, set(app_ids))
+        permission_publication.advance_published(
+            review_request.build_id, "stable", set(app_ids)
+        )
         return ReviewRequestResponse(requires_review=False)
 
+    _send_held_emails(review_request.build_id, email_requests)
+    return ReviewRequestResponse(requires_review=True)
+
+
+def _email_requests(
+    requests: list[models.ModerationRequest],
+) -> list[dict[str, Any]]:
+    return [
+        {
+            "appid": request.appid,
+            "build_log_url": request.build_log_url,
+            "request_type": request.request_type,
+            "request_data": request.request_data,
+            "is_new_submission": request.is_new_submission,
+        }
+        for request in requests
+    ]
+
+
+def _send_held_emails(build_id: int, email_requests: list[dict[str, Any]]) -> None:
     apps = itertools.groupby(
         sorted(email_requests, key=lambda request: request["appid"]),
         lambda request: request["appid"],
@@ -2607,9 +2629,9 @@ def submit_review_request(
         else:
             app_name = None
 
-        subject = f"Build #{review_request.build_id} held for review"
+        subject = f"Build #{build_id} held for review"
         payload = {
-            "messageId": f"{app_id}/{review_request.build_id}/held",
+            "messageId": f"{app_id}/{build_id}/held",
             "creation_timestamp": utils.utcnow().timestamp(),
             "subject": subject,
             "previewText": subject,
@@ -2618,7 +2640,7 @@ def submit_review_request(
                 "category": EmailCategory.MODERATION_HELD,
                 "appId": requests[0]["appid"],
                 "appName": app_name,
-                "buildId": review_request.build_id,
+                "buildId": build_id,
                 "buildLogUrl": requests[0]["build_log_url"],
                 "requests": [
                     {
@@ -2632,8 +2654,6 @@ def submit_review_request(
         }
 
         worker.send_email_new.send(payload)
-
-    return ReviewRequestResponse(requires_review=True)
 
 
 class Review(BaseModel):
@@ -2716,19 +2736,52 @@ def submit_review(
     )
 
     with get_db("writer") as db:
-        request, locked_requests = _lock_review_requests(db.session, id)
+        request = (
+            db.session.query(models.ModerationRequest)
+            .filter_by(id=id)
+            .filter(models.ModerationRequest.is_observation.is_(False))
+            .first()
+        )
+        if request is None:
+            raise HTTPException(status_code=404, detail="not_found")
+        job_requests = (
+            db.session.query(models.ModerationRequest)
+            .filter_by(job_id=request.job_id)
+            .order_by(models.ModerationRequest.id)
+            .populate_existing()
+            .with_for_update()
+            .all()
+        )
+
+        if request.handled_at is not None:
+            raise HTTPException(status_code=400, detail="already_handled")
 
         if login.user is None:
             raise HTTPException(status_code=401, detail="not_logged_in")
 
+        permissions = ModerationRequestType.PERMISSIONS
+        actionable = [row for row in job_requests if not row.is_observation]
+        job_app_ids = {row.appid for row in job_requests}
+        channel = next(
+            (
+                json.loads(row.request_data)["channel"]
+                for row in actionable
+                if row.request_type == permissions
+            ),
+            "stable",
+        )
         requests = [
-            grouped_request
-            for grouped_request in locked_requests
-            if grouped_request.handled_at is None
+            row
+            for row in actionable
+            if (row.appid, row.build_id) == (request.appid, request.build_id)
+            and row.handled_at is None
             and (
-                grouped_request.id == request.id
-                if request.request_type == ModerationRequestType.PERMISSIONS
-                else grouped_request.request_type != ModerationRequestType.PERMISSIONS
+                not review.approve
+                or (
+                    row.id == request.id
+                    if request.request_type == permissions
+                    else row.request_type != permissions
+                )
             )
         ]
 
@@ -2750,7 +2803,6 @@ def submit_review(
         request_ids = [grouped_request.id for grouped_request in requests]
         request_types = [grouped_request.request_type for grouped_request in requests]
         worker_should_be_triggered = False
-        job_app_ids: set[str] = set()
         approved_origins: dict[tuple[ModerationOriginKind, str], int] = {}
         if is_approved:
             for grouped_request in requests:
@@ -2776,25 +2828,8 @@ def submit_review(
                     )
                     .on_conflict_do_nothing(index_elements=["kind", "origin"])
                 )
-            if request_type == ModerationRequestType.PERMISSIONS and (
-                baseline := json.loads(request_data).get("approved_baseline")
-            ):
-                permission_publication.advance_baseline(db.session, appid, baseline)
-            db.session.flush()
-            remaining = (
-                db.session.query(models.ModerationRequest)
-                .filter_by(job_id=job_id)
-                .filter(models.ModerationRequest.is_approved.is_(None))
-                .filter(models.ModerationRequest.is_observation.is_(False))
-                .count()
-            )
-            worker_should_be_triggered = remaining == 0
-            job_app_ids = {
-                row.appid
-                for row in db.session.query(models.ModerationRequest.appid).filter_by(
-                    job_id=job_id
-                )
-            }
+            remaining = sum(row.is_approved is None for row in actionable)
+            worker_should_be_triggered = all(row.is_approved for row in actionable)
             logger.info(
                 f"Approval for job {job_id}: remaining unapproved requests: {remaining}, will trigger worker: {worker_should_be_triggered}"
             )
@@ -2828,7 +2863,7 @@ def submit_review(
                 )
                 worker.review_check.send(job_id, "Passed", None, build_id)
                 logger.info(f"Worker successfully queued for job {job_id}")
-                permission_publication.advance_moderated(build_id, job_app_ids)
+                permission_publication.advance_published(build_id, channel, job_app_ids)
             else:
                 logger.info(
                     f"Worker not triggered for job {job_id} - still has pending requests"

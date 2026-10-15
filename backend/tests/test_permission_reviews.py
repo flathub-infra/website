@@ -251,6 +251,7 @@ def test_review_listing_filters_stored_outcome_and_superseded(db):
     rejected = persist(3, pull_request_number=19)
     decide(rejected.assessment_id, "rejected", rationale="No")
     newest = persist(4)
+    persist(5, candidate_kind="push")
 
     def listed(outcome, include_superseded=False):
         result = reviews.list_permission_reviews(
@@ -326,46 +327,51 @@ def test_publication_leaves_builds_without_pull_request_to_build_moderation(
     db, publish
 ):
     set_baseline(db, OLD_SNAP, OLD_FP)
-    assert publish() == ([], set())
+    assert publish() == ([], set(), False)
     persist(1, candidate_kind="push", pull_request_number=None, pull_request_url=None)
-    assert publish() == ([], set())
+    assert publish() == ([], set(), False)
 
 
 def test_publication_accepts_matching_baseline(db, publish):
     set_baseline(db, SNAP, FP)
     persist(1, candidate_kind="push")
-    assert publish() == ([], {APP})
+    assert publish() == ([], {APP}, False)
     assert baseline(db) == ("initialized", FP)
 
 
-def test_publication_reuses_push_assessment_decision_and_advances_baseline(db, publish):
+def test_publication_reuses_push_assessment_decision(db, publish):
     set_baseline(db, OLD_SNAP, OLD_FP)
     decide(persist(1).assessment_id)
     assert persist(2, candidate_kind="push").acceptance_basis == "permission_decision"
-    assert publish() == ([], {APP})
-    assert baseline(db) == ("approved", FP)
+    assert publish() == ([], {APP}, False)
+    assert baseline(db) == ("initialized", OLD_FP)
 
 
 def test_publication_request_names_originating_pull_request(db, publish):
     set_baseline(db, OLD_SNAP, OLD_FP)
     persist(1, candidate_kind="push")
-    (request,), _ = publish()
+    (request,), _, _ = publish()
     pull_request_url = json.loads(request.request_data)["pull_request_url"]
     assert pull_request_url == f"https://github.com/flathub/{APP}/pull/17"
 
 
-def test_approving_permissions_request_advances_baseline_only(db, publish, monkeypatch):
+def test_publication_retry_reuses_permissions_request(db, publish):
     set_baseline(db, OLD_SNAP, OLD_FP)
     persist(1, candidate_kind="push")
-    (request,), _ = publish()
-    data = json.loads(request.request_data)
-    assert (data["comparison_source"], data["candidate_fingerprint"]) == (
-        "baseline",
-        FP,
-    )
-    assert data["differences"]
-    assert baseline(db) == ("initialized", OLD_FP)
+    (request,), _, _ = publish()
+    with db() as session:
+        session.add(request)
+    assert publish() == ([], {APP}, True)
+    with db() as session:
+        session.get(models.ModerationRequest, request.id).is_approved = True
+    assert publish() == ([], {APP}, False)
 
+
+@pytest.fixture
+def held(db, publish, monkeypatch):
+    set_baseline(db, OLD_SNAP, OLD_FP)
+    persist(1, candidate_kind="push")
+    (permissions,), _, _ = publish()
     appdata = models.ModerationRequest(
         appid=APP,
         build_id=9,
@@ -374,26 +380,51 @@ def test_approving_permissions_request_advances_baseline_only(db, publish, monke
         request_data="{}",
     )
     with db() as session:
-        session.add_all([request, appdata])
+        session.add_all([permissions, appdata])
     for name in ("audit_log", "worker"):
         monkeypatch.setattr(moderation_review, name, MagicMock())
     monkeypatch.setattr(moderation_review, "get_json_key", lambda key: None)
-    moderation_review.submit_review(
-        request.id,
-        moderation_review.Review(approve=True),
-        SimpleNamespace(user=SimpleNamespace(id=1)),
-        MagicMock(),
-        None,
+    monkeypatch.setattr(
+        moderation_review, "create_github_build_issue", lambda *args, **kwargs: None
     )
 
-    with db() as session:
-        handled = {
-            row.request_type: row.handled_at is not None
-            for row in session.execute(select(models.ModerationRequest)).scalars()
-        }
-    assert handled == {"permissions": True, "appdata": False}
-    assert baseline(db) == ("approved", FP)
+    def review(request, approve):
+        moderation_review.submit_review(
+            request.id,
+            moderation_review.Review(approve=approve, comment="No"),
+            SimpleNamespace(user=SimpleNamespace(id=1)),
+            MagicMock(),
+            None,
+        )
+
+    return permissions, appdata, review
+
+
+def test_baseline_advances_only_when_held_build_publishes(db, held):
+    permissions, appdata, review = held
+    review(permissions, True)
+    assert baseline(db) == ("initialized", OLD_FP)
     moderation_review.worker.review_check.send.assert_not_called()
+    review(appdata, True)
+    moderation_review.worker.review_check.send.assert_called_once_with(
+        5, "Passed", None, 9
+    )
+    assert baseline(db) == ("approved", FP)
+
+
+def test_rejection_rejects_pending_permissions_request(db, held):
+    permissions, appdata, review = held
+    review(appdata, False)
+    with pytest.raises(HTTPException) as exc:
+        review(permissions, True)
+    assert exc.value.detail == "already_handled"
+    with db() as session:
+        rows = session.execute(select(models.ModerationRequest)).scalars()
+        assert {row.request_type: row.is_approved for row in rows} == {
+            "permissions": False,
+            "appdata": False,
+        }
+    assert baseline(db) == ("initialized", OLD_FP)
 
 
 @pytest.mark.parametrize("mode", ["off", "observe"])
@@ -403,29 +434,30 @@ def test_publication_without_enforcement_changes_nothing(
     monkeypatch.setattr(config.settings, "permission_publication_mode", mode)
     set_baseline(db, OLD_SNAP, OLD_FP)
     persist(1, candidate_kind="push")
-    assert publish() == ([], set())
+    assert publish() == ([], set(), False)
     assert baseline(db) == ("initialized", OLD_FP)
 
 
 @pytest.mark.parametrize(
-    ("mode", "linked", "direct_upload", "expected"),
+    ("mode", "channel", "linked", "direct_upload", "expected"),
     [
-        ("enforce", False, False, ("approved", FP)),
-        ("observe", True, False, ("approved", FP)),
-        ("enforce", True, False, ("initialized", OLD_FP)),
-        ("enforce", False, True, ("initialized", OLD_FP)),
-        ("off", False, False, ("initialized", OLD_FP)),
+        ("enforce", "stable", False, False, ("approved", FP)),
+        ("observe", "stable", True, False, ("approved", FP)),
+        ("enforce", "stable", False, True, ("initialized", OLD_FP)),
+        ("off", "stable", False, False, ("initialized", OLD_FP)),
+        ("enforce", "beta", False, False, ("initialized", OLD_FP)),
     ],
 )
-def test_build_moderation_advances_baseline(
-    db, publish, monkeypatch, mode, linked, direct_upload, expected
+def test_publication_advances_baseline(
+    db, publish, monkeypatch, mode, channel, linked, direct_upload, expected
 ):
     monkeypatch.setattr(config.settings, "permission_publication_mode", mode)
+    monkeypatch.setattr(config.settings, "permission_publication_beta", True)
     set_baseline(db, OLD_SNAP, OLD_FP)
     if linked:
         persist(1, candidate_kind="push")
     if direct_upload:
         with db() as session:
             session.add(models.DirectUploadApp(app_id=APP))
-    publication.advance_moderated(9, {APP})
+    publication.advance_published(9, channel, {APP})
     assert baseline(db) == expected

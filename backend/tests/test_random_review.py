@@ -606,6 +606,31 @@ def test_enabled_selected_creates_random_request(monkeypatch):
     assert harness.emails[0]["subject"] == "Build #42 held for review"
 
 
+def test_beta_permission_hold_sends_held_email(monkeypatch):
+    harness = CallbackHarness(monkeypatch, target_repo="beta")
+    harness.db.session.add_all = lambda requests: [
+        harness.db.session.add(request) for request in requests
+    ]
+    request = models.ModerationRequest(
+        appid="org.example.App",
+        request_type=ModerationRequestType.PERMISSIONS,
+        request_data=json.dumps({"channel": "beta"}),
+        is_new_submission=False,
+        build_log_url="https://logs.example/build",
+    )
+    monkeypatch.setattr(
+        moderation.permission_publication,
+        "check_build",
+        lambda **kwargs: ([request], {"org.example.App"}, False),
+    )
+
+    assert harness.call().requires_review is True
+    assert harness.db.session.persisted == [request]
+    assert [email["subject"] for email in harness.emails] == [
+        "Build #42 held for review"
+    ]
+
+
 def test_email_uses_request_data_after_committed_objects_expire(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
