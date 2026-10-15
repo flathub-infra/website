@@ -8,7 +8,8 @@ import gi
 gi.require_version("GLib", "2.0")
 from gi.repository import GLib  # type: ignore
 
-CANONICALIZATION_VERSION = 4
+CANONICALIZATION_VERSION = 5
+REVIEW_ARCH = "x86_64"
 CONTEXT_FLAG_KEYS = ("shared", "sockets", "devices", "features")
 CONTEXT_PATH_KEYS = ("filesystems", "persistent")
 FILESYSTEM_MODES = ("ro", "rw", "create", "reset")
@@ -53,6 +54,16 @@ def _check_snapshot(snapshot: PermissionSnapshot) -> None:
         raise PermissionSnapshotError(
             "missing_architecture", "Snapshot contains no architectures"
         )
+
+
+def review_architectures(
+    architectures: dict[str, PermissionMap],
+) -> dict[str, PermissionMap]:
+    if REVIEW_ARCH not in architectures:
+        raise PermissionSnapshotError(
+            "missing_architecture", f"Snapshot lacks {REVIEW_ARCH} permissions"
+        )
+    return {REVIEW_ARCH: architectures[REVIEW_ARCH]}
 
 
 def _context_entry_name(key: str, item: str) -> str | None:

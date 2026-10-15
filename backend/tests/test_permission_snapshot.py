@@ -232,10 +232,10 @@ def test_rejects_invalid_metadata(data, code):
     "version,arches,code",
     [
         (1, {"x86_64": {}}, "unsupported_version"),
-        (3, {"x86_64": {}}, "unsupported_version"),
-        (5, {"x86_64": {}}, "unsupported_version"),
+        (4, {"x86_64": {}}, "unsupported_version"),
+        (6, {"x86_64": {}}, "unsupported_version"),
         (True, {"x86_64": {}}, "unsupported_version"),
-        (4.0, {"x86_64": {}}, "unsupported_version"),
+        (5.0, {"x86_64": {}}, "unsupported_version"),
         (CANONICALIZATION_VERSION, {}, "missing_architecture"),
     ],
 )

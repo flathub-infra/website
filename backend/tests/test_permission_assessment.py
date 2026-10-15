@@ -207,7 +207,7 @@ def test_missing_baseline_preserves_candidate_without_authorization(
     assert {item["commit"] for item in row["uploaded_refs"]} == {"d" * 64}
     assert row["published_snapshot"] is None
     assert row["published_fingerprint"] is None
-    assert set(row["candidate_snapshot"]["architectures"]) == {"x86_64", "aarch64"}
+    assert set(row["candidate_snapshot"]["architectures"]) == {"x86_64"}
 
 
 @pytest.mark.parametrize(
@@ -573,9 +573,7 @@ NETWORK = {"Context": {"shared": ["network"]}}
 def test_matching_baseline_accepts_candidate(
     test_branch_source, observed, monkeypatch, tmp_path
 ):
-    baseline, requests = stored_baseline(
-        monkeypatch, {"x86_64": NETWORK, "aarch64": NETWORK}
-    )
+    baseline, requests = stored_baseline(monkeypatch, {"x86_64": NETWORK})
     monkeypatch.setattr(
         config.settings, "repo_url", (tmp_path / "unavailable").as_uri()
     )
@@ -597,11 +595,7 @@ def test_baseline_difference_needs_review_even_for_removals(
     test_branch_source, observed, monkeypatch
 ):
     stored_baseline(
-        monkeypatch,
-        {
-            "x86_64": {"Context": {"shared": ["ipc", "network"]}},
-            "aarch64": NETWORK,
-        },
+        monkeypatch, {"x86_64": {"Context": {"shared": ["ipc", "network"]}}}
     )
     response = assessment.assess_candidate(
         assessment.CandidateAssessmentRequest(**request_body())
@@ -619,7 +613,7 @@ def test_baseline_difference_needs_review_even_for_removals(
 
 
 def test_inconsistent_baseline_is_an_error(test_branch_source, observed, monkeypatch):
-    stored_baseline(monkeypatch, {"x86_64": NETWORK, "aarch64": NETWORK}, "0" * 64)
+    stored_baseline(monkeypatch, {"x86_64": NETWORK}, "0" * 64)
     response = assessment.assess_candidate(
         assessment.CandidateAssessmentRequest(**request_body())
     )

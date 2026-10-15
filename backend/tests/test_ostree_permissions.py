@@ -55,9 +55,9 @@ def test_complete_architectures_and_immutable_expectations(source):
         ("aarch64", arm),
         ("x86_64", x86),
     ]
-    assert published.snapshot.architectures["aarch64"]["Context"]["filesystems"] == [
-        "home:ro"
-    ]
+    assert published.snapshot.architectures == {
+        "x86_64": {"Context": {"filesystems": ["home"]}}
+    }
     candidate_snapshot = collect(
         source,
         expected_commits={REF: x86, ARM: arm},
@@ -280,9 +280,6 @@ def test_summary_index_lists_every_architecture(indexed_source):
         ("aarch64", arm),
         ("x86_64", x86),
     ]
-    assert published.snapshot.architectures["aarch64"]["Context"]["filesystems"] == [
-        "home:ro"
-    ]
     assert fingerprints(candidate(source, x86, arm).snapshot) == fingerprints(
         published.snapshot
     )
@@ -350,10 +347,7 @@ def test_published_permissions_cover_every_app_and_branch(published_source, batc
     )
     assert summarize(result) == {
         (APP, "24.08"): {"x86_64": {"sockets": ["x11"]}},
-        (APP, "stable"): {
-            "aarch64": {"shared": ["ipc"]},
-            "x86_64": {"shared": ["network"]},
-        },
+        (APP, "stable"): {"x86_64": {"shared": ["network"]}},
         (OTHER, "stable"): {"x86_64": {"devices": ["dri"]}},
     }
     stable = next(

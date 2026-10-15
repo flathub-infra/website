@@ -26,6 +26,7 @@ from .permission_snapshot import (
     PermissionSnapshot,
     PermissionSnapshotError,
     parse_permission_metadata,
+    review_architectures,
 )
 
 
@@ -429,7 +430,9 @@ def collect_permissions(
                 raise PermissionSnapshotError(
                     "timeout", "Permission collection timed out"
                 )
-            snapshot = PermissionSnapshot(CANONICALIZATION_VERSION, architectures)
+            snapshot = PermissionSnapshot(
+                CANONICALIZATION_VERSION, review_architectures(architectures)
+            )
             return CollectedPermissions(
                 app_id,
                 flatpak_branch,
@@ -517,7 +520,9 @@ def _collect_group(
         repository_url,
         captured_at,
         artifacts,
-        PermissionSnapshot(CANONICALIZATION_VERSION, architectures),
+        PermissionSnapshot(
+            CANONICALIZATION_VERSION, review_architectures(architectures)
+        ),
     )
 
 

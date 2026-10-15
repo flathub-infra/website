@@ -34,7 +34,7 @@ def preview(published, *extra):
     )
 
 
-def test_baseline_and_architecture_removal(tmp_path):
+def test_baseline_compares_only_x86_64(tmp_path):
     published = SourceRepo(tmp_path / "published")
     candidate = SourceRepo(tmp_path / "candidate")
     x86 = published.commit(REF, "[Context]\nfilesystems=home;\n")
@@ -49,9 +49,9 @@ def test_baseline_and_architecture_removal(tmp_path):
         ("aarch64", arm),
         ("x86_64", x86),
     ]
-    assert base["published"]["snapshot"]["architectures"]["aarch64"]["Context"][
-        "filesystems"
-    ] == ["host"]
+    assert base["published"]["snapshot"]["architectures"] == {
+        "x86_64": {"Context": {"filesystems": ["home"]}}
+    }
     assert base["published"]["fingerprint"]
     repeat = preview(published)
     assert repeat.returncode == 0
@@ -71,11 +71,13 @@ def test_baseline_and_architecture_removal(tmp_path):
     )
     assert comparison.returncode == 0, comparison.stderr
     data = json.loads(comparison.stdout)
-    assert data["differences"][0] == {
-        "path": ["aarch64"],
-        "before": {"Context": {"filesystems": ["host"]}},
-        "after": None,
-    }
+    assert data["differences"] == [
+        {
+            "path": ["x86_64", "Context", "filesystems"],
+            "before": ["home"],
+            "after": ["home:ro"],
+        }
+    ]
 
 
 def test_reduction_and_expected_missing_architecture(tmp_path):

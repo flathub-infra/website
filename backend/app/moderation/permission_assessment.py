@@ -130,7 +130,7 @@ class CandidateAssessmentResponse(BaseModel):
     baseline_id: int | None = None
     review_url: str
     superseded_by: int | None = None
-    canonicalization_version: Literal[2, 3, 4] = 4
+    canonicalization_version: Literal[2, 3, 4, 5] = 5
     assessment_identity: str
     expected_arches: list[str]
     published_comparison_available: bool
