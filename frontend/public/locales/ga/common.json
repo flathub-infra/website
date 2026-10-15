@@ -992,5 +992,6 @@
   "moderation-open-discussion": "Plé oscailte",
   "moderation-discussion-description": "Oscail ceist ar GitHub le do chuid tuairimí. Fanann an tógáil ar fionraí go dtí go ndéantar cinneadh tar éis athbhreithnithe.",
   "moderation-view-discussion": "Féach ar an bplé",
-  "moderation-discussion-comment": "Trácht"
+  "moderation-discussion-comment": "Trácht",
+  "oauth-account-email-already-used": "Tá an ríomhphost seo nasctha cheana féin le cuntas Flathub. Logáil isteach ag baint úsáide as an modh a d’úsáid tú roimhe seo (ríomhphost nó soláthraí), agus ansin ceangail an soláthraí seo trí na Socruithe. Ní féidir cuntais Flathub a chumasc go huathoibríoch."
 }
