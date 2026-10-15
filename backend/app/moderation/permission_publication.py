@@ -87,7 +87,11 @@ def advance_moderated(build_id: int, app_ids: set[str]) -> None:
         if mode == "off" or should_skip_review(app_id):
             continue
         try:
-            if mode == "enforce" and _linked_push(build_id, app_id, "stable"):
+            with get_db("replica") as db:
+                direct_upload = models.DirectUploadApp.by_app_id(db, app_id)
+            if direct_upload or (
+                mode == "enforce" and _linked_push(build_id, app_id, "stable")
+            ):
                 continue
             candidate = assessment.collect_final_candidate(
                 build_id, app_id, "stable", None, [], []

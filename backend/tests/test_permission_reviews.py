@@ -38,6 +38,7 @@ TABLES = (
     models.PermissionDecision,
     models.PermissionAssessmentObservation,
     models.ModerationRequest,
+    models.DirectUploadApp,
 )
 
 
@@ -407,20 +408,24 @@ def test_publication_without_enforcement_changes_nothing(
 
 
 @pytest.mark.parametrize(
-    ("mode", "linked", "expected"),
+    ("mode", "linked", "direct_upload", "expected"),
     [
-        ("enforce", False, ("approved", FP)),
-        ("observe", True, ("approved", FP)),
-        ("enforce", True, ("initialized", OLD_FP)),
-        ("off", False, ("initialized", OLD_FP)),
+        ("enforce", False, False, ("approved", FP)),
+        ("observe", True, False, ("approved", FP)),
+        ("enforce", True, False, ("initialized", OLD_FP)),
+        ("enforce", False, True, ("initialized", OLD_FP)),
+        ("off", False, False, ("initialized", OLD_FP)),
     ],
 )
 def test_build_moderation_advances_baseline(
-    db, publish, monkeypatch, mode, linked, expected
+    db, publish, monkeypatch, mode, linked, direct_upload, expected
 ):
     monkeypatch.setattr(config.settings, "permission_publication_mode", mode)
     set_baseline(db, OLD_SNAP, OLD_FP)
     if linked:
         persist(1, candidate_kind="push")
+    if direct_upload:
+        with db() as session:
+            session.add(models.DirectUploadApp(app_id=APP))
     publication.advance_moderated(9, {APP})
     assert baseline(db) == expected
