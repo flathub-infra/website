@@ -31,6 +31,12 @@ const AdminLayoutClient = ({
             user?.permissions.some((a) => a === Permission.moderation),
         },
         {
+          name: "Permission reviews",
+          href: "/admin/moderation/permissions",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some((a) => a === Permission.moderation),
+        },
+        {
           name: "Permission statistics",
           href: "/admin/permission-statistics",
           condition: (user: GetUserinfoAuthUserinfoGet200) =>
