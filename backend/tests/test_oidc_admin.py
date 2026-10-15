@@ -231,20 +231,20 @@ def test_redirect_and_scope_validation(admin_api):
             json={**VALID_CLIENT, "redirect_uris": [redirect_uri]},
         )
         assert response.status_code == 422
-        assert response.headers["Cache-Control"] == "no-store"
+        assert response.headers["Cache-Control"] == "private, no-store"
     for payload in (
         {**VALID_CLIENT, "allowed_scopes": ["profile"]},
         {**VALID_CLIENT, "allowed_scopes": ["openid", "offline_access"]},
     ):
         response = client.post("/admin/oidc-clients", json=payload)
         assert response.status_code == 422
-        assert response.headers["Cache-Control"] == "no-store"
+        assert response.headers["Cache-Control"] == "private, no-store"
     response = client.post(
         "/admin/oidc-clients",
         json={**VALID_CLIENT, "redirect_uris": ["HTTP://LOCALHOST:8000/callback"]},
     )
     assert response.status_code == 201
-    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Cache-Control"] == "private, no-store"
     assert response.headers["Pragma"] == "no-cache"
     assert response.json()["redirect_uris"] == ["http://localhost:8000/callback"]
     _assert_secret_hash_absent(response)
@@ -255,7 +255,7 @@ def test_create_list_get_patch_rotate_and_secret_invalidation(admin_api):
     _login_as(current_login, 1)
     response = client.post("/admin/oidc-clients", json=VALID_CLIENT)
     assert response.status_code == 201
-    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Cache-Control"] == "private, no-store"
     assert response.headers["Pragma"] == "no-cache"
     created = response.json()
     first_secret, client_id = created["client_secret"], created["client_id"]
@@ -282,7 +282,7 @@ def test_create_list_get_patch_rotate_and_secret_invalidation(admin_api):
     old_hash = _stored_client(Session, client_id).client_secret_hash
     response = client.post(f"/admin/oidc-clients/{client_id}/rotate-secret")
     assert response.status_code == 200
-    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Cache-Control"] == "private, no-store"
     assert response.headers["Pragma"] == "no-cache"
     rotated_secret = response.json()["client_secret"]
     stored = _stored_client(Session, client_id)

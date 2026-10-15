@@ -314,7 +314,8 @@ def test_request_hides_membership_and_worker_skips_disabled(monkeypatch):
         assert [response.status_code for response in responses] == [202, 202]
         assert responses[0].json() == responses[1].json() == {"status": "accepted"}
         assert all(
-            response.headers["cache-control"] == "no-store" for response in responses
+            response.headers["cache-control"] == "private, no-store"
+            for response in responses
         )
         invalid = client.post(
             "/auth/email/request",

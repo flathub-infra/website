@@ -235,6 +235,8 @@ def cached(
 
 CACHE_CONTROL_POLICY = "__cache_control_policy__"
 CachePolicy = tuple[str, str | None]
+PUBLIC_CACHE_CONTROL = "public, max-age=0, s-maxage=86400"
+NO_STORE_CACHE_CONTROL = "private, no-store"
 
 
 def private[**P, R](func: Callable[P, R]) -> Callable[P, R]:
@@ -243,7 +245,7 @@ def private[**P, R](func: Callable[P, R]) -> Callable[P, R]:
 
 
 def no_store[**P, R](func: Callable[P, R]) -> Callable[P, R]:
-    setattr(func, CACHE_CONTROL_POLICY, ("no-store", "no-cache"))
+    setattr(func, CACHE_CONTROL_POLICY, (NO_STORE_CACHE_CONTROL, "no-cache"))
     return func
 
 
@@ -260,12 +262,35 @@ class CacheControlMiddleware:
             if message["type"] == "http.response.start":
                 endpoint = scope.get("endpoint")
                 policy = getattr(endpoint, CACHE_CONTROL_POLICY, None)
+                headers = MutableHeaders(scope=message)
                 if policy is not None:
                     cache_control, pragma = policy
-                    headers = MutableHeaders(scope=message)
                     headers["Cache-Control"] = cache_control
                     if pragma is not None:
                         headers["Pragma"] = pragma
+                elif "cache-control" not in headers:
+                    # Successful reads are public unless explicitly restricted.
+                    if scope["method"] in {"GET", "HEAD"} and (
+                        200 <= message["status"] < 300
+                    ):
+                        headers["Cache-Control"] = PUBLIC_CACHE_CONTROL
+                    else:
+                        headers["Cache-Control"] = NO_STORE_CACHE_CONTROL
+                        headers["Pragma"] = "no-cache"
+                else:
+                    # Some error handlers supply headers without a decorator.
+                    # Fastly requires private; no-store alone is not sufficient.
+                    directives = {
+                        part.strip().split("=", 1)[0].lower()
+                        for part in headers["Cache-Control"].split(",")
+                    }
+                    if (
+                        directives & {"no-store", "no-cache"}
+                        and "private" not in directives
+                    ):
+                        headers["Cache-Control"] = (
+                            f"private, {headers['Cache-Control']}"
+                        )
 
             await send(message)
 

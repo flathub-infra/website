@@ -5,10 +5,13 @@ import types
 from contextlib import contextmanager
 from datetime import UTC, datetime
 from types import SimpleNamespace
+from unittest.mock import AsyncMock
 
 import dns.exception
 import dns.resolver
 import pytest
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
 
 
 def _load_verification_module(monkeypatch):
@@ -168,6 +171,28 @@ def test_domain_setup_and_available_methods_share_pending_token(monkeypatch):
             dns_token=token,
         ),
     ]
+
+
+def test_verification_status_is_not_http_cached(monkeypatch):
+    verification = _load_verification_module(monkeypatch)
+    redis = AsyncMock()
+    redis.get.return_value = None
+    monkeypatch.setattr(
+        verification.cache.database, "get_redis", AsyncMock(return_value=redis)
+    )
+    monkeypatch.setattr(
+        verification, "_get_existing_verification", lambda _app_id: None
+    )
+    app = FastAPI()
+    verification.register_to_app(app)
+
+    with TestClient(verification.cache.CacheControlMiddleware(app)) as client:
+        response = client.get("/verification/org.example.App/status")
+
+    assert response.status_code == 200
+    assert response.json()["verified"] is False
+    assert response.headers["cache-control"] == "private, no-store"
+    assert response.headers["pragma"] == "no-cache"
 
 
 def test_dns_verification_status_reports_domain(monkeypatch):

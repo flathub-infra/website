@@ -342,7 +342,7 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
         headers: [
           {
             key: "Cache-Control",
-            value: "no-store",
+            value: "private, no-store",
           },
           {
             key: "Referrer-Policy",
@@ -351,43 +351,8 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
         ],
       },
       {
-        source: "/",
-        headers: [
-          {
-            key: "Surrogate-Control",
-            value:
-              "max-age=3600, stale-while-revalidate=86400, stale-if-error=86400",
-          },
-        ],
-      },
-      {
-        source: "/:locale/",
-        headers: [
-          {
-            key: "Surrogate-Control",
-            value:
-              "max-age=3600, stale-while-revalidate=86400, stale-if-error=86400",
-          },
-        ],
-      },
-      {
-        source: "/:locale/apps/(collection|category)/:path*",
-        headers: [
-          {
-            key: "Surrogate-Control",
-            value:
-              "max-age=3600, stale-while-revalidate=86400, stale-if-error=86400",
-          },
-        ],
-      },
-      {
         source: "/:locale/apps/:path",
         headers: [
-          {
-            key: "Surrogate-Control",
-            value:
-              "max-age=3600, stale-while-revalidate=86400, stale-if-error=86400",
-          },
           {
             key: "Surrogate-Key",
             value: `app-:path`,

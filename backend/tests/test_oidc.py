@@ -682,7 +682,7 @@ def authorize_client(client, monkeypatch):
 def _approve_consent(client):
     consent_response = client.get("/oidc/consent")
     assert consent_response.status_code == 200
-    assert consent_response.headers["cache-control"] == "no-store"
+    assert consent_response.headers["cache-control"] == "private, no-store"
     assert consent_response.headers["pragma"] == "no-cache"
     marker = 'name="csrf_token" value="'
     csrf_token = consent_response.text.split(marker, 1)[1].split('"', 1)[0]
@@ -1058,7 +1058,7 @@ def test_authorize_unauthenticated_returnto_uses_issuer_path(
         authorize_client.app.dependency_overrides.clear()
 
     assert response.status_code == 302
-    assert response.headers["cache-control"] == "no-store"
+    assert response.headers["cache-control"] == "private, no-store"
     assert response.headers["pragma"] == "no-cache"
     location = response.headers["location"]
     assert location.startswith(
@@ -1973,7 +1973,7 @@ def test_token_valid_exchange_with_client_secret_basic(token_client, scheme):
         )
 
     assert response.status_code == 200
-    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Cache-Control"] == "private, no-store"
     assert response.headers["Pragma"] == "no-cache"
     body = response.json()
     assert body["access_token"] == "test-access-token"
@@ -2110,7 +2110,7 @@ def test_token_bad_client_secret(token_client):
 
     assert response.status_code == 401
     assert response.json() == {"error": "invalid_client"}
-    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Cache-Control"] == "private, no-store"
     assert response.headers["Pragma"] == "no-cache"
     assert response.headers["WWW-Authenticate"] == 'Basic realm="oidc/token"'
 
@@ -2745,7 +2745,7 @@ def test_refresh_grant_valid(token_client):
         )
 
     assert response.status_code == 200
-    assert response.headers["Cache-Control"] == "no-store"
+    assert response.headers["Cache-Control"] == "private, no-store"
     assert response.headers["Pragma"] == "no-cache"
     body = response.json()
     assert body["access_token"] == "new-access-token"
@@ -3231,7 +3231,7 @@ def test_userinfo_valid(client, monkeypatch, scheme, method):
     assert body["picture"] == "https://example.com/avatar.png"
     assert body["email"] == "test@example.com"
     if method == "post":
-        assert "cache-control" not in response.headers
+        assert response.headers["cache-control"] == "private, no-store"
     else:
         assert response.headers["cache-control"] == "private"
 

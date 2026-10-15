@@ -6,7 +6,7 @@ from pydantic import BaseModel, model_validator
 from sqlalchemy import exists, func, select, update
 from sqlalchemy.orm import aliased
 
-from .. import audit_log, models
+from .. import audit_log, cache, models
 from ..database import get_db
 from ..login_info import ModeratorDep
 from . import permission_assessment as assessment
@@ -144,6 +144,7 @@ def _detail(
 
 
 @router.get("")
+@cache.private
 def list_permission_reviews(
     _moderator: ModeratorDep,
     outcome: Annotated[
@@ -182,6 +183,7 @@ def list_permission_reviews(
 
 
 @router.get("/{assessment_id}")
+@cache.private
 def read_permission_review(
     assessment_id: int, _moderator: ModeratorDep
 ) -> PermissionReviewDetail:

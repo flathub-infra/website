@@ -94,6 +94,10 @@ def client() -> Iterator[TestClient]:
             headers={"Cache-Control": "public, max-age=60", "X-Test": "yes"},
         )
 
+    @app.api_route("/default", methods=["GET", "HEAD", "POST"])
+    def default_response():
+        return {"ok": True}
+
     @app.get("/cached")
     @cache.private
     @cache.cached()
@@ -121,7 +125,7 @@ def test_no_store_replaces_cache_control_and_sets_pragma(client):
 
     assert response.status_code == 200
     assert response.text == "no-store"
-    assert response.headers.get_list("cache-control") == ["no-store"]
+    assert response.headers.get_list("cache-control") == ["private, no-store"]
     assert response.headers["pragma"] == "no-cache"
 
 
@@ -142,14 +146,14 @@ def test_markers_cover_redirect_stream_and_custom_exception(client):
 
     assert redirect_response.status_code == 307
     assert redirect_response.headers["location"] == "/destination"
-    assert redirect_response.headers["cache-control"] == "no-store"
+    assert redirect_response.headers["cache-control"] == "private, no-store"
     assert redirect_response.headers["pragma"] == "no-cache"
     assert stream_response.status_code == 200
     assert stream_response.text == "onetwo"
     assert stream_response.headers["cache-control"] == "private"
     assert custom_response.status_code == 418
     assert custom_response.json() == {"detail": "custom"}
-    assert custom_response.headers["cache-control"] == "no-store"
+    assert custom_response.headers["cache-control"] == "private, no-store"
     assert custom_response.headers["pragma"] == "no-cache"
     assert custom_response.headers["x-error"] == "yes"
 
@@ -158,11 +162,11 @@ def test_outer_middleware_covers_generated_server_error(client):
     response = client.get("/error")
 
     assert response.status_code == 500
-    assert response.headers["cache-control"] == "no-store"
+    assert response.headers["cache-control"] == "private, no-store"
     assert response.headers["pragma"] == "no-cache"
 
 
-def test_unmarked_responses_and_unmatched_routes_are_unchanged(client):
+def test_explicit_cache_headers_preserved_and_unmatched_routes_not_cached(client):
     public_response = client.get("/public")
     missing_response = client.get("/missing")
 
@@ -171,7 +175,15 @@ def test_unmarked_responses_and_unmatched_routes_are_unchanged(client):
     assert public_response.headers["x-test"] == "yes"
     assert "pragma" not in public_response.headers
     assert missing_response.status_code == 404
-    assert "cache-control" not in missing_response.headers
+    assert missing_response.headers["cache-control"] == "private, no-store"
+    for method in ("GET", "HEAD"):
+        response = client.request(method, "/default")
+        assert response.status_code == 200
+        assert response.headers["cache-control"] == "public, max-age=0, s-maxage=86400"
+        assert "pragma" not in response.headers
+    response = client.post("/default")
+    assert response.status_code == 200
+    assert response.headers["cache-control"] == "private, no-store"
 
 
 def test_cached_wrapper_retains_policy_metadata():

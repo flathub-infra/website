@@ -292,6 +292,11 @@ local function async_refresh(uri, args)
 end
 
 function _M.try_cache()
+    local method = ngx.req.get_method()
+    if method ~= "GET" and method ~= "HEAD" then
+        return
+    end
+
     local red = connect_redis()
     if not red then
         return
@@ -308,6 +313,8 @@ function _M.try_cache()
 
     if cached_data and cached_data.value ~= nil and cached_data.value ~= cjson.null then
         ngx.header["Content-Type"] = "application/json"
+        -- Match backend app.cache.PUBLIC_CACHE_CONTROL when bypassing it.
+        ngx.header["Cache-Control"] = "public, max-age=0, s-maxage=86400"
 
         if cached_data.is_stale then
             ngx.header["X-Cache-Status"] = "STALE"
