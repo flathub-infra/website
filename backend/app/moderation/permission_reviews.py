@@ -19,7 +19,7 @@ class PermissionReviewSummary(BaseModel):
     app_id: str
     created_at: datetime
     outcome: Literal["accepted", "pending", "rejected", "error"]
-    acceptance_basis: Literal["baseline", "permission_decision"] | None
+    acceptance_basis: assessment.AcceptanceBasis | None
     candidate_kind: str
     forge_instance: str
     source_repository: str

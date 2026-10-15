@@ -2615,7 +2615,8 @@ class PermissionAssessmentObservation(Base):
             "(outcome = 'accepted' AND acceptance_basis IS NOT NULL "
             "AND ((acceptance_basis = 'baseline' AND baseline_id IS NOT NULL "
             "AND differences IS NOT NULL AND differences = '[]'::jsonb) "
-            "OR acceptance_basis = 'permission_decision')) OR "
+            "OR acceptance_basis IN "
+            "('permission_decision', 'stable_baseline', 'beta_approval'))) OR "
             "(outcome <> 'accepted' AND acceptance_basis IS NULL)",
             name="permissionassessmentobservation_acceptance",
         ),

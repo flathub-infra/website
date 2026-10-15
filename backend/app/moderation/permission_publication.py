@@ -163,7 +163,7 @@ def _evaluate(
         if (push.fingerprint, push.acceptance_basis) == (
             fingerprint,
             "permission_decision",
-        ):
+        ) or assessment.cross_channel_basis(app_id, channel, fingerprint):
             return None
     except PermissionSnapshotError as exc:
         data.update(error_code=exc.code, error_message=exc.message)

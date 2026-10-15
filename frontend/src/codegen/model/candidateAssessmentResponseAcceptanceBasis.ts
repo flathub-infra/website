@@ -12,4 +12,6 @@ export type CandidateAssessmentResponseAcceptanceBasis =
 export const CandidateAssessmentResponseAcceptanceBasis = {
   baseline: "baseline",
   permission_decision: "permission_decision",
+  stable_baseline: "stable_baseline",
+  beta_approval: "beta_approval",
 } as const

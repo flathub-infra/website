@@ -10,13 +10,13 @@ from typing import Annotated, Any, Literal, NoReturn, Self, TypedDict
 import httpx
 from fastapi import HTTPException
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
-from sqlalchemy import func, select
-from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy import cast, func, select
+from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy.orm import aliased
 
 from .. import config, http_client, models, utils
 from ..database import get_db
-from ..types import JSONValue, is_json_object
+from ..types import JSONValue, ModerationRequestType, is_json_object
 from .ostree_permissions import (
     CollectedPermissions,
     _valid_segment,
@@ -115,12 +115,17 @@ class _BuildCheck(TypedDict):
     errors: list[str]
 
 
+AcceptanceBasis = Literal[
+    "baseline", "permission_decision", "stable_baseline", "beta_approval"
+]
+
+
 class CandidateAssessmentResponse(BaseModel):
     assessment_id: int
     candidate_identity: CandidateIdentity
     snapshot_fingerprint: str | None
     outcome: Literal["accepted", "pending", "rejected", "error"]
-    acceptance_basis: Literal["baseline", "permission_decision"] | None = None
+    acceptance_basis: AcceptanceBasis | None = None
     decision_id: int | None = None
     baseline_id: int | None = None
     review_url: str
@@ -220,7 +225,11 @@ def _persist_observation(values: dict[str, object]) -> CandidateAssessmentRespon
     with get_db("writer") as db:
         if values.get("pull_request_number"):
             lock_pull_request(db.session, SimpleNamespace(**values))
-        if values["outcome"] == "pending" and values.get("pull_request_number"):
+        if (
+            values["outcome"] != "error"
+            and values.get("acceptance_basis") != "baseline"
+            and values.get("pull_request_number")
+        ):
             source = aliased(models.PermissionAssessmentObservation)
             decision = models.PermissionDecision
             latest = db.session.execute(
@@ -280,6 +289,55 @@ def _stored_baseline(
             "artifacts": row.artifacts,
             "fingerprint": row.fingerprint,
         }
+
+
+def cross_channel_basis(app_id: str, channel: str, fingerprint: str) -> str | None:
+    with get_db("writer") as db:
+        if channel == "beta":
+            baseline = models.PermissionBaseline
+            stable = db.session.execute(
+                select(baseline.id)
+                .where(
+                    baseline.app_id == app_id,
+                    baseline.channel == "stable",
+                    baseline.canonicalization_version == CANONICALIZATION_VERSION,
+                    baseline.fingerprint == fingerprint,
+                )
+                .limit(1)
+            ).first()
+            return "stable_baseline" if stable is not None else None
+        if channel != "stable":
+            return None
+        observation = models.PermissionAssessmentObservation
+        decision = models.PermissionDecision
+        latest = db.session.execute(
+            select(decision.decision)
+            .join(observation, observation.id == decision.assessment_id)
+            .where(
+                observation.app_id == app_id,
+                observation.intended_channel == "beta",
+                observation.canonicalization_version == CANONICALIZATION_VERSION,
+                observation.fingerprint == fingerprint,
+            )
+            .order_by(decision.id.desc())
+            .limit(1)
+        ).scalar_one_or_none()
+        if latest is not None:
+            return "beta_approval" if latest == "approved" else None
+        request = models.ModerationRequest
+        data = cast(request.request_data, JSONB)
+        held = db.session.execute(
+            select(request.id)
+            .where(
+                request.appid == app_id,
+                request.request_type == ModerationRequestType.PERMISSIONS,
+                request.is_approved.is_(True),
+                data["channel"].astext == "beta",
+                data["candidate_fingerprint"].astext == fingerprint,
+            )
+            .limit(1)
+        ).first()
+        return "beta_approval" if held is not None else None
 
 
 def _linked_assessment(
@@ -682,13 +740,18 @@ def assess_candidate(
         ).encode("utf-8")
     ).hexdigest()
     accepted = error is None and baseline is not None and differences == []
+    basis = "baseline" if accepted else None
+    if error is None and not accepted and fingerprint is not None:
+        basis = cross_channel_basis(
+            request.app_id, request.destination_channel, fingerprint
+        )
     values = request.model_dump(
         exclude={"matrix_succeeded", "destination_repo", "destination_channel"}
     )
     values.update(
         assessment_identity=assessment_identity,
-        outcome="error" if error else "accepted" if accepted else "pending",
-        acceptance_basis="baseline" if accepted else None,
+        outcome="error" if error else "accepted" if basis else "pending",
+        acceptance_basis=basis,
         linter_reports=[entry.model_dump() for entry, _ in reports],
         baseline_id=baseline["id"] if baseline is not None else None,
         base_revision=request.base_revision or "",

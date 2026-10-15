@@ -392,7 +392,12 @@ export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
   ] as const),
   acceptance_basis: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      faker.helpers.arrayElement(["baseline", "permission_decision"] as const),
+      faker.helpers.arrayElement([
+        "baseline",
+        "permission_decision",
+        "stable_baseline",
+        "beta_approval",
+      ] as const),
       null,
     ]),
     undefined,
@@ -509,6 +514,8 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
         faker.helpers.arrayElement([
           "baseline",
           "permission_decision",
+          "stable_baseline",
+          "beta_approval",
         ] as const),
         null,
       ]),
@@ -617,7 +624,12 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
       "error",
     ] as const),
     acceptance_basis: faker.helpers.arrayElement([
-      faker.helpers.arrayElement(["baseline", "permission_decision"] as const),
+      faker.helpers.arrayElement([
+        "baseline",
+        "permission_decision",
+        "stable_baseline",
+        "beta_approval",
+      ] as const),
       null,
     ]),
     candidate_kind: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -735,7 +747,12 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
       "error",
     ] as const),
     acceptance_basis: faker.helpers.arrayElement([
-      faker.helpers.arrayElement(["baseline", "permission_decision"] as const),
+      faker.helpers.arrayElement([
+        "baseline",
+        "permission_decision",
+        "stable_baseline",
+        "beta_approval",
+      ] as const),
       null,
     ]),
     candidate_kind: faker.string.alpha({ length: { min: 10, max: 20 } }),

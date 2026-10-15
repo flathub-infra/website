@@ -367,6 +367,53 @@ def test_publication_retry_reuses_permissions_request(db, publish):
     assert publish() == ([], {APP}, False)
 
 
+def test_beta_accepts_stable_baseline_permissions(db):
+    set_baseline(db, SNAP, FP)
+    assert assessment.cross_channel_basis(APP, "beta", FP) == "stable_baseline"
+    assert assessment.cross_channel_basis(APP, "beta", OLD_FP) is None
+    assert assessment.cross_channel_basis(APP, "stable", FP) is None
+
+
+def test_stable_accepts_latest_beta_approval(db):
+    beta = {"intended_channel": "beta", "flatpak_branch": "beta"}
+    first = persist(1, **beta)
+    assert assessment.cross_channel_basis(APP, "stable", FP) is None
+    decide(first.assessment_id)
+    assert assessment.cross_channel_basis(APP, "stable", FP) == "beta_approval"
+    decide(persist(2, **beta).assessment_id, "rejected", rationale="No")
+    assert assessment.cross_channel_basis(APP, "stable", FP) is None
+
+    with db() as session:
+        session.add(
+            models.ModerationRequest(
+                appid=APP,
+                build_id=8,
+                job_id=4,
+                request_type=ModerationRequestType.PERMISSIONS,
+                request_data=json.dumps(
+                    {"channel": "beta", "candidate_fingerprint": OLD_FP}
+                ),
+                is_approved=True,
+            )
+        )
+    assert assessment.cross_channel_basis(APP, "stable", OLD_FP) == "beta_approval"
+
+
+def test_pull_request_rejection_overrides_cross_channel_approval(db):
+    accepted = {"outcome": "accepted", "acceptance_basis": "beta_approval"}
+    first = persist(1, **accepted)
+    assert first.acceptance_basis == "beta_approval"
+    decide(first.assessment_id, "rejected", rationale="No")
+    assert persist(2, **accepted).outcome == "rejected"
+
+
+def test_publication_accepts_beta_approved_permissions(db, publish):
+    set_baseline(db, OLD_SNAP, OLD_FP)
+    decide(persist(1, intended_channel="beta", flatpak_branch="beta").assessment_id)
+    persist(2, candidate_kind="push")
+    assert publish() == ([], {APP}, False)
+
+
 @pytest.fixture
 def held(db, publish, monkeypatch):
     set_baseline(db, OLD_SNAP, OLD_FP)
