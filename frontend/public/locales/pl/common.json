@@ -988,5 +988,10 @@
     "control-recommended": "Zalecane urządzenie: {device}",
     "control-supported": "Obsługuje urządzenie: {device}",
     "control-unknown": "Obsługa {device} nieznana"
-  }
+  },
+  "moderation-open-discussion": "Rozpocznij dyskusję",
+  "moderation-discussion-description": "Utwórz zgłoszenie na GitHubie, dodając swój komentarz. Kompilacja pozostanie wstrzymana do czasu podjęcia decyzji w sprawie weryfikacji.",
+  "moderation-view-discussion": "Zobacz dyskusję",
+  "moderation-discussion-comment": "Skomentuj",
+  "oauth-account-email-already-used": "Ten adres e-mail jest już powiązany z kontem Flathub. Zaloguj się, korzystając z dotychczasowej metody logowania (adres e-mail lub dostawca usług), a następnie połącz tego dostawcę w ustawieniach. Kont Flathub nie można połączyć automatycznie."
 }

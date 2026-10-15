@@ -862,5 +862,17 @@
   "could-not-find-match-with-filters": "Aucun résultat n'a pu être trouvé avec ces filtres.",
   "other-apps-to-explore": "Voici d'autres apps fantastiques à découvrir.",
   "clear-filters": "Effacer les filtres",
-  "runtime": "Environnement d'exécution"
+  "runtime": "Environnement d'exécution",
+  "category": "Catégorie",
+  "operating-system": "Système d'exploitation",
+  "flatpak-version": "Version Flatpak",
+  "platform-support": {
+    "appname-works-on-most-devices": "{appName} fonctionne sur la plupart des appareils",
+    "appname-works-best-on-specific-hardware": "{appName} fonctionne mieux sur du matériel spécifique",
+    "works-well-on-large-screens": "Fonctionne bien sur les grands écrans",
+    "mobile-display-support-unknown": "Pas assez d’informations pour savoir si les petits écrans sont pris en charge",
+    "desktop-display-support-unknown": "Pas assez d’informations pour savoir si les grands écrans sont pris en charge",
+    "keyboards": "claviers"
+  },
+  "reauth-title": "Confirmez que c’est vous"
 }

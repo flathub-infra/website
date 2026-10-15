@@ -6,6 +6,9 @@
     },
     "step-4": {
       "name": "Yenidən başlat"
+    },
+    "step-3": {
+      "name": "Flathub repozitoriyası əlavə et"
     }
   },
   "fedora": {
@@ -83,7 +86,16 @@
   },
   "opensuse": {
     "step-3": {
+      "name": "Yenidən başlat",
+      "text": "<text>Quraşdırmanı tamamlamaq üçün sisteminizi yenidən başladın. İndi tək etməli olduğunuz şey <link>tətbiqləri quraşdırmaqdır</link>!</text>"
+    }
+  },
+  "arch": {
+    "step-2": {
       "name": "Yenidən başlat"
     }
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux"
   }
 }

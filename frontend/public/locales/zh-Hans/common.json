@@ -432,7 +432,7 @@
     "show-branding-preview": "显示商标预览",
     "light": "浅色",
     "dark": "深色",
-    "problems": "如果您想向我们询问具体的质量指南问题，请随时打开<link>问题</link>。",
+    "problems": "如果您想向我们询问具体的质量指南问题，请随时开<link>工单</link>。",
     "failing-x-checks": "{count, plural, one {# 项检查} other {# 项检查}}失败",
     "general-runtime-not-eol": "运行时未终止支持",
     "stats-by-category": "按类别划分的指南审核状态",
@@ -528,8 +528,8 @@
   "new-stable-token": "新的稳定令牌",
   "scope-build": "创建和访问构建与作业",
   "name": "名称",
-  "issued": "发布",
-  "issued-to": "发布给",
+  "issued": "已发布",
+  "issued-to": "发布到",
   "expires": "过期",
   "do-you-really-want-to-archive-app": "存档前请查看以下影响。",
   "archive-app": "归档此应用",
@@ -552,7 +552,7 @@
   "new": "新应用",
   "updated": "最近更新",
   "scope-jobs": "查看工作状态",
-  "reporting-issues-description": "我们对待安全报告与法律方面问题非常认真",
+  "reporting-issues-description": "我们非常严肃地对待安全报告与法律问题",
   "developers-and-users": "开发者和用户",
   "get-in-touch": "取得联系",
   "organizations-and-infrastructure": "组织和基础设施",
@@ -988,5 +988,10 @@
     "control-recommended": "推荐 {device}",
     "control-supported": "支持 {device}",
     "control-unknown": "{device} 支持未知"
-  }
+  },
+  "moderation-open-discussion": "开启讨论",
+  "moderation-discussion-description": "在 GitHub 上开一个工单，附上你的评论。在做出审核决定前，不会发布该版本。",
+  "moderation-view-discussion": "查看讨论",
+  "moderation-discussion-comment": "评论",
+  "oauth-account-email-already-used": "此电子邮件地址已经和一个 Flathub 账户关联。用你之前的登录方式登录（电子邮件或提供商），然后从设置关联这个提供商。无法自动合并 Flathub 账户。"
 }
