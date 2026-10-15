@@ -8,7 +8,7 @@ import gi
 gi.require_version("GLib", "2.0")
 from gi.repository import GLib  # type: ignore
 
-CANONICALIZATION_VERSION = 3
+CANONICALIZATION_VERSION = 4
 CONTEXT_FLAG_KEYS = ("shared", "sockets", "devices", "features")
 CONTEXT_PATH_KEYS = ("filesystems", "persistent")
 FILESYSTEM_MODES = ("ro", "rw", "create", "reset")
@@ -77,6 +77,14 @@ def _sort_independent_entries(key: str, items: list[str]) -> list[str]:
     return sorted(items)
 
 
+def _drop_compat_x11(items: list[str]) -> list[str]:
+    if "fallback-x11" not in items or any(
+        item == "!x11" or item.startswith("if:x11:") for item in items
+    ):
+        return items
+    return [item for item in items if item != "x11"]
+
+
 def parse_permission_metadata(metadata: bytes, *, app_id: str) -> PermissionMap:
     if not metadata:
         raise PermissionSnapshotError("invalid_metadata", "Missing or empty metadata")
@@ -128,6 +136,8 @@ def parse_permission_metadata(metadata: bytes, *, app_id: str) -> PermissionMap:
                             *CONTEXT_FLAG_KEYS,
                             *CONTEXT_PATH_KEYS,
                         ):
+                            if key == "sockets":
+                                items = _drop_compat_x11(items)
                             items = _sort_independent_entries(key, items)
                         values[key] = items
             except GLib.Error as exc:

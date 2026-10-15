@@ -103,19 +103,19 @@ def test_context_socket_order_is_preserved():
 def test_independent_context_entries_are_sorted():
     before = parse(
         APP
-        + b"[Context]\nshared=network;ipc;\nsockets=x11;wayland;fallback-x11;\n"
+        + b"[Context]\nshared=network;ipc;\nsockets=x11;wayland;pulseaudio;\n"
         + b"devices=dri;!kvm;\nfeatures=devel;bluetooth;\n"
         + b"filesystems=xdg-pictures:ro;home;!xdg-music;\npersistent=.foo;.bar;\n"
     )
     after = parse(
         APP
-        + b"[Context]\nshared=ipc;network;\nsockets=fallback-x11;wayland;x11;\n"
+        + b"[Context]\nshared=ipc;network;\nsockets=pulseaudio;wayland;x11;\n"
         + b"devices=!kvm;dri;\nfeatures=bluetooth;devel;\n"
         + b"filesystems=!xdg-music;home;xdg-pictures:ro;\npersistent=.bar;.foo;\n"
     )
     assert before["Context"] == {
         "shared": ["ipc", "network"],
-        "sockets": ["fallback-x11", "wayland", "x11"],
+        "sockets": ["pulseaudio", "wayland", "x11"],
         "devices": ["!kvm", "dri"],
         "features": ["bluetooth", "devel"],
         "filesystems": ["!xdg-music", "home", "xdg-pictures:ro"],
@@ -125,6 +125,25 @@ def test_independent_context_entries_are_sorted():
     assert fingerprint_snapshot(snapshot(x86_64=before)) == fingerprint_snapshot(
         snapshot(x86_64=after)
     )
+
+
+@pytest.mark.parametrize(
+    "sockets,expected",
+    [
+        ("x11;wayland;fallback-x11;", ["fallback-x11", "wayland"]),
+        ("fallback-x11;wayland;", ["fallback-x11", "wayland"]),
+        ("x11;wayland;", ["wayland", "x11"]),
+        ("x11;!x11;fallback-x11;", ["x11", "!x11", "fallback-x11"]),
+        (
+            "x11;fallback-x11;if:x11:!has-wayland;",
+            ["x11", "fallback-x11", "if:x11:!has-wayland"],
+        ),
+    ],
+)
+def test_compatibility_x11_next_to_fallback_x11_is_dropped(sockets, expected):
+    assert parse(APP + f"[Context]\nsockets={sockets}\n".encode())["Context"] == {
+        "sockets": expected
+    }
 
 
 @pytest.mark.parametrize(
@@ -213,10 +232,10 @@ def test_rejects_invalid_metadata(data, code):
     "version,arches,code",
     [
         (1, {"x86_64": {}}, "unsupported_version"),
-        (2, {"x86_64": {}}, "unsupported_version"),
-        (4, {"x86_64": {}}, "unsupported_version"),
+        (3, {"x86_64": {}}, "unsupported_version"),
+        (5, {"x86_64": {}}, "unsupported_version"),
         (True, {"x86_64": {}}, "unsupported_version"),
-        (3.0, {"x86_64": {}}, "unsupported_version"),
+        (4.0, {"x86_64": {}}, "unsupported_version"),
         (CANONICALIZATION_VERSION, {}, "missing_architecture"),
     ],
 )
