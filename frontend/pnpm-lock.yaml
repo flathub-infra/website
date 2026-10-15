@@ -239,8 +239,8 @@ importers:
         specifier: ^5.102.2
         version: 5.102.2(@tanstack/react-query@5.102.2(react@19.3.0))(react@19.3.0)
       '@trieb.work/nextjs-turbo-redis-cache':
-        specifier: ^1.17.0
-        version: 1.17.0(next@16.4.0(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.101.3))(redis@4.7.0)
+        specifier: ^1.18.1
+        version: 1.18.1(next@16.4.0(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.101.3))(redis@4.7.0)
       '@types/d3-geo':
         specifier: ^3.1.1
         version: 3.1.1
@@ -3924,8 +3924,8 @@ packages:
     peerDependencies:
       '@testing-library/dom': '>=7.21.4'
 
-  '@trieb.work/nextjs-turbo-redis-cache@1.17.0':
-    resolution: {integrity: sha512-VvnL33pDTmm6xfHOuuD/QbCrCmAqj6KGuX6g6qpT7Na4qPaxQyO1pWrhMfv1m91HesnkcOnC+B1pFMIfC2+YSA==}
+  '@trieb.work/nextjs-turbo-redis-cache@1.18.1':
+    resolution: {integrity: sha512-0yNC4ysWiAC5HKiy8J44+i8RD5IOFDJ1g0/Y4RULD52A9gPPXj47ffykcgHvN27HisDy455xrJDhz4J3P8s4Sw==}
     peerDependencies:
       next: '>=15.0.3 <17.0.0'
       redis: 4.7.0
@@ -10873,7 +10873,7 @@ snapshots:
     dependencies:
       '@testing-library/dom': 10.4.2
 
-  '@trieb.work/nextjs-turbo-redis-cache@1.17.0(next@16.4.0(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.101.3))(redis@4.7.0)':
+  '@trieb.work/nextjs-turbo-redis-cache@1.18.1(next@16.4.0(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.101.3))(redis@4.7.0)':
     dependencies:
       next: 16.4.0(@babel/core@8.0.1)(@opentelemetry/api@1.9.1)(@types/node@26.6.5)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.101.3)
       redis: 4.7.0
