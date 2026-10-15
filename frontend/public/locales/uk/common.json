@@ -799,7 +799,7 @@
   "reauth-sign-out": "Вийдіть та ввійдіть знову",
   "manage": "Керувати",
   "chart-description": "Діаграма з {chart}. Наведіть курсор або виділіть точку даних, щоб переглянути точні значення.",
-  "build-duration-over-time": "Час генерації",
+  "build-duration-over-time": "Історія компілювання",
   "duration-minutes": "Тривалість (хвилини)",
   "category": "Категорія",
   "operating-system": "Операційна система",

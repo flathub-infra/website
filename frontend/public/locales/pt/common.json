@@ -764,5 +764,6 @@
   "utilities-description": "Aplicações para o linux como utilitários de sistema, gestores de ficheiros, calculadoras e ferramentas diárias.",
   "science-description": "Aplicações para o linux como computação cientifica, análise de dados e investigação.",
   "education-description": "Aplicações para o linux como aprendizagem, ferramentas de línguas e software educacional.",
-  "system-description": "Aplicações para o linux como gestão do sistema, monitorização e ferramentas de administração."
+  "system-description": "Aplicações para o linux como gestão do sistema, monitorização e ferramentas de administração.",
+  "manage": "Gerir"
 }
