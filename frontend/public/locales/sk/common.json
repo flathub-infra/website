@@ -452,7 +452,7 @@
   "app-type": "Typ aplikácie",
   "new-app": "Nová aplikácia",
   "community-repository": "Komunitný repozitár",
-  "community-repository-description": "Nahrajte svoju aplikáciu na Flathub nahratím vášho Flatpak manifestu a podporných súborov do repozitára v našej organizácii GitHub. Zostavovacia služba Flathubu zostaví aplikáciu a publikuje ju na Flathube.",
+  "community-repository-description": "Nahrajte svoju aplikáciu na Flathub nahraním vášho Flatpak manifestu a podporných súborov do repozitára v našej organizácii GitHub. Zostavovacia služba Flathubu zostaví aplikáciu a publikuje ju na Flathube.",
   "new-community-repository": "Nová aplikácia komunitného repozitára",
   "direct-upload": "Priame nahratie",
   "direct-upload-description": "Zostavte svoju aplikáciu vo vlastnom prostredí kontinuálnej integrácie a nahrajte ju priamo na Flathub.",
@@ -740,11 +740,14 @@
   },
   "download": {
     "install-x": "Nainštalovať „{x}“",
-    "fallback-instructions": "<opening>Otváranie „{name}“ vo vašom správcovi softvéru…</opening><support>Ak sa nič nestane, možno váš systém nepodporuje odkazy <i>flatpak+https</i>.</support><listPrefix>V takom prípade môžete:</listPrefix><ol><li>Stiahnuť súbor <link>.flatpakref</link></li><li>Potom ho spustiť z vášho správcu súborov</li></ol><setupLine><linkSetup>Inštrukcie na inštaláciu Flatpaku</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Otvára sa „{name}“ vo vašom správcovi softvéru…</opening><support>Ak sa nič nestane, váš systém možno nepodporuje adresy URL <i>flatpak+https</i>.</support><listPrefix>V takom prípade môžete:</listPrefix><ol><li>Stiahnuť <link>súbor .flatpakref</link></li><li>Potom ho spustiť zo správcu súborov</li></ol><setupLine><linkSetup>Pokyny na inštaláciu Flatpaku</linkSetup></setupLine>"
   },
   "developer-portal": {
     "title": "Portál vývojára",
-    "runtime-version": "Runtime: {version}"
+    "runtime-version": "Runtime: {version}",
+    "downloads-last-month": "Stiahnutia za posledný mesiac",
+    "downloads-last-month-count": "Stiahnutia za posledný mesiac: {count}",
+    "downloads-unavailable": "Celkové počty stiahnutí sú dočasne nedostupné."
   },
   "vending": {
     "purchase-not-available": "Táto aplikácia nie je k dispozícii na kúpu."
@@ -954,5 +957,41 @@
   "reauth-description": "Z bezpečnostných dôvodov potvrďte svoju identitu pred zmenou prístupových kľúčov.",
   "reauth-return-hint": "Po potvrdení identity sa vráťte sem, zavrite tento dialóg, ak je stále otvorený, a skúste zmenu prístupového kľúča znova.",
   "reauth-method-email": "Pošlite mi e-mailom odkaz na prihlásenie",
-  "reauth-sign-out": "Odhlásiť sa a znova prihlásiť"
+  "reauth-sign-out": "Odhlásiť sa a znova prihlásiť",
+  "platform-support": {
+    "adaptive": "Adaptívne",
+    "appname-works-on-most-devices": "{appName} funguje na väčšine zariadení",
+    "support-unknown": "Podpora neznáma",
+    "appname-works-best-on-specific-hardware": "{appName} funguje najlepšie na konkrétnom hardvéri",
+    "appname-hardware-support": "Informácie o hardvérovej podpore pre {appName}",
+    "mobile-support": "Podpora mobilných zariadení",
+    "desktop-support": "Podpora stolových počítačov",
+    "mobile-support-unknown": "Podpora mobilných zariadení neznáma",
+    "desktop-support-unknown": "Podpora stolových počítačov neznáma",
+    "mobile-only": "Iba mobilné zariadenia",
+    "desktop-only": "Iba stolové počítače",
+    "works-well-on-large-screens": "Dobre funguje na veľkých obrazovkách",
+    "works-well-on-mobile": "Dobre funguje na mobilných zariadeniach",
+    "may-not-work-well-on-mobile": "Nemusí dobre fungovať na mobilných zariadeniach",
+    "may-not-work-well-on-large-screens": "Nemusí dobre fungovať na veľkých obrazovkách",
+    "mobile-display-support-unknown": "Nedostatok informácií o tom, či sú podporované malé obrazovky",
+    "desktop-display-support-unknown": "Nedostatok informácií o tom, či sú podporované veľké obrazovky",
+    "keyboard-support": "Podpora klávesnice",
+    "keyboards": "klávesnice",
+    "mouse-support": "Podpora myši",
+    "pointing-devices": "myši alebo ukazovacie zariadenia",
+    "touchscreen-support": "Podpora dotykovej obrazovky",
+    "touchscreens": "dotykové obrazovky",
+    "gamepad-support": "Podpora herného ovládača",
+    "gamepads": "herné ovládače",
+    "control-required": "Vyžaduje {device}",
+    "control-recommended": "Odporúča {device}",
+    "control-supported": "Podporuje {device}",
+    "control-unknown": "Neznáma podpora pre {device}"
+  },
+  "moderation-open-discussion": "Otvoriť diskusiu",
+  "moderation-discussion-description": "Otvorte problém na GitHube s vaším komentárom. Zostava zostane pozdržaná do rozhodnutia o kontrole.",
+  "moderation-view-discussion": "Zobraziť diskusiu",
+  "moderation-discussion-comment": "Komentár",
+  "oauth-account-email-already-used": "Tento e-mail už je priradený k účtu Flathub. Prihláste sa pomocou predchádzajúcej metódy prihlasovania (e-mailom alebo cez poskytovateľa), potom v nastaveniach prepojte tento účet s daným poskytovateľom. Účty Flathub nie je možné automaticky zlúčiť."
 }

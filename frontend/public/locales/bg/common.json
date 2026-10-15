@@ -911,5 +911,29 @@
   "user-login-unavailable": "Вписването с имейл не е налично. Моля, опитайте отново по-късно.",
   "view-builds": "Преглед на компилациите",
   "reauth-account-mismatch": "Вписването не съвпада с този профил. Впишете се с един от вашите свързани профили.",
-  "email-account": "Имейл"
+  "email-account": "Имейл",
+  "platform-support": {
+    "support-unknown": "Неизвестна поддръжка",
+    "appname-hardware-support": "Информация за хардуерната поддръжка на „{appName}“",
+    "keyboards": "клавиатура",
+    "pointing-devices": "мишка или посочващо устройство",
+    "touchscreens": "сензорен екран",
+    "gamepads": "геймпад",
+    "control-required": "Изисква {device}",
+    "control-recommended": "Препоръчва {device}",
+    "control-supported": "Поддържа {device}",
+    "control-unknown": "Поддръжката за {device} е неизвестна"
+  },
+  "passkey-add": "Добавяне на ключ за достъп",
+  "passkey-added": "Ключът за достъп е добавен.",
+  "passkey-rename": "Преименуване",
+  "passkey-renamed": "Ключът за достъп е преименуван.",
+  "passkey-removed": "Ключът за достъп е премахнат.",
+  "passkey-created-at": "Добавен на {time}",
+  "passkey-last-used-at": "Последно използван на {time}",
+  "passkey-never-used": "Все още не е използван за вписване",
+  "passkey-remove-prompt": "Премахване на ключа за достъп „{name}“?",
+  "passkeys": "Ключове за достъп",
+  "passkeys-empty": "Все още не сте добавили ключ за достъп.",
+  "passkey-name": "Име на ключа за достъп"
 }
