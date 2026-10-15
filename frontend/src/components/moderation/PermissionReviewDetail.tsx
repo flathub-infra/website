@@ -2,20 +2,25 @@
 
 import { ReactNode, useState } from "react"
 import { useTranslations } from "next-intl"
+import { useSearchParams } from "next/navigation"
 import { useQueryClient } from "@tanstack/react-query"
 import { isAxiosError } from "axios"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 import {
   PermissionDecisionRequestDecision as Decision,
   PermissionReviewDetail as Review,
   useDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost,
+  useListPermissionReviewsModerationPermissionReviewsGet,
   useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Link } from "src/i18n/navigation"
+import Breadcrumbs from "../Breadcrumbs"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import PermissionDiffTable from "./PermissionDiffTable"
+import { reviewListFilters, reviewListQuery } from "./PermissionReviewList"
 
 type Finding = {
   rule_code: string
@@ -112,12 +117,51 @@ const DecisionForm = ({ review }: { review: Review }) => {
   )
 }
 
+const NavigatePreviousNext = ({ assessmentId }: { assessmentId: number }) => {
+  const searchParams = useSearchParams()
+  const { outcome, includeSuperseded } = reviewListFilters(searchParams)
+  const query = useListPermissionReviewsModerationPermissionReviewsGet(
+    { outcome, include_superseded: includeSuperseded, limit: 200 },
+    { axios: { withCredentials: true } },
+  )
+  const items = (query.data?.data.items ?? []) as { assessment_id: number }[]
+  const previous = items.findLast((i) => i.assessment_id > assessmentId)
+  const next = items.find((i) => i.assessment_id < assessmentId)
+  const suffix = reviewListQuery(searchParams)
+
+  return (
+    <div className="flex gap-2">
+      {previous && (
+        <Button variant="outline" size="sm" asChild>
+          <Link
+            href={`/admin/moderation/permissions/${previous.assessment_id}${suffix}`}
+          >
+            <ChevronLeft className="me-2 h-4 w-4" />
+            Previous
+          </Link>
+        </Button>
+      )}
+      {next && (
+        <Button variant="outline" size="sm" asChild>
+          <Link
+            href={`/admin/moderation/permissions/${next.assessment_id}${suffix}`}
+          >
+            Next
+            <ChevronRight className="ms-2 h-4 w-4" />
+          </Link>
+        </Button>
+      )}
+    </div>
+  )
+}
+
 export default function PermissionReviewDetail({
   assessmentId,
 }: {
   assessmentId: number
 }) {
   const t = useTranslations()
+  const searchParams = useSearchParams()
   const query =
     useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet(
       assessmentId,
@@ -142,10 +186,28 @@ export default function PermissionReviewDetail({
 
   return (
     <div className="space-y-8 py-8">
-      <h1 className="text-3xl font-extrabold tracking-tight">
-        {review.app_id}{" "}
-        <span className="text-xl capitalize">{review.outcome}</span>
-      </h1>
+      <Breadcrumbs
+        pages={[
+          { name: "Moderation", href: "/admin/moderation", current: false },
+          {
+            name: t("moderation-permissions-reviews"),
+            href: `/admin/moderation/permissions${reviewListQuery(searchParams)}`,
+            current: false,
+          },
+          {
+            name: `#${assessmentId}`,
+            href: `/admin/moderation/permissions/${assessmentId}`,
+            current: true,
+          },
+        ]}
+      />
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <h1 className="text-3xl font-extrabold tracking-tight">
+          {review.app_id}{" "}
+          <span className="text-xl capitalize">{review.outcome}</span>
+        </h1>
+        <NavigatePreviousNext assessmentId={assessmentId} />
+      </div>
       {review.pull_request_url && (
         <a
           className="text-flathub-celestial-blue hover:underline"

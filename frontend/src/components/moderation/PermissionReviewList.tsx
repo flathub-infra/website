@@ -23,16 +23,23 @@ import Spinner from "../Spinner"
 
 const PAGE_SIZE = 50
 
+export const reviewListFilters = (searchParams: URLSearchParams) => ({
+  outcome:
+    Object.values(Outcome).find((o) => o === searchParams.get("outcome")) ??
+    Outcome.pending,
+  includeSuperseded: searchParams.get("includeSuperseded") === "true",
+})
+
+export const reviewListQuery = (searchParams: URLSearchParams) =>
+  searchParams.size ? `?${searchParams}` : ""
+
 export default function PermissionReviewList() {
   const t = useTranslations()
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const outcome =
-    Object.values(Outcome).find((o) => o === searchParams.get("outcome")) ??
-    Outcome.pending
-  const includeSuperseded = searchParams.get("includeSuperseded") === "true"
+  const { outcome, includeSuperseded } = reviewListFilters(searchParams)
   const currentPage = parseInt(searchParams.get("page") ?? "1") || 1
 
   const query = useListPermissionReviewsModerationPermissionReviewsGet(
@@ -107,7 +114,7 @@ export default function PermissionReviewList() {
               >
                 <td className="p-2">
                   <Link
-                    href={`/admin/moderation/permissions/${item.assessment_id}`}
+                    href={`/admin/moderation/permissions/${item.assessment_id}${reviewListQuery(searchParams)}`}
                     className="font-mono text-flathub-celestial-blue hover:underline"
                   >
                     {item.app_id}
