@@ -111,7 +111,8 @@ def _relabel(bind, source, target, normalize):
     for row in bind.execute(
         sa.text(
             "SELECT id, outcome, decision_id, baseline_id, candidate_snapshot, "
-            "published_snapshot, differences FROM permissionassessmentobservation "
+            "published_snapshot, differences, fingerprint, published_fingerprint "
+            "FROM permissionassessmentobservation "
             "WHERE canonicalization_version = :source"
         ),
         {"source": source},
@@ -129,14 +130,16 @@ def _relabel(bind, source, target, normalize):
         }
         if row["candidate_snapshot"] is not None:
             candidate = _snapshot(row["candidate_snapshot"], target, normalize)
-            values.update(candidate=candidate, fingerprint=_fingerprint(candidate))
+            values["candidate"] = candidate
+            if row["fingerprint"] is not None:
+                values["fingerprint"] = _fingerprint(candidate)
         if row["published_snapshot"] is not None:
             published = _snapshot(row["published_snapshot"], target, normalize)
-            values.update(
-                published=published,
-                published_fingerprint=_fingerprint(published),
-                differences=_differences(published, values["candidate"]),
-            )
+            values["published"] = published
+            if row["published_fingerprint"] is not None:
+                values["published_fingerprint"] = _fingerprint(published)
+            if row["differences"] is not None and values["candidate"] is not None:
+                values["differences"] = _differences(published, values["candidate"])
         if (
             row["outcome"] == "pending"
             and row["decision_id"] is None
