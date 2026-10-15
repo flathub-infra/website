@@ -4430,6 +4430,28 @@ class Exceptions(Base):
         return {exception.app_id: exception.value for exception in exceptions}
 
 
+class MaintenanceTriage(Base):
+    """Shared admin investigation state; signals are derived from current evidence."""
+
+    __tablename__ = "maintenancetriage"
+
+    app_id = mapped_column(
+        String, ForeignKey("apps.app_id", ondelete="CASCADE"), primary_key=True
+    )
+    owner_id = mapped_column(
+        Integer, ForeignKey("flathubuser.id", ondelete="SET NULL"), nullable=True
+    )
+    notes = mapped_column(String, nullable=False, server_default="")
+    snoozed_until = mapped_column(DateTime, nullable=True)
+    snooze_reason = mapped_column(String, nullable=False, server_default="")
+    fingerprint = mapped_column(String, nullable=False, server_default="")
+    version = mapped_column(Integer, nullable=False, server_default="0")
+    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_by = mapped_column(
+        Integer, ForeignKey("flathubuser.id", ondelete="SET NULL"), nullable=True
+    )
+
+
 class AppEolRebase(Base):
     """Maps app IDs to EOL rebased application IDs"""
 
