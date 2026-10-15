@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
 import { getModerationAppsModerationAppsGet } from "src/codegen"
 import { Checkbox } from "@/components/ui/checkbox"
-import { usePathname, useRouter } from "src/i18n/navigation"
+import { Link, usePathname, useRouter } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
 import { setQueryParams } from "src/utils/queryParams"
 
@@ -95,6 +95,12 @@ const ModerationTabs: FunctionComponent = () => {
 
     return (
       <div className="space-y-8">
+        <Link
+          href="/admin/moderation/permissions"
+          className="text-flathub-celestial-blue hover:underline"
+        >
+          {t("moderation-permissions-reviews")}
+        </Link>
         <div className="flex flex-wrap items-center gap-6 border-b border-flathub-gainsborow pb-4 dark:border-flathub-dark-gunmetal">
           <span className="text-sm font-medium text-flathub-sonic-silver dark:text-flathub-spanish-gray">
             Filters:

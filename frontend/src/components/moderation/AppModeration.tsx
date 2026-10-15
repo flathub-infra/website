@@ -6,6 +6,7 @@ import Pagination from "../Pagination"
 import Spinner from "../Spinner"
 import AppstreamChangesRow from "./AppstreamChangesRow"
 import ManifestSourceOriginChangesRow from "./ManifestSourceOriginChangesRow"
+import PermissionDiffTable from "./PermissionDiffTable"
 import ReviewCard from "./ReviewCard"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
@@ -15,7 +16,10 @@ import {
   getModerationAppModerationAppsAppIdGet,
   getModerationAppsModerationAppsGet,
 } from "src/codegen"
-import { ModerationRequestResponse } from "src/codegen/model"
+import {
+  ModerationRequestResponse,
+  PermissionsRequestData,
+} from "src/codegen/model"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { Link, usePathname, useRouter } from "src/i18n/navigation"
@@ -166,11 +170,15 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
   const groupedRequests = Array.from(
     query.data.data.requests
       .reduce((groups, request) => {
-        const group = groups.get(request.build_id) ?? []
+        const key =
+          request.request_type === "permissions"
+            ? `permissions-${request.id}`
+            : request.build_id
+        const group = groups.get(key) ?? []
         group.push(request)
-        groups.set(request.build_id, group)
+        groups.set(key, group)
         return groups
-      }, new Map<number, ModerationRequestResponse[]>())
+      }, new Map<number | string, ModerationRequestResponse[]>())
       .values(),
   )
   const visibleGroups = groupedRequests.slice(offset, offset + PAGE_SIZE)
@@ -314,6 +322,38 @@ export default AppModeration
 export const getReviewRow = (request: ModerationRequestResponse) =>
   getReviewRowContent(request)
 
+const PermissionsRequestCard = ({
+  request,
+}: {
+  request: ModerationRequestResponse
+}) => {
+  const t = useTranslations()
+  const data = request.request_data as PermissionsRequestData
+  return (
+    <ReviewCard title={t("moderation-permissions-title")} requests={[request]}>
+      {data.error_message && (
+        <p className="mb-4 text-flathub-status-red-dark">
+          {data.error_code}: {data.error_message}
+        </p>
+      )}
+      {data.linked_review_url && (
+        <a
+          className="mb-4 inline-flex items-center gap-1 text-flathub-celestial-blue hover:underline"
+          href={data.linked_review_url}
+        >
+          <ExternalLink className="h-3.5 w-3.5" />
+          {t("moderation-permissions-reviews")}
+        </a>
+      )}
+      <PermissionDiffTable
+        differences={data.differences}
+        source={data.comparison_source}
+        snapshot={data.approved_baseline?.snapshot as object | undefined}
+      />
+    </ReviewCard>
+  )
+}
+
 const getReviewRowContent = (
   request: ModerationRequestResponse,
   grouped = false,
@@ -336,5 +376,7 @@ const getReviewRowContent = (
           grouped={grouped}
         />
       )
+    case "permissions":
+      return <PermissionsRequestCard key={request.id} request={request} />
   }
 }
