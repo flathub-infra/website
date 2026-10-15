@@ -272,6 +272,8 @@
   "moderation-permissions-app": "App",
   "moderation-permissions-pull-request": "Pull request",
   "moderation-permissions-branch": "Branch",
+  "moderation-permissions-repo": "Repo",
+  "moderation-permissions-flatpak-branch": "Flatpak branch",
   "moderation-permissions-outcome": "Outcome",
   "moderation-permissions-superseded-by": "Superseded by",
   "moderation-permissions-compared-with": "Compared with: {source}",

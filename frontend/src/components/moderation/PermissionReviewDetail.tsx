@@ -176,11 +176,9 @@ export default function PermissionReviewDetail({
 
   const review = query.data.data
   const fields = [
-    ["Built revision", review.built_revision],
-    ["Head revision", review.pull_request_head_revision],
-    ["Base revision", review.base_revision],
     ["Target branch", review.target_git_branch],
-    ["Channel", `${review.destination_channel} / ${review.flatpak_branch}`],
+    ["Repo", review.destination_channel],
+    ["Flatpak branch", review.flatpak_branch],
     [t("moderation-build-id"), review.build_id],
   ]
 

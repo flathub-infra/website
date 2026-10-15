@@ -99,7 +99,14 @@ export default function PermissionReviewList() {
         <table className="w-full border-collapse text-sm">
           <thead>
             <tr className="border-b border-flathub-gainsborow dark:border-flathub-dark-gunmetal">
-              {["app", "pull-request", "branch", "outcome"].map((column) => (
+              {[
+                "app",
+                "pull-request",
+                "branch",
+                "repo",
+                "flatpak-branch",
+                "outcome",
+              ].map((column) => (
                 <th key={column} className="p-2 text-start">
                   {t(`moderation-permissions-${column}`)}
                 </th>
@@ -130,9 +137,12 @@ export default function PermissionReviewList() {
                   )}
                 </td>
                 <td className="p-2 font-mono text-xs">
-                  {item.target_git_branch} → {item.destination_channel} /{" "}
-                  {item.flatpak_branch}
+                  {item.target_git_branch}
                 </td>
+                <td className="p-2 font-mono text-xs">
+                  {item.destination_channel}
+                </td>
+                <td className="p-2 font-mono text-xs">{item.flatpak_branch}</td>
                 <td className="p-2 capitalize">
                   {item.outcome}
                   {item.superseded_by !== null && " (superseded)"}
