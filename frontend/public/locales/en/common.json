@@ -266,6 +266,7 @@
   "moderation-view-discussion": "View discussion",
   "moderation-discussion-comment": "Comment",
   "moderation-permissions-reviews": "Permission reviews",
+  "moderation-permissions-pull-request-review": "Pull request permission review",
   "moderation-permissions-title": "Permissions",
   "moderation-permissions-include-superseded": "Include superseded assessments",
   "moderation-permissions-app": "App",

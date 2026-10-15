@@ -354,7 +354,7 @@ const PermissionsRequestCard = ({
           href={data.linked_review_url}
         >
           <ExternalLink className="h-3.5 w-3.5" />
-          {t("moderation-permissions-reviews")}
+          {t("moderation-permissions-pull-request-review")}
         </a>
       )}
       <PermissionDiffTable
