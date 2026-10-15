@@ -287,6 +287,13 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
             ]),
             undefined,
           ]),
+          pull_request_url: faker.helpers.arrayElement([
+            faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 10, max: 20 } }),
+              null,
+            ]),
+            undefined,
+          ]),
           approved_baseline: faker.helpers.arrayElement([
             faker.helpers.arrayElement([null]),
             undefined,

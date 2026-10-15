@@ -14,6 +14,7 @@ import type { PermissionsRequestDataErrorMessage } from "./permissionsRequestDat
 import type { PermissionsRequestDataFlatpakBranch } from "./permissionsRequestDataFlatpakBranch"
 import type { PermissionsRequestDataLinkedAssessmentId } from "./permissionsRequestDataLinkedAssessmentId"
 import type { PermissionsRequestDataLinkedReviewUrl } from "./permissionsRequestDataLinkedReviewUrl"
+import type { PermissionsRequestDataPullRequestUrl } from "./permissionsRequestDataPullRequestUrl"
 
 export interface PermissionsRequestData {
   channel: string
@@ -26,5 +27,6 @@ export interface PermissionsRequestData {
   error_message?: PermissionsRequestDataErrorMessage
   linked_assessment_id?: PermissionsRequestDataLinkedAssessmentId
   linked_review_url?: PermissionsRequestDataLinkedReviewUrl
+  pull_request_url?: PermissionsRequestDataPullRequestUrl
   approved_baseline?: PermissionsRequestDataApprovedBaseline
 }

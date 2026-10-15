@@ -335,6 +335,14 @@ def test_publication_reuses_push_assessment_decision_and_advances_baseline(db, p
     assert baseline(db) == ("approved", FP)
 
 
+def test_publication_request_names_originating_pull_request(db, publish):
+    set_baseline(db, OLD_SNAP, OLD_FP)
+    persist(1, candidate_kind="push")
+    (request,) = publish()
+    pull_request_url = json.loads(request.request_data)["pull_request_url"]
+    assert pull_request_url == f"https://github.com/flathub/{APP}/pull/17"
+
+
 def test_approving_permissions_request_advances_baseline_only(db, publish, monkeypatch):
     set_baseline(db, OLD_SNAP, OLD_FP)
     (request,) = publish()

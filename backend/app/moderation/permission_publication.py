@@ -61,6 +61,7 @@ def _evaluate(
         "error_message": None,
         "linked_assessment_id": None,
         "linked_review_url": None,
+        "pull_request_url": None,
     }
     try:
         candidate = assessment.collect_final_candidate(
@@ -98,7 +99,12 @@ def _evaluate(
         observation = models.PermissionAssessmentObservation
         with get_db("writer") as db:
             push = db.session.execute(
-                select(observation.fingerprint, observation.acceptance_basis)
+                select(
+                    observation.fingerprint,
+                    observation.acceptance_basis,
+                    observation.pull_request_url,
+                    observation.linked_assessment_id,
+                )
                 .where(
                     observation.candidate_kind == "push",
                     observation.build_id == build_id,
@@ -110,8 +116,18 @@ def _evaluate(
                 .order_by(observation.id.desc())
                 .limit(1)
             ).first()
-        if push == (fingerprint, "permission_decision"):
-            return None, approved
+        if push is not None:
+            linked = push.linked_assessment_id
+            data.update(
+                pull_request_url=push.pull_request_url,
+                linked_assessment_id=linked,
+                linked_review_url=linked and assessment.review_url(linked),
+            )
+            if (push.fingerprint, push.acceptance_basis) == (
+                fingerprint,
+                "permission_decision",
+            ):
+                return None, approved
     except PermissionSnapshotError as exc:
         data.update(error_code=exc.code, error_message=exc.message)
     except HTTPException as exc:

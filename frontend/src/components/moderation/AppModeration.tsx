@@ -336,6 +336,18 @@ const PermissionsRequestCard = ({
           {data.error_code}: {data.error_message}
         </p>
       )}
+      {data.pull_request_url && (
+        <a
+          className="mb-4 me-4 inline-flex items-center gap-1 text-flathub-celestial-blue hover:underline"
+          href={data.pull_request_url}
+        >
+          <ExternalLink className="h-3.5 w-3.5" />
+          {t("moderation-permissions-pull-request")}{" "}
+          {data.pull_request_url
+            .replace(/^https:\/\/[^/]+\//, "")
+            .replace("/pull/", "#")}
+        </a>
+      )}
       {data.linked_review_url && (
         <a
           className="mb-4 inline-flex items-center gap-1 text-flathub-celestial-blue hover:underline"

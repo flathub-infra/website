@@ -132,7 +132,6 @@ export default function PermissionReviewDetail({
 
   const review = query.data.data
   const fields = [
-    [t("moderation-permissions-pull-request"), review.pull_request_url],
     ["Built revision", review.built_revision],
     ["Head revision", review.pull_request_head_revision],
     ["Base revision", review.base_revision],
@@ -147,6 +146,15 @@ export default function PermissionReviewDetail({
         {review.app_id}{" "}
         <span className="text-xl capitalize">{review.outcome}</span>
       </h1>
+      {review.pull_request_url && (
+        <a
+          className="text-flathub-celestial-blue hover:underline"
+          href={review.pull_request_url}
+        >
+          {t("moderation-permissions-pull-request")} {review.source_repository}#
+          {review.pull_request_number}
+        </a>
+      )}
       {review.superseded_by !== null && (
         <Link href={`/admin/moderation/permissions/${review.superseded_by}`}>
           {t("moderation-permissions-superseded-by")} #{review.superseded_by}

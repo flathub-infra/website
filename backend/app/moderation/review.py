@@ -444,6 +444,7 @@ class PermissionsRequestData(BaseModel):
     error_message: str | None = None
     linked_assessment_id: int | None = None
     linked_review_url: str | None = None
+    pull_request_url: str | None = None
     approved_baseline: dict[str, Any] | None = None
 
 
