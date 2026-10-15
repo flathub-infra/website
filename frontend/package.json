@@ -92,7 +92,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "@tanstack/eslint-plugin-query": "^5.104.1",
     "@tanstack/react-query-devtools": "^5.102.2",
-    "@trieb.work/nextjs-turbo-redis-cache": "^1.17.0",
+    "@trieb.work/nextjs-turbo-redis-cache": "^1.18.1",
     "@types/d3-geo": "^3.1.1",
     "@types/d3-scale": "^4.0.9",
     "@types/geojson": "^7946.0.16",
