@@ -299,7 +299,7 @@ def test_enrollment_keeps_identity_and_cannot_move_credentials(env):
         assert created.json()["name"] == "Laptop"
         assert enroll(client, Authenticator(), "  Phone  ").status_code == 201
         listing = client.get("/auth/passkeys")
-        assert listing.headers["cache-control"] == "no-store"
+        assert listing.headers["cache-control"] == "private, no-store"
         assert [item["name"] for item in listing.json()["credentials"]] == [
             "Laptop",
             "Phone",
@@ -401,7 +401,7 @@ def test_registration_envelope_and_user_binding(env):
     )
     assert invalid_name.status_code == 422
     assert invalid_name.json() == {"detail": "invalid_passkey_name"}
-    assert invalid_name.headers["cache-control"] == "no-store"
+    assert invalid_name.headers["cache-control"] == "private, no-store"
     malformed = client.post(
         "/auth/passkeys/registration/verify",
         json={**body, "challenge_id": "short", "name": "Key"},
@@ -568,7 +568,7 @@ def test_ceremonies_check_origin_rate_limit_and_redis(env, monkeypatch):
     assert limited.status_code == 429
     assert limited.json() == {"detail": "passkey_rate_limited"}
     assert limited.headers["retry-after"] == "60"
-    assert limited.headers["cache-control"] == "no-store"
+    assert limited.headers["cache-control"] == "private, no-store"
 
     def unavailable(*args, **kwargs):
         raise redis.ConnectionError("down")

@@ -110,7 +110,7 @@ def test_explicit_signup_consumes_all_links_and_sets_cookie(
             "status": "ok",
             "return_to": "/en/apps/org.example.App",
         }
-        assert response.headers["cache-control"] == "no-store"
+        assert response.headers["cache-control"] == "private, no-store"
         user_id = client.get("/current").json()["user_id"]
         assert isinstance(user_id, int)
         later = issue(writer, email)
@@ -1096,7 +1096,7 @@ def test_email_reauth_requests_only_own_linked_address(
             send.assert_not_called()
         else:
             send.assert_called_once()
-    assert response.headers["cache-control"] == "no-store"
+    assert response.headers["cache-control"] == "private, no-store"
     assert session["user-id"] == user.id
     assert session["auth-method"] == "passkey"
     assert session["passkey-id"] == 42

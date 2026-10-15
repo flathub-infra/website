@@ -589,6 +589,7 @@ def get_verified_apps():
         404: {"description": "App not found"},
     },
 )
+@cache.no_store
 @cache.cached(ttl=3600)
 async def get_verification_status(
     app_id: str = Path(

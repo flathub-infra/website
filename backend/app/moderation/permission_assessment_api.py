@@ -4,7 +4,7 @@ import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from .. import config
+from .. import cache, config
 from .permission_assessment import (
     CandidateAssessmentRequest,
     CandidateAssessmentResponse,
@@ -63,6 +63,7 @@ def post_assessment(request: CandidateAssessmentRequest) -> CandidateAssessmentR
 
 
 @router.get("/{assessment_id}")
+@cache.private
 def read_assessment(assessment_id: int) -> CandidateAssessmentResponse:
     return get_assessment(assessment_id)
 
