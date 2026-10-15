@@ -321,9 +321,19 @@ def baseline(db):
         return row.source, row.fingerprint
 
 
+def test_publication_leaves_builds_without_pull_request_to_build_moderation(
+    db, publish
+):
+    set_baseline(db, OLD_SNAP, OLD_FP)
+    assert publish() == ([], set())
+    persist(1, candidate_kind="push", pull_request_number=None, pull_request_url=None)
+    assert publish() == ([], set())
+
+
 def test_publication_accepts_matching_baseline(db, publish):
     set_baseline(db, SNAP, FP)
-    assert publish() == []
+    persist(1, candidate_kind="push")
+    assert publish() == ([], {APP})
     assert baseline(db) == ("initialized", FP)
 
 
@@ -331,21 +341,22 @@ def test_publication_reuses_push_assessment_decision_and_advances_baseline(db, p
     set_baseline(db, OLD_SNAP, OLD_FP)
     decide(persist(1).assessment_id)
     assert persist(2, candidate_kind="push").acceptance_basis == "permission_decision"
-    assert publish() == []
+    assert publish() == ([], {APP})
     assert baseline(db) == ("approved", FP)
 
 
 def test_publication_request_names_originating_pull_request(db, publish):
     set_baseline(db, OLD_SNAP, OLD_FP)
     persist(1, candidate_kind="push")
-    (request,) = publish()
+    (request,), _ = publish()
     pull_request_url = json.loads(request.request_data)["pull_request_url"]
     assert pull_request_url == f"https://github.com/flathub/{APP}/pull/17"
 
 
 def test_approving_permissions_request_advances_baseline_only(db, publish, monkeypatch):
     set_baseline(db, OLD_SNAP, OLD_FP)
-    (request,) = publish()
+    persist(1, candidate_kind="push")
+    (request,), _ = publish()
     data = json.loads(request.request_data)
     assert (data["comparison_source"], data["candidate_fingerprint"]) == (
         "baseline",
@@ -390,5 +401,6 @@ def test_publication_without_enforcement_changes_nothing(
 ):
     monkeypatch.setattr(config.settings, "permission_publication_mode", mode)
     set_baseline(db, OLD_SNAP, OLD_FP)
-    assert publish() == []
+    persist(1, candidate_kind="push")
+    assert publish() == ([], set())
     assert baseline(db) == ("initialized", OLD_FP)

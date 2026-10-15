@@ -46,10 +46,34 @@ def advance_baseline(session, app_id: str, values: dict[str, Any]) -> None:
     )
 
 
+def _linked_push(build_id: int, app_id: str, channel: str):
+    observation = models.PermissionAssessmentObservation
+    with get_db("writer") as db:
+        return db.session.execute(
+            select(
+                observation.fingerprint,
+                observation.acceptance_basis,
+                observation.pull_request_url,
+                observation.linked_assessment_id,
+            )
+            .where(
+                observation.candidate_kind == "push",
+                observation.build_id == build_id,
+                observation.app_id == app_id,
+                observation.intended_channel == channel,
+                observation.pull_request_url.isnot(None),
+                observation.canonicalization_version == CANONICALIZATION_VERSION,
+            )
+            .order_by(observation.id.desc())
+            .limit(1)
+        ).first()
+
+
 def _evaluate(
-    build_id: int, app_id: str, channel: str, build_extended: dict[str, Any]
+    build_id: int, app_id: str, channel: str, build_extended: dict[str, Any], push
 ) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
     arches = sorted({p[2] for p in _refs(build_extended) if p[1] == app_id})
+    linked = push.linked_assessment_id
     data: dict[str, Any] = {
         "channel": channel,
         "flatpak_branch": None,
@@ -59,9 +83,9 @@ def _evaluate(
         "differences": [],
         "error_code": None,
         "error_message": None,
-        "linked_assessment_id": None,
-        "linked_review_url": None,
-        "pull_request_url": None,
+        "linked_assessment_id": linked,
+        "linked_review_url": linked and assessment.review_url(linked),
+        "pull_request_url": push.pull_request_url,
     }
     try:
         candidate = assessment.collect_final_candidate(
@@ -96,38 +120,11 @@ def _evaluate(
                     asdict(d) for d in compare_snapshots(before, candidate.snapshot)
                 ],
             )
-        observation = models.PermissionAssessmentObservation
-        with get_db("writer") as db:
-            push = db.session.execute(
-                select(
-                    observation.fingerprint,
-                    observation.acceptance_basis,
-                    observation.pull_request_url,
-                    observation.linked_assessment_id,
-                )
-                .where(
-                    observation.candidate_kind == "push",
-                    observation.build_id == build_id,
-                    observation.app_id == app_id,
-                    observation.intended_channel == channel,
-                    observation.flatpak_branch == candidate.flatpak_branch,
-                    observation.canonicalization_version == CANONICALIZATION_VERSION,
-                )
-                .order_by(observation.id.desc())
-                .limit(1)
-            ).first()
-        if push is not None:
-            linked = push.linked_assessment_id
-            data.update(
-                pull_request_url=push.pull_request_url,
-                linked_assessment_id=linked,
-                linked_review_url=linked and assessment.review_url(linked),
-            )
-            if (push.fingerprint, push.acceptance_basis) == (
-                fingerprint,
-                "permission_decision",
-            ):
-                return None, approved
+        if (push.fingerprint, push.acceptance_basis) == (
+            fingerprint,
+            "permission_decision",
+        ):
+            return None, approved
     except PermissionSnapshotError as exc:
         data.update(error_code=exc.code, error_message=exc.message)
     except HTTPException as exc:
@@ -142,13 +139,16 @@ def check_build(
     repo: str,
     build_extended: dict[str, Any],
     build_log_url: str | None,
-) -> list[models.ModerationRequest]:
+) -> tuple[list[models.ModerationRequest], set[str]]:
     mode = mode_for(repo)
-    requests = []
+    requests, handled = [], set()
     app_ids = sorted({p[1] for p in _refs(build_extended)}) if mode != "off" else []
     for app_id in filter(lambda app_id: not should_skip_review(app_id), app_ids):
         try:
-            data, approved = _evaluate(build_id, app_id, repo, build_extended)
+            push = _linked_push(build_id, app_id, repo)
+            if push is None:
+                continue
+            data, approved = _evaluate(build_id, app_id, repo, build_extended, push)
         except Exception:
             if mode == "enforce":
                 raise
@@ -157,6 +157,7 @@ def check_build(
         logger.info("Publication permissions %s: review=%s", app_id, data is not None)
         if mode != "enforce":
             continue
+        handled.add(app_id)
         if approved is not None:
             with get_db("writer") as db:
                 advance_baseline(db.session, app_id, approved)
@@ -177,4 +178,4 @@ def check_build(
                     ),
                 )
             )
-    return requests
+    return requests, handled

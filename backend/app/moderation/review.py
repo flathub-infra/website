@@ -1362,7 +1362,7 @@ def submit_review_request(
     ):
         raise HTTPException(status_code=500, detail="invalid_build")
     if build_target_repo in ("beta", "test"):
-        beta_requests = permission_publication.check_build(
+        beta_requests, _ = permission_publication.check_build(
             build_id=review_request.build_id,
             job_id=review_request.job_id,
             repo=build_target_repo,
@@ -1559,7 +1559,7 @@ def submit_review_request(
     has_initial_submission = False
     manifest_reused_app_ids: set[str] = set()
     manifest_reuse_requires_review = False
-    permission_requests = permission_publication.check_build(
+    permission_requests, permission_handled = permission_publication.check_build(
         build_id=review_request.build_id,
         job_id=review_request.job_id,
         repo=build_target_repo,
@@ -1568,9 +1568,6 @@ def submit_review_request(
     )
     new_requests += permission_requests
     persisted_requests += permission_requests
-    permission_enforced = (
-        permission_publication.mode_for(build_target_repo) == "enforce"
-    )
 
     def stage_analysis_observation(
         app_id: str,
@@ -1963,7 +1960,7 @@ def submit_review_request(
                 current_permissions
                 and build_permissions
                 and current_permissions != build_permissions
-                and not permission_enforced
+                and app_id not in permission_handled
             ):
                 for perm in current_permissions:
                     current_perm = current_permissions[perm]
