@@ -34,12 +34,13 @@ def collection(source):
 def test_plan_classifies_new_and_existing_baselines(source):
     result = collection(source)
     fingerprints = {
-        item.app_id: baselines.baseline_values(item)["fingerprint"]
+        item.app_id: baselines.baseline_values(item, "stable")["fingerprint"]
         for item in result.collected
     }
     plan = baselines.plan_baselines(
         result,
         {(APP, "stable"): fingerprints[APP], (OTHER, "stable"): "0" * 64},
+        "stable",
     )
     assert plan["counts"] == {
         "collected": 2,
@@ -67,7 +68,11 @@ def test_plan_classifies_new_and_existing_baselines(source):
 
 
 def run_main(monkeypatch, capsys, source, *args, existing=None, written=None):
-    monkeypatch.setattr(baselines, "existing_baselines", lambda: existing or {})
+    monkeypatch.setattr(
+        baselines,
+        "existing_baselines",
+        lambda channel: (existing or {}).get(channel, {}),
+    )
 
     def write(values):
         if written is None:
@@ -76,13 +81,15 @@ def run_main(monkeypatch, capsys, source, *args, existing=None, written=None):
         return len(written)
 
     monkeypatch.setattr(baselines, "write_baselines", write)
-    baselines.main(["--repo", source.url, "--timeout-seconds", "10", *args])
+    baselines.main(["--timeout-seconds", "10", *args])
     return json.loads(capsys.readouterr().out)
 
 
 def test_preview_reports_without_writing(source, monkeypatch, capsys, tmp_path):
     report_path = tmp_path / "report.json"
-    summary = run_main(monkeypatch, capsys, source, "--report", str(report_path))
+    summary = run_main(
+        monkeypatch, capsys, source, "--repo", source.url, "--report", str(report_path)
+    )
     assert summary["mode"] == "preview"
     assert summary["counts"]["new"] == 2
     assert "inserted" not in summary
@@ -100,8 +107,10 @@ def test_write_inserts_only_new_baselines(source, monkeypatch, capsys):
         monkeypatch,
         capsys,
         source,
+        "--repo",
+        source.url,
         "--write",
-        existing={(APP, "stable"): "0" * 64},
+        existing={"stable": {(APP, "stable"): "0" * 64}},
         written=written,
     )
     assert summary["mode"] == "write"
@@ -111,8 +120,28 @@ def test_write_inserts_only_new_baselines(source, monkeypatch, capsys):
     ]
 
 
+def test_beta_channel_uses_beta_repo_and_beta_baselines(source, monkeypatch, capsys):
+    monkeypatch.setitem(baselines.REPO_URLS, "beta", source.url)
+    written = []
+    summary = run_main(
+        monkeypatch,
+        capsys,
+        source,
+        "--channel",
+        "beta",
+        "--write",
+        existing={"stable": {(APP, "stable"): "0" * 64}},
+        written=written,
+    )
+    assert summary["channel"] == "beta"
+    assert summary["inserted"] == 2
+    assert {item["channel"] for item in written} == {"beta"}
+
+
 def test_app_id_filter(source, monkeypatch, capsys):
-    summary = run_main(monkeypatch, capsys, source, "--app-id", OTHER)
+    summary = run_main(
+        monkeypatch, capsys, source, "--repo", source.url, "--app-id", OTHER
+    )
     assert summary["counts"]["collected"] == 1
     assert summary["counts"]["failures"] == 0
 
@@ -121,7 +150,7 @@ def test_listing_failure_exits_without_planning(monkeypatch, capsys, tmp_path):
     monkeypatch.setattr(
         baselines,
         "existing_baselines",
-        lambda: pytest.fail("Failed collection must not read baselines"),
+        lambda channel: pytest.fail("Failed collection must not read baselines"),
     )
     with pytest.raises(SystemExit) as exit_info:
         baselines.main(
@@ -166,12 +195,13 @@ def test_write_and_read_baselines_in_postgres(source, monkeypatch):
                 session.close()
 
         monkeypatch.setattr(baselines, "get_db", real_db)
-        plan = baselines.plan_baselines(collection(source), {})
+        plan = baselines.plan_baselines(collection(source), {}, "stable")
         values = [entry["values"] for entry in plan["entries"]]
 
         assert baselines.write_baselines(values, batch_size=1) == 2
         assert baselines.write_baselines(values) == 0
-        assert baselines.existing_baselines() == {
+        assert baselines.existing_baselines("beta") == {}
+        assert baselines.existing_baselines("stable") == {
             (entry["app_id"], entry["flatpak_branch"]): entry["fingerprint"]
             for entry in plan["entries"]
         }

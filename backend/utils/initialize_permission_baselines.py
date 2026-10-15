@@ -22,12 +22,13 @@ from app.moderation.permission_snapshot import (
     fingerprint_snapshot,
 )
 
-CHANNEL = "stable"
+REPO_URLS = {"stable": config.settings.repo_url, "beta": config.settings.beta_repo_url}
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--repo", default=config.settings.repo_url)
+    parser.add_argument("--channel", choices=sorted(REPO_URLS), default="stable")
+    parser.add_argument("--repo")
     parser.add_argument("--app-id", action="append")
     parser.add_argument("--batch-size", type=int, default=200)
     parser.add_argument("--timeout-seconds", type=float, default=600.0)
@@ -36,10 +37,10 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def baseline_values(item: CollectedPermissions) -> dict[str, Any]:
+def baseline_values(item: CollectedPermissions, channel: str) -> dict[str, Any]:
     return {
         "app_id": item.app_id,
-        "channel": CHANNEL,
+        "channel": channel,
         "flatpak_branch": item.flatpak_branch,
         "source": "initialized",
         "repository_url": item.repository_url,
@@ -54,11 +55,13 @@ def baseline_values(item: CollectedPermissions) -> dict[str, Any]:
 
 
 def plan_baselines(
-    collection: PublishedPermissions, existing: dict[tuple[str, str], str]
+    collection: PublishedPermissions,
+    existing: dict[tuple[str, str], str],
+    channel: str,
 ) -> dict[str, Any]:
     entries = []
     for item in collection.collected:
-        values = baseline_values(item)
+        values = baseline_values(item, channel)
         stored = existing.get((item.app_id, item.flatpak_branch))
         if stored is None:
             status = "new"
@@ -79,7 +82,7 @@ def plan_baselines(
     failures = [asdict(failure) for failure in collection.failures]
     counts = Counter(entry["status"] for entry in entries)
     return {
-        "channel": CHANNEL,
+        "channel": channel,
         "repository_url": collection.repository_url,
         "captured_at": collection.captured_at,
         "counts": {
@@ -95,13 +98,13 @@ def plan_baselines(
     }
 
 
-def existing_baselines() -> dict[tuple[str, str], str]:
+def existing_baselines(channel: str) -> dict[tuple[str, str], str]:
     baseline = models.PermissionBaseline
     with get_db("writer") as db:
         rows = db.session.execute(
             select(
                 baseline.app_id, baseline.flatpak_branch, baseline.fingerprint
-            ).where(baseline.channel == CHANNEL)
+            ).where(baseline.channel == channel)
         ).all()
     return {(row.app_id, row.flatpak_branch): row.fingerprint for row in rows}
 
@@ -137,7 +140,7 @@ def main(argv: list[str] | None = None) -> None:
     args = build_parser().parse_args(argv)
     try:
         collection = collect_published_permissions(
-            args.repo,
+            args.repo or REPO_URLS[args.channel],
             app_ids=set(args.app_id) if args.app_id else None,
             batch_size=args.batch_size,
             timeout_seconds=args.timeout_seconds,
@@ -155,7 +158,7 @@ def main(argv: list[str] | None = None) -> None:
         )
         sys.exit(1)
 
-    plan = plan_baselines(collection, existing_baselines())
+    plan = plan_baselines(collection, existing_baselines(args.channel), args.channel)
     summary: dict[str, Any] = {
         "mode": "write" if args.write else "preview",
         "channel": plan["channel"],
