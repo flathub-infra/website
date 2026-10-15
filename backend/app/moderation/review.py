@@ -2592,6 +2592,7 @@ def submit_review_request(
         or random_review_reuse_requires_review
     )
     if not requires_review:
+        permission_publication.advance_moderated(review_request.build_id, set(app_ids))
         return ReviewRequestResponse(requires_review=False)
 
     apps = itertools.groupby(
@@ -2749,6 +2750,7 @@ def submit_review(
         request_ids = [grouped_request.id for grouped_request in requests]
         request_types = [grouped_request.request_type for grouped_request in requests]
         worker_should_be_triggered = False
+        job_app_ids: set[str] = set()
         approved_origins: dict[tuple[ModerationOriginKind, str], int] = {}
         if is_approved:
             for grouped_request in requests:
@@ -2787,6 +2789,12 @@ def submit_review(
                 .count()
             )
             worker_should_be_triggered = remaining == 0
+            job_app_ids = {
+                row.appid
+                for row in db.session.query(models.ModerationRequest.appid).filter_by(
+                    job_id=job_id
+                )
+            }
             logger.info(
                 f"Approval for job {job_id}: remaining unapproved requests: {remaining}, will trigger worker: {worker_should_be_triggered}"
             )
@@ -2820,6 +2828,7 @@ def submit_review(
                 )
                 worker.review_check.send(job_id, "Passed", None, build_id)
                 logger.info(f"Worker successfully queued for job {job_id}")
+                permission_publication.advance_moderated(build_id, job_app_ids)
             else:
                 logger.info(
                     f"Worker not triggered for job {job_id} - still has pending requests"

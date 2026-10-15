@@ -379,7 +379,7 @@ def _uploaded_refs(
     build_id: int,
     app_id: str,
     destination_repo: str,
-    expected_arches: Iterable[str],
+    expected_arches: Iterable[str] | None,
     extended: dict[str, JSONValue],
     checks: list[_BuildCheck],
     uploaded: list[dict[str, str]],
@@ -433,7 +433,7 @@ def _uploaded_refs(
         )
     uploaded.extend(selected[name] for name in sorted(selected))
     arches = {name.split("/")[2] for name in selected}
-    expected = set(expected_arches)
+    expected = arches if expected_arches is None else set(expected_arches)
     if arches - expected:
         _conflict(
             "identity_mismatch",
@@ -529,7 +529,7 @@ def collect_final_candidate(
     build_id: int,
     app_id: str,
     destination_repo: str,
-    expected_arches: Iterable[str],
+    expected_arches: Iterable[str] | None,
     uploaded: list[dict[str, str]],
     checks: list[_BuildCheck],
 ) -> CollectedPermissions:
@@ -570,7 +570,7 @@ def collect_final_candidate(
         repository_url=f"https://dl.flathub.org/build-repo/{build_id}",
         app_id=app_id,
         flatpak_branch=candidate_branch,
-        expected_arches=set(expected_arches),
+        expected_arches={item["ref_name"].split("/")[2] for item in uploaded},
         expected_commits=final,
     )
 

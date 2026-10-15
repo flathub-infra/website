@@ -404,3 +404,23 @@ def test_publication_without_enforcement_changes_nothing(
     persist(1, candidate_kind="push")
     assert publish() == ([], set())
     assert baseline(db) == ("initialized", OLD_FP)
+
+
+@pytest.mark.parametrize(
+    ("mode", "linked", "expected"),
+    [
+        ("enforce", False, ("approved", FP)),
+        ("observe", True, ("approved", FP)),
+        ("enforce", True, ("initialized", OLD_FP)),
+        ("off", False, ("initialized", OLD_FP)),
+    ],
+)
+def test_build_moderation_advances_baseline(
+    db, publish, monkeypatch, mode, linked, expected
+):
+    monkeypatch.setattr(config.settings, "permission_publication_mode", mode)
+    set_baseline(db, OLD_SNAP, OLD_FP)
+    if linked:
+        persist(1, candidate_kind="push")
+    publication.advance_moderated(9, {APP})
+    assert baseline(db) == expected

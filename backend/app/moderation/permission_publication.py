@@ -69,6 +69,37 @@ def _linked_push(build_id: int, app_id: str, channel: str):
         ).first()
 
 
+def _baseline_values(channel: str, candidate) -> dict[str, Any]:
+    return {
+        "channel": channel,
+        "flatpak_branch": candidate.flatpak_branch,
+        "repository_url": candidate.repository_url,
+        "canonicalization_version": candidate.snapshot.canonicalization_version,
+        "artifacts": [asdict(item) for item in candidate.artifacts],
+        "snapshot": asdict(candidate.snapshot),
+        "fingerprint": fingerprint_snapshot(candidate.snapshot),
+    }
+
+
+def advance_moderated(build_id: int, app_ids: set[str]) -> None:
+    mode = mode_for("stable")
+    for app_id in sorted(app_ids):
+        if mode == "off" or should_skip_review(app_id):
+            continue
+        try:
+            if mode == "enforce" and _linked_push(build_id, app_id, "stable"):
+                continue
+            candidate = assessment.collect_final_candidate(
+                build_id, app_id, "stable", None, [], []
+            )
+            with get_db("writer") as db:
+                advance_baseline(
+                    db.session, app_id, _baseline_values("stable", candidate)
+                )
+        except Exception:
+            logger.exception("Could not advance permission baseline: %s", app_id)
+
+
 def _evaluate(
     build_id: int, app_id: str, channel: str, build_extended: dict[str, Any], push
 ) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
@@ -91,16 +122,8 @@ def _evaluate(
         candidate = assessment.collect_final_candidate(
             build_id, app_id, channel, arches, [], []
         )
-        fingerprint = fingerprint_snapshot(candidate.snapshot)
-        approved = {
-            "channel": channel,
-            "flatpak_branch": candidate.flatpak_branch,
-            "repository_url": candidate.repository_url,
-            "canonicalization_version": candidate.snapshot.canonicalization_version,
-            "artifacts": [asdict(item) for item in candidate.artifacts],
-            "snapshot": asdict(candidate.snapshot),
-            "fingerprint": fingerprint,
-        }
+        approved = _baseline_values(channel, candidate)
+        fingerprint = approved["fingerprint"]
         data.update(
             flatpak_branch=candidate.flatpak_branch,
             candidate_fingerprint=fingerprint,
