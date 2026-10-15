@@ -99,7 +99,6 @@ class Settings(BaseSettings):
     # be published.
     moderation_observe_only: bool = False
     permission_publication_mode: Literal["off", "observe", "enforce"] = "off"
-    permission_publication_beta: bool = False
     ostree_manifest_comparison_enabled: bool = False
     ostree_manifest_source_origin_gating_enabled: bool = False
     ostree_manifest_source_origin_observe_only: bool = False

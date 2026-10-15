@@ -317,10 +317,12 @@ def set_baseline(db, snap, fingerprint):
         )
 
 
-def baseline(db):
+def baseline(db, channel="stable"):
     with db() as session:
-        row = session.execute(select(models.PermissionBaseline)).scalar_one()
-        return row.source, row.fingerprint
+        row = session.execute(
+            select(models.PermissionBaseline).filter_by(channel=channel)
+        ).scalar_one_or_none()
+        return row and (row.source, row.fingerprint)
 
 
 def test_publication_leaves_builds_without_pull_request_to_build_moderation(
@@ -492,19 +494,19 @@ def test_publication_without_enforcement_changes_nothing(
         ("observe", "stable", True, False, ("approved", FP)),
         ("enforce", "stable", False, True, ("initialized", OLD_FP)),
         ("off", "stable", False, False, ("initialized", OLD_FP)),
-        ("enforce", "beta", False, False, ("initialized", OLD_FP)),
+        ("enforce", "beta", False, False, None),
+        ("observe", "beta", True, False, ("approved", FP)),
     ],
 )
 def test_publication_advances_baseline(
     db, publish, monkeypatch, mode, channel, linked, direct_upload, expected
 ):
     monkeypatch.setattr(config.settings, "permission_publication_mode", mode)
-    monkeypatch.setattr(config.settings, "permission_publication_beta", True)
     set_baseline(db, OLD_SNAP, OLD_FP)
     if linked:
-        persist(1, candidate_kind="push")
+        persist(1, candidate_kind="push", intended_channel=channel)
     if direct_upload:
         with db() as session:
             session.add(models.DirectUploadApp(app_id=APP))
     publication.advance_published(9, channel, {APP})
-    assert baseline(db) == expected
+    assert baseline(db, channel) == expected

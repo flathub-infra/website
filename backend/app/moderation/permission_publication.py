@@ -24,9 +24,8 @@ logger = logging.getLogger(__name__)
 
 
 def mode_for(repo: str | None) -> str:
-    beta = repo == "beta" and config.settings.permission_publication_beta
     mode = config.settings.permission_publication_mode
-    return mode if repo == "stable" or beta else "off"
+    return mode if repo in ("stable", "beta") else "off"
 
 
 def _refs(build_extended: dict[str, Any]) -> list[list[str]]:
