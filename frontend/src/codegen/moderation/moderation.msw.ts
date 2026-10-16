@@ -415,7 +415,7 @@ export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
     faker.helpers.arrayElement([faker.number.int(), null]),
     undefined,
   ]),
-  canonicalization_version: faker.helpers.arrayElement([2, 3] as const),
+  canonicalization_version: faker.helpers.arrayElement([2, 3, 4, 5] as const),
   assessment_identity: faker.string.alpha({ length: { min: 10, max: 20 } }),
   expected_arches: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -534,7 +534,7 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
       faker.helpers.arrayElement([faker.number.int(), null]),
       undefined,
     ]),
-    canonicalization_version: faker.helpers.arrayElement([2, 3] as const),
+    canonicalization_version: faker.helpers.arrayElement([2, 3, 4, 5] as const),
     assessment_identity: faker.string.alpha({ length: { min: 10, max: 20 } }),
     expected_arches: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
