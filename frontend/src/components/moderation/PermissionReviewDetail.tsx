@@ -26,6 +26,7 @@ type Finding = {
   rule_code: string
   explanation: string
   affected_permissions: { raw?: string; value: string }[]
+  sources: string[]
 }
 
 const Section = ({
@@ -243,7 +244,10 @@ export default function PermissionReviewDetail({
       <Section title={t("moderation-permissions-findings")}>
         {(review.review_findings as Finding[]).map((finding, i) => (
           <div key={i} className="text-sm">
-            <code className="font-bold">{finding.rule_code}</code>
+            <code className="font-bold">{finding.rule_code}</code>{" "}
+            <span className="text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+              ({finding.sources.join(", ")})
+            </span>
             <p>{finding.explanation}</p>
             {finding.affected_permissions.map((p, j) => (
               <code key={j} className="me-2">

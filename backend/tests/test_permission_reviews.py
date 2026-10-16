@@ -126,6 +126,35 @@ def test_repo_linter_reports_must_match_upload(arches, refs, valid):
     assert exc.value.code == "linter_report_mismatch"
 
 
+def test_findings_merge_across_reports_but_keep_distinct_permissions():
+    def finding(raw):
+        return {
+            "rule_code": "finish-args-home-filesystem-access",
+            "ref": None,
+            "explanation": "x",
+            "affected_permissions": [{"category": "filesystem", "raw": raw}],
+        }
+
+    def entry(kind, arch, *raws):
+        return {
+            "kind": kind,
+            "arch": arch,
+            "report": {"review_findings": [finding(raw) for raw in raws]},
+        }
+
+    row = SimpleNamespace(
+        linter_reports=[
+            entry("manifest", None, "home"),
+            entry("repo", "x86_64", "home"),
+            entry("repo", "aarch64", "home", "home:ro"),
+        ]
+    )
+    assert [
+        (f["affected_permissions"][0]["raw"], f["sources"])
+        for f in reviews._findings(row)
+    ] == [("home", ["manifest", "x86_64", "aarch64"]), ("home:ro", ["aarch64"])]
+
+
 @pytest.fixture
 def db(monkeypatch):
     url = os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL")

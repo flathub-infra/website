@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 from typing import Annotated, Any, Literal
 
@@ -84,13 +85,18 @@ class PermissionDecisionRequest(BaseModel):
 
 
 def _findings(row: models.PermissionAssessmentObservation) -> list[dict[str, Any]]:
-    keys = ("rule_code", "explanation", "affected_permissions", "ref")
-    return [
-        {"kind": entry["kind"], "arch": entry["arch"]}
-        | {key: finding[key] for key in keys}
-        for entry in row.linter_reports
-        for finding in entry["report"]["review_findings"]
-    ]
+    keys = ("rule_code", "explanation", "affected_permissions")
+    merged: dict[str, dict[str, Any]] = {}
+    for entry in row.linter_reports:
+        for finding in entry["report"]["review_findings"]:
+            key = json.dumps(
+                [finding["rule_code"], finding["affected_permissions"]], sort_keys=True
+            )
+            item = merged.setdefault(
+                key, {k: finding[k] for k in keys} | {"sources": []}
+            )
+            item["sources"].append(entry["arch"] or entry["kind"])
+    return list(merged.values())
 
 
 def _fields(session, row: models.PermissionAssessmentObservation) -> dict[str, Any]:
