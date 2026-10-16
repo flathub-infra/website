@@ -51,6 +51,14 @@ async function isAuthenticated(request: NextRequest): Promise<boolean> {
 }
 
 export default async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl
+
+  if (pathname.split("/")[1].includes(".")) {
+    return NextResponse.rewrite(
+      new URL(`/${routing.defaultLocale}${pathname}`, request.url),
+    )
+  }
+
   // Handle internationalization first - this will redirect if locale is missing
   const i18nResponse = createMiddleware(routing)(request)
 
@@ -58,8 +66,6 @@ export default async function proxy(request: NextRequest) {
   if (i18nResponse) {
     return i18nResponse
   }
-
-  const { pathname } = request.nextUrl
 
   // Then check authentication for protected routes
   if (isProtectedRoute(pathname)) {
@@ -94,5 +100,9 @@ export const config = {
   // Match all pathnames except for
   // - … if they start with `/api`, `/trpc`, `/_next` or `/_vercel`
   // - … the ones containing a dot (e.g. `favicon.ico`)
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)", "/builds/apps/:appId"],
+  matcher: [
+    "/((?!api|_next|_vercel|.*\\..*).*)",
+    "/((?!\\.well-known|favicon\\.|apple-touch-icon\\.|mockServiceWorker\\.|robots\\.txt|sitemap\\.xml)[^/]*\\.[^/]*(?:/.*)?)",
+    "/builds/apps/:appId",
+  ],
 }
