@@ -18,6 +18,7 @@ import { staticLocales } from "src/i18n/static-locales"
 const inter = Inter({
   subsets: ["latin"],
   fallback: ["sans-serif"],
+  preload: false,
 })
 
 export function generateStaticParams() {

@@ -5,6 +5,7 @@ import Link from "next/link"
 const inter = Inter({
   subsets: ["latin"],
   fallback: ["sans-serif"],
+  preload: false,
 })
 
 export async function generateMetadata() {
