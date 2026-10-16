@@ -48,7 +48,6 @@ class LinterReportEnvelope(BaseModel):
 
 class _Finding(BaseModel):
     rule_code: str
-    explanation: str
     ref: str | None
     affected_permissions: list[dict[str, str | None]]
 
