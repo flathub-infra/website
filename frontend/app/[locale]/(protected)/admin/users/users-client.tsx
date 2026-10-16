@@ -3,10 +3,11 @@
 import { Input } from "@/components/ui/input"
 import {
   ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
+  createSortedRowModel,
+  rowSortingFeature,
+  sortFns,
+  tableFeatures,
+  useTable,
 } from "@tanstack/react-table"
 import clsx from "clsx"
 import { format } from "date-fns"
@@ -27,6 +28,12 @@ import Pagination from "src/components/Pagination"
 import Spinner from "src/components/Spinner"
 import { useSearchParams } from "next/navigation"
 import { usePathname, useRouter } from "src/i18n/navigation"
+
+const userTableFeatures = tableFeatures({
+  rowSortingFeature,
+  sortedRowModel: createSortedRowModel(),
+  sortFns,
+})
 
 export default function UsersClient() {
   const pageSize = 30
@@ -113,7 +120,7 @@ export default function UsersClient() {
 const UserTable = ({ data }: { data: FlathubUsersResult }) => {
   const router = useRouter()
 
-  const columns: ColumnDef<UserResult>[] = [
+  const columns: ColumnDef<typeof userTableFeatures, UserResult>[] = [
     {
       id: "id",
       header: "Id",
@@ -173,11 +180,10 @@ const UserTable = ({ data }: { data: FlathubUsersResult }) => {
     },
   ]
 
-  const table = useReactTable<UserResult>({
+  const table = useTable({
+    features: userTableFeatures,
     data: data?.users ?? [],
     columns: columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
     getRowId: (row) => row.id.toString(),
   })
 
@@ -209,10 +215,7 @@ const UserTable = ({ data }: { data: FlathubUsersResult }) => {
                             onClick: header.column.getToggleSortingHandler(),
                           }}
                         >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          <table.FlexRender header={header} />
                           {{
                             asc: <ChevronUpIcon className="size-4" />,
                             desc: <ChevronDownIcon className="size-4" />,
@@ -249,16 +252,13 @@ const UserTable = ({ data }: { data: FlathubUsersResult }) => {
                       router.push(`/admin/users/${row.original.id}`)
                     }}
                   >
-                    {row.getVisibleCells().map((cell) => {
+                    {row.getAllCells().map((cell) => {
                       return (
                         <td
                           key={cell.id}
                           className={clsx("whitespace-nowrap py-5 text-sm")}
                         >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
+                          <table.FlexRender cell={cell} />
                         </td>
                       )
                     })}
