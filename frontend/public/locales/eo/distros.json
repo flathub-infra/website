@@ -444,5 +444,9 @@
   "t2_sde": {
     "distroName": "T2 SDE",
     "introduction": "<header>Flatpak estas apriore instalita sur T2 SDE ekde versio 26.6 — neniu agordado necesas!</header> <text>Flatpak estas antaŭagordita por la deponejo Flathub, kaj ilaĵoj ebligas unu-alklakan instaladon ĉe Flathub.</text> <text>Nun vi pretas <link>instali programojn</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak estas apriore instalita sur Nura!</header> <text>Vi pretas <link>instali programojn</link>!</text>"
   }
 }
