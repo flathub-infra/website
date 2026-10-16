@@ -142,17 +142,22 @@ def test_findings_merge_across_reports_but_keep_distinct_permissions():
             "report": {"review_findings": [finding(raw) for raw in raws]},
         }
 
-    row = SimpleNamespace(
-        linter_reports=[
-            entry("manifest", None, "home"),
-            entry("repo", "x86_64", "home"),
-            entry("repo", "aarch64", "home", "home:ro"),
-        ]
-    )
+    reports = [
+        entry("manifest", None, "home"),
+        entry("repo", "x86_64", "home"),
+        entry("repo", "aarch64", "home", "home:ro"),
+    ]
+    row = SimpleNamespace(linter_reports=reports, published_snapshot=None)
     assert [
         (f["affected_permissions"][0]["raw"], f["sources"])
         for f in reviews._findings(row)
     ] == [("home", ["manifest", "x86_64", "aarch64"]), ("home:ro", ["aarch64"])]
+
+    granted = {"architectures": {"x86_64": {"Context": {"filesystems": ["home"]}}}}
+    row = SimpleNamespace(linter_reports=reports, published_snapshot=granted)
+    assert [f["affected_permissions"][0]["raw"] for f in reviews._findings(row)] == [
+        "home:ro"
+    ]
 
 
 @pytest.fixture

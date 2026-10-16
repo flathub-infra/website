@@ -84,11 +84,39 @@ class PermissionDecisionRequest(BaseModel):
         return self
 
 
+_POLICY = {
+    "filesystem": ("Context", "filesystems"),
+    "socket": ("Context", "sockets"),
+    "own-name": ("Session Bus Policy", "own"),
+    "talk-name": ("Session Bus Policy", "talk"),
+    "system-talk-name": ("System Bus Policy", "talk"),
+}
+
+
+def _granted(snapshot: dict[str, Any] | None, permission: dict[str, Any]) -> bool:
+    if snapshot is None or permission.get("category") not in _POLICY:
+        return False
+    group, key = _POLICY[permission["category"]]
+    raw = permission.get("raw")
+    for permissions in snapshot["architectures"].values():
+        values = permissions.get(group, {})
+        if group == "Context" and raw in values.get(key, []):
+            return True
+        if group != "Context" and values.get(raw) == key:
+            return True
+    return False
+
+
 def _findings(row: models.PermissionAssessmentObservation) -> list[dict[str, Any]]:
     keys = ("rule_code", "explanation", "affected_permissions")
     merged: dict[str, dict[str, Any]] = {}
     for entry in row.linter_reports:
         for finding in entry["report"]["review_findings"]:
+            if all(
+                _granted(row.published_snapshot, p)
+                for p in finding["affected_permissions"]
+            ):
+                continue
             key = json.dumps(
                 [finding["rule_code"], finding["affected_permissions"]], sort_keys=True
             )
