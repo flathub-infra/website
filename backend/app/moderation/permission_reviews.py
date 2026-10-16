@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from typing import Annotated, Any, Literal
 
@@ -30,7 +29,6 @@ class PermissionReviewSummary(BaseModel):
     destination_channel: str
     flatpak_branch: str
     difference_count: int | None
-    review_finding_count: int
     superseded_by: int | None
 
 
@@ -62,8 +60,6 @@ class PermissionReviewDetail(PermissionReviewSummary):
     candidate_snapshot: dict[str, Any] | None
     comparison_snapshot: dict[str, Any] | None
     differences: list[dict[str, Any]] | None
-    review_findings: list[dict[str, Any]]
-    linter_reports_present: bool
     build_checks: list[dict[str, Any]]
     error_code: str | None
     error_message: str | None
@@ -84,55 +80,11 @@ class PermissionDecisionRequest(BaseModel):
         return self
 
 
-_POLICY = {
-    "filesystem": ("Context", "filesystems"),
-    "socket": ("Context", "sockets"),
-    "own-name": ("Session Bus Policy", "own"),
-    "talk-name": ("Session Bus Policy", "talk"),
-    "system-talk-name": ("System Bus Policy", "talk"),
-}
-
-
-def _granted(snapshot: dict[str, Any] | None, permission: dict[str, Any]) -> bool:
-    if snapshot is None or permission.get("category") not in _POLICY:
-        return False
-    group, key = _POLICY[permission["category"]]
-    raw = permission.get("raw")
-    for permissions in snapshot["architectures"].values():
-        values = permissions.get(group, {})
-        if group == "Context" and raw in values.get(key, []):
-            return True
-        if group != "Context" and values.get(raw) == key:
-            return True
-    return False
-
-
-def _findings(row: models.PermissionAssessmentObservation) -> list[dict[str, Any]]:
-    keys = ("rule_code", "explanation", "affected_permissions")
-    merged: dict[str, dict[str, Any]] = {}
-    for entry in row.linter_reports:
-        for finding in entry["report"]["review_findings"]:
-            if all(
-                _granted(row.published_snapshot, p)
-                for p in finding["affected_permissions"]
-            ):
-                continue
-            key = json.dumps(
-                [finding["rule_code"], finding["affected_permissions"]], sort_keys=True
-            )
-            item = merged.setdefault(
-                key, {k: finding[k] for k in keys} | {"sources": []}
-            )
-            item["sources"].append(entry["arch"] or entry["kind"])
-    return list(merged.values())
-
-
 def _fields(session, row: models.PermissionAssessmentObservation) -> dict[str, Any]:
     return {c.name: getattr(row, c.name) for c in row.__table__.columns} | {
         "assessment_id": row.id,
         "destination_channel": row.intended_channel,
         "difference_count": None if row.differences is None else len(row.differences),
-        "review_finding_count": len(_findings(row)),
         "superseded_by": assessment.superseded_by(session, row),
     }
 
@@ -163,8 +115,6 @@ def _detail(
         comparison_source=None if row.published_snapshot is None else kind,
         comparison_artifacts=row.published_artifacts,
         comparison_snapshot=row.published_snapshot,
-        review_findings=_findings(row),
-        linter_reports_present=bool(row.linter_reports),
         decisions=[
             PermissionDecisionEntry(
                 **{c.name: getattr(item, c.name) for c in item.__table__.columns},

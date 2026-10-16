@@ -23,7 +23,6 @@ import type { PermissionReviewDetailOutcome } from "./permissionReviewDetailOutc
 import type { PermissionReviewDetailPullRequestHeadRevision } from "./permissionReviewDetailPullRequestHeadRevision"
 import type { PermissionReviewDetailPullRequestNumber } from "./permissionReviewDetailPullRequestNumber"
 import type { PermissionReviewDetailPullRequestUrl } from "./permissionReviewDetailPullRequestUrl"
-import type { PermissionReviewDetailReviewFindingsItem } from "./permissionReviewDetailReviewFindingsItem"
 import type { PermissionReviewDetailSnapshotFingerprint } from "./permissionReviewDetailSnapshotFingerprint"
 import type { PermissionReviewDetailSupersededBy } from "./permissionReviewDetailSupersededBy"
 
@@ -42,7 +41,6 @@ export interface PermissionReviewDetail {
   destination_channel: string
   flatpak_branch: string
   difference_count: PermissionReviewDetailDifferenceCount
-  review_finding_count: number
   superseded_by: PermissionReviewDetailSupersededBy
   review_url: string
   pipeline_id: string
@@ -59,8 +57,6 @@ export interface PermissionReviewDetail {
   candidate_snapshot: PermissionReviewDetailCandidateSnapshot
   comparison_snapshot: PermissionReviewDetailComparisonSnapshot
   differences: PermissionReviewDetailDifferences
-  review_findings: PermissionReviewDetailReviewFindingsItem[]
-  linter_reports_present: boolean
   build_checks: PermissionReviewDetailBuildChecksItem[]
   error_code: PermissionReviewDetailErrorCode
   error_message: PermissionReviewDetailErrorMessage

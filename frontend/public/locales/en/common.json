@@ -282,7 +282,6 @@
   "moderation-permissions-approve": "Approve",
   "moderation-permissions-reject": "Reject",
   "moderation-permissions-changes": "Permission changes",
-  "moderation-permissions-findings": "Linter findings",
   "moderation-permissions-decisions": "Decision history",
   "moderation-permissions-review": "Review",
   "manual-verification": "Mark as manually verified",

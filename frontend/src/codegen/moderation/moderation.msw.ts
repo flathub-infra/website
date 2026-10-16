@@ -644,7 +644,6 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
     destination_channel: faker.string.alpha({ length: { min: 10, max: 20 } }),
     flatpak_branch: faker.string.alpha({ length: { min: 10, max: 20 } }),
     difference_count: faker.helpers.arrayElement([faker.number.int(), null]),
-    review_finding_count: faker.number.int(),
     superseded_by: faker.helpers.arrayElement([faker.number.int(), null]),
     review_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
     pipeline_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -688,11 +687,6 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
       ).map(() => ({})),
       null,
     ]),
-    review_findings: Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => ({})),
-    linter_reports_present: faker.datatype.boolean(),
     build_checks: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,
@@ -767,7 +761,6 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
     destination_channel: faker.string.alpha({ length: { min: 10, max: 20 } }),
     flatpak_branch: faker.string.alpha({ length: { min: 10, max: 20 } }),
     difference_count: faker.helpers.arrayElement([faker.number.int(), null]),
-    review_finding_count: faker.number.int(),
     superseded_by: faker.helpers.arrayElement([faker.number.int(), null]),
     review_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
     pipeline_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -811,11 +804,6 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
       ).map(() => ({})),
       null,
     ]),
-    review_findings: Array.from(
-      { length: faker.number.int({ min: 1, max: 10 }) },
-      (_, i) => i + 1,
-    ).map(() => ({})),
-    linter_reports_present: faker.datatype.boolean(),
     build_checks: Array.from(
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1,

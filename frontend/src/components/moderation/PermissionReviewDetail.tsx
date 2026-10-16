@@ -22,13 +22,6 @@ import Spinner from "../Spinner"
 import PermissionDiffTable from "./PermissionDiffTable"
 import { reviewListFilters, reviewListQuery } from "./PermissionReviewList"
 
-type Finding = {
-  rule_code: string
-  explanation: string
-  affected_permissions: { raw?: string; value: string }[]
-  sources: string[]
-}
-
 const Section = ({
   title,
   children,
@@ -240,22 +233,6 @@ export default function PermissionReviewDetail({
           source={review.comparison_source}
           snapshot={review.candidate_snapshot}
         />
-      </Section>
-      <Section title={t("moderation-permissions-findings")}>
-        {(review.review_findings as Finding[]).map((finding, i) => (
-          <div key={i} className="text-sm">
-            <code className="font-bold">{finding.rule_code}</code>{" "}
-            <span className="text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-              ({finding.sources.join(", ")})
-            </span>
-            <p>{finding.explanation}</p>
-            {finding.affected_permissions.map((p, j) => (
-              <code key={j} className="me-2">
-                {p.raw ?? p.value}
-              </code>
-            ))}
-          </div>
-        ))}
       </Section>
       <Section title={t("moderation-permissions-decisions")}>
         {review.decisions.map((d) => (
