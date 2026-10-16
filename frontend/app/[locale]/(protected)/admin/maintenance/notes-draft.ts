@@ -1,10 +1,10 @@
-interface NotesDraft {
+export interface NotesDraft {
   value: string
   saved: string
   conflict: boolean
 }
 
-type NotesDraftAction =
+export type NotesDraftAction =
   | { type: "edit"; value: string }
   | { type: "refresh"; saved: string }
   | { type: "saved"; submitted: string; saved: string }
