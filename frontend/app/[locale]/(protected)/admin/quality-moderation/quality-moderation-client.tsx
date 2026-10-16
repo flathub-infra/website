@@ -2,10 +2,11 @@
 
 import {
   ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
+  createSortedRowModel,
+  rowSortingFeature,
+  sortFns,
+  tableFeatures,
+  useTable,
 } from "@tanstack/react-table"
 import clsx from "clsx"
 import { formatDistanceToNow, parseISO } from "date-fns"
@@ -34,6 +35,12 @@ import AdminLayoutClient from "src/components/AdminLayoutClient"
 import Spinner from "src/components/Spinner"
 import { useLocale } from "next-intl"
 import { useRouter, usePathname, Link } from "src/i18n/navigation"
+
+const qualityModerationTableFeatures = tableFeatures({
+  rowSortingFeature,
+  sortedRowModel: createSortedRowModel(),
+  sortFns,
+})
 
 export default function QualityModerationClient() {
   const user = useUserContext()
@@ -132,7 +139,10 @@ const QualityModerationTable = ({
   updateSearchParams: (params: { [key: string]: string }) => void
   locale: string
 }) => {
-  const columns: ColumnDef<QualityModerationDashboardRow>[] = [
+  const columns: ColumnDef<
+    typeof qualityModerationTableFeatures,
+    QualityModerationDashboardRow
+  >[] = [
     {
       id: "icon",
       header: "Icon",
@@ -246,11 +256,10 @@ const QualityModerationTable = ({
     },
   ]
 
-  const table = useReactTable<QualityModerationDashboardRow>({
+  const table = useTable({
+    features: qualityModerationTableFeatures,
     data: data?.apps ?? [],
     columns: columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
     getRowId: (row) => row.id,
   })
 
@@ -329,10 +338,7 @@ const QualityModerationTable = ({
                             onClick: header.column.getToggleSortingHandler(),
                           }}
                         >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          <table.FlexRender header={header} />
                           {{
                             asc: <ChevronUpIcon className="size-4" />,
                             desc: <ChevronDownIcon className="size-4" />,
@@ -365,16 +371,13 @@ const QualityModerationTable = ({
                       transition={{ delay: 0 }}
                       className={clsx("h-12 font-medium")}
                     >
-                      {row.getVisibleCells().map((cell) => {
+                      {row.getAllCells().map((cell) => {
                         return (
                           <td
                             key={cell.id}
                             className={clsx("whitespace-nowrap py-5 text-sm")}
                           >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
+                            <table.FlexRender cell={cell} />
                           </td>
                         )
                       })}
