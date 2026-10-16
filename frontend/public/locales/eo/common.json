@@ -485,7 +485,8 @@
     "failing-x-checks": "{count, plural, one {# kriterio} other {# kriterioj}} ne plenumiĝis",
     "general-runtime-not-eol": "Rultempa medio ne estas malaktuala",
     "stats-by-category": "Stato de reviziado pri normoj laŭ kategorio",
-    "system-editor": "Sistemo"
+    "system-editor": "Sistemo",
+    "last-edited": "Modifita de {editor} · {time}"
   },
   "can-read-home-folder": "Povas legi ĉiajn datenojn en via hejma dosierujo",
   "can-read-write-all-data-on-file-system": "Povas legi kaj modifi ĉiajn datenojn sur la dosiersistemo",
@@ -531,7 +532,7 @@
   "danger-zone": "Danĝerejo",
   "switch-to-direct-upload": "Ŝanĝi al rekta alŝuto de programo",
   "do-you-really-want-to-switch-to-direct-upload": "Ĉu vi certas? Se vi decidas rekte alŝuti programon, vi ne povas malfari tiun decidon.",
-  "do-you-really-want-to-archive-app": "Ĉu vi certas? Tio nevalidigos alŝutajn ĵetonojn kaj enarĥivigos la programon.",
+  "do-you-really-want-to-archive-app": "Tralegu la ĉi-subajn efikojn antaŭ ol enarĥivigo.",
   "rebase-onto-other-app": "Tajpu la programidentigilon, sur kiun via programon rebaziĝos",
   "manage-x": "Administri {app_name}",
   "install-x": "Instali {app_name} sur Linux",
@@ -790,7 +791,7 @@
     },
     "fresh-desktop-releases": {
       "header": "Konstrui indiĝenajn programojn",
-      "description": "Evoluigi tiajn programojn, kiaj estas adaptita al via sistemo"
+      "description": "Evoluigi tiajn programojn, kiaj estas adaptitaj al via sistemo"
     },
     "take-better-notes": {
       "header": "Noti pli bone",
@@ -884,7 +885,25 @@
     "touchscreen-support": "Funkcias kun tuŝekrano",
     "control-required": "Postulas {device}n",
     "control-recommended": "Rekomendas {device}n",
-    "control-supported": "Funkcias kun {device}"
+    "control-supported": "Funkcias kun {device}",
+    "mobile-support": "Subteno de poŝaparatoj",
+    "desktop-support": "Subteno de labortabla komputilo",
+    "desktop-only": "Nur por labortablaj komputiloj",
+    "works-well-on-mobile": "Funkcias bone sur poŝaparatoj",
+    "may-not-work-well-on-mobile": "Eble ne funkcias bone sur poŝaparatoj",
+    "works-well-on-large-screens": "Funkcias bone sur grandaj ekranoj",
+    "may-not-work-well-on-large-screens": "Eble ne funkcias bone sur grandaj ekranoj",
+    "mobile-support-unknown": "Nekonata subteno pri poŝaparatoj",
+    "desktop-support-unknown": "Nekonata subteno pri labortablaj komputiloj",
+    "control-unknown": "Nekonata subteno pri {device}",
+    "gamepad-support": "Funkcias kun ludregilo",
+    "gamepads": "ludregiloj",
+    "appname-works-best-on-specific-hardware": "{appName} funkcias plej bone sur specifaj aparatoj",
+    "appname-hardware-support": "Informoj pri subteno de {appName} pri aparatoj",
+    "pointing-devices": "musoj aŭ montriloj",
+    "support-unknown": "Nekonata subteno",
+    "adaptive": "Adaptema",
+    "appname-works-on-most-devices": "{appName} funkcias sur preskaŭ ĉiaj aparatoj"
   },
   "moderation-view-discussion": "Vidi diskuton",
   "moderation-discussion-comment": "Komenti",
@@ -904,5 +923,43 @@
   "passkey-removed": "Forigis pasŝlosilon.",
   "user-login-heading": "Saluti al Flathub",
   "login-with-passkey": "Saluti per pasŝlosilo",
-  "passkey-already-registered": "Ĉi tiu pasŝlosilo estas jam registrita."
+  "passkey-already-registered": "Ĉi tiu pasŝlosilo estas jam registrita.",
+  "moderation-permissions-pull-request": "Tirpeto",
+  "moderation-permissions-branch": "Branĉo",
+  "moderation-permissions-repo": "Deponejo",
+  "moderation-permissions-flatpak-branch": "Flatpak-branĉo",
+  "moderation-permissions-outcome": "Rezulto",
+  "email-login-other-methods": "Aliaj metodoj por saluti",
+  "email-login-with-email": "Saluti per retpoŝta adreso",
+  "email-login-send-link": "Retpoŝtu al mi hiperligon por saluti",
+  "reauth-method-email": "Retpoŝtu al mi hiperligon por saluti",
+  "reauth-title": "Konfirmi vian identecon",
+  "passkey-remove-prompt": "Ĉu forigi pasŝlosilon «{name}»?",
+  "remove-bookmark": "Forigi legosignon",
+  "remove-from-favorites": "Forigi {app} for de legosignoj",
+  "moderation-permissions-title": "Permesoj",
+  "moderation-permissions-review": "Revizio",
+  "moderation-permissions-approve": "Aprobi",
+  "moderation-permissions-reject": "Malaprobi",
+  "moderation-permissions-changes": "Ŝanĝoj pri permesoj",
+  "moderation-permissions-decisions": "Historio de decidoj",
+  "passkey-action-failed": "Ne povis konservi pasŝlosilon. Reprovu.",
+  "moderation-permissions-app": "Programo",
+  "moderation-permissions-reviews": "Revizioj pri permesoj",
+  "passkeys-empty": "Vi ankoraŭ ne aldonis pasŝlosilon.",
+  "passkey-created-at": "Aldonis {time}",
+  "passkey-last-used-at": "Laste uzita {time}",
+  "passkey-never-used": "Ankoraŭ ne uzita por saluti",
+  "danger-zone-confirmation": {
+    "switch": {
+      "warning-title": "Tio ne estas malfarebla"
+    },
+    "archive": {
+      "acknowledgment": "Mi komprenas la rezultojn de enarĥivigo de <app>{app_id}</app>"
+    }
+  },
+  "passkey-login-intro": "Uzi pasŝlosilon konservitan por via konto ĉe Flathub.",
+  "passkey-unsupported": "Ĉi tiu TTT-legilo ne subtenas pasŝlosilon. Uzu alian metodon por saluti.",
+  "chart-description": "Diagramo pri {chart}. Ŝvebu super datenpunkto aŭ enfokusigu datenpunkton por ekzaktaj valoroj.",
+  "share-of-installs": "Frakcio de instaloj"
 }
