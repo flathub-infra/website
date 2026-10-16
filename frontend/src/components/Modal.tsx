@@ -101,6 +101,7 @@ const Modal: FunctionComponent<Props> = ({
                 >
                   <div className="absolute end-0 top-0 pe-6 pt-6">
                     <button
+                      ref={ref}
                       type="button"
                       className={clsx(
                         "size-7 flex justify-center items-center",
@@ -121,7 +122,6 @@ const Modal: FunctionComponent<Props> = ({
 
                   <DialogTitle
                     as="h3"
-                    ref={ref}
                     className={clsx(
                       centerTitle && "text-center ps-8",
                       "text-lg font-semibold pb-5 pe-8",

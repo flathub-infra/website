@@ -315,6 +315,195 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 export const ActionQueue: Story = {}
+export const FullQueue: Story = {
+  parameters: { maintenanceScenario: "pagination" },
+}
+
+export const CaseDetails: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(
+      await canvas.findByRole("button", { name: "Star Chart" }),
+    )
+    const screen = within(canvasElement.ownerDocument.body)
+    await screen.findByLabelText("Investigation notes")
+    await expect(
+      screen.getByText("Snooze", { exact: true }).closest("details"),
+    ).not.toHaveAttribute("open")
+    await expect(
+      screen.getByRole("button", { name: "Claim case" }),
+    ).toBeEnabled()
+    await expect(
+      screen.getByRole("button", { name: "Save notes" }),
+    ).toBeDisabled()
+  },
+}
+
+export const KeyboardNavigation: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const screen = within(canvasElement.ownerDocument.body)
+    const trigger = await canvas.findByRole("button", { name: "Star Chart" })
+    await userEvent.click(trigger)
+    const dialog = await screen.findByRole("dialog")
+    await waitFor(() =>
+      expect(
+        within(dialog).getByRole("button", { name: "Close" }),
+      ).toHaveFocus(),
+    )
+    await userEvent.tab()
+    await expect(dialog).toContainElement(
+      canvasElement.ownerDocument.activeElement as HTMLElement,
+    )
+    await userEvent.tab({ shift: true })
+    await expect(
+      within(dialog).getByRole("button", { name: "Close" }),
+    ).toHaveFocus()
+    await userEvent.keyboard("{Escape}")
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    )
+    await expect(trigger).toHaveFocus()
+  },
+}
+
+export const DisclosureKeepsDrafts: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(
+      await canvas.findByRole("button", { name: "Star Chart" }),
+    )
+    const screen = within(canvasElement.ownerDocument.body)
+    const notes = await screen.findByLabelText("Investigation notes")
+    await userEvent.type(notes, "Migration investigation")
+    await expect(
+      screen.getByText("Save notes before changing case status or assignment."),
+    ).toBeVisible()
+    await userEvent.click(screen.getByText("Snooze", { exact: true }))
+    const reason = screen.getByLabelText("Snooze reason")
+    await userEvent.type(reason, "Waiting for a runtime update")
+    await expect(
+      screen.getByRole("button", { name: "Snooze case" }),
+    ).toBeDisabled()
+    await expect(
+      screen.getByRole("button", { name: "Claim case" }),
+    ).toBeDisabled()
+    await userEvent.click(screen.getByText("Snooze", { exact: true }))
+    await userEvent.click(screen.getByText("Snooze", { exact: true }))
+    await expect(notes).toHaveValue("Migration investigation")
+    await expect(reason).toHaveValue("Waiting for a runtime update")
+    await userEvent.click(screen.getByRole("button", { name: "Save notes" }))
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "Snooze case" })).toBeEnabled(),
+    )
+    await expect(
+      screen.queryByText(
+        "Save notes before changing case status or assignment.",
+      ),
+    ).not.toBeInTheDocument()
+    await expect(reason).toHaveValue("Waiting for a runtime update")
+  },
+}
+
+export const ClosingKeepsCaseDrafts: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const screen = within(canvasElement.ownerDocument.body)
+    await userEvent.click(
+      await canvas.findByRole("button", { name: "Star Chart" }),
+    )
+    await userEvent.type(
+      await screen.findByLabelText("Investigation notes"),
+      "My unsaved investigation",
+    )
+    await userEvent.click(screen.getByText("Snooze", { exact: true }))
+    await userEvent.type(
+      screen.getByLabelText("Snooze reason"),
+      "Waiting for a reply",
+    )
+    await userEvent.clear(screen.getByLabelText("Snooze for (days)"))
+    await userEvent.type(screen.getByLabelText("Snooze for (days)"), "7")
+    await userEvent.keyboard("{Escape}")
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    )
+    await expect(canvas.getByText("Draft", { exact: true })).toBeVisible()
+    await userEvent.click(canvas.getByRole("button", { name: "Paper Plane" }))
+    await expect(
+      await screen.findByLabelText("Investigation notes"),
+    ).toHaveValue(fixture[1].notes)
+    await userEvent.click(screen.getByRole("button", { name: "Close" }))
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    )
+    cases[0].notes = "Another moderator's saved notes"
+    cases[0].version += 1
+    await userEvent.click(canvas.getByRole("button", { name: "Star Chart" }))
+    await screen.findByText("Shared notes changed")
+    await expect(screen.getByLabelText("Investigation notes")).toHaveValue(
+      "My unsaved investigation",
+    )
+    await userEvent.click(screen.getByText("Snooze", { exact: true }))
+    await expect(screen.getByLabelText("Snooze reason")).toHaveValue(
+      "Waiting for a reply",
+    )
+    await expect(screen.getByLabelText("Snooze for (days)")).toHaveValue(7)
+  },
+}
+
+export const SaveFinishesAfterClose: Story = {
+  parameters: { maintenanceScenario: "delayed-save" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const screen = within(canvasElement.ownerDocument.body)
+    await userEvent.click(
+      await canvas.findByRole("button", { name: "Star Chart" }),
+    )
+    const notes = await screen.findByLabelText("Investigation notes")
+    await userEvent.type(notes, "Saved while the dialog was closing")
+    await userEvent.click(screen.getByRole("button", { name: "Save notes" }))
+    await waitFor(() => expect(notes).toBeDisabled())
+    await userEvent.keyboard("{Escape}")
+    await waitFor(() =>
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument(),
+    )
+    await waitFor(() =>
+      expect(cases[0].notes).toBe("Saved while the dialog was closing"),
+    )
+    await waitFor(() =>
+      expect(
+        canvas.queryByText("Draft", { exact: true }),
+      ).not.toBeInTheDocument(),
+    )
+    await userEvent.click(canvas.getByRole("button", { name: "Star Chart" }))
+    await waitFor(() =>
+      expect(screen.getByLabelText("Investigation notes")).toHaveValue(
+        cases[0].notes,
+      ),
+    )
+  },
+}
+
+export const RuntimeFilter: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await canvas.findByRole("button", { name: "Star Chart" })
+    const groups = canvas.getByText("Runtime migrations").closest("details")!
+    await expect(groups).not.toHaveAttribute("open")
+    await userEvent.click(canvas.getByText("Runtime migrations"))
+    await userEvent.click(
+      canvas.getByRole("button", { name: /org.example.Platform\/x86_64\/old/ }),
+    )
+    await waitFor(() =>
+      expect(canvas.getByLabelText("Queue")).toHaveValue("runtime"),
+    )
+    await canvas.findByRole("button", { name: "Clear" })
+    await expect(
+      canvas.queryByRole("button", { name: "Pocket Clock" }),
+    ).not.toBeInTheDocument()
+  },
+}
+
 export const QualityOnlyModeratorCannotAccess: Story = {
   parameters: { maintenancePermissions: [Permission["quality-moderation"]] },
   play: async ({ canvasElement }) => {
@@ -335,6 +524,7 @@ export const SnoozeRejectsUnreviewedEvidence: Story = {
     )
     const screen = within(canvasElement.ownerDocument.body)
     await screen.findByLabelText("Investigation notes")
+    await userEvent.click(screen.getByText("Snooze", { exact: true }))
     await userEvent.type(
       screen.getByLabelText("Snooze reason"),
       "Waiting for packaging updates",
@@ -348,7 +538,7 @@ export const SnoozeRejectsUnreviewedEvidence: Story = {
     await screen.findByText(/Maintenance evidence changed/)
     await expect(cases[0].snoozed).toBe(false)
     await userEvent.click(screen.getByRole("button", { name: "Refresh case" }))
-    await screen.findByText("EOL runtime · confirmed")
+    await screen.findByRole("heading", { name: "EOL runtime", exact: true })
     await expect(screen.getByLabelText("Snooze reason")).toHaveValue(
       "Waiting for packaging updates",
     )
@@ -368,6 +558,7 @@ export const SnoozeClampsLastPage: Story = {
       await canvas.findByRole("button", { name: "Backlog 26" }),
     )
     const screen = within(canvasElement.ownerDocument.body)
+    await userEvent.click(await screen.findByText("Snooze", { exact: true }))
     await userEvent.type(
       await screen.findByLabelText("Snooze reason"),
       "Waiting for maintainer",
@@ -415,6 +606,7 @@ export const DelayedSavePreservesDrafts: Story = {
     )
     const screen = within(canvasElement.ownerDocument.body)
     const notes = await screen.findByLabelText("Investigation notes")
+    await userEvent.click(screen.getByText("Snooze", { exact: true }))
     const reason = screen.getByLabelText("Snooze reason")
     await userEvent.type(notes, "First investigation")
     await userEvent.type(reason, "Waiting for a maintainer")
