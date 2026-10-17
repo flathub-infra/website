@@ -11,7 +11,7 @@
     },
     "step-3": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni:</text> <code></code>"
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni:</text> <code></code>"
     },
     "step-4": {
       "name": "Pokreni ponovo",
@@ -35,7 +35,7 @@
   },
   "nixos": {
     "step-2": {
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni:</text> <code></code>",
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni:</text> <code></code>",
       "name": "Dodaj Flathub repozitorij"
     },
     "distroName": "NixOS",
@@ -191,7 +191,7 @@
     },
     "step-2": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni:</text> <code></code>"
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni:</text> <code></code>"
     },
     "step-3": {
       "name": "Pokreni ponovo",
@@ -335,7 +335,7 @@
     },
     "step-3": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni:</text> <code></code>"
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni:</text> <code></code>"
     },
     "step-4": {
       "name": "Pokreni ponovo",
@@ -425,5 +425,28 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>Podrška za Flatpak je ugrađena u Salix od verzije 15.0 – bez potrebe za postavljanjem!</header> <text>Flatpak sadrži unaprijed konfigurirani Flathub repozitorij, a alati za desktop integraciju su uključeni kako bi omogućili instalaciju aplikacija jednim klikom s Flathuba.</text> <text>Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
+  },
+  "slackware": {
+    "step-1": {
+      "name": "Instaliraj Flatpak",
+      "text": "<text>Flatpak paket je dostupan na SlackBuildsu. Za njegovu instalaciju (pod pretpostavkom da koristiš Sbopkg/sqg), najprije stvori datoteku reda čekanja i pokreni sljedeće kao root:</text> <codeQueue></codeQueue> <text>Zatim je kompajliraj. Učitaj datoteku reda čekanja, pritisni „Q” i pričekaj:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Dodaj Flathub repozitorij",
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni </text><code></code>"
+    },
+    "step-3": {
+      "name": "Ponovno pokretanje sustava",
+      "text": "<text>Za završavanje postavljanja, ponovo pokreni sustav. Sve što sada trebaš učiniti je <link>instalirati aplikacije</link>!</text> <text>Napomena: grafička instalacija Flatpak aplikacija možda neće biti moguća sa Slackwareom.</text>"
+    },
+    "distroName": "Slackware"
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak se standardno instalira na T2 SDE od verzije 26.6 – ne mora se postaviti!</header> <text>Flatpak dolazi unaprijed konfiguriran s Flathub repozitorijem, a uključeni su i alati za desktop integraciju koji omogućuju instalaciju jednim klikom iz Flathuba.</text> <text>Sve što trebaš učiniti je <link>instalirati aplikacije</link>!</text>"
+  },
+  "nura": {
+    "introduction": "<header>Flatpak je standardno instaliran na Nura!</header> <text>Sve što trebaš učiniti je <link>instalirati aplikacije</link>!</text>",
+    "distroName": "Nura"
   }
 }

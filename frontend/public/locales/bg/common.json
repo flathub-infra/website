@@ -913,7 +913,7 @@
   "reauth-account-mismatch": "Вписването не съвпада с този профил. Впишете се с един от вашите свързани профили.",
   "email-account": "Имейл",
   "platform-support": {
-    "support-unknown": "Неизвестна поддръжка",
+    "support-unknown": "Поддръжката е неизвестна",
     "appname-hardware-support": "Информация за хардуерната поддръжка на „{appName}“",
     "keyboards": "клавиатура",
     "pointing-devices": "мишка или посочващо устройство",
@@ -922,7 +922,26 @@
     "control-required": "Изисква {device}",
     "control-recommended": "Препоръчва {device}",
     "control-supported": "Поддържа {device}",
-    "control-unknown": "Поддръжката за {device} е неизвестна"
+    "control-unknown": "Поддръжката за {device} е неизвестна",
+    "appname-works-best-on-specific-hardware": "„{appName}“ работи на определен хардуер",
+    "appname-works-on-most-devices": "„{appName}“ работи на повечето устройства",
+    "works-well-on-large-screens": "Работи добре на големи екрани",
+    "works-well-on-mobile": "Работи добре на мобилни устройства",
+    "may-not-work-well-on-mobile": "Може да не работи добре на мобилни устройства",
+    "may-not-work-well-on-large-screens": "Може да не работи добре на големи екрани",
+    "desktop-only": "Настолни компютри",
+    "mobile-only": "Мобилни устройства",
+    "desktop-support": "Поддръжка за настолни компютри",
+    "mobile-support": "Поддръжка за мобилни устройства",
+    "keyboard-support": "Поддръжка за клавиатура",
+    "mouse-support": "Поддръжка за мишка",
+    "touchscreen-support": "Поддръжка за сензорен екран",
+    "gamepad-support": "Поддръжка за геймпад",
+    "mobile-support-unknown": "Поддръжката за мобилни устройства е неизвестна",
+    "desktop-support-unknown": "Поддръжката за настолни компютри е неизвестна",
+    "adaptive": "Адаптивна",
+    "mobile-display-support-unknown": "Няма достатъчно информация за поддръжката на малки екрани",
+    "desktop-display-support-unknown": "Няма достатъчно информация за поддръжката на големи екрани"
   },
   "passkey-add": "Добавяне на ключ за достъп",
   "passkey-added": "Ключът за достъп е добавен.",
@@ -935,5 +954,6 @@
   "passkey-remove-prompt": "Премахване на ключа за достъп „{name}“?",
   "passkeys": "Ключове за достъп",
   "passkeys-empty": "Все още не сте добавили ключ за достъп.",
-  "passkey-name": "Име на ключа за достъп"
+  "passkey-name": "Име на ключа за достъп",
+  "login-with-passkey": "Влизане с ключ за достъп"
 }
