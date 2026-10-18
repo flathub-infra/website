@@ -1,5 +1,4 @@
-import { notFound } from "next/navigation"
-import { fetchSetupInstructions } from "../../../src/distro-setup"
+import { getDistros } from "../../../src/distro-setup"
 import { Metadata } from "next"
 import SetupClient from "./setup-client"
 import { getTranslations } from "next-intl/server"
@@ -82,30 +81,14 @@ const setupFaqJsonLd = {
   ],
 }
 
-export default async function SetupPage() {
-  const instructions = await fetchSetupInstructions()
-
-  if (!instructions) {
-    notFound()
-  }
-
+export default function SetupPage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(setupFaqJsonLd) }}
       />
-      <SetupClient
-        instructions={instructions.map(
-          ({ name, slug, logo, logo_dark, translatedNameKey }) => ({
-            name,
-            slug,
-            logo,
-            logo_dark,
-            translatedNameKey,
-          }),
-        )}
-      />
+      <SetupClient instructions={getDistros()} />
     </>
   )
 }

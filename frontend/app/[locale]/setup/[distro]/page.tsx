@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import { fetchSetupInstructions } from "../../../../src/distro-setup"
+import { getDistros } from "../../../../src/distro-setup"
 import { Metadata } from "next"
 import DistroSetupClient from "./distro-setup-client"
 import { getTranslations } from "next-intl/server"
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  const instructions = await fetchSetupInstructions()
+  const instructions = getDistros()
   const staticParams = []
 
   // Generate params for each locale and each distro
@@ -43,7 +43,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { distro, locale } = await params
   const cleanedDistro = decodeURIComponent(distro)
-  const instructions = await fetchSetupInstructions()
+  const instructions = getDistros()
   const t = await getTranslations()
 
   let distroData = instructions.find(
@@ -93,7 +93,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DistroSetupPage({ params }: Props) {
   const { distro, locale } = await params
   const cleanedDistro = decodeURIComponent(distro)
-  const instructions = await fetchSetupInstructions()
+  const instructions = getDistros()
 
   let distroData = instructions.find(
     (instruction) => instruction.name === cleanedDistro,

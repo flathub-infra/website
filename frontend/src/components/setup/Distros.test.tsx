@@ -4,7 +4,7 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { NextIntlClientProvider } from "next-intl"
 import common from "../../../public/locales/en/common.json"
 import distros from "../../../public/locales/en/distros.json"
-import { fetchSetupInstructions } from "../../distro-setup"
+import { getDistros } from "../../distro-setup"
 import DistroSetupClient from "../../../app/[locale]/setup/[distro]/distro-setup-client"
 import { distroMap } from "./Distros"
 import { CentOSStream } from "./Distros.stories"
@@ -37,7 +37,7 @@ vi.mock("framer-motion", () => ({
   LayoutGroup: ({ children }: { children: ReactNode }) => <>{children}</>,
 }))
 
-const instructions = await fetchSetupInstructions()
+const instructions = getDistros()
 const pages = distroMap("en")
 
 function render(page: ReactNode) {

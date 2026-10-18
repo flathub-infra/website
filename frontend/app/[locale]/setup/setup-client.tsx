@@ -11,10 +11,7 @@ import { Link } from "src/i18n/navigation"
 import { motion, LayoutGroup, useReducedMotion } from "framer-motion"
 
 interface Props {
-  instructions: Pick<
-    DistroSetup,
-    "name" | "slug" | "logo" | "logo_dark" | "translatedNameKey"
-  >[]
+  instructions: DistroSetup[]
 }
 
 // Linux distros by approximate popularity or if setup is needed.

@@ -183,9 +183,6 @@ importers:
       topojson-client:
         specifier: ^3.1.0
         version: 3.1.0
-      yaml:
-        specifier: ^2.9.0
-        version: 2.9.0
       yet-another-react-lightbox:
         specifier: ^3.32.1
         version: 3.32.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
