@@ -23,10 +23,6 @@
     "step-1": {
       "name": "Instali Flatpak",
       "text": "<text>Por instali Flatpak sur <strong>Ubuntu versio 18.10 (Cosmic Cuttlefish) aŭ pli nova</strong>, malfermu Terminalon kaj rulu la jenon:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instalu la Flatpak-kromprogramon por la GNOME-programvendejo",
-      "text": "<text>La kromprogramo por GNOME Software ebligas instali programojn sen la terminalo. Por instali ĝin, rulu la jenon:</text> <code></code> <text><strong>Notu:</strong> Ubuntu distribuas GNOME Software kiel Snap en versioj 20.04 ĝis 23.04, kaj anstataŭigis ĝin per App Center en versioj 23.10 kaj pli novaj — neniu el tiuj du subtenas instali Flatpak-programojn. Instalado de la Flatpak-kromprogramo ankaŭ instalos .deb-version de GNOME Software, kaŭzante du programojn nomitajn «Software» instalitajn kune ĉe Ubuntu 20.04 ĝis 23.04, kaj unu novan programon «Software» ĉe Ubuntu 23.10 aŭ pli nova.</text>"
     }
   },
   "endless_os": {
@@ -111,11 +107,7 @@
       "name": "Aldoni la deponejon Flathub",
       "text": "<text>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <filelink>la Flathub-deponejodosieron</filelink>, aŭ rulu la jenon en terminalo:</text> <code></code>"
     },
-    "distroName": "Debiano",
-    "step-2": {
-      "name": "Instalu la Flatpak-kromprogramon por programvendejo",
-      "text": "<text>Se vi uzas GNOME, ankaŭ estas rekomendata instali la Flatpak-kromprogramon por GNOME Software. Por fari tion, rulu la jenon:</text> <code></code> <text>Se vi uzas KDE, vi anstataŭe instalu la Flatpak-kromprogramon por Plasma Discover:</text> <codeDiscover></codeDiscover>"
-    }
+    "distroName": "Debiano"
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",
@@ -145,10 +137,6 @@
     "step-3": {
       "name": "Aldoni la deponejon Flathub",
       "text": "<text>Flathub estas la plej bona loko akiri Flatpak-programojn. Por ŝalti ĝin, lanĉu Discover, iru al la Agordoj, kaj aldonu la Flathub-deponejon.</text>"
-    },
-    "step-2": {
-      "text": "<text>Por integri Flatpak en la sisteman agordejon de Plasma, lanĉu la terminalon kaj rulu la jenon:</text> <code></code>",
-      "name": "Instali la Flatpak-kromprogramon por la sistema agordejo"
     }
   },
   "solus": {
@@ -180,10 +168,6 @@
     "step-3": {
       "name": "Aldoni la deponejon Flathub",
       "text": "<text>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <filelink>la Flathub-deponejodosieron</filelink>, aŭ rulu la jenon en terminalo:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instalu la Flatpak-kromprogramon por programvendejo",
-      "text": "<text>Vi povas instali la Flatpak-kromprogramon por aŭ GNOME Software (ekde versio 3.13) aŭ KDE Discover (ekde versio 3.11), ebligante instaladon de prgramoj sen terminalo. Por instali ĉe GNOME Software, rulu la jenon:</text> <code></code> <text>Ĉe KDE Discover, rulu la jenon:</text> <codeDiscover></codeDiscover>"
     }
   },
   "gentoo": {
@@ -305,10 +289,6 @@
     "step-3": {
       "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, elŝutu kaj instalu la <filelink>la deponejo-dosieron de Flathub</filelink>, aŭ rulu la jenon:</text> <code></code>",
       "name": "Aldoni la deponejon Flathub"
-    },
-    "step-2": {
-      "name": "Instalu la Flatpak-kromprogramon por programvendejo",
-      "text": "<text>Se vi uzas GNOME, estas rekomendate instali la Flatpak-kromprogramon por GNOME Software. Por fari tion, rulu la jenon:</text> <code></code>"
     }
   },
   "zorin_os": {

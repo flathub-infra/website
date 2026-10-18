@@ -5,10 +5,6 @@
       "name": "Install Flatpak",
       "text": "<text>To install Flatpak on <strong>Ubuntu 18.10 (Cosmic Cuttlefish) or later</strong>, open the Terminal app and run:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Install GNOME Software Flatpak plugin",
-      "text": "<text>The GNOME Software plugin makes it possible to install apps without needing the command line. To install, run:</text> <code></code> <text><strong>Note:</strong> Ubuntu distributes GNOME Software as a Snap in versions 20.04 to 23.04, and replaced it with App Center in 23.10 and newer—neither of which support installing Flatpak apps. Installing the Flatpak plugin will also install a deb version of GNOME Software, resulting in two \"Software\" apps being installed at the same time on Ubuntu 20.04 to 23.04, and a single new \"Software\" app on Ubuntu 23.10 and newer.</text>"
-    },
     "step-3": {
       "name": "Add the Flathub repository",
       "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, download and install the <filelink>Flathub repository file</filelink> or run:</text> <code></code>"
@@ -116,10 +112,6 @@
       "name": "Install Flatpak",
       "text": "<text>A flatpak package is available in Debian 10 (Buster) and newer. To install it, run the following as root:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Install the Software Flatpak plugin",
-      "text": "<text>If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run:</text> <code></code> <text>If you are running KDE, you should instead install the Plasma Discover Flatpak backend:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Add the Flathub repository",
       "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, download and install the <filelink>Flathub repository file</filelink> or run the following in a terminal:</text> <code></code>"
@@ -173,10 +165,6 @@
       "name": "Install Flatpak",
       "text": "<text>To install Flatpak on Kubuntu, open Discover, go to Settings, install the Flatpak backend and restart Discover.</text>"
     },
-    "step-2": {
-      "name": "Install the Flatpak system settings add-on",
-      "text": "<text>To integrate Flatpak support into the Plasma System Settings, open the Terminal app and run:</text> <code></code>"
-    },
     "step-3": {
       "name": "Add the Flathub repository",
       "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, open Discover, go to Settings and add the Flathub repository.</text>"
@@ -207,10 +195,6 @@
     "step-1": {
       "name": "Install Flatpak",
       "text": "<text>Flatpak can be installed from the community repository. Run the following in a terminal:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Install the Software Flatpak plugin",
-      "text": "<text>You can install the Flatpak plugin for either the GNOME Software (since v3.13) or KDE Discover (since v3.11), making it possible to install apps without needing the command line. To install, for GNOME Software run:</text> <code></code> <text>For KDE Discover run:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Add the Flathub repository",
@@ -328,10 +312,6 @@
     "step-1": {
       "name": "Install Flatpak",
       "text": "<text>A flatpak package is available in Pardus 2019 and newer. To install it, run the following as root:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Install the Software Flatpak plugin",
-      "text": "<text>If you are running GNOME, it is also a good idea to install the Flatpak plugin for GNOME Software. To do this, run:</text> <code></code>"
     },
     "step-3": {
       "name": "Add the Flathub repository",

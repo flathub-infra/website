@@ -9,10 +9,6 @@
       "name": "Neustart",
       "text": "<text>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <link>Apps installieren</link>!</text>"
     },
-    "step-2": {
-      "name": "GNOME Software Flatpak Plugin installieren",
-      "text": "<text>Das GNOME Software-Plugin ermöglicht es, Apps zu installieren, ohne die Befehlszeile zu benötigen. Zur Installation, ausführen:</text> <code></code> <text><strong>Anmerkung:</strong> Ubuntu liefert GNOME Software als Snap in den Versionen 20.04 bis 23.04 und ersetzt es durch App Center in 23.10 und neuer – beide unterstützen Flatpak Apps nicht. Bei der Installation des Flatpak Plugins wird auch eine Deb-Version von GNOME Software installieren, wodurch zwei „Software“ Apps gleichzeitig auf Ubuntu 20.04 bis 23.04 installiert werden, und eine einzige neue „Software“ App auf Ubuntu 23.10 und neuer.</text>"
-    },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<text>Flathub ist der beste Ort, um Flatpak-Apps zu beziehen. Um es zu aktivieren, lade die <filelink>Flathub-Repository-Datei</filelink> herunter und installiere sie oder führe Folgendes aus:</text> <code></code>"
@@ -116,10 +112,6 @@
       "name": "Flatpak installieren",
       "text": "<text>Ein Flatpak Paket ist in Debian 10 (Buster) und neuer verfügbar. Um dieses zu installieren, führe folgendes als root aus:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Installier das Software Flatpak Plugin",
-      "text": "<text>Wenn Sie GNOME verwenden, ist es auch ratsam, das Flatpak-Plugin für GNOME Software zu installieren. Um dies zu tun, starten Sie:</text> <code></code> <text>Wenn Sie KDE verwenden, sollten Sie stattdessen das Plasma Discover Flatpak Backend installieren:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <filelink>Flathub-Repository Datei</filelink> oder führe aus:</text> <code></code>"
@@ -177,10 +169,6 @@
       "name": "Flatpak installieren",
       "text": "<text>Um Flatpak unter Kubuntu zu installieren, öffne Discover, gehe zu Einstellungen, installiere das Flatpak-Backend und starte Discover neu.</text>"
     },
-    "step-2": {
-      "name": "Installier das Flatpak-Systemeinstellungs Addon",
-      "text": "<text>Damit Flatpak in den Plasma Systemeinstellungen unterstützt wird, öffne das Terminal und starte: </text> <code></code>"
-    },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, öffne Discover, gehe in die Einstellungen und füge das Flathub-Repository hinzu.</text>"
@@ -204,10 +192,6 @@
   },
   "alpine": {
     "distroName": "Alpine",
-    "step-2": {
-      "name": "Installier das Software Flatpak Plugin",
-      "text": "<text>Du kannst das Flatpak-Plugin entweder für GNOME Software (seit v3.13) oder für KDE Discover (seit v3.11) installieren, wodurch es möglich ist, Apps zu installieren, ohne die Befehlszeile zu benötigen. Zur Installation für GNOME Software führe aus:</text> <code></code> <text>Für KDE Discover führe aus:</text> <codeDiscover></codeDiscover>"
-    },
     "step-4": {
       "name": "Neustart",
       "text": "<text>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <link>Apps installieren</link>!</text>"
@@ -332,10 +316,6 @@
     "step-1": {
       "name": "Flatpak installieren",
       "text": "<text>Ein Flatpak-Paket ist ab Pardus 2019 und neuer verfügbar. Um es zu installieren, führen Sie das Folgende als root aus:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Installier das Software Flatpak Plugin",
-      "text": "<text>Wenn Sie GNOME verwenden, ist es auch ratsam, das Flatpak-Plugin für GNOME Software zu installieren. Führen Sie dazu Folgendes aus:</text> <code></code>"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",

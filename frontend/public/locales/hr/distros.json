@@ -5,10 +5,6 @@
       "name": "Instaliraj Flatpak",
       "text": "<text>Za instaliranje Flatpaka na <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ili noviju verziju</strong>, otvori aplikaciju Terminal i pokreni:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Instaliraj Flatpak dodatak za GNOME Softver",
-      "text": "<text>GNOME dodatak Softver omogućuje instaliranje aplikacija bez potrebe za naredbenim retkom. Za instaliranje pokreni sljedeće:</text><code></code> <text><strong>Napomena:</strong> Ubuntu distribuira GNOME Softver kao Snap u verzijama od 20.04 do 23.04, a zamijenjen je s „App Center“ u verziji 23.10 i novijim verzijama – od kojih nijedna ne podržava instaliranje Flatpak aplikacija. Instaliranje dodatka Flatpak također će instalirati deb verziju GNOME Softver, što će istovremeno instalirati dvije aplikacije „Softver“ na Ubuntu 20.04 do 23.04 i jednu novu aplikaciju „Softver“ na Ubuntu 23.10 i novijim verzijama.</text>"
-    },
     "step-3": {
       "name": "Dodaj Flathub repozitorij",
       "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni:</text> <code></code>"
@@ -92,10 +88,6 @@
     "step-1": {
       "name": "Instaliraj Flatpak",
       "text": "<text>Flatpak se može instalirati iz repozitorija zajednice. Pokreni sljedeće u terminalu:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instaliraj Flatpak dodatak za Softver",
-      "text": "<text>Flatpak dodatak se može instalirati za GNOME Softver (od verzije 3.13) ili KDE Discover (od verzije 3.11), što omogućuje instalaciju aplikacija bez korištenja naredbenog retka. Za instalaciju za GNOME Softver pokreni:</text> <code></code> <text>Za KDE Discover pokreni:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Dodaj Flathub repozitorij",
@@ -215,10 +207,6 @@
       "name": "Instaliraj Flatpak",
       "text": "<text>Dostupan je Flatpak paket u Debian 10 (Buster) i novijoj verziji. Za instaliranje pokreni sljedeće kao administrator:</text><code></code>"
     },
-    "step-2": {
-      "name": "Instaliraj Flatpak dodatak za Softver",
-      "text": "<text>Ako koristiš GNOME, također je dobra ideja instalirati Flatpak dodatak za GNOME Softver. Za to pokreni:</text> <code></code> <text>Ako koristiš KDE, umjesto toga instaliraj Flatpak pozadinski sustav Plasma Discover:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Dodaj Flathub repozitorij",
       "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni sljedeće u terminalu:</text> <code></code>"
@@ -256,10 +244,6 @@
     "step-1": {
       "name": "Instaliraj Flatpak",
       "text": "<text>Za instaliranje Flatpaka na Kubuntu, otvori Discover, idi na Postavke, instaliraj Flatpak pozadinski sustav i ponovo pokreni Discover.</text>"
-    },
-    "step-2": {
-      "name": "Instaliraj Flatpak dodatak za postavke sustava",
-      "text": "<text>Za integriranje podrške za Flatpak u postavkama Plasma sustava, otvori aplikaciju Terminal i pokreni:</text> <code></code>"
     },
     "step-3": {
       "name": "Dodaj Flathub repozitorij",
@@ -328,10 +312,6 @@
     "step-1": {
       "name": "Instaliraj Flatpak",
       "text": "<text>Dostupan je Flatpak paket u Pardus 2019 i novijoj verziji. Za instaliranje pokreni sljedeće kao administrator:</text><code></code>"
-    },
-    "step-2": {
-      "name": "Instaliraj Flatpak dodatak za Softver",
-      "text": "<text>Ako koristiš GNOME, također je dobra ideja instalirati Flatpak dodatak za GNOME Softver. Za to pokreni:</text> <code></code>"
     },
     "step-3": {
       "name": "Dodaj Flathub repozitorij",

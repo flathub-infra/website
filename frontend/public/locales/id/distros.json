@@ -5,10 +5,6 @@
       "name": "Pasang Flatpak",
       "text": "<text>Untuk memasang Flatpak pada <strong>Ubuntu 18.10 (Cosmic Cuttlefish) atau yang lebih baru</strong>, Buka aplikasi Terminal dan jalankan:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Pasang plugin Flatpak untuk GNOME Software",
-      "text": "<text>Plugin GNOME Software memungkinkan Anda memasang aplikasi tanpa perlu menggunakan baris perintah. Untuk memasangnya, jalankan:</text> <code></code> <text><strong>Catatan:</strong> Ubuntu mendistribusikan GNOME Software sebagai Snap dalam versi 20.04 hingga 23.04, dan menggantinya dengan App Center dalam versi 23.10 dan yang lebih baru—keduanya tidak mendukung penginstalan aplikasi Flatpak. Memasang plugin Flatpak juga akan memasang versi deb dari GNOME Software, sehingga dua aplikasi \"Software\" dipasang secara bersamaan pada Ubuntu 20.04 hingga 23.04, dan satu aplikasi \"Software\" baru pada Ubuntu 23.10 dan yang lebih baru.</text>"
-    },
     "step-3": {
       "name": "Tambahkan repositori Flathub",
       "text": "<text>Flathub adalah tempat terbaik untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, unduh dan pasang <filelink>berkas repositori Flathub</filelink> atau jalankan:</text> <code></code>"
@@ -116,10 +112,6 @@
       "name": "Pasang Flatpak",
       "text": "<text>Paket Flatpak tersedia di Debian 10 (Buster) dan versi yang lebih baru. Untuk memasangnya, jalankan perintah berikut sebagai root:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Pasang plugin Flatpak untuk Software",
-      "text": "<text>Jika Anda menggunakan GNOME, disarankan juga untuk memasang plugin Flatpak untuk GNOME Software. Untuk melakukannya, jalankan perintah berikut:</text> <code></code> <text>Jika Anda menggunakan KDE, sebaiknya Anda memasang backend Plasma Discover Flatpak:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Tambahkan repositori Flathub",
       "text": "<text>Flathub adalah tempat terbaik untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, unduh dan pasang <filelink>berkas repositori Flathub</filelink> atau jalankan perintah berikut di terminal:</text> <code></code>"
@@ -173,10 +165,6 @@
       "name": "Pasang Flatpak",
       "text": "<text>Untuk memasang Flatpak di Kubuntu, buka Discover, pergi ke Pengaturan, pasang backend Flatpak, dan mulai ulang Discover.</text>"
     },
-    "step-2": {
-      "name": "Pasang ekstensi pengaturan sistem Flatpak",
-      "text": "<text>Untuk mengintegrasikan dukungan Flatpak ke dalam Pengaturan Sistem Plasma, buka aplikasi Terminal dan jalankan:</text> <code></code>"
-    },
     "step-3": {
       "name": "Tambahkan repositori Flathub",
       "text": "<text>Flathub adalah tempat terbaik untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, buka Discover, pergi ke Pengaturan, dan tambahkan repositori Flathub.</text>"
@@ -207,10 +195,6 @@
     "step-1": {
       "name": "Pasang Flatpak",
       "text": "<text>Flatpak dapat dipasang dari repositori komunitas. Jalankan perintah berikut di terminal:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Pasang plugin Flatpak untuk Software",
-      "text": "<text>Anda dapat memasang plugin Flatpak untuk GNOME Software (sejak versi 3.13) atau KDE Discover (sejak versi 3.11), sehingga memungkinkan Anda memasang aplikasi tanpa perlu menggunakan baris perintah. Untuk memasang, pada GNOME Software jalankan:</text> <code></code> <text>Untuk KDE Discover jalankan:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Tambahkan repositori Flathub",
@@ -328,10 +312,6 @@
     "step-1": {
       "name": "Pasang Flatpak",
       "text": "<text>Paket Flatpak tersedia di Pardus 2019 dan versi yang lebih baru. Untuk memasangnya, jalankan perintah berikut sebagai root:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Pasang plugin Flatpak untuk Software",
-      "text": "<text>Jika Anda menggunakan GNOME, disarankan juga untuk memasang plugin Flatpak untuk GNOME Software. Untuk melakukannya, jalankan perintah berikut:</text> <code></code>"
     },
     "step-3": {
       "name": "Tambahkan repositori Flathub",

@@ -5,10 +5,6 @@
       "name": "Flatpak installeren",
       "text": "<text>Om Flatpak te installeren op <strong>Ubuntu 18.10 (Cosmic Cuttlefish) of nieuwer</strong>, opent u de terminal-app en voert u het volgende uit:</text> <code></code>"
     },
-    "step-2": {
-      "name": "De Flatpak-plug-in voor GNOME-Software installeren",
-      "text": "<text>De plug-in voor GNOME Software maakt het mogelĳk om apps te installeren zonder de opdracht­regel. Voer het volgende uit om te installeren:</text> <code></code> <text><strong>Opmerking:</strong> Ubuntu distribueert GNOME Software als een Snap in versies 20.04 tot en met 23.04 en heeft het in 23.10 en nieuwer vervangen door App Center. Beide ondersteunen de installatie van Flatpak-apps niet. Door de Flatpak-plug-in te installeren, wordt ook een deb-versie van GNOME Software geïnstalleerd, waardoor er twee ‘Software’-apps tegelĳk worden geïnstalleerd op Ubuntu 20.04 tot en met 23.04 en één nieuwe ‘Software’-app op Ubuntu 23.10 en nieuwer.</text>"
-    },
     "step-3": {
       "name": "De Flathub-pakket­bron toe­voegen",
       "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden. Voer het volgende uit om deze te activeren:</text> <code></code>"
@@ -116,10 +112,6 @@
       "name": "Flatpak installeren",
       "text": "<text>Een flatpak-pakket is beschikbaar voor Debian 10 (Buster) en nieuwer. Om deze te installeren, voert u het volgende uit als root:</text> <code></code>"
     },
-    "step-2": {
-      "name": "De Flatpak-plug-in voor Software installeren",
-      "text": "<text>Als u GNOME gebruikt, is het ook een goed idee om de Flatpak-plug-in voor GNOME Software te installeren. Voer hiervoor het volgende uit:</text> <code></code> <text>Als u KDE gebruikt, kunt u het beste de Plasma Discover Flatpak-backend installeren:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "De Flathub-pakket­bron toe­voegen",
       "text": "<text>Flathub is de beste plek om Flatpak-apps te downloaden en te installeren. Om het te activeren, downloadt en installeert u het <filelink>Flathub-pakketbron­bestand</filelink> of voert u het volgende uit in een terminal:</text> <code></code>"
@@ -180,10 +172,6 @@
     "step-4": {
       "name": "Opnieuw opstarten",
       "text": "<text>Start uw systeem opnieuw op om de installatie te voltooien. Nu hoeft u alleen nog maar <link>apps te installeren</link>!</text>"
-    },
-    "step-2": {
-      "name": "Installeer de Flatpak-add-on voor systeem­instellingen",
-      "text": "<text>Om Flatpak-ondersteuning in de Plasma-systeeminstellingen te integreren, opent u de Terminal-app en voert u het volgende uit:</text> <code></code>"
     }
   },
   "solus": {
@@ -207,10 +195,6 @@
     "step-1": {
       "name": "Flatpak installeren",
       "text": "<text>Flatpak kan worden geïnstalleerd vanuit de community-pakketbron. Voer het volgende uit in een terminal:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "De Flatpak-plug-in voor Software installeren",
-      "text": "<text>U kunt de Flatpak-plug-in installeren voor GNOME Software (vanaf versie 3.13) of KDE Discover (vanaf versie 3.11), waardoor u apps kunt installeren zonder de opdracht­regel te hoeven gebruiken. Om de plug-in te installeren, voert u voor GNOME Software het volgende uit:</text> <code></code> <text>Voor KDE Discover voert u het volgende uit:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "De Flathub-pakket­bron toe­voegen",
@@ -319,10 +303,6 @@
     "step-1": {
       "name": "Flatpak installeren",
       "text": "<text>Er is een Flatpak-pakket beschikbaar voor Pardus 2019 en nieuwer. Voer het volgende als root uit om het te installeren:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "De Flatpak-plug-in voor Software installeren",
-      "text": "<text>Als u GNOME gebruikt, is het ook een goed idee om de Flatpak-plug-in voor GNOME Software te installeren. Voer hiervoor het volgende uit:</text> <code></code>"
     },
     "step-3": {
       "name": "De Flathub-pakket­bron toe­voegen",

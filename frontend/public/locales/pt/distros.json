@@ -63,10 +63,6 @@
       "name": "Instalar o Flatpak",
       "text": "<text>Para instalar o Flatpak em versões do <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou posteriores</strong>, abra a aplicação Terminal e execute o seguinte comando:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Instalar o plugin Flatpak do GNOME Software",
-      "text": "<text>O plugin GNOME Software torna possível instalar aplicações sem precisar da aplicação Terminal. Para instalar, execute o seguinte comando no Terminal:</text> <code></code> <text><strong>Nota:</strong> O Ubuntu distribui o GNOME Software como um Snap nas versões 20.04 a 23.04 e foi substituído pela App Center nas versões 23.10 e posteriores — nenhuma das quais suporta a instalação de aplicações Flatpak. Ao Instalar o plugin Flatpak também irá instalar uma versão DEB do GNOME Software, resultando em duas aplicações \"Software\" a serem instaladas ao mesmo tempo nas versões Ubuntu 20.04 a 23.04 e uma única aplicação nova \"Software\" nas versões Ubuntu 23.10 e posteriores.</text>"
-    },
     "step-3": {
       "name": "Adicione o repositório Flathub",
       "text": "<text>O Flathub é o melhor sítio para obter aplicações Flatpak. Para o ativar, descarregue e instale o <filelink>ficheiro do repositório do Flathub</filelink> ou execute:</text><code></code>"
@@ -115,10 +111,6 @@
     "step-1": {
       "name": "Instalar o Flatpak",
       "text": "<text>Um pacote flatpak está disponível nas versões Debian 10 (Buster) e posteriores. Para instalá-lo, execute o seguinte comando no Terminal como administrador (root):</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instalar o plugin Flatpak Software",
-      "text": "<text>Se está a usar o GNOME, é também uma boa ideia instalar o plugin Flatpak para o GNOME Software. Para o fazer, execute o seguinte comando no Terminal:</text> <code></code> <text>Se estiver a usar o KDE, deve instalar o backend do Plasma Discover Flatpak:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",
@@ -173,10 +165,6 @@
       "name": "Instalar o Flatpak",
       "text": "<text>Para instalar o Flatpak no Kubuntu, abra o Discover, vá a Configurações, instale o backend do Flatpak e reinicie o Discover.</text>"
     },
-    "step-2": {
-      "name": "Instalar o complemento de configurações do sistema Flatpak",
-      "text": "<text>Para integrar o suporte Flatpak nas Definições do sistema no KDE Plasma, abra a aplicação Terminal e execute o seguinte comando:</text> <code></code>"
-    },
     "step-3": {
       "name": "Adicione o repositório Flathub",
       "text": "<text>O Flathub é o melhor lugar para obter aplicações Flatpak. Para ativá-lo, abra o Discover, vá até Configurações e adicione o repositório Flathub.</text>"
@@ -207,10 +195,6 @@
     "step-1": {
       "name": "Instalar o Flatpak",
       "text": "<text>O Flatpak pode ser instalado a partir do repositório da comunidade. Execute o seguinte comando no Terminal:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instalar o plugin Flatpak Software",
-      "text": "<text>Pode instalar o plugin Flatpak para o GNOME Software (desde a versão 3.13) ou para o KDE Discover (desde a versão 3.11), assim é possível instalar aplicações sem precisar do Terminal. Para instalar no GNOME Software, execute o seguinte comando no Terminal:</text> <code></code> <text>Para o KDE Discover, execute o seguinte comando no Terminal:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",
@@ -328,10 +312,6 @@
     "step-1": {
       "name": "Instalar o Flatpak",
       "text": "<text>Está disponível um pacote flatpak nas versões Pardus 2019 e posteriores. Para instalá-lo, execute o seguinte comando no Terminal como Administrador (root):</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instalar o plugin Software Flatpak",
-      "text": "<text>Se está a usar o GNOME, também é uma boa ideia instalar o plugin Flatpak para o GNOME Software. Para fazer isto, execute o seguinte comando no Terminal:</text> <code></code>"
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",

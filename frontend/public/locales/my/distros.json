@@ -5,10 +5,6 @@
       "name": "Flatpak ကိုတပ်ဆင်ပါ",
       "text": "<text>Flatpak ကို <strong>Ubuntu 18.10 (Cosmic Cuttlefish) သို့မဟုတ် နောက်ပိုင်းဗားရှင်း</strong>များတွင် ထည့်သွင်းရန် Terminal အက်ပ်ကိုဖွင့်ပြီး အောက်ပါအတိုင်း ရိုက်ထည့်ပါ။</text> <code></code>"
     },
-    "step-2": {
-      "name": "GNOME Software Flatpak plugin ကို တပ်ဆင်ပါ",
-      "text": "<text>GNOME Software ၏ plugin သည် command line မလိုအပ်ဘဲ အက်ပ်များကို ထည့်သွင်းနိုင်စေသည်။ ထည့်သွင်းရန် အောက်ပါအတိုင်း ရိုက်ထည့်ပါ။</text> <code></code> <text><strong>မှတ်ချက်။</strong> Ubuntu သည် ဗားရှင်း 20.04 မှ 23.04 အထိ GNOME Software ကို Snap အဖြစ် ဖြန့်ဝေပြီး 23.10 နှင့် နောက်ပိုင်းဗားရှင်းများတွင် App Center ဖြင့် အစားထိုးခဲ့သည် — ၎င်းတို့နှစ်ခုစလုံးသည် Flatpak အက်ပ်များကို ပံ့ပိုးမပေးပါ။ Flatpak plugin ကို ထည့်သွင်းခြင်းသည် GNOME Software ၏ deb ဗားရှင်းကိုပါ ထည့်သွင်းပေးမည်ဖြစ်ရာ Ubuntu 20.04 မှ 23.04 တွင် \"Software\" အက်ပ် နှစ်ခု တစ်ပြိုင်နက် ထည့်သွင်းပြီးသွားမည်ဖြစ်ပြီး Ubuntu 23.10 နှင့် နောက်ပိုင်းများတွင် \"Software\" အက်ပ် အသစ်တစ်ခုသာ ရှိမည်ဖြစ်သည်။</text>"
-    },
     "step-3": {
       "name": "Flathub သိုလှောင်ရုံကို ထည့်သွင်းပါ",
       "text": "<text>Flathub သည် Flatpak အက်ပ်များရယူရန် အကောင်းဆုံးနေရာဖြစ်သည်။ ၎င်းကို ဖွင့်ရန် <filelink>Flathub repository file</filelink> or run အောက်ပါအတိုင်း ရိုက်ထည့်ပါ။</text> <code></code>"

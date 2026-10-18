@@ -5,10 +5,6 @@
       "name": "Nainstalujte Flatpak",
       "text": "<text>Pro instalaci Flatpaku na <strong>Ubuntu 18.10 (Kosmické sépie) nebo novější</strong>, otevřete aplikaci Terminál a spusťte: </text> <code></code>"
     },
-    "step-2": {
-      "name": "Nainstalujte zásuvný modul pro Flatpak do GNOME Software",
-      "text": "<text>Zásuvný modul GNOME Softwaru umožňuje nainstalovat aplikace bez potřeby příkazového řádku. Pro instalaci spusťte:</text> <code></code> <text><strong>Poznámka:</strong> Ubuntu distribuuje GNOME Software jako Snap ve verzích 20.04 až 23.04 a nahradilo jej aplikací App Center ve verzi 23.10 a novější–ani jeden z nich nepodporuje instalaci aplikací Flatpak. Instalací zásuvného modulu pro Flatpak se nainstaluje také deb verze GNOME Software, což vede k tomu, že v Ubuntu 20.04 až 23.04 se nainstalují dvě aplikace „Software“ najednou a v Ubuntu 23.10 a novějším jedna nová aplikace „Software“.</text>"
-    },
     "step-3": {
       "name": "Přidejte repozitář Flathub",
       "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Pro jeho povolení stáhněte a nainstalujte <filelink>soubor repozitáře Flathub</filelink> nebo spusťte:</text> <code></code>"
@@ -116,10 +112,6 @@
       "name": "Nainstalujte Flatpak",
       "text": "<text>Balíček flatpak je k dispozici v Debian 10 (Buster) a novějších. Nainstalujete ho spuštěním následujícího (jako root):</text> <code></code>"
     },
-    "step-2": {
-      "name": "Nainstalujte zásuvný modul pro Flatpak do Software",
-      "text": "<text>Pokud používáte GNOME, je vhodné nainstalovat zásuvný modul pro Flatpak do GNOME Software. Učiníte tak spuštěním:</text> <code></code> <text>Pokud používáte KDE, měli byste namísto toho nainstalovat Flatpak backend pro Plasma Discover:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Přidejte repozitář Flathub",
       "text": "<text>Flathub je nejlepším místem pro získávání aplikací Flatpak. Povolíte ho tak, že si stáhnete a nainstalujete <filelink>soubor Flathub repozitáře</filelink> nebo spustíte následující v terminálu:</text> <code></code>"
@@ -202,11 +194,7 @@
       "name": "Restartujte",
       "text": "<text>Pro dokončení nastavení restartujte váš systém. Teď už stačí jen <link>nainstalovat aplikace</link>!</text>"
     },
-    "distroName": "Kubuntu",
-    "step-2": {
-      "text": "<text>Pro integraci podpory Flatpaku do systémových nastavení Plasma, otevřete aplikaci Terminál a spusťte:</text> <code></code>",
-      "name": "Nainstalujte doplněk systémového nastavení pro Flatpak"
-    }
+    "distroName": "Kubuntu"
   },
   "solus": {
     "step-1": {
@@ -237,11 +225,7 @@
       "name": "Restartujte",
       "text": "<text>Pro dokončení nastavení restartujte váš systém. Teď už stačí jen <link>nainstalovat aplikace</link>!</text>"
     },
-    "distroName": "Alpine",
-    "step-2": {
-      "name": "Nainstalujte zásuvný modul pro Flatpak do Software",
-      "text": "<text>Zásuvný modul pro Flatpak můžete nainstalovat buď do GNOME Software (od v3.13) nebo do KDE Discover (od v3.11). Umožňuje instalovat aplikace bez nutnosti použití příkazového řádku. Pro instalaci do GNOME Software, spusťte:</text> <code></code> <text>Pro KDE Discover spusťte:</text> <codeDiscover></codeDiscover>"
-    }
+    "distroName": "Alpine"
   },
   "mageia": {
     "step-1": {
@@ -320,11 +304,7 @@
       "name": "Restartujte",
       "text": "<text>Pro dokončení nastavení restartujte váš systém. Teď už stačí jen <link>nainstalovat aplikace</link>!</text>"
     },
-    "distroName": "Pardus",
-    "step-2": {
-      "name": "Nainstalujte zásuvný modul pro Flatpak do Software",
-      "text": "<text>Pokud používáte GNOME, je vhodné nainstalovat zásuvný modul pro Flatpak do GNOME Software. Učiníte tak spuštěním:</text> <code></code>"
-    }
+    "distroName": "Pardus"
   },
   "pisi_gnulinux": {
     "step-1": {

@@ -58,10 +58,6 @@
       "name": "A Flatpak telepítése",
       "text": "<text>A Flatpak-csomag elérhető a Debian 10 (Buster) és újabb verziókban. A telepítéshez futtassa a következőt rootként:</text> <code></code>"
     },
-    "step-2": {
-      "name": "A Szoftver Flatpak-bővítmény telepítése",
-      "text": "<text>Ha GNOME-ot használ, érdemes a Flatpak-bővítményt is telepíteni a GNOME Szoftverhez. Ehhez futtassa a következőt:</text> <code></code> <text>Ha KDE van a rendszeren, helyette telepítse a Plasma Discover Flatpak-háttérprogramját:</text> <codeDiscover></codeDiscover>"
-    },
     "step-4": {
       "name": "Újraindítás",
       "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text>"
@@ -115,11 +111,7 @@
       "name": "Újraindítás",
       "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text>"
     },
-    "distroName": "Kubuntu",
-    "step-2": {
-      "name": "A Flatpak rendszerbeállítások bővítményének telepítése",
-      "text": "<text>A Flatpak-támogatás a Plasma Rendszerbeállításokba való integrálásához nyissa meg a terminálalkalmazást, és futtassa:</text> <code></code>"
-    }
+    "distroName": "Kubuntu"
   },
   "solus": {
     "step-3": {
@@ -145,10 +137,6 @@
     "step-4": {
       "name": "Újraindítás",
       "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text>"
-    },
-    "step-2": {
-      "name": "A Szoftver Flatpak-bővítmény telepítése",
-      "text": "<text>A Flatpak bővítményt a GNOME Szoftverhez (v3.13 óta) vagy a KDE Discoverhez (v3.11 óta) telepítheti, lehetővé téve az alkalmazások telepítését a parancssor nélkül. A telepítéshez GNOME Szoftver esetén futtassa a következőt:</text> <code></code> <text>KDE Discover esetén futtassa a következőt:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "A Flathub-tároló hozzáadása",
@@ -224,10 +212,6 @@
     "step-1": {
       "name": "A Flatpak telepítése",
       "text": "<text>A Flatpak-csomag elérhető a Pardus 2019-es és újabb verzióiban. A telepítéshez futtassa a következőt rootként:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "A Szoftver Flatpak-bővítmény telepítése",
-      "text": "<text>Ha GNOME-ot használ, érdemes a Flatpak-bővítményt is telepíteni a GNOME Szoftverhez. Ehhez futtassa a következőt:</text> <code></code>"
     },
     "step-3": {
       "name": "A Flathub-tároló hozzáadása",
@@ -374,10 +358,6 @@
       "name": "A Flatpak telepítése"
     },
     "distroName": "Ubuntu",
-    "step-2": {
-      "name": "GNOME Szoftver Flatpak-bővítmény telepítése",
-      "text": "<text>A GNOME Szoftver bővítménye lehetővé teszi alkalmazások telepítését parancssor nélkül. A telepítéshez futtassa:</text> <code></code> <text><strong>Megjegyzés:</strong> Az Ubuntu a GNOME Szoftvert Snap-ként terjeszti a 20.04–23.04-es verziókban, és lecserélte az Alkalmazásközpontra a 23.10-es és újabb verziókban—egyik sem támogatja a Flatpak alkalmazások telepítését. A Flatpak-bővítmény telepítése a GNOME Szoftver deb verzióját is telepíti, aminek eredményeként egyszerre két „Szoftver” alkalmazás kerül telepítésre az Ubuntu 20.04–23.04-es verzióiban, és egyetlen új „Szoftver” alkalmazás az Ubuntu 23.10-es és újabb verzióiban.</text>"
-    },
     "step-4": {
       "name": "Újraindítás",
       "text": "<text>A beállítás befejezéséhez indítsa újra a rendszert. Most már csak <link>alkalmazásokat kell telepítenie</link>!</text>"

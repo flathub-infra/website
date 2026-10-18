@@ -5,10 +5,6 @@
       "name": "Suiteáil Flatpak",
       "text": "<text>Chun Flatpak a shuiteáil ar <strong>Ubuntu 18.10 (Cosmic Cuttlefish) nó níos déanaí</strong>, oscail an aip Críochfoirt agus rith:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Suiteáil breiseán Flatpak Bogearraí GNOME",
-      "text": "<text>Ligeann breiseán Bogearraí GNOME gur féidir aipeanna a shuiteáil gan an líne ordaithe a bheith ag teastáil. Chun é a shuiteáil, rith:</text> <code></code> <text><strong>Nóta:</strong> Dáileann Ubuntu Bogearraí GNOME mar Snap i leaganacha 20.04 go 23.04, agus cuireadh App Center ina áit i 23.10 agus níos nuaí—ní thacaíonn ceachtar acu le suiteáil aipeanna Flatpak. Suiteálfaidh suiteáil an bhreiseáin Flatpak leagan deb de Bhogearraí GNOME freisin, rud a fhágann go suiteálfar dhá aip \"Bogearraí\" ag an am céanna ar Ubuntu 20.04 go 23.04, agus aip nua \"Bogearraí\" amháin ar Ubuntu 23.10 agus níos nuaí.</text>"
-    },
     "step-3": {
       "name": "Cuir stór Flathub leis",
       "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, íoslódáil agus suiteáil an comhad <filelink>stór Flathub</filelink> nó rith:</text> <code></code>"
@@ -116,10 +112,6 @@
       "name": "Suiteáil Flatpak",
       "text": "<text>Tá pacáiste flatpak ar fáil i Debian 10 (Buster) agus níos nuaí. Chun é a shuiteáil, rith an méid seo a leanas mar fhréamh:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Suiteáil an breiseán Bogearraí Flatpak",
-      "text": "<text>Más GNOME atá á rith agat, is dea-smaoineamh é an breiseán Flatpak a shuiteáil do Bhogearraí GNOME. Chun seo a dhéanamh, rith:</text> <code></code> <text>Más KDE atá á rith agat, ba cheart duit an cúltaca Plasma Discover Flatpak a shuiteáil ina ionad:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Cuir stór Flathub leis",
       "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, íoslódáil agus suiteáil an <filelink>comhad stórtha Flathub</filelink> nó rith an méid seo a leanas i dteirminéal:</text> <code></code>"
@@ -173,10 +165,6 @@
       "name": "Suiteáil Flatpak",
       "text": "<text>Chun Flatpak a shuiteáil ar Kubuntu, oscail Discover, téigh go Socruithe, suiteáil inneall Flatpak agus atosaigh Discover.</text>"
     },
-    "step-2": {
-      "name": "Suiteáil an breiseán socruithe córais Flatpak",
-      "text": "<text>Chun tacaíocht Flatpak a chomhtháthú i Socruithe Córais Plasma, oscail an aip Críochfoirt agus rith:</text> <code></code>"
-    },
     "step-3": {
       "name": "Cuir stór Flathub leis",
       "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, oscail Discover, téigh go Socruithe agus cuir an stór Flathub leis.</text>"
@@ -207,10 +195,6 @@
     "step-1": {
       "name": "Suiteáil Flatpak",
       "text": "<text>Is féidir Flatpak a shuiteáil ón stór pobail. Rith an méid seo a leanas i dteirminéal:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Suiteáil an breiseán Bogearraí Flatpak",
-      "text": "<text>Is féidir leat an breiseán Flatpak a shuiteáil do Bhogearra GNOME (ó leagan 3.13) nó do KDE Discover (ó leagan 3.11), rud a fhágann gur féidir aipeanna a shuiteáil gan an líne ordaithe a bheith ag teastáil. Chun é a shuiteáil, rith Bogearraí GNOME:</text> <code></code> <text>Le haghaidh KDE Discover rith:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Cuir stór Flathub leis",
@@ -328,10 +312,6 @@
     "step-1": {
       "name": "Suiteáil Flatpak",
       "text": "<text>Tá pacáiste flatpak ar fáil i Pardus 2019 agus níos nuaí. Chun é a shuiteáil, rith an méid seo a leanas mar fhréamh:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Suiteáil an breiseán Bogearraí Flatpak",
-      "text": "<text>Más GNOME atá á rith agat, is smaoineamh maith é an breiseán Flatpak a shuiteáil do Bhogearraí GNOME. Chun seo a dhéanamh, rith:</text> <code></code>"
     },
     "step-3": {
       "name": "Cuir stór Flathub leis",

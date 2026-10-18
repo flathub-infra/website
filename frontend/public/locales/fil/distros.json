@@ -5,10 +5,6 @@
       "name": "I-install ang Flatpak",
       "text": "<text>Para i-install ang Flatpak sa <strong>Ubuntu 18.10 (Cosmic Cuttlefish) o mas bago</strong>, buksan ang Terminal app at ilagay ang:</text> <code></code>"
     },
-    "step-2": {
-      "name": "I-install ang Flatpak plugin para sa GNOME Software",
-      "text": "<text>Makakapag-install ka ng mga app nang hindi gumagamit ng command line gamit ang plugin para sa GNOME Software. Para i-install, patakbuhin ang:</text> <code></code> <text><strong>Paalala:</strong> Sa Ubuntu, isang Snap ang GNOME Software sa bersyon 20.04 hanggang 23.04, at pinalitan ito ng App Center simula 23.10—wala sa dalawang ito ang sumusuporta sa pag-install ng mga naka-Flatpak na app. Mai-install rin ang deb na bersyon ng GNOME Software kung ii-install ang Flatpak plugin, na hahantong sa pagkakaroon ng dalawang \"Software\" app na naka-install nang sabayan sa Ubuntu 20.04 hanggang 23.04, at isang bagong \"Software\" app simula Ubuntu 23.10.</text>"
-    },
     "step-3": {
       "name": "Idagdag ang repositoryo ng Flathub",
       "text": "<text>Ang Flathub ang pinakamagandang lugar para makakuha ng mga Flatpak app. Para i-enable ito, patakbuhin ang:</text> <code></code>"

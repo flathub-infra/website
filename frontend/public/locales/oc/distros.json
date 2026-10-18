@@ -4,9 +4,6 @@
     "step-1": {
       "name": "Installar Flatpak"
     },
-    "step-2": {
-      "name": "Installar l’empeuton Flatpak dins GNOME Logicials"
-    },
     "step-3": {
       "name": "Apondre lo depaus Flathub"
     },

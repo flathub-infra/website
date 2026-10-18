@@ -12,10 +12,6 @@
       "name": "Flatpak'ı kur",
       "text": "<text>Flatpak'ı <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ve üzeri sürümlere</strong> kurmak için Terminal uygulamasını açın ve aşağıdaki komutu çalıştırın:</text> <code></code>"
     },
-    "step-2": {
-      "name": "GNOME Yazılımı Flatpak eklentisini indirin",
-      "text": "<text>GNOME Yazılımı eklentisi, komut satırına gerek duymadan uygulama yüklemenizi sağlar. İndirmek için bunu çalıştırın:</text> <code></code> <text><strong>Not:</strong> Ubuntu, GNOME Yazılımı'nı 20.04 sürümünden 23.04'e kadar Snap olarak dağıtmıştır, ayrıca 23.10 ve daha yeni sürümlerde Uygulama Merkezi ile değiştirmiştir —ki ikiside Flatpak uygulamaları yüklemeyi desteklemez. Flatpak eklentisini yüklemek aynı zamanda GNOME Yazılımı'nın deb halini yükler, bu, Ubuntu 20.04'ten 23.04'e kadar iki ve 23.10'dan sonrasında bir adet \"Yazılım\" uygulamalarının yüklenmesi ile sonuçlanacaktır.</text>"
-    },
     "step-3": {
       "name": "Flathub deposunu ekle",
       "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirip kurun ya da terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
@@ -116,10 +112,6 @@
       "name": "Flathub deposunu ekle",
       "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirip kurun ya da bir terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Yazılım Flatpak eklentisini kurun",
-      "text": "<text>Eğer GNOME kullanıyorsanız GNOME Yazılım eklentisini kurmak iyi bir fikirdir. Kurmak için aşağıdaki komutu çalıştırın:</text> <code></code> <text>Eğer KDE kullanıyorsanız bunun yerine Plasma Discover Flatpak eklentisini (backend) kurmanız gerekir: </text> <codeDiscover></codeDiscover>"
-    },
     "step-4": {
       "name": "Yeniden başlat",
       "text": "<text>Kurulumu tamamlamak için, sisteminizi yeniden başlatın. Artık tek yapmanız gereken <link>uygulamaları kurmaya başlamak</link>!</text>"
@@ -210,10 +202,6 @@
       "name": "Flatpak'ı kur",
       "text": "<text>Flatpak'ı topluluk deposundan kurabilirsiniz. Bir terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Yazılım Flatpak eklentisini kurun",
-      "text": "<text>Hem GNOME Yazılım (3.13 ve üzeri) hem de KDE Discover (3.11 ve üzeri) için Flatpak eklentisini kurarak uygulamaları komut satırına gerek kalmadan yükleyebilirsiniz. GNOME Yazılım için kurmak üzere şu komutu çalıştırın:</text> <code></code> <text>KDE Discover için ise şu komutu çalıştırın:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Flathub deposunu ekle",
       "text": "<text>Flathub, Flatpak uygulamalarını kurmak için en iyi seçenektir. Etkinleştirmek için <filelink>Flathub depo dosyasını</filelink> indirip kurun ya da bir terminalde aşağıdaki komutu çalıştırın:</text> <code></code>"
@@ -255,10 +243,6 @@
     "step-1": {
       "name": "Flatpak'ı kur",
       "text": "<text>Kubuntu üzerinde Flatpak kurmak için Discover'ı açın, ayarlara gidin, Flatpak arka ucunu (backend) indirin ve Discover'ı yeniden başlatın.</text>"
-    },
-    "step-2": {
-      "name": "Flatpak sistem ayarları eklentisini kurun",
-      "text": "<text>Flatpak desteğini Plasma Sistem Ayarları'na entegre etmek için Terminal uygulamasını açın ve şunu çalıştırın:</text> <code></code>"
     },
     "step-4": {
       "name": "Yeniden başlat",
@@ -373,10 +357,6 @@
     "step-1": {
       "name": "Flatpak'ı kur",
       "text": "<text>Pardus 2019 ve üstü sürümlerde Flatpak paketi mevcuttur. Kurmak için aşağıdaki komutu yönetici yetkisiyle (root) çalıştırın:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Yazılım Flatpak eklentisini kurun",
-      "text": "<text>Eğer GNOME kullanıyorsanız GNOME Yazılım eklentisini kurmak iyi bir fikirdir. Eklentiyi kurmak için aşağıdaki komutu çalıştırın:</text> <code></code>"
     },
     "step-3": {
       "name": "Flathub deposunu ekle",

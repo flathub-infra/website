@@ -193,10 +193,6 @@
       "name": "Zainstaluj Flatpak",
       "text": "<text>Aby zainstalować Flatpak na <strong>Ubuntu 18.10 (Cosmic Cuttlefish) lub nowszym</strong>, wystarczy uruchomić:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Zainstaluj wtyczkę Flatpak do GNOME Software",
-      "text": "<text>Wtyczka dla aplikacji Software umożliwia instalację aplikacji bez konieczności korzystania z wiersza poleceń. Aby ją zainstalować, uruchom:</text> <code></code> <text><strong>Uwaga:</strong> aplikacja Software jest dystrybuowana jako Snap od Ubuntu 20.04 i nie obsługuje graficznej instalacji aplikacji Flatpak. Zainstalowanie wtyczki Flatpak spowoduje również zainstalowanie wersji deb Software i spowoduje zainstalowanie dwóch aplikacji Software w tym samym czasie.</text>"
-    },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",
       "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, pobierz i zainstaluj <filelink>plik repozytorium Flathub</filelink> lub wykonaj:</text> <code></code>"
@@ -222,10 +218,6 @@
     "step-1": {
       "name": "Zainstaluj Flatpak",
       "text": "<text>Flatpak można zainstalować z repozytorium społeczności. Uruchom następujące polecenie w terminalu:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Zainstaluj wtyczkę Flatpak",
-      "text": "<text>Wtyczkę Flatpak można zainstalować dla GNOME Software (od wersji 3.13) lub KDE Discover (od wersji 3.11), umożliwiając instalację aplikacji bez konieczności korzystania z wiersza poleceń. Aby ją zainstalować, dla GNOME Software uruchom:</text> <code></code> <text>Dla KDE Discover uruchom:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",
@@ -283,10 +275,6 @@
       "name": "Dodaj repozytorium Flathub",
       "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, otwórz Discover, przejdź do Ustawień i dodaj repozytorium Flathub.</text>"
     },
-    "step-2": {
-      "name": "Zainstaluj dodatek Flatpak do ustawień systemowych",
-      "text": "<text>Aby zintegrować obsługę Flatpak z ustawieniami systemu Plasma, otwórz aplikację Terminal i uruchom:</text> <code></code>"
-    },
     "step-4": {
       "name": "Uruchom ponownie",
       "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
@@ -297,10 +285,6 @@
     "step-1": {
       "name": "Zainstaluj Flatpak",
       "text": "<text>Pakiet flatpak jest dostępny w Debianie 10 (Buster) i nowszych. Aby go zainstalować, uruchom następujące polecenie jako root:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Zainstaluj wtyczkę Flatpak",
-      "text": "<text>Jeśli używasz środowiska GNOME, dobrym pomysłem jest również zainstalowanie wtyczki Flatpak dla GNOME Software. Aby to zrobić, uruchom:</text> <code></code> <text>Jeśli używasz KDE, powinieneś, zamiast tego zainstalować Plasma Discover Backend Flatpak:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",
@@ -397,10 +381,6 @@
     "step-4": {
       "name": "Uruchom ponownie",
       "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
-    },
-    "step-2": {
-      "name": "Zainstaluj wtyczkę Flatpak",
-      "text": "<text>Jeśli używasz środowiska GNOME, dobrym pomysłem jest również zainstalowanie wtyczki Flatpak dla GNOME Software. Aby to zrobić, uruchom:</text> <code></code>"
     }
   },
   "deepin": {
