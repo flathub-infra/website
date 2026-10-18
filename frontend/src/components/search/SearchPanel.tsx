@@ -70,7 +70,7 @@ export const SearchPanel = ({
         />
       </div>
       <div className="flex w-full flex-col gap-3">
-        <span className="flex flex-col">
+        <div className="text-center">
           <h1 className="text-2xl font-bold">
             {t("search-for-query", { query })}
           </h1>
@@ -89,7 +89,7 @@ export const SearchPanel = ({
               })}
             </span>
           }
-        </span>
+        </div>
         <div className="md:hidden">
           <Disclosure>
             <DisclosureButton
@@ -136,7 +136,7 @@ export const SearchPanel = ({
           </div>
         )}
         {isNoMatch && (
-          <div className="flex flex-col gap-3">
+          <div className="text-center">
             <p role="status" aria-live="polite">
               {t(
                 hasSelectedFilters
