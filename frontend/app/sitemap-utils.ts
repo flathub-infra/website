@@ -1,6 +1,6 @@
 import { languages } from "src/localize"
 import { getApiBaseUrl } from "src/utils/api-url"
-import { fetchSetupInstructions } from "src/distro-setup"
+import { getDistros } from "src/distro-setup"
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_BASE_URI || "https://flathub.org"
 
@@ -97,7 +97,7 @@ ${entries}
 }
 
 export async function buildStaticEntries(): Promise<string[]> {
-  const setupInstructions = await fetchSetupInstructions()
+  const setupInstructions = getDistros()
   const distroPages = setupInstructions.map(
     (instruction) =>
       `/setup/${encodeURIComponent(instruction.slug ?? instruction.name)}`,
