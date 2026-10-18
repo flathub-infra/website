@@ -68,10 +68,7 @@ export const SearchResults: FunctionComponent<Props> = ({
       </div>
 
       {recommendations.length > 0 && (
-        <section className="mt-8" aria-labelledby="trending-apps-heading">
-          <h2 id="trending-apps-heading" className="mb-4 text-xl font-bold">
-            {t("trending-apps")}
-          </h2>
+        <div className="mt-8">
           <div className="grid grid-cols-1 justify-around gap-4 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3">
             {recommendations.map((app, index) => (
               <div key={app.app_id} className="flex flex-col gap-2">
@@ -82,7 +79,7 @@ export const SearchResults: FunctionComponent<Props> = ({
               </div>
             ))}
           </div>
-        </section>
+        </div>
       )}
 
       {/* Load More Button */}
