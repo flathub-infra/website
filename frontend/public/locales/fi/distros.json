@@ -5,10 +5,6 @@
       "name": "Asenna Flatpak",
       "text": "<text>Asenna Flatpak <strong>Ubuntun versioon 18.10 (Cosmic Cuttlefish) tai uudempaan</strong> avaamalla pääte ja suorittamalla:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Asenna Gnomen Ohjelmistot-sovelluksen Flatpak-lisäosa",
-      "text": "<text>Gnomen Ohjelmistot-liitännäinen mahdollistaa sovellusten asentamisen ilman komentorivin käyttöä. Asenna liitännäinen:</text> <code></code> <text><strong>Huomio:</strong> Ubuntu jakelee Gnomen Ohjelmistot-sovellusta Snap-pakattuna versiosta 20.04 versioon 23.04, ja se korvattiin Sovelluskeskuksella Ubuntun versiossa 23.10 ja sitä uudemmissa Ubuntun versioissa — nämä eivät tue Flatpak-sovellusten asentamista. Flatpak-liitännäisen asentaminen asentaa myös deb-version Gnomen Ohjelmistot-sovelluksesta, ja sen seurauksena järjestelmässä on kaksi \"Ohjelmistot\"-sovellusta asennettuna samanaikaisesti Ubuntun versiosta 20.04 aina versioon 23.04 asti, ja yksi \"Ohjelmistot\"-sovellus Ubuntun versiossa 23.10 ja sitä uudemmissa.</text>"
-    },
     "step-3": {
       "name": "Lisää Flathub-ohjelmistolähde",
       "text": "<text>Flathub on paras paikka josta saat Flatpak -sovelluksia. Käyttöönottoa varten, lataa ja asenna <filelink>Flathub-ohjelmistovarastotiedosto</filelink> tai aja:</text> <code></code>"
@@ -120,10 +116,6 @@
       "name": "Lisää Flathub-ohjelmistolähde",
       "text": "<text>Flathub on paras lähde ladata Flatpak-sovelluksia. Ota se käyttöön lataamalla ja asentamalla <filelink>Flathub-ohjelmistolähdetiedosto</filelink> tai suorita seuraava komento:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Asenna Ohjelmistot-sovelluksen Flatpak-lisäosa",
-      "text": "<text>Jos käytät Gnomea, voit asentaa Flatpak-lisäosan Gnomen Ohjelmistot-sovellukseen. Suorita komento:</text> <code></code> <text>Jos käytät KDE:tä, voit asentaa Plasman Discoverin Flatpak-taustaosan:</text> <codeDiscover></codeDiscover>"
-    },
     "step-4": {
       "name": "Käynnistä uudelleen",
       "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
@@ -180,10 +172,6 @@
     "step-4": {
       "name": "Käynnistä uudelleen",
       "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
-    },
-    "step-2": {
-      "name": "Asenna Flatpak -järjestelmäasetusten lisäosa",
-      "text": "<text>Jos haluat sulauttaa Flatpak-tuen Plasman järjestelmäasetuksiin, avaa päätesovellus ja aja siinä:</text> <code></code>"
     }
   },
   "solus": {
@@ -211,9 +199,6 @@
     },
     "step-3": {
       "name": "Lisää Flathub-ohjelmistolähde"
-    },
-    "step-2": {
-      "name": "Asenna Ohjelmistot-sovelluksen Flatpak-lisäosa"
     }
   },
   "mageia": {
@@ -320,10 +305,6 @@
     "step-4": {
       "name": "Käynnistä uudelleen",
       "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
-    },
-    "step-2": {
-      "name": "Asenna Ohjelmistot-sovelluksen Flatpak-lisäosa",
-      "text": "<text>Jos käytät Gnomea, voit asentaa Flatpak-lisäosan Gnomen Ohjelmistot-sovellukseen. Suorita komento:</text> <code></code>"
     }
   },
   "mx_linux": {

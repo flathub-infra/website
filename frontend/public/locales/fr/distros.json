@@ -5,10 +5,6 @@
       "name": "Installer Flatpak",
       "text": "<text>Pour installer Flatpak sur <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou version ultérieure</strong>, ouvrez l'application Terminal et exécutez :</text> <code></code>"
     },
-    "step-2": {
-      "name": "Installer le plugin Flatpak dans GNOME Logiciels",
-      "text": "<text>Le plugin GNOME Logiciels permet d'installer des applications sans avoir besoin de la ligne de commande. Pour l'installer, exécutez :</text> <code></code> <text><strong>Remarque :</strong> Ubuntu distribue GNOME Logiciels sous forme de Snap dans les versions 20.04 à 23.04, et l'a remplacé par App Center dans les versions 23.10 et ultérieures, qui ne prennent pas en charge l'installation d'applications Flatpak. L'installation du plugin Flatpak installera également une version Deb de GNOME Logiciels, ce qui entraînera l'installation simultanée de deux applications « Logiciels » sur Ubuntu 20.04 à 23.04, et d'une seule nouvelle application « Logiciels » sur Ubuntu 23.10 et ultérieures.</text>"
-    },
     "step-3": {
       "name": "Ajouter le dépôt Flathub",
       "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l'activer, téléchargez puis installez le <filelink>fichier dépôt Flathub</filelink> ou exécutez :</text> <code></code>"
@@ -46,10 +42,6 @@
     "step-4": {
       "name": "Redémarrer",
       "text": "<text>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <link>installer des applications</link> !</text>"
-    },
-    "step-2": {
-      "name": "Installer le plugin logiciel Flatpak",
-      "text": "<text>Si vous utilisez GNOME, il est aussi judicieux d'installer le plugin Flatpak pour GNOME Logiciels. Pour ce faire, exécutez :</text> <code></code>"
     }
   },
   "mx_linux": {
@@ -146,10 +138,6 @@
       "text": "<text>Un paquet Flatpak est disponible dans Debian 10 (Buster) et les versions plus récentes. Pour l'installer, exécutez la commande suivante en tant que root :</text> <code></code>"
     },
     "distroName": "Debian",
-    "step-2": {
-      "name": "Installez le plugin Logiciel Flatpak",
-      "text": "<text>Si vous utilisez GNOME, il est également judicieux d'installer le plugin Flatpak pour GNOME Logiciels. Pour ce faire, exécutez :</text> <code></code> <text>Si vous utilisez KDE, vous devez plutôt installer le backend Flatpak pour Plasma Discover :</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Ajouter le dépôt Flathub",
       "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour l'activer, téléchargez et installez le <filelink>fichier de dépôt Flathub</filelink> ou exécutez la commande suivante dans un terminal :</text> <code></code>"
@@ -256,10 +244,6 @@
       "name": "Redémarrer",
       "text": "<text>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <link>installer des applications</link> !</text>"
     },
-    "step-2": {
-      "name": "Installer le module complémentaire de paramètres système Flatpak",
-      "text": "<text>Pour intégrer la prise en charge de Flatpak dans les paramètres du système Plasma, ouvrez l'application Terminal et exécutez :</text> <code></code>"
-    },
     "step-3": {
       "name": "Ajouter le dépôt Flathub",
       "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour lui permettre, ouvrez Discover, allez dans Réglages et ajoutez le référentiel Flathub.</text>"
@@ -286,10 +270,6 @@
     "step-1": {
       "name": "Installer Flatpak",
       "text": "<text>Flatpak est installable à partir du dépôt communautaire. Exécutez la commande suivante dans un terminal :</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Installez le plugin Logiciel Flatpak",
-      "text": "<text>Vous pouvez installer le plugin Flatpak pour le GNOME Logiciels (depuis v3.13) ou KDE Discover (depuis v3.11), ce qui permet d’installer des applications sans avoir besoin de la ligne de commande. Pour installer, concernant GNOME Logiciels exécuter :</text> <code></code> <text>Concernant KDE Discover exécuter :</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Ajouter le dépôt Flathub",

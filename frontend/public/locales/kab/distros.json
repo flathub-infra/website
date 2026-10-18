@@ -11,10 +11,7 @@
       "name": "Ales askker",
       "text": "<text>I wakken ad yemmed usebded, ales asekker n unagraw-ik·im. Tura yegra-d kan <link>ad tesbeddeḍ isnasen.</link> !</text>"
     },
-    "distroName": "Ubuntu",
-    "step-2": {
-      "name": "Sebded azegrir n Flatpak i useɣẓan n GNOME"
-    }
+    "distroName": "Ubuntu"
   },
   "fedora": {
     "distroName": "Fedora"
@@ -108,9 +105,6 @@
     "step-3": {
       "name": "Rnu akufi-a n Flathub",
       "text": "<text>Flathub d adeg ifazen akk ansa ara d-tawiḍ isnasen n Flatpak. I wakken ad t-tremdeḍṭ, zdem-d sakkin sebded <filelink>afaylu n ukufi n Flathub</filelink> neɣ selkem anezḍay-a deg ixef:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Sebded asiɣzef n Useɣẓan Flatpak"
     }
   },
   "rocky_linux": {
@@ -155,9 +149,6 @@
     },
     "step-3": {
       "name": "Rnu akufi-a n Flathub"
-    },
-    "step-2": {
-      "name": "Sbedd azegrir n yiɣewwaṛen n unagraw n Flatpak"
     }
   },
   "solus": {
@@ -186,9 +177,6 @@
     "step-3": {
       "name": "Rnu akufi-a n Flathub",
       "text": "<text>Flathub d adeg ifazen akk ansa ara d-tawiḍ isnasen n Flatpak. I wakken ad t-tremdeḍṭ, zdem-d sakkin sebded <filelink>afaylu n ukufi n Flathub</filelink> neɣ selkem anezḍay-a deg ixef:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Sebded asiɣzef n Useɣẓan Flatpak"
     }
   },
   "mageia": {
@@ -284,10 +272,6 @@
     "step-3": {
       "name": "Rnu akufi-a n Flathub",
       "text": "<text>Flathub d adeg ifazen akk ansa ara d-tawiḍ isnasen n Flatpak. Akken ad t-tremdeḍṭ, sader-d syin sbedd <filelink>afaylu n ukufi n Flathub</filelink> neɣ selkem:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Sebded asiɣzef n Useɣẓan Flatpak",
-      "text": "<text>Ma tseddayeḍ GNOME, d tikti yelhan daɣen ad tesbeddeḍ asiɣzef n Flatpak i useɣẓan GNOME. Akken ad tgeḍ aya, selkem:</text> <code></code>"
     }
   },
   "mx_linux": {

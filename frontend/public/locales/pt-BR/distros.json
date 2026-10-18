@@ -78,10 +78,6 @@
       "name": "Instalar o Flatpak",
       "text": "<text>Um pacote flatpak está disponível no Pardus 2019 e versões mais recentes. Para instalá-lo, execute o seguinte como root:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Instalar o plugin Software Flatpak",
-      "text": "<text>Se você estiver executando o GNOME, também é uma boa ideia instalar o plugin Flatpak para o GNOME Software. Para fazer isso, execute:</text> <code></code>"
-    },
     "step-3": {
       "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <filelink>arquivo de repositório Flathub</filelink> ou execute:</text> <code></code>",
       "name": "Adicione o repositório Flathub"
@@ -161,10 +157,6 @@
     "step-1": {
       "name": "Instalar o Flatpak",
       "text": "<text>Para instalar o Flatpak no <strong>Ubuntu 18.10 (Cosmic Cuttlefish) ou posterior</strong>, abra o aplicativo Terminal e execute:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instalar o plugin GNOME Software Flatpak",
-      "text": "<text>O plugin GNOME Software torna possível instalar apps sem precisar da linha de comando. Para instalar, execute:</text> <code></code> <text><strong>Nota:</strong> O Ubuntu distribui o GNOME Software como um Snap nas versões 20.04 a 23.04, e o substituiu pelo App Center na versão 23.10 e mais recentes — nenhum dos quais suporta a instalação de aplicativos Flatpak. Instalar o plugin Flatpak também instalará uma versão DEB do GNOME Software, resultando em dois aplicativos \"Software\" sendo instalados ao mesmo tempo no Ubuntu 20.04 a 23.04, e um único aplicativo \"Software\" novo no Ubuntu 23.10 e mais recentes.</text>"
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",
@@ -281,10 +273,6 @@
       "name": "Adicione o repositório Flathub",
       "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, abra o Discover, vá para Configurações e adicione o repositório Flathub.</text>"
     },
-    "step-2": {
-      "name": "Instalar o complemento de configurações do sistema Flatpak",
-      "text": "<text>Para integrar o suporte ao Flatpak nas configurações do sistema Plasma, abra o aplicativo Terminal e execute:</text> <code></code>"
-    },
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <link>instalar os aplicativos</link>!</text>"
@@ -306,10 +294,6 @@
     "step-1": {
       "name": "Instalar o Flatpak",
       "text": "<text>Um pacote flatpak está disponível no Debian 10 (Buster) e mais recentes. Para instalá-lo, execute o seguinte como root:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instalar o plugin Software Flatpak",
-      "text": "<text>Se você estiver executando o GNOME, também é uma boa ideia instalar o plugin Flatpak para o GNOME Software. Para fazer isso, execute:</text> <code></code> <text>Se você estiver executando o KDE, você deve instalar o backend Plasma Discover Flatpak:</text> <codeDiscover></codeDiscover>"
     },
     "step-4": {
       "name": "Reiniciar",
@@ -371,10 +355,6 @@
     "step-3": {
       "name": "Adicione o repositório Flathub",
       "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <filelink>arquivo de repositório do Flathub</filelink> ou execute o seguinte em um terminal:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instalar o plugin Software Flatpak",
-      "text": "<text>Você pode instalar o plugin Flatpak para o GNOME Software (desde a versão 3.13) ou KDE Discover (desde a versão 3.11), tornando possível instalar aplicativos sem precisar da linha de comando. Para instalar no GNOME Software, execute:</text> <code></code> <text>Para o KDE Discover, execute:</text> <codeDiscover></codeDiscover>"
     }
   },
   "elementary_os": {

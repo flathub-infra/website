@@ -9,10 +9,6 @@
       "name": "Dastalleth",
       "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text>"
     },
-    "step-2": {
-      "name": "Lea ystynnans Flatpak rag GNOME Medhelweyth",
-      "text": "<text>An ystynnans GNOME Medhelweyth gul galladow dhe lea appys heb res an linen arghadow. Rag lea, eksekutya:</text><code></code><text><strong>Notya:</strong> Ubuntu distributya GNOME Medhelweyth avel unn Snap yn versyons 20.04 dhe 23.04, hag asleys y'n gans App Center yn 23.10 ha diwettha—naneyl skoodhya ow lea appys Flatpak. Ow lea an ystynnans Flatpak a wra lea unn versyon deb a GNOME Medhelweyth, ow sewya yn dew appys \"Medhelweyth\" leys yn kettermyn war Ubuntu 20.04 dhe 23.04, hag unn app unnik nowydh \"Medhelweyth\" war Ubuntu 23.10 ha diwettha.</text>"
-    },
     "step-3": {
       "name": "Addya an repositori Flathub",
       "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi, eksekutya:</text><code></code>"
@@ -120,10 +116,6 @@
       "name": "Dastalleth",
       "text": "<text>Rag kowlwul selyans, dastalleth dha system. Lemmyn, <link>lea appys</link>!</text>"
     },
-    "step-2": {
-      "name": "Lea an ystynnans Medhelweyth Flatpak",
-      "text": "<text>Mar ty ow devnydhya GNOME, yth yw unn tybyans da dhe lea an ystynnans Flatpak rag GNOME Medhelweyth. Rag gul ma, eksekutya:</text> <code></code> <text>Mar ty ow devnydhya KDE, ty kodh lea yn le an \"backend\" Plasma Discover Flatpak:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Addya an repositori Flathub",
       "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi y'n, iskarga ha lea an <filelink>restren repositori Flathub</filelink> po eksekutya an arghadow a sew yn unn termynal:</text> <code></code>"
@@ -173,10 +165,6 @@
       "name": "Lea Flatpak",
       "text": "<text>Rag lea Flatpak war Kubuntu, ygeri Discover, mos dhe Settyansow, lea an \"backend\" Flatpak ha dastalleth Discover.</text>"
     },
-    "step-2": {
-      "name": "Lea an ystynnans Flatpak rag settyansow system",
-      "text": "<text>Rag ewngemyskya skoodhyans Flatpak yn an Settyansow System Plasma, ygeri an app Termynal hag eksekutya:</text> <code></code>"
-    },
     "step-3": {
       "name": "Addya an repositori Flathub",
       "text": "<text>Flathub yw an le gwella rag kavos appys Flatpak. Rag gallosegi y'n, ygeri Discover, mos dhe Settyansow, hag addya an repositori Flathub.</text>"
@@ -207,10 +195,6 @@
     "step-1": {
       "name": "Lea Flatpak",
       "text": "<text>Flatpak gallos bos leys a'n repositori kemeneth. Eksekutya an arghadow a sew yn unn termynal:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Lea an ystynnans Medhelweyth Flatpak",
-      "text": "<text>Ty gallos lea an ystynnans Flatpak rag po GNOME Medhelweyth (a-dhia v3.13) po KDE Discover (a-dhia v.3.11), ow gul galladow rag lea appys heb res linen arghadow. Rag lea, rag GNOME Medhelweyth eksekutya:</text> <code></code> <text>Rag KDE Discover eksekutya:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Addya an repositori Flathub",
@@ -328,10 +312,6 @@
     "step-1": {
       "name": "Lea Flatpak",
       "text": "<text>Unn fardel flatpak yw kavadow yn Pardus 2019 ha diwettha. Rag lea y'n, eksekutya an arghadow a sew yn root:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Lea an ystynnans Medhelweyth Flatpak",
-      "text": "<text>Mar os ow devnydhya GNOME, yth yw ynn tybyans da dha lea an ystynnans Flatpak rag GNOME Medhelweyth. Rag gul ma, eksekutya:</text> <code></code>"
     },
     "step-3": {
       "name": "Addya an repositori Flathub",

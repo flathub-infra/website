@@ -5,10 +5,6 @@
       "name": "Inštalácia Flatpaku",
       "text": "<text>Na inštaláciu Flatpaku v systéme <strong>Ubuntu 18.10 (Cosmic Cuttlefish) alebo novšom</strong> otvorte aplikáciu Terminál a spustite:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Inštalácia doplnku Flatpak pre softvér GNOME",
-      "text": "<text>Doplnok Softvér GNOME umožňuje inštalovať aplikácie bez potreby príkazového riadka. Na jeho inštaláciu spustite:</text> <code></code> <text><strong>Poznámka:</strong> Ubuntu distribuuje Softvér GNOME ako Snap vo verziách 20.04 až 23.04 a vo verzii 23.10 a novších ho nahradilo Centrom aplikácií – ani jedno z nich nepodporuje inštaláciu aplikácií Flatpak. Inštalácia doplnku Flatpak nainštaluje aj verziu deb pre Softvér GNOME, čo povedie k tomu, že v systéme Ubuntu 20.04 až 23.04 budú nainštalované dve aplikácie „Softvér“ súčasne, a vo verzii Ubuntu 23.10 a novších jedna nová aplikácia „Softvér“.</text>"
-    },
     "step-3": {
       "name": "Pridanie repozitára Flathub",
       "text": "<text>Flathub je najlepšie miesto na získavanie aplikácií Flatpak. Ak ho chcete povoliť, stiahnite a nainštalujte <filelink>súbor repozitára Flathub</filelink> alebo spustite:</text> <code></code>"
@@ -116,10 +112,6 @@
       "name": "Inštalácia Flatpaku",
       "text": "<text>Balík flatpak je dostupný v systéme Debian 10 (Buster) a novšom. Na jeho inštaláciu spustite nasledujúci príkaz ako root:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Inštalácia doplnku Flatpak pre softvér",
-      "text": "<text>Ak používate prostredie GNOME, je tiež dobré nainštalovať doplnok Flatpak pre Softvér GNOME. Urobíte to spustením:</text> <code></code> <text>Ak používate prostredie KDE, mali by ste namiesto toho nainštalovať backend Plasma Discover pre Flatpak:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Pridanie repozitára Flathub",
       "text": "<text>Flathub je najlepšie miesto na získavanie aplikácií Flatpak. Ak ho chcete povoliť, stiahnite a nainštalujte <filelink>súbor repozitára Flathub</filelink> alebo spustite nasledujúci príkaz v termináli:</text> <code></code>"
@@ -173,10 +165,6 @@
       "name": "Inštalácia Flatpaku",
       "text": "<text>Na inštaláciu Flatpaku v systéme Kubuntu otvorte aplikáciu Discover, prejdite do Nastavení, nainštalujte backend Flatpak a reštartujte aplikáciu Discover.</text>"
     },
-    "step-2": {
-      "name": "Inštalácia doplnku Nastavenia systému pre Flatpak",
-      "text": "<text>Ak chcete integrovať podporu Flatpaku do Nastavení systému Plasma, otvorte aplikáciu Terminál a spustite:</text> <code></code>"
-    },
     "step-3": {
       "name": "Pridanie repozitára Flathub",
       "text": "<text>Flathub je najlepšie miesto na získavanie aplikácií Flatpak. Ak ho chcete povoliť, otvorte aplikáciu Discover, prejdite do Nastavení a pridajte repozitár Flathub.</text>"
@@ -207,10 +195,6 @@
     "step-1": {
       "name": "Inštalácia Flatpaku",
       "text": "<text>Flatpak je možné nainštalovať z komunitného repozitára. Spustite nasledujúci príkaz v termináli:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Inštalácia doplnku Flatpak pre softvér",
-      "text": "<text>Môžete nainštalovať doplnok Flatpak buď pre Softvér GNOME (od verzie 3.13) alebo KDE Discover (od verzie 3.11), čo umožňuje inštalovať aplikácie bez potreby príkazového riadka. Na inštaláciu pre Softvér GNOME spustite:</text> <code></code> <text>Pre KDE Discover spustite:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Pridanie repozitára Flathub",
@@ -328,10 +312,6 @@
     "step-1": {
       "name": "Inštalácia Flatpaku",
       "text": "<text>Balík flatpak je dostupný v systéme Pardus 2019 a novšom. Na jeho inštaláciu spustite nasledujúci príkaz ako root:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Inštalácia doplnku Flatpak pre softvér",
-      "text": "<text>Ak používate prostredie GNOME, je tiež dobré nainštalovať doplnok Flatpak pre Softvér GNOME. Urobíte to spustením:</text> <code></code>"
     },
     "step-3": {
       "name": "Pridanie repozitára Flathub",

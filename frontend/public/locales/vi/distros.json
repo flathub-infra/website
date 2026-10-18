@@ -5,9 +5,6 @@
       "name": "Tải xuống Flatpak",
       "text": "<text>Để tải xuống Flatpak trên <strong>Ubuntu 18.10 (Cosmic Cuttlefish) hoặc mới hơn</strong>, mở Terminal và chạy:</text> <code></code>"
     },
-    "step-2": {
-      "text": "<text>Plugin GNOME Software giúp tải ứng dụng mà không cần dòng lệnh. Để tải xuống, chạy:</text> <code></code> <text><strong>Ghi chú:</strong> Ubuntu phân phối GNOME Software dưới dạng Snap từ phiên bản 20.04 tới 23.04, và thay thế nó với App Center từ 23.10 trở đi — Cả hai đều không hỗ trợ cài đặt ứng dụng Flatpak. Tải xuống plugin Flatpak cũng sẽ tải xuống phiên bản deb của GNOME Software, dẫn đến 2 ứng dụng \"Phần mềm\" được cài đặt cùng lúc trên Ubuntu 20.04 tới 23.04, và 1 ứng dụng \"Phần mềm\" trên Ubuntu 23.10 trở đi.</text>"
-    },
     "step-3": {
       "name": "Thêm repository Flathub",
       "text": "<text>Flathub là nơi tốt nhất để lấy ứng dụng Flatpak. Để bật nó, chạy:</text> <code></code>"

@@ -3,9 +3,6 @@
     "step-1": {
       "name": "התקנת Flatpak"
     },
-    "step-2": {
-      "name": "התקנת תוסף Flatpak לחנות התוכנה של GNOME"
-    },
     "distroName": "אובונטו"
   },
   "alt_linux": {

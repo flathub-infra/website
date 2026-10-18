@@ -5,9 +5,6 @@
       "name": "Instalatu Flatpak",
       "text": "<text>Flatpak <strong>Ubuntu 18.10 (Cosmic Cuttlefish) edo berriagoan</strong> instalatzeko, ireki terminala eta exekutatu:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Instalatu GNOME Software aplikaziorako Flatpak plugina"
-    },
     "step-3": {
       "name": "Gehitu Flathub biltegia",
       "text": "<text>FlathubFlatpak aplikazioak eskuratzeko gunerik onena da. Hura gaitzeko, exekutatu honakoa::</text> <code></code>"

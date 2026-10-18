@@ -5,10 +5,6 @@
       "name": "Instaloni Flatpak-un",
       "text": "<text>Që të instaloni Flatpak-un në <strong>Ubuntu 18.10 (Cosmic Cuttlefish), ose të mëvonshëm</strong>, hapni aplikacionin Terminal dhe ekzekutoni:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Instaloni shtojcën “GNOME Software Flatpak”",
-      "text": "<text>Shtojca “GNOME Software” bën të mundur të instalohen aplikacione pa u dashur rreshti i urdhrave. Për të instaluar, ekzekutoni:</text> <code></code> <text><strong>Shënim:</strong> Ubuntu e jep “GNOME Software” si një Snap, në versione 20.04 deri në 23.04 dhe e zëvendësoi me App Center në 23.10 dhe më të ri—të cilët asnjëri s’mbulojnë instalim aplikacionesh Flatpak. Instalimi i shtojcës Flatpak do të instalojë edhe një versioni deb të “GNOME Software”, duke sjellë kështu pasjen e dy aplikacioneve “Software” të instaluar në të njëjtën kohë në 20.04 deri te23.04 dhe në një aplikacion të vetëm të ri “Software” në Ubuntu 23.10 dhe më të ri.</text>"
-    },
     "step-3": {
       "name": "Shtoni depon Flathub",
       "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>, ose ekzekutoni:</text> <code></code>"
@@ -116,10 +112,6 @@
       "name": "Instaloni Flatpak-un",
       "text": "<text>Në Debian 10 (Buster) dhe më të ri, ka një paketë të gatshme flatpak. Që ta instaloni, xhironi si rrënjë sa vijon:</text> <code></code>"
     },
-    "step-2": {
-      "name": "Instaloni shtojcën “Software Flatpak”",
-      "text": "<text>Nëse xhironi GNOME, është gjithashtu ide e mirë të instalohet shtojca Flatpak për GNOME Software. Që ta bëni këtë, ekzekutoni:</text> <code></code> <text>Nëse xhironi KDE, duhet të instaloni Plasma Discover Flatpak:</text> <codeDiscover></codeDiscover>"
-    },
     "step-3": {
       "name": "Shtoni depon Flathub",
       "text": "<text>Flathub-i është vendi më i mirë për të marrë aplikacione Flatpak. Që ta aktivizoni, shkarkoni dhe instaloni <filelink>kartelën e depos Flathub</filelink>, ose ekzekutoni në një terminal sa vijon:</text> <code></code>"
@@ -172,10 +164,6 @@
       "name": "Instaloni Flatpak-un",
       "text": "<text>Që të instaloni Flatpak në Kubuntu, hapni Discover, kaloni te Settings, instaloni backend-in Flatpak dhe rinisni Discover-in.</text>"
     },
-    "step-2": {
-      "name": "Instaloni shtesën për rregullime sistemi Flatpak",
-      "text": "<text>Që të integroni mbulimin e Flatpak-ut te Rregullime Sistemi Plasma, hapni Terminalin dhe ekzekutoni:</text> <code></code>"
-    },
     "step-3": {
       "name": "Shtoni depon Flathub",
       "text": "<text>Flathub-i është vendi më i mirë për të marrë paketa Flatpak. Që ta aktivizoni, hapni Discover, kaloni te Rregullime dhe shtoni depon Flathub.</text>"
@@ -206,10 +194,6 @@
     "step-1": {
       "name": "Instaloni Flatpak-un",
       "text": "<text>Flatpak-u mund të instalohet që nga depoja e bashkësisë. Ekzekutoni në një terminal sa vijon:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instaloni shtojcën “Software Flatpak”",
-      "text": "<text>Mund ta instaloni shtojcën Flatpak për the GNOME Software (që nga v3.13), ose për KDE Discover (që nga v3.11), duke bërë të mundur instalim aplikacionesh pa u dashur rreshti i urdhrave. Që të instaloni, për GNOME Software ekezkutoni:</text> <code></code> <text>Për KDE Discover ekzekutoni:</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "Shtoni depon Flathub",
@@ -327,10 +311,6 @@
     "step-1": {
       "name": "Instaloni Flatpak-un",
       "text": "<text>Ka një paketë flatpak gati në Pardus 2019 dhe më të ri. Që ta instaloni, ekzekutoni sa vijon si rrënjë:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Instaloni shtojcën “Software Flatpak”",
-      "text": "<text>Nëse xhironi GNOME, është gjithashtu ide e mirë të instalohet shtojca Flatpak për GNOME Software. Që ta bëni këtë, ekzekutoni:</text> <code></code>"
     },
     "step-3": {
       "name": "Shtoni depon Flathub",

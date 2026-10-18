@@ -5,10 +5,6 @@
       "name": "安装 Flatpak",
       "text": "<text>要在 <strong>Ubuntu 18.10（Cosmic Cuttlefish）或更高版本</strong> 上安装 Flatpak，请打开终端应用并运行：</text><code></code>"
     },
-    "step-2": {
-      "name": "安装 GNOME Software Flatpak 插件",
-      "text": "<text>GNOME Software 插件让您无需命令行即可安装应用。要安装，请运行：</text> <code></code> <text><strong>注意：</strong> Ubuntu 在 20.04 至 23.04 版本中将 GNOME Software 以 Snap 形式分发，并在 23.10 及更新版本中将其替换为 App Center——二者都不支持安装 Flatpak 应用。安装 Flatpak 插件还会安装 GNOME Software 的 deb 版本，导致在 Ubuntu 20.04 至 23.04 版本中同时安装两个“Software”应用，而在 Ubuntu 23.10 及更新版本中会安装一个新的“Software”应用。</text>"
-    },
     "step-3": {
       "name": "添加 Flathub 仓库",
       "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请下载并安装 <filelink>Flathub 仓库文件</filelink>，或运行以下命令：</text> <code></code>"
@@ -77,10 +73,6 @@
     "step-1": {
       "name": "安装 Flatpak",
       "text": "<text>Debian 10（Buster）及更新版本中提供了 flatpak 软件包。要安装它，请以 root 身份运行以下命令：</text> <code></code>"
-    },
-    "step-2": {
-      "name": "安装 Software Flatpak 插件",
-      "text": "<text>如果您运行的是 GNOME，最好也为 GNOME Software 安装 Flatpak 插件。请运行以下命令进行安装：</text> <code></code> <text>如果您运行的是 KDE，您应该安装 Plasma Discover Flatpak 后端：</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "添加 Flathub 仓库",
@@ -165,10 +157,6 @@
       "name": "安装 Flatpak",
       "text": "<text>要在 Kubuntu 上安装 Flatpak，请打开 Discover，转到“设置”，安装 Flatpak 后端并重启 Discover。</text>"
     },
-    "step-2": {
-      "name": "安装 Flatpak 系统设置附加组件",
-      "text": "<text>要将 Flatpak 支持集成到 Plasma 系统设置中，请打开终端应用并运行：</text> <code></code>"
-    },
     "step-3": {
       "name": "添加 Flathub 仓库",
       "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请打开“Discover”，转到“设置”，然后添加 Flathub 仓库。</text>"
@@ -198,10 +186,6 @@
     "step-1": {
       "name": "安装 Flatpak",
       "text": "<text>Flatpak 可以从社区仓库安装。请在终端中运行以下命令：</text> <code></code>"
-    },
-    "step-2": {
-      "name": "安装 Software Flatpak 插件",
-      "text": "<text>您可以为 GNOME Software（自 v3.13 起）或 KDE Discover（自 v3.11 起）安装 Flatpak 插件，从而无需命令行即可安装应用。要安装插件，对于 GNOME Software，请运行：</text> <code></code> <text>对于 KDE Discover，请运行：</text> <codeDiscover></codeDiscover>"
     },
     "step-3": {
       "name": "添加 Flathub 仓库",
@@ -320,10 +304,6 @@
     "step-1": {
       "name": "安装 Flatpak",
       "text": "<text>Pardus 2019 及更新版本中提供了 flatpak 软件包。要安装它，请以 root 身份运行以下命令：</text> <code></code>"
-    },
-    "step-2": {
-      "name": "安装 Software Flatpak 插件",
-      "text": "<text>如果您运行的是 GNOME，最好也为 GNOME Software 安装 Flatpak 插件。请运行以下命令进行安装：</text> <code></code>"
     },
     "step-3": {
       "name": "添加 Flathub 仓库",

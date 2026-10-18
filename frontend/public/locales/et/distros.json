@@ -12,10 +12,6 @@
     "step-4": {
       "name": "Käivita arvuti uuesti",
       "text": "<text>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text>"
-    },
-    "step-2": {
-      "name": "Paigalda GNOME Tarkvara Flatpaki plugin",
-      "text": "<text>GNOME Tarkvara Flatpaki plugin võimaldab rakendusi paigaldada käsurida kasutamata. Tema lisamiseks käivita:</text> <code></code> <text><strong>Märkus:</strong> Ubuntu versioonides 20.04 kuni 23.04 on GNOME Tarkvara pakendatud snapina ning alates versioonist 23.10 ja uuemast on tema asemel App Center — kumbki ei võimalda Flatpaki-põhiste rakenduste paigaldamist. Eelpooltoodud GNOME Tarkvara Flatpaki plugina paigaldamisel lisandub arvutisse ka deb-standardi alusel pakendatud rakenduse variant. Mistõttu Ubuntu versioonides 20.04 kuni 23.04 saab arvutis olema samaaegselt kaks erinevat GNOME Tarkvara versiooni ning alates Ubuntu versioonist 23.10 üks GNOME Tarkvara versioon.</text>"
     }
   },
   "fedora": {
@@ -112,10 +108,6 @@
   },
   "debian": {
     "distroName": "Debian",
-    "step-2": {
-      "name": "Paigalda tarkvarahalduritele Flatpaki plugin",
-      "text": "<text>Kui kasutad GNOME'i, siis on hea mõte paigaldada Flatpaki plugin GNOME Tarkvara jaoks. Selleks käivita:</text> <code></code> <text>Kui kasutad KDE Plasmat, siis selle asemel paigalda Plasma Discoveri jaoks Flatpaki taustateenus:</text> <codeDiscover></codeDiscover>"
-    },
     "step-1": {
       "name": "Paigalda Flatpak",
       "text": "<text>Flatpaki tarkvarapakett on olemas Debiani versioonis 10 (Buster) ja uuemates. Selle paigaldamiseks käivita juurkasutajana:</text> <code></code>"
@@ -173,10 +165,6 @@
       "name": "Lisa Flathubi tarkvarahoidla",
       "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks ava Discover, klõpsi valikut Seadistused ning lisa Flathubi tarkvarahoidla:</text>"
     },
-    "step-2": {
-      "name": "Paigalda süsteemiseadistuse jaoks Flatpaki plugin",
-      "text": "<text>Lõimimaks Flatpaki tuge Plasma Süsteemiseadistustesse, ava terminalirakendus ja käivita:</text> <code></code>"
-    },
     "step-4": {
       "name": "Käivita arvuti uuesti",
       "text": "<text>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text>"
@@ -215,10 +203,6 @@
     "step-3": {
       "name": "Lisa Flathubi tarkvarahoidla",
       "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink> või käivita terminalis järgnev käsk:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Paigalda tarkvarahalduritele Flatpaki plugin",
-      "text": "<text>Sa võid Flatpaki lisamooduli paigaldada GNOME Tarkvara (alates versioonist 3.13) või KDE Discoveri (alates versioonist 3.11) jaoks ja seejärel on sul võimalik rakendusi paigaldada käsurida kasutamata. Paigaldamaks GNOME Tarkvara jaoks käivita:</text> <code></code> <text>Ning KDE Discoveri jaoks käivita:</text> <codeDiscover></codeDiscover>"
     }
   },
   "mageia": {
@@ -328,10 +312,6 @@
     "step-1": {
       "name": "Paigalda Flatpak",
       "text": "<text>Flatpaki pakett on olemas Pardus 2019 ja uuemate jaoks. Paigaldamiseks käivita juurkasutajana:</text> <code></code>"
-    },
-    "step-2": {
-      "name": "Paigalda tarkvarahalduritele Flatpaki plugin",
-      "text": "<text>Kui kasutad GNOME'i, siis on hea mõte paigaldada Flatpaki plugin GNOME Tarkvara jaoks. Selleks käivita:</text> <code></code>"
     },
     "step-4": {
       "name": "Käivita arvuti uuesti",

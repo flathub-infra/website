@@ -5,10 +5,6 @@
       "name": "Installera Flatpak",
       "text": "<text>För att installera Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senare</strong>, Öppna terminalen och kör: </text><code></code>"
     },
-    "step-2": {
-      "name": "Installera GNOME Programvara Flatpak insticksmodul",
-      "text": "<text>GNOME-programvara insticksmodul gör det möjligt att installera program utan att behöva kommandoraden. För att installera, kör: </text><code></code><text><strong>Observera:</strong>Ubuntu distribuerar GNOME-programvara som en Snap i versionerna 20.04 till 23.04 och ersatte det med App Center i 23.10 och senare – ingen av dem stöder installation av Flatpak program. Installation av Flatpak insticksmodulen installerar också en deb-version av GNOME-programvara, vilket resulterar i att två \"Programvara\"-program installeras samtidigt på Ubuntu 20.04 till 23.04, och ett enda nytt \"Programvara\"-program på Ubuntu 23.10 och senare."
-    },
     "step-3": {
       "name": "Lägg till Flathub arkiv",
       "text": "<text>Flathub är det bästa stället att hämta Flatpak-program. För att aktivera det, ladda ner och installera<filelink> Flathub arkivfilen</filelink> eller kör: </text><code></code>"
