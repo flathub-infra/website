@@ -184,7 +184,7 @@ const ReviewCard: FunctionComponent<Props> = ({
               setModal("discuss")
             }}
           >
-            {t("moderation-open-discussion")}
+            Open discussion
           </Button>
         )}
       </>
@@ -216,13 +216,13 @@ const ReviewCard: FunctionComponent<Props> = ({
 
       <Modal
         shown={modal === "discuss"}
-        title={t("moderation-open-discussion")}
-        description={t("moderation-discussion-description")}
+        title="Open discussion"
+        description="Open a GitHub issue with your comment. The build stays withheld until a review decision."
         onClose={cancel}
         cancelButton={{ onClick: cancel }}
         submitButton={{
           onClick: confirmDiscussion,
-          label: t("moderation-open-discussion"),
+          label: "Open discussion",
           disabled: !comment?.trim() || discussionMutation.isPending,
         }}
       >
@@ -230,7 +230,7 @@ const ReviewCard: FunctionComponent<Props> = ({
           htmlFor={`discussion-comment-${request.id}`}
           className="mb-2 block text-sm font-medium"
         >
-          {t("moderation-discussion-comment")}
+          Comment
         </label>
         <Textarea
           id={`discussion-comment-${request.id}`}

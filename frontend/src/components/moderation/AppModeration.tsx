@@ -301,7 +301,7 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
           ) : (
             <ReviewCard
               key={requests[0].build_id}
-              title={t("moderation-build-changes")}
+              title="Build Changes"
               requests={requests}
             >
               <div className="space-y-8">

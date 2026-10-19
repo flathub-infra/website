@@ -36,7 +36,6 @@ const Section = ({
 )
 
 const DecisionForm = ({ review }: { review: Review }) => {
-  const t = useTranslations()
   const queryClient = useQueryClient()
   const [rationale, setRationale] = useState("")
   const [error, setError] = useState<string>()
@@ -68,7 +67,7 @@ const DecisionForm = ({ review }: { review: Review }) => {
     !review.snapshot_fingerprint ||
     review.acceptance_basis === "baseline"
   ) {
-    return <p>{t("moderation-permissions-not-reviewable")}</p>
+    return <p>This assessment cannot be reviewed.</p>
   }
 
   const decide = (decision: Decision) => {
@@ -88,7 +87,7 @@ const DecisionForm = ({ review }: { review: Review }) => {
       <Textarea
         className="h-32"
         value={rationale}
-        placeholder={t("moderation-permissions-rationale")}
+        placeholder="Rationale (required to reject)"
         onChange={(e) => setRationale(e.target.value)}
       />
       {error && <InlineError error={error} shown={true} />}
@@ -97,14 +96,14 @@ const DecisionForm = ({ review }: { review: Review }) => {
           disabled={mutation.isPending}
           onClick={() => decide(Decision.approved)}
         >
-          {t("moderation-permissions-approve")}
+          Approve
         </Button>
         <Button
           variant="destructive"
           disabled={mutation.isPending || !rationale.trim()}
           onClick={() => decide(Decision.rejected)}
         >
-          {t("moderation-permissions-reject")}
+          Reject
         </Button>
       </div>
     </div>
@@ -182,7 +181,7 @@ export default function PermissionReviewDetail({
         pages={[
           { name: "Moderation", href: "/admin/moderation", current: false },
           {
-            name: t("moderation-permissions-reviews"),
+            name: "Permission reviews",
             href: `/admin/moderation/permissions${reviewListQuery(searchParams)}`,
             current: false,
           },
@@ -211,7 +210,7 @@ export default function PermissionReviewDetail({
       )}
       {review.superseded_by !== null && (
         <Link href={`/admin/moderation/permissions/${review.superseded_by}`}>
-          {t("moderation-permissions-superseded-by")} #{review.superseded_by}
+          Superseded by #{review.superseded_by}
         </Link>
       )}
       {review.error_message && (
@@ -227,14 +226,14 @@ export default function PermissionReviewDetail({
           </div>
         ))}
       </dl>
-      <Section title={t("moderation-permissions-changes")}>
+      <Section title="Permission changes">
         <PermissionDiffTable
           differences={review.differences}
           source={review.comparison_source}
           snapshot={review.candidate_snapshot}
         />
       </Section>
-      <Section title={t("moderation-permissions-decisions")}>
+      <Section title="Decision history">
         {review.decisions.map((d) => (
           <div key={d.id} className="text-sm">
             <b className="capitalize">{d.decision}</b>{" "}
@@ -243,7 +242,7 @@ export default function PermissionReviewDetail({
           </div>
         ))}
       </Section>
-      <Section title={t("moderation-permissions-review")}>
+      <Section title="Review">
         <DecisionForm review={review} />
       </Section>
     </div>
