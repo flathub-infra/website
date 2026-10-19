@@ -1,3 +1,4 @@
+import importlib
 import json
 import os
 import sys
@@ -29,6 +30,8 @@ from app.moderation.permission_snapshot import (
     fingerprint_snapshot,
 )
 from app.types import ModerationRequestType
+
+comment_worker = importlib.import_module("app.worker.comment_on_pull_request")
 
 APP = "org.example.App"
 REF = f"app/{APP}/x86_64/stable"
@@ -156,7 +159,7 @@ def db(monkeypatch):
             session.close()
 
     monkeypatch.setattr(reviews, "audit_log", MagicMock())
-    monkeypatch.setattr(reviews, "comment_on_pull_request", MagicMock())
+    monkeypatch.setattr(reviews, "worker", MagicMock())
     for module in (assessment, publication, reviews, moderation_review):
         monkeypatch.setattr(module, "get_db", real_db)
     with real_db() as session:
@@ -259,18 +262,36 @@ def test_decisions_are_refused_for_stale_or_mismatched_assessments(db):
     ],
 )
 def test_decisions_comment_on_pull_request(db, decision, rationale, quote):
-    decide(persist(1).assessment_id, decision, rationale=rationale)
-    reviews.comment_on_pull_request.send.assert_called_once_with(
+    response = decide(persist(1).assessment_id, decision, rationale=rationale)
+    reviews.worker.comment_on_pull_request.send.assert_called_once_with(
         f"flathub/{APP}",
         17,
         f"The permission changes in this pull request were {decision}"
         f" by Flathub moderators.{quote}",
+        f"<!-- flathub-permission-decision:{response.decision_id} -->",
     )
 
 
 def test_decisions_on_other_forges_do_not_comment(db):
     decide(persist(1, forge_instance="gitlab.com").assessment_id)
-    reviews.comment_on_pull_request.send.assert_not_called()
+    reviews.worker.comment_on_pull_request.send.assert_not_called()
+
+
+def test_retried_comment_is_posted_once(monkeypatch):
+    issue = MagicMock()
+    issue.get_comments.side_effect = lambda: [
+        SimpleNamespace(body=args.args[0])
+        for args in issue.create_comment.call_args_list
+    ]
+    github = MagicMock()
+    github.return_value.get_repo.return_value.get_issue.return_value = issue
+    monkeypatch.setattr(comment_worker, "Github", github)
+    monkeypatch.setattr(config.settings, "github_bot_token", "token")
+    for _ in range(2):
+        comment_worker.comment_on_pull_request.fn(
+            f"flathub/{APP}", 17, "Ok", "<!-- 1 -->"
+        )
+    issue.create_comment.assert_called_once_with("Ok\n\n<!-- 1 -->")
 
 
 def test_review_listing_filters_stored_outcome_and_superseded(db):

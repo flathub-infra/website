@@ -1,6 +1,6 @@
 from ..audit_log import log_audit_event
-from ..moderation.permission_reviews import comment_on_pull_request
 from ..search_tasks import monitor_hybrid_index_task, reconcile_hybrid_index
+from .comment_on_pull_request import comment_on_pull_request
 from .core import broker
 from .emails import send_email_login_link, send_email_new, send_one_email_new
 from .prune_audit_logs import prune_audit_logs
