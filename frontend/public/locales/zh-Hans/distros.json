@@ -12,6 +12,10 @@
     "step-4": {
       "name": "重启",
       "text": "<text>要完成设置，请重启系统。现在，您只需 <link>安装应用</link> 即可！</text>"
+    },
+    "install-bazaar": {
+      "name": "安装 Bazaar",
+      "text": "<text>启用 Flathub 后，运行下列代码直接从 Flathub 安装 Bazaar：</text> <code></code> <text>然后从桌面启动它以图形化方式安装 Flatpak 应用。</text>"
     }
   },
   "manjaro": {
@@ -81,6 +85,10 @@
     "step-4": {
       "name": "重启",
       "text": "<text>要完成设置，请重启系统。现在，您只需 <link>安装应用</link> 即可！</text>"
+    },
+    "install-bazaar": {
+      "name": "安装 Bazaar",
+      "text": "<text>启用 Flathub 后，运行下列代码直接从 Flathub 安装 Bazaar：</text> <code></code> <text>然后从桌面启动它以图形化方式安装 Flatpak 应用。</text>"
     }
   },
   "linux_mint": {
@@ -155,15 +163,19 @@
     "distroName": "Kubuntu",
     "step-1": {
       "name": "安装 Flatpak",
-      "text": "<text>要在 Kubuntu 上安装 Flatpak，请打开 Discover，转到“设置”，安装 Flatpak 后端并重启 Discover。</text>"
+      "text": "<text>要在 Kubuntu 上安装 Flatpak，请打开终端应用并运行：</text> <code></code>"
     },
     "step-3": {
       "name": "添加 Flathub 仓库",
-      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，请打开“Discover”，转到“设置”，然后添加 Flathub 仓库。</text>"
+      "text": "<text>Flathub 是获取 Flatpak 应用的最佳平台。要启用它，运行：</text> <code></code>"
     },
     "step-4": {
       "name": "重启",
       "text": "<text>要完成设置，请重启系统。现在，您只需 <link>安装应用</link> 即可！</text>"
+    },
+    "install-bazaar": {
+      "name": "安装 Bazaar",
+      "text": "<text>启用 Flathub 后，运行下列代码直接 Flathub 安装 Bazaar：</text> <code></code> <text>然后从桌面启动它以图形化方式安装 Flatpak 应用。</text>"
     }
   },
   "solus": {
@@ -178,9 +190,13 @@
     },
     "step-3": {
       "name": "重启",
-      "text": "<text>要完成设置，请重启系统。现在，您只需 <link>安装应用</link> 即可！</text> <text>注意：只能通过 GNOME Software 和/或 KDE Discover 进行 Flatpak 应用的图形界面安装。</text>"
+      "text": "<text>要完成设置，请重启系统。现在，您只需 <link>安装应用</link> 即可！</text>"
     },
-    "introduction": "<text>Solus 4.7 及更新版本内置 Flatpak 支持——无需设置！可以使用 GNOME Software 和/或 KDE Discover 安装 Flatpak 应用。</text> <text>如果未安装 Flatpak，请按照以下说明开始安装。</text>"
+    "introduction": "<text>Solus 4.7 及更新版本内置 Flatpak 支持——无需设置！可以使用 Bazaar 安装 Flatpak 应用。</text> <text>如果未安装 Flatpak，请按照以下说明开始安装。</text>",
+    "install-bazaar": {
+      "name": "安装 Bazaar",
+      "text": "<text>启用 Flathub 后，运行下列代码直接 Flathub 安装 Bazaar：</text> <code></code> <text>然后从桌面启动它以图形化方式安装 Flatpak 应用。</text>"
+    }
   },
   "alpine": {
     "step-1": {
@@ -195,7 +211,11 @@
       "name": "重启",
       "text": "<text>要完成设置，请重启系统。现在，您只需 <link>安装应用</link> 即可！</text>"
     },
-    "distroName": "Alpine"
+    "distroName": "Alpine",
+    "install-bazaar": {
+      "name": "安装 Bazaar",
+      "text": "<text>启用 Flathub 后，运行下列代码直接 Flathub 安装 Bazaar：</text> <code></code> <text>然后从桌面启动它以图形化方式安装 Flatpak 应用。</text>"
+    }
   },
   "mageia": {
     "distroName": "Mageia",
@@ -312,6 +332,10 @@
     "step-4": {
       "name": "重启",
       "text": "<text>要完成设置，请重启系统。现在，您只需 <link>安装应用</link> 即可！</text>"
+    },
+    "install-bazaar": {
+      "name": "安装 Bazaar",
+      "text": "<text>启用 Flathub 后，运行下列代码直接 Flathub 安装 Bazaar：</text> <code></code> <text>然后从桌面启动它以图形化方式安装 Flatpak 应用。</text>"
     }
   },
   "mx_linux": {
