@@ -60,7 +60,7 @@ export default function PermissionReviewList() {
   return (
     <div className="space-y-8 py-8">
       <h1 className="text-4xl font-extrabold tracking-tight">
-        {t("moderation-permissions-reviews")}
+        Permission reviews
       </h1>
       <div className="flex flex-wrap items-center gap-6">
         <Select
@@ -78,14 +78,18 @@ export default function PermissionReviewList() {
             ))}
           </SelectContent>
         </Select>
-        <label className="flex items-center gap-2 text-sm">
+        <label
+          htmlFor="include-superseded"
+          className="flex items-center gap-2 text-sm"
+        >
           <Checkbox
+            id="include-superseded"
             checked={includeSuperseded}
             onCheckedChange={(checked) =>
               setParams({ includeSuperseded: checked ? "true" : undefined })
             }
           />
-          {t("moderation-permissions-include-superseded")}
+          Include superseded assessments
         </label>
       </div>
       {query.isPending && <Spinner size="m" />}
@@ -100,15 +104,15 @@ export default function PermissionReviewList() {
           <thead>
             <tr className="border-b border-flathub-gainsborow dark:border-flathub-dark-gunmetal">
               {[
-                "app",
-                "pull-request",
-                "branch",
-                "repo",
-                "flatpak-branch",
-                "outcome",
+                "App",
+                "Pull request",
+                "Branch",
+                "Repo",
+                "Flatpak branch",
+                "Outcome",
               ].map((column) => (
                 <th key={column} className="p-2 text-start">
-                  {t(`moderation-permissions-${column}`)}
+                  {column}
                 </th>
               ))}
             </tr>

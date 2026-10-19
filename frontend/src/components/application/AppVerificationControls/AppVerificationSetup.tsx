@@ -304,7 +304,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
               )
             }}
           >
-            {t("manual-verification")}
+            Mark as manually verified
           </Button>
         </div>
       )}
