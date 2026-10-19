@@ -23,6 +23,10 @@
     "step-1": {
       "name": "安裝 Flatpak",
       "text": "<text>要在 <strong>Ubuntu 18.10 (Cosmic Cuttlefish) 或更新版本</strong>上安裝 Flatpak，請開啟終端機應用程式並執行：</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "安裝 Bazaar",
+      "text": "<text>啟用 Flathub 後，請執行以下指令，直接從 Flathub 安裝 Bazaar：</text> <code></code> <text>接著從桌面啟動它，即可透過圖形介面安裝 Flatpak 應用程式。</text>"
     }
   },
   "fedora": {
@@ -123,6 +127,10 @@
     "step-4": {
       "name": "重啟",
       "text": "<text>要完成設定，請重新啟動系統。現在您只需<link>安裝應用程式</link>即可！</text>"
+    },
+    "install-bazaar": {
+      "name": "安裝 Bazaar",
+      "text": "<text>啟用 Flathub 後，請執行以下指令，直接從 Flathub 安裝 Bazaar：</text> <code></code> <text>接著從桌面啟動它，即可透過圖形介面安裝 Flatpak 應用程式。</text>"
     }
   },
   "rocky_linux": {
@@ -158,12 +166,16 @@
       "name": "重啟"
     },
     "step-1": {
-      "text": "<text>要在 Kubuntu 上安裝 Flatpak，請開啟 Discover，前往設定，安裝 Flatpak 後端程式並重新啟動 Discover。</text>",
+      "text": "<text>要在 Kubuntu 上安裝 Flatpak，請開啟「終端機」應用程式並執行以下指令：</text> <code></code>",
       "name": "安裝 Flatpak"
     },
     "step-3": {
       "name": "新增 Flathub 軟體庫",
-      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。若要啟用此功能，請開啟 Discover，前往設定並新增 Flathub 軟體庫。</text>"
+      "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳去處。若要啟用此功能，請執行：</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "安裝 Bazaar",
+      "text": "<text>啟用 Flathub 後，請執行以下指令，直接從 Flathub 安裝 Bazaar：</text> <code></code> <text>接著從桌面啟動它，即可透過圖形介面安裝 Flatpak 應用程式。</text>"
     }
   },
   "salix": {
@@ -217,6 +229,10 @@
     "step-3": {
       "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳場所。若要啟用它，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或執行：</text> <code></code>",
       "name": "新增 Flathub 軟體庫"
+    },
+    "install-bazaar": {
+      "name": "安裝 Bazaar",
+      "text": "<text>啟用 Flathub 後，請執行以下指令，直接從 Flathub 安裝 Bazaar：</text> <code></code> <text>接著從桌面啟動它，即可透過圖形介面安裝 Flatpak 應用程式。</text>"
     }
   },
   "void_linux": {
@@ -277,7 +293,11 @@
       "name": "新增 Flathub 軟體庫",
       "text": "<text>Flathub 是取得 Flatpak 應用程式的最佳管道。要啟用此服務，請下載並安裝 <filelink>Flathub 軟體庫檔案</filelink>，或在終端機中執行以下指令：</text><code></code>"
     },
-    "distroName": "Alpine"
+    "distroName": "Alpine",
+    "install-bazaar": {
+      "name": "安裝 Bazaar",
+      "text": "<text>啟用 Flathub 後，請執行以下指令，直接從 Flathub 安裝 Bazaar：</text> <code></code> <text>接著從桌面啟動它，即可透過圖形介面安裝 Flatpak 應用程式。</text>"
+    }
   },
   "deepin": {
     "step-1": {
@@ -339,15 +359,19 @@
       "name": "新增 Flathub 軟體庫"
     },
     "step-3": {
-      "text": "<text>要完成設定，請重新啟動系統。現在您只需<link>安裝應用程式</link>即可！</text> <text>注意：Flatpak 應用程式的圖形化安裝僅可透過 GNOME Software 和/或 KDE Discover 進行。</text>",
+      "text": "<text>要完成設定，請重新啟動系統。現在您只需<link>安裝應用程式</link>即可！</text>",
       "name": "重啟"
     },
     "step-1": {
       "text": "<text>要在 Solus 上安裝 Flatpak，請開啟終端機應用程式並執行：</text> <code></code>",
       "name": "安裝 Flatpak"
     },
-    "introduction": "<text>Flatpak 支援已內建於 Solus 4.7 及更新版本中——無需額外設定！可透過 GNOME Software 和/或 KDE Discover 安裝 Flatpak 應用程式。</text> <text>若尚未安裝 Flatpak，請依照以下說明開始安裝。</text>",
-    "distroName": "Solus"
+    "introduction": "<text>Solus 4.7 及更新版本已內建 Flatpak 支援功能——無需任何設定！可透過 Bazaar 安裝 Flatpak 應用程式。</text> <text>若尚未安裝 Flatpak，請依照以下說明開始操作。</text>",
+    "distroName": "Solus",
+    "install-bazaar": {
+      "name": "安裝 Bazaar",
+      "text": "<text>啟用 Flathub 後，請執行以下指令，直接從 Flathub 安裝 Bazaar：</text> <code></code> <text>接著從桌面啟動它，即可透過圖形介面安裝 Flatpak 應用程式。</text>"
+    }
   },
   "almalinux": {
     "distroName": "AlmaLinux",

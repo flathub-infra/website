@@ -200,6 +200,10 @@
     "step-4": {
       "name": "Uruchom ponownie",
       "text": "<text>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Zainstaluj Bazaar",
+      "text": "<text>Po włączeniu Flathub zainstaluj Bazaar bezpośrednio z Flathub, uruchamiając:</text><code></code><text>Następnie uruchom go z pulpitu, aby graficznie instalować aplikacje Flatpak.</text>"
     }
   },
   "manjaro": {
@@ -226,6 +230,10 @@
     "step-4": {
       "name": "Uruchom ponownie",
       "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Zainstaluj Bazaar",
+      "text": "<text>Po włączeniu Flathub zainstaluj Bazaar bezpośrednio z Flathub, uruchamiając:</text><code></code><text>Następnie uruchom go z pulpitu, aby graficznie instalować aplikacje Flatpak.</text>"
     }
   },
   "mageia": {
@@ -269,15 +277,19 @@
     "distroName": "Kubuntu",
     "step-1": {
       "name": "Zainstaluj Flatpak",
-      "text": "<text>Aby zainstalować Flatpak na Kubuntu, otwórz Discover, przejdź do Ustawień, zainstaluj backend Flatpak i uruchom Discover ponownie.</text>"
+      "text": "<text>Aby zainstalować Flatpak na Kubuntu, otwórz aplikację terminala i uruchom:</text><code></code>"
     },
     "step-3": {
       "name": "Dodaj repozytorium Flathub",
-      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć, otwórz Discover, przejdź do Ustawień i dodaj repozytorium Flathub.</text>"
+      "text": "<text>Flathub to najlepsze miejsce do pobierania aplikacji Flatpak. Aby go włączyć uruchom:</text><code></code>"
     },
     "step-4": {
       "name": "Uruchom ponownie",
       "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Zainstaluj Bazaar",
+      "text": "<text>Po włączeniu Flathub zainstaluj Bazaar bezpośrednio z Flathub, uruchamiając:</text><code></code><text>Następnie uruchom go z pulpitu, aby graficznie instalować aplikacje Flatpak.</text>"
     }
   },
   "debian": {
@@ -293,6 +305,10 @@
     "step-4": {
       "name": "Uruchom ponownie",
       "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Zainstaluj Bazaar",
+      "text": "<text>Po włączeniu Flathub zainstaluj Bazaar bezpośrednio z Flathub, uruchamiając:</text><code></code><text>Następnie uruchom go z pulpitu, aby graficznie instalować aplikacje Flatpak.</text>"
     }
   },
   "solus": {
@@ -307,9 +323,13 @@
     },
     "step-3": {
       "name": "Uruchom ponownie",
-      "text": "<text>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text> <text>Uwaga: graficzna instalacja aplikacji Flatpak jest możliwa tylko poprzez GNOME Software i/lub KDE Discover.</text>"
+      "text": "<text>Aby zakończyć konfigurację, uruchom ponownie system. Teraz wystarczy <link>zainstalować aplikacje</link>!</text>"
     },
-    "introduction": "<text>Obsługa Flatpak jest wbudowana w Solus 4.7 i nowsze - nie wymaga instalacji! Aplikacje Flatpak można zainstalować za pomocą GNOME Software i/lub KDE Discover.</text> <text>Jeśli Flatpak nie jest zainstalowany, postępuj zgodnie z poniższymi instrukcjami, aby rozpocząć.</text>"
+    "introduction": "<text>Obsługa Flatpak jest wbudowana w Solus 4.7 i nowsze - nie wymaga instalacji! Aplikacje Flatpak można zainstalować za pomocą Bazaar.</text> <text>Jeśli Flatpak nie jest zainstalowany, postępuj zgodnie z poniższymi instrukcjami, aby rozpocząć.</text>",
+    "install-bazaar": {
+      "name": "Zainstaluj Bazaar",
+      "text": "<text>Po włączeniu Flathub zainstaluj Bazaar bezpośrednio z Flathub, uruchamiając:</text><code></code><text>Następnie uruchom go z pulpitu, aby graficznie instalować aplikacje Flatpak.</text>"
+    }
   },
   "pop_os": {
     "distroName": "Pop!_OS",
@@ -381,6 +401,10 @@
     "step-4": {
       "name": "Uruchom ponownie",
       "text": "<text>Aby zakończyć instalację, uruchom ponownie system. Teraz wystarczy tylko <link>zainstalować aplikacje</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Zainstaluj Bazaar",
+      "text": "<text>Po włączeniu Flathub zainstaluj Bazaar bezpośrednio z Flathub, uruchamiając:</text><code></code><text>Następnie uruchom go z pulpitu, aby graficznie instalować aplikacje Flatpak.</text>"
     }
   },
   "deepin": {
