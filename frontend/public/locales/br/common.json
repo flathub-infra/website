@@ -32,7 +32,9 @@
   "community": "Kumuniezh",
   "developers": "Diorroerien",
   "developer-portal": {
-    "title": "Porched diorroerien"
+    "title": "Porched diorroerien",
+    "downloads-last-month": "Pellgargadennoù eus ar miz diwezhañ",
+    "downloads-last-month-count": "Pellgargadennoù eus ar miz diwezhañ : {count}"
   },
   "documentation": "Teuliadur",
   "statistics": "Stadegoù",
@@ -202,7 +204,6 @@
   "get-in-touch": "Mont e darempred",
   "trending-apps": "Arloadoù diouzh ar c'hiz",
   "trending": "Diouzh ar c'hiz",
-  "nothing-to-do": "Netra da ober",
   "install-x": "Staliañ {app_name} war Linux",
   "manage-x": "Merañ {app_name}",
   "archive": "Diell",
@@ -272,7 +273,6 @@
   "favorite-apps": "Sinedoù",
   "install-all-favorites": "Staliañ an holl sinedoù",
   "share": "Rannañ",
-  "manual-verification": "Merkañ evel gwiriet gant an dorn",
   "user-id": "ID implijer Flathub",
   "unverified-app-disclaimer-unknown-developer": "diorroer an arload",
   "manage": "Merañ",
@@ -281,5 +281,21 @@
   "moderation-manifest-added": "Ouzhpennet",
   "open-login-provider": "Digeriñ {provider}",
   "remove-from-favorites": "Dilemel {app} eus ar sinedoù",
-  "remove-bookmark": "Dilemel ar sined"
+  "remove-bookmark": "Dilemel ar sined",
+  "platform-support": {
+    "gamepads": "dornelloù",
+    "touchscreens": "skrammoù touch",
+    "pointing-devices": "logodennoù pe poenterioù",
+    "keyboards": "klavieroù",
+    "desktop-only": "Burev hepken",
+    "mobile-only": "Hezoug hepken"
+  },
+  "passkey-rename": "Adenvel",
+  "email-account": "Chomlec'h",
+  "user-login-heading": "Kevreañ ouzh Flathub",
+  "save": "Enrollañ",
+  "email-login-sign-in": "Kevreañ",
+  "email-login-sending": "O kas…",
+  "email-login-email-address": "Chomlec'h postel",
+  "email-login-with-email": "Kevreañ gant ur postel"
 }

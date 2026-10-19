@@ -151,7 +151,7 @@
   "mx_linux": {
     "step-1": {
       "name": "透過軟體管理員啟用 Flatpak",
-      "text": "<text>自 MX 18 及後續版本起，Flatpak 支援功能已內建於系統中。您僅需依照以下步驟啟用 Flathub 軟體庫：</text> <text>開啟 <strong>MX 套件安裝程式</strong>（開啟選單並於 MX 工具中尋找），選擇「Flatpaks」分頁，啟用軟體庫時需輸入 root 密碼。</text>"
+      "text": "<text>自 MX 18 及後續版本起，Flatpak 支援功能已內建於系統中。您僅需依照以下步驟啟用 Flathub 軟體庫：</text> <text>開啟 <strong>MX 軟體包安裝程式</strong>（開啟選單並於 MX 工具中尋找），選擇「Flatpaks」分頁，啟用軟體庫時需輸入 root 密碼。</text>"
     },
     "step-2": {
       "text": "<text>要完成設定，請重新啟動系統。現在您只需<link>安裝應用程式</link>即可！</text>",
@@ -321,7 +321,7 @@
   "crystal_linux": {
     "step-1": {
       "name": "安裝 Flatpak",
-      "text": "<text>要在 Crystal Linux 中安裝 Flatpak，您必須先確保您的套件已更新至最新版本。請在終端機中執行以下指令：</text> <codeUpdate></codeUpdate> <text>接著安裝 Flatpak：</text> <code></code>"
+      "text": "<text>要在 Crystal Linux 中安裝 Flatpak，您必須先確保您的軟體包已更新至最新版本。請在終端機中執行以下指令：</text> <codeUpdate></codeUpdate> <text>接著安裝 Flatpak：</text> <code></code>"
     },
     "step-2": {
       "name": "新增 Flathub 軟體庫",
