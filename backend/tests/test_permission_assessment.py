@@ -126,7 +126,7 @@ def observed(monkeypatch):
     def persist(values):
         rows.append(values)
         return assessment._response(
-            SimpleNamespace(id=len(rows), decision_id=None, **values)
+            None, SimpleNamespace(id=len(rows), decision_id=None, **values)
         )
 
     monkeypatch.setattr(assessment, "_persist_observation", persist)

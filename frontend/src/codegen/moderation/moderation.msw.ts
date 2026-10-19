@@ -406,6 +406,13 @@ export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
     faker.helpers.arrayElement([faker.number.int(), null]),
     undefined,
   ]),
+  decision_rationale: faker.helpers.arrayElement([
+    faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    undefined,
+  ]),
   baseline_id: faker.helpers.arrayElement([
     faker.helpers.arrayElement([faker.number.int(), null]),
     undefined,
@@ -523,6 +530,13 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
     ]),
     decision_id: faker.helpers.arrayElement([
       faker.helpers.arrayElement([faker.number.int(), null]),
+      undefined,
+    ]),
+    decision_rationale: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       undefined,
     ]),
     baseline_id: faker.helpers.arrayElement([

@@ -5,7 +5,7 @@ import sys
 from contextlib import contextmanager
 from datetime import UTC, datetime
 from types import SimpleNamespace
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
 import pytest
@@ -21,7 +21,10 @@ from app.db_session import DBSession
 from app.moderation import ostree_permissions
 from app.moderation import permission_assessment as assessment
 from app.moderation import permission_publication as publication
-from app.moderation import permission_reviews as reviews
+
+with patch("meilisearch.Client"):
+    from app.moderation import permission_reviews as reviews
+
 from app.moderation import review as moderation_review
 from app.moderation.permission_snapshot import (
     CANONICALIZATION_VERSION,
@@ -247,6 +250,19 @@ def test_decisions_are_refused_for_stale_or_mismatched_assessments(db):
     with pytest.raises(HTTPException) as exc:
         decide(new.assessment_id, fingerprint=OLD_FP)
     assert exc.value.detail == "snapshot_mismatch"
+
+
+def test_responses_expose_active_decision_rationale(db):
+    first = persist(1)
+    assert first.decision_rationale is None
+    decide(first.assessment_id, rationale="Fine for now.")
+    inherited = persist(2, pull_request_head_revision="4" * 40)
+    assert inherited.decision_rationale == "Fine for now."
+    decide(inherited.assessment_id, "rejected", rationale="Too broad")
+    assert assessment.get_assessment(first.assessment_id).decision_rationale == (
+        "Too broad"
+    )
+    assert persist(3, fingerprint="e" * 64).decision_rationale is None
 
 
 @pytest.mark.parametrize(

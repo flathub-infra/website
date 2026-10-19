@@ -127,6 +127,7 @@ class CandidateAssessmentResponse(BaseModel):
     outcome: Literal["accepted", "pending", "rejected", "error"]
     acceptance_basis: AcceptanceBasis | None = None
     decision_id: int | None = None
+    decision_rationale: str | None = None
     baseline_id: int | None = None
     review_url: str
     superseded_by: int | None = None
@@ -194,8 +195,13 @@ def lock_pull_request(session, row) -> None:
 
 
 def _response(
-    row: models.PermissionAssessmentObservation, newer: int | None = None
+    session, row: models.PermissionAssessmentObservation, newer: int | None = None
 ) -> CandidateAssessmentResponse:
+    decision = (
+        session.get(models.PermissionDecision, row.decision_id)
+        if row.decision_id is not None
+        else None
+    )
     return CandidateAssessmentResponse(
         assessment_id=row.id,
         candidate_identity=CandidateIdentity(
@@ -205,6 +211,7 @@ def _response(
         outcome=row.outcome,
         acceptance_basis=row.acceptance_basis,
         decision_id=row.decision_id,
+        decision_rationale=decision.rationale if decision is not None else None,
         baseline_id=row.baseline_id,
         review_url=review_url(row.id),
         superseded_by=newer,
@@ -252,7 +259,7 @@ def _persist_observation(values: dict[str, object]) -> CandidateAssessmentRespon
                 == values["assessment_identity"]
             )
         ).scalar_one()
-        response = _response(row, superseded_by(db.session, row))
+        response = _response(db.session, row, superseded_by(db.session, row))
     logger.info(
         "Recorded permission assessment observation",
         extra={
@@ -376,7 +383,7 @@ def get_assessment(assessment_id: int) -> CandidateAssessmentResponse:
         row = db.session.get(models.PermissionAssessmentObservation, assessment_id)
         if row is None:
             raise HTTPException(status_code=404, detail="assessment_not_found")
-        return _response(row, superseded_by(db.session, row))
+        return _response(db.session, row, superseded_by(db.session, row))
 
 
 def _fetch(

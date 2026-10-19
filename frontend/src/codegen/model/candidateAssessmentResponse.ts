@@ -9,6 +9,7 @@ import type { CandidateAssessmentResponseAcceptanceBasis } from "./candidateAsse
 import type { CandidateAssessmentResponseBaselineId } from "./candidateAssessmentResponseBaselineId"
 import type { CandidateAssessmentResponseCanonicalizationVersion } from "./candidateAssessmentResponseCanonicalizationVersion"
 import type { CandidateAssessmentResponseDecisionId } from "./candidateAssessmentResponseDecisionId"
+import type { CandidateAssessmentResponseDecisionRationale } from "./candidateAssessmentResponseDecisionRationale"
 import type { CandidateAssessmentResponseDifferences } from "./candidateAssessmentResponseDifferences"
 import type { CandidateAssessmentResponseErrorCode } from "./candidateAssessmentResponseErrorCode"
 import type { CandidateAssessmentResponseErrorMessage } from "./candidateAssessmentResponseErrorMessage"
@@ -26,6 +27,7 @@ export interface CandidateAssessmentResponse {
   outcome: CandidateAssessmentResponseOutcome
   acceptance_basis?: CandidateAssessmentResponseAcceptanceBasis
   decision_id?: CandidateAssessmentResponseDecisionId
+  decision_rationale?: CandidateAssessmentResponseDecisionRationale
   baseline_id?: CandidateAssessmentResponseBaselineId
   review_url: string
   superseded_by?: CandidateAssessmentResponseSupersededBy
