@@ -12,6 +12,9 @@
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<text>Flathub ist der beste Ort, um Flatpak-Apps zu beziehen. Um es zu aktivieren, lade die <filelink>Flathub-Repository-Datei</filelink> herunter und installiere sie oder führe Folgendes aus:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Bazaar installieren"
     }
   },
   "fedora": {
@@ -119,6 +122,9 @@
     "step-4": {
       "name": "Neustart",
       "text": "<text>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <link>Apps installieren</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Bazaar installieren"
     }
   },
   "rocky_linux": {
@@ -167,11 +173,14 @@
     },
     "step-1": {
       "name": "Flatpak installieren",
-      "text": "<text>Um Flatpak unter Kubuntu zu installieren, öffne Discover, gehe zu Einstellungen, installiere das Flatpak-Backend und starte Discover neu.</text>"
+      "text": "<text>Um Flatpak auf Kubuntu zu installieren, öffne die Terminal app und starte:</text> <code></code>"
     },
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
-      "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, öffne Discover, gehe in die Einstellungen und füge das Flathub-Repository hinzu.</text>"
+      "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Bazaar installieren"
     }
   },
   "solus": {
@@ -188,7 +197,10 @@
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <filelink>Flathub-Repository Datei</filelink> oder führe aus:</text> <code></code>"
     },
-    "introduction": "<text>Flatpak-Unterstützung ist ab Solus 4.7 integriert - es ist keine Installation erforderlich! Flatpak-Anwendungen können mit GNOME Software und/oder KDE Discover installiert werden.</text> <text>Wenn Flatpak nicht installiert ist, folgen Sie den folgenden Anweisungen, um loszulegen.</text>"
+    "introduction": "<text>Flatpak-Unterstützung ist ab Solus 4.7 integriert - es ist keine Installation erforderlich! Flatpak-Anwendungen können mit GNOME Software und/oder KDE Discover installiert werden.</text> <text>Wenn Flatpak nicht installiert ist, folgen Sie den folgenden Anweisungen, um loszulegen.</text>",
+    "install-bazaar": {
+      "name": "Bazaar installieren"
+    }
   },
   "alpine": {
     "distroName": "Alpine",
@@ -203,6 +215,9 @@
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <filelink>Flathub-Repository Datei</filelink> oder führe aus:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Bazaar installieren"
     }
   },
   "mageia": {
@@ -320,6 +335,9 @@
     "step-3": {
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<text>Flathub ist der beste Ort, um Flatpak-Apps zu beziehen. Um es zu aktivieren, lade die <filelink>Flathub-Repository-Datei</filelink> herunter und installiere sie oder führe Folgendes aus:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Bazaar installieren"
     }
   },
   "mx_linux": {
