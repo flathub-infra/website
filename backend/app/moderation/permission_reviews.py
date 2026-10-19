@@ -1,17 +1,28 @@
 from datetime import datetime
 from typing import Annotated, Any, Literal
 
+import dramatiq
 from fastapi import APIRouter, FastAPI, HTTPException, Query, Request
+from github import Github
 from pydantic import BaseModel, model_validator
 from sqlalchemy import exists, func, select, update
 from sqlalchemy.orm import aliased
 
-from .. import audit_log, cache, models
+from .. import audit_log, cache, config, models
 from ..database import get_db
+from ..dramatiq_broker import broker
 from ..login_info import ModeratorDep
 from . import permission_assessment as assessment
 
 router = APIRouter(prefix="/moderation/permission-reviews", tags=["moderation"])
+
+
+@dramatiq.actor(broker=broker, max_retries=3)
+def comment_on_pull_request(repository: str, number: int, body: str):
+    gh_token = config.settings.github_bot_token
+    if not gh_token:
+        return
+    Github(gh_token).get_repo(repository).get_issue(number).create_comment(body)
 
 
 class PermissionReviewSummary(BaseModel):
@@ -229,6 +240,11 @@ def decide_permission_review(
             "decision_id": decision.id,
             "fingerprint": row.fingerprint,
         }
+        pull_request = (
+            (row.source_repository, row.pull_request_number)
+            if row.forge_instance == "github.com"
+            else None
+        )
 
     event = (
         models.AuditEventType.PERMISSION_DECISION_APPROVED
@@ -236,6 +252,16 @@ def decide_permission_review(
         else models.AuditEventType.PERMISSION_DECISION_REJECTED
     )
     audit_log.enqueue_audit_log(http_request, login.user.id, event, details=details)
+    if pull_request is not None:
+        comment = (
+            f"The permission changes in this pull request were {body.decision}"
+            " by Flathub moderators."
+        )
+        if rationale := (body.rationale or "").strip():
+            comment += "\n\n" + "\n".join(
+                f"> {line}" for line in rationale.splitlines()
+            )
+        comment_on_pull_request.send(*pull_request, comment)
     return detail
 
 

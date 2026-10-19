@@ -156,6 +156,7 @@ def db(monkeypatch):
             session.close()
 
     monkeypatch.setattr(reviews, "audit_log", MagicMock())
+    monkeypatch.setattr(reviews, "comment_on_pull_request", MagicMock())
     for module in (assessment, publication, reviews, moderation_review):
         monkeypatch.setattr(module, "get_db", real_db)
     with real_db() as session:
@@ -243,6 +244,33 @@ def test_decisions_are_refused_for_stale_or_mismatched_assessments(db):
     with pytest.raises(HTTPException) as exc:
         decide(new.assessment_id, fingerprint=OLD_FP)
     assert exc.value.detail == "snapshot_mismatch"
+
+
+@pytest.mark.parametrize(
+    ("decision", "rationale", "quote"),
+    [
+        ("approved", None, ""),
+        (
+            "approved",
+            "Fine for now.\nDrop --device=all later.",
+            "\n\n> Fine for now.\n> Drop --device=all later.",
+        ),
+        ("rejected", "Too broad", "\n\n> Too broad"),
+    ],
+)
+def test_decisions_comment_on_pull_request(db, decision, rationale, quote):
+    decide(persist(1).assessment_id, decision, rationale=rationale)
+    reviews.comment_on_pull_request.send.assert_called_once_with(
+        f"flathub/{APP}",
+        17,
+        f"The permission changes in this pull request were {decision}"
+        f" by Flathub moderators.{quote}",
+    )
+
+
+def test_decisions_on_other_forges_do_not_comment(db):
+    decide(persist(1, forge_instance="gitlab.com").assessment_id)
+    reviews.comment_on_pull_request.send.assert_not_called()
 
 
 def test_review_listing_filters_stored_outcome_and_superseded(db):

@@ -1,4 +1,5 @@
 from ..audit_log import log_audit_event
+from ..moderation.permission_reviews import comment_on_pull_request
 from ..search_tasks import monitor_hybrid_index_task, reconcile_hybrid_index
 from .core import broker
 from .emails import send_email_login_link, send_email_new, send_one_email_new
@@ -15,6 +16,7 @@ from .update_stats import update_stats
 
 __all__ = [
     "broker",
+    "comment_on_pull_request",
     "log_audit_event",
     "monitor_hybrid_index_task",
     "prune_audit_logs",

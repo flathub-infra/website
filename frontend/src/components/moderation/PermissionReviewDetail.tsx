@@ -87,7 +87,7 @@ const DecisionForm = ({ review }: { review: Review }) => {
       <Textarea
         className="h-32"
         value={rationale}
-        placeholder="Rationale (required to reject)"
+        placeholder="Rationale, posted on the pull request (required to reject)"
         onChange={(e) => setRationale(e.target.value)}
       />
       {error && <InlineError error={error} shown={true} />}
