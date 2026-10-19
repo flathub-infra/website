@@ -5,7 +5,15 @@ import { useTranslations } from "next-intl"
 import { useSearchParams } from "next/navigation"
 import { useQueryClient } from "@tanstack/react-query"
 import { isAxiosError } from "axios"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import {
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  History,
+  LoaderCircle,
+  X,
+} from "lucide-react"
 import {
   PermissionDecisionRequestDecision as Decision,
   PermissionReviewDetail as Review,
@@ -15,12 +23,25 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
 import { Link } from "src/i18n/navigation"
+import { cn } from "@/lib/utils"
 import Breadcrumbs from "../Breadcrumbs"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import PermissionDiffTable from "./PermissionDiffTable"
+import OutcomeBadge from "./PermissionOutcomeBadge"
 import { reviewListFilters, reviewListQuery } from "./PermissionReviewList"
+import {
+  permissionReviewSurface,
+  permissionReviewTheme,
+} from "./permission-review-styles"
 
 const Section = ({
   title,
@@ -29,10 +50,18 @@ const Section = ({
   title: string
   children: ReactNode
 }) => (
-  <section className="space-y-4 rounded-xl bg-flathub-white p-6 shadow-md dark:bg-flathub-arsenic">
-    <h2 className="text-xl font-bold">{title}</h2>
-    {children}
-  </section>
+  <Card
+    className={cn(permissionReviewSurface, "h-full min-w-0")}
+    role="region"
+    aria-label={title}
+  >
+    <CardHeader>
+      <CardTitle>
+        <h2 className="text-lg font-bold tracking-tight">{title}</h2>
+      </CardTitle>
+    </CardHeader>
+    <CardContent>{children}</CardContent>
+  </Card>
 )
 
 const DecisionForm = ({ review }: { review: Review }) => {
@@ -83,30 +112,52 @@ const DecisionForm = ({ review }: { review: Review }) => {
   }
 
   return (
-    <div className="space-y-4">
-      <Textarea
-        className="h-32"
-        value={rationale}
-        placeholder="Rationale, posted on the pull request (required to reject)"
-        onChange={(e) => setRationale(e.target.value)}
-      />
-      {error && <InlineError error={error} shown={true} />}
-      <div className="flex gap-3">
-        <Button
+    <FieldGroup>
+      <Field data-disabled={mutation.isPending}>
+        <FieldLabel htmlFor="review-rationale">Decision rationale</FieldLabel>
+        <Textarea
+          id="review-rationale"
+          className="min-h-32"
+          value={rationale}
           disabled={mutation.isPending}
-          onClick={() => decide(Decision.approved)}
-        >
-          Approve
-        </Button>
-        <Button
-          variant="destructive"
-          disabled={mutation.isPending || !rationale.trim()}
-          onClick={() => decide(Decision.rejected)}
-        >
-          Reject
-        </Button>
+          aria-describedby="review-rationale-help"
+          placeholder="Explain which permissions need attention…"
+          onChange={(e) => setRationale(e.target.value)}
+        />
+        <FieldDescription id="review-rationale-help">
+          Posted on the pull request. Required to reject; optional to approve.
+        </FieldDescription>
+      </Field>
+      {error && <InlineError error={error} shown={true} />}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t pt-4">
+        <span className="text-xs text-muted-foreground" role="status">
+          {mutation.isPending
+            ? "Saving decision…"
+            : "Review the permission changes before deciding."}
+        </span>
+        <div className="flex gap-2">
+          <Button
+            disabled={mutation.isPending}
+            onClick={() => decide(Decision.approved)}
+          >
+            {mutation.isPending ? (
+              <LoaderCircle data-icon="inline-start" className="animate-spin" />
+            ) : (
+              <Check data-icon="inline-start" />
+            )}
+            Approve
+          </Button>
+          <Button
+            variant="destructive"
+            disabled={mutation.isPending || !rationale.trim()}
+            onClick={() => decide(Decision.rejected)}
+          >
+            <X data-icon="inline-start" />
+            Reject
+          </Button>
+        </div>
       </div>
-    </div>
+    </FieldGroup>
   )
 }
 
@@ -128,8 +179,9 @@ const NavigatePreviousNext = ({ assessmentId }: { assessmentId: number }) => {
         <Button variant="outline" size="sm" asChild>
           <Link
             href={`/admin/moderation/permissions/${previous.assessment_id}${suffix}`}
+            className="text-primary"
           >
-            <ChevronLeft className="me-2 h-4 w-4" />
+            <ChevronLeft data-icon="inline-start" />
             Previous
           </Link>
         </Button>
@@ -138,9 +190,10 @@ const NavigatePreviousNext = ({ assessmentId }: { assessmentId: number }) => {
         <Button variant="outline" size="sm" asChild>
           <Link
             href={`/admin/moderation/permissions/${next.assessment_id}${suffix}`}
+            className="text-primary"
           >
             Next
-            <ChevronRight className="ms-2 h-4 w-4" />
+            <ChevronRight data-icon="inline-end" />
           </Link>
         </Button>
       )}
@@ -176,7 +229,12 @@ export default function PermissionReviewDetail({
   ]
 
   return (
-    <div className="space-y-8 py-8">
+    <div
+      className={cn(
+        permissionReviewTheme,
+        "flex min-w-0 flex-col gap-6 py-8 [&_[data-icon]]:size-4",
+      )}
+    >
       <Breadcrumbs
         pages={[
           { name: "Moderation", href: "/admin/moderation", current: false },
@@ -192,22 +250,29 @@ export default function PermissionReviewDetail({
           },
         ]}
       />
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <h1 className="text-3xl font-extrabold tracking-tight">
-          {review.app_id}{" "}
-          <span className="text-xl capitalize">{review.outcome}</span>
-        </h1>
+      <header className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex min-w-0 flex-col gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="text-2xl leading-tight font-extrabold tracking-tight [overflow-wrap:anywhere] sm:text-3xl">
+              {review.app_id}
+            </h1>
+            <OutcomeBadge outcome={review.outcome} />
+          </div>
+          {review.pull_request_url && (
+            <a
+              className="inline-flex w-fit items-center gap-2 text-sm text-primary hover:underline"
+              href={review.pull_request_url}
+            >
+              <span>
+                {t("moderation-permissions-pull-request")}{" "}
+                {review.source_repository}#{review.pull_request_number}
+              </span>
+              <ExternalLink className="size-3.5 shrink-0" aria-hidden="true" />
+            </a>
+          )}
+        </div>
         <NavigatePreviousNext assessmentId={assessmentId} />
-      </div>
-      {review.pull_request_url && (
-        <a
-          className="text-flathub-celestial-blue hover:underline"
-          href={review.pull_request_url}
-        >
-          {t("moderation-permissions-pull-request")} {review.source_repository}#
-          {review.pull_request_number}
-        </a>
-      )}
+      </header>
       {review.superseded_by !== null && (
         <Link href={`/admin/moderation/permissions/${review.superseded_by}`}>
           Superseded by #{review.superseded_by}
@@ -218,11 +283,11 @@ export default function PermissionReviewDetail({
           {review.error_code}: {review.error_message}
         </p>
       )}
-      <dl className="grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+      <dl className="grid grid-cols-2 gap-5 rounded-xl border bg-card p-5 text-sm lg:grid-cols-4">
         {fields.map(([label, value]) => (
           <div key={label}>
-            <dt className="font-medium">{label}</dt>
-            <dd className="break-all font-mono">{value ?? "—"}</dd>
+            <dt className="mb-1.5 text-xs text-muted-foreground">{label}</dt>
+            <dd className="break-all font-mono font-medium">{value ?? "—"}</dd>
           </div>
         ))}
       </dl>
@@ -233,18 +298,50 @@ export default function PermissionReviewDetail({
           snapshot={review.candidate_snapshot}
         />
       </Section>
-      <Section title="Decision history">
-        {review.decisions.map((d) => (
-          <div key={d.id} className="text-sm">
-            <b className="capitalize">{d.decision}</b>{" "}
-            {d.reviewer_name ?? `#${d.reviewer_id}`}, {d.created_at}
-            {d.rationale && <blockquote>{d.rationale}</blockquote>}
-          </div>
-        ))}
-      </Section>
-      <Section title="Review">
-        <DecisionForm review={review} />
-      </Section>
+      <div className="grid items-start gap-6 lg:grid-cols-5">
+        <div className="min-w-0 lg:col-span-2">
+          <Section title="Decision history">
+            {review.decisions.length === 0 ? (
+              <div className="flex items-center gap-3 py-3 text-sm text-muted-foreground">
+                <History className="size-5 shrink-0" aria-hidden="true" />
+                No decisions yet.
+              </div>
+            ) : (
+              <ol className="flex flex-col gap-5">
+                {review.decisions.map((d) => (
+                  <li
+                    key={d.id}
+                    className="flex flex-col gap-3 border-s-2 ps-4 text-sm"
+                  >
+                    <div className="flex flex-wrap items-center gap-2">
+                      <OutcomeBadge outcome={d.decision} />
+                      <span className="font-medium">
+                        {d.reviewer_name ?? `#${d.reviewer_id}`}
+                      </span>
+                    </div>
+                    <time
+                      dateTime={d.created_at}
+                      className="text-xs text-muted-foreground"
+                    >
+                      {d.created_at.replace("T", " · ").replace(/\.\d+/, "")}
+                    </time>
+                    {d.rationale && (
+                      <blockquote className="leading-relaxed whitespace-pre-wrap [overflow-wrap:anywhere]">
+                        {d.rationale}
+                      </blockquote>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            )}
+          </Section>
+        </div>
+        <div className="min-w-0 lg:col-span-3">
+          <Section title="Review">
+            <DecisionForm key={review.assessment_id} review={review} />
+          </Section>
+        </div>
+      </div>
     </div>
   )
 }

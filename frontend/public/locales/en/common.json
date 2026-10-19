@@ -252,6 +252,7 @@
   "moderation-permissions-title": "Permissions",
   "moderation-permissions-pull-request": "Pull request",
   "moderation-permissions-compared-with": "Compared with: {source}",
+  "moderation-permissions-changed-count": "{count, plural, one {# changed permission} other {# changed permissions}}",
   "user-id": "Flathub User ID",
   "categories": "Categories",
   "linked-accounts": "Linked Accounts",
