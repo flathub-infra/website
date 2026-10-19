@@ -2,6 +2,8 @@ from datetime import timedelta
 from typing import Literal
 
 from fastapi import APIRouter, FastAPI, HTTPException, Query
+from sqlalchemy import cast, func, literal
+from sqlalchemy.dialects.postgresql import JSONB
 
 from .. import cache, models, utils
 from ..database import get_db
@@ -16,6 +18,7 @@ from ..maintenance import (
     dashboard,
     same_fingerprint,
 )
+from ..upstream import EXCLUDED_APPS, release_evidence
 
 router = APIRouter(prefix="/admin/maintenance", tags=["maintenance"])
 APP_TYPES = ("desktop", "desktop-application", "console-application")
@@ -38,11 +41,26 @@ def load_cases(
         models.App.summary["branch"].as_string().label("branch"),
         models.App.is_eol,
         models.App.eol_branches,
+        models.App.appstream["releases"][0]["version"].label("release_version"),
+        # SQL NULL (missing type) defaults to stable, while JSON null remains
+        # null and cannot establish a stable release.
+        func.coalesce(
+            models.App.appstream["releases"][0]["type"],
+            cast(literal('"stable"'), JSONB),
+        ).label("release_type"),
+        models.App.appstream["urls"]["vcs_browser"].as_string().label("source"),
     ).filter(models.App.type.in_(APP_TYPES))
     if app_id:
         query = query.filter(models.App.app_id == app_id)
     apps = query.all()
     ids = [app.app_id for app in apps]
+    upstream = {
+        row.app_id: row
+        for row in db.session.query(models.MaintenanceUpstream)
+        .filter(models.MaintenanceUpstream.app_id.in_(ids))
+        .all()
+        if row.app_id.casefold() not in {v.casefold() for v in EXCLUDED_APPS}
+    }
     runtime_ids = {app.runtime.split("/")[0] for app in apps if app.runtime}
     runtimes = {
         row.app_id: row
@@ -89,6 +107,13 @@ def load_cases(
             runtime=app.runtime,
             runtime_eol=runtime_eol,
             is_eol=is_eol,
+            upstream=release_evidence(
+                upstream.get(app.app_id),
+                [{"version": app.release_version, "type": app.release_type}],
+                app.source,
+                app.branch or "stable",
+                now,
+            ),
         )
         case = assess(evidence, now, stale_days)
         state = triage.get(app.app_id)
@@ -105,7 +130,7 @@ def load_cases(
 def get_maintenance_dashboard(
     admin: ModeratorDep,
     queue: Literal[
-        "all", "stale", "runtime", "eol", "unknown", "mine", "snoozed"
+        "all", "stale", "runtime", "eol", "unknown", "upstream", "mine", "snoozed"
     ] = "all",
     search: str = Query(default="", max_length=200),
     runtime: str | None = Query(default=None, max_length=300),

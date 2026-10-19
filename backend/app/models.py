@@ -4430,6 +4430,22 @@ class Exceptions(Base):
         return {exception.app_id: exception.value for exception in exceptions}
 
 
+class MaintenanceUpstream(Base):
+    """Last Anitya observation, kept separate from curator-owned triage."""
+
+    __tablename__ = "maintenanceupstream"
+    app_id = mapped_column(
+        String, ForeignKey("apps.app_id", ondelete="CASCADE"), primary_key=True
+    )
+    project_id = mapped_column(Integer, nullable=True)
+    upstream_version = mapped_column(String, nullable=True)
+    stable_versions = mapped_column(JSONB, nullable=False, server_default="[]")
+    source_url = mapped_column(String, nullable=True)
+    checked_at = mapped_column(DateTime, nullable=True)
+    last_attempt_at = mapped_column(DateTime, nullable=False)
+    status = mapped_column(String, nullable=False)
+
+
 class MaintenanceTriage(Base):
     """Shared admin investigation state; signals are derived from current evidence."""
 

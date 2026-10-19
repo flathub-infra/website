@@ -58,6 +58,18 @@ function render(cases: MaintenanceCase[], draftAppIds?: ReadonlySet<string>) {
 }
 
 describe("maintenance action queue", () => {
+  it("labels upstream evidence without declaring the app outdated", () => {
+    const html = render([
+      {
+        ...app,
+        signals: [
+          { ...app.signals[0], kind: "upstream", confidence: "investigate" },
+        ],
+      },
+    ])
+    expect(html).toContain("Newer upstream release")
+    expect(html).not.toContain("Outdated")
+  })
   it("labels missing activity as unknown, not abandonment", () => {
     const html = render([app])
     expect(html).toContain("Unknown activity")
@@ -146,5 +158,26 @@ describe("maintenance case editor", () => {
     expect(html).toContain("Waiting for a response")
     expect(html).toContain("Return to active queue")
     expect(html).not.toContain('id="maintenance-reason"')
+  })
+
+  it("shows upstream provenance, versions and freshness even when evidence is stale", () => {
+    const html = renderCase({
+      ...app,
+      upstream: {
+        project_id: 12,
+        project_url: "https://release-monitoring.org/project/12/",
+        packaged_version: "1.0",
+        upstream_version: "2.0",
+        status: "stale",
+        checked_at: "2026-10-13T12:00:00",
+        last_attempt_at: "2026-10-19T12:00:00",
+      },
+    })
+    expect(html).toContain('href="https://release-monitoring.org/project/12/"')
+    expect(html).toContain("Packaged: 1.0")
+    expect(html).toContain("upstream: 2.0")
+    expect(html).toContain("Last successful check:")
+    expect(html).toContain("Last attempt:")
+    expect(html).toContain("Unknown or stale evidence does not establish")
   })
 })

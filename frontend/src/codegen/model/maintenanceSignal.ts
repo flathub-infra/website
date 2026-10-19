@@ -4,9 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { MaintenanceSignalCheckedAt } from "./maintenanceSignalCheckedAt"
 import type { MaintenanceSignalConfidence } from "./maintenanceSignalConfidence"
 import type { MaintenanceSignalKind } from "./maintenanceSignalKind"
 import type { MaintenanceSignalSeverity } from "./maintenanceSignalSeverity"
+import type { MaintenanceSignalSourceUrl } from "./maintenanceSignalSourceUrl"
 
 export interface MaintenanceSignal {
   kind: MaintenanceSignalKind
@@ -14,4 +16,6 @@ export interface MaintenanceSignal {
   confidence: MaintenanceSignalConfidence
   evidence: string
   next_step: string
+  source_url?: MaintenanceSignalSourceUrl
+  checked_at?: MaintenanceSignalCheckedAt
 }

@@ -35,17 +35,17 @@ def _triage(fingerprint):
     )
 
 
-def _enable_v2_fingerprints(monkeypatch):
+def _enable_future_fingerprints(monkeypatch):
     """Simulate a future schema adding the app name without changing v1."""
     v1 = maintenance_evidence._FINGERPRINT_BUILDERS[1]
 
-    def v2(evidence):
+    def future(evidence):
         return hashlib.sha256(
             (v1(evidence) + "\n" + evidence.name).encode()
         ).hexdigest()
 
-    monkeypatch.setitem(maintenance_evidence._FINGERPRINT_BUILDERS, 2, v2)
-    monkeypatch.setattr(maintenance_evidence, "CURRENT_FINGERPRINT_VERSION", 2)
+    monkeypatch.setitem(maintenance_evidence._FINGERPRINT_BUILDERS, 3, future)
+    monkeypatch.setattr(maintenance_evidence, "CURRENT_FINGERPRINT_VERSION", 3)
 
 
 def test_fingerprint_v1_is_a_frozen_persisted_contract():
@@ -53,7 +53,7 @@ def test_fingerprint_v1_is_a_frozen_persisted_contract():
         "app", "App", NOW, runtime="org.Runtime/x86_64/old", runtime_eol=True
     )
     digest = "21768c4b03db7b216b302ee5e4e39bcd567ecf410c6b0912b4be51c4ab0414f7"
-    assert evidence_fingerprint(evidence) == "v1:" + digest
+    assert evidence_fingerprint(evidence, 1) == "v1:" + digest
     assert same_fingerprint(digest, "v1:" + digest)
     assert fingerprint_matches_evidence(evidence, digest)
     assert not same_fingerprint("invalid", "invalid")
@@ -64,16 +64,16 @@ def test_fingerprint_upgrade_preserves_snoozes_using_the_original_fields(
     monkeypatch, legacy
 ):
     evidence = Evidence("app", "App", NOW - timedelta(days=500))
-    saved = evidence_fingerprint(evidence)
+    saved = evidence_fingerprint(evidence, 1)
     if legacy:
         saved = saved.partition(":")[2]
     state = _triage(saved)
-    _enable_v2_fingerprints(monkeypatch)
-    previous_v2 = evidence_fingerprint(evidence)
+    _enable_future_fingerprints(monkeypatch)
+    previous_future = evidence_fingerprint(evidence)
     evidence.name = "Renamed app"
     changed_format = assess(evidence, NOW)
-    assert changed_format.fingerprint.startswith("v2:")
-    assert changed_format.fingerprint != previous_v2
+    assert changed_format.fingerprint.startswith("v3:")
+    assert changed_format.fingerprint != previous_future
     apply_triage(changed_format, state, NOW, evidence)
     assert changed_format.snoozed and not changed_format.reopened
     # Meaningful changes covered by the old schema must still wake the case.
@@ -98,6 +98,37 @@ def test_age_is_investigation_not_abandonment():
     assert case.signals[0].confidence == "investigate"
     assert not assess(Evidence("app", "App", NOW - timedelta(days=364)), NOW).signals
     assert not assess(Evidence("app", "App", NOW + timedelta(days=1)), NOW).signals
+
+
+def test_maintenance_query_projects_only_the_first_release_version_and_type():
+    from unittest.mock import patch
+
+    from sqlalchemy.dialects import postgresql
+    from sqlalchemy.orm import Query, Session
+
+    from app.db_session import DBSession
+    from app.routes.maintenance import load_cases
+
+    queries = []
+
+    def empty_results(query):
+        queries.append(query)
+        return []
+
+    # Build the real ORM queries without executing against a database.
+    with Session() as session, patch.object(Query, "all", empty_results):
+        assert load_cases(DBSession(session), NOW, 365) == []
+    sql = str(
+        queries[0].statement.compile(
+            dialect=postgresql.dialect(), compile_kwargs={"literal_binds": True}
+        )
+    )
+    assert "apps.appstream['releases'][0]['version'] AS release_version" in sql
+    assert (
+        "coalesce(apps.appstream['releases'][0]['type'], CAST('\"stable\"' AS JSONB)) AS release_type"
+        in sql
+    )
+    assert "apps.appstream['releases'] AS" not in sql
 
 
 def test_missing_timestamp_is_unknown_and_missing_runtime_is_not_healthy():
@@ -206,6 +237,7 @@ def maintenance_api():
         models.Guideline,
         models.QualityModeration,
         models.MaintenanceTriage,
+        models.MaintenanceUpstream,
     ):
         ddl = str(CreateTable(model.__table__).compile(engine)).replace(
             "CREATE TABLE", "CREATE TEMP TABLE", 1
@@ -342,6 +374,88 @@ def test_api_auth_and_private_responses(maintenance_api):
     )
 
 
+def test_api_reads_cached_upstream_evidence_by_default(maintenance_api):
+    from app import models
+
+    client, current, Session = maintenance_api
+    current["user_id"] = 1
+    source = "https://github.com/example/app"
+    with Session.begin() as session:
+        app = session.query(models.App).filter_by(app_id="org.Test.App").one()
+        app.appstream = {
+            "name": "Test App",
+            "urls": {"vcs_browser": source},
+            "releases": [{"version": "1.0", "type": "stable"}],
+        }
+        session.add(
+            models.MaintenanceUpstream(
+                app_id=app.app_id,
+                project_id=12,
+                upstream_version="2.0",
+                stable_versions=["2.0", "1.0"],
+                source_url=source,
+                checked_at=NOW,
+                last_attempt_at=NOW,
+                status="ok",
+            )
+        )
+    data = client.get("/admin/maintenance?queue=upstream").json()
+    assert data["total"] == 1
+    upstream = data["cases"][0]["upstream"]
+    assert upstream["status"] == "newer"
+    assert upstream["packaged_version"] == "1.0"
+    assert upstream["project_url"] == "https://release-monitoring.org/project/12/"
+    with Session.begin() as session:
+        app = session.query(models.App).filter_by(app_id="org.Test.App").one()
+        app.appstream = {**app.appstream, "releases": [{"version": "2.0"}]}
+    assert client.get("/admin/maintenance?queue=upstream").json()["total"] == 0
+    assert (
+        client.get("/admin/maintenance/org.Test.App").json()["upstream"]["status"]
+        == "current"
+    )
+
+
+@pytest.mark.parametrize(
+    "release,expected",
+    [
+        ({"version": "1.0"}, "newer"),
+        ({"version": "1.0", "type": None}, "unknown"),
+        ({"version": 1, "type": "stable"}, "unknown"),
+    ],
+)
+def test_release_projection_preserves_missing_and_invalid_metadata(
+    maintenance_api, release, expected
+):
+    from app import models
+
+    client, current, Session = maintenance_api
+    current["user_id"] = 1
+    source = "https://github.com/example/app"
+    with Session.begin() as session:
+        app = session.query(models.App).filter_by(app_id="org.Test.App").one()
+        app.appstream = {
+            "name": "Test App",
+            "urls": {"vcs_browser": source},
+            "releases": [release],
+        }
+        session.add(
+            models.MaintenanceUpstream(
+                app_id=app.app_id,
+                project_id=12,
+                upstream_version="2.0",
+                stable_versions=["2.0", "1.0"],
+                source_url=source,
+                checked_at=NOW,
+                last_attempt_at=NOW,
+                status="ok",
+            )
+        )
+    assert (
+        client.get("/admin/maintenance/org.Test.App").json()["upstream"]["status"]
+        == expected
+    )
+
+
 def test_api_claim_notes_snooze_reopen_and_conflicts(maintenance_api):
     client, current, Session = maintenance_api
     current["user_id"] = 1
@@ -412,6 +526,7 @@ def test_api_claim_notes_snooze_reopen_and_conflicts(maintenance_api):
 def test_stored_snoozes_survive_fingerprint_schema_upgrade(
     maintenance_api, monkeypatch, legacy
 ):
+    monkeypatch.setattr(maintenance_evidence, "CURRENT_FINGERPRINT_VERSION", 1)
     client, current, Session = maintenance_api
     current["user_id"] = 1
     from app import models
@@ -431,12 +546,12 @@ def test_stored_snoozes_survive_fingerprint_schema_upgrade(
         },
     )
     assert response.status_code == 200 and response.json()["snoozed"]
-    _enable_v2_fingerprints(monkeypatch)
+    _enable_future_fingerprints(monkeypatch)
     with Session.begin() as session:
         app = session.query(models.App).filter_by(app_id="org.Test.App").one()
-        app.appstream = {"name": "New name included only in v2"}
+        app.appstream = {"name": "New name included only in a future schema"}
     upgraded = client.get(path).json()
-    assert upgraded["fingerprint"].startswith("v2:")
+    assert upgraded["fingerprint"].startswith("v3:")
     assert upgraded["snoozed"] and not upgraded["reopened"]
     assert client.get("/admin/maintenance").json()["total"] == 0
     with Session() as session:
@@ -460,7 +575,7 @@ def test_open_editors_must_refresh_after_fingerprint_schema_upgrade(
 
     path = "/admin/maintenance/org.Test.App"
     viewed = client.get(path).json()
-    _enable_v2_fingerprints(monkeypatch)
+    _enable_future_fingerprints(monkeypatch)
     response = client.post(
         path,
         json={
@@ -474,7 +589,7 @@ def test_open_editors_must_refresh_after_fingerprint_schema_upgrade(
     with Session() as session:
         assert session.get(models.MaintenanceTriage, "org.Test.App") is None
     refreshed = client.get(path).json()
-    assert refreshed["fingerprint"].startswith("v2:")
+    assert refreshed["fingerprint"].startswith("v3:")
     response = client.post(
         path,
         json={

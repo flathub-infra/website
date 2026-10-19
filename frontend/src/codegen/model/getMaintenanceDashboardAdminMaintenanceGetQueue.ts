@@ -14,6 +14,7 @@ export const GetMaintenanceDashboardAdminMaintenanceGetQueue = {
   runtime: "runtime",
   eol: "eol",
   unknown: "unknown",
+  upstream: "upstream",
   mine: "mine",
   snoozed: "snoozed",
 } as const
