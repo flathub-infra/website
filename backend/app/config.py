@@ -90,6 +90,7 @@ class Settings(BaseSettings):
     flat_manager_build_token_prefix: str | None = "FLATHUB_TOKEN_"
     # Dedicated shared CI signing secret, separate from flat_manager_build_secret.
     permission_assessment_shared_secret: str | None = None
+    permission_decision_webhook_url: str | None = None
     # The URL for flat-manager. If present, the backend will use it to queue republish jobs when storefront info
     # changes. To test in development, set the environment variable FLAT_MANAGER_API=http://host.docker.internal:8080
     # when running docker compose.

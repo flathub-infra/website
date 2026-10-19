@@ -1,8 +1,8 @@
 from ..audit_log import log_audit_event
 from ..search_tasks import monitor_hybrid_index_task, reconcile_hybrid_index
-from .comment_on_pull_request import comment_on_pull_request
 from .core import broker
 from .emails import send_email_login_link, send_email_new, send_one_email_new
+from .notify_permission_decision import notify_permission_decision
 from .prune_audit_logs import prune_audit_logs
 from .prune_email_login_challenges import prune_email_login_challenges
 from .prune_oidc_tokens import prune_oidc_tokens
@@ -16,9 +16,9 @@ from .update_stats import update_stats
 
 __all__ = [
     "broker",
-    "comment_on_pull_request",
     "log_audit_event",
     "monitor_hybrid_index_task",
+    "notify_permission_decision",
     "prune_audit_logs",
     "prune_email_login_challenges",
     "prune_oidc_tokens",

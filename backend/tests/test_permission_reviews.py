@@ -1,4 +1,3 @@
-import importlib
 import json
 import os
 import sys
@@ -33,8 +32,6 @@ from app.moderation.permission_snapshot import (
     fingerprint_snapshot,
 )
 from app.types import ModerationRequestType
-
-comment_worker = importlib.import_module("app.worker.comment_on_pull_request")
 
 APP = "org.example.App"
 REF = f"app/{APP}/x86_64/stable"
@@ -252,6 +249,54 @@ def test_decisions_are_refused_for_stale_or_mismatched_assessments(db):
     assert exc.value.detail == "snapshot_mismatch"
 
 
+@pytest.fixture
+def notified(db):
+    sent = []
+
+    def send(repository, number):
+        with db() as session:
+            decision = session.execute(
+                select(models.PermissionDecision.decision).order_by(
+                    models.PermissionDecision.id.desc()
+                )
+            ).scalar()
+        sent.append((repository, number, decision))
+
+    reviews.worker.notify_permission_decision.send.side_effect = send
+    return sent
+
+
+def test_decisions_notify_after_commit(db, notified):
+    decide(persist(1).assessment_id, "rejected", rationale="Too broad")
+    assert notified == [(f"flathub/{APP}", 17, "rejected")]
+
+
+def test_failed_or_refused_decisions_do_not_notify(db, notified, monkeypatch):
+    old, new = persist(1), persist(2)
+    for assessment_id, fingerprint in (
+        (old.assessment_id, FP),
+        (new.assessment_id, OLD_FP),
+    ):
+        with pytest.raises(HTTPException):
+            decide(assessment_id, fingerprint=fingerprint)
+
+    @contextmanager
+    def failing_commit(db_type="writer"):
+        with db(db_type) as session:
+            yield session
+            raise RuntimeError("commit failed")
+
+    monkeypatch.setattr(reviews, "get_db", failing_commit)
+    with pytest.raises(RuntimeError):
+        decide(new.assessment_id)
+    monkeypatch.setattr(reviews, "get_db", db)
+    decide(persist(3, forge_instance="gitlab.com").assessment_id)
+    assert notified == []
+    with db() as session:
+        decisions = session.execute(select(models.PermissionDecision.id)).all()
+    assert len(decisions) == 1
+
+
 def test_responses_expose_active_decision_rationale(db):
     first = persist(1)
     assert first.decision_rationale is None
@@ -263,58 +308,6 @@ def test_responses_expose_active_decision_rationale(db):
         "Too broad"
     )
     assert persist(3, fingerprint="e" * 64).decision_rationale is None
-
-
-@pytest.mark.parametrize(
-    ("decision", "rationale", "quote"),
-    [
-        ("approved", None, ""),
-        (
-            "approved",
-            "Fine for now.\nDrop --device=all later.",
-            "\n\n> Fine for now.\n> Drop --device=all later.",
-        ),
-        (
-            "rejected",
-            "Too broad",
-            (
-                "\n\n> Too broad\n\n<sub>If you disagree with this decision,"
-                " comment `bot, ping admins` to notify the Flathub admins.</sub>"
-            ),
-        ),
-    ],
-)
-def test_decisions_comment_on_pull_request(db, decision, rationale, quote):
-    response = decide(persist(1).assessment_id, decision, rationale=rationale)
-    reviews.worker.comment_on_pull_request.send.assert_called_once_with(
-        f"flathub/{APP}",
-        17,
-        f"The permission changes in this pull request were {decision}"
-        f" by Flathub moderators.{quote}",
-        f"<!-- flathub-permission-decision:{response.decision_id} -->",
-    )
-
-
-def test_decisions_on_other_forges_do_not_comment(db):
-    decide(persist(1, forge_instance="gitlab.com").assessment_id)
-    reviews.worker.comment_on_pull_request.send.assert_not_called()
-
-
-def test_retried_comment_is_posted_once(monkeypatch):
-    issue = MagicMock()
-    issue.get_comments.side_effect = lambda: [
-        SimpleNamespace(body=args.args[0])
-        for args in issue.create_comment.call_args_list
-    ]
-    github = MagicMock()
-    github.return_value.get_repo.return_value.get_issue.return_value = issue
-    monkeypatch.setattr(comment_worker, "Github", github)
-    monkeypatch.setattr(config.settings, "github_bot_token", "token")
-    for _ in range(2):
-        comment_worker.comment_on_pull_request.fn(
-            f"flathub/{APP}", 17, "Ok", "<!-- 1 -->"
-        )
-    issue.create_comment.assert_called_once_with("Ok\n\n<!-- 1 -->")
 
 
 def test_review_listing_filters_stored_outcome_and_superseded(db):

@@ -242,21 +242,7 @@ def decide_permission_review(
     )
     audit_log.enqueue_audit_log(http_request, login.user.id, event, details=details)
     if pull_request is not None:
-        comment = (
-            f"The permission changes in this pull request were {body.decision}"
-            " by Flathub moderators."
-        )
-        if rationale := (body.rationale or "").strip():
-            comment += "\n\n" + "\n".join(
-                f"> {line}" for line in rationale.splitlines()
-            )
-        if body.decision == "rejected":
-            comment += (
-                "\n\n<sub>If you disagree with this decision, comment"
-                " `bot, ping admins` to notify the Flathub admins.</sub>"
-            )
-        marker = f"<!-- flathub-permission-decision:{details['decision_id']} -->"
-        worker.comment_on_pull_request.send(*pull_request, comment, marker)
+        worker.notify_permission_decision.send(*pull_request)
     return detail
 
 

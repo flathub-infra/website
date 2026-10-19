@@ -105,6 +105,7 @@ def test_malformed_attestations_return_422(client, changes):
         (headers(scope=["reviewcheck"]), 403),
         (headers(scope="not-assess"), 403),
         (headers(scope=None), 403),
+        (headers(scope="notify"), 403),
     ],
 )
 def test_authentication_rejects_other_authorities(
