@@ -50,6 +50,7 @@ const queues = [
   ["all", "All active"],
   ["runtime", "EOL runtime"],
   ["stale", "No recent updates"],
+  ["upstream", "Newer upstream release"],
   ["eol", "Retired, still downloaded"],
   ["unknown", "Unknown activity"],
   ["mine", "Assigned to me"],
@@ -57,10 +58,19 @@ const queues = [
 ] as const
 type Queue = (typeof queues)[number][0]
 const signalLabels = {
+  upstream: "Newer upstream release",
   runtime: "EOL runtime",
   stale: "No recent updates",
   eol: "EOL app",
   unknown: "Unknown activity",
+}
+const upstreamStatusLabels: Record<string, string> = {
+  newer: "Newer stable release listed",
+  current: "No newer comparable stable release listed",
+  unknown: "Versions or release channels could not be compared",
+  stale: "Evidence is too old to use",
+  error: "Latest lookup failed",
+  unmapped: "No Flathub mapping found",
 }
 
 function errorMessage(error: unknown) {
@@ -80,6 +90,16 @@ function utcDate(value: string | null | undefined) {
   // Backend timestamps are naive UTC, not browser-local time.
   const date = new Date(/Z$|[+-]\d\d:\d\d$/.test(value) ? value : `${value}Z`)
   return Number.isNaN(date.valueOf()) ? "Unknown" : date.toLocaleDateString()
+}
+
+function utcDateTime(value: string | null | undefined) {
+  if (!value) {
+    return "Unknown"
+  }
+  const date = new Date(/Z$|[+-]\d\d:\d\d$/.test(value) ? value : `${value}Z`)
+  return Number.isNaN(date.valueOf())
+    ? "Unknown"
+    : date.toLocaleString(undefined, { timeZone: "UTC", timeZoneName: "short" })
 }
 
 export function RadarQueue({
@@ -312,6 +332,32 @@ export function CaseEditor({
               ) : null}
             </div>
           </dl>
+          {app.upstream ? (
+            <div className="flex flex-col gap-1 text-sm">
+              <span>
+                Upstream check:{" "}
+                {upstreamStatusLabels[app.upstream.status] || "Unknown"}.
+                Packaged: {app.upstream.packaged_version || "unknown"};
+                upstream: {app.upstream.upstream_version || "unknown"}.
+              </span>
+              <span className="text-muted-foreground">
+                Last successful check: {utcDateTime(app.upstream.checked_at)}.
+                Last attempt: {utcDateTime(app.upstream.last_attempt_at)}.
+                Unknown or stale evidence does not establish whether an update
+                is needed.
+              </span>
+              {app.upstream.project_url ? (
+                <a
+                  href={app.upstream.project_url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-4"
+                >
+                  View Anitya release evidence
+                </a>
+              ) : null}
+            </div>
+          ) : null}
           <div>
             {app.signals.length === 0 ? (
               <span className="text-sm text-muted-foreground">

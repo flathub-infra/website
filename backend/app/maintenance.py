@@ -10,9 +10,12 @@ from typing import Literal, Self
 
 from pydantic import BaseModel, Field, model_validator
 
-SignalKind = Literal["stale", "runtime", "eol", "unknown"]
+from .upstream import UpstreamEvidence, numeric_version
+
+SignalKind = Literal["stale", "runtime", "eol", "unknown", "upstream"]
 FINGERPRINT_PATTERN = r"^(?:v[1-9][0-9]{0,13}:)?[0-9a-f]{64}$"
-CURRENT_FINGERPRINT_VERSION = 1
+CURRENT_FINGERPRINT_VERSION = 2
+SEVERITY_ORDER = {"high": 0, "medium": 1, "low": 2}
 
 
 def naive_utc(value: datetime) -> datetime:
@@ -28,6 +31,7 @@ class Evidence:
     runtime: str | None = None
     runtime_eol: bool | None = None
     is_eol: bool = False
+    upstream: UpstreamEvidence | None = None
 
 
 def _fingerprint_v1(evidence: Evidence) -> str:
@@ -49,7 +53,37 @@ def _fingerprint_v1(evidence: Evidence) -> str:
 # This is a persisted-data contract: add a builder and bump the current version
 # when fields or serialization change. Retain old builders so existing snoozes
 # still compare their originally reviewed evidence, without a backlog-wide wake.
-_FINGERPRINT_BUILDERS: dict[int, Callable[[Evidence], str]] = {1: _fingerprint_v1}
+def _fingerprint_v2(evidence: Evidence) -> str:
+    upstream = evidence.upstream
+    packaged = numeric_version(upstream.packaged_version) if upstream else None
+    latest = numeric_version(upstream.upstream_version) if upstream else None
+    return hashlib.sha256(
+        json.dumps(
+            {
+                "v1": _fingerprint_v1(evidence),
+                # Check timestamps and transient lookup failures must not wake snoozes.
+                "upstream": [
+                    upstream.project_id,
+                    upstream.packaged_version,
+                    upstream.upstream_version,
+                ]
+                if upstream
+                and upstream._comparison_eligible
+                and upstream.project_id
+                and packaged
+                and latest
+                and latest > packaged
+                else None,
+            },
+            sort_keys=True,
+        ).encode()
+    ).hexdigest()
+
+
+_FINGERPRINT_BUILDERS: dict[int, Callable[[Evidence], str]] = {
+    1: _fingerprint_v1,
+    2: _fingerprint_v2,
+}
 
 
 def evidence_fingerprint(evidence: Evidence, version: int | None = None) -> str:
@@ -84,6 +118,8 @@ class MaintenanceSignal(BaseModel):
     confidence: Literal["confirmed", "investigate", "unknown"]
     evidence: str
     next_step: str
+    source_url: str | None = None
+    checked_at: datetime | None = None
 
 
 class MaintenanceCase(BaseModel):
@@ -96,6 +132,7 @@ class MaintenanceCase(BaseModel):
     runtime_eol: bool | None
     signals: list[MaintenanceSignal]
     fingerprint: str
+    upstream: UpstreamEvidence | None = None
     owner_id: int | None = None
     owner_name: str | None = None
     owned_by_me: bool = False
@@ -148,6 +185,19 @@ def assess(evidence: Evidence, now: datetime, stale_days: int = 365) -> Maintena
     updated = naive_utc(evidence.last_updated_at) if evidence.last_updated_at else None
     age = max(0, (now - updated).days) if updated else None
     signals = []
+    if evidence.upstream and evidence.upstream.status == "newer":
+        upstream = evidence.upstream
+        signals.append(
+            MaintenanceSignal(
+                kind="upstream",
+                severity="medium",
+                confidence="investigate",
+                evidence=f"Anitya lists stable release {upstream.upstream_version}; the packaged release is {upstream.packaged_version}.",
+                next_step="Verify the release channel and packaging history before deciding whether an update is needed. This is not an automatic outdated verdict.",
+                source_url=upstream.project_url,
+                checked_at=upstream.checked_at,
+            )
+        )
     if evidence.runtime_eol is True:
         signals.append(
             MaintenanceSignal(
@@ -188,6 +238,9 @@ def assess(evidence: Evidence, now: datetime, stale_days: int = 365) -> Maintena
                 next_step="Check repository history before drawing conclusions about maintenance.",
             )
         )
+    # The editor leads with the first signal's guidance. Keep urgent actions
+    # first while preserving the existing order among equal-severity signals.
+    signals.sort(key=lambda signal: SEVERITY_ORDER[signal.severity])
     # Daily age, download counts and the user's threshold must not invalidate a snooze.
     return MaintenanceCase(
         app_id=evidence.app_id,
@@ -199,6 +252,7 @@ def assess(evidence: Evidence, now: datetime, stale_days: int = 365) -> Maintena
         runtime_eol=evidence.runtime_eol,
         signals=signals,
         fingerprint=evidence_fingerprint(evidence),
+        upstream=evidence.upstream,
     )
 
 
@@ -227,9 +281,8 @@ def apply_triage(
 
 
 def priority(case: MaintenanceCase) -> tuple[int, int, int, str]:
-    severity = {"high": 0, "medium": 1, "low": 2}
     return (
-        min((severity[s.severity] for s in case.signals), default=3),
+        min((SEVERITY_ORDER[s.severity] for s in case.signals), default=3),
         -case.installs_last_7_days,
         -(case.days_since_update or 0),
         case.app_id,
@@ -268,7 +321,7 @@ def dashboard(
             continue
         if queue == "mine" and case.owner_id != user_id:
             continue
-        if queue in ("stale", "runtime", "eol", "unknown") and not any(
+        if queue in ("stale", "runtime", "eol", "unknown", "upstream") and not any(
             s.kind == queue for s in case.signals
         ):
             continue

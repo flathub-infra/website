@@ -13,4 +13,5 @@ export const MaintenanceSignalKind = {
   runtime: "runtime",
   eol: "eol",
   unknown: "unknown",
+  upstream: "upstream",
 } as const

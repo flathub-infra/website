@@ -11,6 +11,7 @@ import type { MaintenanceCaseOwnerName } from "./maintenanceCaseOwnerName"
 import type { MaintenanceCaseRuntime } from "./maintenanceCaseRuntime"
 import type { MaintenanceCaseRuntimeEol } from "./maintenanceCaseRuntimeEol"
 import type { MaintenanceCaseSnoozedUntil } from "./maintenanceCaseSnoozedUntil"
+import type { MaintenanceCaseUpstream } from "./maintenanceCaseUpstream"
 import type { MaintenanceSignal } from "./maintenanceSignal"
 
 export interface MaintenanceCase {
@@ -23,6 +24,7 @@ export interface MaintenanceCase {
   runtime_eol: MaintenanceCaseRuntimeEol
   signals: MaintenanceSignal[]
   fingerprint: string
+  upstream?: MaintenanceCaseUpstream
   owner_id?: MaintenanceCaseOwnerId
   owner_name?: MaintenanceCaseOwnerName
   owned_by_me?: boolean
