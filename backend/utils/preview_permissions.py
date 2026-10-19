@@ -3,7 +3,11 @@ import json
 import sys
 from dataclasses import asdict
 
-from app.moderation.ostree_permissions import CollectedPermissions, collect_permissions
+from app.moderation.ostree_permissions import (
+    CollectedPermissions,
+    collect_permissions,
+    runtime_permissions,
+)
 from app.moderation.permission_snapshot import (
     PermissionSnapshotError,
     compare_snapshots,
@@ -79,7 +83,11 @@ def main() -> None:
                 expected_arches=arches,
                 timeout_seconds=args.timeout_seconds,
             )
-            differences = compare_snapshots(published.snapshot, candidate.snapshot)
+            differences = compare_snapshots(
+                published.snapshot,
+                candidate.snapshot,
+                runtime_permissions(candidate.runtime, published.runtime),
+            )
             result.update(
                 candidate=_collection_json(candidate),
                 equal=not differences,

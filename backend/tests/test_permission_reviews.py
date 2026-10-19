@@ -390,6 +390,22 @@ def test_publication_accepts_matching_baseline(db, publish):
     assert baseline(db) == ("initialized", FP)
 
 
+def test_publication_accepts_runtime_inherited_permissions(db, publish, monkeypatch):
+    set_baseline(db, SNAP, FP)
+    persist(1, candidate_kind="push")
+    monkeypatch.setattr(
+        assessment,
+        "collect_final_candidate",
+        lambda *args: collected(snapshot(["ipc", "network"])),
+    )
+    monkeypatch.setattr(
+        publication,
+        "runtime_permissions",
+        lambda *runtimes: ({"Context": {"shared": ["network"]}},),
+    )
+    assert publish() == ([], {APP}, False)
+
+
 def test_publication_reuses_push_assessment_decision(db, publish):
     set_baseline(db, OLD_SNAP, OLD_FP)
     decide(persist(1).assessment_id)

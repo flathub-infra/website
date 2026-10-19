@@ -12,6 +12,7 @@ from ..database import get_db
 from ..types import ModerationRequestType
 from . import permission_assessment as assessment
 from .constants import should_skip_review
+from .ostree_permissions import runtime_permissions
 from .permission_snapshot import (
     CANONICALIZATION_VERSION,
     PermissionSnapshot,
@@ -152,12 +153,18 @@ def _evaluate(
             if baseline["fingerprint"] == fingerprint:
                 return None
             before = PermissionSnapshot(**baseline["snapshot"])
+            differences = [
+                asdict(d)
+                for d in compare_snapshots(
+                    before, candidate.snapshot, runtime_permissions(candidate.runtime)
+                )
+            ]
+            if not differences:
+                return None
             data.update(
                 comparison_source="baseline",
                 comparison_fingerprint=baseline["fingerprint"],
-                differences=[
-                    asdict(d) for d in compare_snapshots(before, candidate.snapshot)
-                ],
+                differences=differences,
             )
         if (push.fingerprint, push.acceptance_basis) == (
             fingerprint,

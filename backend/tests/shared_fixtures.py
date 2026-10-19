@@ -27,14 +27,12 @@ class SourceRepo:
     def url(self):
         return self.path.as_uri()
 
-    def commit(self, ref, declarations, name=APP):
+    def commit(self, ref, declarations, name=APP, group="Application"):
         tree = self.path.parent / f"tree-{self.path.name}-{self.index}"
         self.index += 1
         tree.mkdir()
         if declarations is not None:
-            (tree / "metadata").write_text(
-                f"[Application]\nname={name}\n{declarations}"
-            )
+            (tree / "metadata").write_text(f"[{group}]\nname={name}\n{declarations}")
         mtree = OSTree.MutableTree.new()
         self.repo.write_directory_to_mtree(
             Gio.File.new_for_path(str(tree)), mtree, None, None

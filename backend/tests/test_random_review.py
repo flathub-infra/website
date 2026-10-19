@@ -1066,6 +1066,60 @@ def test_permission_only_request_is_summary(monkeypatch):
     }
 
 
+def test_runtime_inherited_permissions_are_not_summary_changes(monkeypatch):
+    kde = "org.kde.Platform/x86_64/6.11"
+    monkeypatch.setattr(
+        moderation,
+        "runtime_permissions",
+        lambda *runtimes: (
+            ({"Session Bus Policy": {"org.kde.kconfig.notify": "talk"}},)
+            if kde in runtimes
+            else ()
+        ),
+    )
+    current = {"session-bus": {"talk": ["org.freedesktop.Notifications"]}}
+    build = {
+        "session-bus": {
+            "talk": [
+                "org.freedesktop.Notifications",
+                "org.kde.kconfig.notify",
+                "org.example.Service",
+            ]
+        }
+    }
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        current_summaries={
+            "org.example.App": {
+                "metadata": {
+                    "runtime": "org.freedesktop.Platform/x86_64/25.08",
+                    "permissions": current,
+                }
+            }
+        },
+        build_summary={
+            "org.example.App": {
+                "arches": set(),
+                "metadata": {"runtime": kde, "permissions": build},
+            }
+        },
+    )
+
+    assert harness.call().requires_review is True
+    request = harness.db.session.persisted[0]
+    assert json.loads(request.request_data) == {
+        "keys": {
+            "talk-session-bus": [
+                "org.example.Service",
+                "org.freedesktop.Notifications",
+            ]
+        },
+        "current_values": {"talk-session-bus": ["org.freedesktop.Notifications"]},
+    }
+
+
 def test_architecture_only_request_is_summary(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,

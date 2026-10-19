@@ -1,8 +1,10 @@
 import gzip
 import hashlib
 import ipaddress
+import logging
 import math
 import tempfile
+import time
 from collections.abc import Mapping
 from collections.abc import Set as AbstractSet
 from dataclasses import dataclass
@@ -19,15 +21,32 @@ gi.require_version("GLib", "2.0")
 gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree  # type: ignore
 
-from .. import http_client
+from .. import config, http_client
 from .permission_snapshot import (
     CANONICALIZATION_VERSION,
+    REVIEW_ARCH,
     PermissionMap,
     PermissionSnapshot,
     PermissionSnapshotError,
+    metadata_runtime,
     parse_permission_metadata,
     review_architectures,
 )
+
+logger = logging.getLogger(__name__)
+
+INHERITABLE_RUNTIMES = frozenset(
+    {
+        "org.freedesktop.Platform",
+        "org.freedesktop.Sdk",
+        "org.gnome.Platform",
+        "org.gnome.Sdk",
+        "org.kde.Platform",
+        "org.kde.Sdk",
+    }
+)
+RUNTIME_CACHE_SECONDS = 3600
+_runtime_cache: dict[str, tuple[float, PermissionMap]] = {}
 
 
 @dataclass(frozen=True)
@@ -45,6 +64,7 @@ class CollectedPermissions:
     captured_at: str
     artifacts: tuple[PermissionArtifact, ...]
     snapshot: PermissionSnapshot
+    runtime: str | None = None
 
 
 @dataclass(frozen=True)
@@ -219,7 +239,8 @@ def _read_root_metadata(
     artifact: PermissionArtifact,
     app_id: str,
     cancellable: Gio.Cancellable,
-) -> PermissionMap:
+    kind: str = "Application",
+) -> tuple[PermissionMap, str | None]:
     _, root, resolved_commit = repo.read_commit(artifact.commit, cancellable)
     if resolved_commit != artifact.commit:
         raise PermissionSnapshotError(
@@ -238,7 +259,10 @@ def _read_root_metadata(
             ) from exc
         raise
     try:
-        return parse_permission_metadata(contents, app_id=app_id)
+        return (
+            parse_permission_metadata(contents, app_id=app_id, kind=kind),
+            metadata_runtime(contents),
+        )
     except PermissionSnapshotError as exc:
         raise PermissionSnapshotError(
             exc.code, exc.message, ref_name=artifact.ref_name
@@ -289,8 +313,9 @@ def _read_artifacts(
     artifacts: tuple[PermissionArtifact, ...],
     app_id: str,
     cancellable: Gio.Cancellable,
-) -> dict[str, PermissionMap]:
+) -> tuple[dict[str, PermissionMap], dict[str, str | None]]:
     architectures = {}
+    runtimes = {}
     parsed_commits = {}
     for artifact in artifacts:
         _, local_commit = repo.resolve_rev(f"source:{artifact.ref_name}", False)
@@ -307,8 +332,10 @@ def _read_artifacts(
                 app_id,
                 cancellable,
             )
-        architectures[artifact.arch] = parsed_commits[artifact.commit]
-    return architectures
+        architectures[artifact.arch], runtimes[artifact.arch] = parsed_commits[
+            artifact.commit
+        ]
+    return architectures, runtimes
 
 
 def collect_permissions(
@@ -425,7 +452,9 @@ def collect_permissions(
                 for arch, (ref_name, commit) in sorted(selected.items())
             )
             _pull_metadata(repo, artifacts, cancellable)
-            architectures = _read_artifacts(repo, artifacts, app_id, cancellable)
+            architectures, runtimes = _read_artifacts(
+                repo, artifacts, app_id, cancellable
+            )
             if cancellable.is_cancelled():
                 raise PermissionSnapshotError(
                     "timeout", "Permission collection timed out"
@@ -440,6 +469,7 @@ def collect_permissions(
                 captured_at,
                 artifacts,
                 snapshot,
+                runtimes[REVIEW_ARCH],
             )
         except GLib.Error as exc:
             if cancellable.is_cancelled():
@@ -509,7 +539,7 @@ def _collect_group(
 ) -> CollectedPermissions:
     app_id, flatpak_branch = key
     try:
-        architectures = _read_artifacts(repo, artifacts, app_id, cancellable)
+        architectures, runtimes = _read_artifacts(repo, artifacts, app_id, cancellable)
     except GLib.Error as exc:
         raise PermissionSnapshotError(
             "transport_error", f"OSTree read error: {exc}"
@@ -523,6 +553,7 @@ def _collect_group(
         PermissionSnapshot(
             CANONICALIZATION_VERSION, review_architectures(architectures)
         ),
+        runtimes[REVIEW_ARCH],
     )
 
 
@@ -630,4 +661,65 @@ def collect_published_permissions(
         captured_at,
         tuple(collected),
         tuple(sorted(failures, key=lambda item: (item.app_id, item.flatpak_branch))),
+    )
+
+
+def _fetch_runtime_permissions(repository_url: str, refs: AbstractSet[str]) -> None:
+    with tempfile.TemporaryDirectory(prefix="ostree-permissions-") as temp_dir:
+        cancellable = Gio.Cancellable()
+        timer = Timer(60.0, cancellable.cancel)
+        timer.daemon = True
+        timer.start()
+        try:
+            repo = _open_remote(temp_dir, repository_url, cancellable)
+            remote_refs = _list_remote_refs(repo, cancellable)
+            artifacts = tuple(
+                PermissionArtifact(ref, ref.split("/")[2], remote_refs[ref])
+                for ref in sorted(refs)
+                if ref in remote_refs
+            )
+            if not artifacts:
+                return
+            _pull_metadata(repo, artifacts, cancellable)
+            for artifact in artifacts:
+                permissions, _ = _read_root_metadata(
+                    repo,
+                    artifact,
+                    artifact.ref_name.split("/")[1],
+                    cancellable,
+                    kind="Runtime",
+                )
+                _runtime_cache[artifact.ref_name] = (time.monotonic(), permissions)
+        except (GLib.Error, PermissionSnapshotError):
+            logger.warning(
+                "Could not read runtime permissions from %s",
+                repository_url,
+                exc_info=True,
+            )
+        finally:
+            timer.cancel()
+
+
+def runtime_permissions(*runtimes: object) -> tuple[PermissionMap, ...]:
+    refs = set()
+    for runtime in runtimes:
+        parts = runtime.split("/") if isinstance(runtime, str) else []
+        if (
+            len(parts) == 3
+            and parts[0] in INHERITABLE_RUNTIMES
+            and all(_valid_segment(part) for part in parts)
+        ):
+            refs.add(f"runtime/{runtime}")
+    for repository_url in (config.settings.repo_url, config.settings.beta_repo_url):
+        now = time.monotonic()
+        stale = {
+            ref
+            for ref in refs
+            if ref not in _runtime_cache
+            or now - _runtime_cache[ref][0] >= RUNTIME_CACHE_SECONDS
+        }
+        if stale:
+            _fetch_runtime_permissions(repository_url, stale)
+    return tuple(
+        _runtime_cache[ref][1] for ref in sorted(refs) if ref in _runtime_cache
     )

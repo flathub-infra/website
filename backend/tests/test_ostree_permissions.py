@@ -11,14 +11,17 @@ import pytest
 gi.require_version("GLib", "2.0")
 from gi.repository import GLib  # type: ignore
 
+from app import config
 from app.moderation import ostree_permissions
 from app.moderation.ostree_permissions import (
     collect_permissions,
     collect_published_permissions,
+    runtime_permissions,
 )
 from app.moderation.permission_snapshot import (
     CANONICALIZATION_VERSION,
     PermissionSnapshotError,
+    compare_snapshots,
     fingerprint_snapshot,
 )
 from tests.shared_fixtures import APP, ARM, REF, SourceRepo
@@ -118,6 +121,48 @@ def test_ref_advance_after_listing_keeps_pinned_commit(source, monkeypatch):
     result = collect(source)
     assert result.artifacts[0].commit == old
     assert result.snapshot.architectures["x86_64"]["Context"]["filesystems"] == ["home"]
+
+
+def test_permissions_inherited_from_trusted_runtime_are_not_changes(
+    source, monkeypatch
+):
+    monkeypatch.setattr(ostree_permissions, "_runtime_cache", {})
+    monkeypatch.setattr(config.settings, "repo_url", source.url)
+    monkeypatch.setattr(config.settings, "beta_repo_url", source.url)
+    granted = (
+        "[Context]\nfilesystems=xdg-config/kdeglobals:ro;\n"
+        "[Session Bus Policy]\norg.kde.kconfig.notify=talk\n"
+    )
+    for name in ("org.kde.Platform", "org.example.Platform"):
+        source.commit(
+            f"runtime/{name}/x86_64/6.11", granted, name=name, group="Runtime"
+        )
+    source.commit(
+        REF, "runtime=org.freedesktop.Platform/x86_64/25.08\n[Context]\nsockets=x11;\n"
+    )
+    before = collect(source)
+    source.commit(
+        REF,
+        "runtime=org.kde.Platform/x86_64/6.11\n"
+        "[Context]\nsockets=x11;\nfilesystems=xdg-config/kdeglobals:ro;\n"
+        "[Session Bus Policy]\norg.kde.kconfig.notify=own\norg.example.Service=talk\n",
+    )
+    after = collect(source)
+    assert after.runtime == "org.kde.Platform/x86_64/6.11"
+
+    differences = compare_snapshots(
+        before.snapshot,
+        after.snapshot,
+        runtime_permissions(after.runtime, before.runtime),
+    )
+    assert [(d.path, d.before, d.after) for d in differences] == [
+        (
+            ("x86_64", "Session Bus Policy"),
+            None,
+            {"org.kde.kconfig.notify": "own", "org.example.Service": "talk"},
+        )
+    ]
+    assert runtime_permissions("org.example.Platform/x86_64/6.11") == ()
 
 
 @pytest.mark.parametrize(

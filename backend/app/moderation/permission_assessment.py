@@ -21,6 +21,7 @@ from .ostree_permissions import (
     CollectedPermissions,
     _valid_segment,
     collect_permissions,
+    runtime_permissions,
 )
 from .permission_snapshot import (
     CANONICALIZATION_VERSION,
@@ -704,7 +705,13 @@ def assess_candidate(
         if comparison is not None:
             differences = [
                 {"path": item.path, "before": item.before, "after": item.after}
-                for item in compare_snapshots(comparison, candidate.snapshot)
+                for item in compare_snapshots(
+                    comparison,
+                    candidate.snapshot,
+                    runtime_permissions(
+                        candidate.runtime, published and published.runtime
+                    ),
+                )
             ]
         fingerprint = fingerprint_snapshot(candidate.snapshot)
     except PermissionSnapshotError as exc:

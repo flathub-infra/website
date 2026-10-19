@@ -47,6 +47,8 @@ from . import (
     url_origin,
 )
 from .constants import should_skip_review
+from .ostree_permissions import runtime_permissions
+from .permission_snapshot import PermissionMap
 
 router = APIRouter(prefix="/moderation")
 logger = logging.getLogger(__name__)
@@ -568,6 +570,36 @@ def _string_list(value: object) -> list[str]:
     if not isinstance(value, list):
         return []
     return [item for item in value if isinstance(item, str)]
+
+
+def _without_inherited_permissions(
+    permissions: dict[str, JSONValue], inherited: tuple[PermissionMap, ...]
+) -> dict[str, JSONValue]:
+    result = dict(permissions)
+    for runtime in inherited:
+        buses = {
+            "session-bus": runtime.get("Session Bus Policy", {}),
+            "system-bus": runtime.get("System Bus Policy", {}),
+        }
+        for key, value in result.items():
+            granted = runtime.get("Context", {}).get(key)
+            if isinstance(value, list) and isinstance(granted, list):
+                result[key] = [item for item in value if item not in granted]
+            elif key in buses and is_json_object(value):
+                levels: dict[str, JSONValue] = {}
+                for level, names in value.items():
+                    if isinstance(names, list):
+                        names = [
+                            name
+                            for name in names
+                            if not isinstance(name, str)
+                            or buses[key].get(name) != level
+                        ]
+                        if not names:
+                            continue
+                    levels[level] = names
+                result[key] = levels
+    return result
 
 
 @router.get(
@@ -1885,6 +1917,7 @@ def submit_review_request(
         current_summary: dict[str, JSONValue] | None = None
         current_permissions: dict[str, JSONValue] | None = None
         current_extradata: dict[str, JSONValue] | None = None
+        current_runtime: JSONValue = None
 
         if (current_summary := apps_summary_by_id.get(app_id)) or (
             current_summary := get_json_key(f"summary:{app_id}:stable")
@@ -1899,6 +1932,7 @@ def submit_review_request(
                 )
                 extra_data = current_metadata.get("extra-data")
                 current_extradata = extra_data if is_json_object(extra_data) else None
+                current_runtime = current_metadata.get("runtime")
 
         if current_summary:
             # Parsed summaries contain architecture sets until persisted as JSON.
@@ -1970,6 +2004,15 @@ def submit_review_request(
                 and current_permissions != build_permissions
                 and app_id not in permission_handled
             ):
+                inherited = runtime_permissions(
+                    current_runtime, build_summary_metadata.get("runtime")
+                )
+                current_permissions = _without_inherited_permissions(
+                    current_permissions, inherited
+                )
+                build_permissions = _without_inherited_permissions(
+                    build_permissions, inherited
+                )
                 for perm in current_permissions:
                     current_perm = current_permissions[perm]
                     build_perm = build_permissions.get(perm)

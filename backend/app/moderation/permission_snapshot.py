@@ -1,5 +1,6 @@
 import hashlib
 import json
+from collections.abc import Iterable
 from dataclasses import dataclass
 from typing import cast
 
@@ -96,7 +97,9 @@ def _drop_compat_x11(items: list[str]) -> list[str]:
     return [item for item in items if item != "x11"]
 
 
-def parse_permission_metadata(metadata: bytes, *, app_id: str) -> PermissionMap:
+def parse_permission_metadata(
+    metadata: bytes, *, app_id: str, kind: str = "Application"
+) -> PermissionMap:
     if not metadata:
         raise PermissionSnapshotError("invalid_metadata", "Missing or empty metadata")
     try:
@@ -109,18 +112,18 @@ def parse_permission_metadata(metadata: bytes, *, app_id: str) -> PermissionMap:
     key_file = GLib.KeyFile.new()
     try:
         key_file.load_from_data(text, len(metadata), GLib.KeyFileFlags.NONE)
-        if key_file.get_start_group() != "Application":
+        if key_file.get_start_group() != kind:
             raise PermissionSnapshotError(
-                "invalid_metadata", "First metadata group must be Application"
+                "invalid_metadata", f"First metadata group must be {kind}"
             )
-        name = key_file.get_string("Application", "name")
+        name = key_file.get_string(kind, "name")
     except GLib.Error as exc:
         raise PermissionSnapshotError(
-            "invalid_metadata", f"Invalid Application metadata: {exc}"
+            "invalid_metadata", f"Invalid {kind} metadata: {exc}"
         ) from exc
     if name != app_id:
         raise PermissionSnapshotError(
-            "identity_mismatch", f"Application.name {name!r} does not match {app_id!r}"
+            "identity_mismatch", f"{kind}.name {name!r} does not match {app_id!r}"
         )
 
     result: PermissionMap = {}
@@ -158,6 +161,7 @@ def parse_permission_metadata(metadata: bytes, *, app_id: str) -> PermissionMap:
             if values:
                 result[group] = values
         elif group in (
+            kind,
             "Environment",
             "Build",
             "Extra Data",
@@ -169,6 +173,40 @@ def parse_permission_metadata(metadata: bytes, *, app_id: str) -> PermissionMap:
             raise PermissionSnapshotError(
                 "unsupported_metadata", f"Unsupported metadata group: {group}"
             )
+    return result
+
+
+def metadata_runtime(metadata: bytes) -> str | None:
+    key_file = GLib.KeyFile.new()
+    try:
+        key_file.load_from_bytes(GLib.Bytes.new(metadata), GLib.KeyFileFlags.NONE)
+        return key_file.get_string("Application", "runtime")
+    except GLib.Error:
+        return None
+
+
+def _without_inherited(
+    permissions: PermissionMap, inherited: tuple[PermissionMap, ...]
+) -> PermissionMap:
+    result: PermissionMap = {}
+    for group, values in permissions.items():
+        kept: dict[str, PermissionValue] = {}
+        for key, value in values.items():
+            granted = [runtime.get(group, {}).get(key) for runtime in inherited]
+            if isinstance(value, list):
+                stripped = [
+                    item
+                    for item in value
+                    if not any(isinstance(g, list) and item in g for g in granted)
+                ]
+                if value and not stripped:
+                    continue
+                value = stripped
+            elif value in granted:
+                continue
+            kept[key] = value
+        if kept or not values:
+            result[group] = kept
     return result
 
 
@@ -186,7 +224,9 @@ def fingerprint_snapshot(snapshot: PermissionSnapshot) -> str:
 
 
 def compare_snapshots(
-    before: PermissionSnapshot, after: PermissionSnapshot
+    before: PermissionSnapshot,
+    after: PermissionSnapshot,
+    inherited: Iterable[PermissionMap] = (),
 ) -> tuple[PermissionDifference, ...]:
     _check_snapshot(before)
     _check_snapshot(after)
@@ -212,5 +252,16 @@ def compare_snapshots(
                 )
             )
 
-    visit(before.architectures, after.architectures, ())
+    runtimes = tuple(inherited)
+    visit(
+        {
+            arch: _without_inherited(permissions, runtimes)
+            for arch, permissions in before.architectures.items()
+        },
+        {
+            arch: _without_inherited(permissions, runtimes)
+            for arch, permissions in after.architectures.items()
+        },
+        (),
+    )
     return tuple(differences)
