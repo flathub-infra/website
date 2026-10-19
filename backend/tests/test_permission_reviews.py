@@ -258,7 +258,14 @@ def test_decisions_are_refused_for_stale_or_mismatched_assessments(db):
             "Fine for now.\nDrop --device=all later.",
             "\n\n> Fine for now.\n> Drop --device=all later.",
         ),
-        ("rejected", "Too broad", "\n\n> Too broad"),
+        (
+            "rejected",
+            "Too broad",
+            (
+                "\n\n> Too broad\n\n<sub>If you disagree with this decision,"
+                " comment `bot, ping admins` to notify the Flathub admins.</sub>"
+            ),
+        ),
     ],
 )
 def test_decisions_comment_on_pull_request(db, decision, rationale, quote):
