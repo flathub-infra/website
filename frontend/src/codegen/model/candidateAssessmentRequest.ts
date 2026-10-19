@@ -9,7 +9,6 @@ import type { CandidateAssessmentRequestCandidateKind } from "./candidateAssessm
 import type { CandidateAssessmentRequestPullRequestHeadRevision } from "./candidateAssessmentRequestPullRequestHeadRevision"
 import type { CandidateAssessmentRequestPullRequestNumber } from "./candidateAssessmentRequestPullRequestNumber"
 import type { CandidateAssessmentRequestPullRequestUrl } from "./candidateAssessmentRequestPullRequestUrl"
-import type { LinterReportEnvelope } from "./linterReportEnvelope"
 import type { NonemptyString } from "./nonemptyString"
 import type { RefSegment } from "./refSegment"
 import type { Revision } from "./revision"
@@ -34,5 +33,4 @@ export interface CandidateAssessmentRequest {
   /** @minItems 1 */
   expected_arches: RefSegment[]
   matrix_succeeded: boolean
-  linter_reports?: LinterReportEnvelope[]
 }

@@ -9,7 +9,7 @@ from typing import Annotated, Any, Literal, NoReturn, Self, TypedDict
 
 import httpx
 from fastapi import HTTPException
-from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from sqlalchemy import cast, func, select
 from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy.orm import aliased
@@ -39,28 +39,6 @@ type RefSegment = Annotated[str, Field(min_length=1, pattern=r"^[^/\s\x00-\x1f\x
 type Revision = Annotated[str, Field(pattern=r"^[0-9a-fA-F]{40}$")]
 
 
-class LinterReportEnvelope(BaseModel):
-    model_config = ConfigDict(extra="forbid", strict=True)
-
-    kind: Literal["manifest", "repo"]
-    arch: str | None = None
-    report: dict[str, Any]
-
-
-class _Finding(BaseModel):
-    rule_code: str
-    ref: str | None
-    affected_permissions: list[dict[str, str | None]]
-
-
-class LinterReport(BaseModel):
-    schema_version: Literal[1]
-    kind: Literal["manifest", "builddir", "repo"]
-    app_id: str | None
-    artifacts: list[dict[str, str]]
-    review_findings: list[_Finding]
-
-
 class CandidateAssessmentRequest(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
 
@@ -81,7 +59,6 @@ class CandidateAssessmentRequest(BaseModel):
     flatpak_branch: RefSegment
     expected_arches: Annotated[list[RefSegment], Field(min_length=1)]
     matrix_succeeded: bool
-    linter_reports: list[LinterReportEnvelope] = []
 
     @model_validator(mode="after")
     def check_pull_request(self) -> Self:
@@ -564,41 +541,6 @@ def _final_commits(
     return selected
 
 
-def _parse_linter_reports(
-    request: CandidateAssessmentRequest,
-) -> list[tuple[LinterReportEnvelope, LinterReport]]:
-    parsed = []
-    for entry in request.linter_reports:
-        try:
-            report = LinterReport.model_validate(entry.report, strict=True)
-        except ValidationError as exc:
-            _conflict("unsupported_linter_report", str(exc.errors()[0]["msg"]))
-        is_repo = entry.kind == "repo"
-        if is_repo != (entry.arch is not None) or is_repo != (report.kind == "repo"):
-            _conflict(
-                "unsupported_linter_report", f"Invalid report entry: {entry.kind}"
-            )
-        if report.app_id not in (None, request.app_id):
-            _conflict("linter_report_mismatch", "Linter report app ID differs")
-        parsed.append((entry, report))
-    return parsed
-
-
-def _check_linter_report_bindings(
-    request,
-    parsed: list[tuple[LinterReportEnvelope, LinterReport]],
-    uploaded: list[dict[str, str]],
-) -> None:
-    repo = {entry.arch: report for entry, report in parsed if entry.kind == "repo"}
-    if repo and repo.keys() != set(request.expected_arches):
-        _conflict("linter_report_mismatch", "Reports do not cover expected arches")
-    for arch, report in repo.items():
-        refs = {artifact["ref"] for artifact in report.artifacts}
-        known = {u["ref_name"] for u in uploaded if u["ref_name"].split("/")[2] == arch}
-        if not refs or not refs <= known:
-            _conflict("linter_report_mismatch", f"Unknown artifacts for {arch}")
-
-
 def collect_final_candidate(
     build_id: int,
     app_id: str,
@@ -663,11 +605,9 @@ def assess_candidate(
     published_fingerprint: str | None = None
     differences: list[_PermissionDifference] | None = None
     error: PermissionSnapshotError | None = None
-    reports: list[tuple[LinterReportEnvelope, LinterReport]] = []
     try:
         if not request.matrix_succeeded:
             _conflict("matrix_failed", "Expected architecture matrix did not succeed")
-        reports = _parse_linter_reports(request)
         published_repo_url = {
             "stable": config.settings.repo_url,
             "beta": config.settings.beta_repo_url,
@@ -685,7 +625,6 @@ def assess_candidate(
             uploaded,
             checks,
         )
-        _check_linter_report_bindings(request, reports, uploaded)
         baseline = _stored_baseline(
             request.app_id, request.destination_channel, request.flatpak_branch
         )
@@ -765,7 +704,6 @@ def assess_candidate(
         assessment_identity=assessment_identity,
         outcome="error" if error else "accepted" if basis else "pending",
         acceptance_basis=basis,
-        linter_reports=[entry.model_dump() for entry, _ in reports],
         baseline_id=baseline["id"] if baseline is not None else None,
         base_revision=request.base_revision or "",
         intended_repo=request.destination_repo,

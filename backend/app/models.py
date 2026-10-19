@@ -2562,9 +2562,6 @@ class PermissionAssessmentObservation(Base):
     build_checks = mapped_column(
         JSONB, nullable=False, server_default=text("'[]'::jsonb")
     )
-    linter_reports = mapped_column(
-        JSONB, nullable=False, server_default=text("'[]'::jsonb")
-    )
     linked_assessment_id = mapped_column(
         Integer, ForeignKey("permissionassessmentobservation.id")
     )

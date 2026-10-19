@@ -28,7 +28,6 @@ from app.moderation import review as moderation_review
 from app.moderation.permission_snapshot import (
     CANONICALIZATION_VERSION,
     PermissionSnapshot,
-    PermissionSnapshotError,
     fingerprint_snapshot,
 )
 from app.types import ModerationRequestType
@@ -52,81 +51,6 @@ def snapshot(shared):
 
 SNAP, OLD_SNAP = snapshot(["ipc"]), snapshot(["network"])
 FP, OLD_FP = (fingerprint_snapshot(PermissionSnapshot(**s)) for s in (SNAP, OLD_SNAP))
-REQUEST = {
-    "pipeline_id": "p",
-    "build_id": 9,
-    "forge_instance": "github.com",
-    "source_repository": f"flathub/{APP}",
-    "pull_request_number": 17,
-    "pull_request_url": f"https://github.com/flathub/{APP}/pull/17",
-    "pull_request_head_revision": "1" * 40,
-    "built_revision": "2" * 40,
-    "target_git_branch": "master",
-    "candidate_kind": "head",
-    "app_id": APP,
-    "destination_repo": "test",
-    "destination_channel": "stable",
-    "flatpak_branch": "stable",
-    "expected_arches": ["x86_64"],
-    "matrix_succeeded": True,
-}
-
-
-def report(**changes):
-    return {
-        "schema_version": 1,
-        "linter_version": "1",
-        "kind": "repo",
-        "app_id": APP,
-        "artifacts": [{"ref": REF, "commit": "a" * 64}],
-        "review_findings": [],
-        **changes,
-    }
-
-
-def linter_request(*entries, **changes):
-    reports = [{"kind": k, "arch": a, "report": r} for k, a, r in entries]
-    return assessment.CandidateAssessmentRequest(
-        **{**REQUEST, **changes, "linter_reports": reports}
-    )
-
-
-@pytest.mark.parametrize(
-    ("entry", "code"),
-    [
-        (("repo", "x86_64", report(schema_version=2)), "unsupported_linter_report"),
-        (
-            ("repo", "x86_64", report(review_findings=[{"rule_code": 1}])),
-            "unsupported_linter_report",
-        ),
-        (("manifest", None, report(kind="repo")), "unsupported_linter_report"),
-        (("repo", "x86_64", report(app_id="org.other.App")), "linter_report_mismatch"),
-    ],
-)
-def test_invalid_linter_reports_are_rejected(entry, code):
-    with pytest.raises(PermissionSnapshotError) as exc:
-        assessment._parse_linter_reports(linter_request(entry))
-    assert exc.value.code == code
-
-
-@pytest.mark.parametrize(
-    ("arches", "refs", "valid"),
-    [
-        (["x86_64"], [REF], True),
-        (["x86_64"], ["app/org.example.App/x86_64/beta"], False),
-        (["x86_64", "aarch64"], [REF], False),
-    ],
-)
-def test_repo_linter_reports_must_match_upload(arches, refs, valid):
-    request = linter_request(("repo", "x86_64", report()), expected_arches=arches)
-    parsed = assessment._parse_linter_reports(request)
-    uploaded = [{"ref_name": ref, "commit": "a" * 64} for ref in refs]
-    if valid:
-        assessment._check_linter_report_bindings(request, parsed, uploaded)
-        return
-    with pytest.raises(PermissionSnapshotError) as exc:
-        assessment._check_linter_report_bindings(request, parsed, uploaded)
-    assert exc.value.code == "linter_report_mismatch"
 
 
 @pytest.fixture
