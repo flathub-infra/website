@@ -1,7 +1,6 @@
 import hashlib
 import secrets
 from datetime import UTC, datetime, timedelta
-from typing import cast
 
 import dramatiq
 from sqlalchemy import select
@@ -15,7 +14,7 @@ from ..types import JSONObject
 @dramatiq.actor
 def send_email_new(email):
     with get_db("writer") as db:
-        emails.send_email_new(cast("JSONObject", dict(**email)), db)
+        emails.send_email_new(dict(**email), db)
 
 
 @dramatiq.actor
