@@ -826,9 +826,6 @@
   },
   "moderation-summary-changes": "Resumen de los cambios",
   "moderation-manifest-source-origin": "Cambios en el código fuente del manifiesto",
-  "moderation-manifest-complexity": "Complejidad del empaquetado del manifiesto",
-  "moderation-manifest-complexity-ambiguity": "No se han podido asignar algunos módulos de forma inequívoca; revisa con atención los cambios afectados en la receta.",
-  "moderation-manifest-complexity-events": "Cambios en la receta",
   "more-healthfitness": "Más sobre salud y bienestar físico",
   "runtime": "Tiempo de ejecución",
   "dns-verification": "Verificación del DNS",
@@ -843,6 +840,5 @@
   "moderation-build-log": "Registro de construcción",
   "moderation-random-review": "Seleccionado al azar para su revisión",
   "moderation-manifest-removed": "Eliminado",
-  "moderation-manifest-added": "Añadido",
-  "moderation-manifest-complexity-events-truncated": "Se muestran {shown} de {total} cambios en las recetas."
+  "moderation-manifest-added": "Añadido"
 }

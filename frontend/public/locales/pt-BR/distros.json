@@ -13,7 +13,11 @@
       "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <filelink>arquivo de repositório do Flathub</filelink> ou execute o seguinte em um terminal:</text> <code></code>",
       "name": "Adicione o repositório Flathub"
     },
-    "introduction": "<text>O suporte do Flatpak é construído em Solus 4.7 e mais recente - nenhuma configuração necessária! Os aplicativos Flatpak podem ser instalados usando o GNOME Programas e/ou KDE Discover.</text> <text>Se Flatpak não está instalado, siga as instruções abaixo para começar.</text>"
+    "introduction": "<text>O suporte do Flatpak é construído em Solus 4.7 e mais recente - nenhuma configuração necessária! Os aplicativos Flatpak podem ser instalados usando o GNOME Programas e/ou KDE Discover.</text> <text>Se Flatpak não está instalado, siga as instruções abaixo para começar.</text>",
+    "install-bazaar": {
+      "name": "Instalar o Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente do Flathub executando o seguinte comando:</text> <code></code> <text>Em seguida, inicie-o a partir da sua área de trabalho para instalar aplicativos Flatpak de forma gráfica.</text>"
+    }
   },
   "openmandriva_lx": {
     "distroName": "OpenMandriva Lx",
@@ -85,6 +89,10 @@
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <link>instalar os aplicativos</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar o Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente do Flathub executando o seguinte comando:</text> <code></code> <text>Em seguida, inicie-o a partir da sua área de trabalho para instalar aplicativos Flatpak de forma gráfica.</text>"
     }
   },
   "pisi_gnulinux": {
@@ -165,6 +173,10 @@
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <link>instalar os aplicativos</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar o Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente do Flathub executando o seguinte comando:</text> <code></code> <text>Em seguida, inicie-o a partir da sua área de trabalho para instalar aplicativos Flatpak de forma gráfica.</text>"
     }
   },
   "fedora": {
@@ -276,6 +288,10 @@
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para concluir a configuração, reinicie seu sistema. Agora, tudo o que você precisa fazer é <link>instalar os aplicativos</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar o Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente do Flathub executando o seguinte comando:</text> <code></code> <text>Em seguida, inicie-o a partir da sua área de trabalho para instalar aplicativos Flatpak de forma gráfica.</text>"
     }
   },
   "arch": {
@@ -302,6 +318,10 @@
     "step-3": {
       "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <filelink>arquivo de repositório do Flathub</filelink> ou execute o seguinte em um terminal:</text> <code></code>",
       "name": "Adicione o repositório Flathub"
+    },
+    "install-bazaar": {
+      "name": "Instalar o Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente do Flathub executando o seguinte comando:</text> <code></code> <text>Em seguida, inicie-o a partir da sua área de trabalho para instalar aplicativos Flatpak de forma gráfica.</text>"
     }
   },
   "almalinux": {
@@ -355,6 +375,10 @@
     "step-3": {
       "name": "Adicione o repositório Flathub",
       "text": "<text>O Flathub é o melhor lugar para obter aplicativos Flatpak. Para habilitá-lo, baixe e instale o <filelink>arquivo de repositório do Flathub</filelink> ou execute o seguinte em um terminal:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instalar o Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente do Flathub executando o seguinte comando:</text> <code></code> <text>Em seguida, inicie-o a partir da sua área de trabalho para instalar aplicativos Flatpak de forma gráfica.</text>"
     }
   },
   "elementary_os": {

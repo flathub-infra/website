@@ -12,6 +12,10 @@
     "step-4": {
       "name": "Redémarrer",
       "text": "<text>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <link>installer des applications</link> !</text>"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar",
+      "text": "<text>Avec Flathub activé, installez Bazaar directement depuis Flathub en exécutant :</text><code></code><text>Puis lancez-le depuis votre bureau afin d'installer des apps Flatpak graphiquement. </text>"
     }
   },
   "manjaro": {
@@ -237,7 +241,7 @@
   "kubuntu": {
     "step-1": {
       "name": "Installer Flatpak",
-      "text": "<text>Pour installer Flatpak sur Kubuntu, ouvrez Discover, allez à Paramètres, installez le backend Flatpak et redémarrez Discover.</text>"
+      "text": "<text>Pour installer Flatpak sur Kubuntu, ouvrez l'app Terminal puis exécutez :</text> <code></code>"
     },
     "distroName": "Kubuntu",
     "step-4": {
@@ -246,7 +250,7 @@
     },
     "step-3": {
       "name": "Ajouter le dépôt Flathub",
-      "text": "<text>Flathub est le meilleur endroit pour obtenir des applications Flatpak. Pour lui permettre, ouvrez Discover, allez dans Réglages et ajoutez le référentiel Flathub.</text>"
+      "text": "<text>Flathub est le meilleur endroit pour obtenir des apps Flatpak. Pour le permettre, exécutez :</text><code></code>"
     }
   },
   "solus": {
@@ -261,9 +265,9 @@
     },
     "step-3": {
       "name": "Redémarrer",
-      "text": "<text>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <link>installer des applications</link> !</text> <text>Remarque : l'installation graphique des applications Flatpak n'est possible qu'avec GNOME Logiciels et/ou KDE Discover.</text>"
+      "text": "<text>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <link>installer des applications</link> !</text>"
     },
-    "introduction": "<text>La prise en charge de Flatpak est intégrée à Solus 4.7 et versions ultérieures ; aucune configuration n’est requise ! Les apps Flatpak peuvent être installées à l’aide de GNOME Logiciels et/ou de KDE Discover.</text> <text>Si Flatpak n’est pas installé, suivez les instructions ci-dessous pour commencer. </text>"
+    "introduction": "<text>La prise en charge de Flatpak est intégrée à Solus 4.7 et versions ultérieures ; aucune configuration n’est requise ! Les apps Flatpak peuvent être installées à l’aide de Bazaar.</text> <text>Si Flatpak n’est pas installé, suivez les instructions ci-dessous pour commencer. </text>"
   },
   "alpine": {
     "distroName": "Alpine",
@@ -424,5 +428,9 @@
   "t2_sde": {
     "distroName": "T2 SDE",
     "introduction": "<header>Flatpak est installé par défaut sur T2 SDE à partir de la version 26.6. Tout est déjà prêt !</header> <text>Flatpak est préconfiguré avec le dépôt Flathub, et des outils d'intégration au bureau sont inclus afin de permettre l'installation en 1 clic depuis Flathub.</text> <text>Vous n'avez plus qu'à <link>installer des apps</link> !</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak est installé par défaut sur Nura ! </header><text>Tout ce que vous avez à faire est<link>d'installer des apps</link> !</text>"
   }
 }

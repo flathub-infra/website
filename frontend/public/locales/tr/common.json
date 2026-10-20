@@ -767,8 +767,6 @@
   "games-description": "Linux için oyunlar, emülatörler ve oyun başlatıcıları.",
   "moderation-summary-changes": "Değişikliklerin Özeti",
   "moderation-manifest-source-origin": "Manifest kaynağı değişiklikleri",
-  "moderation-manifest-complexity": "Manifest paketleme karmaşıklığı",
-  "moderation-manifest-source-and-complexity": "Manifest kaynağı ve karmaşık inceleme",
   "year-in-review": {
     "trending-categories": "Trend Kategoriler",
     "trending-categories-description": "Bu yıl en fazla büyüme kaydeden kategoriler",
@@ -812,9 +810,6 @@
   "system-description": "Linux için sistem yönetimi, izleme ve yönetici araçları.",
   "health-fitness-description": "Linux için sağlık ve fitness uygulamaları.",
   "quality-moderation-excluded": "Bu uygulama kalite kontrollerinin kapsamı dışındadır",
-  "moderation-manifest-complexity-ambiguity": "Bazı modüllerin eşleşmesi kesin olarak belirlenemedi; etkilenen tarif değişikliklerini dikkatlice gözden geçirin.",
-  "moderation-manifest-complexity-events": "Tarif değişiklikleri",
-  "moderation-manifest-complexity-events-truncated": "{total} tarif değişikliğinden {shown} tanesi gösteriliyor.",
   "moderation-manifest-added": "Eklendi",
   "moderation-manifest-removed": "Kaldırıldı",
   "moderation-random-review": "İnceleme için rastgele seçildi",
