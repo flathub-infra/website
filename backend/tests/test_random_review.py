@@ -188,9 +188,6 @@ class CallbackHarness:
         target_repo="stable",
         token_name="builder",
         build_refs=None,
-        manifest_enabled=False,
-        manifest_gating_enabled=False,
-        manifest_source_origin_observe_only=False,
         manifest_timeout=60.0,
         published_repo_url="https://published.example/repo",
         direct_upload_app_ids=(),
@@ -239,19 +236,9 @@ class CallbackHarness:
         monkeypatch.setattr(config.settings, "decisions_api", None)
         monkeypatch.setattr(config.settings, "decisions_api_key", None)
         monkeypatch.setattr(
-            config.settings,
-            "ostree_manifest_comparison_enabled",
-            manifest_enabled,
-        )
-        monkeypatch.setattr(
-            config.settings,
-            "ostree_manifest_source_origin_gating_enabled",
-            manifest_gating_enabled,
-        )
-        monkeypatch.setattr(
-            config.settings,
-            "ostree_manifest_source_origin_observe_only",
-            manifest_source_origin_observe_only,
+            moderation.ostree_manifest,
+            "collect_manifest_pairs",
+            lambda **kwargs: (),
         )
         monkeypatch.setattr(
             config.settings,
@@ -381,16 +368,10 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
         "RANDOM_REVIEW_ENABLED",
         "RANDOM_REVIEW_RATE",
         "RANDOM_REVIEW_SECRET",
-        "OSTREE_MANIFEST_COMPARISON_ENABLED",
-        "OSTREE_MANIFEST_SOURCE_ORIGIN_GATING_ENABLED",
-        "OSTREE_MANIFEST_SOURCE_ORIGIN_OBSERVE_ONLY",
         "OSTREE_MANIFEST_TIMEOUT_SECONDS",
         "random_review_enabled",
         "random_review_rate",
         "random_review_secret",
-        "ostree_manifest_comparison_enabled",
-        "ostree_manifest_source_origin_gating_enabled",
-        "ostree_manifest_source_origin_observe_only",
         "ostree_manifest_timeout_seconds",
     ):
         monkeypatch.delenv(name, raising=False)
@@ -400,20 +381,7 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
     assert settings.random_review_enabled is False
     assert settings.random_review_rate == 0.01
     assert settings.random_review_secret is None
-    assert settings.ostree_manifest_comparison_enabled is False
-    assert settings.ostree_manifest_source_origin_gating_enabled is False
-    assert settings.ostree_manifest_source_origin_observe_only is False
     assert settings.ostree_manifest_timeout_seconds == 60.0
-
-
-def test_settings_read_canonical_manifest_observe_only_environment(monkeypatch):
-    monkeypatch.setenv("OSTREE_MANIFEST_SOURCE_ORIGIN_OBSERVE_ONLY", "true")
-    settings = config.Settings(
-        ostree_manifest_comparison_enabled=True,
-        _env_file=None,
-    )
-
-    assert settings.ostree_manifest_source_origin_observe_only is True
 
 
 @pytest.mark.parametrize("rate", [-0.001, 1.001])
@@ -432,28 +400,6 @@ def test_settings_reject_non_positive_ostree_manifest_timeout(timeout_seconds):
 def test_settings_require_secret_when_enabled(secret):
     with pytest.raises(ValidationError):
         config.Settings(random_review_enabled=True, random_review_secret=secret)
-
-
-def test_manifest_origin_gate_requires_manifest_comparison():
-    with pytest.raises(
-        ValidationError,
-        match="OSTREE_MANIFEST_SOURCE_ORIGIN_GATING_ENABLED requires OSTREE_MANIFEST_COMPARISON_ENABLED",
-    ):
-        config.Settings(
-            ostree_manifest_comparison_enabled=False,
-            ostree_manifest_source_origin_gating_enabled=True,
-        )
-
-
-def test_manifest_origin_observe_only_requires_manifest_comparison():
-    with pytest.raises(
-        ValidationError,
-        match="OSTREE_MANIFEST_SOURCE_ORIGIN_OBSERVE_ONLY requires OSTREE_MANIFEST_COMPARISON_ENABLED",
-    ):
-        config.Settings(
-            ostree_manifest_comparison_enabled=False,
-            ostree_manifest_source_origin_observe_only=True,
-        )
 
 
 def test_canonical_identity_is_independent_of_reference_order():
@@ -1259,7 +1205,6 @@ def test_repeated_callback_reuses_marker_without_side_effects(monkeypatch):
 
     first = harness.call()
     add_calls = harness.db.session.add_calls
-    commit_calls = harness.db.session.commit_calls
     email_count = len(harness.emails)
 
     monkeypatch.setattr(config.settings, "random_review_rate", 0.0)
@@ -1276,7 +1221,6 @@ def test_repeated_callback_reuses_marker_without_side_effects(monkeypatch):
     assert second.requires_review is True
     assert len(harness.db.session.persisted) == 1
     assert harness.db.session.add_calls == add_calls
-    assert harness.db.session.commit_calls == commit_calls
     assert len(harness.emails) == email_count
     assert _is_marker(harness.db.session.persisted[0])
 
@@ -1905,7 +1849,6 @@ def test_manifest_observations_record_source_status(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
     )
     pair = pair_factory()
     monkeypatch.setattr(
@@ -1914,11 +1857,9 @@ def test_manifest_observations_record_source_status(
         lambda **kwargs: (pair,),
     )
 
-    result = harness.call()
+    harness.call()
 
     observation = harness.observations[(42, "org.example.App")]
-    assert result.requires_review is False
-    assert harness.db.session.persisted == []
     assert observation["source_status"] == expected_source_status
 
 
@@ -1938,7 +1879,6 @@ def test_published_baseline_failures_leave_source_status_unavailable(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -1965,8 +1905,6 @@ def test_initial_vorarbeiter_observation_preserves_policy_context(monkeypatch):
         enabled=False,
         token_name="vorarbeiter",
         current_values=None,
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -1990,7 +1928,6 @@ def test_analysis_observation_upsert_identity_uses_build_and_app(monkeypatch):
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -2021,29 +1958,6 @@ def test_analysis_observation_upsert_identity_uses_build_and_app(monkeypatch):
     assert [column.name for column in index.columns] == ["build_id", "app_id"]
 
 
-def test_disabled_manifest_comparison_preserves_callback(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=False,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda *args, **kwargs: pytest.fail("manifest collector called"),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is False
-    assert harness.db.session.add_calls == 0
-    assert harness.db.session.commit_calls == 0
-    assert harness.db.session.persisted == []
-    assert harness.observations == {}
-    assert harness.emails == []
-
-
 def test_enabled_manifest_comparison_uses_all_refs_and_logs_counts(monkeypatch, caplog):
     caplog.set_level(logging.INFO, logger=moderation.__name__)
     build_refs = [
@@ -2061,7 +1975,6 @@ def test_enabled_manifest_comparison_uses_all_refs_and_logs_counts(monkeypatch, 
         enabled=False,
         current_values=_unchanged_values(),
         build_refs=build_refs,
-        manifest_enabled=True,
         manifest_timeout=12.5,
     )
     captured = {}
@@ -2131,7 +2044,6 @@ def test_non_stable_build_skips_manifest_comparison(monkeypatch, target_repo):
     harness = CallbackHarness(
         monkeypatch,
         target_repo=target_repo,
-        manifest_enabled=True,
         build_refs=None,
     )
     monkeypatch.setattr(
@@ -2152,7 +2064,6 @@ def test_missing_published_manifest_ref_keeps_initial_submission(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
         current_values=None,
-        manifest_enabled=True,
         build_refs=[
             {
                 "ref_name": "app/org.example.App/x86_64/stable",
@@ -2185,7 +2096,6 @@ def test_manifest_only_change_creates_no_request_on_repeated_callback(monkeypatc
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
         build_refs=[
             {
                 "ref_name": "app/org.example.App/x86_64/stable",
@@ -2216,7 +2126,6 @@ def test_direct_upload_app_allows_missing_candidate_manifest(monkeypatch):
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
         direct_upload_app_ids=("org.example.App",),
         build_refs=[
             {
@@ -2257,7 +2166,6 @@ def test_runtime_generated_app_allows_missing_candidate_manifest(monkeypatch):
         app_ids=(app_id,),
         skipped=(app_id,),
         enabled=False,
-        manifest_enabled=True,
         build_refs=[
             {
                 "ref_name": f"app/{app_id}/x86_64/24.08",
@@ -2298,7 +2206,6 @@ def test_runtime_generated_app_allows_missing_candidate_manifest(monkeypatch):
 def test_manifest_retrieval_failure_has_no_side_effects(monkeypatch, error):
     harness = CallbackHarness(
         monkeypatch,
-        manifest_enabled=True,
         build_refs=[
             {
                 "ref_name": "app/org.example.App/x86_64/stable",
@@ -2332,7 +2239,6 @@ def test_manifest_retrieval_failure_has_no_side_effects(monkeypatch, error):
 def test_invalid_manifest_build_refs_translate_to_invalid_build(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        manifest_enabled=True,
         build_refs=[
             {
                 "ref_name": "app/org.example.App/x86_64/stable",
@@ -2356,8 +2262,6 @@ def test_initial_submission_does_not_create_manifest_request(monkeypatch):
         monkeypatch,
         enabled=False,
         current_values=None,
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -2382,8 +2286,6 @@ def test_skip_list_does_not_create_manifest_request(monkeypatch):
         enabled=False,
         skipped=("org.example.App",),
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -2441,8 +2343,6 @@ def test_manifest_source_gate_requires_added_origin(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     pair = _source_transition_manifest_pair(published_urls, candidate_urls)
     monkeypatch.setattr(
@@ -2477,15 +2377,13 @@ def test_manifest_source_gate_requires_added_origin(
         )
 
 
-def test_removal_only_source_observe_only_does_not_create_hypothetical_gate(
+def test_removal_only_source_does_not_create_gate(
     monkeypatch,
 ):
     harness = CallbackHarness(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
     )
     pair = _source_transition_manifest_pair(
         ("https://old.example/source",),
@@ -2510,46 +2408,11 @@ def test_removal_only_source_observe_only_does_not_create_hypothetical_gate(
     ]
 
 
-def test_disabled_manifest_gate_logs_only_added_origins_as_actionable(
-    monkeypatch, caplog
-):
-    caplog.set_level(logging.INFO, logger=moderation.__name__)
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=False,
-    )
-    pair = _source_transition_manifest_pair(
-        ("https://old.example/source",),
-        (),
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (pair,),
-    )
-
-    harness.call()
-
-    record = next(
-        record
-        for record in caplog.records
-        if record.getMessage() == "Evaluated manifest source gate for app"
-    )
-    assert record.would_require_review is False
-    assert record.introduced_sources == []
-    assert record.removed_sources == ["https://old.example"]
-
-
 def test_manifest_gate_request_retains_removed_origin_context(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     pair = _source_transition_manifest_pair(
         ("https://old.example/source",),
@@ -2623,8 +2486,6 @@ def test_manifest_source_gate_ignores_allowlisted_origins(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     _install_origin_allowlist(monkeypatch, entries)
     pair = _source_transition_manifest_pair(
@@ -2670,8 +2531,6 @@ def test_manifest_retry_preserves_request_after_allowlist_change(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     entries = set()
     _install_origin_allowlist(monkeypatch, entries)
@@ -2754,10 +2613,11 @@ def test_extra_data_change_ignores_allowlisted_origins(
 
     assert result.requires_review is requires_review
     assert calls == [
+        (ModerationOriginKind.MANIFEST_SOURCE, set()),
         (
             ModerationOriginKind.EXTRA_DATA,
             {"https://cdn.example", "https://downloads.example"},
-        )
+        ),
     ]
     if requires_review:
         request = harness.db.session.persisted[0]
@@ -2773,8 +2633,6 @@ def test_mirror_only_addition_does_not_gate(monkeypatch):
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     pair = _manifest_pair("x86_64", changed=True)
     pair.published_manifest = {
@@ -2819,42 +2677,11 @@ def test_mirror_only_addition_does_not_gate(monkeypatch):
     assert observation["source_would_gate"] is False
 
 
-def test_disabled_manifest_gate_logs_would_require_review(monkeypatch, caplog):
-    caplog.set_level(logging.INFO, logger=moderation.__name__)
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=False,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_source_manifest_pair(),),
-    )
-
-    result = harness.call()
-
-    record = next(
-        record
-        for record in caplog.records
-        if record.getMessage() == "Evaluated manifest source gate for app"
-    )
-    assert record.would_require_review is True
-    assert record.introduced_sources == ["https://github.com/foo/bar"]
-    assert result.requires_review is False
-    assert harness.db.session.persisted == []
-    assert harness.emails == []
-
-
 def test_manifest_gate_creates_exact_stable_request(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -2937,8 +2764,6 @@ def test_manifest_gate_records_repository_origin(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     pair = _source_transition_manifest_pair(
         (published_url,),
@@ -2984,8 +2809,6 @@ def test_identical_manifest_callback_reuses_request(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -3012,8 +2835,6 @@ def test_manifest_request_suppresses_random_sampling(monkeypatch):
         monkeypatch,
         enabled=True,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -3037,8 +2858,6 @@ def test_manifest_request_is_persisted_in_observe_only_mode(monkeypatch):
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     monkeypatch.setattr(config.settings, "moderation_observe_only", True)
     monkeypatch.setattr(
@@ -3065,8 +2884,6 @@ def test_manifest_finding_without_appstream_is_logged_not_persisted(
         app_ids=(),
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -3096,8 +2913,6 @@ def test_conflicting_manifest_request_fails(monkeypatch, conflict):
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -3120,39 +2935,11 @@ def test_conflicting_manifest_request_fails(monkeypatch, conflict):
     assert raised.value.detail == "conflicting_manifest_review_request"
 
 
-def test_source_origin_observe_only_persists_non_actionable_manifest(
-    monkeypatch,
-):
+def test_manifest_retry_keeps_reused_request_data_loaded(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_source_manifest_pair(),),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is False
-    assert len(harness.db.session.persisted) == 1
-    request = harness.db.session.persisted[0]
-    assert request.request_type == ModerationRequestType.MANIFEST
-    assert request.is_observation is True
-    assert harness.emails == []
-
-
-def test_observation_retry_keeps_reused_request_data_loaded(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -3164,102 +2951,9 @@ def test_observation_retry_keeps_reused_request_data_loaded(monkeypatch):
 
     result = harness.call()
 
-    assert result.requires_review is False
-    assert len(harness.db.session.persisted) == 1
-    assert harness.emails == []
-
-
-def test_manifest_observe_only_takes_precedence_over_matching_gate(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
-        manifest_source_origin_observe_only=True,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_source_manifest_pair(),),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is False
-    assert len(harness.db.session.persisted) == 1
-    assert harness.db.session.persisted[0].is_observation is True
-    assert harness.emails == []
-
-
-def test_manifest_observation_is_stored_with_appdata_hold(monkeypatch):
-    current_values = _unchanged_values()
-    current_values["org.example.App"]["name"] = "Old name"
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=current_values,
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_source_manifest_pair(),),
-    )
-
-    result = harness.call()
-
     assert result.requires_review is True
-    assert {request.request_type for request in harness.db.session.persisted} == {
-        ModerationRequestType.APPDATA,
-        ModerationRequestType.MANIFEST,
-    }
-    manifest_request = next(
-        request
-        for request in harness.db.session.persisted
-        if request.request_type == ModerationRequestType.MANIFEST
-    )
-    appdata_request = next(
-        request
-        for request in harness.db.session.persisted
-        if request.request_type == ModerationRequestType.APPDATA
-    )
-    assert manifest_request.is_observation is True
-    assert appdata_request.is_observation is None
-    email_requests = harness.emails[0]["messageInfo"]["requests"]
-    assert [item["requestType"] for item in email_requests] == [
-        ModerationRequestType.APPDATA
-    ]
-
-
-def test_observation_does_not_suppress_random_review(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=True,
-        rate=1,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_source_manifest_pair(),),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    assert {request.request_type for request in harness.db.session.persisted} == {
-        ModerationRequestType.APPDATA,
-        ModerationRequestType.MANIFEST,
-    }
-    assert any(
-        request.request_type == ModerationRequestType.MANIFEST
-        and request.is_observation is True
-        for request in harness.db.session.persisted
-    )
+    assert len(harness.db.session.persisted) == 1
+    assert len(harness.emails) == 1
 
 
 @pytest.mark.parametrize("clean_replacement", [False, True])
@@ -3366,80 +3060,11 @@ def test_replacement_outdates_legacy_requests_without_refs(monkeypatch):
     assert request.is_outdated is True
 
 
-def test_manifest_observation_preserves_other_architecture_requests(monkeypatch):
+def test_legacy_observation_row_is_promoted(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
         enabled=False,
         current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (
-            _source_manifest_pair(harness.build_refs[0]["ref_name"].split("/")[2]),
-        ),
-    )
-    assert harness.call().requires_review is False
-    first = harness.db.session.persisted[0]
-    assert first.is_observation is True
-
-    harness.build_id += 1
-    harness.job_id += 1
-    harness.build_refs = [
-        {"ref_name": "app/org.example.App/aarch64/stable", "commit": "b" * 64}
-    ]
-
-    assert harness.call().requires_review is False
-    assert first.is_outdated is False
-
-
-def test_manifest_observation_does_not_hold_clean_replacement_build(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
-    )
-    appdata_request = models.ModerationRequest(
-        appid="org.example.App",
-        request_type=ModerationRequestType.APPDATA,
-        request_data="{}",
-        is_new_submission=False,
-        is_observation=False,
-        is_outdated=False,
-        build_id=41,
-        job_id=6,
-        app_refs=["app/org.example.App/x86_64/stable"],
-    )
-    harness.db.session.persisted.append(appdata_request)
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_source_manifest_pair(),),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is False
-    assert appdata_request.is_outdated is True
-    assert any(
-        request.request_type == ModerationRequestType.MANIFEST
-        and request.is_observation is True
-        and request.is_outdated is False
-        for request in harness.db.session.persisted
-    )
-
-
-def test_identical_observation_callback_reuses_one_row(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
@@ -3448,123 +3073,14 @@ def test_identical_observation_callback_reuses_one_row(monkeypatch):
     )
 
     harness.call()
-    second = harness.call()
-
-    assert second.requires_review is False
-    assert len(harness.db.session.persisted) == 1
-    assert harness.db.session.add_calls == 1
-    assert harness.db.session.commit_calls == 2
-    assert harness.emails == []
-
-
-def test_observation_row_promotes_and_demotes_with_effective_configuration(
-    monkeypatch,
-):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_source_manifest_pair(),),
-    )
-
-    harness.call()
-    monkeypatch.setattr(
-        config.settings, "ostree_manifest_source_origin_observe_only", False
-    )
-    monkeypatch.setattr(
-        config.settings, "ostree_manifest_source_origin_gating_enabled", True
-    )
+    harness.db.session.persisted[0].is_observation = True
+    harness.emails.clear()
     promoted = harness.call()
 
     assert promoted.requires_review is True
     assert harness.db.session.persisted[0].is_observation is False
     assert harness.db.session.persisted[0].is_outdated is False
     assert len(harness.emails) == 1
-
-    monkeypatch.setattr(
-        config.settings, "ostree_manifest_source_origin_observe_only", True
-    )
-    demoted = harness.call()
-
-    assert demoted.requires_review is False
-    assert harness.db.session.persisted[0].is_observation is True
-    assert len(harness.emails) == 1
-
-
-@pytest.mark.parametrize(
-    "error",
-    [
-        moderation.ostree_manifest.ManifestTransportError("ostree_io"),
-        moderation.ostree_manifest.ManifestTimeoutError("timeout"),
-        moderation.ostree_manifest.CandidateRefMissingError(
-            "missing_candidate_ref", "app/org.example.App/x86_64/stable"
-        ),
-    ],
-)
-def test_manifest_observe_only_failure_continues_appdata_moderation(monkeypatch, error):
-    current_values = _unchanged_values()
-    current_values["org.example.App"]["name"] = "Old name"
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=current_values,
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_ for _ in ()).throw(error),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    assert [request.request_type for request in harness.db.session.persisted] == [
-        ModerationRequestType.APPDATA
-    ]
-    observation = harness.observations[(42, "org.example.App")]
-    assert observation["collection_status"] == "failed"
-    assert observation["collection_error_category"] == error.category
-    assert observation["source_status"] == "unavailable"
-    assert harness.emails
-
-
-def test_manifest_observe_only_invalid_refs_continue_appdata_moderation(
-    monkeypatch,
-):
-    current_values = _unchanged_values()
-    current_values["org.example.App"]["name"] = "Old name"
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=current_values,
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
-        build_refs=[
-            {
-                "ref_name": "app/org.example.App/x86_64/stable",
-                "commit": "invalid",
-            }
-        ],
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    assert [request.request_type for request in harness.db.session.persisted] == [
-        ModerationRequestType.APPDATA
-    ]
-    observation = harness.observations[(42, "org.example.App")]
-    assert observation["collection_status"] == "failed"
-    assert observation["collection_error_category"] == "InvalidBuildRefError"
-    assert observation["source_status"] == "unavailable"
 
 
 class AggregateRow:

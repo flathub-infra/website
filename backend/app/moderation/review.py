@@ -792,17 +792,12 @@ def _manifest_analysis_observation_values(
     collected_refs: set[tuple[str, str, str]],
     comparable_refs: set[tuple[str, str, str]],
     findings: Sequence[ostree_manifest.ManifestSourceFinding],
-    collection_error_category: str | None,
-    source_gating_enabled: bool,
-    source_observe_only: bool,
     moderation_observe_only: bool,
 ) -> dict[str, JSONValue]:
     candidate_ref_count = len(expected_refs)
     collected_ref_count = len(collected_refs)
     comparable_ref_count = len(comparable_refs)
-    if collection_error_category is not None:
-        collection_status = "failed"
-    elif candidate_ref_count == 0:
+    if candidate_ref_count == 0:
         collection_status = "unavailable"
     elif collected_refs == expected_refs:
         collection_status = "complete"
@@ -835,15 +830,14 @@ def _manifest_analysis_observation_values(
         "collected_ref_count": collected_ref_count,
         "comparable_ref_count": comparable_ref_count,
         "collection_status": collection_status,
-        "collection_error_category": collection_error_category,
         "source_status": source_status,
         "source_findings": serialized_findings,
         "source_would_gate": (
             _manifest_source_findings_would_gate(findings)
             and policy_context == "normal"
         ),
-        "source_gating_enabled": source_gating_enabled,
-        "source_observe_only": source_observe_only,
+        "source_gating_enabled": True,
+        "source_observe_only": False,
         "moderation_observe_only": moderation_observe_only,
     }
 
@@ -919,11 +913,6 @@ def submit_review_request(
     random_review_enabled = getattr(config.settings, "random_review_enabled", False)
     random_review_rate = getattr(config.settings, "random_review_rate", 0.01)
     random_review_secret = getattr(config.settings, "random_review_secret", None)
-    source_origin_enforcing = (
-        config.settings.ostree_manifest_source_origin_gating_enabled
-        and not config.settings.ostree_manifest_source_origin_observe_only
-    )
-    manifest_fail_open = config.settings.ostree_manifest_source_origin_observe_only
     logger.info(
         "Random review configuration",
         extra={
@@ -1015,126 +1004,89 @@ def submit_review_request(
         str, tuple[ostree_manifest.ManifestSourceFinding, ...]
     ] = {}
     allowlist_filtered_app_ids: set[str] = set()
-    collection_error_category: str | None = None
-    if config.settings.ostree_manifest_comparison_enabled:
-        try:
-            candidate_refs = ostree_manifest.normalize_candidate_refs(build_refs)
-            direct_upload_app_ids: set[str] = set()
-            candidate_app_ids = {item.app_id for item in candidate_refs}
-            if candidate_app_ids:
-                with get_db("writer") as db:
-                    direct_upload_apps = (
-                        db.session.query(models.DirectUploadApp)
-                        .filter(models.DirectUploadApp.app_id.in_(candidate_app_ids))
-                        .all()
-                    )
-                    direct_upload_app_ids = {app.app_id for app in direct_upload_apps}
-            skip_missing_candidate_app_ids = direct_upload_app_ids | {
-                app_id for app_id in candidate_app_ids if is_appid_runtime(app_id)
-            }
-
-            manifest_pairs = ostree_manifest.collect_manifest_pairs(
-                candidate_repo_url=(
-                    f"https://dl.flathub.org/build-repo/{review_request.build_id}"
-                ),
-                published_repo_url=config.settings.repo_url,
-                refs=candidate_refs,
-                timeout_seconds=config.settings.ostree_manifest_timeout_seconds,
-                skip_missing_candidate_app_ids=skip_missing_candidate_app_ids,
-            )
-            manifest_groups = ostree_manifest.group_identical_manifest_pairs(
-                manifest_pairs
-            )
-        except ostree_manifest.InvalidBuildRefError as exc:
-            if not manifest_fail_open:
-                raise HTTPException(status_code=500, detail="invalid_build") from exc
-            logger.exception(
-                "OSTree manifest observation failed",
-                extra={
-                    "build_id": review_request.build_id,
-                    "job_id": review_request.job_id,
-                    "category": "invalid_build_refs",
-                },
-            )
-            collection_error_category = "InvalidBuildRefError"
-            candidate_refs = ()
-            manifest_pairs = ()
-            manifest_groups = ()
-            manifest_findings_by_app.clear()
-        except ostree_manifest.ManifestRetrievalError as exc:
-            if not manifest_fail_open:
-                logger.exception(
-                    "OSTree manifest retrieval failed",
-                    extra={
-                        "build_id": review_request.build_id,
-                        "job_id": review_request.job_id,
-                        "category": exc.category,
-                    },
+    try:
+        candidate_refs = ostree_manifest.normalize_candidate_refs(build_refs)
+        direct_upload_app_ids: set[str] = set()
+        candidate_app_ids = {item.app_id for item in candidate_refs}
+        if candidate_app_ids:
+            with get_db("writer") as db:
+                direct_upload_apps = (
+                    db.session.query(models.DirectUploadApp)
+                    .filter(models.DirectUploadApp.app_id.in_(candidate_app_ids))
+                    .all()
                 )
-                raise HTTPException(
-                    status_code=500, detail="manifest_retrieval_failed"
-                ) from exc
-            logger.exception(
-                "OSTree manifest observation failed",
-                extra={
-                    "build_id": review_request.build_id,
-                    "job_id": review_request.job_id,
-                    "category": exc.category,
-                },
-            )
-            collection_error_category = exc.category
-            manifest_pairs = ()
-            manifest_groups = ()
-            manifest_findings_by_app.clear()
+                direct_upload_app_ids = {app.app_id for app in direct_upload_apps}
+        skip_missing_candidate_app_ids = direct_upload_app_ids | {
+            app_id for app_id in candidate_app_ids if is_appid_runtime(app_id)
+        }
 
-        logger.info(
-            "Compared embedded manifests",
+        manifest_pairs = ostree_manifest.collect_manifest_pairs(
+            candidate_repo_url=(
+                f"https://dl.flathub.org/build-repo/{review_request.build_id}"
+            ),
+            published_repo_url=config.settings.repo_url,
+            refs=candidate_refs,
+            timeout_seconds=config.settings.ostree_manifest_timeout_seconds,
+            skip_missing_candidate_app_ids=skip_missing_candidate_app_ids,
+        )
+        manifest_groups = ostree_manifest.group_identical_manifest_pairs(manifest_pairs)
+    except ostree_manifest.InvalidBuildRefError as exc:
+        raise HTTPException(status_code=500, detail="invalid_build") from exc
+    except ostree_manifest.ManifestRetrievalError as exc:
+        logger.exception(
+            "OSTree manifest retrieval failed",
             extra={
                 "build_id": review_request.build_id,
                 "job_id": review_request.job_id,
-                "ref_count": len(manifest_pairs),
-                "comparison_group_count": len(manifest_groups),
-                "changed_group_count": sum(
-                    group[0].changed is True for group in manifest_groups
-                ),
-                "missing_baseline_count": sum(
-                    pair.published_status
-                    is not ostree_manifest.PublishedManifestStatus.PRESENT
-                    for pair in manifest_pairs
-                ),
+                "category": exc.category,
             },
         )
-        manifest_findings = ostree_manifest.find_manifest_source_changes(
-            manifest_groups
-        )
-        allowlisted_sources = _allowlisted_origins(
-            ModerationOriginKind.MANIFEST_SOURCE,
-            {
-                source
-                for finding in manifest_findings
-                for source in finding.sources_added
-            },
-        )
-        for finding in manifest_findings:
-            if allowlisted_finding_sources := sorted(
-                set(finding.sources_added) & allowlisted_sources
-            ):
-                allowlist_filtered_app_ids.add(finding.app_id)
-                logger.info(
-                    "Ignored allowlisted manifest source origins",
-                    extra={
-                        "build_id": review_request.build_id,
-                        "job_id": review_request.job_id,
-                        "app_id": finding.app_id,
-                        "allowlisted_sources": allowlisted_finding_sources,
-                    },
-                )
-        manifest_findings = _filter_allowlisted_manifest_findings(
-            manifest_findings, allowlisted_sources
-        )
-        for finding in manifest_findings:
-            manifest_findings_by_app.setdefault(finding.app_id, ())
-            manifest_findings_by_app[finding.app_id] += (finding,)
+        raise HTTPException(
+            status_code=500, detail="manifest_retrieval_failed"
+        ) from exc
+
+    logger.info(
+        "Compared embedded manifests",
+        extra={
+            "build_id": review_request.build_id,
+            "job_id": review_request.job_id,
+            "ref_count": len(manifest_pairs),
+            "comparison_group_count": len(manifest_groups),
+            "changed_group_count": sum(
+                group[0].changed is True for group in manifest_groups
+            ),
+            "missing_baseline_count": sum(
+                pair.published_status
+                is not ostree_manifest.PublishedManifestStatus.PRESENT
+                for pair in manifest_pairs
+            ),
+        },
+    )
+    manifest_findings = ostree_manifest.find_manifest_source_changes(manifest_groups)
+    allowlisted_sources = _allowlisted_origins(
+        ModerationOriginKind.MANIFEST_SOURCE,
+        {source for finding in manifest_findings for source in finding.sources_added},
+    )
+    for finding in manifest_findings:
+        if allowlisted_finding_sources := sorted(
+            set(finding.sources_added) & allowlisted_sources
+        ):
+            allowlist_filtered_app_ids.add(finding.app_id)
+            logger.info(
+                "Ignored allowlisted manifest source origins",
+                extra={
+                    "build_id": review_request.build_id,
+                    "job_id": review_request.job_id,
+                    "app_id": finding.app_id,
+                    "allowlisted_sources": allowlisted_finding_sources,
+                },
+            )
+    manifest_findings = _filter_allowlisted_manifest_findings(
+        manifest_findings, allowlisted_sources
+    )
+    for finding in manifest_findings:
+        manifest_findings_by_app.setdefault(finding.app_id, ())
+        manifest_findings_by_app[finding.app_id] += (finding,)
     expected_refs_by_app: dict[str, set[tuple[str, str, str]]] = {}
     for candidate_ref in candidate_refs:
         expected_refs_by_app.setdefault(candidate_ref.app_id, set()).add(
@@ -1205,13 +1157,6 @@ def submit_review_request(
             collected_refs=collected_refs_by_app.get(app_id, set()),
             comparable_refs=comparable_refs_by_app.get(app_id, set()),
             findings=findings,
-            collection_error_category=collection_error_category,
-            source_gating_enabled=(
-                config.settings.ostree_manifest_source_origin_gating_enabled
-            ),
-            source_observe_only=(
-                config.settings.ostree_manifest_source_origin_observe_only
-            ),
             moderation_observe_only=config.settings.moderation_observe_only,
         )
 
@@ -1349,14 +1294,13 @@ def submit_review_request(
                     would_require_review=False,
                     reason="initial-vorarbeiter",
                 )
-            if config.settings.ostree_manifest_comparison_enabled:
-                stage_analysis_observation(
-                    app_id,
-                    appstream_present=True,
-                    is_new_submission=True,
-                    policy_context="initial_vorarbeiter",
-                    findings=app_manifest_findings,
-                )
+            stage_analysis_observation(
+                app_id,
+                appstream_present=True,
+                is_new_submission=True,
+                policy_context="initial_vorarbeiter",
+                findings=app_manifest_findings,
+            )
             continue
 
         if should_skip_review(app_id):
@@ -1368,14 +1312,13 @@ def submit_review_request(
                     would_require_review=False,
                     reason="skip-list",
                 )
-            if config.settings.ostree_manifest_comparison_enabled:
-                stage_analysis_observation(
-                    app_id,
-                    appstream_present=True,
-                    is_new_submission=is_new_submission,
-                    policy_context="skip_list",
-                    findings=app_manifest_findings,
-                )
+            stage_analysis_observation(
+                app_id,
+                appstream_present=True,
+                is_new_submission=is_new_submission,
+                policy_context="skip_list",
+                findings=app_manifest_findings,
+            )
             continue
 
         if "keys" not in locals():
@@ -1392,16 +1335,13 @@ def submit_review_request(
                     current_values = {"direct upload": False}
                     keys = {"direct upload": True}
 
-        if config.settings.ostree_manifest_comparison_enabled:
-            stage_analysis_observation(
-                app_id,
-                appstream_present=True,
-                is_new_submission=is_new_submission,
-                policy_context=(
-                    "initial_submission" if is_new_submission else "normal"
-                ),
-                findings=app_manifest_findings,
-            )
+        stage_analysis_observation(
+            app_id,
+            appstream_present=True,
+            is_new_submission=is_new_submission,
+            policy_context=("initial_submission" if is_new_submission else "normal"),
+            findings=app_manifest_findings,
+        )
 
         if app_manifest_findings:
             _log_manifest_source_gate(
@@ -1416,14 +1356,7 @@ def submit_review_request(
                 reason="initial-submission" if is_new_submission else None,
             )
 
-        origin_should_observe = (
-            not is_new_submission
-            and source_would_gate
-            and config.settings.ostree_manifest_source_origin_observe_only
-        )
-        origin_should_gate = (
-            not is_new_submission and source_would_gate and source_origin_enforcing
-        )
+        origin_should_gate = not is_new_submission and source_would_gate
         appdata_request: models.ModerationRequest | None = None
         summary_request: models.ModerationRequest | None = None
 
@@ -1764,8 +1697,7 @@ def submit_review_request(
                 build_log_url=build_log_url,
             )
         selected_manifest_data: str | None = None
-        manifest_is_observation = not origin_should_gate
-        if origin_should_gate or origin_should_observe:
+        if origin_should_gate:
             selected_manifest_data = _manifest_request_data(app_manifest_findings)
 
         if selected_manifest_data is not None or app_id in allowlist_filtered_app_ids:
@@ -1795,10 +1727,8 @@ def submit_review_request(
                     reused_manifest_was_observation = bool(
                         existing_manifest_requests[0].is_observation
                     )
-                    if reused_manifest_was_observation != manifest_is_observation:
-                        existing_manifest_requests[
-                            0
-                        ].is_observation = manifest_is_observation
+                    if reused_manifest_was_observation:
+                        existing_manifest_requests[0].is_observation = False
                         db.session.commit()
             existing_preserved = (
                 not existing_matches
@@ -1812,31 +1742,27 @@ def submit_review_request(
                     request_type=ModerationRequestType.MANIFEST,
                     request_data=selected_manifest_data,
                     is_new_submission=False,
-                    is_observation=manifest_is_observation,
+                    is_observation=False,
                     is_outdated=False,
                     build_id=review_request.build_id,
                     job_id=review_request.job_id,
                     build_log_url=build_log_url,
                 )
                 persisted_requests.append(manifest_request)
-                if not manifest_is_observation:
-                    new_requests.append(manifest_request)
+                new_requests.append(manifest_request)
             elif existing_matches:
                 reused_request = existing_manifest_requests[0]
-                was_observation = bool(reused_manifest_was_observation)
-                became_actionable = was_observation and not manifest_is_observation
-                if not manifest_is_observation:
-                    manifest_reused_app_ids.add(app_id)
-                    reuse_requires_review = (
-                        reused_request.handled_at is None
-                        or reused_request.is_approved is None
-                    )
-                    manifest_reuse_requires_review = (
-                        manifest_reuse_requires_review or reuse_requires_review
-                    )
-                    if became_actionable and reuse_requires_review:
-                        manifest_newly_actionable_requests.append(reused_request)
-                        manifest_newly_actionable_app_ids.add(app_id)
+                manifest_reused_app_ids.add(app_id)
+                reuse_requires_review = (
+                    reused_request.handled_at is None
+                    or reused_request.is_approved is None
+                )
+                manifest_reuse_requires_review = (
+                    manifest_reuse_requires_review or reuse_requires_review
+                )
+                if reused_manifest_was_observation and reuse_requires_review:
+                    manifest_newly_actionable_requests.append(reused_request)
+                    manifest_newly_actionable_app_ids.add(app_id)
             elif existing_preserved:
                 preserved_request = existing_manifest_requests[0]
                 logger.info(

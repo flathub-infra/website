@@ -100,9 +100,6 @@ class Settings(BaseSettings):
     # be published.
     moderation_observe_only: bool = False
     permission_publication_mode: Literal["off", "observe", "enforce"] = "off"
-    ostree_manifest_comparison_enabled: bool = False
-    ostree_manifest_source_origin_gating_enabled: bool = False
-    ostree_manifest_source_origin_observe_only: bool = False
     ostree_manifest_timeout_seconds: float = Field(default=60.0, gt=0)
     decisions_api: str | None = None
     decisions_api_key: str | None = None
@@ -119,24 +116,6 @@ class Settings(BaseSettings):
         ):
             raise ValueError(
                 "RANDOM_REVIEW_SECRET is required when RANDOM_REVIEW_ENABLED is true"
-            )
-        return self
-
-    @model_validator(mode="after")
-    def validate_manifest_gating_config(self):
-        if (
-            self.ostree_manifest_source_origin_gating_enabled
-            and not self.ostree_manifest_comparison_enabled
-        ):
-            raise ValueError(
-                "OSTREE_MANIFEST_SOURCE_ORIGIN_GATING_ENABLED requires OSTREE_MANIFEST_COMPARISON_ENABLED"
-            )
-        if (
-            self.ostree_manifest_source_origin_observe_only
-            and not self.ostree_manifest_comparison_enabled
-        ):
-            raise ValueError(
-                "OSTREE_MANIFEST_SOURCE_ORIGIN_OBSERVE_ONLY requires OSTREE_MANIFEST_COMPARISON_ENABLED"
             )
         return self
 
