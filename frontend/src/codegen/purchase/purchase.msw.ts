@@ -30,11 +30,8 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
       verified: false,
       method: "none",
       detail: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
     },
     ...overrideResponse,
@@ -49,11 +46,8 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
       timestamp: faker.string.alpha({ length: { min: 10, max: 20 } }),
       method: "manual",
       detail: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
     },
     ...overrideResponse,
@@ -69,11 +63,8 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
       method: "website",
       website: faker.string.alpha({ length: { min: 10, max: 20 } }),
       detail: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
     },
     ...overrideResponse,
@@ -89,11 +80,8 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
       method: "dns",
       website: faker.string.alpha({ length: { min: 10, max: 20 } }),
       detail: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
     },
     ...overrideResponse,
@@ -110,15 +98,12 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationS
       login_provider: faker.helpers.arrayElement(Object.values(LoginProvider)),
       login_name: faker.string.alpha({ length: { min: 10, max: 20 } }),
       detail: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       login_is_organization: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-        undefined,
+        faker.datatype.boolean(),
+        null,
       ]),
     },
     ...overrideResponse,
@@ -129,42 +114,33 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetResponseMock = (
 ): StorefrontInfo => ({
   verification: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusNoneMock(),
-        },
-        {
-          ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusManualMock(),
-        },
-        {
-          ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusWebsiteMock(),
-        },
-        {
-          ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusDnsMock(),
-        },
-        {
-          ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusLoginProviderMock(),
-        },
-      ]),
-      null,
+      {
+        ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusNoneMock(),
+      },
+      {
+        ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusManualMock(),
+      },
+      {
+        ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusWebsiteMock(),
+      },
+      {
+        ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusDnsMock(),
+      },
+      {
+        ...getGetStorefrontInfoPurchasesStorefrontInfoGetResponseVerificationStatusLoginProviderMock(),
+      },
     ]),
-    undefined,
+    null,
   ]),
   pricing: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      {
-        recommended_donation: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.number.int(), null]),
-          undefined,
-        ]),
-        minimum_payment: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.number.int(), null]),
-          undefined,
-        ]),
-      },
-      null,
-    ]),
-    undefined,
+    {
+      recommended_donation: faker.helpers.arrayElement([
+        faker.number.int(),
+        null,
+      ]),
+      minimum_payment: faker.helpers.arrayElement([faker.number.int(), null]),
+    },
+    null,
   ]),
   is_free_software: faker.datatype.boolean(),
   ...overrideResponse,

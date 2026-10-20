@@ -23,6 +23,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   HTTPValidationError,
   OidcClientCreate,
@@ -56,6 +58,21 @@ export const listOidcClientsAdminOidcClientsGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<OidcClientResult[]>> => {
   return axios.get(`/admin/oidc-clients`, options)
+}
+
+export const getListOidcClientsAdminOidcClientsGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/admin/oidc-clients`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getListOidcClientsAdminOidcClientsGetQueryKey = () => {
@@ -210,6 +227,24 @@ export const createOidcClientAdminOidcClientsPost = (
   return axios.post(`/admin/oidc-clients`, oidcClientCreate, options)
 }
 
+export const getCreateOidcClientAdminOidcClientsPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/admin/oidc-clients`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getCreateOidcClientAdminOidcClientsPostMutationKey = () =>
+  ["createOidcClientAdminOidcClientsPost"] as const
+
 export const getCreateOidcClientAdminOidcClientsPostMutationOptions = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -217,17 +252,17 @@ export const getCreateOidcClientAdminOidcClientsPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createOidcClientAdminOidcClientsPost>>,
     TError,
-    { data: OidcClientCreate },
+    CreateOidcClientAdminOidcClientsPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createOidcClientAdminOidcClientsPost>>,
   TError,
-  { data: OidcClientCreate },
+  CreateOidcClientAdminOidcClientsPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createOidcClientAdminOidcClientsPost"]
+  const mutationKey = getCreateOidcClientAdminOidcClientsPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -238,7 +273,7 @@ export const getCreateOidcClientAdminOidcClientsPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createOidcClientAdminOidcClientsPost>>,
-    { data: OidcClientCreate }
+    CreateOidcClientAdminOidcClientsPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -254,6 +289,9 @@ export type CreateOidcClientAdminOidcClientsPostMutationResult = NonNullable<
 export type CreateOidcClientAdminOidcClientsPostMutationBody = OidcClientCreate
 export type CreateOidcClientAdminOidcClientsPostMutationError =
   AxiosError<HTTPValidationError>
+export type CreateOidcClientAdminOidcClientsPostMutationVariables = {
+  data: OidcClientCreate
+}
 
 /**
  * @summary Create Oidc Client
@@ -266,7 +304,7 @@ export const useCreateOidcClientAdminOidcClientsPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createOidcClientAdminOidcClientsPost>>,
       TError,
-      { data: OidcClientCreate },
+      CreateOidcClientAdminOidcClientsPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -275,7 +313,7 @@ export const useCreateOidcClientAdminOidcClientsPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof createOidcClientAdminOidcClientsPost>>,
   TError,
-  { data: OidcClientCreate },
+  CreateOidcClientAdminOidcClientsPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -291,6 +329,23 @@ export const getOidcClientAdminOidcClientsClientIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<OidcClientResult>> => {
   return axios.get(`/admin/oidc-clients/${clientId}`, options)
+}
+
+export const getGetOidcClientAdminOidcClientsClientIdGetUrl = (
+  clientId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/admin/oidc-clients/${clientId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetOidcClientAdminOidcClientsClientIdGetQueryKey = (
@@ -471,6 +526,26 @@ export const updateOidcClientAdminOidcClientsClientIdPatch = (
   )
 }
 
+export const getUpdateOidcClientAdminOidcClientsClientIdPatchUrl = (
+  clientId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/admin/oidc-clients/${clientId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getUpdateOidcClientAdminOidcClientsClientIdPatchMutationKey = () =>
+  ["updateOidcClientAdminOidcClientsClientIdPatch"] as const
+
 export const getUpdateOidcClientAdminOidcClientsClientIdPatchMutationOptions = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -478,17 +553,18 @@ export const getUpdateOidcClientAdminOidcClientsClientIdPatchMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof updateOidcClientAdminOidcClientsClientIdPatch>>,
     TError,
-    { clientId: string; data: OidcClientPatch },
+    UpdateOidcClientAdminOidcClientsClientIdPatchMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof updateOidcClientAdminOidcClientsClientIdPatch>>,
   TError,
-  { clientId: string; data: OidcClientPatch },
+  UpdateOidcClientAdminOidcClientsClientIdPatchMutationVariables,
   TContext
 > => {
-  const mutationKey = ["updateOidcClientAdminOidcClientsClientIdPatch"]
+  const mutationKey =
+    getUpdateOidcClientAdminOidcClientsClientIdPatchMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -499,7 +575,7 @@ export const getUpdateOidcClientAdminOidcClientsClientIdPatchMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof updateOidcClientAdminOidcClientsClientIdPatch>>,
-    { clientId: string; data: OidcClientPatch }
+    UpdateOidcClientAdminOidcClientsClientIdPatchMutationVariables
   > = (props) => {
     const { clientId, data } = props ?? {}
 
@@ -521,6 +597,10 @@ export type UpdateOidcClientAdminOidcClientsClientIdPatchMutationBody =
   OidcClientPatch
 export type UpdateOidcClientAdminOidcClientsClientIdPatchMutationError =
   AxiosError<HTTPValidationError>
+export type UpdateOidcClientAdminOidcClientsClientIdPatchMutationVariables = {
+  clientId: string
+  data: OidcClientPatch
+}
 
 /**
  * @summary Update Oidc Client
@@ -533,7 +613,7 @@ export const useUpdateOidcClientAdminOidcClientsClientIdPatch = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof updateOidcClientAdminOidcClientsClientIdPatch>>,
       TError,
-      { clientId: string; data: OidcClientPatch },
+      UpdateOidcClientAdminOidcClientsClientIdPatchMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -542,7 +622,7 @@ export const useUpdateOidcClientAdminOidcClientsClientIdPatch = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof updateOidcClientAdminOidcClientsClientIdPatch>>,
   TError,
-  { clientId: string; data: OidcClientPatch },
+  UpdateOidcClientAdminOidcClientsClientIdPatchMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -560,6 +640,26 @@ export const disableOidcClientAdminOidcClientsClientIdDelete = (
   return axios.delete(`/admin/oidc-clients/${clientId}`, options)
 }
 
+export const getDisableOidcClientAdminOidcClientsClientIdDeleteUrl = (
+  clientId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/admin/oidc-clients/${clientId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getDisableOidcClientAdminOidcClientsClientIdDeleteMutationKey =
+  () => ["disableOidcClientAdminOidcClientsClientIdDelete"] as const
+
 export const getDisableOidcClientAdminOidcClientsClientIdDeleteMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -567,17 +667,18 @@ export const getDisableOidcClientAdminOidcClientsClientIdDeleteMutationOptions =
         ReturnType<typeof disableOidcClientAdminOidcClientsClientIdDelete>
       >,
       TError,
-      { clientId: string },
+      DisableOidcClientAdminOidcClientsClientIdDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
   }): UseMutationOptions<
     Awaited<ReturnType<typeof disableOidcClientAdminOidcClientsClientIdDelete>>,
     TError,
-    { clientId: string },
+    DisableOidcClientAdminOidcClientsClientIdDeleteMutationVariables,
     TContext
   > => {
-    const mutationKey = ["disableOidcClientAdminOidcClientsClientIdDelete"]
+    const mutationKey =
+      getDisableOidcClientAdminOidcClientsClientIdDeleteMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -590,7 +691,7 @@ export const getDisableOidcClientAdminOidcClientsClientIdDeleteMutationOptions =
       Awaited<
         ReturnType<typeof disableOidcClientAdminOidcClientsClientIdDelete>
       >,
-      { clientId: string }
+      DisableOidcClientAdminOidcClientsClientIdDeleteMutationVariables
     > = (props) => {
       const { clientId } = props ?? {}
 
@@ -610,6 +711,9 @@ export type DisableOidcClientAdminOidcClientsClientIdDeleteMutationResult =
 
 export type DisableOidcClientAdminOidcClientsClientIdDeleteMutationError =
   AxiosError<HTTPValidationError>
+export type DisableOidcClientAdminOidcClientsClientIdDeleteMutationVariables = {
+  clientId: string
+}
 
 /**
  * @summary Disable Oidc Client
@@ -624,7 +728,7 @@ export const useDisableOidcClientAdminOidcClientsClientIdDelete = <
         ReturnType<typeof disableOidcClientAdminOidcClientsClientIdDelete>
       >,
       TError,
-      { clientId: string },
+      DisableOidcClientAdminOidcClientsClientIdDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -633,7 +737,7 @@ export const useDisableOidcClientAdminOidcClientsClientIdDelete = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof disableOidcClientAdminOidcClientsClientIdDelete>>,
   TError,
-  { clientId: string },
+  DisableOidcClientAdminOidcClientsClientIdDeleteMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -655,6 +759,26 @@ export const rotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPost = (
   )
 }
 
+export const getRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostUrl =
+  (clientId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/admin/oidc-clients/${clientId}/rotate-secret`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationKey =
+  () =>
+    ["rotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPost"] as const
+
 export const getRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -664,7 +788,7 @@ export const getRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMu
         >
       >,
       TError,
-      { clientId: string },
+      RotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -675,12 +799,11 @@ export const getRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMu
       >
     >,
     TError,
-    { clientId: string },
+    RotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "rotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPost",
-    ]
+    const mutationKey =
+      getRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -695,7 +818,7 @@ export const getRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMu
           typeof rotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPost
         >
       >,
-      { clientId: string }
+      RotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationVariables
     > = (props) => {
       const { clientId } = props ?? {}
 
@@ -719,6 +842,8 @@ export type RotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutati
 
 export type RotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationError =
   AxiosError<HTTPValidationError>
+export type RotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationVariables =
+  { clientId: string }
 
 /**
  * @summary Rotate Oidc Client Secret
@@ -733,7 +858,7 @@ export const useRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPost =
           >
         >,
         TError,
-        { clientId: string },
+        RotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -746,7 +871,7 @@ export const useRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPost =
       >
     >,
     TError,
-    { clientId: string },
+    RotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationVariables,
     TContext
   > => {
     return useMutation(

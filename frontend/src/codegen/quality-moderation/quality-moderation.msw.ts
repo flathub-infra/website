@@ -41,20 +41,14 @@ export const getGetQualityModerationStatusQualityModerationStatusGetResponseMock
           null,
         ]),
         review_requested_at: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.date.past().toISOString().slice(0, 19) + "Z",
-            null,
-          ]),
-          undefined,
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
         ]),
       },
-      appstream: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([null]),
-        undefined,
-      ]),
+      appstream: faker.helpers.arrayElement([null]),
       installs_last_7_days: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.number.int(), null]),
-        undefined,
+        faker.number.int(),
+        null,
       ]),
     })),
     pagination: {
@@ -158,11 +152,8 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetResponseMock 
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
     metadata_changed_at: faker.helpers.arrayElement([
       {
@@ -210,11 +201,8 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostResponseMock
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
     metadata_changed_at: faker.helpers.arrayElement([
       {
@@ -262,11 +250,8 @@ export const getGetQualityModerationForAppAsModeratorQualityModerationAppIdModer
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
     metadata_changed_at: faker.helpers.arrayElement([
       {
@@ -291,11 +276,8 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetR
       null,
     ]),
     review_requested_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
     ...overrideResponse,
   })
@@ -336,11 +318,8 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
     metadata_changed_at: faker.helpers.arrayElement([
       {
@@ -388,11 +367,8 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostResponseMock
     })),
     is_fullscreen_app: faker.datatype.boolean(),
     review_requested_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
     metadata_changed_at: faker.helpers.arrayElement([
       {

@@ -62,6 +62,24 @@ export const getYearInReviewYearInReviewYearGet = (
   })
 }
 
+export const getGetYearInReviewYearInReviewYearGetUrl = (
+  year: number,
+  params?: GetYearInReviewYearInReviewYearGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/year-in-review/${year}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetYearInReviewYearInReviewYearGetQueryKey = (
   year: number,
   params?: GetYearInReviewYearInReviewYearGetParams,

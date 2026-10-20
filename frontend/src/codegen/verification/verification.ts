@@ -76,6 +76,23 @@ export const getVerificationStatusVerificationAppIdStatusGet = (
   return axios.get(`/verification/${appId}/status`, options)
 }
 
+export const getGetVerificationStatusVerificationAppIdStatusGetUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/verification/${appId}/status`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetVerificationStatusVerificationAppIdStatusGetQueryKey = (
   appId: string,
 ) => {
@@ -284,6 +301,24 @@ export const getAvailableMethodsVerificationAppIdAvailableMethodsGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetUrl = (
+  appId: string,
+  params?: GetAvailableMethodsVerificationAppIdAvailableMethodsGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/verification/${appId}/available-methods`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryKey =
@@ -547,6 +582,29 @@ export const verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost = (
   )
 }
 
+export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostUrl =
+  (
+    appId: string,
+    params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams,
+  ) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/verification/${appId}/verify-by-login-provider`,
+        baseURL: "",
+        params,
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationKey =
+  () =>
+    ["verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost"] as const
+
 export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -556,10 +614,7 @@ export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostM
         >
       >,
       TError,
-      {
-        appId: string
-        params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams
-      },
+      VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -570,15 +625,11 @@ export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostM
       >
     >,
     TError,
-    {
-      appId: string
-      params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams
-    },
+    VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost",
-    ]
+    const mutationKey =
+      getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -593,10 +644,7 @@ export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostM
           typeof verifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost
         >
       >,
-      {
-        appId: string
-        params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams
-      }
+      VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationVariables
     > = (props) => {
       const { appId, params } = props ?? {}
 
@@ -621,6 +669,11 @@ export type VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutat
 
 export type VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationError =
   AxiosError<void>
+export type VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationVariables =
+  {
+    appId: string
+    params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams
+  }
 
 /**
  * @summary Verify By Login Provider
@@ -635,10 +688,7 @@ export const useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost 
           >
         >,
         TError,
-        {
-          appId: string
-          params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams
-        },
+        VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -651,10 +701,7 @@ export const useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost 
       >
     >,
     TError,
-    {
-      appId: string
-      params?: VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostParams
-    },
+    VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -674,6 +721,22 @@ export const requestOrganizationAccessGithubVerificationRequestOrganizationAcces
       `/verification/request-organization-access/github`,
       options,
     )
+  }
+
+export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/verification/request-organization-access/github`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
   }
 
 export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetQueryKey =
@@ -917,6 +980,31 @@ export const setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPo
     )
   }
 
+export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostUrl =
+  (
+    appId: string,
+    params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams,
+  ) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/verification/${appId}/setup-website-verification`,
+        baseURL: "",
+        params,
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationKey =
+  () =>
+    [
+      "setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost",
+    ] as const
+
 export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -926,10 +1014,7 @@ export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
         >
       >,
       TError,
-      {
-        appId: string
-        params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams
-      },
+      SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -940,15 +1025,11 @@ export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
       >
     >,
     TError,
-    {
-      appId: string
-      params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams
-    },
+    SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost",
-    ]
+    const mutationKey =
+      getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -963,10 +1044,7 @@ export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
           typeof setupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost
         >
       >,
-      {
-        appId: string
-        params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams
-      }
+      SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationVariables
     > = (props) => {
       const { appId, params } = props ?? {}
 
@@ -991,6 +1069,11 @@ export type SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPos
 
 export type SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationError =
   AxiosError<void>
+export type SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationVariables =
+  {
+    appId: string
+    params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams
+  }
 
 /**
  * @summary Setup Website Verification
@@ -1005,10 +1088,7 @@ export const useSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
           >
         >,
         TError,
-        {
-          appId: string
-          params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams
-        },
+        SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1021,10 +1101,7 @@ export const useSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
       >
     >,
     TError,
-    {
-      appId: string
-      params?: SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostParams
-    },
+    SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -1056,6 +1133,31 @@ export const confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificati
     )
   }
 
+export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostUrl =
+  (
+    appId: string,
+    params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams,
+  ) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/verification/${appId}/confirm-website-verification`,
+        baseURL: "",
+        params,
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationKey =
+  () =>
+    [
+      "confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost",
+    ] as const
+
 export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1065,10 +1167,7 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
         >
       >,
       TError,
-      {
-        appId: string
-        params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams
-      },
+      ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1079,15 +1178,11 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
       >
     >,
     TError,
-    {
-      appId: string
-      params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams
-    },
+    ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost",
-    ]
+    const mutationKey =
+      getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1102,10 +1197,7 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
           typeof confirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost
         >
       >,
-      {
-        appId: string
-        params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams
-      }
+      ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationVariables
     > = (props) => {
       const { appId, params } = props ?? {}
 
@@ -1130,6 +1222,11 @@ export type ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificatio
 
 export type ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationError =
   AxiosError<void>
+export type ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationVariables =
+  {
+    appId: string
+    params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams
+  }
 
 /**
  * @summary Confirm Website Verification
@@ -1144,10 +1241,7 @@ export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
           >
         >,
         TError,
-        {
-          appId: string
-          params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams
-        },
+        ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1160,10 +1254,7 @@ export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
       >
     >,
     TError,
-    {
-      appId: string
-      params?: ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostParams
-    },
+    ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -1194,6 +1285,29 @@ export const setupDnsVerificationVerificationAppIdSetupDnsVerificationPost = (
   )
 }
 
+export const getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostUrl =
+  (
+    appId: string,
+    params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams,
+  ) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/verification/${appId}/setup-dns-verification`,
+        baseURL: "",
+        params,
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationKey =
+  () =>
+    ["setupDnsVerificationVerificationAppIdSetupDnsVerificationPost"] as const
+
 export const getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1203,10 +1317,7 @@ export const getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMut
         >
       >,
       TError,
-      {
-        appId: string
-        params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
-      },
+      SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1217,15 +1328,11 @@ export const getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMut
       >
     >,
     TError,
-    {
-      appId: string
-      params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
-    },
+    SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "setupDnsVerificationVerificationAppIdSetupDnsVerificationPost",
-    ]
+    const mutationKey =
+      getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1240,10 +1347,7 @@ export const getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMut
           typeof setupDnsVerificationVerificationAppIdSetupDnsVerificationPost
         >
       >,
-      {
-        appId: string
-        params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
-      }
+      SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationVariables
     > = (props) => {
       const { appId, params } = props ?? {}
 
@@ -1268,6 +1372,11 @@ export type SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutatio
 
 export type SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationError =
   AxiosError<void>
+export type SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationVariables =
+  {
+    appId: string
+    params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
+  }
 
 /**
  * @summary Setup Dns Verification
@@ -1282,10 +1391,7 @@ export const useSetupDnsVerificationVerificationAppIdSetupDnsVerificationPost =
           >
         >,
         TError,
-        {
-          appId: string
-          params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
-        },
+        SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1298,10 +1404,7 @@ export const useSetupDnsVerificationVerificationAppIdSetupDnsVerificationPost =
       >
     >,
     TError,
-    {
-      appId: string
-      params?: SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostParams
-    },
+    SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -1333,6 +1436,31 @@ export const confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost =
     )
   }
 
+export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostUrl =
+  (
+    appId: string,
+    params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams,
+  ) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/verification/${appId}/confirm-dns-verification`,
+        baseURL: "",
+        params,
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationKey =
+  () =>
+    [
+      "confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost",
+    ] as const
+
 export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1342,10 +1470,7 @@ export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPos
         >
       >,
       TError,
-      {
-        appId: string
-        params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
-      },
+      ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1356,15 +1481,11 @@ export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPos
       >
     >,
     TError,
-    {
-      appId: string
-      params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
-    },
+    ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost",
-    ]
+    const mutationKey =
+      getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1379,10 +1500,7 @@ export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPos
           typeof confirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost
         >
       >,
-      {
-        appId: string
-        params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
-      }
+      ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationVariables
     > = (props) => {
       const { appId, params } = props ?? {}
 
@@ -1407,6 +1525,11 @@ export type ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMut
 
 export type ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationError =
   AxiosError<void>
+export type ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationVariables =
+  {
+    appId: string
+    params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
+  }
 
 /**
  * @summary Confirm Dns Verification
@@ -1421,10 +1544,7 @@ export const useConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPos
           >
         >,
         TError,
-        {
-          appId: string
-          params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
-        },
+        ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1437,10 +1557,7 @@ export const useConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPos
       >
     >,
     TError,
-    {
-      appId: string
-      params?: ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostParams
-    },
+    ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -1461,6 +1578,24 @@ export const unverifyVerificationAppIdUnverifyPost = (
   return axios.post(`/verification/${appId}/unverify`, undefined, options)
 }
 
+export const getUnverifyVerificationAppIdUnverifyPostUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/verification/${appId}/unverify`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getUnverifyVerificationAppIdUnverifyPostMutationKey = () =>
+  ["unverifyVerificationAppIdUnverifyPost"] as const
+
 export const getUnverifyVerificationAppIdUnverifyPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -1468,17 +1603,17 @@ export const getUnverifyVerificationAppIdUnverifyPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
     TError,
-    { appId: string },
+    UnverifyVerificationAppIdUnverifyPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
   TError,
-  { appId: string },
+  UnverifyVerificationAppIdUnverifyPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["unverifyVerificationAppIdUnverifyPost"]
+  const mutationKey = getUnverifyVerificationAppIdUnverifyPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1489,7 +1624,7 @@ export const getUnverifyVerificationAppIdUnverifyPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
-    { appId: string }
+    UnverifyVerificationAppIdUnverifyPostMutationVariables
   > = (props) => {
     const { appId } = props ?? {}
 
@@ -1505,6 +1640,9 @@ export type UnverifyVerificationAppIdUnverifyPostMutationResult = NonNullable<
 
 export type UnverifyVerificationAppIdUnverifyPostMutationError =
   AxiosError<void>
+export type UnverifyVerificationAppIdUnverifyPostMutationVariables = {
+  appId: string
+}
 
 /**
  * @summary Unverify
@@ -1517,7 +1655,7 @@ export const useUnverifyVerificationAppIdUnverifyPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
       TError,
-      { appId: string },
+      UnverifyVerificationAppIdUnverifyPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1526,7 +1664,7 @@ export const useUnverifyVerificationAppIdUnverifyPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof unverifyVerificationAppIdUnverifyPost>>,
   TError,
-  { appId: string },
+  UnverifyVerificationAppIdUnverifyPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1548,6 +1686,26 @@ export const switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost = (
   )
 }
 
+export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostUrl =
+  (appId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/verification/${appId}/switch_to_direct_upload`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationKey =
+  () =>
+    ["switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost"] as const
+
 export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1557,7 +1715,7 @@ export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMut
         >
       >,
       TError,
-      { appId: string },
+      SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1568,12 +1726,11 @@ export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMut
       >
     >,
     TError,
-    { appId: string },
+    SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost",
-    ]
+    const mutationKey =
+      getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1588,7 +1745,7 @@ export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMut
           typeof switchToDirectUploadVerificationAppIdSwitchToDirectUploadPost
         >
       >,
-      { appId: string }
+      SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationVariables
     > = (props) => {
       const { appId } = props ?? {}
 
@@ -1612,6 +1769,8 @@ export type SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutatio
 
 export type SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationError =
   AxiosError<void>
+export type SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationVariables =
+  { appId: string }
 
 /**
  * @summary Switch To Direct Upload
@@ -1626,7 +1785,7 @@ export const useSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPost =
           >
         >,
         TError,
-        { appId: string },
+        SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1639,7 +1798,7 @@ export const useSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPost =
       >
     >,
     TError,
-    { appId: string },
+    SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -1660,6 +1819,24 @@ export const archiveVerificationAppIdArchivePost = (
   return axios.post(`/verification/${appId}/archive`, archiveRequest, options)
 }
 
+export const getArchiveVerificationAppIdArchivePostUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/verification/${appId}/archive`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getArchiveVerificationAppIdArchivePostMutationKey = () =>
+  ["archiveVerificationAppIdArchivePost"] as const
+
 export const getArchiveVerificationAppIdArchivePostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -1667,17 +1844,17 @@ export const getArchiveVerificationAppIdArchivePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
     TError,
-    { appId: string; data: ArchiveRequest },
+    ArchiveVerificationAppIdArchivePostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
   TError,
-  { appId: string; data: ArchiveRequest },
+  ArchiveVerificationAppIdArchivePostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["archiveVerificationAppIdArchivePost"]
+  const mutationKey = getArchiveVerificationAppIdArchivePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1688,7 +1865,7 @@ export const getArchiveVerificationAppIdArchivePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
-    { appId: string; data: ArchiveRequest }
+    ArchiveVerificationAppIdArchivePostMutationVariables
   > = (props) => {
     const { appId, data } = props ?? {}
 
@@ -1703,6 +1880,10 @@ export type ArchiveVerificationAppIdArchivePostMutationResult = NonNullable<
 >
 export type ArchiveVerificationAppIdArchivePostMutationBody = ArchiveRequest
 export type ArchiveVerificationAppIdArchivePostMutationError = AxiosError<void>
+export type ArchiveVerificationAppIdArchivePostMutationVariables = {
+  appId: string
+  data: ArchiveRequest
+}
 
 /**
  * @summary Archive
@@ -1715,7 +1896,7 @@ export const useArchiveVerificationAppIdArchivePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
       TError,
-      { appId: string; data: ArchiveRequest },
+      ArchiveVerificationAppIdArchivePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1724,7 +1905,7 @@ export const useArchiveVerificationAppIdArchivePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof archiveVerificationAppIdArchivePost>>,
   TError,
-  { appId: string; data: ArchiveRequest },
+  ArchiveVerificationAppIdArchivePostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1746,6 +1927,26 @@ export const manualVerificationVerificationAppIdManualVerificationPost = (
   )
 }
 
+export const getManualVerificationVerificationAppIdManualVerificationPostUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/verification/${appId}/manual-verification`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getManualVerificationVerificationAppIdManualVerificationPostMutationKey =
+  () => ["manualVerificationVerificationAppIdManualVerificationPost"] as const
+
 export const getManualVerificationVerificationAppIdManualVerificationPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1755,7 +1956,7 @@ export const getManualVerificationVerificationAppIdManualVerificationPostMutatio
         >
       >,
       TError,
-      { appId: string },
+      ManualVerificationVerificationAppIdManualVerificationPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1766,12 +1967,11 @@ export const getManualVerificationVerificationAppIdManualVerificationPostMutatio
       >
     >,
     TError,
-    { appId: string },
+    ManualVerificationVerificationAppIdManualVerificationPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "manualVerificationVerificationAppIdManualVerificationPost",
-    ]
+    const mutationKey =
+      getManualVerificationVerificationAppIdManualVerificationPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1786,7 +1986,7 @@ export const getManualVerificationVerificationAppIdManualVerificationPostMutatio
           typeof manualVerificationVerificationAppIdManualVerificationPost
         >
       >,
-      { appId: string }
+      ManualVerificationVerificationAppIdManualVerificationPostMutationVariables
     > = (props) => {
       const { appId } = props ?? {}
 
@@ -1810,6 +2010,8 @@ export type ManualVerificationVerificationAppIdManualVerificationPostMutationRes
 
 export type ManualVerificationVerificationAppIdManualVerificationPostMutationError =
   AxiosError<void>
+export type ManualVerificationVerificationAppIdManualVerificationPostMutationVariables =
+  { appId: string }
 
 /**
  * @summary Manual Verification
@@ -1826,7 +2028,7 @@ export const useManualVerificationVerificationAppIdManualVerificationPost = <
         >
       >,
       TError,
-      { appId: string },
+      ManualVerificationVerificationAppIdManualVerificationPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1837,7 +2039,7 @@ export const useManualVerificationVerificationAppIdManualVerificationPost = <
     ReturnType<typeof manualVerificationVerificationAppIdManualVerificationPost>
   >,
   TError,
-  { appId: string },
+  ManualVerificationVerificationAppIdManualVerificationPostMutationVariables,
   TContext
 > => {
   return useMutation(

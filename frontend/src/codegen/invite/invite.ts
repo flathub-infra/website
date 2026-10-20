@@ -61,6 +61,21 @@ export const getInviteStatusInvitesAppIdGet = (
   return axios.get(`/invites/${appId}`, options)
 }
 
+export const getGetInviteStatusInvitesAppIdGetUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/invites/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetInviteStatusInvitesAppIdGetQueryKey = (appId: string) => {
   return [`/invites/${appId}`] as const
 }
@@ -233,6 +248,27 @@ export const inviteDeveloperInvitesAppIdInvitePost = (
   })
 }
 
+export const getInviteDeveloperInvitesAppIdInvitePostUrl = (
+  appId: string,
+  params: InviteDeveloperInvitesAppIdInvitePostParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/invites/${appId}/invite`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getInviteDeveloperInvitesAppIdInvitePostMutationKey = () =>
+  ["inviteDeveloperInvitesAppIdInvitePost"] as const
+
 export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -240,17 +276,17 @@ export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
     TError,
-    { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
+    InviteDeveloperInvitesAppIdInvitePostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
   TError,
-  { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
+  InviteDeveloperInvitesAppIdInvitePostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["inviteDeveloperInvitesAppIdInvitePost"]
+  const mutationKey = getInviteDeveloperInvitesAppIdInvitePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -261,7 +297,7 @@ export const getInviteDeveloperInvitesAppIdInvitePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
-    { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams }
+    InviteDeveloperInvitesAppIdInvitePostMutationVariables
   > = (props) => {
     const { appId, params } = props ?? {}
 
@@ -277,6 +313,10 @@ export type InviteDeveloperInvitesAppIdInvitePostMutationResult = NonNullable<
 
 export type InviteDeveloperInvitesAppIdInvitePostMutationError =
   AxiosError<void>
+export type InviteDeveloperInvitesAppIdInvitePostMutationVariables = {
+  appId: string
+  params: InviteDeveloperInvitesAppIdInvitePostParams
+}
 
 /**
  * @summary Invite Developer
@@ -289,7 +329,7 @@ export const useInviteDeveloperInvitesAppIdInvitePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
       TError,
-      { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
+      InviteDeveloperInvitesAppIdInvitePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -298,7 +338,7 @@ export const useInviteDeveloperInvitesAppIdInvitePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof inviteDeveloperInvitesAppIdInvitePost>>,
   TError,
-  { appId: string; params: InviteDeveloperInvitesAppIdInvitePostParams },
+  InviteDeveloperInvitesAppIdInvitePostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -316,6 +356,24 @@ export const acceptInviteInvitesAppIdAcceptPost = (
   return axios.post(`/invites/${appId}/accept`, undefined, options)
 }
 
+export const getAcceptInviteInvitesAppIdAcceptPostUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/invites/${appId}/accept`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getAcceptInviteInvitesAppIdAcceptPostMutationKey = () =>
+  ["acceptInviteInvitesAppIdAcceptPost"] as const
+
 export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -323,17 +381,17 @@ export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
     TError,
-    { appId: string },
+    AcceptInviteInvitesAppIdAcceptPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
   TError,
-  { appId: string },
+  AcceptInviteInvitesAppIdAcceptPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["acceptInviteInvitesAppIdAcceptPost"]
+  const mutationKey = getAcceptInviteInvitesAppIdAcceptPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -344,7 +402,7 @@ export const getAcceptInviteInvitesAppIdAcceptPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
-    { appId: string }
+    AcceptInviteInvitesAppIdAcceptPostMutationVariables
   > = (props) => {
     const { appId } = props ?? {}
 
@@ -359,6 +417,9 @@ export type AcceptInviteInvitesAppIdAcceptPostMutationResult = NonNullable<
 >
 
 export type AcceptInviteInvitesAppIdAcceptPostMutationError = AxiosError<void>
+export type AcceptInviteInvitesAppIdAcceptPostMutationVariables = {
+  appId: string
+}
 
 /**
  * @summary Accept Invite
@@ -371,7 +432,7 @@ export const useAcceptInviteInvitesAppIdAcceptPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
       TError,
-      { appId: string },
+      AcceptInviteInvitesAppIdAcceptPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -380,7 +441,7 @@ export const useAcceptInviteInvitesAppIdAcceptPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof acceptInviteInvitesAppIdAcceptPost>>,
   TError,
-  { appId: string },
+  AcceptInviteInvitesAppIdAcceptPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -398,6 +459,24 @@ export const declineInviteInvitesAppIdDeclinePost = (
   return axios.post(`/invites/${appId}/decline`, undefined, options)
 }
 
+export const getDeclineInviteInvitesAppIdDeclinePostUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/invites/${appId}/decline`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getDeclineInviteInvitesAppIdDeclinePostMutationKey = () =>
+  ["declineInviteInvitesAppIdDeclinePost"] as const
+
 export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -405,17 +484,17 @@ export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
     TError,
-    { appId: string },
+    DeclineInviteInvitesAppIdDeclinePostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
   TError,
-  { appId: string },
+  DeclineInviteInvitesAppIdDeclinePostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["declineInviteInvitesAppIdDeclinePost"]
+  const mutationKey = getDeclineInviteInvitesAppIdDeclinePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -426,7 +505,7 @@ export const getDeclineInviteInvitesAppIdDeclinePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
-    { appId: string }
+    DeclineInviteInvitesAppIdDeclinePostMutationVariables
   > = (props) => {
     const { appId } = props ?? {}
 
@@ -441,6 +520,9 @@ export type DeclineInviteInvitesAppIdDeclinePostMutationResult = NonNullable<
 >
 
 export type DeclineInviteInvitesAppIdDeclinePostMutationError = AxiosError<void>
+export type DeclineInviteInvitesAppIdDeclinePostMutationVariables = {
+  appId: string
+}
 
 /**
  * @summary Decline Invite
@@ -453,7 +535,7 @@ export const useDeclineInviteInvitesAppIdDeclinePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
       TError,
-      { appId: string },
+      DeclineInviteInvitesAppIdDeclinePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -462,7 +544,7 @@ export const useDeclineInviteInvitesAppIdDeclinePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof declineInviteInvitesAppIdDeclinePost>>,
   TError,
-  { appId: string },
+  DeclineInviteInvitesAppIdDeclinePostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -480,6 +562,24 @@ export const leaveTeamInvitesAppIdLeavePost = (
   return axios.post(`/invites/${appId}/leave`, undefined, options)
 }
 
+export const getLeaveTeamInvitesAppIdLeavePostUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/invites/${appId}/leave`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getLeaveTeamInvitesAppIdLeavePostMutationKey = () =>
+  ["leaveTeamInvitesAppIdLeavePost"] as const
+
 export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -487,17 +587,17 @@ export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
     TError,
-    { appId: string },
+    LeaveTeamInvitesAppIdLeavePostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
   TError,
-  { appId: string },
+  LeaveTeamInvitesAppIdLeavePostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["leaveTeamInvitesAppIdLeavePost"]
+  const mutationKey = getLeaveTeamInvitesAppIdLeavePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -508,7 +608,7 @@ export const getLeaveTeamInvitesAppIdLeavePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
-    { appId: string }
+    LeaveTeamInvitesAppIdLeavePostMutationVariables
   > = (props) => {
     const { appId } = props ?? {}
 
@@ -523,6 +623,7 @@ export type LeaveTeamInvitesAppIdLeavePostMutationResult = NonNullable<
 >
 
 export type LeaveTeamInvitesAppIdLeavePostMutationError = AxiosError<void>
+export type LeaveTeamInvitesAppIdLeavePostMutationVariables = { appId: string }
 
 /**
  * @summary Leave Team
@@ -535,7 +636,7 @@ export const useLeaveTeamInvitesAppIdLeavePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
       TError,
-      { appId: string },
+      LeaveTeamInvitesAppIdLeavePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -544,7 +645,7 @@ export const useLeaveTeamInvitesAppIdLeavePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof leaveTeamInvitesAppIdLeavePost>>,
   TError,
-  { appId: string },
+  LeaveTeamInvitesAppIdLeavePostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -560,6 +661,23 @@ export const getAppDevelopersInvitesAppIdDevelopersGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<AppRoutesInvitesDevelopersResponse>> => {
   return axios.get(`/invites/${appId}/developers`, options)
+}
+
+export const getGetAppDevelopersInvitesAppIdDevelopersGetUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/invites/${appId}/developers`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetAppDevelopersInvitesAppIdDevelopersGetQueryKey = (
@@ -741,6 +859,27 @@ export const removeDeveloperInvitesAppIdRemoveDeveloperDelete = (
   })
 }
 
+export const getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteUrl = (
+  appId: string,
+  params: RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/invites/${appId}/remove-developer`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationKey =
+  () => ["removeDeveloperInvitesAppIdRemoveDeveloperDelete"] as const
+
 export const getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -748,10 +887,7 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationOptions 
         ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperDelete>
       >,
       TError,
-      {
-        appId: string
-        params: RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteParams
-      },
+      RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -760,13 +896,11 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationOptions 
       ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperDelete>
     >,
     TError,
-    {
-      appId: string
-      params: RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteParams
-    },
+    RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationVariables,
     TContext
   > => {
-    const mutationKey = ["removeDeveloperInvitesAppIdRemoveDeveloperDelete"]
+    const mutationKey =
+      getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -779,10 +913,7 @@ export const getRemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationOptions 
       Awaited<
         ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperDelete>
       >,
-      {
-        appId: string
-        params: RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteParams
-      }
+      RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationVariables
     > = (props) => {
       const { appId, params } = props ?? {}
 
@@ -803,6 +934,11 @@ export type RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationResult =
 
 export type RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationError =
   AxiosError<void>
+export type RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationVariables =
+  {
+    appId: string
+    params: RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteParams
+  }
 
 /**
  * @summary Remove Developer
@@ -817,10 +953,7 @@ export const useRemoveDeveloperInvitesAppIdRemoveDeveloperDelete = <
         ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperDelete>
       >,
       TError,
-      {
-        appId: string
-        params: RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteParams
-      },
+      RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -829,10 +962,7 @@ export const useRemoveDeveloperInvitesAppIdRemoveDeveloperDelete = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof removeDeveloperInvitesAppIdRemoveDeveloperDelete>>,
   TError,
-  {
-    appId: string
-    params: RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteParams
-  },
+  RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -856,6 +986,27 @@ export const revokeInviteInvitesAppIdRevokeDelete = (
   })
 }
 
+export const getRevokeInviteInvitesAppIdRevokeDeleteUrl = (
+  appId: string,
+  params: RevokeInviteInvitesAppIdRevokeDeleteParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/invites/${appId}/revoke`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getRevokeInviteInvitesAppIdRevokeDeleteMutationKey = () =>
+  ["revokeInviteInvitesAppIdRevokeDelete"] as const
+
 export const getRevokeInviteInvitesAppIdRevokeDeleteMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -863,17 +1014,17 @@ export const getRevokeInviteInvitesAppIdRevokeDeleteMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokeDelete>>,
     TError,
-    { appId: string; params: RevokeInviteInvitesAppIdRevokeDeleteParams },
+    RevokeInviteInvitesAppIdRevokeDeleteMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokeDelete>>,
   TError,
-  { appId: string; params: RevokeInviteInvitesAppIdRevokeDeleteParams },
+  RevokeInviteInvitesAppIdRevokeDeleteMutationVariables,
   TContext
 > => {
-  const mutationKey = ["revokeInviteInvitesAppIdRevokeDelete"]
+  const mutationKey = getRevokeInviteInvitesAppIdRevokeDeleteMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -884,7 +1035,7 @@ export const getRevokeInviteInvitesAppIdRevokeDeleteMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokeDelete>>,
-    { appId: string; params: RevokeInviteInvitesAppIdRevokeDeleteParams }
+    RevokeInviteInvitesAppIdRevokeDeleteMutationVariables
   > = (props) => {
     const { appId, params } = props ?? {}
 
@@ -899,6 +1050,10 @@ export type RevokeInviteInvitesAppIdRevokeDeleteMutationResult = NonNullable<
 >
 
 export type RevokeInviteInvitesAppIdRevokeDeleteMutationError = AxiosError<void>
+export type RevokeInviteInvitesAppIdRevokeDeleteMutationVariables = {
+  appId: string
+  params: RevokeInviteInvitesAppIdRevokeDeleteParams
+}
 
 /**
  * @summary Revoke Invite
@@ -911,7 +1066,7 @@ export const useRevokeInviteInvitesAppIdRevokeDelete = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokeDelete>>,
       TError,
-      { appId: string; params: RevokeInviteInvitesAppIdRevokeDeleteParams },
+      RevokeInviteInvitesAppIdRevokeDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -920,7 +1075,7 @@ export const useRevokeInviteInvitesAppIdRevokeDelete = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof revokeInviteInvitesAppIdRevokeDelete>>,
   TError,
-  { appId: string; params: RevokeInviteInvitesAppIdRevokeDeleteParams },
+  RevokeInviteInvitesAppIdRevokeDeleteMutationVariables,
   TContext
 > => {
   return useMutation(

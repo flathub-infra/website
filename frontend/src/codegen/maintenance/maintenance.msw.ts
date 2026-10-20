@@ -51,82 +51,49 @@ export const getGetMaintenanceDashboardAdminMaintenanceGetResponseMock = (
       evidence: faker.string.alpha({ length: { min: 10, max: 20 } }),
       next_step: faker.string.alpha({ length: { min: 10, max: 20 } }),
       source_url: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       checked_at: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.date.past().toISOString().slice(0, 19) + "Z",
-          null,
-        ]),
-        undefined,
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
       ]),
     })),
     fingerprint: faker.string.alpha({ length: { min: 10, max: 20 } }),
     upstream: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          project_id: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.number.int(), null]),
-            undefined,
-          ]),
-          project_url: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          packaged_version: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          upstream_version: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          checked_at: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.date.past().toISOString().slice(0, 19) + "Z",
-              null,
-            ]),
-            undefined,
-          ]),
-          last_attempt_at: faker.date.past().toISOString().slice(0, 19) + "Z",
-          status: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        },
-        null,
-      ]),
-      undefined,
+      {
+        project_id: faker.helpers.arrayElement([faker.number.int(), null]),
+        project_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        packaged_version: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        upstream_version: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        checked_at: faker.helpers.arrayElement([
+          faker.date.past().toISOString().slice(0, 19) + "Z",
+          null,
+        ]),
+        last_attempt_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+        status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      },
+      null,
     ]),
-    owner_id: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.number.int(), null]),
-      undefined,
-    ]),
+    owner_id: faker.helpers.arrayElement([faker.number.int(), null]),
     owner_name: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     owned_by_me: faker.datatype.boolean(),
     notes: faker.string.alpha({ length: { min: 10, max: 20 } }),
     snoozed_until: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
     snooze_reason: faker.string.alpha({ length: { min: 10, max: 20 } }),
     snoozed: faker.datatype.boolean(),
@@ -186,82 +153,49 @@ export const getGetMaintenanceCaseAdminMaintenanceAppIdGetResponseMock = (
     evidence: faker.string.alpha({ length: { min: 10, max: 20 } }),
     next_step: faker.string.alpha({ length: { min: 10, max: 20 } }),
     source_url: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     checked_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
   })),
   fingerprint: faker.string.alpha({ length: { min: 10, max: 20 } }),
   upstream: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      {
-        project_id: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.number.int(), null]),
-          undefined,
-        ]),
-        project_url: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
-        ]),
-        packaged_version: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
-        ]),
-        upstream_version: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
-        ]),
-        checked_at: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.date.past().toISOString().slice(0, 19) + "Z",
-            null,
-          ]),
-          undefined,
-        ]),
-        last_attempt_at: faker.date.past().toISOString().slice(0, 19) + "Z",
-        status: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      },
-      null,
-    ]),
-    undefined,
+    {
+      project_id: faker.helpers.arrayElement([faker.number.int(), null]),
+      project_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      packaged_version: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      upstream_version: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      checked_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      last_attempt_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    },
+    null,
   ]),
-  owner_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.number.int(), null]),
-    undefined,
-  ]),
+  owner_id: faker.helpers.arrayElement([faker.number.int(), null]),
   owner_name: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
   ]),
   owned_by_me: faker.datatype.boolean(),
   notes: faker.string.alpha({ length: { min: 10, max: 20 } }),
   snoozed_until: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.date.past().toISOString().slice(0, 19) + "Z",
-      null,
-    ]),
-    undefined,
+    faker.date.past().toISOString().slice(0, 19) + "Z",
+    null,
   ]),
   snooze_reason: faker.string.alpha({ length: { min: 10, max: 20 } }),
   snoozed: faker.datatype.boolean(),
@@ -306,82 +240,49 @@ export const getUpdateMaintenanceCaseAdminMaintenanceAppIdPostResponseMock = (
     evidence: faker.string.alpha({ length: { min: 10, max: 20 } }),
     next_step: faker.string.alpha({ length: { min: 10, max: 20 } }),
     source_url: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     checked_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
   })),
   fingerprint: faker.string.alpha({ length: { min: 10, max: 20 } }),
   upstream: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      {
-        project_id: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([faker.number.int(), null]),
-          undefined,
-        ]),
-        project_url: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
-        ]),
-        packaged_version: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
-        ]),
-        upstream_version: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
-        ]),
-        checked_at: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.date.past().toISOString().slice(0, 19) + "Z",
-            null,
-          ]),
-          undefined,
-        ]),
-        last_attempt_at: faker.date.past().toISOString().slice(0, 19) + "Z",
-        status: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      },
-      null,
-    ]),
-    undefined,
+    {
+      project_id: faker.helpers.arrayElement([faker.number.int(), null]),
+      project_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      packaged_version: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      upstream_version: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      checked_at: faker.helpers.arrayElement([
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
+      ]),
+      last_attempt_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    },
+    null,
   ]),
-  owner_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.number.int(), null]),
-    undefined,
-  ]),
+  owner_id: faker.helpers.arrayElement([faker.number.int(), null]),
   owner_name: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
   ]),
   owned_by_me: faker.datatype.boolean(),
   notes: faker.string.alpha({ length: { min: 10, max: 20 } }),
   snoozed_until: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.date.past().toISOString().slice(0, 19) + "Z",
-      null,
-    ]),
-    undefined,
+    faker.date.past().toISOString().slice(0, 19) + "Z",
+    null,
   ]),
   snooze_reason: faker.string.alpha({ length: { min: 10, max: 20 } }),
   snoozed: faker.datatype.boolean(),

@@ -71,6 +71,23 @@ export const getStorefrontInfoPurchasesStorefrontInfoGet = (
   })
 }
 
+export const getGetStorefrontInfoPurchasesStorefrontInfoGetUrl = (
+  params: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/purchases/storefront-info`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetStorefrontInfoPurchasesStorefrontInfoGetQueryKey = (
   params?: GetStorefrontInfoPurchasesStorefrontInfoGetParams,
 ) => {
@@ -261,6 +278,23 @@ export const getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetUrl = (
+  params: GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/purchases/storefront-info/is-free-software`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryKey =
@@ -502,6 +536,24 @@ export const getUpdateTokenPurchasesGenerateUpdateTokenPost = (
   return axios.post(`/purchases/generate-update-token`, undefined, options)
 }
 
+export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/purchases/generate-update-token`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationKey =
+  () => ["getUpdateTokenPurchasesGenerateUpdateTokenPost"] as const
+
 export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -519,7 +571,8 @@ export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationOptions =
     void,
     TContext
   > => {
-    const mutationKey = ["getUpdateTokenPurchasesGenerateUpdateTokenPost"]
+    const mutationKey =
+      getGetUpdateTokenPurchasesGenerateUpdateTokenPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -596,6 +649,24 @@ export const checkPurchasesPurchasesCheckPurchasesPost = (
   )
 }
 
+export const getCheckPurchasesPurchasesCheckPurchasesPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/purchases/check-purchases`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getCheckPurchasesPurchasesCheckPurchasesPostMutationKey = () =>
+  ["checkPurchasesPurchasesCheckPurchasesPost"] as const
+
 export const getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -603,17 +674,17 @@ export const getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
     TError,
-    { data: string[] },
+    CheckPurchasesPurchasesCheckPurchasesPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
   TError,
-  { data: string[] },
+  CheckPurchasesPurchasesCheckPurchasesPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["checkPurchasesPurchasesCheckPurchasesPost"]
+  const mutationKey = getCheckPurchasesPurchasesCheckPurchasesPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -624,7 +695,7 @@ export const getCheckPurchasesPurchasesCheckPurchasesPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
-    { data: string[] }
+    CheckPurchasesPurchasesCheckPurchasesPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -641,6 +712,9 @@ export type CheckPurchasesPurchasesCheckPurchasesPostMutationResult =
 export type CheckPurchasesPurchasesCheckPurchasesPostMutationBody = string[]
 export type CheckPurchasesPurchasesCheckPurchasesPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type CheckPurchasesPurchasesCheckPurchasesPostMutationVariables = {
+  data: string[]
+}
 
 /**
  * @summary Check Purchases
@@ -653,7 +727,7 @@ export const useCheckPurchasesPurchasesCheckPurchasesPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
       TError,
-      { data: string[] },
+      CheckPurchasesPurchasesCheckPurchasesPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -662,7 +736,7 @@ export const useCheckPurchasesPurchasesCheckPurchasesPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof checkPurchasesPurchasesCheckPurchasesPost>>,
   TError,
-  { data: string[] },
+  CheckPurchasesPurchasesCheckPurchasesPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -686,6 +760,24 @@ export const getDownloadTokenPurchasesGenerateDownloadTokenPost = (
   )
 }
 
+export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/purchases/generate-download-token`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationKey =
+  () => ["getDownloadTokenPurchasesGenerateDownloadTokenPost"] as const
+
 export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -696,7 +788,7 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOption
         ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
       >,
       TError,
-      { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
+      GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -705,10 +797,11 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOption
       ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
     >,
     TError,
-    { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
+    GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["getDownloadTokenPurchasesGenerateDownloadTokenPost"]
+    const mutationKey =
+      getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -721,7 +814,7 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMutationOption
       Awaited<
         ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
       >,
-      { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost }
+      GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationVariables
     > = (props) => {
       const { data } = props ?? {}
 
@@ -744,6 +837,8 @@ export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationBody =
   BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost
 export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationVariables =
+  { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost }
 
 /**
  * @summary Get Download Token
@@ -758,7 +853,7 @@ export const useGetDownloadTokenPurchasesGenerateDownloadTokenPost = <
         ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
       >,
       TError,
-      { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
+      GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -769,7 +864,7 @@ export const useGetDownloadTokenPurchasesGenerateDownloadTokenPost = <
     ReturnType<typeof getDownloadTokenPurchasesGenerateDownloadTokenPost>
   >,
   TError,
-  { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost },
+  GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationVariables,
   TContext
 > => {
   return useMutation(

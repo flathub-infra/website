@@ -68,6 +68,21 @@ export const getWalletinfoWalletWalletinfoGet = (
   return axios.get(`/wallet/walletinfo`, options)
 }
 
+export const getGetWalletinfoWalletWalletinfoGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/walletinfo`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetWalletinfoWalletWalletinfoGetQueryKey = () => {
   return [`/wallet/walletinfo`] as const
 }
@@ -223,6 +238,24 @@ export const postRemovecardWalletRemovecardPost = (
   return axios.post(`/wallet/removecard`, paymentCardInfo, options)
 }
 
+export const getPostRemovecardWalletRemovecardPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/removecard`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getPostRemovecardWalletRemovecardPostMutationKey = () =>
+  ["postRemovecardWalletRemovecardPost"] as const
+
 export const getPostRemovecardWalletRemovecardPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -230,17 +263,17 @@ export const getPostRemovecardWalletRemovecardPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postRemovecardWalletRemovecardPost>>,
     TError,
-    { data: PaymentCardInfo },
+    PostRemovecardWalletRemovecardPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postRemovecardWalletRemovecardPost>>,
   TError,
-  { data: PaymentCardInfo },
+  PostRemovecardWalletRemovecardPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["postRemovecardWalletRemovecardPost"]
+  const mutationKey = getPostRemovecardWalletRemovecardPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -251,7 +284,7 @@ export const getPostRemovecardWalletRemovecardPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postRemovecardWalletRemovecardPost>>,
-    { data: PaymentCardInfo }
+    PostRemovecardWalletRemovecardPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -266,6 +299,9 @@ export type PostRemovecardWalletRemovecardPostMutationResult = NonNullable<
 >
 export type PostRemovecardWalletRemovecardPostMutationBody = PaymentCardInfo
 export type PostRemovecardWalletRemovecardPostMutationError = AxiosError<void>
+export type PostRemovecardWalletRemovecardPostMutationVariables = {
+  data: PaymentCardInfo
+}
 
 /**
  * @summary Post Removecard
@@ -278,7 +314,7 @@ export const usePostRemovecardWalletRemovecardPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof postRemovecardWalletRemovecardPost>>,
       TError,
-      { data: PaymentCardInfo },
+      PostRemovecardWalletRemovecardPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -287,7 +323,7 @@ export const usePostRemovecardWalletRemovecardPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof postRemovecardWalletRemovecardPost>>,
   TError,
-  { data: PaymentCardInfo },
+  PostRemovecardWalletRemovecardPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -312,6 +348,23 @@ export const getTransactionsWalletTransactionsGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetTransactionsWalletTransactionsGetUrl = (
+  params?: GetTransactionsWalletTransactionsGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/transactions`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetTransactionsWalletTransactionsGetQueryKey = (
@@ -482,6 +535,24 @@ export const createTransactionWalletTransactionsPost = (
   return axios.post(`/wallet/transactions`, nascentTransaction, options)
 }
 
+export const getCreateTransactionWalletTransactionsPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/transactions`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getCreateTransactionWalletTransactionsPostMutationKey = () =>
+  ["createTransactionWalletTransactionsPost"] as const
+
 export const getCreateTransactionWalletTransactionsPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -489,17 +560,17 @@ export const getCreateTransactionWalletTransactionsPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createTransactionWalletTransactionsPost>>,
     TError,
-    { data: NascentTransaction },
+    CreateTransactionWalletTransactionsPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createTransactionWalletTransactionsPost>>,
   TError,
-  { data: NascentTransaction },
+  CreateTransactionWalletTransactionsPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createTransactionWalletTransactionsPost"]
+  const mutationKey = getCreateTransactionWalletTransactionsPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -510,7 +581,7 @@ export const getCreateTransactionWalletTransactionsPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createTransactionWalletTransactionsPost>>,
-    { data: NascentTransaction }
+    CreateTransactionWalletTransactionsPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -527,6 +598,9 @@ export type CreateTransactionWalletTransactionsPostMutationBody =
   NascentTransaction
 export type CreateTransactionWalletTransactionsPostMutationError =
   AxiosError<void>
+export type CreateTransactionWalletTransactionsPostMutationVariables = {
+  data: NascentTransaction
+}
 
 /**
  * @summary Create Transaction
@@ -539,7 +613,7 @@ export const useCreateTransactionWalletTransactionsPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createTransactionWalletTransactionsPost>>,
       TError,
-      { data: NascentTransaction },
+      CreateTransactionWalletTransactionsPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -548,7 +622,7 @@ export const useCreateTransactionWalletTransactionsPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof createTransactionWalletTransactionsPost>>,
   TError,
-  { data: NascentTransaction },
+  CreateTransactionWalletTransactionsPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -569,6 +643,23 @@ export const getTransactionByIdWalletTransactionsTxnGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<Transaction>> => {
   return axios.get(`/wallet/transactions/${txn}`, options)
+}
+
+export const getGetTransactionByIdWalletTransactionsTxnGetUrl = (
+  txn: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/transactions/${txn}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetTransactionByIdWalletTransactionsTxnGetQueryKey = (
@@ -762,6 +853,26 @@ export const setTransactionCardWalletTransactionsTxnSetcardPost = (
   )
 }
 
+export const getSetTransactionCardWalletTransactionsTxnSetcardPostUrl = (
+  txn: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/transactions/${txn}/setcard`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSetTransactionCardWalletTransactionsTxnSetcardPostMutationKey =
+  () => ["setTransactionCardWalletTransactionsTxnSetcardPost"] as const
+
 export const getSetTransactionCardWalletTransactionsTxnSetcardPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -769,7 +880,7 @@ export const getSetTransactionCardWalletTransactionsTxnSetcardPostMutationOption
         ReturnType<typeof setTransactionCardWalletTransactionsTxnSetcardPost>
       >,
       TError,
-      { txn: string; data: PaymentCardInfo },
+      SetTransactionCardWalletTransactionsTxnSetcardPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -778,10 +889,11 @@ export const getSetTransactionCardWalletTransactionsTxnSetcardPostMutationOption
       ReturnType<typeof setTransactionCardWalletTransactionsTxnSetcardPost>
     >,
     TError,
-    { txn: string; data: PaymentCardInfo },
+    SetTransactionCardWalletTransactionsTxnSetcardPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["setTransactionCardWalletTransactionsTxnSetcardPost"]
+    const mutationKey =
+      getSetTransactionCardWalletTransactionsTxnSetcardPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -794,7 +906,7 @@ export const getSetTransactionCardWalletTransactionsTxnSetcardPostMutationOption
       Awaited<
         ReturnType<typeof setTransactionCardWalletTransactionsTxnSetcardPost>
       >,
-      { txn: string; data: PaymentCardInfo }
+      SetTransactionCardWalletTransactionsTxnSetcardPostMutationVariables
     > = (props) => {
       const { txn, data } = props ?? {}
 
@@ -818,6 +930,8 @@ export type SetTransactionCardWalletTransactionsTxnSetcardPostMutationBody =
   PaymentCardInfo
 export type SetTransactionCardWalletTransactionsTxnSetcardPostMutationError =
   AxiosError<void>
+export type SetTransactionCardWalletTransactionsTxnSetcardPostMutationVariables =
+  { txn: string; data: PaymentCardInfo }
 
 /**
  * @summary Set Transaction Card
@@ -832,7 +946,7 @@ export const useSetTransactionCardWalletTransactionsTxnSetcardPost = <
         ReturnType<typeof setTransactionCardWalletTransactionsTxnSetcardPost>
       >,
       TError,
-      { txn: string; data: PaymentCardInfo },
+      SetTransactionCardWalletTransactionsTxnSetcardPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -843,7 +957,7 @@ export const useSetTransactionCardWalletTransactionsTxnSetcardPost = <
     ReturnType<typeof setTransactionCardWalletTransactionsTxnSetcardPost>
   >,
   TError,
-  { txn: string; data: PaymentCardInfo },
+  SetTransactionCardWalletTransactionsTxnSetcardPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -868,6 +982,26 @@ export const cancelTransactionWalletTransactionsTxnCancelPost = (
   return axios.post(`/wallet/transactions/${txn}/cancel`, undefined, options)
 }
 
+export const getCancelTransactionWalletTransactionsTxnCancelPostUrl = (
+  txn: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/transactions/${txn}/cancel`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getCancelTransactionWalletTransactionsTxnCancelPostMutationKey =
+  () => ["cancelTransactionWalletTransactionsTxnCancelPost"] as const
+
 export const getCancelTransactionWalletTransactionsTxnCancelPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -875,7 +1009,7 @@ export const getCancelTransactionWalletTransactionsTxnCancelPostMutationOptions 
         ReturnType<typeof cancelTransactionWalletTransactionsTxnCancelPost>
       >,
       TError,
-      { txn: string },
+      CancelTransactionWalletTransactionsTxnCancelPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -884,10 +1018,11 @@ export const getCancelTransactionWalletTransactionsTxnCancelPostMutationOptions 
       ReturnType<typeof cancelTransactionWalletTransactionsTxnCancelPost>
     >,
     TError,
-    { txn: string },
+    CancelTransactionWalletTransactionsTxnCancelPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["cancelTransactionWalletTransactionsTxnCancelPost"]
+    const mutationKey =
+      getCancelTransactionWalletTransactionsTxnCancelPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -900,7 +1035,7 @@ export const getCancelTransactionWalletTransactionsTxnCancelPostMutationOptions 
       Awaited<
         ReturnType<typeof cancelTransactionWalletTransactionsTxnCancelPost>
       >,
-      { txn: string }
+      CancelTransactionWalletTransactionsTxnCancelPostMutationVariables
     > = (props) => {
       const { txn } = props ?? {}
 
@@ -917,6 +1052,8 @@ export type CancelTransactionWalletTransactionsTxnCancelPostMutationResult =
 
 export type CancelTransactionWalletTransactionsTxnCancelPostMutationError =
   AxiosError<void>
+export type CancelTransactionWalletTransactionsTxnCancelPostMutationVariables =
+  { txn: string }
 
 /**
  * @summary Cancel Transaction
@@ -931,7 +1068,7 @@ export const useCancelTransactionWalletTransactionsTxnCancelPost = <
         ReturnType<typeof cancelTransactionWalletTransactionsTxnCancelPost>
       >,
       TError,
-      { txn: string },
+      CancelTransactionWalletTransactionsTxnCancelPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -940,7 +1077,7 @@ export const useCancelTransactionWalletTransactionsTxnCancelPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof cancelTransactionWalletTransactionsTxnCancelPost>>,
   TError,
-  { txn: string },
+  CancelTransactionWalletTransactionsTxnCancelPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -957,6 +1094,21 @@ export const getStripedataWalletStripedataGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<StripeKeys>> => {
   return axios.get(`/wallet/stripedata`, options)
+}
+
+export const getGetStripedataWalletStripedataGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/stripedata`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetStripedataWalletStripedataGetQueryKey = () => {
@@ -1112,6 +1264,23 @@ export const getTxnStripedataWalletTransactionsTxnStripeGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<TransactionStripeData>> => {
   return axios.get(`/wallet/transactions/${txn}/stripe`, options)
+}
+
+export const getGetTxnStripedataWalletTransactionsTxnStripeGetUrl = (
+  txn: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/transactions/${txn}/stripe`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetQueryKey = (
@@ -1328,6 +1497,26 @@ export const setSavecardWalletTransactionsTxnSavecardPost = (
   )
 }
 
+export const getSetSavecardWalletTransactionsTxnSavecardPostUrl = (
+  txn: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/transactions/${txn}/savecard`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSetSavecardWalletTransactionsTxnSavecardPostMutationKey = () =>
+  ["setSavecardWalletTransactionsTxnSavecardPost"] as const
+
 export const getSetSavecardWalletTransactionsTxnSavecardPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -1335,17 +1524,18 @@ export const getSetSavecardWalletTransactionsTxnSavecardPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof setSavecardWalletTransactionsTxnSavecardPost>>,
     TError,
-    { txn: string; data: TransactionSaveCard },
+    SetSavecardWalletTransactionsTxnSavecardPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof setSavecardWalletTransactionsTxnSavecardPost>>,
   TError,
-  { txn: string; data: TransactionSaveCard },
+  SetSavecardWalletTransactionsTxnSavecardPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["setSavecardWalletTransactionsTxnSavecardPost"]
+  const mutationKey =
+    getSetSavecardWalletTransactionsTxnSavecardPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1356,7 +1546,7 @@ export const getSetSavecardWalletTransactionsTxnSavecardPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof setSavecardWalletTransactionsTxnSavecardPost>>,
-    { txn: string; data: TransactionSaveCard }
+    SetSavecardWalletTransactionsTxnSavecardPostMutationVariables
   > = (props) => {
     const { txn, data } = props ?? {}
 
@@ -1374,6 +1564,10 @@ export type SetSavecardWalletTransactionsTxnSavecardPostMutationBody =
   TransactionSaveCard
 export type SetSavecardWalletTransactionsTxnSavecardPostMutationError =
   AxiosError<void>
+export type SetSavecardWalletTransactionsTxnSavecardPostMutationVariables = {
+  txn: string
+  data: TransactionSaveCard
+}
 
 /**
  * @summary Set Savecard
@@ -1386,7 +1580,7 @@ export const useSetSavecardWalletTransactionsTxnSavecardPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof setSavecardWalletTransactionsTxnSavecardPost>>,
       TError,
-      { txn: string; data: TransactionSaveCard },
+      SetSavecardWalletTransactionsTxnSavecardPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1395,7 +1589,7 @@ export const useSetSavecardWalletTransactionsTxnSavecardPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof setSavecardWalletTransactionsTxnSavecardPost>>,
   TError,
-  { txn: string; data: TransactionSaveCard },
+  SetSavecardWalletTransactionsTxnSavecardPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1419,6 +1613,26 @@ export const setPendingWalletTransactionsTxnSetpendingPost = (
   )
 }
 
+export const getSetPendingWalletTransactionsTxnSetpendingPostUrl = (
+  txn: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/transactions/${txn}/setpending`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSetPendingWalletTransactionsTxnSetpendingPostMutationKey = () =>
+  ["setPendingWalletTransactionsTxnSetpendingPost"] as const
+
 export const getSetPendingWalletTransactionsTxnSetpendingPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -1426,17 +1640,18 @@ export const getSetPendingWalletTransactionsTxnSetpendingPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof setPendingWalletTransactionsTxnSetpendingPost>>,
     TError,
-    { txn: string },
+    SetPendingWalletTransactionsTxnSetpendingPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof setPendingWalletTransactionsTxnSetpendingPost>>,
   TError,
-  { txn: string },
+  SetPendingWalletTransactionsTxnSetpendingPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["setPendingWalletTransactionsTxnSetpendingPost"]
+  const mutationKey =
+    getSetPendingWalletTransactionsTxnSetpendingPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1447,7 +1662,7 @@ export const getSetPendingWalletTransactionsTxnSetpendingPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof setPendingWalletTransactionsTxnSetpendingPost>>,
-    { txn: string }
+    SetPendingWalletTransactionsTxnSetpendingPostMutationVariables
   > = (props) => {
     const { txn } = props ?? {}
 
@@ -1464,6 +1679,9 @@ export type SetPendingWalletTransactionsTxnSetpendingPostMutationResult =
 
 export type SetPendingWalletTransactionsTxnSetpendingPostMutationError =
   AxiosError<void>
+export type SetPendingWalletTransactionsTxnSetpendingPostMutationVariables = {
+  txn: string
+}
 
 /**
  * @summary Set Pending
@@ -1476,7 +1694,7 @@ export const useSetPendingWalletTransactionsTxnSetpendingPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof setPendingWalletTransactionsTxnSetpendingPost>>,
       TError,
-      { txn: string },
+      SetPendingWalletTransactionsTxnSetpendingPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1485,7 +1703,7 @@ export const useSetPendingWalletTransactionsTxnSetpendingPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof setPendingWalletTransactionsTxnSetpendingPost>>,
   TError,
-  { txn: string },
+  SetPendingWalletTransactionsTxnSetpendingPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1508,6 +1726,24 @@ export const webhookWalletWebhookStripePost = (
   return axios.post(`/wallet/webhook/stripe`, undefined, options)
 }
 
+export const getWebhookWalletWebhookStripePostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/webhook/stripe`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getWebhookWalletWebhookStripePostMutationKey = () =>
+  ["webhookWalletWebhookStripePost"] as const
+
 export const getWebhookWalletWebhookStripePostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -1525,7 +1761,7 @@ export const getWebhookWalletWebhookStripePostMutationOptions = <
   void,
   TContext
 > => {
-  const mutationKey = ["webhookWalletWebhookStripePost"]
+  const mutationKey = getWebhookWalletWebhookStripePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&

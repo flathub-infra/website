@@ -15,6 +15,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type { BuildNotificationRequest } from "../model"
 
 /**
@@ -31,6 +33,24 @@ export const buildNotificationEmailsBuildNotificationPost = (
   )
 }
 
+export const getBuildNotificationEmailsBuildNotificationPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/emails/build-notification`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getBuildNotificationEmailsBuildNotificationPostMutationKey = () =>
+  ["buildNotificationEmailsBuildNotificationPost"] as const
+
 export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -38,17 +58,18 @@ export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
     TError,
-    { data: BuildNotificationRequest },
+    BuildNotificationEmailsBuildNotificationPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
   TError,
-  { data: BuildNotificationRequest },
+  BuildNotificationEmailsBuildNotificationPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["buildNotificationEmailsBuildNotificationPost"]
+  const mutationKey =
+    getBuildNotificationEmailsBuildNotificationPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -59,7 +80,7 @@ export const getBuildNotificationEmailsBuildNotificationPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
-    { data: BuildNotificationRequest }
+    BuildNotificationEmailsBuildNotificationPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -77,6 +98,9 @@ export type BuildNotificationEmailsBuildNotificationPostMutationBody =
   BuildNotificationRequest
 export type BuildNotificationEmailsBuildNotificationPostMutationError =
   AxiosError<void>
+export type BuildNotificationEmailsBuildNotificationPostMutationVariables = {
+  data: BuildNotificationRequest
+}
 
 /**
  * @summary Build Notification
@@ -89,7 +113,7 @@ export const useBuildNotificationEmailsBuildNotificationPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
       TError,
-      { data: BuildNotificationRequest },
+      BuildNotificationEmailsBuildNotificationPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -98,7 +122,7 @@ export const useBuildNotificationEmailsBuildNotificationPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof buildNotificationEmailsBuildNotificationPost>>,
   TError,
-  { data: BuildNotificationRequest },
+  BuildNotificationEmailsBuildNotificationPostMutationVariables,
   TContext
 > => {
   return useMutation(

@@ -20,6 +20,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 const withQueryKey = <T extends object, K>(
   query: T,
   queryKey: K,
@@ -45,6 +47,21 @@ export const getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.get(`/feed/recently-updated`, options)
+}
+
+export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/feed/recently-updated`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryKey =
@@ -233,6 +250,21 @@ export const getNewAppsFeedFeedNewGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.get(`/feed/new`, options)
+}
+
+export const getGetNewAppsFeedFeedNewGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/feed/new`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetNewAppsFeedFeedNewGetQueryKey = () => {

@@ -23,6 +23,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   AddMaintainerRequest,
   ArchiveRequest,
@@ -58,6 +60,21 @@ export const listDirectUploadAppsDirectUploadAppsGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<ManagedAppResponse[]>> => {
   return axios.get(`/direct-upload-apps`, options)
+}
+
+export const getListDirectUploadAppsDirectUploadAppsGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/direct-upload-apps`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getListDirectUploadAppsDirectUploadAppsGetQueryKey = () => {
@@ -214,6 +231,24 @@ export const switchToDirectUploadDirectUploadAppsPost = (
   return axios.post(`/direct-upload-apps`, switchToDirectUploadRequest, options)
 }
 
+export const getSwitchToDirectUploadDirectUploadAppsPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/direct-upload-apps`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSwitchToDirectUploadDirectUploadAppsPostMutationKey = () =>
+  ["switchToDirectUploadDirectUploadAppsPost"] as const
+
 export const getSwitchToDirectUploadDirectUploadAppsPostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -221,17 +256,17 @@ export const getSwitchToDirectUploadDirectUploadAppsPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof switchToDirectUploadDirectUploadAppsPost>>,
     TError,
-    { data: SwitchToDirectUploadRequest },
+    SwitchToDirectUploadDirectUploadAppsPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof switchToDirectUploadDirectUploadAppsPost>>,
   TError,
-  { data: SwitchToDirectUploadRequest },
+  SwitchToDirectUploadDirectUploadAppsPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["switchToDirectUploadDirectUploadAppsPost"]
+  const mutationKey = getSwitchToDirectUploadDirectUploadAppsPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -242,7 +277,7 @@ export const getSwitchToDirectUploadDirectUploadAppsPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof switchToDirectUploadDirectUploadAppsPost>>,
-    { data: SwitchToDirectUploadRequest }
+    SwitchToDirectUploadDirectUploadAppsPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -260,6 +295,9 @@ export type SwitchToDirectUploadDirectUploadAppsPostMutationBody =
   SwitchToDirectUploadRequest
 export type SwitchToDirectUploadDirectUploadAppsPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type SwitchToDirectUploadDirectUploadAppsPostMutationVariables = {
+  data: SwitchToDirectUploadRequest
+}
 
 /**
  * @summary Switch To Direct Upload
@@ -272,7 +310,7 @@ export const useSwitchToDirectUploadDirectUploadAppsPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof switchToDirectUploadDirectUploadAppsPost>>,
       TError,
-      { data: SwitchToDirectUploadRequest },
+      SwitchToDirectUploadDirectUploadAppsPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -281,7 +319,7 @@ export const useSwitchToDirectUploadDirectUploadAppsPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof switchToDirectUploadDirectUploadAppsPost>>,
   TError,
-  { data: SwitchToDirectUploadRequest },
+  SwitchToDirectUploadDirectUploadAppsPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -297,6 +335,23 @@ export const getDirectUploadAppDirectUploadAppsAppIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<ManagedAppResponse>> => {
   return axios.get(`/direct-upload-apps/${appId}`, options)
+}
+
+export const getGetDirectUploadAppDirectUploadAppsAppIdGetUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/direct-upload-apps/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetDirectUploadAppDirectUploadAppsAppIdGetQueryKey = (
@@ -485,6 +540,26 @@ export const switchOffDirectUploadDirectUploadAppsAppIdDelete = (
   return axios.delete(`/direct-upload-apps/${appId}`, options)
 }
 
+export const getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/direct-upload-apps/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationKey =
+  () => ["switchOffDirectUploadDirectUploadAppsAppIdDelete"] as const
+
 export const getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -495,7 +570,7 @@ export const getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationOptions 
         ReturnType<typeof switchOffDirectUploadDirectUploadAppsAppIdDelete>
       >,
       TError,
-      { appId: string },
+      SwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -504,10 +579,11 @@ export const getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationOptions 
       ReturnType<typeof switchOffDirectUploadDirectUploadAppsAppIdDelete>
     >,
     TError,
-    { appId: string },
+    SwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationVariables,
     TContext
   > => {
-    const mutationKey = ["switchOffDirectUploadDirectUploadAppsAppIdDelete"]
+    const mutationKey =
+      getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -520,7 +596,7 @@ export const getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationOptions 
       Awaited<
         ReturnType<typeof switchOffDirectUploadDirectUploadAppsAppIdDelete>
       >,
-      { appId: string }
+      SwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationVariables
     > = (props) => {
       const { appId } = props ?? {}
 
@@ -540,6 +616,8 @@ export type SwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationResult =
 
 export type SwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationError =
   AxiosError<void | HTTPValidationError>
+export type SwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationVariables =
+  { appId: string }
 
 /**
  * @summary Switch Off Direct Upload
@@ -554,7 +632,7 @@ export const useSwitchOffDirectUploadDirectUploadAppsAppIdDelete = <
         ReturnType<typeof switchOffDirectUploadDirectUploadAppsAppIdDelete>
       >,
       TError,
-      { appId: string },
+      SwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -563,7 +641,7 @@ export const useSwitchOffDirectUploadDirectUploadAppsAppIdDelete = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof switchOffDirectUploadDirectUploadAppsAppIdDelete>>,
   TError,
-  { appId: string },
+  SwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -587,6 +665,26 @@ export const updateRuntimeScopeDirectUploadAppsAppIdScopePatch = (
   )
 }
 
+export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/direct-upload-apps/${appId}/scope`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationKey =
+  () => ["updateRuntimeScopeDirectUploadAppsAppIdScopePatch"] as const
+
 export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -597,7 +695,7 @@ export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationOptions
         ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>
       >,
       TError,
-      { appId: string; data: UpdateScopeRequest },
+      UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -606,10 +704,11 @@ export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationOptions
       ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>
     >,
     TError,
-    { appId: string; data: UpdateScopeRequest },
+    UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationVariables,
     TContext
   > => {
-    const mutationKey = ["updateRuntimeScopeDirectUploadAppsAppIdScopePatch"]
+    const mutationKey =
+      getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -622,7 +721,7 @@ export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationOptions
       Awaited<
         ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>
       >,
-      { appId: string; data: UpdateScopeRequest }
+      UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationVariables
     > = (props) => {
       const { appId, data } = props ?? {}
 
@@ -646,6 +745,8 @@ export type UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationBody =
   UpdateScopeRequest
 export type UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationError =
   AxiosError<void | HTTPValidationError>
+export type UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationVariables =
+  { appId: string; data: UpdateScopeRequest }
 
 /**
  * @summary Update Runtime Scope
@@ -660,7 +761,7 @@ export const useUpdateRuntimeScopeDirectUploadAppsAppIdScopePatch = <
         ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>
       >,
       TError,
-      { appId: string; data: UpdateScopeRequest },
+      UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -669,7 +770,7 @@ export const useUpdateRuntimeScopeDirectUploadAppsAppIdScopePatch = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof updateRuntimeScopeDirectUploadAppsAppIdScopePatch>>,
   TError,
-  { appId: string; data: UpdateScopeRequest },
+  UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -698,6 +799,26 @@ export const archiveDirectUploadAppDirectUploadAppsAppIdArchivePost = (
   )
 }
 
+export const getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/direct-upload-apps/${appId}/archive`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationKey =
+  () => ["archiveDirectUploadAppDirectUploadAppsAppIdArchivePost"] as const
+
 export const getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -710,7 +831,7 @@ export const getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationOp
         >
       >,
       TError,
-      { appId: string; data: ArchiveRequest },
+      ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -719,12 +840,11 @@ export const getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationOp
       ReturnType<typeof archiveDirectUploadAppDirectUploadAppsAppIdArchivePost>
     >,
     TError,
-    { appId: string; data: ArchiveRequest },
+    ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "archiveDirectUploadAppDirectUploadAppsAppIdArchivePost",
-    ]
+    const mutationKey =
+      getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -739,7 +859,7 @@ export const getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationOp
           typeof archiveDirectUploadAppDirectUploadAppsAppIdArchivePost
         >
       >,
-      { appId: string; data: ArchiveRequest }
+      ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationVariables
     > = (props) => {
       const { appId, data } = props ?? {}
 
@@ -763,6 +883,8 @@ export type ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationBody =
   ArchiveRequest
 export type ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationError =
   AxiosError<void | HTTPValidationError>
+export type ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationVariables =
+  { appId: string; data: ArchiveRequest }
 
 /**
  * @summary Archive Direct Upload App
@@ -779,7 +901,7 @@ export const useArchiveDirectUploadAppDirectUploadAppsAppIdArchivePost = <
         >
       >,
       TError,
-      { appId: string; data: ArchiveRequest },
+      ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -790,7 +912,7 @@ export const useArchiveDirectUploadAppDirectUploadAppsAppIdArchivePost = <
     ReturnType<typeof archiveDirectUploadAppDirectUploadAppsAppIdArchivePost>
   >,
   TError,
-  { appId: string; data: ArchiveRequest },
+  ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -815,6 +937,25 @@ export const unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost = (
   )
 }
 
+export const getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostUrl =
+  (appId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/direct-upload-apps/${appId}/unarchive`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationKey =
+  () => ["unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost"] as const
+
 export const getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -827,7 +968,7 @@ export const getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutati
         >
       >,
       TError,
-      { appId: string },
+      UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -838,12 +979,11 @@ export const getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutati
       >
     >,
     TError,
-    { appId: string },
+    UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost",
-    ]
+    const mutationKey =
+      getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -858,7 +998,7 @@ export const getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutati
           typeof unarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost
         >
       >,
-      { appId: string }
+      UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationVariables
     > = (props) => {
       const { appId } = props ?? {}
 
@@ -882,6 +1022,8 @@ export type UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationRe
 
 export type UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationError =
   AxiosError<void | HTTPValidationError>
+export type UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationVariables =
+  { appId: string }
 
 /**
  * @summary Unarchive Direct Upload App
@@ -898,7 +1040,7 @@ export const useUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost = <
         >
       >,
       TError,
-      { appId: string },
+      UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -911,7 +1053,7 @@ export const useUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost = <
     >
   >,
   TError,
-  { appId: string },
+  UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -936,6 +1078,26 @@ export const revokeTokensDirectUploadAppsAppIdRevokeTokensPost = (
   )
 }
 
+export const getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/direct-upload-apps/${appId}/revoke-tokens`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationKey =
+  () => ["revokeTokensDirectUploadAppsAppIdRevokeTokensPost"] as const
+
 export const getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -946,7 +1108,7 @@ export const getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationOptions
         ReturnType<typeof revokeTokensDirectUploadAppsAppIdRevokeTokensPost>
       >,
       TError,
-      { appId: string },
+      RevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -955,10 +1117,11 @@ export const getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationOptions
       ReturnType<typeof revokeTokensDirectUploadAppsAppIdRevokeTokensPost>
     >,
     TError,
-    { appId: string },
+    RevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["revokeTokensDirectUploadAppsAppIdRevokeTokensPost"]
+    const mutationKey =
+      getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -971,7 +1134,7 @@ export const getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationOptions
       Awaited<
         ReturnType<typeof revokeTokensDirectUploadAppsAppIdRevokeTokensPost>
       >,
-      { appId: string }
+      RevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationVariables
     > = (props) => {
       const { appId } = props ?? {}
 
@@ -993,6 +1156,8 @@ export type RevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationResult =
 
 export type RevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type RevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationVariables =
+  { appId: string }
 
 /**
  * @summary Revoke Tokens
@@ -1007,7 +1172,7 @@ export const useRevokeTokensDirectUploadAppsAppIdRevokeTokensPost = <
         ReturnType<typeof revokeTokensDirectUploadAppsAppIdRevokeTokensPost>
       >,
       TError,
-      { appId: string },
+      RevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1016,7 +1181,7 @@ export const useRevokeTokensDirectUploadAppsAppIdRevokeTokensPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof revokeTokensDirectUploadAppsAppIdRevokeTokensPost>>,
   TError,
-  { appId: string },
+  RevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1041,6 +1206,26 @@ export const addMaintainerDirectUploadAppsAppIdMaintainersPost = (
   )
 }
 
+export const getAddMaintainerDirectUploadAppsAppIdMaintainersPostUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/direct-upload-apps/${appId}/maintainers`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getAddMaintainerDirectUploadAppsAppIdMaintainersPostMutationKey =
+  () => ["addMaintainerDirectUploadAppsAppIdMaintainersPost"] as const
+
 export const getAddMaintainerDirectUploadAppsAppIdMaintainersPostMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -1051,7 +1236,7 @@ export const getAddMaintainerDirectUploadAppsAppIdMaintainersPostMutationOptions
         ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>
       >,
       TError,
-      { appId: string; data: AddMaintainerRequest },
+      AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1060,10 +1245,11 @@ export const getAddMaintainerDirectUploadAppsAppIdMaintainersPostMutationOptions
       ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>
     >,
     TError,
-    { appId: string; data: AddMaintainerRequest },
+    AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["addMaintainerDirectUploadAppsAppIdMaintainersPost"]
+    const mutationKey =
+      getAddMaintainerDirectUploadAppsAppIdMaintainersPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1076,7 +1262,7 @@ export const getAddMaintainerDirectUploadAppsAppIdMaintainersPostMutationOptions
       Awaited<
         ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>
       >,
-      { appId: string; data: AddMaintainerRequest }
+      AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationVariables
     > = (props) => {
       const { appId, data } = props ?? {}
 
@@ -1100,6 +1286,8 @@ export type AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationBody =
   AddMaintainerRequest
 export type AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationVariables =
+  { appId: string; data: AddMaintainerRequest }
 
 /**
  * @summary Add Maintainer
@@ -1114,7 +1302,7 @@ export const useAddMaintainerDirectUploadAppsAppIdMaintainersPost = <
         ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>
       >,
       TError,
-      { appId: string; data: AddMaintainerRequest },
+      AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1123,7 +1311,7 @@ export const useAddMaintainerDirectUploadAppsAppIdMaintainersPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof addMaintainerDirectUploadAppsAppIdMaintainersPost>>,
   TError,
-  { appId: string; data: AddMaintainerRequest },
+  AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1147,6 +1335,26 @@ export const removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete = (
   )
 }
 
+export const getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteUrl =
+  (appId: string, userId: number) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/direct-upload-apps/${appId}/maintainers/${userId}`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationKey =
+  () =>
+    ["removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete"] as const
+
 export const getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -1159,7 +1367,7 @@ export const getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMuta
         >
       >,
       TError,
-      { appId: string; userId: number },
+      RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1170,12 +1378,11 @@ export const getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMuta
       >
     >,
     TError,
-    { appId: string; userId: number },
+    RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete",
-    ]
+    const mutationKey =
+      getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1190,7 +1397,7 @@ export const getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMuta
           typeof removeMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete
         >
       >,
-      { appId: string; userId: number }
+      RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationVariables
     > = (props) => {
       const { appId, userId } = props ?? {}
 
@@ -1215,6 +1422,8 @@ export type RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutation
 
 export type RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationError =
   AxiosError<void | HTTPValidationError>
+export type RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationVariables =
+  { appId: string; userId: number }
 
 /**
  * @summary Remove Maintainer
@@ -1231,7 +1440,7 @@ export const useRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete = <
         >
       >,
       TError,
-      { appId: string; userId: number },
+      RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1244,7 +1453,7 @@ export const useRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete = <
     >
   >,
   TError,
-  { appId: string; userId: number },
+  RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1270,6 +1479,28 @@ export const setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimar
     )
   }
 
+export const getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostUrl =
+  (appId: string, userId: number) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/direct-upload-apps/${appId}/maintainers/${userId}/set-primary`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationKey =
+  () =>
+    [
+      "setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost",
+    ] as const
+
 export const getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -1282,7 +1513,7 @@ export const getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPri
         >
       >,
       TError,
-      { appId: string; userId: number },
+      SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1293,12 +1524,11 @@ export const getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPri
       >
     >,
     TError,
-    { appId: string; userId: number },
+    SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost",
-    ]
+    const mutationKey =
+      getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1313,7 +1543,7 @@ export const getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPri
           typeof setPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost
         >
       >,
-      { appId: string; userId: number }
+      SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationVariables
     > = (props) => {
       const { appId, userId } = props ?? {}
 
@@ -1338,6 +1568,8 @@ export type SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimary
 
 export type SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationVariables =
+  { appId: string; userId: number }
 
 /**
  * @summary Set Primary Maintainer
@@ -1352,7 +1584,7 @@ export const useSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPri
           >
         >,
         TError,
-        { appId: string; userId: number },
+        SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1365,7 +1597,7 @@ export const useSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPri
       >
     >,
     TError,
-    { appId: string; userId: number },
+    SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationVariables,
     TContext
   > => {
     return useMutation(

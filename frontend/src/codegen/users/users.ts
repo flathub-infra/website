@@ -61,6 +61,21 @@ export const meUsersMeGet = (
   return axios.get(`/users/me`, options)
 }
 
+export const getMeUsersMeGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/users/me`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getMeUsersMeGetQueryKey = () => {
   return [`/users/me`] as const
 }
@@ -194,6 +209,21 @@ export const usersUsersGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getUsersUsersGetUrl = (params?: UsersUsersGetParams) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/users`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getUsersUsersGetQueryKey = (params?: UsersUsersGetParams) => {
@@ -330,6 +360,21 @@ export const rolesUsersRolesGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string[]>> => {
   return axios.get(`/users/roles`, options)
+}
+
+export const getRolesUsersRolesGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/users/roles`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getRolesUsersRolesGetQueryKey = () => {
@@ -480,6 +525,21 @@ export const userUsersUserIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<UserResult>> => {
   return axios.get(`/users/${userId}`, options)
+}
+
+export const getUserUsersUserIdGetUrl = (userId: number) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/users/${userId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getUserUsersUserIdGetQueryKey = (userId: number) => {
@@ -644,6 +704,24 @@ export const banUserUsersUserIdBanPost = (
   return axios.post(`/users/${userId}/ban`, undefined, options)
 }
 
+export const getBanUserUsersUserIdBanPostUrl = (userId: number) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/users/${userId}/ban`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getBanUserUsersUserIdBanPostMutationKey = () =>
+  ["banUserUsersUserIdBanPost"] as const
+
 export const getBanUserUsersUserIdBanPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -651,17 +729,17 @@ export const getBanUserUsersUserIdBanPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>,
     TError,
-    { userId: number },
+    BanUserUsersUserIdBanPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>,
   TError,
-  { userId: number },
+  BanUserUsersUserIdBanPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["banUserUsersUserIdBanPost"]
+  const mutationKey = getBanUserUsersUserIdBanPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -672,7 +750,7 @@ export const getBanUserUsersUserIdBanPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>,
-    { userId: number }
+    BanUserUsersUserIdBanPostMutationVariables
   > = (props) => {
     const { userId } = props ?? {}
 
@@ -687,6 +765,7 @@ export type BanUserUsersUserIdBanPostMutationResult = NonNullable<
 >
 
 export type BanUserUsersUserIdBanPostMutationError = AxiosError<void>
+export type BanUserUsersUserIdBanPostMutationVariables = { userId: number }
 
 /**
  * @summary Ban User
@@ -699,7 +778,7 @@ export const useBanUserUsersUserIdBanPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>,
       TError,
-      { userId: number },
+      BanUserUsersUserIdBanPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -708,7 +787,7 @@ export const useBanUserUsersUserIdBanPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof banUserUsersUserIdBanPost>>,
   TError,
-  { userId: number },
+  BanUserUsersUserIdBanPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -726,6 +805,24 @@ export const unbanUserUsersUserIdBanDelete = (
   return axios.delete(`/users/${userId}/ban`, options)
 }
 
+export const getUnbanUserUsersUserIdBanDeleteUrl = (userId: number) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/users/${userId}/ban`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getUnbanUserUsersUserIdBanDeleteMutationKey = () =>
+  ["unbanUserUsersUserIdBanDelete"] as const
+
 export const getUnbanUserUsersUserIdBanDeleteMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -733,17 +830,17 @@ export const getUnbanUserUsersUserIdBanDeleteMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>,
     TError,
-    { userId: number },
+    UnbanUserUsersUserIdBanDeleteMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>,
   TError,
-  { userId: number },
+  UnbanUserUsersUserIdBanDeleteMutationVariables,
   TContext
 > => {
-  const mutationKey = ["unbanUserUsersUserIdBanDelete"]
+  const mutationKey = getUnbanUserUsersUserIdBanDeleteMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -754,7 +851,7 @@ export const getUnbanUserUsersUserIdBanDeleteMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>,
-    { userId: number }
+    UnbanUserUsersUserIdBanDeleteMutationVariables
   > = (props) => {
     const { userId } = props ?? {}
 
@@ -769,6 +866,7 @@ export type UnbanUserUsersUserIdBanDeleteMutationResult = NonNullable<
 >
 
 export type UnbanUserUsersUserIdBanDeleteMutationError = AxiosError<void>
+export type UnbanUserUsersUserIdBanDeleteMutationVariables = { userId: number }
 
 /**
  * @summary Unban User
@@ -781,7 +879,7 @@ export const useUnbanUserUsersUserIdBanDelete = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>,
       TError,
-      { userId: number },
+      UnbanUserUsersUserIdBanDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -790,7 +888,7 @@ export const useUnbanUserUsersUserIdBanDelete = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof unbanUserUsersUserIdBanDelete>>,
   TError,
-  { userId: number },
+  UnbanUserUsersUserIdBanDeleteMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -815,6 +913,27 @@ export const addUserRoleUsersUserIdRolePost = (
   })
 }
 
+export const getAddUserRoleUsersUserIdRolePostUrl = (
+  userId: number,
+  params: AddUserRoleUsersUserIdRolePostParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/users/${userId}/role`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getAddUserRoleUsersUserIdRolePostMutationKey = () =>
+  ["addUserRoleUsersUserIdRolePost"] as const
+
 export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -822,17 +941,17 @@ export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
     TError,
-    { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
+    AddUserRoleUsersUserIdRolePostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
   TError,
-  { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
+  AddUserRoleUsersUserIdRolePostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["addUserRoleUsersUserIdRolePost"]
+  const mutationKey = getAddUserRoleUsersUserIdRolePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -843,7 +962,7 @@ export const getAddUserRoleUsersUserIdRolePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
-    { userId: number; params: AddUserRoleUsersUserIdRolePostParams }
+    AddUserRoleUsersUserIdRolePostMutationVariables
   > = (props) => {
     const { userId, params } = props ?? {}
 
@@ -858,6 +977,10 @@ export type AddUserRoleUsersUserIdRolePostMutationResult = NonNullable<
 >
 
 export type AddUserRoleUsersUserIdRolePostMutationError = AxiosError<void>
+export type AddUserRoleUsersUserIdRolePostMutationVariables = {
+  userId: number
+  params: AddUserRoleUsersUserIdRolePostParams
+}
 
 /**
  * @summary Add User Role
@@ -870,7 +993,7 @@ export const useAddUserRoleUsersUserIdRolePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
       TError,
-      { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
+      AddUserRoleUsersUserIdRolePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -879,7 +1002,7 @@ export const useAddUserRoleUsersUserIdRolePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof addUserRoleUsersUserIdRolePost>>,
   TError,
-  { userId: number; params: AddUserRoleUsersUserIdRolePostParams },
+  AddUserRoleUsersUserIdRolePostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -904,6 +1027,27 @@ export const deleteUserRoleUsersUserIdRoleDelete = (
   })
 }
 
+export const getDeleteUserRoleUsersUserIdRoleDeleteUrl = (
+  userId: number,
+  params: DeleteUserRoleUsersUserIdRoleDeleteParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/users/${userId}/role`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getDeleteUserRoleUsersUserIdRoleDeleteMutationKey = () =>
+  ["deleteUserRoleUsersUserIdRoleDelete"] as const
+
 export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -911,17 +1055,17 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
     TError,
-    { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
+    DeleteUserRoleUsersUserIdRoleDeleteMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
   TError,
-  { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
+  DeleteUserRoleUsersUserIdRoleDeleteMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deleteUserRoleUsersUserIdRoleDelete"]
+  const mutationKey = getDeleteUserRoleUsersUserIdRoleDeleteMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -932,7 +1076,7 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
-    { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams }
+    DeleteUserRoleUsersUserIdRoleDeleteMutationVariables
   > = (props) => {
     const { userId, params } = props ?? {}
 
@@ -947,6 +1091,10 @@ export type DeleteUserRoleUsersUserIdRoleDeleteMutationResult = NonNullable<
 >
 
 export type DeleteUserRoleUsersUserIdRoleDeleteMutationError = AxiosError<void>
+export type DeleteUserRoleUsersUserIdRoleDeleteMutationVariables = {
+  userId: number
+  params: DeleteUserRoleUsersUserIdRoleDeleteParams
+}
 
 /**
  * @summary Delete User Role
@@ -959,7 +1107,7 @@ export const useDeleteUserRoleUsersUserIdRoleDelete = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
       TError,
-      { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
+      DeleteUserRoleUsersUserIdRoleDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -968,7 +1116,7 @@ export const useDeleteUserRoleUsersUserIdRoleDelete = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteUserRoleUsersUserIdRoleDelete>>,
   TError,
-  { userId: number; params: DeleteUserRoleUsersUserIdRoleDeleteParams },
+  DeleteUserRoleUsersUserIdRoleDeleteMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -985,6 +1133,21 @@ export const roleUsersUsersRolesRoleNameGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<UserResult[]>> => {
   return axios.get(`/users/roles/${roleName}`, options)
+}
+
+export const getRoleUsersUsersRolesRoleNameGetUrl = (roleName: RoleName) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/users/roles/${roleName}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getRoleUsersUsersRolesRoleNameGetQueryKey = (

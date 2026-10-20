@@ -15,6 +15,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 /**
  * @summary Update
  */
@@ -23,6 +25,24 @@ export const updateUpdatePost = (
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(`/update`, undefined, options)
 }
+
+export const getUpdateUpdatePostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/update`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getUpdateUpdatePostMutationKey = () =>
+  ["updateUpdatePost"] as const
 
 export const getUpdateUpdatePostMutationOptions = <
   TError = AxiosError<void>,
@@ -41,7 +61,7 @@ export const getUpdateUpdatePostMutationOptions = <
   void,
   TContext
 > => {
-  const mutationKey = ["updateUpdatePost"]
+  const mutationKey = getUpdateUpdatePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -100,6 +120,24 @@ export const updateStatsUpdateStatsPost = (
   return axios.post(`/update/stats`, undefined, options)
 }
 
+export const getUpdateStatsUpdateStatsPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/update/stats`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getUpdateStatsUpdateStatsPostMutationKey = () =>
+  ["updateStatsUpdateStatsPost"] as const
+
 export const getUpdateStatsUpdateStatsPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -117,7 +155,7 @@ export const getUpdateStatsUpdateStatsPostMutationOptions = <
   void,
   TContext
 > => {
-  const mutationKey = ["updateStatsUpdateStatsPost"]
+  const mutationKey = getUpdateStatsUpdateStatsPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -180,6 +218,24 @@ export const processTransfersUpdateProcessPendingTransfersPost = (
   return axios.post(`/update/process-pending-transfers`, undefined, options)
 }
 
+export const getProcessTransfersUpdateProcessPendingTransfersPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/update/process-pending-transfers`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getProcessTransfersUpdateProcessPendingTransfersPostMutationKey =
+  () => ["processTransfersUpdateProcessPendingTransfersPost"] as const
+
 export const getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -199,7 +255,8 @@ export const getProcessTransfersUpdateProcessPendingTransfersPostMutationOptions
     void,
     TContext
   > => {
-    const mutationKey = ["processTransfersUpdateProcessPendingTransfersPost"]
+    const mutationKey =
+      getProcessTransfersUpdateProcessPendingTransfersPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -271,6 +328,24 @@ export const updateAppPicksUpdateAppPicksPost = (
   return axios.post(`/update/app-picks`, undefined, options)
 }
 
+export const getUpdateAppPicksUpdateAppPicksPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/update/app-picks`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getUpdateAppPicksUpdateAppPicksPostMutationKey = () =>
+  ["updateAppPicksUpdateAppPicksPost"] as const
+
 export const getUpdateAppPicksUpdateAppPicksPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -288,7 +363,7 @@ export const getUpdateAppPicksUpdateAppPicksPostMutationOptions = <
   void,
   TContext
 > => {
-  const mutationKey = ["updateAppPicksUpdateAppPicksPost"]
+  const mutationKey = getUpdateAppPicksUpdateAppPicksPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&

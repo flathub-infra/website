@@ -57,11 +57,8 @@ export const getGetUserinfoAuthUserinfoGetResponseMock =
     faker.helpers.arrayElement([
       {
         displayname: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
-            faker.string.alpha({ length: { min: 10, max: 20 } }),
-            null,
-          ]),
-          undefined,
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
         ]),
         dev_flatpaks: Array.from(
           { length: faker.number.int({ min: 1, max: 10 }) },
@@ -84,183 +81,118 @@ export const getGetUserinfoAuthUserinfoGetResponseMock =
         default_account: {
           login: faker.string.alpha({ length: { min: 10, max: 20 } }),
           avatar: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
           ]),
           provider: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement(
-                Object.values(ConnectedAccountProvider),
-              ),
-              null,
-            ]),
-            undefined,
+            faker.helpers.arrayElement(Object.values(ConnectedAccountProvider)),
+            null,
           ]),
         },
         auths: {
           github: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              {
-                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-                avatar: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.string.alpha({ length: { min: 10, max: 20 } }),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-                provider: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.helpers.arrayElement(
-                      Object.values(ConnectedAccountProvider),
-                    ),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-              },
-              null,
-            ]),
-            undefined,
-          ]),
-          gitlab: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              {
-                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-                avatar: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.string.alpha({ length: { min: 10, max: 20 } }),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-                provider: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.helpers.arrayElement(
-                      Object.values(ConnectedAccountProvider),
-                    ),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-              },
-              null,
-            ]),
-            undefined,
-          ]),
-          gnome: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              {
-                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-                avatar: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.string.alpha({ length: { min: 10, max: 20 } }),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-                provider: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.helpers.arrayElement(
-                      Object.values(ConnectedAccountProvider),
-                    ),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-              },
-              null,
-            ]),
-            undefined,
-          ]),
-          kde: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              {
-                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-                avatar: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.string.alpha({ length: { min: 10, max: 20 } }),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-                provider: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.helpers.arrayElement(
-                      Object.values(ConnectedAccountProvider),
-                    ),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-              },
-              null,
-            ]),
-            undefined,
-          ]),
-          google: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              {
-                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-                avatar: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.string.alpha({ length: { min: 10, max: 20 } }),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-                provider: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.helpers.arrayElement(
-                      Object.values(ConnectedAccountProvider),
-                    ),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-              },
-              null,
-            ]),
-            undefined,
-          ]),
-          email: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              {
-                login: faker.string.alpha({ length: { min: 10, max: 20 } }),
-                avatar: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.string.alpha({ length: { min: 10, max: 20 } }),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-                provider: faker.helpers.arrayElement([
-                  faker.helpers.arrayElement([
-                    faker.helpers.arrayElement(
-                      Object.values(ConnectedAccountProvider),
-                    ),
-                    null,
-                  ]),
-                  undefined,
-                ]),
-              },
-              null,
-            ]),
-            undefined,
-          ]),
-        },
-        email_login: faker.helpers.arrayElement([
-          faker.helpers.arrayElement([
             {
-              email: faker.string.alpha({ length: { min: 10, max: 20 } }),
-              enabled: faker.datatype.boolean(),
+              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              avatar: faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+              ]),
+              provider: faker.helpers.arrayElement([
+                faker.helpers.arrayElement(
+                  Object.values(ConnectedAccountProvider),
+                ),
+                null,
+              ]),
             },
             null,
           ]),
-          undefined,
+          gitlab: faker.helpers.arrayElement([
+            {
+              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              avatar: faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+              ]),
+              provider: faker.helpers.arrayElement([
+                faker.helpers.arrayElement(
+                  Object.values(ConnectedAccountProvider),
+                ),
+                null,
+              ]),
+            },
+            null,
+          ]),
+          gnome: faker.helpers.arrayElement([
+            {
+              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              avatar: faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+              ]),
+              provider: faker.helpers.arrayElement([
+                faker.helpers.arrayElement(
+                  Object.values(ConnectedAccountProvider),
+                ),
+                null,
+              ]),
+            },
+            null,
+          ]),
+          kde: faker.helpers.arrayElement([
+            {
+              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              avatar: faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+              ]),
+              provider: faker.helpers.arrayElement([
+                faker.helpers.arrayElement(
+                  Object.values(ConnectedAccountProvider),
+                ),
+                null,
+              ]),
+            },
+            null,
+          ]),
+          google: faker.helpers.arrayElement([
+            {
+              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              avatar: faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+              ]),
+              provider: faker.helpers.arrayElement([
+                faker.helpers.arrayElement(
+                  Object.values(ConnectedAccountProvider),
+                ),
+                null,
+              ]),
+            },
+            null,
+          ]),
+          email: faker.helpers.arrayElement([
+            {
+              login: faker.string.alpha({ length: { min: 10, max: 20 } }),
+              avatar: faker.helpers.arrayElement([
+                faker.string.alpha({ length: { min: 10, max: 20 } }),
+                null,
+              ]),
+              provider: faker.helpers.arrayElement([
+                faker.helpers.arrayElement(
+                  Object.values(ConnectedAccountProvider),
+                ),
+                null,
+              ]),
+            },
+            null,
+          ]),
+        },
+        email_login: faker.helpers.arrayElement([
+          {
+            email: faker.string.alpha({ length: { min: 10, max: 20 } }),
+            enabled: faker.datatype.boolean(),
+          },
+          null,
         ]),
       },
       null,
@@ -289,11 +221,8 @@ export const getDoDeleteuserAuthDeleteuserDeleteResponseMock = (
 ): DeleteUserResult => ({
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   message: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
   ]),
   ...overrideResponse,
 })

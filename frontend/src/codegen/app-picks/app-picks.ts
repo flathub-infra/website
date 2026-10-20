@@ -23,6 +23,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   AppOfTheDay,
   AppsOfTheWeek,
@@ -60,6 +62,23 @@ export const getAppOfTheDayAppPicksAppOfTheDayDateGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<AppOfTheDay>> => {
   return axios.get(`/app-picks/app-of-the-day/${date}`, options)
+}
+
+export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetUrl = (
+  date: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/app-picks/app-of-the-day/${date}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetQueryKey = (
@@ -231,6 +250,23 @@ export const getAppOfTheWeekAppPicksAppsOfTheWeekDateGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<AppsOfTheWeek>> => {
   return axios.get(`/app-picks/apps-of-the-week/${date}`, options)
+}
+
+export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetUrl = (
+  date: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/app-picks/apps-of-the-week/${date}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryKey = (
@@ -422,6 +458,22 @@ export const getCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet = (
 ): Promise<AxiosResponse<CuratedAppSelections>> => {
   return axios.get(`/app-picks/curated-app-selections/${date}`, options)
 }
+
+export const getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetUrl =
+  (date: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/app-picks/curated-app-selections/${date}`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
 
 export const getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetQueryKey =
   (date: string) => {
@@ -669,6 +721,23 @@ export const getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet = (
   return axios.get(`/app-picks/admin/app-of-the-day/${date}`, options)
 }
 
+export const getGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetUrl = (
+  date: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/app-picks/admin/app-of-the-day/${date}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetQueryKey = (
   date: string,
 ) => {
@@ -888,6 +957,23 @@ export const getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<AppsOfTheWeek>> => {
   return axios.get(`/app-picks/admin/apps-of-the-week/${date}`, options)
+}
+
+export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetUrl = (
+  date: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/app-picks/admin/apps-of-the-week/${date}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetQueryKey =
@@ -1113,6 +1199,22 @@ export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
 export const getCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet =
   (options?: AxiosRequestConfig): Promise<AxiosResponse<SelectionTheme[]>> => {
     return axios.get(`/app-picks/admin/curated-app-selection-themes`, options)
+  }
+
+export const getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/app-picks/admin/curated-app-selection-themes`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
   }
 
 export const getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetQueryKey =
@@ -1342,6 +1444,22 @@ export const getCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet =
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<ScheduledSelectionAdmin[]>> => {
     return axios.get(`/app-picks/admin/curated-app-selections`, options)
+  }
+
+export const getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/app-picks/admin/curated-app-selections`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
   }
 
 export const getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetQueryKey =
@@ -1579,6 +1697,28 @@ export const createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost
     )
   }
 
+export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/app-picks/admin/curated-app-selections`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationKey =
+  () =>
+    [
+      "createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost",
+    ] as const
+
 export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1588,7 +1728,7 @@ export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsP
         >
       >,
       TError,
-      { data: ScheduledSelectionInput },
+      CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1599,12 +1739,11 @@ export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsP
       >
     >,
     TError,
-    { data: ScheduledSelectionInput },
+    CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost",
-    ]
+    const mutationKey =
+      getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1619,7 +1758,7 @@ export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsP
           typeof createCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost
         >
       >,
-      { data: ScheduledSelectionInput }
+      CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationVariables
     > = (props) => {
       const { data } = props ?? {}
 
@@ -1644,6 +1783,8 @@ export type CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostM
   ScheduledSelectionInput
 export type CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationError =
   AxiosError<void>
+export type CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationVariables =
+  { data: ScheduledSelectionInput }
 
 /**
  * @summary Create Curated App Selection Admin
@@ -1658,7 +1799,7 @@ export const useCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsP
           >
         >,
         TError,
-        { data: ScheduledSelectionInput },
+        CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1671,7 +1812,7 @@ export const useCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsP
       >
     >,
     TError,
-    { data: ScheduledSelectionInput },
+    CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -1697,6 +1838,28 @@ export const updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSele
     )
   }
 
+export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutUrl =
+  (selectionId: number) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/app-picks/admin/curated-app-selections/${selectionId}`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationKey =
+  () =>
+    [
+      "updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut",
+    ] as const
+
 export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1706,7 +1869,7 @@ export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
         >
       >,
       TError,
-      { selectionId: number; data: ScheduledSelectionInput },
+      UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1717,12 +1880,11 @@ export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
       >
     >,
     TError,
-    { selectionId: number; data: ScheduledSelectionInput },
+    UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut",
-    ]
+    const mutationKey =
+      getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1737,7 +1899,7 @@ export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
           typeof updateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut
         >
       >,
-      { selectionId: number; data: ScheduledSelectionInput }
+      UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationVariables
     > = (props) => {
       const { selectionId, data } = props ?? {}
 
@@ -1763,6 +1925,8 @@ export type UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelec
   ScheduledSelectionInput
 export type UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationError =
   AxiosError<void>
+export type UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationVariables =
+  { selectionId: number; data: ScheduledSelectionInput }
 
 /**
  * @summary Update Curated App Selection Admin
@@ -1777,7 +1941,7 @@ export const useUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
           >
         >,
         TError,
-        { selectionId: number; data: ScheduledSelectionInput },
+        UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1790,7 +1954,7 @@ export const useUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
       >
     >,
     TError,
-    { selectionId: number; data: ScheduledSelectionInput },
+    UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -1814,6 +1978,28 @@ export const deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSele
     )
   }
 
+export const getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteUrl =
+  (selectionId: number) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/app-picks/admin/curated-app-selections/${selectionId}`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationKey =
+  () =>
+    [
+      "deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete",
+    ] as const
+
 export const getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1823,7 +2009,7 @@ export const getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
         >
       >,
       TError,
-      { selectionId: number },
+      DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1834,12 +2020,11 @@ export const getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
       >
     >,
     TError,
-    { selectionId: number },
+    DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete",
-    ]
+    const mutationKey =
+      getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1854,7 +2039,7 @@ export const getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
           typeof deleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete
         >
       >,
-      { selectionId: number }
+      DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationVariables
     > = (props) => {
       const { selectionId } = props ?? {}
 
@@ -1878,6 +2063,8 @@ export type DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelec
 
 export type DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationError =
   AxiosError<void>
+export type DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationVariables =
+  { selectionId: number }
 
 /**
  * @summary Delete Curated App Selection Admin
@@ -1892,7 +2079,7 @@ export const useDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
           >
         >,
         TError,
-        { selectionId: number },
+        DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1905,7 +2092,7 @@ export const useDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
       >
     >,
     TError,
-    { selectionId: number },
+    DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -1926,6 +2113,24 @@ export const setAppOfTheWeekAppPicksAppOfTheWeekPost = (
   return axios.post(`/app-picks/app-of-the-week`, upsertAppOfTheWeek, options)
 }
 
+export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/app-picks/app-of-the-week`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationKey = () =>
+  ["setAppOfTheWeekAppPicksAppOfTheWeekPost"] as const
+
 export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -1933,17 +2138,17 @@ export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
     TError,
-    { data: UpsertAppOfTheWeek },
+    SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
   TError,
-  { data: UpsertAppOfTheWeek },
+  SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["setAppOfTheWeekAppPicksAppOfTheWeekPost"]
+  const mutationKey = getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1954,7 +2159,7 @@ export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
-    { data: UpsertAppOfTheWeek }
+    SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -1971,6 +2176,9 @@ export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationBody =
   UpsertAppOfTheWeek
 export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationError =
   AxiosError<void>
+export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationVariables = {
+  data: UpsertAppOfTheWeek
+}
 
 /**
  * @summary Set App Of The Week
@@ -1983,7 +2191,7 @@ export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
       TError,
-      { data: UpsertAppOfTheWeek },
+      SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1992,7 +2200,7 @@ export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof setAppOfTheWeekAppPicksAppOfTheWeekPost>>,
   TError,
-  { data: UpsertAppOfTheWeek },
+  SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -2011,6 +2219,24 @@ export const setAppOfTheDayAppPicksAppOfTheDayPost = (
   return axios.post(`/app-picks/app-of-the-day`, appOfTheDay, options)
 }
 
+export const getSetAppOfTheDayAppPicksAppOfTheDayPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/app-picks/app-of-the-day`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationKey = () =>
+  ["setAppOfTheDayAppPicksAppOfTheDayPost"] as const
+
 export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -2018,17 +2244,17 @@ export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
     TError,
-    { data: AppOfTheDay },
+    SetAppOfTheDayAppPicksAppOfTheDayPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
   TError,
-  { data: AppOfTheDay },
+  SetAppOfTheDayAppPicksAppOfTheDayPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["setAppOfTheDayAppPicksAppOfTheDayPost"]
+  const mutationKey = getSetAppOfTheDayAppPicksAppOfTheDayPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -2039,7 +2265,7 @@ export const getSetAppOfTheDayAppPicksAppOfTheDayPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
-    { data: AppOfTheDay }
+    SetAppOfTheDayAppPicksAppOfTheDayPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -2055,6 +2281,9 @@ export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationResult = NonNullable<
 export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationBody = AppOfTheDay
 export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationError =
   AxiosError<void>
+export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationVariables = {
+  data: AppOfTheDay
+}
 
 /**
  * @summary Set App Of The Day
@@ -2067,7 +2296,7 @@ export const useSetAppOfTheDayAppPicksAppOfTheDayPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
       TError,
-      { data: AppOfTheDay },
+      SetAppOfTheDayAppPicksAppOfTheDayPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2076,7 +2305,7 @@ export const useSetAppOfTheDayAppPicksAppOfTheDayPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof setAppOfTheDayAppPicksAppOfTheDayPost>>,
   TError,
-  { data: AppOfTheDay },
+  SetAppOfTheDayAppPicksAppOfTheDayPostMutationVariables,
   TContext
 > => {
   return useMutation(

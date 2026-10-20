@@ -74,6 +74,21 @@ export const getEolRebaseEolRebaseGet = (
   return axios.get(`/eol/rebase`, options)
 }
 
+export const getGetEolRebaseEolRebaseGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/eol/rebase`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetEolRebaseEolRebaseGetQueryKey = () => {
   return [`/eol/rebase`] as const
 }
@@ -228,6 +243,24 @@ export const getEolRebaseAppidEolRebaseAppIdGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetEolRebaseAppidEolRebaseAppIdGetUrl = (
+  appId: string,
+  params?: GetEolRebaseAppidEolRebaseAppIdGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/eol/rebase/${appId}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetEolRebaseAppidEolRebaseAppIdGetQueryKey = (
@@ -409,6 +442,21 @@ export const getEolMessageEolMessageGet = (
   return axios.get(`/eol/message`, options)
 }
 
+export const getGetEolMessageEolMessageGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/eol/message`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetEolMessageEolMessageGetQueryKey = () => {
   return [`/eol/message`] as const
 }
@@ -563,6 +611,24 @@ export const getEolMessageAppidEolMessageAppIdGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetEolMessageAppidEolMessageAppIdGetUrl = (
+  appId: string,
+  params?: GetEolMessageAppidEolMessageAppIdGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/eol/message/${appId}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetEolMessageAppidEolMessageAppIdGetQueryKey = (
@@ -757,6 +823,23 @@ export const listAppstreamAppstreamGet = (
   })
 }
 
+export const getListAppstreamAppstreamGetUrl = (
+  params?: ListAppstreamAppstreamGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/appstream`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getListAppstreamAppstreamGetQueryKey = (
   params?: ListAppstreamAppstreamGetParams,
 ) => {
@@ -927,6 +1010,24 @@ export const getAppstreamAppstreamAppIdGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetAppstreamAppstreamAppIdGetUrl = (
+  appId: string,
+  params?: GetAppstreamAppstreamAppIdGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/appstream/${appId}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetAppstreamAppstreamAppIdGetQueryKey = (
@@ -1105,6 +1206,23 @@ export const getIsFullscreenAppIsFullscreenAppAppIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<boolean>> => {
   return axios.get(`/is-fullscreen-app/${appId}`, options)
+}
+
+export const getGetIsFullscreenAppIsFullscreenAppAppIdGetUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/is-fullscreen-app/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetIsFullscreenAppIsFullscreenAppAppIdGetQueryKey = (
@@ -1290,6 +1408,26 @@ export const postSearchSearchPost = (
   })
 }
 
+export const getPostSearchSearchPostUrl = (
+  params?: PostSearchSearchPostParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/search`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getPostSearchSearchPostMutationKey = () =>
+  ["postSearchSearchPost"] as const
+
 export const getPostSearchSearchPostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -1297,17 +1435,17 @@ export const getPostSearchSearchPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postSearchSearchPost>>,
     TError,
-    { data: SearchQuery; params?: PostSearchSearchPostParams },
+    PostSearchSearchPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postSearchSearchPost>>,
   TError,
-  { data: SearchQuery; params?: PostSearchSearchPostParams },
+  PostSearchSearchPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["postSearchSearchPost"]
+  const mutationKey = getPostSearchSearchPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1318,7 +1456,7 @@ export const getPostSearchSearchPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postSearchSearchPost>>,
-    { data: SearchQuery; params?: PostSearchSearchPostParams }
+    PostSearchSearchPostMutationVariables
   > = (props) => {
     const { data, params } = props ?? {}
 
@@ -1334,6 +1472,10 @@ export type PostSearchSearchPostMutationResult = NonNullable<
 export type PostSearchSearchPostMutationBody = SearchQuery
 export type PostSearchSearchPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type PostSearchSearchPostMutationVariables = {
+  data: SearchQuery
+  params?: PostSearchSearchPostParams
+}
 
 /**
  * @summary Post Search
@@ -1346,7 +1488,7 @@ export const usePostSearchSearchPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof postSearchSearchPost>>,
       TError,
-      { data: SearchQuery; params?: PostSearchSearchPostParams },
+      PostSearchSearchPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1355,7 +1497,7 @@ export const usePostSearchSearchPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof postSearchSearchPost>>,
   TError,
-  { data: SearchQuery; params?: PostSearchSearchPostParams },
+  PostSearchSearchPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1373,6 +1515,21 @@ export const getRuntimeListRuntimesGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetRuntimeListRuntimesGet200>> => {
   return axios.get(`/runtimes`, options)
+}
+
+export const getGetRuntimeListRuntimesGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/runtimes`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetRuntimeListRuntimesGetQueryKey = () => {
@@ -1533,6 +1690,24 @@ export const getSummarySummaryAppIdGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetSummarySummaryAppIdGetUrl = (
+  appId: string,
+  params?: GetSummarySummaryAppIdGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/summary/${appId}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetSummarySummaryAppIdGetQueryKey = (
@@ -1714,6 +1889,21 @@ export const getPlatformsPlatformsGet = (
   return axios.get(`/platforms`, options)
 }
 
+export const getGetPlatformsPlatformsGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/platforms`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetPlatformsPlatformsGetQueryKey = () => {
   return [`/platforms`] as const
 }
@@ -1865,6 +2055,21 @@ export const getAddonsAddonAppIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<string[]>> => {
   return axios.get(`/addon/${appId}`, options)
+}
+
+export const getGetAddonsAddonAppIdGetUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/addon/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetAddonsAddonAppIdGetQueryKey = (appId: string) => {
@@ -2028,6 +2233,21 @@ export const getExceptionsExceptionsGet = (
   return axios.get(`/exceptions/`, options)
 }
 
+export const getGetExceptionsExceptionsGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/exceptions/`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetExceptionsExceptionsGetQueryKey = () => {
   return [`/exceptions/`] as const
 }
@@ -2176,6 +2396,21 @@ export const getExceptionsForAppExceptionsAppIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.get(`/exceptions/${appId}`, options)
+}
+
+export const getGetExceptionsForAppExceptionsAppIdGetUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/exceptions/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetExceptionsForAppExceptionsAppIdGetQueryKey = (
@@ -2348,6 +2583,24 @@ export const addToFavoritesFavoritesAppIdAddPost = (
   return axios.post(`/favorites/${appId}/add`, undefined, options)
 }
 
+export const getAddToFavoritesFavoritesAppIdAddPostUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/favorites/${appId}/add`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getAddToFavoritesFavoritesAppIdAddPostMutationKey = () =>
+  ["addToFavoritesFavoritesAppIdAddPost"] as const
+
 export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
   TError = AxiosError<HTTPValidationError | void>,
   TContext = unknown,
@@ -2355,17 +2608,17 @@ export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
     TError,
-    { appId: string },
+    AddToFavoritesFavoritesAppIdAddPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
   TError,
-  { appId: string },
+  AddToFavoritesFavoritesAppIdAddPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["addToFavoritesFavoritesAppIdAddPost"]
+  const mutationKey = getAddToFavoritesFavoritesAppIdAddPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -2376,7 +2629,7 @@ export const getAddToFavoritesFavoritesAppIdAddPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
-    { appId: string }
+    AddToFavoritesFavoritesAppIdAddPostMutationVariables
   > = (props) => {
     const { appId } = props ?? {}
 
@@ -2392,6 +2645,9 @@ export type AddToFavoritesFavoritesAppIdAddPostMutationResult = NonNullable<
 
 export type AddToFavoritesFavoritesAppIdAddPostMutationError =
   AxiosError<HTTPValidationError | void>
+export type AddToFavoritesFavoritesAppIdAddPostMutationVariables = {
+  appId: string
+}
 
 /**
  * @summary Add To Favorites
@@ -2404,7 +2660,7 @@ export const useAddToFavoritesFavoritesAppIdAddPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
       TError,
-      { appId: string },
+      AddToFavoritesFavoritesAppIdAddPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2413,7 +2669,7 @@ export const useAddToFavoritesFavoritesAppIdAddPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof addToFavoritesFavoritesAppIdAddPost>>,
   TError,
-  { appId: string },
+  AddToFavoritesFavoritesAppIdAddPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -2432,6 +2688,26 @@ export const removeFromFavoritesFavoritesAppIdRemoveDelete = (
   return axios.delete(`/favorites/${appId}/remove`, options)
 }
 
+export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/favorites/${appId}/remove`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationKey = () =>
+  ["removeFromFavoritesFavoritesAppIdRemoveDelete"] as const
+
 export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
   TError = AxiosError<HTTPValidationError | void>,
   TContext = unknown,
@@ -2439,17 +2715,18 @@ export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
     TError,
-    { appId: string },
+    RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
   TError,
-  { appId: string },
+  RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationVariables,
   TContext
 > => {
-  const mutationKey = ["removeFromFavoritesFavoritesAppIdRemoveDelete"]
+  const mutationKey =
+    getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -2460,7 +2737,7 @@ export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
-    { appId: string }
+    RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationVariables
   > = (props) => {
     const { appId } = props ?? {}
 
@@ -2477,6 +2754,9 @@ export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationResult =
 
 export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationError =
   AxiosError<HTTPValidationError | void>
+export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationVariables = {
+  appId: string
+}
 
 /**
  * @summary Remove From Favorites
@@ -2489,7 +2769,7 @@ export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
       TError,
-      { appId: string },
+      RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2498,7 +2778,7 @@ export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof removeFromFavoritesFavoritesAppIdRemoveDelete>>,
   TError,
-  { appId: string },
+  RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -2514,6 +2794,21 @@ export const getFavoritesFavoritesGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<FavoriteApp[]>> => {
   return axios.get(`/favorites`, options)
+}
+
+export const getGetFavoritesFavoritesGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/favorites`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetFavoritesFavoritesGetQueryKey = () => {
@@ -2664,6 +2959,21 @@ export const isFavoritedFavoritesAppIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<boolean>> => {
   return axios.get(`/favorites/${appId}`, options)
+}
+
+export const getIsFavoritedFavoritesAppIdGetUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/favorites/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getIsFavoritedFavoritesAppIdGetQueryKey = (appId: string) => {
@@ -2832,6 +3142,23 @@ export const getAppFavoritesCountFavoritesAppIdCountGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetAppFavoritesCountFavoritesAppIdCountGet200>> => {
   return axios.get(`/favorites/${appId}/count`, options)
+}
+
+export const getGetAppFavoritesCountFavoritesAppIdCountGetUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/favorites/${appId}/count`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetAppFavoritesCountFavoritesAppIdCountGetQueryKey = (

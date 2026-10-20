@@ -30,11 +30,8 @@ export const getGetModerationAppsModerationAppsGetResponseMock = (
     appid: faker.string.alpha({ length: { min: 10, max: 20 } }),
     is_new_submission: faker.datatype.boolean(),
     updated_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
     request_types: faker.helpers.arrayElements(
       Object.values(ModerationRequestType),
@@ -61,168 +58,120 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
       Object.values(ModerationRequestType),
     ),
     request_data: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        {
-          keys: {
-            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
-              faker.datatype.boolean(),
-              faker.number.int(),
-              faker.number.float({ fractionDigits: 2 }),
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              [],
-              null,
-            ]),
-          },
-          current_values: {
-            [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
-              faker.datatype.boolean(),
-              faker.number.int(),
-              faker.number.float({ fractionDigits: 2 }),
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              [],
-              null,
-            ]),
-          },
+      {
+        keys: {
+          [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+            faker.datatype.boolean(),
+            faker.number.int(),
+            faker.number.float({ fractionDigits: 2 }),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            [],
+            null,
+          ]),
         },
-        {
-          findings: Array.from(
+        current_values: {
+          [faker.string.alphanumeric(5)]: faker.helpers.arrayElement([
+            faker.datatype.boolean(),
+            faker.number.int(),
+            faker.number.float({ fractionDigits: 2 }),
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            [],
+            null,
+          ]),
+        },
+      },
+      {
+        findings: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => ({
+          origins_added: Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1,
-          ).map(() => ({
-            origins_added: Array.from(
-              { length: faker.number.int({ min: 1, max: 10 }) },
-              (_, i) => i + 1,
-            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-            origins_removed: Array.from(
-              { length: faker.number.int({ min: 1, max: 10 }) },
-              (_, i) => i + 1,
-            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-            locations_by_origin: {
-              [faker.string.alphanumeric(5)]: Array.from(
-                { length: faker.number.int({ min: 1, max: 10 }) },
-                (_, i) => i + 1,
-              ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-            },
-            arches: Array.from(
-              { length: faker.number.int({ min: 1, max: 10 }) },
-              (_, i) => i + 1,
-            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
-          })),
-        },
-        {
-          channel: faker.string.alpha({ length: { min: 10, max: 20 } }),
-          flatpak_branch: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          comparison_source: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          candidate_fingerprint: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          comparison_fingerprint: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          differences: Array.from(
+          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+          origins_removed: Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
             (_, i) => i + 1,
-          ).map(() => ({})),
-          error_code: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          error_message: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          linked_assessment_id: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.number.int(), null]),
-            undefined,
-          ]),
-          linked_review_url: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          pull_request_url: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          approved_baseline: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([null]),
-            undefined,
-          ]),
-        },
-        null,
-      ]),
-      undefined,
+          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+          locations_by_origin: {
+            [faker.string.alphanumeric(5)]: Array.from(
+              { length: faker.number.int({ min: 1, max: 10 }) },
+              (_, i) => i + 1,
+            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+          },
+          arches: Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1,
+          ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        })),
+      },
+      {
+        channel: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        flatpak_branch: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        comparison_source: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        candidate_fingerprint: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        comparison_fingerprint: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        differences: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => ({})),
+        error_code: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        error_message: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        linked_assessment_id: faker.helpers.arrayElement([
+          faker.number.int(),
+          null,
+        ]),
+        linked_review_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        pull_request_url: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        approved_baseline: faker.helpers.arrayElement([null]),
+      },
+      null,
     ]),
     build_log_url: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     is_new_submission: faker.datatype.boolean(),
     handled_by: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     handled_at: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.date.past().toISOString().slice(0, 19) + "Z",
-        null,
-      ]),
-      undefined,
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
     ]),
-    is_approved: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-      undefined,
-    ]),
+    is_approved: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
     comment: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     discussion_url: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     can_open_discussion: faker.datatype.boolean(),
   })),
@@ -273,36 +222,21 @@ export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
   ] as const),
   acceptance_basis: faker.helpers.arrayElement([
     faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        "baseline",
-        "permission_decision",
-        "stable_baseline",
-        "beta_approval",
-      ] as const),
-      null,
-    ]),
-    undefined,
+      "baseline",
+      "permission_decision",
+      "stable_baseline",
+      "beta_approval",
+    ] as const),
+    null,
   ]),
-  decision_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.number.int(), null]),
-    undefined,
-  ]),
+  decision_id: faker.helpers.arrayElement([faker.number.int(), null]),
   decision_rationale: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
   ]),
-  baseline_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.number.int(), null]),
-    undefined,
-  ]),
+  baseline_id: faker.helpers.arrayElement([faker.number.int(), null]),
   review_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
-  superseded_by: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.number.int(), null]),
-    undefined,
-  ]),
+  superseded_by: faker.helpers.arrayElement([faker.number.int(), null]),
   canonicalization_version: faker.helpers.arrayElement([2, 3, 4, 5] as const),
   assessment_identity: faker.string.alpha({ length: { min: 10, max: 20 } }),
   expected_arches: Array.from(
@@ -351,27 +285,18 @@ export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
       (_, i) => i + 1,
     ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
   })),
-  linked_assessment_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.number.int(), null]),
-    undefined,
-  ]),
+  linked_assessment_id: faker.helpers.arrayElement([faker.number.int(), null]),
   linked_fingerprint_match: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-    undefined,
+    faker.datatype.boolean(),
+    null,
   ]),
   error_code: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
   ]),
   error_message: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
   ]),
   ...overrideResponse,
 })
@@ -399,36 +324,21 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
     ] as const),
     acceptance_basis: faker.helpers.arrayElement([
       faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          "baseline",
-          "permission_decision",
-          "stable_baseline",
-          "beta_approval",
-        ] as const),
-        null,
-      ]),
-      undefined,
+        "baseline",
+        "permission_decision",
+        "stable_baseline",
+        "beta_approval",
+      ] as const),
+      null,
     ]),
-    decision_id: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.number.int(), null]),
-      undefined,
-    ]),
+    decision_id: faker.helpers.arrayElement([faker.number.int(), null]),
     decision_rationale: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
-    baseline_id: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.number.int(), null]),
-      undefined,
-    ]),
+    baseline_id: faker.helpers.arrayElement([faker.number.int(), null]),
     review_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
-    superseded_by: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.number.int(), null]),
-      undefined,
-    ]),
+    superseded_by: faker.helpers.arrayElement([faker.number.int(), null]),
     canonicalization_version: faker.helpers.arrayElement([2, 3, 4, 5] as const),
     assessment_identity: faker.string.alpha({ length: { min: 10, max: 20 } }),
     expected_arches: Array.from(
@@ -478,26 +388,20 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
       ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
     })),
     linked_assessment_id: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.number.int(), null]),
-      undefined,
+      faker.number.int(),
+      null,
     ]),
     linked_fingerprint_match: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-      undefined,
+      faker.datatype.boolean(),
+      null,
     ]),
     error_code: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     error_message: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     ...overrideResponse,
   })
