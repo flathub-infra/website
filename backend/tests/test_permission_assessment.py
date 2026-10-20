@@ -1,4 +1,5 @@
 import json
+import os
 from types import SimpleNamespace
 
 import jwt
@@ -18,6 +19,10 @@ from app.moderation.permission_snapshot import (
 from tests.shared_fixtures import APP, ARM, REF, SourceRepo
 
 SECRET = "permission-assessment-test-secret-32-bytes"
+needs_database = pytest.mark.skipif(
+    not os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL"),
+    reason="PERMISSION_ASSESSMENT_TEST_DATABASE_URL is not configured",
+)
 
 
 def request_body(**changes):
@@ -189,6 +194,7 @@ def candidate_source(tmp_path, monkeypatch):
     return source, final, job
 
 
+@needs_database
 def test_missing_baseline_preserves_candidate_without_authorization(
     candidate_source, observed
 ):
@@ -237,6 +243,7 @@ def test_final_commit_conflicts_never_fall_back_to_uploads(
     assert observed[0]["fingerprint"] is None
 
 
+@needs_database
 def test_identity_includes_head_and_architecture_set(candidate_source, observed):
     first = assessment.assess_candidate(
         assessment.CandidateAssessmentRequest(**request_body())
@@ -327,6 +334,7 @@ def test_branch_source(tmp_path, monkeypatch):
     return final, extended
 
 
+@needs_database
 def test_candidate_branch_comes_from_uploaded_refs(test_branch_source, observed):
     final, _ = test_branch_source
     response = assessment.assess_candidate(
@@ -389,6 +397,7 @@ def lint_check(status, errors):
     }
 
 
+@needs_database
 def test_build_failed_by_checks_is_assessed(test_branch_source, observed):
     _, extended = test_branch_source
     extended["build"]["repo_state"] = 3
@@ -460,6 +469,7 @@ def test_malformed_build_checks_are_errors(test_branch_source, observed, checks)
     assert observed[0]["build_checks"] == []
 
 
+@needs_database
 def test_unparseable_check_results_record_no_errors(test_branch_source, observed):
     _, extended = test_branch_source
     extended["checks"] = [{**lint_check(1, []), "results": "not json"}]
@@ -470,6 +480,7 @@ def test_unparseable_check_results_record_no_errors(test_branch_source, observed
     assert response.build_checks[0]["errors"] == []
 
 
+@needs_database
 def test_beta_destination_compares_with_beta_repo(
     test_branch_source, observed, monkeypatch, tmp_path
 ):
@@ -525,6 +536,7 @@ def test_pull_request_candidates_are_never_linked():
     assert assessment._linked_assessment(request, "f" * 64) == (None, None)
 
 
+@needs_database
 def test_push_records_linked_assessment(test_branch_source, observed, monkeypatch):
     calls = []
 
@@ -592,6 +604,7 @@ def test_matching_baseline_accepts_candidate(
     assert row["published_snapshot"] == baseline["snapshot"]
 
 
+@needs_database
 def test_baseline_difference_needs_review_even_for_removals(
     test_branch_source, observed, monkeypatch
 ):
@@ -624,6 +637,7 @@ def test_inconsistent_baseline_is_an_error(test_branch_source, observed, monkeyp
     assert observed[0]["published_snapshot"] is None
 
 
+@needs_database
 def test_matching_live_repo_without_baseline_stays_pending(
     test_branch_source, observed, monkeypatch, tmp_path
 ):
