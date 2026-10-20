@@ -1066,6 +1066,38 @@ def test_permission_only_request_is_summary(monkeypatch):
     }
 
 
+@pytest.mark.parametrize("current", [{}, {"shared": ["network"]}])
+def test_permission_keys_absent_from_published_build_are_summary(monkeypatch, current):
+    build = {
+        **current,
+        "filesystems": ["~/.mozilla/native-messaging-hosts:create"],
+        "system-bus": {"talk": ["org.bluez"]},
+    }
+    harness = CallbackHarness(
+        monkeypatch,
+        enabled=False,
+        current_values=_unchanged_values(),
+        current_summaries={"org.example.App": {"metadata": {"permissions": current}}},
+        build_summary={
+            "org.example.App": {
+                "arches": set(),
+                "metadata": {"permissions": build},
+            }
+        },
+    )
+
+    assert harness.call().requires_review is True
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.SUMMARY
+    assert json.loads(request.request_data) == {
+        "keys": {
+            "filesystems": ["~/.mozilla/native-messaging-hosts:create"],
+            "talk-system-bus": ["org.bluez"],
+        },
+        "current_values": {"filesystems": None, "talk-system-bus": None},
+    }
+
+
 def test_runtime_inherited_permissions_are_not_summary_changes(monkeypatch):
     kde = "org.kde.Platform/x86_64/6.11"
     monkeypatch.setattr(

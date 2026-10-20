@@ -1999,7 +1999,7 @@ def submit_review_request(
                 )
 
             if (
-                current_permissions
+                current_permissions is not None
                 and build_permissions
                 and current_permissions != build_permissions
                 and app_id not in permission_handled
@@ -2013,15 +2013,20 @@ def submit_review_request(
                 build_permissions = _without_inherited_permissions(
                     build_permissions, inherited
                 )
-                for perm in current_permissions:
-                    current_perm = current_permissions[perm]
+                for perm in current_permissions.keys() | build_permissions.keys():
+                    current_perm = current_permissions.get(perm)
                     build_perm = build_permissions.get(perm)
 
-                    if isinstance(current_perm, list):
+                    if isinstance(current_perm, list) or isinstance(build_perm, list):
                         current_strings = _string_list(current_perm)
                         build_strings = _string_list(build_perm)
                         if (
-                            len(current_strings) != len(current_perm)
+                            len(current_strings)
+                            != (
+                                len(current_perm)
+                                if isinstance(current_perm, list)
+                                else 0
+                            )
                             or len(build_strings)
                             != (len(build_perm) if isinstance(build_perm, list) else 0)
                             or sorted(current_strings) != sorted(build_strings)
@@ -2030,7 +2035,9 @@ def submit_review_request(
                             if is_json_value(build_perm):
                                 summary_keys[perm] = build_perm
 
-                    if isinstance(current_perm, dict):
+                    elif isinstance(current_perm, dict) or isinstance(build_perm, dict):
+                        if not is_json_object(current_perm):
+                            current_perm = {}
                         if not is_json_object(build_perm):
                             build_perm = {}
 
