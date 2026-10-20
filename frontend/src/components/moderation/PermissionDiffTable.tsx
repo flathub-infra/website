@@ -1,6 +1,7 @@
-import { FunctionComponent } from "react"
+import { FunctionComponent, ReactNode } from "react"
 import { useTranslations } from "next-intl"
 import { cva } from "class-variance-authority"
+import diff from "fast-diff"
 import { cn } from "@/lib/utils"
 
 const diffValueVariants = cva("", {
@@ -31,6 +32,159 @@ const show = (value: unknown) =>
     : typeof value === "string"
       ? value
       : JSON.stringify(value, null, 1)
+
+type LineChange = {
+  before: string | null
+  after: string | null
+  changed: boolean
+}
+
+const alignLines = (before: string[], after: string[]): LineChange[] => {
+  // Keep the LCS matrix bounded for unusually large permission values.
+  if (before.length * after.length > 100_000) {
+    const count = Math.max(before.length, after.length)
+    return Array.from({ length: count }, (_, index) => ({
+      before: before[index] ?? null,
+      after: after[index] ?? null,
+      changed: before[index] !== after[index],
+    }))
+  }
+
+  const lcs = Array.from({ length: before.length + 1 }, () =>
+    Array<number>(after.length + 1).fill(0),
+  )
+
+  for (let i = before.length - 1; i >= 0; i--) {
+    for (let j = after.length - 1; j >= 0; j--) {
+      lcs[i][j] =
+        before[i] === after[j]
+          ? lcs[i + 1][j + 1] + 1
+          : Math.max(lcs[i + 1][j], lcs[i][j + 1])
+    }
+  }
+
+  const operations: { kind: "equal" | "delete" | "insert"; line: string }[] = []
+  let i = 0
+  let j = 0
+  while (i < before.length || j < after.length) {
+    if (i < before.length && j < after.length && before[i] === after[j]) {
+      operations.push({ kind: "equal", line: before[i] })
+      i++
+      j++
+    } else if (
+      i < before.length &&
+      (j === after.length || lcs[i + 1][j] >= lcs[i][j + 1])
+    ) {
+      operations.push({ kind: "delete", line: before[i++] })
+    } else {
+      operations.push({ kind: "insert", line: after[j++] })
+    }
+  }
+
+  const aligned: LineChange[] = []
+  let deleted: string[] = []
+  let inserted: string[] = []
+  const flushChanges = () => {
+    const count = Math.max(deleted.length, inserted.length)
+    for (let index = 0; index < count; index++) {
+      aligned.push({
+        before: deleted[index] ?? null,
+        after: inserted[index] ?? null,
+        changed: true,
+      })
+    }
+    deleted = []
+    inserted = []
+  }
+
+  for (const operation of operations) {
+    if (operation.kind === "equal") {
+      flushChanges()
+      aligned.push({
+        before: operation.line,
+        after: operation.line,
+        changed: false,
+      })
+    } else if (operation.kind === "delete") {
+      deleted.push(operation.line)
+    } else {
+      inserted.push(operation.line)
+    }
+  }
+  flushChanges()
+  return aligned
+}
+
+const changedLineClassName = (side: "old" | "new") =>
+  side === "old"
+    ? "rounded-sm bg-[oklch(88%_0.07_25)] text-inherit dark:bg-[oklch(42%_0.07_25)]"
+    : "rounded-sm bg-[oklch(88%_0.08_155)] text-inherit dark:bg-[oklch(42%_0.08_155)]"
+
+const renderChangedText = (
+  before: string,
+  after: string,
+  side: "old" | "new",
+): ReactNode[] => {
+  const parts: ReactNode[] = []
+  for (const [index, [operation, text]] of diff(before, after).entries()) {
+    if (operation === diff.EQUAL) {
+      parts.push(text)
+      continue
+    }
+    if (
+      (side === "old" && operation === diff.INSERT) ||
+      (side === "new" && operation === diff.DELETE)
+    ) {
+      continue
+    }
+    parts.push(
+      <mark key={index} className={changedLineClassName(side)}>
+        {text}
+      </mark>,
+    )
+  }
+  return parts
+}
+
+const AlignedValue = ({
+  before,
+  after,
+  side,
+}: {
+  before: unknown
+  after: unknown
+  side: "old" | "new"
+}) => {
+  const beforeLines = show(before).split("\n")
+  const afterLines = show(after).split("\n")
+  const lines = alignLines(beforeLines, afterLines)
+
+  return (
+    <div className="whitespace-pre-wrap [overflow-wrap:anywhere]">
+      {lines.map((line, index) => {
+        const text = side === "old" ? line.before : line.after
+        const otherText = side === "old" ? line.after : line.before
+        return (
+          <div key={index} className="min-h-[1.5em]">
+            {text === null ? (
+              " "
+            ) : !line.changed ? (
+              text || " "
+            ) : otherText === null ? (
+              <mark className={changedLineClassName(side)}>{text || " "}</mark>
+            ) : (
+              renderChangedText(
+                side === "old" ? text : otherText,
+                side === "new" ? text : otherText,
+                side,
+              )
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 const PermissionDiffTable: FunctionComponent<Props> = ({
   differences,
@@ -111,7 +265,11 @@ const PermissionDiffTable: FunctionComponent<Props> = ({
                       diffValueVariants({ kind: "removed" }),
                     )}
                   >
-                    {show(row.before)}
+                    <AlignedValue
+                      before={row.before}
+                      after={row.after}
+                      side="old"
+                    />
                   </td>
                   <td
                     data-diff="new-value"
@@ -121,7 +279,11 @@ const PermissionDiffTable: FunctionComponent<Props> = ({
                       diffValueVariants({ kind: "added" }),
                     )}
                   >
-                    {show(row.after)}
+                    <AlignedValue
+                      before={row.before}
+                      after={row.after}
+                      side="new"
+                    />
                   </td>
                 </tr>
               ))}
