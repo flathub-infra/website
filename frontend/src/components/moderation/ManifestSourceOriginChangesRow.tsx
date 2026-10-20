@@ -6,7 +6,6 @@ import {
   ModerationRequestResponse,
 } from "src/codegen"
 import ReviewCard from "./ReviewCard"
-import ManifestComplexitySummary from "./ManifestComplexitySummary"
 
 interface Props {
   request: ModerationRequestResponse
@@ -66,69 +65,57 @@ const ManifestSourceOriginChangesRow: FunctionComponent<Props> = ({
 
   const manifestData = requestData as ManifestSourceOriginRequestData
   const findings = manifestData.findings
-  const complexity = manifestData.complexity
-  const hasFindings = findings.length > 0
-  const hasComplexity = complexity != null
-  if (!hasFindings && !hasComplexity) {
+  if (findings.length === 0) {
     return null
   }
 
-  const title = hasFindings
-    ? hasComplexity
-      ? t("moderation-manifest-source-and-complexity")
-      : t("moderation-manifest-source-origin")
-    : t("moderation-manifest-complexity")
+  const title = t("moderation-manifest-source-origin")
   const content = (
-    <div className="space-y-6">
-      {complexity && <ManifestComplexitySummary complexity={complexity} />}
-      {hasFindings && (
-        <div className="divide-y divide-flathub-gainsborow overflow-hidden rounded-lg border border-flathub-gainsborow bg-flathub-white dark:divide-flathub-dark-gunmetal dark:border-flathub-dark-gunmetal dark:bg-flathub-arsenic">
-          {findings.flatMap((finding, findingIndex) =>
-            changesByModule(finding).map((change) => (
-              <div
-                className="space-y-3 px-4 py-4"
-                key={`${findingIndex}-${change.module}`}
-              >
-                <code className="font-semibold">{change.module}</code>
+    <div className="divide-y divide-flathub-gainsborow overflow-hidden rounded-lg border border-flathub-gainsborow bg-flathub-white dark:divide-flathub-dark-gunmetal dark:border-flathub-dark-gunmetal dark:bg-flathub-arsenic">
+      {findings.flatMap((finding, findingIndex) =>
+        changesByModule(finding).map((change) => (
+          <div
+            className="space-y-3 px-4 py-4"
+            key={`${findingIndex}-${change.module}`}
+          >
+            <code className="font-semibold">{change.module}</code>
 
-                <div className="space-y-1">
-                  {change.removed.map((origin) => (
-                    <div
-                      className="grid grid-cols-[1.5rem_minmax(0,1fr)] items-baseline text-flathub-sonic-silver dark:text-flathub-spanish-gray"
-                      key={`removed-${origin}`}
-                    >
-                      <span aria-hidden="true" className="font-mono">
-                        −
-                      </span>
-                      <span>
-                        <span className="sr-only">
-                          {t("moderation-manifest-removed")}:{" "}
-                        </span>
-                        <code className="break-all">{origin}</code>
-                      </span>
-                    </div>
-                  ))}
-                  {change.added.map((origin) => (
-                    <div
-                      className="grid grid-cols-[1.5rem_minmax(0,1fr)] items-baseline font-medium text-flathub-status-yellow dark:text-flathub-status-yellow-dark"
-                      key={`added-${origin}`}
-                    >
-                      <span aria-hidden="true" className="font-mono">
-                        +
-                      </span>
-                      <span>
-                        <span className="sr-only">
-                          {t("moderation-manifest-added")}:{" "}
-                        </span>
-                        <code className="break-all">{origin}</code>
-                      </span>
-                    </div>
-                  ))}
+            <div className="space-y-1">
+              {change.removed.map((origin) => (
+                <div
+                  className="grid grid-cols-[1.5rem_minmax(0,1fr)] items-baseline text-flathub-sonic-silver dark:text-flathub-spanish-gray"
+                  key={`removed-${origin}`}
+                >
+                  <span aria-hidden="true" className="font-mono">
+                    −
+                  </span>
+                  <span>
+                    <span className="sr-only">
+                      {t("moderation-manifest-removed")}:{" "}
+                    </span>
+                    <code className="break-all">{origin}</code>
+                  </span>
                 </div>
-              </div>
-            )),
-          )}
-        </div>
+              ))}
+              {change.added.map((origin) => (
+                <div
+                  className="grid grid-cols-[1.5rem_minmax(0,1fr)] items-baseline font-medium text-flathub-status-yellow dark:text-flathub-status-yellow-dark"
+                  key={`added-${origin}`}
+                >
+                  <span aria-hidden="true" className="font-mono">
+                    +
+                  </span>
+                  <span>
+                    <span className="sr-only">
+                      {t("moderation-manifest-added")}:{" "}
+                    </span>
+                    <code className="break-all">{origin}</code>
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )),
       )}
     </div>
   )

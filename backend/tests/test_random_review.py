@@ -191,9 +191,6 @@ class CallbackHarness:
         manifest_enabled=False,
         manifest_gating_enabled=False,
         manifest_source_origin_observe_only=False,
-        complexity_gating_enabled=False,
-        complexity_gating_observe_only=False,
-        complexity_threshold_units=14,
         manifest_timeout=60.0,
         published_repo_url="https://published.example/repo",
         direct_upload_app_ids=(),
@@ -255,21 +252,6 @@ class CallbackHarness:
             config.settings,
             "ostree_manifest_source_origin_observe_only",
             manifest_source_origin_observe_only,
-        )
-        monkeypatch.setattr(
-            config.settings,
-            "ostree_manifest_complexity_gating_enabled",
-            complexity_gating_enabled,
-        )
-        monkeypatch.setattr(
-            config.settings,
-            "ostree_manifest_complexity_gating_observe_only",
-            complexity_gating_observe_only,
-        )
-        monkeypatch.setattr(
-            config.settings,
-            "ostree_manifest_complexity_threshold_units",
-            complexity_threshold_units,
         )
         monkeypatch.setattr(
             config.settings,
@@ -402,9 +384,6 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
         "OSTREE_MANIFEST_COMPARISON_ENABLED",
         "OSTREE_MANIFEST_SOURCE_ORIGIN_GATING_ENABLED",
         "OSTREE_MANIFEST_SOURCE_ORIGIN_OBSERVE_ONLY",
-        "OSTREE_MANIFEST_COMPLEXITY_GATING_ENABLED",
-        "OSTREE_MANIFEST_COMPLEXITY_GATING_OBSERVE_ONLY",
-        "OSTREE_MANIFEST_COMPLEXITY_THRESHOLD_UNITS",
         "OSTREE_MANIFEST_TIMEOUT_SECONDS",
         "random_review_enabled",
         "random_review_rate",
@@ -412,9 +391,6 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
         "ostree_manifest_comparison_enabled",
         "ostree_manifest_source_origin_gating_enabled",
         "ostree_manifest_source_origin_observe_only",
-        "ostree_manifest_complexity_gating_enabled",
-        "ostree_manifest_complexity_gating_observe_only",
-        "ostree_manifest_complexity_threshold_units",
         "ostree_manifest_timeout_seconds",
     ):
         monkeypatch.delenv(name, raising=False)
@@ -427,22 +403,17 @@ def test_settings_default_rate_and_disabled_by_default(monkeypatch):
     assert settings.ostree_manifest_comparison_enabled is False
     assert settings.ostree_manifest_source_origin_gating_enabled is False
     assert settings.ostree_manifest_source_origin_observe_only is False
-    assert settings.ostree_manifest_complexity_gating_enabled is False
-    assert settings.ostree_manifest_complexity_gating_observe_only is False
-    assert settings.ostree_manifest_complexity_threshold_units == 14
     assert settings.ostree_manifest_timeout_seconds == 60.0
 
 
 def test_settings_read_canonical_manifest_observe_only_environment(monkeypatch):
     monkeypatch.setenv("OSTREE_MANIFEST_SOURCE_ORIGIN_OBSERVE_ONLY", "true")
-    monkeypatch.setenv("OSTREE_MANIFEST_COMPLEXITY_GATING_OBSERVE_ONLY", "true")
     settings = config.Settings(
         ostree_manifest_comparison_enabled=True,
         _env_file=None,
     )
 
     assert settings.ostree_manifest_source_origin_observe_only is True
-    assert settings.ostree_manifest_complexity_gating_observe_only is True
 
 
 @pytest.mark.parametrize("rate", [-0.001, 1.001])
@@ -474,17 +445,6 @@ def test_manifest_origin_gate_requires_manifest_comparison():
         )
 
 
-def test_manifest_complexity_gate_requires_manifest_comparison():
-    with pytest.raises(
-        ValidationError,
-        match="OSTREE_MANIFEST_COMPLEXITY_GATING_ENABLED requires OSTREE_MANIFEST_COMPARISON_ENABLED",
-    ):
-        config.Settings(
-            ostree_manifest_comparison_enabled=False,
-            ostree_manifest_complexity_gating_enabled=True,
-        )
-
-
 def test_manifest_origin_observe_only_requires_manifest_comparison():
     with pytest.raises(
         ValidationError,
@@ -494,23 +454,6 @@ def test_manifest_origin_observe_only_requires_manifest_comparison():
             ostree_manifest_comparison_enabled=False,
             ostree_manifest_source_origin_observe_only=True,
         )
-
-
-def test_manifest_complexity_observe_only_requires_manifest_comparison():
-    with pytest.raises(
-        ValidationError,
-        match="OSTREE_MANIFEST_COMPLEXITY_GATING_OBSERVE_ONLY requires OSTREE_MANIFEST_COMPARISON_ENABLED",
-    ):
-        config.Settings(
-            ostree_manifest_comparison_enabled=False,
-            ostree_manifest_complexity_gating_observe_only=True,
-        )
-
-
-@pytest.mark.parametrize("threshold", [0, 41])
-def test_manifest_complexity_threshold_bounds(threshold):
-    with pytest.raises(ValidationError):
-        config.Settings(ostree_manifest_complexity_threshold_units=threshold)
 
 
 def test_canonical_identity_is_independent_of_reference_order():
@@ -1422,31 +1365,6 @@ def test_build_issue_excludes_moderation_details(monkeypatch, discussion):
 
     monkeypatch.setattr(config.settings, "github_bot_token", "token")
     monkeypatch.setattr(moderation, "Github", FakeGithub)
-    complexity = {
-        "score_units": 15,
-        "raw_score_units": 15,
-        "threshold_units": 14,
-        "score_band": "large",
-        "score_breakdown": {
-            "structural_units": 5,
-            "recipe_units": 6,
-            "breadth_units": 2,
-            "ambiguity_units": 2,
-        },
-        "affected_arches": ["aarch64", "x86_64"],
-        "touched_modules": ["modules/main"],
-        "touched_modules_truncated": True,
-        "total_touched_module_count": 51,
-        "events": [
-            {
-                "kind": "module_match_ambiguous",
-                "location": "modules/main",
-                "arches": ["aarch64", "x86_64"],
-            }
-        ],
-        "events_truncated": True,
-        "total_event_count": 26,
-    }
     request = SimpleNamespace(
         appid="org.example.App",
         build_id=123,
@@ -1467,7 +1385,6 @@ def test_build_issue_excludes_moderation_details(monkeypatch, discussion):
                         "arches": ["aarch64", "x86_64"],
                     }
                 ],
-                "complexity": complexity,
             }
         ),
     )
@@ -1479,11 +1396,7 @@ def test_build_issue_excludes_moderation_details(monkeypatch, discussion):
     assert "> Not acceptable" in created["body"]
     for private in (
         "https://github.com/foo",
-        "modules/main",
         'modules["app"]',
-        "module_match_ambiguous",
-        "score",
-        "complexity",
     ):
         assert private not in created["title"] + created["body"]
 
@@ -1976,70 +1889,16 @@ def _source_transition_manifest_pair(
     return pair
 
 
-def _complexity_pair():
-    pair = _manifest_pair("x86_64", changed=True)
-    pair.published_manifest = {
-        "modules": [
-            {"name": "main", "buildsystem": "simple"},
-            {"name": "commands", "build-commands": ["echo old"]},
-        ]
-    }
-    pair.candidate_manifest = {
-        "modules": [
-            {"name": "main", "buildsystem": "meson"},
-            {"name": "commands", "build-commands": ["echo new"]},
-        ]
-    }
-    return pair
-
-
-def test_manifest_complexity_request_data_accepts_truncated_events():
-    events = [
-        moderation.ManifestComplexityEventData(
-            kind=moderation.manifest_complexity.ManifestChangeKind.MODULE_ADDED,
-            location=f"modules/{index:02d}",
-            arches=[],
-        )
-        for index in range(25)
-    ]
-
-    data = moderation.ManifestComplexityRequestData(
-        algorithm_version=1,
-        analysis_fingerprint="sha256:" + "0" * 64,
-        score_units=1,
-        raw_score_units=1,
-        display_score=0.5,
-        threshold_units=14,
-        score_band=moderation.manifest_complexity.ManifestComplexityScoreBand.SMALL,
-        score_breakdown={
-            "structural_units": 1,
-            "recipe_units": 0,
-            "breadth_units": 0,
-            "ambiguity_units": 0,
-        },
-        affected_arches=[],
-        touched_modules=[],
-        touched_modules_truncated=False,
-        total_touched_module_count=0,
-        events=events,
-        events_truncated=True,
-        total_event_count=26,
-    )
-
-    assert data.events_truncated is True
-
-
 @pytest.mark.parametrize(
-    ("pair_factory", "expected_score", "expected_source_status"),
+    ("pair_factory", "expected_source_status"),
     [
-        (lambda: _manifest_pair("x86_64", changed=False), 0, "clean"),
-        (_source_manifest_pair, 5, "findings"),
+        (lambda: _manifest_pair("x86_64", changed=False), "clean"),
+        (_source_manifest_pair, "findings"),
     ],
 )
-def test_scored_manifest_observations_include_zero_and_below_threshold(
+def test_manifest_observations_record_source_status(
     monkeypatch,
     pair_factory,
-    expected_score,
     expected_source_status,
 ):
     harness = CallbackHarness(
@@ -2058,133 +1917,22 @@ def test_scored_manifest_observations_include_zero_and_below_threshold(
     result = harness.call()
 
     observation = harness.observations[(42, "org.example.App")]
-    groups = moderation.ostree_manifest.group_identical_manifest_pairs((pair,))
-    analysis = moderation.manifest_complexity.analyze_manifest_complexity(groups)
-    expected_data = moderation._manifest_complexity_request_data(
-        moderation.ReviewRequest(build_id=42, job_id=7),
-        "org.example.App",
-        analysis,
-        14,
-        include_calibration_telemetry=True,
-    ).model_dump(mode="json", exclude_none=True)
     assert result.requires_review is False
     assert harness.db.session.persisted == []
-    assert observation["complexity_status"] == "scored"
-    assert observation["complexity_score_units"] == expected_score
-    assert observation["complexity_raw_score_units"] == analysis.raw_score_units
-    assert observation["complexity_would_gate"] is False
-    assert observation["complexity_not_scored_reason"] is None
-    assert observation["complexity_data"] == expected_data
     assert observation["source_status"] == expected_source_status
 
 
-def test_scored_manifest_observation_persists_command_telemetry_without_raw_text(
-    monkeypatch,
-):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-    )
-    pair = _complexity_pair()
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (pair,),
-    )
-
-    harness.call()
-
-    observation = harness.observations[(42, "org.example.App")]
-    assert observation["build_command_event_count"] == 1
-    assert observation["build_command_distinct_fingerprint_count"] == 1
-    assert observation["build_command_fingerprint_group_sizes"] == [1]
-    assert observation["complexity_data"]["score_by_kind"] == {
-        "build_commands_changed": 4,
-        "buildsystem_changed": 6,
-    }
-    assert observation["complexity_data"]["event_count_by_kind"] == {
-        "build_commands_changed": 1,
-        "buildsystem_changed": 1,
-    }
-    serialized = json.dumps(observation, sort_keys=True)
-    assert "echo old" not in serialized
-    assert "echo new" not in serialized
-
-
-def test_scored_manifest_observation_persists_complete_event_telemetry_when_details_truncated(
-    monkeypatch,
-):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-    )
-    pair = _manifest_pair("x86_64", changed=True)
-    pair.published_manifest = {
-        "modules": [
-            {"name": f"module-{index}", "build-commands": [f"echo old {index}"]}
-            for index in range(30)
-        ]
-    }
-    pair.candidate_manifest = {
-        "modules": [
-            {"name": f"module-{index}", "build-commands": [f"echo new {index}"]}
-            for index in range(30)
-        ]
-    }
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (pair,),
-    )
-
-    harness.call()
-
-    observation = harness.observations[(42, "org.example.App")]
-    complexity_data = observation["complexity_data"]
-    assert len(complexity_data["events"]) == 25
-    assert complexity_data["events_truncated"] is True
-    assert complexity_data["total_event_count"] == 30
-    assert complexity_data["event_count_by_kind"] == {
-        "build_commands_changed": 30,
-    }
-    assert complexity_data["score_by_kind"] == {
-        "build_commands_changed": 12,
-    }
-    assert complexity_data["score_breakdown"] == {
-        "structural_units": 0,
-        "recipe_units": 12,
-        "breadth_units": 4,
-        "ambiguity_units": 0,
-    }
-    assert complexity_data["raw_score_units"] == 16
-    assert complexity_data["score_units"] == 16
-
-
 @pytest.mark.parametrize(
-    ("published_status", "expected_reason"),
+    "published_status",
     [
-        (
-            moderation.ostree_manifest.PublishedManifestStatus.REF_MISSING,
-            "published_ref_missing",
-        ),
-        (
-            moderation.ostree_manifest.PublishedManifestStatus.MANIFEST_MISSING,
-            "published_manifest_missing",
-        ),
-        (
-            moderation.ostree_manifest.PublishedManifestStatus.MANIFEST_INVALID,
-            "published_manifest_invalid",
-        ),
+        moderation.ostree_manifest.PublishedManifestStatus.REF_MISSING,
+        moderation.ostree_manifest.PublishedManifestStatus.MANIFEST_MISSING,
+        moderation.ostree_manifest.PublishedManifestStatus.MANIFEST_INVALID,
     ],
 )
-def test_published_baseline_failures_persist_not_scored_reason(
+def test_published_baseline_failures_leave_source_status_unavailable(
     monkeypatch,
     published_status,
-    expected_reason,
 ):
     harness = CallbackHarness(
         monkeypatch,
@@ -2209,13 +1957,6 @@ def test_published_baseline_failures_persist_not_scored_reason(
     observation = harness.observations[(42, "org.example.App")]
     assert observation["collection_status"] == "complete"
     assert observation["source_status"] == "unavailable"
-    assert observation["complexity_status"] == "not_scored"
-    assert observation["complexity_not_scored_reason"] == expected_reason
-    assert observation["complexity_score_units"] is None
-    assert observation["complexity_raw_score_units"] is None
-    assert observation["complexity_score_band"] is None
-    assert observation["complexity_analysis_fingerprint"] is None
-    assert observation["complexity_data"] is None
 
 
 def test_initial_vorarbeiter_observation_preserves_policy_context(monkeypatch):
@@ -2242,7 +1983,6 @@ def test_initial_vorarbeiter_observation_preserves_policy_context(monkeypatch):
     assert observation["is_new_submission"] is True
     assert observation["source_status"] == "findings"
     assert observation["source_would_gate"] is False
-    assert observation["complexity_not_scored_reason"] == "initial_submission"
 
 
 def test_analysis_observation_upsert_identity_uses_build_and_app(monkeypatch):
@@ -2326,7 +2066,7 @@ def test_enabled_manifest_comparison_uses_all_refs_and_logs_counts(monkeypatch, 
     )
     captured = {}
     pairs = (
-        _complexity_pair(),
+        _manifest_pair("x86_64", changed=True),
         _manifest_pair(
             "aarch64",
             changed=False,
@@ -2383,10 +2123,6 @@ def test_enabled_manifest_comparison_uses_all_refs_and_logs_counts(monkeypatch, 
     assert observation["collection_status"] == "complete"
     assert observation["source_status"] == "unavailable"
     assert observation["comparable_ref_count"] == 1
-    assert observation["complexity_status"] == "scored"
-    assert observation["complexity_score_units"] == 12
-    assert observation["complexity_not_scored_reason"] is None
-    assert observation["complexity_data"]["affected_arches"] == ["x86_64"]
     assert harness.emails == []
 
 
@@ -2442,9 +2178,6 @@ def test_missing_published_manifest_ref_keeps_initial_submission(monkeypatch):
     assert harness.db.session.persisted[0].is_new_submission is True
     observation = harness.observations[(42, "org.example.App")]
     assert observation["policy_context"] == "initial_submission"
-    assert observation["complexity_status"] == "not_scored"
-    assert observation["complexity_not_scored_reason"] == "initial_submission"
-    assert observation["complexity_score_units"] is None
 
 
 def test_manifest_only_change_creates_no_request_on_repeated_callback(monkeypatch):
@@ -2512,9 +2245,6 @@ def test_direct_upload_app_allows_missing_candidate_manifest(monkeypatch):
     assert observation["policy_context"] == "normal"
     assert observation["collection_status"] == "partial"
     assert observation["source_status"] == "unavailable"
-    assert (
-        observation["complexity_not_scored_reason"] == "candidate_manifest_unavailable"
-    )
     assert harness.emails == []
 
 
@@ -3089,54 +2819,6 @@ def test_mirror_only_addition_does_not_gate(monkeypatch):
     assert observation["source_would_gate"] is False
 
 
-def test_origin_gated_request_hides_complexity_payload(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_gating_enabled=True,
-        complexity_gating_enabled=True,
-        complexity_threshold_units=1,
-    )
-    pair = _manifest_pair("x86_64", changed=True)
-    pair.published_manifest = {
-        "modules": [
-            {
-                "name": "main",
-                "build-commands": ["echo old"],
-                "sources": [{"type": "archive", "url": "https://old.example/a"}],
-            }
-        ]
-    }
-    pair.candidate_manifest = {
-        "modules": [
-            {
-                "name": "main",
-                "build-commands": ["echo new"],
-                "sources": [{"type": "archive", "url": "https://new.example/a"}],
-            }
-        ]
-    }
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (pair,),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    request = next(
-        request
-        for request in harness.db.session.persisted
-        if request.request_type == ModerationRequestType.MANIFEST
-    )
-    body = json.loads(request.request_data)
-    assert body["findings"][0]["origins_added"] == ["https://new.example"]
-    assert "complexity" not in body
-
-
 def test_disabled_manifest_gate_logs_would_require_review(monkeypatch, caplog):
     caplog.set_level(logging.INFO, logger=moderation.__name__)
     harness = CallbackHarness(
@@ -3197,7 +2879,6 @@ def test_manifest_gate_creates_exact_stable_request(monkeypatch):
             "origins_removed": [],
         }
     ]
-    assert "complexity" not in request_body
     assert request.request_data == json.dumps(
         json.loads(request.request_data),
         ensure_ascii=True,
@@ -3286,150 +2967,6 @@ def test_manifest_gate_records_repository_origin(
         "origins_added": [candidate_origin],
         "origins_removed": [published_origin],
     }
-
-
-def test_complexity_disabled_logs_without_request(monkeypatch, caplog):
-    caplog.set_level(logging.INFO, logger=moderation.__name__)
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        complexity_gating_enabled=False,
-        complexity_threshold_units=12,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_complexity_pair(),),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is False
-    assert harness.db.session.persisted == []
-    record = next(
-        record
-        for record in caplog.records
-        if record.getMessage() == "Evaluated manifest packaging complexity for app"
-    )
-    assert record.score_units == 12
-    assert record.would_gate is True
-    assert record.gating_enabled is False
-    assert record.gate_suppressed_reason == "gating-disabled"
-
-
-@pytest.mark.parametrize("complexity_threshold_units", [11, 12])
-def test_complexity_at_or_above_threshold_creates_one_manifest_request(
-    monkeypatch,
-    complexity_threshold_units,
-):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=True,
-        rate=1,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        complexity_gating_enabled=True,
-        complexity_threshold_units=complexity_threshold_units,
-    )
-    pair = _complexity_pair()
-    pair.candidate_commit = "d" * 64
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (pair,),
-    )
-
-    first = harness.call()
-    second = harness.call()
-
-    assert first.requires_review is True
-    assert second.requires_review is True
-    assert len(harness.db.session.persisted) == 1
-    assert len(harness.emails) == 1
-    request = harness.db.session.persisted[0]
-    assert request.request_type == ModerationRequestType.MANIFEST
-    body = json.loads(request.request_data)
-    assert body["findings"] == []
-    assert body["complexity"]["score_units"] == 12
-    observation = harness.observations[(42, "org.example.App")]
-    assert observation["complexity_status"] == "scored"
-    assert observation["complexity_score_units"] == 12
-    assert observation["complexity_would_gate"] is True
-    assert body["complexity"]["raw_score_units"] == 12
-    assert body["complexity"]["score_breakdown"] == {
-        "ambiguity_units": 0,
-        "breadth_units": 2,
-        "recipe_units": 10,
-        "structural_units": 0,
-    }
-    assert "score_by_kind" not in body["complexity"]
-    assert "event_count_by_kind" not in body["complexity"]
-
-
-def test_complexity_only_is_suppressed_by_appdata_request(monkeypatch):
-    current_values = _unchanged_values()
-    current_values["org.example.App"]["name"] = "Old name"
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=current_values,
-        manifest_enabled=True,
-        complexity_gating_enabled=True,
-        complexity_threshold_units=12,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_complexity_pair(),),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    assert len(harness.db.session.persisted) == 1
-    assert harness.db.session.persisted[0].request_type == ModerationRequestType.APPDATA
-
-
-def test_complexity_only_is_suppressed_by_summary_request(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        current_summaries={
-            "org.example.App": {
-                "metadata": {
-                    "permissions": {
-                        "shared": ["network"],
-                    }
-                }
-            }
-        },
-        build_summary={
-            "org.example.App": {
-                "metadata": {
-                    "permissions": {
-                        "shared": ["network", "ipc"],
-                    }
-                }
-            }
-        },
-        manifest_enabled=True,
-        complexity_gating_enabled=True,
-        complexity_threshold_units=12,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_complexity_pair(),),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    assert len(harness.db.session.persisted) == 1
-    assert harness.db.session.persisted[0].request_type == ModerationRequestType.SUMMARY
 
 
 @pytest.mark.parametrize(
@@ -3632,32 +3169,6 @@ def test_observation_retry_keeps_reused_request_data_loaded(monkeypatch):
     assert harness.emails == []
 
 
-def test_complexity_observe_only_persists_non_actionable_manifest(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        complexity_gating_observe_only=True,
-        complexity_threshold_units=12,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_complexity_pair(),),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is False
-    assert len(harness.db.session.persisted) == 1
-    request = harness.db.session.persisted[0]
-    assert request.request_type == ModerationRequestType.MANIFEST
-    assert request.is_observation is True
-    assert json.loads(request.request_data)["findings"] == []
-    assert harness.emails == []
-
-
 def test_manifest_observe_only_takes_precedence_over_matching_gate(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
@@ -3681,37 +3192,7 @@ def test_manifest_observe_only_takes_precedence_over_matching_gate(monkeypatch):
     assert harness.emails == []
 
 
-def test_observed_source_origin_and_enforced_complexity_share_actionable_row(
-    monkeypatch,
-):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values=_unchanged_values(),
-        manifest_enabled=True,
-        manifest_source_origin_observe_only=True,
-        complexity_gating_enabled=True,
-        complexity_threshold_units=5,
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_source_manifest_pair(),),
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    assert len(harness.db.session.persisted) == 1
-    request = harness.db.session.persisted[0]
-    assert request.is_observation is False
-    body = json.loads(request.request_data)
-    assert body["findings"]
-    assert "complexity" not in body
-    assert len(harness.emails) == 1
-
-
-def test_complexity_observation_is_stored_with_appdata_hold(monkeypatch):
+def test_manifest_observation_is_stored_with_appdata_hold(monkeypatch):
     current_values = _unchanged_values()
     current_values["org.example.App"]["name"] = "Old name"
     harness = CallbackHarness(
@@ -3719,13 +3200,12 @@ def test_complexity_observation_is_stored_with_appdata_hold(monkeypatch):
         enabled=False,
         current_values=current_values,
         manifest_enabled=True,
-        complexity_gating_observe_only=True,
-        complexity_threshold_units=12,
+        manifest_source_origin_observe_only=True,
     )
     monkeypatch.setattr(
         moderation.ostree_manifest,
         "collect_manifest_pairs",
-        lambda **kwargs: (_complexity_pair(),),
+        lambda **kwargs: (_source_manifest_pair(),),
     )
 
     result = harness.call()
@@ -4053,10 +3533,6 @@ def test_manifest_observe_only_failure_continues_appdata_moderation(monkeypatch,
     assert observation["collection_status"] == "failed"
     assert observation["collection_error_category"] == error.category
     assert observation["source_status"] == "unavailable"
-    assert observation["complexity_status"] == "not_scored"
-    assert (
-        observation["complexity_not_scored_reason"] == "candidate_manifest_unavailable"
-    )
     assert harness.emails
 
 
@@ -4249,7 +3725,7 @@ class EndpointSession:
                 created_at=datetime.now(UTC),
                 appid="org.observed.App",
                 request_type=ModerationRequestType.MANIFEST,
-                request_data=json.dumps({"findings": [], "complexity": None}),
+                request_data=json.dumps({"findings": []}),
                 is_new_submission=False,
                 is_observation=True,
                 is_outdated=False,

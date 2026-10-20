@@ -46,7 +46,6 @@ export const RequestSchema = z.discriminatedUnion("requestType", [
           arches: z.array(z.string()),
         }),
       ),
-      complexity: z.unknown().optional(),
     }),
     isNewSubmission: z.literal(false),
   }),

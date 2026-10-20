@@ -351,11 +351,6 @@ def test_allowlisted_extra_data_origins(
             },
         ),
         (
-            "manifest",
-            json.dumps({"findings": [], "complexity": {"score_units": 20}}),
-            set(),
-        ),
-        (
             "summary",
             json.dumps(
                 {

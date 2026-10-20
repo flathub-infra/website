@@ -2436,24 +2436,8 @@ class ManifestAnalysisObservation(Base):
     source_findings = mapped_column(JSONB, nullable=False)
     source_would_gate = mapped_column(Boolean, nullable=False)
 
-    complexity_status = mapped_column(String, nullable=False)
-    complexity_algorithm_version = mapped_column(Integer, nullable=False)
-    complexity_threshold_units = mapped_column(Integer, nullable=False)
-    complexity_score_units = mapped_column(Integer)
-    complexity_raw_score_units = mapped_column(Integer)
-    complexity_score_band = mapped_column(String)
-    complexity_not_scored_reason = mapped_column(String)
-    complexity_analysis_fingerprint = mapped_column(String)
-    complexity_would_gate = mapped_column(Boolean, nullable=False)
-    complexity_data = mapped_column(JSONB(none_as_null=True))
-    build_command_event_count = mapped_column(Integer, nullable=False)
-    build_command_distinct_fingerprint_count = mapped_column(Integer, nullable=False)
-    build_command_fingerprint_group_sizes = mapped_column(JSONB, nullable=False)
-
     source_gating_enabled = mapped_column(Boolean, nullable=False)
     source_observe_only = mapped_column(Boolean, nullable=False)
-    complexity_gating_enabled = mapped_column(Boolean, nullable=False)
-    complexity_observe_only = mapped_column(Boolean, nullable=False)
     moderation_observe_only = mapped_column(Boolean, nullable=False)
 
     __table_args__ = (
@@ -2483,31 +2467,6 @@ class ManifestAnalysisObservation(Base):
             "AND candidate_ref_count = collected_ref_count "
             "AND collected_ref_count = comparable_ref_count)",
             name="manifestanalysisobservation_clean_source_coverage",
-        ),
-        CheckConstraint(
-            "complexity_status IN ('scored', 'not_scored')",
-            name="manifestanalysisobservation_complexity_status",
-        ),
-        CheckConstraint(
-            "(complexity_status = 'scored' "
-            "AND complexity_score_units IS NOT NULL "
-            "AND complexity_raw_score_units IS NOT NULL "
-            "AND complexity_score_band IS NOT NULL "
-            "AND complexity_analysis_fingerprint IS NOT NULL "
-            "AND complexity_data IS NOT NULL "
-            "AND complexity_not_scored_reason IS NULL) "
-            "OR (complexity_status = 'not_scored' "
-            "AND complexity_score_units IS NULL "
-            "AND complexity_raw_score_units IS NULL "
-            "AND complexity_score_band IS NULL "
-            "AND complexity_analysis_fingerprint IS NULL "
-            "AND complexity_data IS NULL "
-            "AND complexity_not_scored_reason IN "
-            "('initial_submission', 'candidate_manifest_unavailable', "
-            "'published_ref_missing', 'published_manifest_missing', "
-            "'published_manifest_invalid', 'no_manifest_groups', "
-            "'unsupported_manifest_structure'))",
-            name="manifestanalysisobservation_complexity_values",
         ),
         Index(
             "manifestanalysisobservation_build_app_unique",

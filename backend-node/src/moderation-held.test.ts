@@ -51,55 +51,6 @@ const manifestRequest: Request = {
   isNewSubmission: false,
 }
 
-const complexityRequest: Request = {
-  requestType: "manifest",
-  requestData: {
-    findings: [],
-    complexity: {
-      algorithm_version: 4,
-      analysis_fingerprint:
-        "sha256:6ec3f8e3df4e5c77cf90e5ec66081eb8918e52c27ec1d1de7cc3b4ca28998a7e",
-      score_units: 15,
-      raw_score_units: 15,
-      display_score: 7.5,
-      threshold_units: 14,
-      score_band: "large",
-      score_breakdown: {
-        structural_units: 5,
-        recipe_units: 6,
-        breadth_units: 2,
-        ambiguity_units: 2,
-      },
-      affected_arches: ["aarch64", "x86_64"],
-      touched_modules: ["modules/main", "modules/main/modules/libfoo"],
-      touched_modules_truncated: true,
-      total_touched_module_count: 55,
-      events: [
-        {
-          kind: "module_match_ambiguous",
-          location: "modules/main",
-          arches: ["aarch64", "x86_64"],
-          old_summary: { count: 2 },
-          new_summary: { count: 3 },
-        },
-      ],
-      events_truncated: true,
-      total_event_count: 28,
-    },
-  },
-  isNewSubmission: false,
-}
-
-function assertComplexityNotRendered(html: string) {
-  assert.doesNotMatch(html, /Manifest packaging complexity/)
-  assert.doesNotMatch(html, /packaging recipe changed broadly or structurally/)
-  assert.doesNotMatch(html, /security-risk or malicious-change assessment/)
-  assert.doesNotMatch(html, /Score:/)
-  assert.doesNotMatch(html, /modules\/main/)
-  assert.doesNotMatch(html, /module match ambiguous/)
-  assert.doesNotMatch(html, /could not be matched unambiguously/)
-}
-
 function assertRequestDetailsNotRendered(html: string) {
   assert.doesNotMatch(html, /https:\/\/github\.com\/foo\/bar/)
   assert.doesNotMatch(html, /https:\/\/old\.example/)
@@ -192,7 +143,6 @@ test("accepts summary moderation request schema", () => {
 
 test("accepts manifest moderation request schema", () => {
   assert.equal(RequestSchema.safeParse(manifestRequest).success, true)
-  assert.equal(RequestSchema.safeParse(complexityRequest).success, true)
 })
 
 test("accepts permissions moderation request schema", () => {
@@ -256,66 +206,5 @@ test("does not render manifest source origins in rejected email", async () => {
     }),
   )
 
-  assertRequestDetailsNotRendered(html)
-})
-
-test("hides manifest complexity in held email", async () => {
-  const html = await render(
-    ModerationHeldEmail({
-      category: "moderation_held",
-      subject: "Build #123 held for review",
-      previewText: "Build #123 held for review",
-      appId: "org.example.App",
-      appName: "Example App",
-      buildId: 123,
-      buildLogUrl: "https://flathub.org/builds/123",
-      requests: [complexityRequest],
-    }),
-  )
-
-  assertComplexityNotRendered(html)
-  assert.match(html, /has been held for review/)
-})
-
-test("hides manifest complexity in approved email", async () => {
-  const html = await render(
-    ModerationApprovedEmail({
-      category: "moderation_approved",
-      subject: "Build #123 approved",
-      previewText: "Build #123 approved",
-      appId: "org.example.App",
-      appName: "Example App",
-      buildId: 123,
-      buildLogUrl: "https://flathub.org/builds/123",
-      request: complexityRequest,
-    }),
-  )
-
-  assertComplexityNotRendered(html)
-})
-
-test("hides manifest complexity in combined rejected email", async () => {
-  const combinedRequest: Request = {
-    ...manifestRequest,
-    requestData: {
-      ...manifestRequest.requestData,
-      complexity: complexityRequest.requestData.complexity,
-    },
-  }
-  const html = await render(
-    ModerationRejectedEmail({
-      category: "moderation_rejected",
-      subject: "Build #123 rejected",
-      previewText: "Build #123 rejected",
-      appId: "org.example.App",
-      appName: "Example App",
-      buildId: 123,
-      buildLogUrl: "https://flathub.org/builds/123",
-      request: combinedRequest,
-      comment: "Not acceptable",
-    }),
-  )
-
-  assertComplexityNotRendered(html)
   assertRequestDetailsNotRendered(html)
 })

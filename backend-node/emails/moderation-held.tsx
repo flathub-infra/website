@@ -47,7 +47,6 @@ export interface ManifestRequest {
   requestType: "manifest"
   requestData: {
     findings: ManifestFinding[]
-    complexity?: unknown
   }
   isNewSubmission: false
 }

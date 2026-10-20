@@ -13,7 +13,7 @@ import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from github import Github, GithubException
-from pydantic import AfterValidator, BaseModel, Field, model_validator
+from pydantic import AfterValidator, BaseModel, model_validator
 from sqlalchemy import Table, func, not_, or_
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
@@ -40,7 +40,6 @@ from ..types import (
 )
 from ..verification import is_appid_runtime
 from . import (
-    manifest_complexity,
     ostree_manifest,
     permission_publication,
     summary_decisions,
@@ -294,145 +293,8 @@ class ManifestSourceOriginFindingData(BaseModel):
     arches: list[str]
 
 
-class ManifestComplexityBreakdownData(BaseModel):
-    structural_units: int = Field(ge=0)
-    recipe_units: int = Field(ge=0)
-    breadth_units: int = Field(ge=0, le=8)
-    ambiguity_units: int = Field(ge=0)
-
-
-class ManifestComplexityEventData(BaseModel):
-    kind: manifest_complexity.ManifestChangeKind
-    location: str
-    arches: list[str]
-    old_summary: manifest_complexity.JSONValue | None = None
-    new_summary: manifest_complexity.JSONValue | None = None
-    magnitude: int | None = Field(default=None, ge=0)
-
-
-def _manifest_event_data_key(
-    event: ManifestComplexityEventData,
-) -> tuple[object, ...]:
-    return (
-        event.kind.value,
-        event.location,
-        json.dumps(
-            event.old_summary,
-            ensure_ascii=True,
-            sort_keys=True,
-            separators=(",", ":"),
-        ),
-        json.dumps(
-            event.new_summary,
-            ensure_ascii=True,
-            sort_keys=True,
-            separators=(",", ":"),
-        ),
-        -1 if event.magnitude is None else event.magnitude,
-        tuple(event.arches),
-    )
-
-
-class ManifestComplexityRequestData(BaseModel):
-    algorithm_version: int = Field(ge=1)
-    analysis_fingerprint: str = Field(pattern=r"^sha256:[0-9a-f]{64}$")
-    score_units: int = Field(ge=0, le=40)
-    raw_score_units: int = Field(ge=0)
-    display_score: float = Field(ge=0, le=20)
-    threshold_units: int = Field(ge=1, le=40)
-    score_band: manifest_complexity.ManifestComplexityScoreBand
-    score_breakdown: ManifestComplexityBreakdownData
-    score_by_kind: dict[manifest_complexity.ManifestChangeKind, int] | None = None
-    event_count_by_kind: dict[manifest_complexity.ManifestChangeKind, int] | None = None
-    affected_arches: list[str]
-    touched_modules: list[str] = Field(max_length=50)
-    touched_modules_truncated: bool
-    total_touched_module_count: int = Field(ge=0)
-    events: list[ManifestComplexityEventData] = Field(max_length=25)
-    events_truncated: bool
-    total_event_count: int = Field(ge=0)
-
-    @model_validator(mode="after")
-    def validate_derived_fields(self):
-        if self.display_score != self.score_units / 2:
-            raise ValueError("display_score does not match score_units")
-        if self.score_units != min(
-            self.raw_score_units,
-            manifest_complexity.MANIFEST_COMPLEXITY_MAX_SCORE_UNITS,
-        ):
-            raise ValueError("score_units does not match raw_score_units")
-        if self.score_band is not manifest_complexity.manifest_complexity_score_band(
-            self.score_units
-        ):
-            raise ValueError("score_band does not match score_units")
-        breakdown_total = (
-            self.score_breakdown.structural_units
-            + self.score_breakdown.recipe_units
-            + self.score_breakdown.breadth_units
-            + self.score_breakdown.ambiguity_units
-        )
-        if breakdown_total != self.raw_score_units:
-            raise ValueError("score breakdown does not match raw_score_units")
-        if (self.score_by_kind is None) != (self.event_count_by_kind is None):
-            raise ValueError("score and event telemetry must be provided together")
-        if self.score_by_kind is not None and self.event_count_by_kind is not None:
-            if any(value < 0 for value in self.score_by_kind.values()):
-                raise ValueError("score telemetry values must be non-negative")
-            if any(value < 0 for value in self.event_count_by_kind.values()):
-                raise ValueError("event telemetry values must be non-negative")
-            structural_total = sum(
-                value
-                for kind, value in self.score_by_kind.items()
-                if kind in manifest_complexity._STRUCTURAL_KINDS
-            )
-            ambiguity_total = self.score_by_kind.get(
-                manifest_complexity.ManifestChangeKind.MODULE_MATCH_AMBIGUOUS,
-                0,
-            )
-            recipe_total = sum(
-                value
-                for kind, value in self.score_by_kind.items()
-                if kind not in manifest_complexity._STRUCTURAL_KINDS
-                and kind
-                is not manifest_complexity.ManifestChangeKind.MODULE_MATCH_AMBIGUOUS
-            )
-            if structural_total != self.score_breakdown.structural_units:
-                raise ValueError("structural score telemetry does not match")
-            if recipe_total != self.score_breakdown.recipe_units:
-                raise ValueError("recipe score telemetry does not match")
-            if ambiguity_total != self.score_breakdown.ambiguity_units:
-                raise ValueError("ambiguity score telemetry does not match")
-            if (
-                sum(self.score_by_kind.values()) + self.score_breakdown.breadth_units
-                != self.raw_score_units
-            ):
-                raise ValueError("score telemetry does not match raw_score_units")
-            if sum(self.event_count_by_kind.values()) != self.total_event_count:
-                raise ValueError("event telemetry does not match total_event_count")
-        if self.affected_arches != sorted(set(self.affected_arches)):
-            raise ValueError("affected_arches must be sorted and unique")
-        if self.touched_modules != sorted(set(self.touched_modules)):
-            raise ValueError("touched_modules must be sorted and unique")
-        if any(event.arches != sorted(set(event.arches)) for event in self.events):
-            raise ValueError("event arches must be sorted and unique")
-        if self.events != sorted(self.events, key=_manifest_event_data_key):
-            raise ValueError("events must use canonical order")
-        if self.total_touched_module_count < len(self.touched_modules):
-            raise ValueError("invalid touched module total")
-        if self.total_event_count < len(self.events):
-            raise ValueError("invalid event total")
-        if self.touched_modules_truncated != (
-            self.total_touched_module_count > len(self.touched_modules)
-        ):
-            raise ValueError("invalid touched module truncation flag")
-        if self.events_truncated != (self.total_event_count > len(self.events)):
-            raise ValueError("invalid event truncation flag")
-        return self
-
-
 class ManifestSourceOriginRequestData(BaseModel):
     findings: list[ManifestSourceOriginFindingData]
-    complexity: ManifestComplexityRequestData | None = None
 
 
 class PermissionsRequestData(BaseModel):
@@ -783,110 +645,6 @@ class ReviewRequestResponse(BaseModel):
     requires_review: bool
 
 
-def _bounded_manifest_text(value: str) -> str:
-    return value if len(value) <= 512 else value[:511] + "…"
-
-
-def _manifest_complexity_fingerprint(
-    review_request: ReviewRequest,
-    app_id: str,
-    analysis: manifest_complexity.ManifestComplexityResult,
-) -> str:
-    payload = {
-        "build_id": review_request.build_id,
-        "job_id": review_request.job_id,
-        "app_id": app_id,
-        "algorithm_version": analysis.algorithm_version,
-        "score_units": analysis.score_units,
-        "raw_score_units": analysis.raw_score_units,
-        "structural_units": analysis.structural_units,
-        "recipe_units": analysis.recipe_units,
-        "breadth_units": analysis.breadth_units,
-        "ambiguity_units": analysis.ambiguity_units,
-        "affected_arches": list(analysis.affected_arches),
-        "touched_modules": list(analysis.touched_modules),
-        "changed_categories": list(analysis.changed_categories),
-        "events": [
-            {
-                "kind": event.kind.value,
-                "location": event.location,
-                "arches": list(event.arches),
-                "old_summary": event.old_summary,
-                "new_summary": event.new_summary,
-                "magnitude": event.magnitude,
-            }
-            for event in analysis.events
-        ],
-    }
-    canonical = json.dumps(
-        payload,
-        ensure_ascii=True,
-        sort_keys=True,
-        separators=(",", ":"),
-    )
-    return "sha256:" + hashlib.sha256(canonical.encode()).hexdigest()
-
-
-def _manifest_complexity_request_data(
-    review_request: ReviewRequest,
-    app_id: str,
-    analysis: manifest_complexity.ManifestComplexityResult,
-    threshold_units: int,
-    include_calibration_telemetry: bool = False,
-) -> ManifestComplexityRequestData:
-    stored_modules = sorted(
-        {_bounded_manifest_text(module) for module in analysis.touched_modules[:50]}
-    )
-    stored_events = sorted(
-        [
-            ManifestComplexityEventData(
-                kind=event.kind,
-                location=_bounded_manifest_text(event.location),
-                arches=list(event.arches),
-                old_summary=event.old_summary,
-                new_summary=event.new_summary,
-                magnitude=event.magnitude,
-            )
-            for event in analysis.events[:25]
-        ],
-        key=_manifest_event_data_key,
-    )
-    return ManifestComplexityRequestData(
-        algorithm_version=analysis.algorithm_version,
-        analysis_fingerprint=_manifest_complexity_fingerprint(
-            review_request, app_id, analysis
-        ),
-        score_units=analysis.score_units,
-        raw_score_units=analysis.raw_score_units,
-        display_score=analysis.score_units / 2,
-        threshold_units=threshold_units,
-        score_band=manifest_complexity.manifest_complexity_score_band(
-            analysis.score_units
-        ),
-        score_breakdown=ManifestComplexityBreakdownData(
-            structural_units=analysis.structural_units,
-            recipe_units=analysis.recipe_units,
-            breadth_units=analysis.breadth_units,
-            ambiguity_units=analysis.ambiguity_units,
-        ),
-        score_by_kind=(
-            dict(analysis.score_by_kind) if include_calibration_telemetry else None
-        ),
-        event_count_by_kind=(
-            dict(analysis.event_count_by_kind)
-            if include_calibration_telemetry
-            else None
-        ),
-        affected_arches=list(analysis.affected_arches),
-        touched_modules=stored_modules,
-        touched_modules_truncated=len(analysis.touched_modules) > len(stored_modules),
-        total_touched_module_count=len(analysis.touched_modules),
-        events=stored_events,
-        events_truncated=len(analysis.events) > len(stored_events),
-        total_event_count=len(analysis.events),
-    )
-
-
 def _manifest_source_findings_data(
     findings: Sequence[ostree_manifest.ManifestSourceFinding],
 ) -> list[ManifestSourceOriginFindingData]:
@@ -912,11 +670,9 @@ def _manifest_source_findings_would_gate(
 
 def _manifest_request_data(
     findings: Sequence[ostree_manifest.ManifestSourceFinding],
-    complexity: ManifestComplexityRequestData | None,
 ) -> str:
     body = ManifestSourceOriginRequestData(
         findings=_manifest_source_findings_data(findings),
-        complexity=complexity,
     )
     return json.dumps(
         body.model_dump(mode="json", exclude_none=True),
@@ -935,18 +691,7 @@ def _manifest_request_matches(
         candidate = ManifestSourceOriginRequestData.model_validate_json(candidate_data)
     except ValueError:
         return False
-    if stored.findings != candidate.findings:
-        return False
-    stored_complexity = stored.complexity
-    candidate_complexity = candidate.complexity
-    if (stored_complexity is None) != (candidate_complexity is None):
-        return candidate_complexity is None
-    if stored_complexity is None or candidate_complexity is None:
-        return True
-    return (
-        stored_complexity.analysis_fingerprint
-        == candidate_complexity.analysis_fingerprint
-    )
+    return stored.findings == candidate.findings
 
 
 def _approved_request_origins(
@@ -1036,100 +781,6 @@ def _filter_allowlisted_manifest_findings(
     return tuple(filtered)
 
 
-def _log_manifest_complexity(
-    review_request: ReviewRequest,
-    app_id: str,
-    analysis: manifest_complexity.ManifestComplexityAnalysis,
-    gate_suppressed_reason: str | None,
-) -> None:
-    threshold = config.settings.ostree_manifest_complexity_threshold_units
-    if isinstance(analysis, manifest_complexity.ManifestComplexityResult):
-        would_gate = analysis.score_units >= threshold
-        score_units: int | None = analysis.score_units
-        display_score: float | None = analysis.score_units / 2
-        score_band: str | None = manifest_complexity.manifest_complexity_score_band(
-            analysis.score_units
-        ).value
-        event_counts = dict(
-            sorted(
-                {
-                    kind.value: sum(event.kind is kind for event in analysis.events)
-                    for kind in manifest_complexity.ManifestChangeKind
-                    if any(event.kind is kind for event in analysis.events)
-                }.items()
-            )
-        )
-        touched_count = len(analysis.touched_modules)
-        fingerprint = _manifest_complexity_fingerprint(review_request, app_id, analysis)
-        not_scored_reason = None
-    else:
-        would_gate = False
-        score_units = None
-        display_score = None
-        score_band = None
-        event_counts = {}
-        touched_count = 0
-        fingerprint = None
-        not_scored_reason = analysis.reason.value
-    logger.info(
-        "Evaluated manifest packaging complexity for app",
-        extra={
-            "algorithm_version": analysis.algorithm_version,
-            "build_id": review_request.build_id,
-            "job_id": review_request.job_id,
-            "app_id": app_id,
-            "score_units": score_units,
-            "display_score": display_score,
-            "score_band": score_band,
-            "event_counts_by_kind": event_counts,
-            "touched_module_count": touched_count,
-            "affected_arches": list(analysis.affected_arches),
-            "would_gate": would_gate,
-            "gating_enabled": config.settings.ostree_manifest_complexity_gating_enabled,
-            "threshold_units": threshold,
-            "not_scored_reason": not_scored_reason,
-            "gate_suppressed_reason": gate_suppressed_reason,
-            "analysis_fingerprint": fingerprint,
-        },
-    )
-
-
-def _complexity_analysis_for_app(
-    app_id: str,
-    *,
-    is_new_submission: bool,
-    expected_refs_by_app: dict[str, set[tuple[str, str, str]]],
-    collected_refs_by_app: dict[str, set[tuple[str, str, str]]],
-    manifest_groups_by_app: dict[
-        str, tuple[tuple[ostree_manifest.ManifestPair, ...], ...]
-    ],
-) -> manifest_complexity.ManifestComplexityAnalysis:
-    expected = expected_refs_by_app.get(app_id, set())
-    if is_new_submission:
-        return manifest_complexity.ManifestComplexityNotScored(
-            manifest_complexity.MANIFEST_COMPLEXITY_ALGORITHM_VERSION,
-            manifest_complexity.ManifestComplexityNotScoredReason.INITIAL_SUBMISSION,
-            tuple(sorted({identity[1] for identity in expected})),
-        )
-    missing = expected - collected_refs_by_app.get(app_id, set())
-    if missing or not expected:
-        return manifest_complexity.ManifestComplexityNotScored(
-            manifest_complexity.MANIFEST_COMPLEXITY_ALGORITHM_VERSION,
-            manifest_complexity.ManifestComplexityNotScoredReason.CANDIDATE_MANIFEST_UNAVAILABLE,
-            tuple(sorted({identity[1] for identity in missing or expected})),
-        )
-    groups = manifest_groups_by_app.get(app_id, ())
-    comparable_groups = tuple(
-        group
-        for group in groups
-        if all(
-            pair.published_status is ostree_manifest.PublishedManifestStatus.PRESENT
-            for pair in group
-        )
-    )
-    return manifest_complexity.analyze_manifest_complexity(comparable_groups or groups)
-
-
 def _manifest_analysis_observation_values(
     review_request: ReviewRequest,
     app_id: str,
@@ -1141,14 +792,10 @@ def _manifest_analysis_observation_values(
     collected_refs: set[tuple[str, str, str]],
     comparable_refs: set[tuple[str, str, str]],
     findings: Sequence[ostree_manifest.ManifestSourceFinding],
-    complexity: manifest_complexity.ManifestComplexityAnalysis,
     collection_error_category: str | None,
     source_gating_enabled: bool,
     source_observe_only: bool,
-    complexity_gating_enabled: bool,
-    complexity_observe_only: bool,
     moderation_observe_only: bool,
-    complexity_threshold_units: int,
 ) -> dict[str, JSONValue]:
     candidate_ref_count = len(expected_refs)
     collected_ref_count = len(collected_refs)
@@ -1177,7 +824,7 @@ def _manifest_analysis_observation_values(
     else:
         source_status = "unavailable"
 
-    values: dict[str, JSONValue] = {
+    return {
         "app_id": app_id,
         "build_id": review_request.build_id,
         "job_id": review_request.job_id,
@@ -1195,63 +842,10 @@ def _manifest_analysis_observation_values(
             _manifest_source_findings_would_gate(findings)
             and policy_context == "normal"
         ),
-        "complexity_status": "not_scored",
-        "complexity_algorithm_version": complexity.algorithm_version,
-        "complexity_threshold_units": complexity_threshold_units,
-        "complexity_score_units": None,
-        "complexity_raw_score_units": None,
-        "complexity_score_band": None,
-        "complexity_not_scored_reason": None,
-        "complexity_analysis_fingerprint": None,
-        "complexity_would_gate": False,
-        "complexity_data": None,
-        "build_command_event_count": 0,
-        "build_command_distinct_fingerprint_count": 0,
-        "build_command_fingerprint_group_sizes": [],
         "source_gating_enabled": source_gating_enabled,
         "source_observe_only": source_observe_only,
-        "complexity_gating_enabled": complexity_gating_enabled,
-        "complexity_observe_only": complexity_observe_only,
         "moderation_observe_only": moderation_observe_only,
     }
-    if isinstance(complexity, manifest_complexity.ManifestComplexityResult):
-        complexity_data = _manifest_complexity_request_data(
-            review_request,
-            app_id,
-            complexity,
-            complexity_threshold_units,
-            include_calibration_telemetry=True,
-        )
-        values.update(
-            {
-                "complexity_status": "scored",
-                "complexity_score_units": complexity.score_units,
-                "complexity_raw_score_units": complexity.raw_score_units,
-                "complexity_score_band": complexity_data.score_band.value,
-                "complexity_analysis_fingerprint": (
-                    complexity_data.analysis_fingerprint
-                ),
-                "complexity_would_gate": (
-                    complexity.score_units >= complexity_threshold_units
-                    and policy_context == "normal"
-                ),
-                "complexity_data": complexity_data.model_dump(
-                    mode="json", exclude_none=True
-                ),
-                "build_command_event_count": (
-                    complexity.command_change_telemetry.event_count
-                ),
-                "build_command_distinct_fingerprint_count": (
-                    complexity.command_change_telemetry.distinct_fingerprint_count
-                ),
-                "build_command_fingerprint_group_sizes": list(
-                    complexity.command_change_telemetry.fingerprint_group_sizes
-                ),
-            }
-        )
-    else:
-        values["complexity_not_scored_reason"] = complexity.reason.value
-    return values
 
 
 def _upsert_manifest_analysis_observations(
@@ -1329,17 +923,7 @@ def submit_review_request(
         config.settings.ostree_manifest_source_origin_gating_enabled
         and not config.settings.ostree_manifest_source_origin_observe_only
     )
-    complexity_enforcing = (
-        config.settings.ostree_manifest_complexity_gating_enabled
-        and not config.settings.ostree_manifest_complexity_gating_observe_only
-    )
-    manifest_observation_enabled = (
-        config.settings.ostree_manifest_source_origin_observe_only
-        or config.settings.ostree_manifest_complexity_gating_observe_only
-    )
-    manifest_fail_open = manifest_observation_enabled and not (
-        source_origin_enforcing or complexity_enforcing
-    )
+    manifest_fail_open = config.settings.ostree_manifest_source_origin_observe_only
     logger.info(
         "Random review configuration",
         extra={
@@ -1551,12 +1135,6 @@ def submit_review_request(
         for finding in manifest_findings:
             manifest_findings_by_app.setdefault(finding.app_id, ())
             manifest_findings_by_app[finding.app_id] += (finding,)
-    manifest_groups_by_app: dict[
-        str, tuple[tuple[ostree_manifest.ManifestPair, ...], ...]
-    ] = {}
-    for group in manifest_groups:
-        manifest_groups_by_app.setdefault(group[0].app_id, ())
-        manifest_groups_by_app[group[0].app_id] += (group,)
     expected_refs_by_app: dict[str, set[tuple[str, str, str]]] = {}
     for candidate_ref in candidate_refs:
         expected_refs_by_app.setdefault(candidate_ref.app_id, set()).add(
@@ -1616,7 +1194,6 @@ def submit_review_request(
         is_new_submission: bool,
         policy_context: str,
         findings: Sequence[ostree_manifest.ManifestSourceFinding],
-        complexity: manifest_complexity.ManifestComplexityAnalysis,
     ) -> None:
         analysis_observations[app_id] = _manifest_analysis_observation_values(
             review_request,
@@ -1628,7 +1205,6 @@ def submit_review_request(
             collected_refs=collected_refs_by_app.get(app_id, set()),
             comparable_refs=comparable_refs_by_app.get(app_id, set()),
             findings=findings,
-            complexity=complexity,
             collection_error_category=collection_error_category,
             source_gating_enabled=(
                 config.settings.ostree_manifest_source_origin_gating_enabled
@@ -1636,16 +1212,7 @@ def submit_review_request(
             source_observe_only=(
                 config.settings.ostree_manifest_source_origin_observe_only
             ),
-            complexity_gating_enabled=(
-                config.settings.ostree_manifest_complexity_gating_enabled
-            ),
-            complexity_observe_only=(
-                config.settings.ostree_manifest_complexity_gating_observe_only
-            ),
             moderation_observe_only=config.settings.moderation_observe_only,
-            complexity_threshold_units=(
-                config.settings.ostree_manifest_complexity_threshold_units
-            ),
         )
 
     try:
@@ -1771,7 +1338,6 @@ def submit_review_request(
                 ):
                     keys.pop(key, None)
 
-        app_complexity: manifest_complexity.ManifestComplexityAnalysis | None = None
         # Don't consider the first "official" vorarbeiter build as a new submission
         # as it has been already reviewed manually on GitHub
         if is_new_submission and build_metadata.get("token_name") == "vorarbeiter":
@@ -1784,26 +1350,12 @@ def submit_review_request(
                     reason="initial-vorarbeiter",
                 )
             if config.settings.ostree_manifest_comparison_enabled:
-                app_complexity = _complexity_analysis_for_app(
-                    app_id,
-                    is_new_submission=True,
-                    expected_refs_by_app=expected_refs_by_app,
-                    collected_refs_by_app=collected_refs_by_app,
-                    manifest_groups_by_app=manifest_groups_by_app,
-                )
-                _log_manifest_complexity(
-                    review_request,
-                    app_id,
-                    app_complexity,
-                    "initial-vorarbeiter",
-                )
                 stage_analysis_observation(
                     app_id,
                     appstream_present=True,
                     is_new_submission=True,
                     policy_context="initial_vorarbeiter",
                     findings=app_manifest_findings,
-                    complexity=app_complexity,
                 )
             continue
 
@@ -1817,26 +1369,12 @@ def submit_review_request(
                     reason="skip-list",
                 )
             if config.settings.ostree_manifest_comparison_enabled:
-                app_complexity = _complexity_analysis_for_app(
-                    app_id,
-                    is_new_submission=is_new_submission,
-                    expected_refs_by_app=expected_refs_by_app,
-                    collected_refs_by_app=collected_refs_by_app,
-                    manifest_groups_by_app=manifest_groups_by_app,
-                )
-                _log_manifest_complexity(
-                    review_request,
-                    app_id,
-                    app_complexity,
-                    "skip-list",
-                )
                 stage_analysis_observation(
                     app_id,
                     appstream_present=True,
                     is_new_submission=is_new_submission,
                     policy_context="skip_list",
                     findings=app_manifest_findings,
-                    complexity=app_complexity,
                 )
             continue
 
@@ -1855,13 +1393,6 @@ def submit_review_request(
                     keys = {"direct upload": True}
 
         if config.settings.ostree_manifest_comparison_enabled:
-            app_complexity = _complexity_analysis_for_app(
-                app_id,
-                is_new_submission=is_new_submission,
-                expected_refs_by_app=expected_refs_by_app,
-                collected_refs_by_app=collected_refs_by_app,
-                manifest_groups_by_app=manifest_groups_by_app,
-            )
             stage_analysis_observation(
                 app_id,
                 appstream_present=True,
@@ -1870,7 +1401,6 @@ def submit_review_request(
                     "initial_submission" if is_new_submission else "normal"
                 ),
                 findings=app_manifest_findings,
-                complexity=app_complexity,
             )
 
         if app_manifest_findings:
@@ -1894,19 +1424,6 @@ def submit_review_request(
         origin_should_gate = (
             not is_new_submission and source_would_gate and source_origin_enforcing
         )
-        complexity_would_gate = (
-            isinstance(
-                app_complexity,
-                manifest_complexity.ManifestComplexityResult,
-            )
-            and app_complexity.score_units
-            >= config.settings.ostree_manifest_complexity_threshold_units
-        )
-        complexity_should_observe = (
-            complexity_would_gate
-            and config.settings.ostree_manifest_complexity_gating_observe_only
-        )
-        complexity_should_gate = complexity_would_gate and complexity_enforcing
         appdata_request: models.ModerationRequest | None = None
         summary_request: models.ModerationRequest | None = None
 
@@ -2246,59 +1763,10 @@ def submit_review_request(
                 job_id=review_request.job_id,
                 build_log_url=build_log_url,
             )
-        complexity_data = (
-            _manifest_complexity_request_data(
-                review_request,
-                app_id,
-                app_complexity,
-                config.settings.ostree_manifest_complexity_threshold_units,
-            )
-            if isinstance(
-                app_complexity,
-                manifest_complexity.ManifestComplexityResult,
-            )
-            else None
-        )
         selected_manifest_data: str | None = None
-        manifest_is_observation = not (origin_should_gate or complexity_should_gate)
+        manifest_is_observation = not origin_should_gate
         if origin_should_gate or origin_should_observe:
-            selected_manifest_data = _manifest_request_data(app_manifest_findings, None)
-        elif complexity_should_observe or (
-            complexity_should_gate
-            and appdata_request is None
-            and summary_request is None
-        ):
-            selected_manifest_data = _manifest_request_data((), complexity_data)
-
-        if app_complexity is not None:
-            suppressed_reason = None
-            if is_new_submission:
-                suppressed_reason = "initial-submission"
-            elif isinstance(
-                app_complexity,
-                manifest_complexity.ManifestComplexityNotScored,
-            ):
-                suppressed_reason = "invalid-or-missing-baseline"
-            elif (
-                complexity_would_gate
-                and not complexity_should_gate
-                and not complexity_should_observe
-            ):
-                suppressed_reason = "gating-disabled"
-            elif (
-                complexity_would_gate
-                and (appdata_request is not None or summary_request is not None)
-                and not origin_should_gate
-                and not origin_should_observe
-                and not complexity_should_observe
-            ):
-                suppressed_reason = "existing-deterministic-request"
-            _log_manifest_complexity(
-                review_request,
-                app_id,
-                app_complexity,
-                suppressed_reason,
-            )
+            selected_manifest_data = _manifest_request_data(app_manifest_findings)
 
         if selected_manifest_data is not None or app_id in allowlist_filtered_app_ids:
             reused_manifest_was_observation: bool | None = None
@@ -2410,7 +1878,7 @@ def submit_review_request(
 
     leftover_manifest_app_ids = (
         set(expected_refs_by_app)
-        | set(manifest_groups_by_app)
+        | set(collected_refs_by_app)
         | set(manifest_findings_by_app)
     ) - set(build_appstream)
     for app_id in sorted(leftover_manifest_app_ids):
@@ -2423,26 +1891,12 @@ def submit_review_request(
                 would_require_review=False,
                 reason="missing-appstream",
             )
-        analysis = _complexity_analysis_for_app(
-            app_id,
-            is_new_submission=False,
-            expected_refs_by_app=expected_refs_by_app,
-            collected_refs_by_app=collected_refs_by_app,
-            manifest_groups_by_app=manifest_groups_by_app,
-        )
-        _log_manifest_complexity(
-            review_request,
-            app_id,
-            analysis,
-            "missing-appstream",
-        )
         stage_analysis_observation(
             app_id,
             appstream_present=False,
             is_new_submission=False,
             policy_context="missing_appstream",
             findings=findings,
-            complexity=analysis,
         )
 
     random_review_reused_app_ids: set[str] = set()
