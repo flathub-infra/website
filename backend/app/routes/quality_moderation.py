@@ -54,15 +54,19 @@ class QualityModerationModeratorType(QualityModerationType):
     updated_by: str | None
 
 
-class QualityModerationResponse(BaseModel):
-    guidelines: list[QualityModerationType]
+class QualityModerationResponse[G: QualityModerationType = QualityModerationType](
+    BaseModel
+):
+    guidelines: list[G]
     is_fullscreen_app: bool
     review_requested_at: datetime.datetime | None = None
     metadata_changed_at: dict[str, datetime.datetime] = Field(default_factory=dict)
 
 
-class QualityModerationModeratorResponse(QualityModerationResponse):
-    guidelines: list[QualityModerationModeratorType]
+class QualityModerationModeratorResponse(
+    QualityModerationResponse[QualityModerationModeratorType]
+):
+    pass
 
 
 @overload

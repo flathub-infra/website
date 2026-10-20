@@ -47,18 +47,16 @@ class LoginState(StrEnum):
 
 
 @dataclass
-class LoginInformation:
+class LoginInformation[U: models.FlathubUser | None = models.FlathubUser | None]:
     state: LoginState
-    user: models.FlathubUser | None
+    user: U
     method: str | None
 
     def __getitem__(self, key):
         return getattr(self, key)
 
 
-@dataclass
-class LoggedInInformation(LoginInformation):
-    user: models.FlathubUser
+LoggedInInformation = LoginInformation[models.FlathubUser]
 
 
 def set_authenticated_session(

@@ -90,9 +90,9 @@ from .login_info import (
 from .types import JSONValue
 
 
-def _log_login_failure(
+def _log_login_failure[U: models.FlathubUser | None](
     request: Request,
-    login: LoginInformation,
+    login: LoginInformation[U],
     method: str,
     error: str,
 ):
