@@ -74,6 +74,23 @@ export const getQualityModerationStatusQualityModerationStatusGet = (
   })
 }
 
+export const getGetQualityModerationStatusQualityModerationStatusGetUrl = (
+  params?: GetQualityModerationStatusQualityModerationStatusGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/quality-moderation/status`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetQualityModerationStatusQualityModerationStatusGetQueryKey = (
   params?: GetQualityModerationStatusQualityModerationStatusGetParams,
 ) => {
@@ -301,6 +318,23 @@ export const getPassingQualityAppsQualityModerationPassingAppsGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetPassingQualityAppsQualityModerationPassingAppsGetUrl = (
+  params?: GetPassingQualityAppsQualityModerationPassingAppsGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/quality-moderation/passing-apps`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetPassingQualityAppsQualityModerationPassingAppsGetQueryKey = (
@@ -534,6 +568,24 @@ export const getAppPickRecommendationsQualityModerationAppPickRecommendationsGet
       paramsSerializer: (params) =>
         qs.stringify(params, { arrayFormat: "repeat" }),
     })
+  }
+
+export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetUrl =
+  (
+    params?: GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetParams,
+  ) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/quality-moderation/app-pick-recommendations`,
+        baseURL: "",
+        params,
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
   }
 
 export const getGetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryKey =
@@ -782,6 +834,22 @@ export const getQualityModerationStatsQualityModerationFailedByGuidelineGet = (
   return axios.get(`/quality-moderation/failed-by-guideline`, options)
 }
 
+export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/quality-moderation/failed-by-guideline`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
 export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryKey =
   () => {
     return [`/quality-moderation/failed-by-guideline`] as const
@@ -1010,6 +1078,22 @@ export const getQualityModerationStatsByCategoryQualityModerationStatsByCategory
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<GuidelineStatsByCategory[]>> => {
     return axios.get(`/quality-moderation/stats-by-category`, options)
+  }
+
+export const getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/quality-moderation/stats-by-category`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
   }
 
 export const getGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetQueryKey =
@@ -1242,6 +1326,23 @@ export const getQualityModerationForAppQualityModerationAppIdGet = (
   return axios.get(`/quality-moderation/${appId}`, options)
 }
 
+export const getGetQualityModerationForAppQualityModerationAppIdGetUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/quality-moderation/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetQualityModerationForAppQualityModerationAppIdGetQueryKey = (
   appId: string,
 ) => {
@@ -1467,6 +1568,26 @@ export const setQualityModerationForAppQualityModerationAppIdPost = (
   )
 }
 
+export const getSetQualityModerationForAppQualityModerationAppIdPostUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/quality-moderation/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSetQualityModerationForAppQualityModerationAppIdPostMutationKey =
+  () => ["setQualityModerationForAppQualityModerationAppIdPost"] as const
+
 export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1474,7 +1595,7 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOpti
         ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
       >,
       TError,
-      { appId: string; data: UpsertQualityModeration },
+      SetQualityModerationForAppQualityModerationAppIdPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1483,10 +1604,11 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOpti
       ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
     >,
     TError,
-    { appId: string; data: UpsertQualityModeration },
+    SetQualityModerationForAppQualityModerationAppIdPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["setQualityModerationForAppQualityModerationAppIdPost"]
+    const mutationKey =
+      getSetQualityModerationForAppQualityModerationAppIdPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1499,7 +1621,7 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMutationOpti
       Awaited<
         ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
       >,
-      { appId: string; data: UpsertQualityModeration }
+      SetQualityModerationForAppQualityModerationAppIdPostMutationVariables
     > = (props) => {
       const { appId, data } = props ?? {}
 
@@ -1523,6 +1645,8 @@ export type SetQualityModerationForAppQualityModerationAppIdPostMutationBody =
   UpsertQualityModeration
 export type SetQualityModerationForAppQualityModerationAppIdPostMutationError =
   AxiosError<void>
+export type SetQualityModerationForAppQualityModerationAppIdPostMutationVariables =
+  { appId: string; data: UpsertQualityModeration }
 
 /**
  * @summary Set Quality Moderation For App
@@ -1537,7 +1661,7 @@ export const useSetQualityModerationForAppQualityModerationAppIdPost = <
         ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
       >,
       TError,
-      { appId: string; data: UpsertQualityModeration },
+      SetQualityModerationForAppQualityModerationAppIdPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1548,7 +1672,7 @@ export const useSetQualityModerationForAppQualityModerationAppIdPost = <
     ReturnType<typeof setQualityModerationForAppQualityModerationAppIdPost>
   >,
   TError,
-  { appId: string; data: UpsertQualityModeration },
+  SetQualityModerationForAppQualityModerationAppIdPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1567,6 +1691,22 @@ export const getQualityModerationForAppAsModeratorQualityModerationAppIdModerato
     options?: AxiosRequestConfig,
   ): Promise<AxiosResponse<QualityModerationModeratorResponse>> => {
     return axios.get(`/quality-moderation/${appId}/moderator`, options)
+  }
+
+export const getGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetUrl =
+  (appId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/quality-moderation/${appId}/moderator`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
   }
 
 export const getGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetQueryKey =
@@ -1813,6 +1953,22 @@ export const getQualityModerationStatusForAppQualityModerationAppIdStatusGet = (
 ): Promise<AxiosResponse<QualityModerationStatus>> => {
   return axios.get(`/quality-moderation/${appId}/status`, options)
 }
+
+export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetUrl =
+  (appId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/quality-moderation/${appId}/status`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
 
 export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryKey =
   (appId: string) => {
@@ -2063,6 +2219,25 @@ export const requestReviewForAppQualityModerationAppIdRequestReviewPost = (
   )
 }
 
+export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostUrl =
+  (appId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/quality-moderation/${appId}/request-review`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutationKey =
+  () => ["requestReviewForAppQualityModerationAppIdRequestReviewPost"] as const
+
 export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -2072,7 +2247,7 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutati
         >
       >,
       TError,
-      { appId: string },
+      RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2083,12 +2258,11 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutati
       >
     >,
     TError,
-    { appId: string },
+    RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "requestReviewForAppQualityModerationAppIdRequestReviewPost",
-    ]
+    const mutationKey =
+      getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -2103,7 +2277,7 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMutati
           typeof requestReviewForAppQualityModerationAppIdRequestReviewPost
         >
       >,
-      { appId: string }
+      RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationVariables
     > = (props) => {
       const { appId } = props ?? {}
 
@@ -2127,6 +2301,8 @@ export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationRe
 
 export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationError =
   AxiosError<void>
+export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationVariables =
+  { appId: string }
 
 /**
  * @summary Request Review For App
@@ -2143,7 +2319,7 @@ export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
         >
       >,
       TError,
-      { appId: string },
+      RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2156,7 +2332,7 @@ export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
     >
   >,
   TError,
-  { appId: string },
+  RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -2177,6 +2353,28 @@ export const deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete 
     return axios.delete(`/quality-moderation/${appId}/request-review`, options)
   }
 
+export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteUrl =
+  (appId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/quality-moderation/${appId}/request-review`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationKey =
+  () =>
+    [
+      "deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete",
+    ] as const
+
 export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -2186,7 +2384,7 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
         >
       >,
       TError,
-      { appId: string },
+      DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2197,12 +2395,11 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
       >
     >,
     TError,
-    { appId: string },
+    DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete",
-    ]
+    const mutationKey =
+      getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -2217,7 +2414,7 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
           typeof deleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete
         >
       >,
-      { appId: string }
+      DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationVariables
     > = (props) => {
       const { appId } = props ?? {}
 
@@ -2241,6 +2438,8 @@ export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMu
 
 export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationError =
   AxiosError<void>
+export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationVariables =
+  { appId: string }
 
 /**
  * @summary Delete Review Request For App
@@ -2255,7 +2454,7 @@ export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
           >
         >,
         TError,
-        { appId: string },
+        DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -2268,7 +2467,7 @@ export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
       >
     >,
     TError,
-    { appId: string },
+    DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -2294,6 +2493,27 @@ export const setFullscreenAppQualityModerationAppIdFullscreenPost = (
   })
 }
 
+export const getSetFullscreenAppQualityModerationAppIdFullscreenPostUrl = (
+  appId: string,
+  params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/quality-moderation/${appId}/fullscreen`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationKey =
+  () => ["setFullscreenAppQualityModerationAppIdFullscreenPost"] as const
+
 export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -2301,10 +2521,7 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
         ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
       >,
       TError,
-      {
-        appId: string
-        params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams
-      },
+      SetFullscreenAppQualityModerationAppIdFullscreenPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2313,13 +2530,11 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
       ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
     >,
     TError,
-    {
-      appId: string
-      params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams
-    },
+    SetFullscreenAppQualityModerationAppIdFullscreenPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["setFullscreenAppQualityModerationAppIdFullscreenPost"]
+    const mutationKey =
+      getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -2332,10 +2547,7 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMutationOpti
       Awaited<
         ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
       >,
-      {
-        appId: string
-        params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams
-      }
+      SetFullscreenAppQualityModerationAppIdFullscreenPostMutationVariables
     > = (props) => {
       const { appId, params } = props ?? {}
 
@@ -2358,6 +2570,11 @@ export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationResult =
 
 export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationError =
   AxiosError<void>
+export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationVariables =
+  {
+    appId: string
+    params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams
+  }
 
 /**
  * @summary Set Fullscreen App
@@ -2372,10 +2589,7 @@ export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
         ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
       >,
       TError,
-      {
-        appId: string
-        params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams
-      },
+      SetFullscreenAppQualityModerationAppIdFullscreenPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2386,10 +2600,7 @@ export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
     ReturnType<typeof setFullscreenAppQualityModerationAppIdFullscreenPost>
   >,
   TError,
-  {
-    appId: string
-    params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams
-  },
+  SetFullscreenAppQualityModerationAppIdFullscreenPostMutationVariables,
   TContext
 > => {
   return useMutation(

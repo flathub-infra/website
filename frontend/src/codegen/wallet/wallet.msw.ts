@@ -54,27 +54,15 @@ export const getGetTransactionsWalletTransactionsGetResponseMock =
         "cancelled",
       ] as const),
       recipient: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       reason: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
-      created: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.number.int(), null]),
-        undefined,
-      ]),
-      updated: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.number.int(), null]),
-        undefined,
-      ]),
+      created: faker.helpers.arrayElement([faker.number.int(), null]),
+      updated: faker.helpers.arrayElement([faker.number.int(), null]),
     }))
 
 export const getCreateTransactionWalletTransactionsPostResponseMock = (
@@ -101,41 +89,26 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
       "cancelled",
     ] as const),
     recipient: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
-    ]),
-    reason: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
-    ]),
-    created: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.number.int(), null]),
-      undefined,
-    ]),
-    updated: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.number.int(), null]),
-      undefined,
-    ]),
-  },
-  card: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      {
-        id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        brand: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        country: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        exp_month: faker.number.int(),
-        exp_year: faker.number.int(),
-        last4: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      },
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    undefined,
+    reason: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    created: faker.helpers.arrayElement([faker.number.int(), null]),
+    updated: faker.helpers.arrayElement([faker.number.int(), null]),
+  },
+  card: faker.helpers.arrayElement([
+    {
+      id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      brand: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      country: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      exp_month: faker.number.int(),
+      exp_year: faker.number.int(),
+      last4: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    },
+    null,
   ]),
   details: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -147,11 +120,8 @@ export const getGetTransactionByIdWalletTransactionsTxnGetResponseMock = (
     kind: faker.helpers.arrayElement(["donation", "purchase"] as const),
   })),
   receipt: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
   ]),
   ...overrideResponse,
 })
@@ -170,18 +140,15 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock = (
   status: faker.string.alpha({ length: { min: 10, max: 20 } }),
   client_secret: faker.string.alpha({ length: { min: 10, max: 20 } }),
   card: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      {
-        id: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        brand: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        country: faker.string.alpha({ length: { min: 10, max: 20 } }),
-        exp_month: faker.number.int(),
-        exp_year: faker.number.int(),
-        last4: faker.string.alpha({ length: { min: 10, max: 20 } }),
-      },
-      null,
-    ]),
-    undefined,
+    {
+      id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      brand: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      country: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      exp_month: faker.number.int(),
+      exp_year: faker.number.int(),
+      last4: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    },
+    null,
   ]),
   ...overrideResponse,
 })

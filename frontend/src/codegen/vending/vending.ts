@@ -73,6 +73,21 @@ export const statusVendingStatusGet = (
   return axios.get(`/vending/status`, options)
 }
 
+export const getStatusVendingStatusGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vending/status`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getStatusVendingStatusGetQueryKey = () => {
   return [`/vending/status`] as const
 }
@@ -227,6 +242,24 @@ export const startOnboardingVendingStatusOnboardingPost = (
   )
 }
 
+export const getStartOnboardingVendingStatusOnboardingPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vending/status/onboarding`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getStartOnboardingVendingStatusOnboardingPostMutationKey = () =>
+  ["startOnboardingVendingStatusOnboardingPost"] as const
+
 export const getStartOnboardingVendingStatusOnboardingPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -234,17 +267,17 @@ export const getStartOnboardingVendingStatusOnboardingPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
     TError,
-    { data: VendingOnboardingRequest },
+    StartOnboardingVendingStatusOnboardingPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
   TError,
-  { data: VendingOnboardingRequest },
+  StartOnboardingVendingStatusOnboardingPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["startOnboardingVendingStatusOnboardingPost"]
+  const mutationKey = getStartOnboardingVendingStatusOnboardingPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -255,7 +288,7 @@ export const getStartOnboardingVendingStatusOnboardingPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
-    { data: VendingOnboardingRequest }
+    StartOnboardingVendingStatusOnboardingPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -273,6 +306,9 @@ export type StartOnboardingVendingStatusOnboardingPostMutationBody =
   VendingOnboardingRequest
 export type StartOnboardingVendingStatusOnboardingPostMutationError =
   AxiosError<void>
+export type StartOnboardingVendingStatusOnboardingPostMutationVariables = {
+  data: VendingOnboardingRequest
+}
 
 /**
  * @summary Start Onboarding
@@ -285,7 +321,7 @@ export const useStartOnboardingVendingStatusOnboardingPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
       TError,
-      { data: VendingOnboardingRequest },
+      StartOnboardingVendingStatusOnboardingPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -294,7 +330,7 @@ export const useStartOnboardingVendingStatusOnboardingPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof startOnboardingVendingStatusOnboardingPost>>,
   TError,
-  { data: VendingOnboardingRequest },
+  StartOnboardingVendingStatusOnboardingPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -312,6 +348,21 @@ export const getDashboardLinkVendingStatusDashboardlinkGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingRedirect>> => {
   return axios.get(`/vending/status/dashboardlink`, options)
+}
+
+export const getGetDashboardLinkVendingStatusDashboardlinkGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vending/status/dashboardlink`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetDashboardLinkVendingStatusDashboardlinkGetQueryKey = () => {
@@ -500,6 +551,21 @@ export const getGlobalVendingConfigVendingConfigGet = (
   return axios.get(`/vending/config`, options)
 }
 
+export const getGetGlobalVendingConfigVendingConfigGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vending/config`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetGlobalVendingConfigVendingConfigGetQueryKey = () => {
   return [`/vending/config`] as const
 }
@@ -652,6 +718,23 @@ export const getAppVendingSetupVendingappAppIdSetupGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingSetup>> => {
   return axios.get(`/vendingapp/${appId}/setup`, options)
+}
+
+export const getGetAppVendingSetupVendingappAppIdSetupGetUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vendingapp/${appId}/setup`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetAppVendingSetupVendingappAppIdSetupGetQueryKey = (
@@ -837,6 +920,26 @@ export const postAppVendingSetupVendingappAppIdSetupPost = (
   return axios.post(`/vendingapp/${appId}/setup`, vendingSetupRequest, options)
 }
 
+export const getPostAppVendingSetupVendingappAppIdSetupPostUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vendingapp/${appId}/setup`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getPostAppVendingSetupVendingappAppIdSetupPostMutationKey = () =>
+  ["postAppVendingSetupVendingappAppIdSetupPost"] as const
+
 export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -844,17 +947,18 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
     TError,
-    { appId: string; data: VendingSetupRequest },
+    PostAppVendingSetupVendingappAppIdSetupPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
   TError,
-  { appId: string; data: VendingSetupRequest },
+  PostAppVendingSetupVendingappAppIdSetupPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["postAppVendingSetupVendingappAppIdSetupPost"]
+  const mutationKey =
+    getPostAppVendingSetupVendingappAppIdSetupPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -865,7 +969,7 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
-    { appId: string; data: VendingSetupRequest }
+    PostAppVendingSetupVendingappAppIdSetupPostMutationVariables
   > = (props) => {
     const { appId, data } = props ?? {}
 
@@ -887,6 +991,10 @@ export type PostAppVendingSetupVendingappAppIdSetupPostMutationBody =
   VendingSetupRequest
 export type PostAppVendingSetupVendingappAppIdSetupPostMutationError =
   AxiosError<void>
+export type PostAppVendingSetupVendingappAppIdSetupPostMutationVariables = {
+  appId: string
+  data: VendingSetupRequest
+}
 
 /**
  * @summary Post App Vending Setup
@@ -899,7 +1007,7 @@ export const usePostAppVendingSetupVendingappAppIdSetupPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
       TError,
-      { appId: string; data: VendingSetupRequest },
+      PostAppVendingSetupVendingappAppIdSetupPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -908,7 +1016,7 @@ export const usePostAppVendingSetupVendingappAppIdSetupPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof postAppVendingSetupVendingappAppIdSetupPost>>,
   TError,
-  { appId: string; data: VendingSetupRequest },
+  PostAppVendingSetupVendingappAppIdSetupPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -933,6 +1041,26 @@ export const postAppVendingStatusVendingappAppIdPost = (
   return axios.post(`/vendingapp/${appId}`, proposedPayment, options)
 }
 
+export const getPostAppVendingStatusVendingappAppIdPostUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vendingapp/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getPostAppVendingStatusVendingappAppIdPostMutationKey = () =>
+  ["postAppVendingStatusVendingappAppIdPost"] as const
+
 export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -940,17 +1068,17 @@ export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
     TError,
-    { appId: string; data: ProposedPayment },
+    PostAppVendingStatusVendingappAppIdPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
   TError,
-  { appId: string; data: ProposedPayment },
+  PostAppVendingStatusVendingappAppIdPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["postAppVendingStatusVendingappAppIdPost"]
+  const mutationKey = getPostAppVendingStatusVendingappAppIdPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -961,7 +1089,7 @@ export const getPostAppVendingStatusVendingappAppIdPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
-    { appId: string; data: ProposedPayment }
+    PostAppVendingStatusVendingappAppIdPostMutationVariables
   > = (props) => {
     const { appId, data } = props ?? {}
 
@@ -978,6 +1106,10 @@ export type PostAppVendingStatusVendingappAppIdPostMutationBody =
   ProposedPayment
 export type PostAppVendingStatusVendingappAppIdPostMutationError =
   AxiosError<void>
+export type PostAppVendingStatusVendingappAppIdPostMutationVariables = {
+  appId: string
+  data: ProposedPayment
+}
 
 /**
  * @summary Post App Vending Status
@@ -990,7 +1122,7 @@ export const usePostAppVendingStatusVendingappAppIdPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
       TError,
-      { appId: string; data: ProposedPayment },
+      PostAppVendingStatusVendingappAppIdPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -999,7 +1131,7 @@ export const usePostAppVendingStatusVendingappAppIdPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof postAppVendingStatusVendingappAppIdPost>>,
   TError,
-  { appId: string; data: ProposedPayment },
+  PostAppVendingStatusVendingappAppIdPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1026,6 +1158,24 @@ export const getRedeemableTokensVendingappAppIdTokensGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetRedeemableTokensVendingappAppIdTokensGetUrl = (
+  appId: string,
+  params?: GetRedeemableTokensVendingappAppIdTokensGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vendingapp/${appId}/tokens`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetRedeemableTokensVendingappAppIdTokensGetQueryKey = (
@@ -1236,6 +1386,24 @@ export const createTokensVendingappAppIdTokensPost = (
   )
 }
 
+export const getCreateTokensVendingappAppIdTokensPostUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vendingapp/${appId}/tokens`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getCreateTokensVendingappAppIdTokensPostMutationKey = () =>
+  ["createTokensVendingappAppIdTokensPost"] as const
+
 export const getCreateTokensVendingappAppIdTokensPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -1243,17 +1411,17 @@ export const getCreateTokensVendingappAppIdTokensPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
     TError,
-    { appId: string; data: string[] },
+    CreateTokensVendingappAppIdTokensPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
   TError,
-  { appId: string; data: string[] },
+  CreateTokensVendingappAppIdTokensPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createTokensVendingappAppIdTokensPost"]
+  const mutationKey = getCreateTokensVendingappAppIdTokensPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1264,7 +1432,7 @@ export const getCreateTokensVendingappAppIdTokensPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
-    { appId: string; data: string[] }
+    CreateTokensVendingappAppIdTokensPostMutationVariables
   > = (props) => {
     const { appId, data } = props ?? {}
 
@@ -1280,6 +1448,10 @@ export type CreateTokensVendingappAppIdTokensPostMutationResult = NonNullable<
 export type CreateTokensVendingappAppIdTokensPostMutationBody = string[]
 export type CreateTokensVendingappAppIdTokensPostMutationError =
   AxiosError<void>
+export type CreateTokensVendingappAppIdTokensPostMutationVariables = {
+  appId: string
+  data: string[]
+}
 
 /**
  * @summary Create Tokens
@@ -1292,7 +1464,7 @@ export const useCreateTokensVendingappAppIdTokensPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
       TError,
-      { appId: string; data: string[] },
+      CreateTokensVendingappAppIdTokensPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1301,7 +1473,7 @@ export const useCreateTokensVendingappAppIdTokensPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof createTokensVendingappAppIdTokensPost>>,
   TError,
-  { appId: string; data: string[] },
+  CreateTokensVendingappAppIdTokensPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1325,6 +1497,26 @@ export const cancelTokensVendingappAppIdTokensCancelPost = (
   )
 }
 
+export const getCancelTokensVendingappAppIdTokensCancelPostUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vendingapp/${appId}/tokens/cancel`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getCancelTokensVendingappAppIdTokensCancelPostMutationKey = () =>
+  ["cancelTokensVendingappAppIdTokensCancelPost"] as const
+
 export const getCancelTokensVendingappAppIdTokensCancelPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -1332,17 +1524,18 @@ export const getCancelTokensVendingappAppIdTokensCancelPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
     TError,
-    { appId: string; data: string[] },
+    CancelTokensVendingappAppIdTokensCancelPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
   TError,
-  { appId: string; data: string[] },
+  CancelTokensVendingappAppIdTokensCancelPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["cancelTokensVendingappAppIdTokensCancelPost"]
+  const mutationKey =
+    getCancelTokensVendingappAppIdTokensCancelPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1353,7 +1546,7 @@ export const getCancelTokensVendingappAppIdTokensCancelPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
-    { appId: string; data: string[] }
+    CancelTokensVendingappAppIdTokensCancelPostMutationVariables
   > = (props) => {
     const { appId, data } = props ?? {}
 
@@ -1374,6 +1567,10 @@ export type CancelTokensVendingappAppIdTokensCancelPostMutationResult =
 export type CancelTokensVendingappAppIdTokensCancelPostMutationBody = string[]
 export type CancelTokensVendingappAppIdTokensCancelPostMutationError =
   AxiosError<void>
+export type CancelTokensVendingappAppIdTokensCancelPostMutationVariables = {
+  appId: string
+  data: string[]
+}
 
 /**
  * @summary Cancel Tokens
@@ -1386,7 +1583,7 @@ export const useCancelTokensVendingappAppIdTokensCancelPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
       TError,
-      { appId: string; data: string[] },
+      CancelTokensVendingappAppIdTokensCancelPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1395,7 +1592,7 @@ export const useCancelTokensVendingappAppIdTokensCancelPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof cancelTokensVendingappAppIdTokensCancelPost>>,
   TError,
-  { appId: string; data: string[] },
+  CancelTokensVendingappAppIdTokensCancelPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1421,6 +1618,27 @@ export const redeemTokenVendingappAppIdTokensRedeemTokenPost = (
   )
 }
 
+export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostUrl = (
+  appId: string,
+  token: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vendingapp/${appId}/tokens/redeem/${token}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationKey =
+  () => ["redeemTokenVendingappAppIdTokensRedeemTokenPost"] as const
+
 export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1428,17 +1646,18 @@ export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions =
         ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>
       >,
       TError,
-      { appId: string; token: string },
+      RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
   }): UseMutationOptions<
     Awaited<ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>>,
     TError,
-    { appId: string; token: string },
+    RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["redeemTokenVendingappAppIdTokensRedeemTokenPost"]
+    const mutationKey =
+      getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1451,7 +1670,7 @@ export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMutationOptions =
       Awaited<
         ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>
       >,
-      { appId: string; token: string }
+      RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationVariables
     > = (props) => {
       const { appId, token } = props ?? {}
 
@@ -1472,6 +1691,10 @@ export type RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationResult =
 
 export type RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationError =
   AxiosError<void>
+export type RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationVariables = {
+  appId: string
+  token: string
+}
 
 /**
  * @summary Redeem Token
@@ -1486,7 +1709,7 @@ export const useRedeemTokenVendingappAppIdTokensRedeemTokenPost = <
         ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>
       >,
       TError,
-      { appId: string; token: string },
+      RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1495,7 +1718,7 @@ export const useRedeemTokenVendingappAppIdTokensRedeemTokenPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof redeemTokenVendingappAppIdTokensRedeemTokenPost>>,
   TError,
-  { appId: string; token: string },
+  RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1512,6 +1735,21 @@ export const appInfoVendingappAppIdInfoGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<VendingApplicationInformation>> => {
   return axios.get(`/vendingapp/${appId}/info`, options)
+}
+
+export const getAppInfoVendingappAppIdInfoGetUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/vendingapp/${appId}/info`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getAppInfoVendingappAppIdInfoGetQueryKey = (appId: string) => {

@@ -118,30 +118,27 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
     growth_percentage: faker.number.int(),
   })),
   geographic_stats: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      {
-        top_countries: Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => ({
-          country_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-          downloads: faker.number.int(),
-        })),
-        total_countries: faker.number.int(),
-        fastest_growing_regions: Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => ({
-          country_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
-          downloads: faker.number.int(),
-          previous_year_downloads: faker.number.int(),
-          growth: faker.number.int(),
-          growth_percentage: faker.number.int(),
-        })),
-      },
-      null,
-    ]),
-    undefined,
+    {
+      top_countries: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        country_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        downloads: faker.number.int(),
+      })),
+      total_countries: faker.number.int(),
+      fastest_growing_regions: Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        country_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        downloads: faker.number.int(),
+        previous_year_downloads: faker.number.int(),
+        growth: faker.number.int(),
+        growth_percentage: faker.number.int(),
+      })),
+    },
+    null,
   ]),
   hidden_gems: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },

@@ -58,6 +58,21 @@ export const getStatsStatsGet = (
   return axios.get(`/stats/`, options)
 }
 
+export const getGetStatsStatsGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/stats/`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetStatsStatsGetQueryKey = () => {
   return [`/stats/`] as const
 }
@@ -206,6 +221,23 @@ export const getPermissionStatsStatsPermissionsGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetPermissionStatsStatsPermissionsGetUrl = (
+  params?: GetPermissionStatsStatsPermissionsGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/stats/permissions`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetPermissionStatsStatsPermissionsGetQueryKey = (
@@ -377,6 +409,24 @@ export const getStatsForAppStatsAppIdGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetStatsForAppStatsAppIdGetUrl = (
+  appId: string,
+  params?: GetStatsForAppStatsAppIdGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/stats/${appId}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetStatsForAppStatsAppIdGetQueryKey = (

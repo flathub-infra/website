@@ -20,6 +20,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 const withQueryKey = <T extends object, K>(
   query: T,
   queryKey: K,
@@ -45,6 +47,21 @@ export const healthcheckStatusGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.get(`/status`, options)
+}
+
+export const getHealthcheckStatusGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/status`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getHealthcheckStatusGetQueryKey = () => {

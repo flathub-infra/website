@@ -78,6 +78,21 @@ export const getEmailLoginConfigAuthEmailConfigGet = (
   return axios.get(`/auth/email/config`, options)
 }
 
+export const getGetEmailLoginConfigAuthEmailConfigGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/email/config`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetEmailLoginConfigAuthEmailConfigGetQueryKey = () => {
   return [`/auth/email/config`] as const
 }
@@ -231,6 +246,24 @@ export const requestEmailLoginAuthEmailRequestPost = (
   return axios.post(`/auth/email/request`, emailLinkRequest, options)
 }
 
+export const getRequestEmailLoginAuthEmailRequestPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/email/request`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getRequestEmailLoginAuthEmailRequestPostMutationKey = () =>
+  ["requestEmailLoginAuthEmailRequestPost"] as const
+
 export const getRequestEmailLoginAuthEmailRequestPostMutationOptions = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -238,17 +271,17 @@ export const getRequestEmailLoginAuthEmailRequestPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>,
     TError,
-    { data: EmailLinkRequest },
+    RequestEmailLoginAuthEmailRequestPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>,
   TError,
-  { data: EmailLinkRequest },
+  RequestEmailLoginAuthEmailRequestPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["requestEmailLoginAuthEmailRequestPost"]
+  const mutationKey = getRequestEmailLoginAuthEmailRequestPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -259,7 +292,7 @@ export const getRequestEmailLoginAuthEmailRequestPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>,
-    { data: EmailLinkRequest }
+    RequestEmailLoginAuthEmailRequestPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -275,6 +308,9 @@ export type RequestEmailLoginAuthEmailRequestPostMutationResult = NonNullable<
 export type RequestEmailLoginAuthEmailRequestPostMutationBody = EmailLinkRequest
 export type RequestEmailLoginAuthEmailRequestPostMutationError =
   AxiosError<HTTPValidationError>
+export type RequestEmailLoginAuthEmailRequestPostMutationVariables = {
+  data: EmailLinkRequest
+}
 
 /**
  * @summary Request Email Login
@@ -287,7 +323,7 @@ export const useRequestEmailLoginAuthEmailRequestPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>,
       TError,
-      { data: EmailLinkRequest },
+      RequestEmailLoginAuthEmailRequestPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -296,7 +332,7 @@ export const useRequestEmailLoginAuthEmailRequestPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof requestEmailLoginAuthEmailRequestPost>>,
   TError,
-  { data: EmailLinkRequest },
+  RequestEmailLoginAuthEmailRequestPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -314,6 +350,24 @@ export const confirmEmailLoginAuthEmailConfirmPost = (
   return axios.post(`/auth/email/confirm`, emailConfirmRequest, options)
 }
 
+export const getConfirmEmailLoginAuthEmailConfirmPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/email/confirm`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getConfirmEmailLoginAuthEmailConfirmPostMutationKey = () =>
+  ["confirmEmailLoginAuthEmailConfirmPost"] as const
+
 export const getConfirmEmailLoginAuthEmailConfirmPostMutationOptions = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -321,17 +375,17 @@ export const getConfirmEmailLoginAuthEmailConfirmPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>,
     TError,
-    { data: EmailConfirmRequest },
+    ConfirmEmailLoginAuthEmailConfirmPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>,
   TError,
-  { data: EmailConfirmRequest },
+  ConfirmEmailLoginAuthEmailConfirmPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["confirmEmailLoginAuthEmailConfirmPost"]
+  const mutationKey = getConfirmEmailLoginAuthEmailConfirmPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -342,7 +396,7 @@ export const getConfirmEmailLoginAuthEmailConfirmPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>,
-    { data: EmailConfirmRequest }
+    ConfirmEmailLoginAuthEmailConfirmPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -359,6 +413,9 @@ export type ConfirmEmailLoginAuthEmailConfirmPostMutationBody =
   EmailConfirmRequest
 export type ConfirmEmailLoginAuthEmailConfirmPostMutationError =
   AxiosError<HTTPValidationError>
+export type ConfirmEmailLoginAuthEmailConfirmPostMutationVariables = {
+  data: EmailConfirmRequest
+}
 
 /**
  * @summary Confirm Email Login
@@ -371,7 +428,7 @@ export const useConfirmEmailLoginAuthEmailConfirmPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>,
       TError,
-      { data: EmailConfirmRequest },
+      ConfirmEmailLoginAuthEmailConfirmPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -380,7 +437,7 @@ export const useConfirmEmailLoginAuthEmailConfirmPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof confirmEmailLoginAuthEmailConfirmPost>>,
   TError,
-  { data: EmailConfirmRequest },
+  ConfirmEmailLoginAuthEmailConfirmPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -403,6 +460,21 @@ export const getLoginMethodsAuthLoginGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<LoginMethod[]>> => {
   return axios.get(`/auth/login`, options)
+}
+
+export const getGetLoginMethodsAuthLoginGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/login`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetLoginMethodsAuthLoginGetQueryKey = () => {
@@ -567,6 +639,23 @@ export const startGithubFlowAuthLoginGithubGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getStartGithubFlowAuthLoginGithubGetUrl = (
+  params?: StartGithubFlowAuthLoginGithubGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/login/github`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getStartGithubFlowAuthLoginGithubGetQueryKey = (
@@ -762,6 +851,24 @@ export const continueGithubFlowAuthLoginGithubPost = (
   )
 }
 
+export const getContinueGithubFlowAuthLoginGithubPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/login/github`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getContinueGithubFlowAuthLoginGithubPostMutationKey = () =>
+  ["continueGithubFlowAuthLoginGithubPost"] as const
+
 export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -769,17 +876,17 @@ export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
     TError,
-    { data: ContinueGithubFlowAuthLoginGithubPostBody },
+    ContinueGithubFlowAuthLoginGithubPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
   TError,
-  { data: ContinueGithubFlowAuthLoginGithubPostBody },
+  ContinueGithubFlowAuthLoginGithubPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["continueGithubFlowAuthLoginGithubPost"]
+  const mutationKey = getContinueGithubFlowAuthLoginGithubPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -790,7 +897,7 @@ export const getContinueGithubFlowAuthLoginGithubPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
-    { data: ContinueGithubFlowAuthLoginGithubPostBody }
+    ContinueGithubFlowAuthLoginGithubPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -807,6 +914,9 @@ export type ContinueGithubFlowAuthLoginGithubPostMutationBody =
   ContinueGithubFlowAuthLoginGithubPostBody
 export type ContinueGithubFlowAuthLoginGithubPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type ContinueGithubFlowAuthLoginGithubPostMutationVariables = {
+  data: ContinueGithubFlowAuthLoginGithubPostBody
+}
 
 /**
  * @summary Continue Github Flow
@@ -819,7 +929,7 @@ export const useContinueGithubFlowAuthLoginGithubPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
       TError,
-      { data: ContinueGithubFlowAuthLoginGithubPostBody },
+      ContinueGithubFlowAuthLoginGithubPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -828,7 +938,7 @@ export const useContinueGithubFlowAuthLoginGithubPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof continueGithubFlowAuthLoginGithubPost>>,
   TError,
-  { data: ContinueGithubFlowAuthLoginGithubPostBody },
+  ContinueGithubFlowAuthLoginGithubPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -858,6 +968,23 @@ export const startGitlabFlowAuthLoginGitlabGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getStartGitlabFlowAuthLoginGitlabGetUrl = (
+  params?: StartGitlabFlowAuthLoginGitlabGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/login/gitlab`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getStartGitlabFlowAuthLoginGitlabGetQueryKey = (
@@ -1053,6 +1180,24 @@ export const continueGitlabFlowAuthLoginGitlabPost = (
   )
 }
 
+export const getContinueGitlabFlowAuthLoginGitlabPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/login/gitlab`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getContinueGitlabFlowAuthLoginGitlabPostMutationKey = () =>
+  ["continueGitlabFlowAuthLoginGitlabPost"] as const
+
 export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -1060,17 +1205,17 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
     TError,
-    { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
+    ContinueGitlabFlowAuthLoginGitlabPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
   TError,
-  { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
+  ContinueGitlabFlowAuthLoginGitlabPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["continueGitlabFlowAuthLoginGitlabPost"]
+  const mutationKey = getContinueGitlabFlowAuthLoginGitlabPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1081,7 +1226,7 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
-    { data: ContinueGitlabFlowAuthLoginGitlabPostBody }
+    ContinueGitlabFlowAuthLoginGitlabPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -1098,6 +1243,9 @@ export type ContinueGitlabFlowAuthLoginGitlabPostMutationBody =
   ContinueGitlabFlowAuthLoginGitlabPostBody
 export type ContinueGitlabFlowAuthLoginGitlabPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type ContinueGitlabFlowAuthLoginGitlabPostMutationVariables = {
+  data: ContinueGitlabFlowAuthLoginGitlabPostBody
+}
 
 /**
  * @summary Continue Gitlab Flow
@@ -1110,7 +1258,7 @@ export const useContinueGitlabFlowAuthLoginGitlabPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
       TError,
-      { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
+      ContinueGitlabFlowAuthLoginGitlabPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1119,7 +1267,7 @@ export const useContinueGitlabFlowAuthLoginGitlabPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof continueGitlabFlowAuthLoginGitlabPost>>,
   TError,
-  { data: ContinueGitlabFlowAuthLoginGitlabPostBody },
+  ContinueGitlabFlowAuthLoginGitlabPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1149,6 +1297,23 @@ export const startGnomeFlowAuthLoginGnomeGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getStartGnomeFlowAuthLoginGnomeGetUrl = (
+  params?: StartGnomeFlowAuthLoginGnomeGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/login/gnome`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getStartGnomeFlowAuthLoginGnomeGetQueryKey = (
@@ -1343,6 +1508,24 @@ export const continueGnomeFlowAuthLoginGnomePost = (
   )
 }
 
+export const getContinueGnomeFlowAuthLoginGnomePostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/login/gnome`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getContinueGnomeFlowAuthLoginGnomePostMutationKey = () =>
+  ["continueGnomeFlowAuthLoginGnomePost"] as const
+
 export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -1350,17 +1533,17 @@ export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
     TError,
-    { data: ContinueGnomeFlowAuthLoginGnomePostBody },
+    ContinueGnomeFlowAuthLoginGnomePostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
   TError,
-  { data: ContinueGnomeFlowAuthLoginGnomePostBody },
+  ContinueGnomeFlowAuthLoginGnomePostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["continueGnomeFlowAuthLoginGnomePost"]
+  const mutationKey = getContinueGnomeFlowAuthLoginGnomePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1371,7 +1554,7 @@ export const getContinueGnomeFlowAuthLoginGnomePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
-    { data: ContinueGnomeFlowAuthLoginGnomePostBody }
+    ContinueGnomeFlowAuthLoginGnomePostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -1388,6 +1571,9 @@ export type ContinueGnomeFlowAuthLoginGnomePostMutationBody =
   ContinueGnomeFlowAuthLoginGnomePostBody
 export type ContinueGnomeFlowAuthLoginGnomePostMutationError =
   AxiosError<void | HTTPValidationError>
+export type ContinueGnomeFlowAuthLoginGnomePostMutationVariables = {
+  data: ContinueGnomeFlowAuthLoginGnomePostBody
+}
 
 /**
  * @summary Continue Gnome Flow
@@ -1400,7 +1586,7 @@ export const useContinueGnomeFlowAuthLoginGnomePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
       TError,
-      { data: ContinueGnomeFlowAuthLoginGnomePostBody },
+      ContinueGnomeFlowAuthLoginGnomePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1409,7 +1595,7 @@ export const useContinueGnomeFlowAuthLoginGnomePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof continueGnomeFlowAuthLoginGnomePost>>,
   TError,
-  { data: ContinueGnomeFlowAuthLoginGnomePostBody },
+  ContinueGnomeFlowAuthLoginGnomePostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1430,6 +1616,23 @@ export const startKdeFlowAuthLoginKdeGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getStartKdeFlowAuthLoginKdeGetUrl = (
+  params?: StartKdeFlowAuthLoginKdeGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/login/kde`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getStartKdeFlowAuthLoginKdeGetQueryKey = (
@@ -1600,6 +1803,24 @@ export const continueKdeFlowAuthLoginKdePost = (
   )
 }
 
+export const getContinueKdeFlowAuthLoginKdePostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/login/kde`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getContinueKdeFlowAuthLoginKdePostMutationKey = () =>
+  ["continueKdeFlowAuthLoginKdePost"] as const
+
 export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -1607,17 +1828,17 @@ export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
     TError,
-    { data: ContinueKdeFlowAuthLoginKdePostBody },
+    ContinueKdeFlowAuthLoginKdePostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
   TError,
-  { data: ContinueKdeFlowAuthLoginKdePostBody },
+  ContinueKdeFlowAuthLoginKdePostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["continueKdeFlowAuthLoginKdePost"]
+  const mutationKey = getContinueKdeFlowAuthLoginKdePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1628,7 +1849,7 @@ export const getContinueKdeFlowAuthLoginKdePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
-    { data: ContinueKdeFlowAuthLoginKdePostBody }
+    ContinueKdeFlowAuthLoginKdePostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -1645,6 +1866,9 @@ export type ContinueKdeFlowAuthLoginKdePostMutationBody =
   ContinueKdeFlowAuthLoginKdePostBody
 export type ContinueKdeFlowAuthLoginKdePostMutationError =
   AxiosError<void | HTTPValidationError>
+export type ContinueKdeFlowAuthLoginKdePostMutationVariables = {
+  data: ContinueKdeFlowAuthLoginKdePostBody
+}
 
 /**
  * @summary Continue Kde Flow
@@ -1657,7 +1881,7 @@ export const useContinueKdeFlowAuthLoginKdePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
       TError,
-      { data: ContinueKdeFlowAuthLoginKdePostBody },
+      ContinueKdeFlowAuthLoginKdePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1666,7 +1890,7 @@ export const useContinueKdeFlowAuthLoginKdePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof continueKdeFlowAuthLoginKdePost>>,
   TError,
-  { data: ContinueKdeFlowAuthLoginKdePostBody },
+  ContinueKdeFlowAuthLoginKdePostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1712,6 +1936,24 @@ export const continueGoogleFlowAuthLoginGooglePost = (
   )
 }
 
+export const getContinueGoogleFlowAuthLoginGooglePostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/login/google`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getContinueGoogleFlowAuthLoginGooglePostMutationKey = () =>
+  ["continueGoogleFlowAuthLoginGooglePost"] as const
+
 export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -1719,17 +1961,17 @@ export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
     TError,
-    { data: ContinueGoogleFlowAuthLoginGooglePostBody },
+    ContinueGoogleFlowAuthLoginGooglePostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
   TError,
-  { data: ContinueGoogleFlowAuthLoginGooglePostBody },
+  ContinueGoogleFlowAuthLoginGooglePostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["continueGoogleFlowAuthLoginGooglePost"]
+  const mutationKey = getContinueGoogleFlowAuthLoginGooglePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1740,7 +1982,7 @@ export const getContinueGoogleFlowAuthLoginGooglePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
-    { data: ContinueGoogleFlowAuthLoginGooglePostBody }
+    ContinueGoogleFlowAuthLoginGooglePostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -1757,6 +1999,9 @@ export type ContinueGoogleFlowAuthLoginGooglePostMutationBody =
   ContinueGoogleFlowAuthLoginGooglePostBody
 export type ContinueGoogleFlowAuthLoginGooglePostMutationError =
   AxiosError<void | HTTPValidationError>
+export type ContinueGoogleFlowAuthLoginGooglePostMutationVariables = {
+  data: ContinueGoogleFlowAuthLoginGooglePostBody
+}
 
 /**
  * @summary Continue Google Flow
@@ -1769,7 +2014,7 @@ export const useContinueGoogleFlowAuthLoginGooglePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
       TError,
-      { data: ContinueGoogleFlowAuthLoginGooglePostBody },
+      ContinueGoogleFlowAuthLoginGooglePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1778,7 +2023,7 @@ export const useContinueGoogleFlowAuthLoginGooglePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof continueGoogleFlowAuthLoginGooglePost>>,
   TError,
-  { data: ContinueGoogleFlowAuthLoginGooglePostBody },
+  ContinueGoogleFlowAuthLoginGooglePostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1811,6 +2056,21 @@ export const getUserinfoAuthUserinfoGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetUserinfoAuthUserinfoGet200 | void>> => {
   return axios.get(`/auth/userinfo`, options)
+}
+
+export const getGetUserinfoAuthUserinfoGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/userinfo`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetUserinfoAuthUserinfoGetQueryKey = () => {
@@ -1962,6 +2222,24 @@ export const doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = (
   return axios.post(`/auth/refresh-dev-flatpaks`, undefined, options)
 }
 
+export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/refresh-dev-flatpaks`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationKey =
+  () => ["doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost"] as const
+
 export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1979,7 +2257,8 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationOptions =
     void,
     TContext
   > => {
-    const mutationKey = ["doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost"]
+    const mutationKey =
+      getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -2049,6 +2328,24 @@ export const doLogoutAuthLogoutPost = (
   return axios.post(`/auth/logout`, undefined, options)
 }
 
+export const getDoLogoutAuthLogoutPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/logout`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getDoLogoutAuthLogoutPostMutationKey = () =>
+  ["doLogoutAuthLogoutPost"] as const
+
 export const getDoLogoutAuthLogoutPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -2066,7 +2363,7 @@ export const getDoLogoutAuthLogoutPostMutationOptions = <
   void,
   TContext
 > => {
-  const mutationKey = ["doLogoutAuthLogoutPost"]
+  const mutationKey = getDoLogoutAuthLogoutPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -2130,6 +2427,21 @@ export const getDeleteuserAuthDeleteuserGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<GetDeleteUserResult>> => {
   return axios.get(`/auth/deleteuser`, options)
+}
+
+export const getGetDeleteuserAuthDeleteuserGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/deleteuser`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetDeleteuserAuthDeleteuserGetQueryKey = () => {
@@ -2296,6 +2608,24 @@ export const doDeleteuserAuthDeleteuserDelete = (
   })
 }
 
+export const getDoDeleteuserAuthDeleteuserDeleteUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/deleteuser`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getDoDeleteuserAuthDeleteuserDeleteMutationKey = () =>
+  ["doDeleteuserAuthDeleteuserDelete"] as const
+
 export const getDoDeleteuserAuthDeleteuserDeleteMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -2303,17 +2633,17 @@ export const getDoDeleteuserAuthDeleteuserDeleteMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>,
     TError,
-    { data: UserDeleteRequest },
+    DoDeleteuserAuthDeleteuserDeleteMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>,
   TError,
-  { data: UserDeleteRequest },
+  DoDeleteuserAuthDeleteuserDeleteMutationVariables,
   TContext
 > => {
-  const mutationKey = ["doDeleteuserAuthDeleteuserDelete"]
+  const mutationKey = getDoDeleteuserAuthDeleteuserDeleteMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -2324,7 +2654,7 @@ export const getDoDeleteuserAuthDeleteuserDeleteMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>,
-    { data: UserDeleteRequest }
+    DoDeleteuserAuthDeleteuserDeleteMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -2340,6 +2670,9 @@ export type DoDeleteuserAuthDeleteuserDeleteMutationResult = NonNullable<
 export type DoDeleteuserAuthDeleteuserDeleteMutationBody = UserDeleteRequest
 export type DoDeleteuserAuthDeleteuserDeleteMutationError =
   AxiosError<void | HTTPValidationError>
+export type DoDeleteuserAuthDeleteuserDeleteMutationVariables = {
+  data: UserDeleteRequest
+}
 
 /**
  * @summary Do Deleteuser
@@ -2352,7 +2685,7 @@ export const useDoDeleteuserAuthDeleteuserDelete = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>,
       TError,
-      { data: UserDeleteRequest },
+      DoDeleteuserAuthDeleteuserDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2361,7 +2694,7 @@ export const useDoDeleteuserAuthDeleteuserDelete = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof doDeleteuserAuthDeleteuserDelete>>,
   TError,
-  { data: UserDeleteRequest },
+  DoDeleteuserAuthDeleteuserDeleteMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -2377,6 +2710,25 @@ export const doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = (
 ): Promise<AxiosResponse<unknown>> => {
   return axios.post(`/auth/accept-publisher-agreement`, undefined, options)
 }
+
+export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/auth/accept-publisher-agreement`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationKey =
+  () => ["doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost"] as const
 
 export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
@@ -2401,9 +2753,8 @@ export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutat
     void,
     TContext
   > => {
-    const mutationKey = [
-      "doAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost",
-    ]
+    const mutationKey =
+      getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -2494,6 +2845,26 @@ export const doChangeDefaultAccountAuthChangeDefaultAccountPost = (
   })
 }
 
+export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostUrl = (
+  params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/change-default-account`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationKey =
+  () => ["doChangeDefaultAccountAuthChangeDefaultAccountPost"] as const
+
 export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -2504,7 +2875,7 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOption
         ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
       >,
       TError,
-      { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
+      DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2513,10 +2884,11 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOption
       ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
     >,
     TError,
-    { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
+    DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["doChangeDefaultAccountAuthChangeDefaultAccountPost"]
+    const mutationKey =
+      getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -2529,7 +2901,7 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMutationOption
       Awaited<
         ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
       >,
-      { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams }
+      DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationVariables
     > = (props) => {
       const { params } = props ?? {}
 
@@ -2551,6 +2923,8 @@ export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationResult =
 
 export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationVariables =
+  { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams }
 
 /**
  * @summary Do Change Default Account
@@ -2565,7 +2939,7 @@ export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
         ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
       >,
       TError,
-      { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
+      DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2576,7 +2950,7 @@ export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
     ReturnType<typeof doChangeDefaultAccountAuthChangeDefaultAccountPost>
   >,
   TError,
-  { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams },
+  DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -2596,6 +2970,24 @@ export const doChangeDisplayNameAuthDisplayNamePost = (
   return axios.post(`/auth/display-name`, displayNameRequest, options)
 }
 
+export const getDoChangeDisplayNameAuthDisplayNamePostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/display-name`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getDoChangeDisplayNameAuthDisplayNamePostMutationKey = () =>
+  ["doChangeDisplayNameAuthDisplayNamePost"] as const
+
 export const getDoChangeDisplayNameAuthDisplayNamePostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -2603,17 +2995,17 @@ export const getDoChangeDisplayNameAuthDisplayNamePostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>,
     TError,
-    { data: DisplayNameRequest },
+    DoChangeDisplayNameAuthDisplayNamePostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>,
   TError,
-  { data: DisplayNameRequest },
+  DoChangeDisplayNameAuthDisplayNamePostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["doChangeDisplayNameAuthDisplayNamePost"]
+  const mutationKey = getDoChangeDisplayNameAuthDisplayNamePostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -2624,7 +3016,7 @@ export const getDoChangeDisplayNameAuthDisplayNamePostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>,
-    { data: DisplayNameRequest }
+    DoChangeDisplayNameAuthDisplayNamePostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -2641,6 +3033,9 @@ export type DoChangeDisplayNameAuthDisplayNamePostMutationBody =
   DisplayNameRequest
 export type DoChangeDisplayNameAuthDisplayNamePostMutationError =
   AxiosError<void | HTTPValidationError>
+export type DoChangeDisplayNameAuthDisplayNamePostMutationVariables = {
+  data: DisplayNameRequest
+}
 
 /**
  * @summary Do Change Display Name
@@ -2653,7 +3048,7 @@ export const useDoChangeDisplayNameAuthDisplayNamePost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>,
       TError,
-      { data: DisplayNameRequest },
+      DoChangeDisplayNameAuthDisplayNamePostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -2662,7 +3057,7 @@ export const useDoChangeDisplayNameAuthDisplayNamePost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof doChangeDisplayNameAuthDisplayNamePost>>,
   TError,
-  { data: DisplayNameRequest },
+  DoChangeDisplayNameAuthDisplayNamePostMutationVariables,
   TContext
 > => {
   return useMutation(

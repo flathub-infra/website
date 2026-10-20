@@ -67,6 +67,23 @@ export const getMaintenanceDashboardAdminMaintenanceGet = (
   })
 }
 
+export const getGetMaintenanceDashboardAdminMaintenanceGetUrl = (
+  params?: GetMaintenanceDashboardAdminMaintenanceGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/admin/maintenance`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetMaintenanceDashboardAdminMaintenanceGetQueryKey = (
   params?: GetMaintenanceDashboardAdminMaintenanceGetParams,
 ) => {
@@ -251,6 +268,24 @@ export const getMaintenanceCaseAdminMaintenanceAppIdGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetMaintenanceCaseAdminMaintenanceAppIdGetUrl = (
+  appId: string,
+  params?: GetMaintenanceCaseAdminMaintenanceAppIdGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/admin/maintenance/${appId}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetMaintenanceCaseAdminMaintenanceAppIdGetQueryKey = (
@@ -449,6 +484,26 @@ export const updateMaintenanceCaseAdminMaintenanceAppIdPost = (
   return axios.post(`/admin/maintenance/${appId}`, maintenanceAction, options)
 }
 
+export const getUpdateMaintenanceCaseAdminMaintenanceAppIdPostUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/admin/maintenance/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getUpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationKey =
+  () => ["updateMaintenanceCaseAdminMaintenanceAppIdPost"] as const
+
 export const getUpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -456,17 +511,18 @@ export const getUpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationOptions =
         ReturnType<typeof updateMaintenanceCaseAdminMaintenanceAppIdPost>
       >,
       TError,
-      { appId: string; data: MaintenanceAction },
+      UpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
   }): UseMutationOptions<
     Awaited<ReturnType<typeof updateMaintenanceCaseAdminMaintenanceAppIdPost>>,
     TError,
-    { appId: string; data: MaintenanceAction },
+    UpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["updateMaintenanceCaseAdminMaintenanceAppIdPost"]
+    const mutationKey =
+      getUpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -479,7 +535,7 @@ export const getUpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationOptions =
       Awaited<
         ReturnType<typeof updateMaintenanceCaseAdminMaintenanceAppIdPost>
       >,
-      { appId: string; data: MaintenanceAction }
+      UpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationVariables
     > = (props) => {
       const { appId, data } = props ?? {}
 
@@ -501,6 +557,10 @@ export type UpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationBody =
   MaintenanceAction
 export type UpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationError =
   AxiosError<HTTPValidationError>
+export type UpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationVariables = {
+  appId: string
+  data: MaintenanceAction
+}
 
 /**
  * @summary Update Maintenance Case
@@ -515,7 +575,7 @@ export const useUpdateMaintenanceCaseAdminMaintenanceAppIdPost = <
         ReturnType<typeof updateMaintenanceCaseAdminMaintenanceAppIdPost>
       >,
       TError,
-      { appId: string; data: MaintenanceAction },
+      UpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -524,7 +584,7 @@ export const useUpdateMaintenanceCaseAdminMaintenanceAppIdPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof updateMaintenanceCaseAdminMaintenanceAppIdPost>>,
   TError,
-  { appId: string; data: MaintenanceAction },
+  UpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationVariables,
   TContext
 > => {
   return useMutation(

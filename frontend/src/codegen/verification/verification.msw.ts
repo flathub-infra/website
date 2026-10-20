@@ -39,11 +39,8 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificat
       verified: false,
       method: "none",
       detail: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
     },
     ...overrideResponse,
@@ -58,11 +55,8 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificat
       timestamp: faker.string.alpha({ length: { min: 10, max: 20 } }),
       method: "manual",
       detail: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
     },
     ...overrideResponse,
@@ -78,11 +72,8 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificat
       method: "website",
       website: faker.string.alpha({ length: { min: 10, max: 20 } }),
       detail: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
     },
     ...overrideResponse,
@@ -98,11 +89,8 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificat
       method: "dns",
       website: faker.string.alpha({ length: { min: 10, max: 20 } }),
       detail: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
     },
     ...overrideResponse,
@@ -119,15 +107,12 @@ export const getGetVerificationStatusVerificationAppIdStatusGetResponseVerificat
       login_provider: faker.helpers.arrayElement(Object.values(LoginProvider)),
       login_name: faker.string.alpha({ length: { min: 10, max: 20 } }),
       detail: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       login_is_organization: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-        undefined,
+        faker.datatype.boolean(),
+        null,
       ]),
     },
     ...overrideResponse,
@@ -158,87 +143,53 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetResponseM
     overrideResponse: Partial<Extract<AvailableMethods, object>> = {},
   ): AvailableMethods => ({
     methods: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        Array.from(
-          { length: faker.number.int({ min: 1, max: 10 }) },
-          (_, i) => i + 1,
-        ).map(() => ({
-          method: faker.helpers.arrayElement(
-            Object.values(AvailableMethodType),
-          ),
-          website: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          website_token: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          dns_domain: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          dns_record_name: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          dns_token: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          login_provider: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement(Object.values(LoginProvider)),
-              null,
-            ]),
-            undefined,
-          ]),
-          login_name: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.string.alpha({ length: { min: 10, max: 20 } }),
-              null,
-            ]),
-            undefined,
-          ]),
-          login_is_organization: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-            undefined,
-          ]),
-          login_status: faker.helpers.arrayElement([
-            faker.helpers.arrayElement([
-              faker.helpers.arrayElement(
-                Object.values(AvailableLoginMethodStatus),
-              ),
-              null,
-            ]),
-            undefined,
-          ]),
-        })),
-        null,
-      ]),
-      undefined,
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => ({
+        method: faker.helpers.arrayElement(Object.values(AvailableMethodType)),
+        website: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        website_token: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        dns_domain: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        dns_record_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        dns_token: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        login_provider: faker.helpers.arrayElement([
+          faker.helpers.arrayElement(Object.values(LoginProvider)),
+          null,
+        ]),
+        login_name: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        login_is_organization: faker.helpers.arrayElement([
+          faker.datatype.boolean(),
+          null,
+        ]),
+        login_status: faker.helpers.arrayElement([
+          faker.helpers.arrayElement(Object.values(AvailableLoginMethodStatus)),
+          null,
+        ]),
+      })),
+      null,
     ]),
     detail: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     ...overrideResponse,
   })
@@ -273,16 +224,10 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
   ): WebsiteVerificationResult => ({
     verified: faker.datatype.boolean(),
     detail: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.helpers.arrayElement(Object.values(ErrorDetail)),
-        null,
-      ]),
-      undefined,
+      faker.helpers.arrayElement(Object.values(ErrorDetail)),
+      null,
     ]),
-    status_code: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.number.int(), null]),
-      undefined,
-    ]),
+    status_code: faker.helpers.arrayElement([faker.number.int(), null]),
     ...overrideResponse,
   })
 
@@ -302,11 +247,8 @@ export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPos
   ): DnsVerificationResult => ({
     verified: faker.datatype.boolean(),
     detail: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.helpers.arrayElement(Object.values(ErrorDetail)),
-        null,
-      ]),
-      undefined,
+      faker.helpers.arrayElement(Object.values(ErrorDetail)),
+      null,
     ]),
     ...overrideResponse,
   })
@@ -319,11 +261,8 @@ export const getManualVerificationVerificationAppIdManualVerificationPostRespons
     timestamp: faker.string.alpha({ length: { min: 10, max: 20 } }),
     method: "manual",
     detail: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     ...overrideResponse,
   })

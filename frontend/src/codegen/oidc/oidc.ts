@@ -59,6 +59,21 @@ export const openidConfigurationWellKnownOpenidConfigurationGet = (
   return axios.get(`/.well-known/openid-configuration`, options)
 }
 
+export const getOpenidConfigurationWellKnownOpenidConfigurationGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/.well-known/openid-configuration`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getOpenidConfigurationWellKnownOpenidConfigurationGetQueryKey =
   () => {
     return [`/.well-known/openid-configuration`] as const
@@ -260,6 +275,21 @@ export const jwksOidcJwksJsonGet = (
   return axios.get(`/oidc/jwks.json`, options)
 }
 
+export const getJwksOidcJwksJsonGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/oidc/jwks.json`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getJwksOidcJwksJsonGetQueryKey = () => {
   return [`/oidc/jwks.json`] as const
 }
@@ -412,6 +442,23 @@ export const authorizeOidcAuthorizeGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getAuthorizeOidcAuthorizeGetUrl = (
+  params?: AuthorizeOidcAuthorizeGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/oidc/authorize`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getAuthorizeOidcAuthorizeGetQueryKey = (
@@ -616,6 +663,24 @@ export const tokenOidcTokenPost = (
   return axios.post(`/oidc/token`, formUrlEncoded, options)
 }
 
+export const getTokenOidcTokenPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/oidc/token`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getTokenOidcTokenPostMutationKey = () =>
+  ["tokenOidcTokenPost"] as const
+
 export const getTokenOidcTokenPostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -623,17 +688,17 @@ export const getTokenOidcTokenPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof tokenOidcTokenPost>>,
     TError,
-    { data?: BodyTokenOidcTokenPost },
+    TokenOidcTokenPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof tokenOidcTokenPost>>,
   TError,
-  { data?: BodyTokenOidcTokenPost },
+  TokenOidcTokenPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["tokenOidcTokenPost"]
+  const mutationKey = getTokenOidcTokenPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -644,7 +709,7 @@ export const getTokenOidcTokenPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof tokenOidcTokenPost>>,
-    { data?: BodyTokenOidcTokenPost }
+    TokenOidcTokenPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -660,6 +725,9 @@ export type TokenOidcTokenPostMutationResult = NonNullable<
 export type TokenOidcTokenPostMutationBody = BodyTokenOidcTokenPost | undefined
 export type TokenOidcTokenPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type TokenOidcTokenPostMutationVariables = {
+  data?: BodyTokenOidcTokenPost
+}
 
 /**
  * @summary Token
@@ -672,7 +740,7 @@ export const useTokenOidcTokenPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof tokenOidcTokenPost>>,
       TError,
-      { data?: BodyTokenOidcTokenPost },
+      TokenOidcTokenPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -681,7 +749,7 @@ export const useTokenOidcTokenPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof tokenOidcTokenPost>>,
   TError,
-  { data?: BodyTokenOidcTokenPost },
+  TokenOidcTokenPostMutationVariables,
   TContext
 > => {
   return useMutation(getTokenOidcTokenPostMutationOptions(options), queryClient)
@@ -693,6 +761,21 @@ export const userinfoOidcUserinfoGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.get(`/oidc/userinfo`, options)
+}
+
+export const getUserinfoOidcUserinfoGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/oidc/userinfo`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getUserinfoOidcUserinfoGetQueryKey = () => {

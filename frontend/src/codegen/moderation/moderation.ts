@@ -78,6 +78,23 @@ export const getModerationAppsModerationAppsGet = (
   })
 }
 
+export const getGetModerationAppsModerationAppsGetUrl = (
+  params?: GetModerationAppsModerationAppsGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/moderation/apps`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetModerationAppsModerationAppsGetQueryKey = (
   params?: GetModerationAppsModerationAppsGetParams,
 ) => {
@@ -247,6 +264,24 @@ export const getModerationAppModerationAppsAppIdGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetModerationAppModerationAppsAppIdGetUrl = (
+  appId: string,
+  params?: GetModerationAppModerationAppsAppIdGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/moderation/apps/${appId}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetModerationAppModerationAppsAppIdGetQueryKey = (
@@ -428,6 +463,25 @@ export const submitReviewRequestModerationSubmitReviewRequestPost = (
   return axios.post(`/moderation/submit_review_request`, reviewRequest, options)
 }
 
+export const getSubmitReviewRequestModerationSubmitReviewRequestPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/moderation/submit_review_request`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationKey =
+  () => ["submitReviewRequestModerationSubmitReviewRequestPost"] as const
+
 export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -435,7 +489,7 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOpti
         ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
       >,
       TError,
-      { data: ReviewRequest },
+      SubmitReviewRequestModerationSubmitReviewRequestPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -444,10 +498,11 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOpti
       ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
     >,
     TError,
-    { data: ReviewRequest },
+    SubmitReviewRequestModerationSubmitReviewRequestPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["submitReviewRequestModerationSubmitReviewRequestPost"]
+    const mutationKey =
+      getSubmitReviewRequestModerationSubmitReviewRequestPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -460,7 +515,7 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostMutationOpti
       Awaited<
         ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
       >,
-      { data: ReviewRequest }
+      SubmitReviewRequestModerationSubmitReviewRequestPostMutationVariables
     > = (props) => {
       const { data } = props ?? {}
 
@@ -483,6 +538,8 @@ export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationBody =
   ReviewRequest
 export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationError =
   AxiosError<void>
+export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationVariables =
+  { data: ReviewRequest }
 
 /**
  * @summary Submit Review Request
@@ -497,7 +554,7 @@ export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
         ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
       >,
       TError,
-      { data: ReviewRequest },
+      SubmitReviewRequestModerationSubmitReviewRequestPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -508,7 +565,7 @@ export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
     ReturnType<typeof submitReviewRequestModerationSubmitReviewRequestPost>
   >,
   TError,
-  { data: ReviewRequest },
+  SubmitReviewRequestModerationSubmitReviewRequestPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -529,6 +586,26 @@ export const submitReviewModerationRequestsIdReviewPost = (
   return axios.post(`/moderation/requests/${id}/review`, review, options)
 }
 
+export const getSubmitReviewModerationRequestsIdReviewPostUrl = (
+  id: number,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/moderation/requests/${id}/review`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSubmitReviewModerationRequestsIdReviewPostMutationKey = () =>
+  ["submitReviewModerationRequestsIdReviewPost"] as const
+
 export const getSubmitReviewModerationRequestsIdReviewPostMutationOptions = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -536,17 +613,17 @@ export const getSubmitReviewModerationRequestsIdReviewPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
     TError,
-    { id: number; data: Review },
+    SubmitReviewModerationRequestsIdReviewPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
   TError,
-  { id: number; data: Review },
+  SubmitReviewModerationRequestsIdReviewPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["submitReviewModerationRequestsIdReviewPost"]
+  const mutationKey = getSubmitReviewModerationRequestsIdReviewPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -557,7 +634,7 @@ export const getSubmitReviewModerationRequestsIdReviewPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
-    { id: number; data: Review }
+    SubmitReviewModerationRequestsIdReviewPostMutationVariables
   > = (props) => {
     const { id, data } = props ?? {}
 
@@ -574,6 +651,10 @@ export type SubmitReviewModerationRequestsIdReviewPostMutationResult =
 export type SubmitReviewModerationRequestsIdReviewPostMutationBody = Review
 export type SubmitReviewModerationRequestsIdReviewPostMutationError =
   AxiosError<void>
+export type SubmitReviewModerationRequestsIdReviewPostMutationVariables = {
+  id: number
+  data: Review
+}
 
 /**
  * @summary Submit Review
@@ -586,7 +667,7 @@ export const useSubmitReviewModerationRequestsIdReviewPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
       TError,
-      { id: number; data: Review },
+      SubmitReviewModerationRequestsIdReviewPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -595,7 +676,7 @@ export const useSubmitReviewModerationRequestsIdReviewPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof submitReviewModerationRequestsIdReviewPost>>,
   TError,
-  { id: number; data: Review },
+  SubmitReviewModerationRequestsIdReviewPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -618,6 +699,26 @@ export const submitDiscussionModerationRequestsIdDiscussionPost = (
   )
 }
 
+export const getSubmitDiscussionModerationRequestsIdDiscussionPostUrl = (
+  id: number,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/moderation/requests/${id}/discussion`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getSubmitDiscussionModerationRequestsIdDiscussionPostMutationKey =
+  () => ["submitDiscussionModerationRequestsIdDiscussionPost"] as const
+
 export const getSubmitDiscussionModerationRequestsIdDiscussionPostMutationOptions =
   <TError = AxiosError<void>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -625,7 +726,7 @@ export const getSubmitDiscussionModerationRequestsIdDiscussionPostMutationOption
         ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
       >,
       TError,
-      { id: number; data: Discussion },
+      SubmitDiscussionModerationRequestsIdDiscussionPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -634,10 +735,11 @@ export const getSubmitDiscussionModerationRequestsIdDiscussionPostMutationOption
       ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
     >,
     TError,
-    { id: number; data: Discussion },
+    SubmitDiscussionModerationRequestsIdDiscussionPostMutationVariables,
     TContext
   > => {
-    const mutationKey = ["submitDiscussionModerationRequestsIdDiscussionPost"]
+    const mutationKey =
+      getSubmitDiscussionModerationRequestsIdDiscussionPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -650,7 +752,7 @@ export const getSubmitDiscussionModerationRequestsIdDiscussionPostMutationOption
       Awaited<
         ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
       >,
-      { id: number; data: Discussion }
+      SubmitDiscussionModerationRequestsIdDiscussionPostMutationVariables
     > = (props) => {
       const { id, data } = props ?? {}
 
@@ -674,6 +776,8 @@ export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationBody =
   Discussion
 export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationError =
   AxiosError<void>
+export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationVariables =
+  { id: number; data: Discussion }
 
 /**
  * @summary Submit Discussion
@@ -688,7 +792,7 @@ export const useSubmitDiscussionModerationRequestsIdDiscussionPost = <
         ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
       >,
       TError,
-      { id: number; data: Discussion },
+      SubmitDiscussionModerationRequestsIdDiscussionPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -699,7 +803,7 @@ export const useSubmitDiscussionModerationRequestsIdDiscussionPost = <
     ReturnType<typeof submitDiscussionModerationRequestsIdDiscussionPost>
   >,
   TError,
-  { id: number; data: Discussion },
+  SubmitDiscussionModerationRequestsIdDiscussionPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -723,6 +827,24 @@ export const postAssessmentModerationPermissionsAssessPost = (
   )
 }
 
+export const getPostAssessmentModerationPermissionsAssessPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/moderation/permissions/assess`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getPostAssessmentModerationPermissionsAssessPostMutationKey = () =>
+  ["postAssessmentModerationPermissionsAssessPost"] as const
+
 export const getPostAssessmentModerationPermissionsAssessPostMutationOptions = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -730,17 +852,18 @@ export const getPostAssessmentModerationPermissionsAssessPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof postAssessmentModerationPermissionsAssessPost>>,
     TError,
-    { data: CandidateAssessmentRequest },
+    PostAssessmentModerationPermissionsAssessPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof postAssessmentModerationPermissionsAssessPost>>,
   TError,
-  { data: CandidateAssessmentRequest },
+  PostAssessmentModerationPermissionsAssessPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["postAssessmentModerationPermissionsAssessPost"]
+  const mutationKey =
+    getPostAssessmentModerationPermissionsAssessPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -751,7 +874,7 @@ export const getPostAssessmentModerationPermissionsAssessPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof postAssessmentModerationPermissionsAssessPost>>,
-    { data: CandidateAssessmentRequest }
+    PostAssessmentModerationPermissionsAssessPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -769,6 +892,9 @@ export type PostAssessmentModerationPermissionsAssessPostMutationBody =
   CandidateAssessmentRequest
 export type PostAssessmentModerationPermissionsAssessPostMutationError =
   AxiosError<HTTPValidationError>
+export type PostAssessmentModerationPermissionsAssessPostMutationVariables = {
+  data: CandidateAssessmentRequest
+}
 
 /**
  * @summary Post Assessment
@@ -781,7 +907,7 @@ export const usePostAssessmentModerationPermissionsAssessPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof postAssessmentModerationPermissionsAssessPost>>,
       TError,
-      { data: CandidateAssessmentRequest },
+      PostAssessmentModerationPermissionsAssessPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -790,7 +916,7 @@ export const usePostAssessmentModerationPermissionsAssessPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof postAssessmentModerationPermissionsAssessPost>>,
   TError,
-  { data: CandidateAssessmentRequest },
+  PostAssessmentModerationPermissionsAssessPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -806,6 +932,23 @@ export const readAssessmentModerationPermissionsAssessmentIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<CandidateAssessmentResponse>> => {
   return axios.get(`/moderation/permissions/${assessmentId}`, options)
+}
+
+export const getReadAssessmentModerationPermissionsAssessmentIdGetUrl = (
+  assessmentId: number,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/moderation/permissions/${assessmentId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getReadAssessmentModerationPermissionsAssessmentIdGetQueryKey = (
@@ -1037,6 +1180,23 @@ export const listPermissionReviewsModerationPermissionReviewsGet = (
   })
 }
 
+export const getListPermissionReviewsModerationPermissionReviewsGetUrl = (
+  params?: ListPermissionReviewsModerationPermissionReviewsGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/moderation/permission-reviews`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getListPermissionReviewsModerationPermissionReviewsGetQueryKey = (
   params?: ListPermissionReviewsModerationPermissionReviewsGetParams,
 ) => {
@@ -1254,6 +1414,22 @@ export const readPermissionReviewModerationPermissionReviewsAssessmentIdGet = (
 ): Promise<AxiosResponse<PermissionReviewDetail>> => {
   return axios.get(`/moderation/permission-reviews/${assessmentId}`, options)
 }
+
+export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetUrl =
+  (assessmentId: number) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/moderation/permission-reviews/${assessmentId}`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
 
 export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetQueryKey =
   (assessmentId: number) => {
@@ -1506,6 +1682,28 @@ export const decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisi
     )
   }
 
+export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostUrl =
+  (assessmentId: number) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/moderation/permission-reviews/${assessmentId}/decision`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationKey =
+  () =>
+    [
+      "decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost",
+    ] as const
+
 export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1515,7 +1713,7 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
         >
       >,
       TError,
-      { assessmentId: number; data: PermissionDecisionRequest },
+      DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1526,12 +1724,11 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
       >
     >,
     TError,
-    { assessmentId: number; data: PermissionDecisionRequest },
+    DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost",
-    ]
+    const mutationKey =
+      getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1546,7 +1743,7 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
           typeof decidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost
         >
       >,
-      { assessmentId: number; data: PermissionDecisionRequest }
+      DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationVariables
     > = (props) => {
       const { assessmentId, data } = props ?? {}
 
@@ -1572,6 +1769,8 @@ export type DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisio
   PermissionDecisionRequest
 export type DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationError =
   AxiosError<HTTPValidationError>
+export type DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationVariables =
+  { assessmentId: number; data: PermissionDecisionRequest }
 
 /**
  * @summary Decide Permission Review
@@ -1586,7 +1785,7 @@ export const useDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
           >
         >,
         TError,
-        { assessmentId: number; data: PermissionDecisionRequest },
+        DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1599,7 +1798,7 @@ export const useDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
       >
     >,
     TError,
-    { assessmentId: number; data: PermissionDecisionRequest },
+    DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationVariables,
     TContext
   > => {
     return useMutation(

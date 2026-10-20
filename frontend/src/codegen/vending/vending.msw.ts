@@ -55,11 +55,8 @@ export const getGetGlobalVendingConfigVendingConfigGetResponseMock = (
   platforms: {
     [faker.string.alphanumeric(5)]: {
       depends: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       aliases: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -67,11 +64,8 @@ export const getGetGlobalVendingConfigVendingConfigGetResponseMock = (
       ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
       keep: faker.number.int(),
       stripe_account: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
     },
   },
@@ -127,11 +121,8 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetResponseMock = (
     ] as const),
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
     token: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([
-        faker.string.alpha({ length: { min: 10, max: 20 } }),
-        null,
-      ]),
-      undefined,
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
     ]),
     created: faker.date.past().toISOString().slice(0, 19) + "Z",
     changed: faker.date.past().toISOString().slice(0, 19) + "Z",
@@ -159,11 +150,8 @@ export const getCreateTokensVendingappAppIdTokensPostResponseMock =
       ] as const),
       name: faker.string.alpha({ length: { min: 10, max: 20 } }),
       token: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       created: faker.date.past().toISOString().slice(0, 19) + "Z",
       changed: faker.date.past().toISOString().slice(0, 19) + "Z",

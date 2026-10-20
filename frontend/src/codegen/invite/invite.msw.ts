@@ -34,10 +34,7 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    is_primary: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-      undefined,
-    ]),
+    is_primary: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
   })),
   invites: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
@@ -49,10 +46,7 @@ export const getGetAppDevelopersInvitesAppIdDevelopersGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
-    is_primary: faker.helpers.arrayElement([
-      faker.helpers.arrayElement([faker.datatype.boolean(), null]),
-      undefined,
-    ]),
+    is_primary: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
   })),
   ...overrideResponse,
 })

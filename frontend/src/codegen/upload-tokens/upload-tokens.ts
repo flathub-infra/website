@@ -68,6 +68,24 @@ export const getUploadTokensUploadTokensAppIdGet = (
   })
 }
 
+export const getGetUploadTokensUploadTokensAppIdGetUrl = (
+  appId: string,
+  params?: GetUploadTokensUploadTokensAppIdGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/upload-tokens/${appId}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetUploadTokensUploadTokensAppIdGetQueryKey = (
   appId: string,
   params?: GetUploadTokensUploadTokensAppIdGetParams,
@@ -249,6 +267,24 @@ export const createUploadTokenUploadTokensAppIdPost = (
   return axios.post(`/upload-tokens/${appId}`, uploadTokenRequest, options)
 }
 
+export const getCreateUploadTokenUploadTokensAppIdPostUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/upload-tokens/${appId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getCreateUploadTokenUploadTokensAppIdPostMutationKey = () =>
+  ["createUploadTokenUploadTokensAppIdPost"] as const
+
 export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -256,17 +292,17 @@ export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
     TError,
-    { appId: string; data: UploadTokenRequest },
+    CreateUploadTokenUploadTokensAppIdPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
   TError,
-  { appId: string; data: UploadTokenRequest },
+  CreateUploadTokenUploadTokensAppIdPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["createUploadTokenUploadTokensAppIdPost"]
+  const mutationKey = getCreateUploadTokenUploadTokensAppIdPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -277,7 +313,7 @@ export const getCreateUploadTokenUploadTokensAppIdPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
-    { appId: string; data: UploadTokenRequest }
+    CreateUploadTokenUploadTokensAppIdPostMutationVariables
   > = (props) => {
     const { appId, data } = props ?? {}
 
@@ -294,6 +330,10 @@ export type CreateUploadTokenUploadTokensAppIdPostMutationBody =
   UploadTokenRequest
 export type CreateUploadTokenUploadTokensAppIdPostMutationError =
   AxiosError<void | HTTPValidationError>
+export type CreateUploadTokenUploadTokensAppIdPostMutationVariables = {
+  appId: string
+  data: UploadTokenRequest
+}
 
 /**
  * @summary Create Upload Token
@@ -306,7 +346,7 @@ export const useCreateUploadTokenUploadTokensAppIdPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
       TError,
-      { appId: string; data: UploadTokenRequest },
+      CreateUploadTokenUploadTokensAppIdPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -315,7 +355,7 @@ export const useCreateUploadTokenUploadTokensAppIdPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof createUploadTokenUploadTokensAppIdPost>>,
   TError,
-  { appId: string; data: UploadTokenRequest },
+  CreateUploadTokenUploadTokensAppIdPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -333,6 +373,26 @@ export const revokeUploadTokenUploadTokensTokenIdRevokeDelete = (
   return axios.delete(`/upload-tokens/${tokenId}/revoke`, options)
 }
 
+export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteUrl = (
+  tokenId: number,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/upload-tokens/${tokenId}/revoke`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationKey =
+  () => ["revokeUploadTokenUploadTokensTokenIdRevokeDelete"] as const
+
 export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationOptions =
   <
     TError = AxiosError<void | HTTPValidationError>,
@@ -343,7 +403,7 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationOptions 
         ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>
       >,
       TError,
-      { tokenId: number },
+      RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -352,10 +412,11 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationOptions 
       ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>
     >,
     TError,
-    { tokenId: number },
+    RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationVariables,
     TContext
   > => {
-    const mutationKey = ["revokeUploadTokenUploadTokensTokenIdRevokeDelete"]
+    const mutationKey =
+      getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -368,7 +429,7 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationOptions 
       Awaited<
         ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>
       >,
-      { tokenId: number }
+      RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationVariables
     > = (props) => {
       const { tokenId } = props ?? {}
 
@@ -388,6 +449,8 @@ export type RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationResult =
 
 export type RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationError =
   AxiosError<void | HTTPValidationError>
+export type RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationVariables =
+  { tokenId: number }
 
 /**
  * @summary Revoke Upload Token
@@ -402,7 +465,7 @@ export const useRevokeUploadTokenUploadTokensTokenIdRevokeDelete = <
         ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>
       >,
       TError,
-      { tokenId: number },
+      RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -411,7 +474,7 @@ export const useRevokeUploadTokenUploadTokensTokenIdRevokeDelete = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof revokeUploadTokenUploadTokensTokenIdRevokeDelete>>,
   TError,
-  { tokenId: number },
+  RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationVariables,
   TContext
 > => {
   return useMutation(

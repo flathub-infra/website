@@ -71,6 +71,21 @@ export const getCategoriesCollectionCategoryGet = (
   return axios.get(`/collection/category`, options)
 }
 
+export const getGetCategoriesCollectionCategoryGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/category`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetCategoriesCollectionCategoryGetQueryKey = () => {
   return [`/collection/category`] as const
 }
@@ -230,6 +245,24 @@ export const getCategoryCollectionCategoryCategoryGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetCategoryCollectionCategoryCategoryGetUrl = (
+  category: MainCategory,
+  params?: GetCategoryCollectionCategoryCategoryGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/category/${category}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetCategoryCollectionCategoryCategoryGetQueryKey = (
@@ -423,6 +456,24 @@ export const getSubcategoryCollectionCategoryCategorySubcategoriesGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetUrl = (
+  category: MainCategory,
+  params: GetSubcategoryCollectionCategoryCategorySubcategoriesGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/category/${category}/subcategories`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryKey =
@@ -681,6 +732,23 @@ export const getKeywordsCollectionKeywordsGet = (
   })
 }
 
+export const getGetKeywordsCollectionKeywordsGetUrl = (
+  params?: GetKeywordsCollectionKeywordsGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/keywords`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetKeywordsCollectionKeywordsGetQueryKey = (
   params?: GetKeywordsCollectionKeywordsGetParams,
 ) => {
@@ -852,6 +920,23 @@ export const getKeywordCollectionKeywordGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetKeywordCollectionKeywordGetUrl = (
+  params: GetKeywordCollectionKeywordGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/keyword`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetKeywordCollectionKeywordGetQueryKey = (
@@ -1026,6 +1111,23 @@ export const getDevelopersCollectionDeveloperGet = (
   })
 }
 
+export const getGetDevelopersCollectionDeveloperGetUrl = (
+  params?: GetDevelopersCollectionDeveloperGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/developer`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetDevelopersCollectionDeveloperGetQueryKey = (
   params?: GetDevelopersCollectionDeveloperGetParams,
 ) => {
@@ -1198,6 +1300,24 @@ export const getDeveloperCollectionDeveloperDeveloperGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetDeveloperCollectionDeveloperDeveloperGetUrl = (
+  developer: string,
+  params?: GetDeveloperCollectionDeveloperDeveloperGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/developer/${developer}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetDeveloperCollectionDeveloperDeveloperGetQueryKey = (
@@ -1411,6 +1531,23 @@ export const getRecentlyUpdatedCollectionRecentlyUpdatedGet = (
   })
 }
 
+export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetUrl = (
+  params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/recently-updated`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryKey = (
   params?: GetRecentlyUpdatedCollectionRecentlyUpdatedGetParams,
 ) => {
@@ -1617,6 +1754,23 @@ export const getRecentlyAddedCollectionRecentlyAddedGet = (
   })
 }
 
+export const getGetRecentlyAddedCollectionRecentlyAddedGetUrl = (
+  params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/recently-added`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetRecentlyAddedCollectionRecentlyAddedGetQueryKey = (
   params?: GetRecentlyAddedCollectionRecentlyAddedGetParams,
 ) => {
@@ -1806,6 +1960,23 @@ export const getVerifiedCollectionVerifiedGet = (
   })
 }
 
+export const getGetVerifiedCollectionVerifiedGetUrl = (
+  params?: GetVerifiedCollectionVerifiedGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/verified`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetVerifiedCollectionVerifiedGetQueryKey = (
   params?: GetVerifiedCollectionVerifiedGetParams,
 ) => {
@@ -1980,6 +2151,23 @@ export const getMobileCollectionMobileGet = (
   })
 }
 
+export const getGetMobileCollectionMobileGetUrl = (
+  params?: GetMobileCollectionMobileGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/mobile`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
 export const getGetMobileCollectionMobileGetQueryKey = (
   params?: GetMobileCollectionMobileGetParams,
 ) => {
@@ -2150,6 +2338,23 @@ export const getPopularLastMonthCollectionPopularGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetPopularLastMonthCollectionPopularGetUrl = (
+  params?: GetPopularLastMonthCollectionPopularGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/popular`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetPopularLastMonthCollectionPopularGetQueryKey = (
@@ -2324,6 +2529,23 @@ export const getTrendingLastTwoWeeksCollectionTrendingGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetTrendingLastTwoWeeksCollectionTrendingGetUrl = (
+  params?: GetTrendingLastTwoWeeksCollectionTrendingGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/trending`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetTrendingLastTwoWeeksCollectionTrendingGetQueryKey = (
@@ -2528,6 +2750,23 @@ export const getMostFavoritedCollectionFavoritesGet = (
     paramsSerializer: (params) =>
       qs.stringify(params, { arrayFormat: "repeat" }),
   })
+}
+
+export const getGetMostFavoritedCollectionFavoritesGetUrl = (
+  params?: GetMostFavoritedCollectionFavoritesGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/collection/favorites`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getGetMostFavoritedCollectionFavoritesGetQueryKey = (

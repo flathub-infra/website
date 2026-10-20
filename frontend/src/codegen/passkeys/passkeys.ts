@@ -23,6 +23,8 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
+import qs from "qs"
+
 import type {
   HTTPValidationError,
   PasskeyAuthenticationOptionsRequest,
@@ -64,6 +66,21 @@ export const listPasskeysAuthPasskeysGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<PasskeyList>> => {
   return axios.get(`/auth/passkeys`, options)
+}
+
+export const getListPasskeysAuthPasskeysGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/passkeys`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
 }
 
 export const getListPasskeysAuthPasskeysGetQueryKey = () => {
@@ -220,6 +237,26 @@ export const passkeyRegistrationOptionsAuthPasskeysRegistrationOptionsPost = (
   )
 }
 
+export const getPasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/auth/passkeys/registration/options`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getPasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationKey =
+  () =>
+    ["passkeyRegistrationOptionsAuthPasskeysRegistrationOptionsPost"] as const
+
 export const getPasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -229,7 +266,7 @@ export const getPasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMut
         >
       >,
       TError,
-      { data: PasskeyRegistrationOptionsRequest },
+      PasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -240,12 +277,11 @@ export const getPasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMut
       >
     >,
     TError,
-    { data: PasskeyRegistrationOptionsRequest },
+    PasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "passkeyRegistrationOptionsAuthPasskeysRegistrationOptionsPost",
-    ]
+    const mutationKey =
+      getPasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -260,7 +296,7 @@ export const getPasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMut
           typeof passkeyRegistrationOptionsAuthPasskeysRegistrationOptionsPost
         >
       >,
-      { data: PasskeyRegistrationOptionsRequest }
+      PasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationVariables
     > = (props) => {
       const { data } = props ?? {}
 
@@ -285,6 +321,8 @@ export type PasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutatio
   PasskeyRegistrationOptionsRequest
 export type PasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationError =
   AxiosError<HTTPValidationError>
+export type PasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationVariables =
+  { data: PasskeyRegistrationOptionsRequest }
 
 /**
  * @summary Passkey Registration Options
@@ -299,7 +337,7 @@ export const usePasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPost =
           >
         >,
         TError,
-        { data: PasskeyRegistrationOptionsRequest },
+        PasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -312,7 +350,7 @@ export const usePasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPost =
       >
     >,
     TError,
-    { data: PasskeyRegistrationOptionsRequest },
+    PasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -336,6 +374,25 @@ export const passkeyRegistrationVerifyAuthPasskeysRegistrationVerifyPost = (
   )
 }
 
+export const getPasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/auth/passkeys/registration/verify`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getPasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationKey =
+  () => ["passkeyRegistrationVerifyAuthPasskeysRegistrationVerifyPost"] as const
+
 export const getPasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -345,7 +402,7 @@ export const getPasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutat
         >
       >,
       TError,
-      { data: PasskeyRegistrationVerifyRequest },
+      PasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -356,12 +413,11 @@ export const getPasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutat
       >
     >,
     TError,
-    { data: PasskeyRegistrationVerifyRequest },
+    PasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "passkeyRegistrationVerifyAuthPasskeysRegistrationVerifyPost",
-    ]
+    const mutationKey =
+      getPasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -376,7 +432,7 @@ export const getPasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutat
           typeof passkeyRegistrationVerifyAuthPasskeysRegistrationVerifyPost
         >
       >,
-      { data: PasskeyRegistrationVerifyRequest }
+      PasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationVariables
     > = (props) => {
       const { data } = props ?? {}
 
@@ -401,6 +457,8 @@ export type PasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationB
   PasskeyRegistrationVerifyRequest
 export type PasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationError =
   AxiosError<HTTPValidationError>
+export type PasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationVariables =
+  { data: PasskeyRegistrationVerifyRequest }
 
 /**
  * @summary Passkey Registration Verify
@@ -417,7 +475,7 @@ export const usePasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPost = <
         >
       >,
       TError,
-      { data: PasskeyRegistrationVerifyRequest },
+      PasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -430,7 +488,7 @@ export const usePasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPost = <
     >
   >,
   TError,
-  { data: PasskeyRegistrationVerifyRequest },
+  PasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -455,6 +513,28 @@ export const passkeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPost =
     )
   }
 
+export const getPasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/auth/passkeys/authentication/options`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getPasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationKey =
+  () =>
+    [
+      "passkeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPost",
+    ] as const
+
 export const getPasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -464,7 +544,7 @@ export const getPasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPos
         >
       >,
       TError,
-      { data: PasskeyAuthenticationOptionsRequest },
+      PasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -475,12 +555,11 @@ export const getPasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPos
       >
     >,
     TError,
-    { data: PasskeyAuthenticationOptionsRequest },
+    PasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "passkeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPost",
-    ]
+    const mutationKey =
+      getPasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -495,7 +574,7 @@ export const getPasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPos
           typeof passkeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPost
         >
       >,
-      { data: PasskeyAuthenticationOptionsRequest }
+      PasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationVariables
     > = (props) => {
       const { data } = props ?? {}
 
@@ -520,6 +599,8 @@ export type PasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMut
   PasskeyAuthenticationOptionsRequest
 export type PasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationError =
   AxiosError<HTTPValidationError>
+export type PasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationVariables =
+  { data: PasskeyAuthenticationOptionsRequest }
 
 /**
  * @summary Passkey Authentication Options
@@ -534,7 +615,7 @@ export const usePasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPos
           >
         >,
         TError,
-        { data: PasskeyAuthenticationOptionsRequest },
+        PasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -547,7 +628,7 @@ export const usePasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPos
       >
     >,
     TError,
-    { data: PasskeyAuthenticationOptionsRequest },
+    PasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -571,6 +652,26 @@ export const passkeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPost = (
   )
 }
 
+export const getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/auth/passkeys/authentication/verify`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationKey =
+  () =>
+    ["passkeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPost"] as const
+
 export const getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -580,7 +681,7 @@ export const getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostM
         >
       >,
       TError,
-      { data: PasskeyAuthenticationVerifyRequest },
+      PasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -591,12 +692,11 @@ export const getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostM
       >
     >,
     TError,
-    { data: PasskeyAuthenticationVerifyRequest },
+    PasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "passkeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPost",
-    ]
+    const mutationKey =
+      getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -611,7 +711,7 @@ export const getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostM
           typeof passkeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPost
         >
       >,
-      { data: PasskeyAuthenticationVerifyRequest }
+      PasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationVariables
     > = (props) => {
       const { data } = props ?? {}
 
@@ -636,6 +736,8 @@ export type PasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutat
   PasskeyAuthenticationVerifyRequest
 export type PasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationError =
   AxiosError<HTTPValidationError>
+export type PasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationVariables =
+  { data: PasskeyAuthenticationVerifyRequest }
 
 /**
  * @summary Passkey Authentication Verify
@@ -650,7 +752,7 @@ export const usePasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPost 
           >
         >,
         TError,
-        { data: PasskeyAuthenticationVerifyRequest },
+        PasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -663,7 +765,7 @@ export const usePasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPost 
       >
     >,
     TError,
-    { data: PasskeyAuthenticationVerifyRequest },
+    PasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -688,6 +790,28 @@ export const passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPo
     )
   }
 
+export const getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/auth/passkeys/reauthentication/options`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationKey =
+  () =>
+    [
+      "passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost",
+    ] as const
+
 export const getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -697,7 +821,7 @@ export const getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOption
         >
       >,
       TError,
-      { data: PasskeyReauthenticationOptionsRequest },
+      PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -708,12 +832,11 @@ export const getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOption
       >
     >,
     TError,
-    { data: PasskeyReauthenticationOptionsRequest },
+    PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost",
-    ]
+    const mutationKey =
+      getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -728,7 +851,7 @@ export const getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOption
           typeof passkeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost
         >
       >,
-      { data: PasskeyReauthenticationOptionsRequest }
+      PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationVariables
     > = (props) => {
       const { data } = props ?? {}
 
@@ -753,6 +876,8 @@ export type PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPos
   PasskeyReauthenticationOptionsRequest
 export type PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationError =
   AxiosError<HTTPValidationError>
+export type PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationVariables =
+  { data: PasskeyReauthenticationOptionsRequest }
 
 /**
  * @summary Passkey Reauthentication Options
@@ -767,7 +892,7 @@ export const usePasskeyReauthenticationOptionsAuthPasskeysReauthenticationOption
           >
         >,
         TError,
-        { data: PasskeyReauthenticationOptionsRequest },
+        PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -780,7 +905,7 @@ export const usePasskeyReauthenticationOptionsAuthPasskeysReauthenticationOption
       >
     >,
     TError,
-    { data: PasskeyReauthenticationOptionsRequest },
+    PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -805,6 +930,28 @@ export const passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost
     )
   }
 
+export const getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/auth/passkeys/reauthentication/verify`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationKey =
+  () =>
+    [
+      "passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost",
+    ] as const
+
 export const getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -814,7 +961,7 @@ export const getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyP
         >
       >,
       TError,
-      { data: PasskeyReauthenticationVerifyRequest },
+      PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -825,12 +972,11 @@ export const getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyP
       >
     >,
     TError,
-    { data: PasskeyReauthenticationVerifyRequest },
+    PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost",
-    ]
+    const mutationKey =
+      getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -845,7 +991,7 @@ export const getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyP
           typeof passkeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost
         >
       >,
-      { data: PasskeyReauthenticationVerifyRequest }
+      PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationVariables
     > = (props) => {
       const { data } = props ?? {}
 
@@ -870,6 +1016,8 @@ export type PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostM
   PasskeyReauthenticationVerifyRequest
 export type PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationError =
   AxiosError<HTTPValidationError>
+export type PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationVariables =
+  { data: PasskeyReauthenticationVerifyRequest }
 
 /**
  * @summary Passkey Reauthentication Verify
@@ -884,7 +1032,7 @@ export const usePasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyP
           >
         >,
         TError,
-        { data: PasskeyReauthenticationVerifyRequest },
+        PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -897,7 +1045,7 @@ export const usePasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyP
       >
     >,
     TError,
-    { data: PasskeyReauthenticationVerifyRequest },
+    PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -922,6 +1070,26 @@ export const renamePasskeyAuthPasskeysPasskeyIdPatch = (
   )
 }
 
+export const getRenamePasskeyAuthPasskeysPasskeyIdPatchUrl = (
+  passkeyId: number,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/passkeys/${passkeyId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getRenamePasskeyAuthPasskeysPasskeyIdPatchMutationKey = () =>
+  ["renamePasskeyAuthPasskeysPasskeyIdPatch"] as const
+
 export const getRenamePasskeyAuthPasskeysPasskeyIdPatchMutationOptions = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -929,17 +1097,17 @@ export const getRenamePasskeyAuthPasskeysPasskeyIdPatchMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof renamePasskeyAuthPasskeysPasskeyIdPatch>>,
     TError,
-    { passkeyId: number; data: PasskeyRenameRequest },
+    RenamePasskeyAuthPasskeysPasskeyIdPatchMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof renamePasskeyAuthPasskeysPasskeyIdPatch>>,
   TError,
-  { passkeyId: number; data: PasskeyRenameRequest },
+  RenamePasskeyAuthPasskeysPasskeyIdPatchMutationVariables,
   TContext
 > => {
-  const mutationKey = ["renamePasskeyAuthPasskeysPasskeyIdPatch"]
+  const mutationKey = getRenamePasskeyAuthPasskeysPasskeyIdPatchMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -950,7 +1118,7 @@ export const getRenamePasskeyAuthPasskeysPasskeyIdPatchMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof renamePasskeyAuthPasskeysPasskeyIdPatch>>,
-    { passkeyId: number; data: PasskeyRenameRequest }
+    RenamePasskeyAuthPasskeysPasskeyIdPatchMutationVariables
   > = (props) => {
     const { passkeyId, data } = props ?? {}
 
@@ -971,6 +1139,10 @@ export type RenamePasskeyAuthPasskeysPasskeyIdPatchMutationBody =
   PasskeyRenameRequest
 export type RenamePasskeyAuthPasskeysPasskeyIdPatchMutationError =
   AxiosError<HTTPValidationError>
+export type RenamePasskeyAuthPasskeysPasskeyIdPatchMutationVariables = {
+  passkeyId: number
+  data: PasskeyRenameRequest
+}
 
 /**
  * @summary Rename Passkey
@@ -983,7 +1155,7 @@ export const useRenamePasskeyAuthPasskeysPasskeyIdPatch = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof renamePasskeyAuthPasskeysPasskeyIdPatch>>,
       TError,
-      { passkeyId: number; data: PasskeyRenameRequest },
+      RenamePasskeyAuthPasskeysPasskeyIdPatchMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -992,7 +1164,7 @@ export const useRenamePasskeyAuthPasskeysPasskeyIdPatch = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof renamePasskeyAuthPasskeysPasskeyIdPatch>>,
   TError,
-  { passkeyId: number; data: PasskeyRenameRequest },
+  RenamePasskeyAuthPasskeysPasskeyIdPatchMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1010,6 +1182,26 @@ export const deletePasskeyAuthPasskeysPasskeyIdDelete = (
   return axios.delete(`/auth/passkeys/${passkeyId}`, options)
 }
 
+export const getDeletePasskeyAuthPasskeysPasskeyIdDeleteUrl = (
+  passkeyId: number,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/passkeys/${passkeyId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getDeletePasskeyAuthPasskeysPasskeyIdDeleteMutationKey = () =>
+  ["deletePasskeyAuthPasskeysPasskeyIdDelete"] as const
+
 export const getDeletePasskeyAuthPasskeysPasskeyIdDeleteMutationOptions = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -1017,17 +1209,17 @@ export const getDeletePasskeyAuthPasskeysPasskeyIdDeleteMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof deletePasskeyAuthPasskeysPasskeyIdDelete>>,
     TError,
-    { passkeyId: number },
+    DeletePasskeyAuthPasskeysPasskeyIdDeleteMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof deletePasskeyAuthPasskeysPasskeyIdDelete>>,
   TError,
-  { passkeyId: number },
+  DeletePasskeyAuthPasskeysPasskeyIdDeleteMutationVariables,
   TContext
 > => {
-  const mutationKey = ["deletePasskeyAuthPasskeysPasskeyIdDelete"]
+  const mutationKey = getDeletePasskeyAuthPasskeysPasskeyIdDeleteMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1038,7 +1230,7 @@ export const getDeletePasskeyAuthPasskeysPasskeyIdDeleteMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof deletePasskeyAuthPasskeysPasskeyIdDelete>>,
-    { passkeyId: number }
+    DeletePasskeyAuthPasskeysPasskeyIdDeleteMutationVariables
   > = (props) => {
     const { passkeyId } = props ?? {}
 
@@ -1055,6 +1247,9 @@ export type DeletePasskeyAuthPasskeysPasskeyIdDeleteMutationResult =
 
 export type DeletePasskeyAuthPasskeysPasskeyIdDeleteMutationError =
   AxiosError<HTTPValidationError>
+export type DeletePasskeyAuthPasskeysPasskeyIdDeleteMutationVariables = {
+  passkeyId: number
+}
 
 /**
  * @summary Delete Passkey
@@ -1067,7 +1262,7 @@ export const useDeletePasskeyAuthPasskeysPasskeyIdDelete = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof deletePasskeyAuthPasskeysPasskeyIdDelete>>,
       TError,
-      { passkeyId: number },
+      DeletePasskeyAuthPasskeysPasskeyIdDeleteMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1076,7 +1271,7 @@ export const useDeletePasskeyAuthPasskeysPasskeyIdDelete = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof deletePasskeyAuthPasskeysPasskeyIdDelete>>,
   TError,
-  { passkeyId: number },
+  DeletePasskeyAuthPasskeysPasskeyIdDeleteMutationVariables,
   TContext
 > => {
   return useMutation(
