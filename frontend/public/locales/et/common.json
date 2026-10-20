@@ -845,13 +845,8 @@
   "moderation-manifest-added": "Lisatud",
   "moderation-manifest-removed": "Eemaldatud",
   "moderation-build-log": "Kompileerimislogi",
-  "moderation-manifest-complexity-events-truncated": "Näitan kompileerimisjuhendi muudatusi: {shown} / {total}.",
-  "moderation-manifest-complexity-events": "Kompileerimisjuhendi muudatused",
   "moderation-summary-changes": "Muudatuste kokkuvõte",
   "moderation-manifest-source-origin": "Lähtekoodi muudatused rakenduse kontrollfailis",
-  "moderation-manifest-complexity": "Pakendamise keerukus rakenduse kontrollfailis",
-  "moderation-manifest-source-and-complexity": "Lähtekood ja keerukus rakenduse kontrollfailis",
-  "moderation-manifest-complexity-ambiguity": "Mõnede moodulite vastavust polnud üheselt võimalik tuvastada; vaata asjaomased kompileerimisjuhendi muudatused hoolikalt üle.",
   "could-not-find-match-with-filters": "Nendele filtritele ei leidunud sobivat vastet.",
   "clear-filters": "Tühjenda filtrid",
   "other-apps-to-explore": "Siin mõned muud suurepärased rakendused, millega saad tutvuda.",
@@ -863,7 +858,7 @@
   "back-to-login": "Tagasi sisselogimislehele",
   "remove-bookmark": "Eemalda järjehoidja",
   "remove-from-favorites": "Eemalda {app} järjehoidjate seast",
-  "quality-metadata-changed": "Metateave muutus {time}",
+  "quality-metadata-changed": "Metateabe muutus {time}",
   "quality-metadata-changed-since-review": "Muutunud peale kvaliteedikontrolli",
   "email-login-with-email": "Logi sisse e-posti aadressga",
   "email-login-other-methods": "Muud sisselogimise meetodid",
@@ -974,5 +969,9 @@
   "email-account": "E-posti aadress",
   "passkey-login-intro": "Kasuta sinu Flathubi kasutajakontoga seotud pääsuvõtit.",
   "reauth-account-mismatch": "See sisselogimismeetod/kasutajanimi ei vasta antud kasutajakontole. Logi sisse sellisega, mis on seotud sinu kasutajakontoga.",
-  "oauth-account-email-already-used": "See e-posti aadress on juba seotud ühe Flathubi kasutajakontoga. Logi sisse oma eelmise sisselogimismeetodiga (e-posti aadress või teenusepakkuja) ja siis seo Seadistustest see teenusepakkuja. Flathubi kasutajakontode automaatne mestimine pole võimalik."
+  "oauth-account-email-already-used": "See e-posti aadress on juba seotud ühe Flathubi kasutajakontoga. Logi sisse oma eelmise sisselogimismeetodiga (e-posti aadress või teenusepakkuja) ja siis seo Seadistustest see teenusepakkuja. Flathubi kasutajakontode automaatne mestimine pole võimalik.",
+  "moderation-permissions-title": "Õigused",
+  "moderation-permissions-pull-request": "Mestimispäring",
+  "moderation-permissions-compared-with": "Võrdlus: {source}",
+  "moderation-permissions-pull-request-review": "Mestimispäringu õiguste ülevaade"
 }
