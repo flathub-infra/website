@@ -15,15 +15,12 @@ const Breadcrumbs: FunctionComponent<Props> = ({ pages }) => {
   return (
     <>
       <BreadcrumbJsonLd
-        useAppDir={true}
-        itemListElements={[
+        items={[
           {
-            position: 1,
             name: t("home"),
             item: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}`,
           },
           ...pages.map((page) => ({
-            position: pages.indexOf(page) + 2,
             name: page.name,
             item: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}${page.href}`,
           })),

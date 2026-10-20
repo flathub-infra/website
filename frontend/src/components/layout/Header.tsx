@@ -190,7 +190,6 @@ const Header = () => {
                 <div className="flex md:absolute md:inset-y-0 md:start-0 lg:static xl:col-span-4">
                   <div className="flex h-full w-full shrink-0 items-center">
                     <OrganizationJsonLd
-                      useAppDir={true}
                       name={t("flathub")}
                       url={`${process.env.NEXT_PUBLIC_SITE_BASE_URI}`}
                       logo={logoEmail.src}
