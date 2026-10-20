@@ -71,3 +71,42 @@ test("uses the plural translation for multiple changed permissions", () => {
   )
   expect(html).toContain("2 changed permissions")
 })
+
+test("highlights only changed text in the old and new values", () => {
+  const html = render(
+    <PermissionDiffTable
+      source="baseline"
+      differences={[
+        {
+          path: ["x86_64", "Context", "filesystems"],
+          before: ["/home/foo:ro"],
+          after: ["/home/foo:rw"],
+        },
+      ]}
+    />,
+  )
+
+  expect(html).toMatch(/r<mark[^>]*>o<\/mark>/)
+  expect(html).toMatch(/<mark[^>]*>w<\/mark>/)
+  expect(html.match(/<mark/g)).toHaveLength(2)
+})
+
+test("keeps unchanged lines aligned when a line is inserted in the middle", () => {
+  const html = render(
+    <PermissionDiffTable
+      source="baseline"
+      differences={[
+        {
+          path: ["x86_64", "Context", "filesystems"],
+          before: ["/home", "/tmp"],
+          after: ["/home", "/run/myapp", "/tmp"],
+        },
+      ]}
+    />,
+  )
+
+  expect(html).toContain("/run/myapp")
+  expect(html).toContain("> </div>")
+  expect(html).toContain('mark class="rounded-sm bg-[oklch(88%_0.08_155)]')
+  expect(html).toContain("/tmp")
+})
