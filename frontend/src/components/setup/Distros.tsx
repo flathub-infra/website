@@ -97,7 +97,6 @@ const Ubuntu = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.ubuntu.distroName")}
           image="https://dl.flathub.org/assets/img/distro/ubuntu.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -107,7 +106,6 @@ const Ubuntu = ({ locale }: { locale: string }) => {
               name: t("distros.ubuntu.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.ubuntu.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -121,7 +119,6 @@ const Ubuntu = ({ locale }: { locale: string }) => {
               name: t("distros.ubuntu.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.ubuntu.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -135,7 +132,6 @@ const Ubuntu = ({ locale }: { locale: string }) => {
               name: t("distros.ubuntu.install-bazaar.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.ubuntu.install-bazaar.text")
                     .replace(/<[^>]*>/g, "")
@@ -149,7 +145,6 @@ const Ubuntu = ({ locale }: { locale: string }) => {
               name: t("distros.ubuntu.step-4.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.ubuntu.step-4.text")
                     .replace(/<[^>]*>/g, "")
@@ -268,7 +263,6 @@ const Manjaro = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.manjaro.distroName")}
           image="https://dl.flathub.org/assets/img/distro/manjaro.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -278,7 +272,6 @@ const Manjaro = ({ locale }: { locale: string }) => {
               name: t("distros.manjaro.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.manjaro.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -292,7 +285,6 @@ const Manjaro = ({ locale }: { locale: string }) => {
               name: t("distros.manjaro.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.manjaro.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -373,7 +365,6 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.alt_linux.distroName")}
           image="https://dl.flathub.org/assets/img/distro/altlinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -383,7 +374,6 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.alt_linux.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.alt_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -397,7 +387,6 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.alt_linux.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.alt_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -411,7 +400,6 @@ const ALT_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.alt_linux.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.alt_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -482,7 +470,6 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.chrome_os.distroName")}
           image="https://dl.flathub.org/assets/img/distro/chrome-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -492,7 +479,6 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
               name: t("distros.chrome_os.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.chrome_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -506,7 +492,6 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
               name: t("distros.chrome_os.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.chrome_os.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -520,7 +505,6 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
               name: t("distros.chrome_os.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.chrome_os.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -534,7 +518,6 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
               name: t("distros.chrome_os.step-4.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.chrome_os.step-4.text")
                     .replace(/<[^>]*>/g, "")
@@ -548,7 +531,6 @@ const Chrome_OS = ({ locale }: { locale: string }) => {
               name: t("distros.chrome_os.step-5.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.chrome_os.step-5.text")
                     .replace(/<[^>]*>/g, "")
@@ -706,7 +688,6 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.opensuse.distroName")}
           image="https://dl.flathub.org/assets/img/distro/opensuse.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -716,7 +697,6 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
               name: t("distros.opensuse.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.opensuse.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -730,7 +710,6 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
               name: t("distros.opensuse.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.opensuse.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -744,7 +723,6 @@ const OpenSUSE = ({ locale }: { locale: string }) => {
               name: t("distros.opensuse.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.opensuse.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -820,7 +798,6 @@ const Arch = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.arch.distroName")}
           image="https://dl.flathub.org/assets/img/distro/arch.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -830,7 +807,6 @@ const Arch = ({ locale }: { locale: string }) => {
               name: t("distros.arch.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.arch.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -844,7 +820,6 @@ const Arch = ({ locale }: { locale: string }) => {
               name: t("distros.arch.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.arch.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -895,7 +870,6 @@ const Debian = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.debian.distroName")}
           image="https://dl.flathub.org/assets/img/distro/debian.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -905,7 +879,6 @@ const Debian = ({ locale }: { locale: string }) => {
               name: t("distros.debian.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.debian.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -919,7 +892,6 @@ const Debian = ({ locale }: { locale: string }) => {
               name: t("distros.debian.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.debian.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -933,7 +905,6 @@ const Debian = ({ locale }: { locale: string }) => {
               name: t("distros.debian.install-bazaar.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.debian.install-bazaar.text")
                     .replace(/<[^>]*>/g, "")
@@ -947,7 +918,6 @@ const Debian = ({ locale }: { locale: string }) => {
               name: t("distros.debian.step-4.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.debian.step-4.text")
                     .replace(/<[^>]*>/g, "")
@@ -1023,7 +993,6 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.rocky_linux.distroName")}
           image="https://dl.flathub.org/assets/img/distro/rockylinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1033,7 +1002,6 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.rocky_linux.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.rocky_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -1047,7 +1015,6 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.rocky_linux.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.rocky_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -1061,7 +1028,6 @@ const Rocky_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.rocky_linux.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.rocky_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -1195,7 +1161,6 @@ const Gentoo = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.gentoo.distroName")}
           image="https://dl.flathub.org/assets/img/distro/gentoo.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1205,7 +1170,6 @@ const Gentoo = ({ locale }: { locale: string }) => {
               name: t("distros.gentoo.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.gentoo.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -1219,7 +1183,6 @@ const Gentoo = ({ locale }: { locale: string }) => {
               name: t("distros.gentoo.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.gentoo.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -1233,7 +1196,6 @@ const Gentoo = ({ locale }: { locale: string }) => {
               name: t("distros.gentoo.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.gentoo.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -1300,7 +1262,6 @@ const Kubuntu = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.kubuntu.distroName")}
           image="https://dl.flathub.org/assets/img/distro/kubuntu.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1310,7 +1271,6 @@ const Kubuntu = ({ locale }: { locale: string }) => {
               name: t("distros.kubuntu.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.kubuntu.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -1324,7 +1284,6 @@ const Kubuntu = ({ locale }: { locale: string }) => {
               name: t("distros.kubuntu.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.kubuntu.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -1338,7 +1297,6 @@ const Kubuntu = ({ locale }: { locale: string }) => {
               name: t("distros.kubuntu.install-bazaar.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.kubuntu.install-bazaar.text")
                     .replace(/<[^>]*>/g, "")
@@ -1352,7 +1310,6 @@ const Kubuntu = ({ locale }: { locale: string }) => {
               name: t("distros.kubuntu.step-4.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.kubuntu.step-4.text")
                     .replace(/<[^>]*>/g, "")
@@ -1423,7 +1380,6 @@ const Solus = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.solus.distroName")}
           image="https://dl.flathub.org/assets/img/distro/solus.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1433,7 +1389,6 @@ const Solus = ({ locale }: { locale: string }) => {
               name: t("distros.solus.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.solus.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -1447,7 +1402,6 @@ const Solus = ({ locale }: { locale: string }) => {
               name: t("distros.solus.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.solus.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -1461,7 +1415,6 @@ const Solus = ({ locale }: { locale: string }) => {
               name: t("distros.solus.install-bazaar.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.solus.install-bazaar.text")
                     .replace(/<[^>]*>/g, "")
@@ -1475,7 +1428,6 @@ const Solus = ({ locale }: { locale: string }) => {
               name: t("distros.solus.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.solus.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -1557,7 +1509,6 @@ const Alpine = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.alpine.distroName")}
           image="https://dl.flathub.org/assets/img/distro/alpine.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1567,7 +1518,6 @@ const Alpine = ({ locale }: { locale: string }) => {
               name: t("distros.alpine.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.alpine.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -1581,7 +1531,6 @@ const Alpine = ({ locale }: { locale: string }) => {
               name: t("distros.alpine.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.alpine.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -1595,7 +1544,6 @@ const Alpine = ({ locale }: { locale: string }) => {
               name: t("distros.alpine.install-bazaar.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.alpine.install-bazaar.text")
                     .replace(/<[^>]*>/g, "")
@@ -1609,7 +1557,6 @@ const Alpine = ({ locale }: { locale: string }) => {
               name: t("distros.alpine.step-4.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.alpine.step-4.text")
                     .replace(/<[^>]*>/g, "")
@@ -1685,7 +1632,6 @@ const Mageia = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.mageia.distroName")}
           image="https://dl.flathub.org/assets/img/distro/mageia.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1695,7 +1641,6 @@ const Mageia = ({ locale }: { locale: string }) => {
               name: t("distros.mageia.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.mageia.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -1709,7 +1654,6 @@ const Mageia = ({ locale }: { locale: string }) => {
               name: t("distros.mageia.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.mageia.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -1723,7 +1667,6 @@ const Mageia = ({ locale }: { locale: string }) => {
               name: t("distros.mageia.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.mageia.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -1852,7 +1795,6 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.elementary_os.distroName")}
           image="https://dl.flathub.org/assets/img/distro/elementary-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1862,7 +1804,6 @@ const Elementary_OS = ({ locale }: { locale: string }) => {
               name: t("distros.elementary_os.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.elementary_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -1905,7 +1846,6 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.raspberry_pi_os.distroName")}
           image="https://dl.flathub.org/assets/img/distro/raspberry-pi-os.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -1915,7 +1855,6 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
               name: t("distros.raspberry_pi_os.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.raspberry_pi_os.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -1929,7 +1868,6 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
               name: t("distros.raspberry_pi_os.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.raspberry_pi_os.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -1943,7 +1881,6 @@ const Raspberry_Pi_OS = ({ locale }: { locale: string }) => {
               name: t("distros.raspberry_pi_os.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.raspberry_pi_os.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -2013,7 +1950,6 @@ const Void_Linux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.void_linux.distroName")}
           image="https://dl.flathub.org/assets/img/distro/void.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2023,7 +1959,6 @@ const Void_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.void_linux.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.void_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -2037,7 +1972,6 @@ const Void_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.void_linux.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.void_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -2051,7 +1985,6 @@ const Void_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.void_linux.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.void_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -2116,7 +2049,6 @@ const NixOS = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.nixos.distroName")}
           image="https://dl.flathub.org/assets/img/distro/nixos.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2126,7 +2058,6 @@ const NixOS = ({ locale }: { locale: string }) => {
               name: t("distros.nixos.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.nixos.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -2140,7 +2071,6 @@ const NixOS = ({ locale }: { locale: string }) => {
               name: t("distros.nixos.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.nixos.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -2154,7 +2084,6 @@ const NixOS = ({ locale }: { locale: string }) => {
               name: t("distros.nixos.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.nixos.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -2298,7 +2227,6 @@ const Deepin = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.deepin.distroName")}
           image="https://dl.flathub.org/assets/img/distro/deepin.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2308,7 +2236,6 @@ const Deepin = ({ locale }: { locale: string }) => {
               name: t("distros.deepin.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.deepin.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -2322,7 +2249,6 @@ const Deepin = ({ locale }: { locale: string }) => {
               name: t("distros.deepin.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.deepin.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -2336,7 +2262,6 @@ const Deepin = ({ locale }: { locale: string }) => {
               name: t("distros.deepin.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.deepin.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -2350,7 +2275,6 @@ const Deepin = ({ locale }: { locale: string }) => {
               name: t("distros.deepin.step-4.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.deepin.step-4.text")
                     .replace(/<[^>]*>/g, "")
@@ -2428,7 +2352,6 @@ const Pardus = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.pardus.distroName")}
           image="https://dl.flathub.org/assets/img/distro/pardus.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2438,7 +2361,6 @@ const Pardus = ({ locale }: { locale: string }) => {
               name: t("distros.pardus.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.pardus.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -2452,7 +2374,6 @@ const Pardus = ({ locale }: { locale: string }) => {
               name: t("distros.pardus.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.pardus.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -2466,7 +2387,6 @@ const Pardus = ({ locale }: { locale: string }) => {
               name: t("distros.pardus.install-bazaar.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.pardus.install-bazaar.text")
                     .replace(/<[^>]*>/g, "")
@@ -2480,7 +2400,6 @@ const Pardus = ({ locale }: { locale: string }) => {
               name: t("distros.pardus.step-4.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.pardus.step-4.text")
                     .replace(/<[^>]*>/g, "")
@@ -2556,7 +2475,6 @@ const MX_Linux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.mx_linux.distroName")}
           image="https://dl.flathub.org/assets/img/distro/mxlinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2566,7 +2484,6 @@ const MX_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.mx_linux.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.mx_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -2580,7 +2497,6 @@ const MX_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.mx_linux.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.mx_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -2635,7 +2551,6 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.pisi_gnulinux.distroName")}
           image="https://dl.flathub.org/assets/img/distro/pisi.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2645,7 +2560,6 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
               name: t("distros.pisi_gnulinux.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.pisi_gnulinux.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -2659,7 +2573,6 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
               name: t("distros.pisi_gnulinux.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.pisi_gnulinux.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -2673,7 +2586,6 @@ const Pisi_GNULinux = ({ locale }: { locale: string }) => {
               name: t("distros.pisi_gnulinux.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.pisi_gnulinux.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -2742,7 +2654,6 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.endeavouros.distroName")}
           image="https://dl.flathub.org/assets/img/distro/endeavouros.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2752,7 +2663,6 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
               name: t("distros.endeavouros.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.endeavouros.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -2766,7 +2676,6 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
               name: t("distros.endeavouros.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.endeavouros.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -2780,7 +2689,6 @@ const EndeavourOS = ({ locale }: { locale: string }) => {
               name: t("distros.endeavouros.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.endeavouros.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -2876,7 +2784,6 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.gnu_guix.distroName")}
           image="https://dl.flathub.org/assets/img/distro/guix.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2886,7 +2793,6 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
               name: t("distros.gnu_guix.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.gnu_guix.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -2900,7 +2806,6 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
               name: t("distros.gnu_guix.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.gnu_guix.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -2914,7 +2819,6 @@ const GNU_Guix = ({ locale }: { locale: string }) => {
               name: t("distros.gnu_guix.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.gnu_guix.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -2979,7 +2883,6 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.crystal_linux.distroName")}
           image="https://dl.flathub.org/assets/img/distro/crystallinux.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -2989,7 +2892,6 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.crystal_linux.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.crystal_linux.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -3003,7 +2905,6 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.crystal_linux.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.crystal_linux.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -3017,7 +2918,6 @@ const Crystal_Linux = ({ locale }: { locale: string }) => {
               name: t("distros.crystal_linux.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.crystal_linux.step-3.text")
                     .replace(/<[^>]*>/g, "")
@@ -3150,7 +3050,6 @@ const Slackware = ({ locale }: { locale: string }) => {
       </div>
       <ol className="distrotut">
         <HowToJsonLd
-          useAppDir={true}
           name={t("distros.slackware.distroName")}
           image="https://dl.flathub.org/assets/img/distro/slackware.svg"
           estimatedCost={{ currency: "USD", value: "0" }}
@@ -3160,7 +3059,6 @@ const Slackware = ({ locale }: { locale: string }) => {
               name: t("distros.slackware.step-1.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.slackware.step-1.text")
                     .replace(/<[^>]*>/g, "")
@@ -3174,7 +3072,6 @@ const Slackware = ({ locale }: { locale: string }) => {
               name: t("distros.slackware.step-2.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.slackware.step-2.text")
                     .replace(/<[^>]*>/g, "")
@@ -3188,7 +3085,6 @@ const Slackware = ({ locale }: { locale: string }) => {
               name: t("distros.slackware.step-3.name"),
               itemListElement: [
                 {
-                  type: "HowToDirection",
                   text: t
                     .raw("distros.slackware.step-3.text")
                     .replace(/<[^>]*>/g, "")

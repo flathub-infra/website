@@ -1,6 +1,6 @@
 "use client"
 
-import { BreadcrumbJsonLd, SoftwareAppJsonLd, VideoGameJsonLd } from "next-seo"
+import { BreadcrumbJsonLd, JsonLdScript } from "next-seo"
 import { useState } from "react"
 import { useTranslations } from "next-intl"
 import ApplicationDetails from "../../../../src/components/application/Details"
@@ -130,29 +130,24 @@ const AppDetailClient = ({
   return (
     <>
       <BreadcrumbJsonLd
-        useAppDir={true}
-        itemListElements={[
+        items={[
           {
-            position: 1,
             name: t("home"),
             item: siteUrl,
           },
           ...(categoryLabel && categorySlug
             ? [
                 {
-                  position: 2,
                   name: categoryLabel,
                   item: `${siteUrl}/apps/category/${categorySlug}`,
                 },
                 {
-                  position: 3,
                   name: app.name,
                   item: `${siteUrl}/apps/${app.id}`,
                 },
               ]
             : [
                 {
-                  position: 2,
                   name: app.name,
                   item: `${siteUrl}/apps/${app.id}`,
                 },
@@ -166,86 +161,81 @@ const AppDetailClient = ({
           setIsQualityModalOpen={setIsQualityModalOpen}
         />
       )}
-      <SoftwareAppJsonLd
-        useAppDir={true}
-        name={app.name}
-        inLanguage={bcpToPosixLocale(locale)}
-        author={{ name: app.developer_name, type: "Person" }}
-        maintainer={{ name: app.developer_name, type: "Person" }}
-        operatingSystem="linux"
-        price="0"
-        priceCurrency="USD"
-        applicationCategory={categoryToSeoCategories(
-          app.type === "addon" ? [] : app.categories,
-        )}
-        keywords={keywords.join(", ")}
-        description={app.summary}
-        fileSize={
-          summary
-            ? calculateHumanReadableSize(summary.download_size)
-            : t("unknown")
-        }
-        datePublished={datePublished}
-        screenshot={
-          screenshot
-            ? {
-                type: "ImageObject",
-                url: screenshot.src,
-                caption: screenshot.caption,
-                height: screenshot.height,
-                width: screenshot.width,
-              }
-            : undefined
-        }
-        softwareVersion={lastStableVersion}
-        storageRequirements={
-          summary
-            ? calculateHumanReadableSize(summary.installed_size)
-            : t("unknown")
-        }
-        contentRating={contentRatingText}
-      />
-      {isDesktopAppstreamTypeGuard(app) && app.categories?.includes("Game") && (
-        <VideoGameJsonLd
-          useAppDir={true}
-          name={app.name}
-          inLanguage={bcpToPosixLocale(locale)}
-          authorName={app.developer_name}
-          maintainer={{ name: app.developer_name, type: "Person" }}
-          operatingSystemName={"linux"}
-          platformName={"linux"}
-          applicationCategory={categoryToSeoCategories(app.categories)}
-          keywords={keywords.join(", ")}
-          description={app.summary}
-          operatingSystem="linux"
-          offers={{
-            price: "0",
-            priceCurrency: "USD",
-          }}
-          fileSize={
-            summary
+      {!(
+        isDesktopAppstreamTypeGuard(app) && app.categories?.includes("Game")
+      ) && (
+        <JsonLdScript
+          scriptKey="software-application-jsonld"
+          data={{
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: app.name,
+            inLanguage: bcpToPosixLocale(locale),
+            author: { "@type": "Person", name: app.developer_name },
+            maintainer: { "@type": "Person", name: app.developer_name },
+            operatingSystem: "linux",
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            applicationCategory: categoryToSeoCategories(
+              app.type === "addon" ? [] : app.categories,
+            ),
+            keywords: keywords.join(", "),
+            description: app.summary,
+            fileSize: summary
               ? calculateHumanReadableSize(summary.download_size)
-              : t("unknown")
-          }
-          datePublished={datePublished}
-          screenshot={
-            screenshot
+              : t("unknown"),
+            datePublished,
+            screenshot: screenshot
               ? {
-                  type: "ImageObject",
+                  "@type": "ImageObject",
                   url: screenshot.src,
                   caption: screenshot.caption,
                   height: screenshot.height,
                   width: screenshot.width,
                 }
-              : undefined
-          }
-          softwareVersion={lastStableVersion}
-          storageRequirements={
-            summary
+              : undefined,
+            softwareVersion: lastStableVersion,
+            storageRequirements: summary
               ? calculateHumanReadableSize(summary.installed_size)
-              : t("unknown")
-          }
-          contentRating={contentRatingText}
+              : t("unknown"),
+            contentRating: contentRatingText,
+          }}
+        />
+      )}
+      {isDesktopAppstreamTypeGuard(app) && app.categories?.includes("Game") && (
+        <JsonLdScript
+          scriptKey="video-game-jsonld"
+          data={{
+            "@context": "https://schema.org",
+            "@type": ["VideoGame", "SoftwareApplication"],
+            name: app.name,
+            inLanguage: bcpToPosixLocale(locale),
+            author: { "@type": "Person", name: app.developer_name },
+            maintainer: { "@type": "Person", name: app.developer_name },
+            operatingSystem: "linux",
+            gamePlatform: "linux",
+            applicationCategory: categoryToSeoCategories(app.categories),
+            keywords: keywords.join(", "),
+            description: app.summary,
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            fileSize: summary
+              ? calculateHumanReadableSize(summary.download_size)
+              : t("unknown"),
+            datePublished,
+            screenshot: screenshot
+              ? {
+                  "@type": "ImageObject",
+                  url: screenshot.src,
+                  caption: screenshot.caption,
+                  height: screenshot.height,
+                  width: screenshot.width,
+                }
+              : undefined,
+            softwareVersion: lastStableVersion,
+            storageRequirements: summary
+              ? calculateHumanReadableSize(summary.installed_size)
+              : t("unknown"),
+            contentRating: contentRatingText,
+          }}
         />
       )}
       <ApplicationDetails

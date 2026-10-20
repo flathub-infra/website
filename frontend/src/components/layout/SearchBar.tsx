@@ -3,7 +3,6 @@
 import { useMemo, useState, useRef, useEffect } from "react"
 import { useRouter } from "../../i18n/navigation"
 import { useLocale, useTranslations } from "next-intl"
-import { SiteLinksSearchBoxJsonLd } from "next-seo"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { clsx } from "clsx"
 import { instantMeiliSearch } from "@meilisearch/instant-meilisearch"
@@ -239,15 +238,20 @@ const SearchBar = ({ className }: SearchBarProps) => {
 
   return (
     <>
-      <SiteLinksSearchBoxJsonLd
-        useAppDir={true}
-        url={process.env.NEXT_PUBLIC_SITE_BASE_URI}
-        potentialActions={[
-          {
-            target: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search?q`,
-            queryInput: "search_term_string",
-          },
-        ]}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            url: process.env.NEXT_PUBLIC_SITE_BASE_URI,
+            potentialAction: {
+              "@type": "SearchAction",
+              target: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/apps/search?q={search_term_string}`,
+              query: "required",
+            },
+          }).replace(/</g, "\\u003c"),
+        }}
       />
       <div className="relative" ref={searchRef}>
         <label htmlFor="search" className="sr-only">

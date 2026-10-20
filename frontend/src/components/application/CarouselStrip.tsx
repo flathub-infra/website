@@ -68,13 +68,7 @@ export const CarouselStrip = ({
     >
       {slides && (
         <>
-          <CarouselJsonLd
-            useAppDir={true}
-            ofType="default"
-            data={slides.map((slide) => {
-              return { url: slide.src }
-            })}
-          />
+          <CarouselJsonLd urls={slides.map((slide) => slide.src)} />
           <Lightbox
             controller={{ closeOnBackdropClick: true }}
             open={showLightbox}
