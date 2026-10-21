@@ -23,6 +23,10 @@
     "step-1": {
       "name": "Instali Flatpak",
       "text": "<text>Por instali Flatpak sur <strong>Ubuntu versio 18.10 (Cosmic Cuttlefish) aŭ pli nova</strong>, malfermu Terminalon kaj rulu la jenon:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instali Bazaar",
+      "text": "<text>Ŝaltinte Flathub, instalu Bazaar rekte el Flathub rulante la jenon:</text> <code></code> <text>Poste, lanĉu ĝin per via labortablo por grafike instali Flatpak-programojn.</text>"
     }
   },
   "endless_os": {
@@ -107,7 +111,11 @@
       "name": "Aldoni la deponejon Flathub",
       "text": "<text>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <filelink>la Flathub-deponejodosieron</filelink>, aŭ rulu la jenon en terminalo:</text> <code></code>"
     },
-    "distroName": "Debiano"
+    "distroName": "Debiano",
+    "install-bazaar": {
+      "name": "Instali Bazaar",
+      "text": "<text>Ŝaltinte Flathub, instalu Bazaar rekte el Flathub rulante la jenon:</text> <code></code> <text>Poste, lanĉu ĝin per via labortablo por grafike instali Flatpak-programojn.</text>"
+    }
   },
   "rocky_linux": {
     "distroName": "Rocky Linux",
@@ -127,7 +135,7 @@
   "kubuntu": {
     "step-1": {
       "name": "Instali Flatpak",
-      "text": "<text>Por instali Flatpak sur Kubuntu, lanĉu Discover, iru al Agordoj, instalu la Flatpak-subtenon, kaj relanĉu Discover.</text>"
+      "text": "<text>Por instali Flatpak sur Kubuntu, lanĉu la Terminalon, kaj rulu la jenon:</text> <code></code>"
     },
     "step-4": {
       "name": "Restartigi",
@@ -136,7 +144,11 @@
     "distroName": "Kubuntu",
     "step-3": {
       "name": "Aldoni la deponejon Flathub",
-      "text": "<text>Flathub estas la plej bona loko akiri Flatpak-programojn. Por ŝalti ĝin, lanĉu Discover, iru al la Agordoj, kaj aldonu la Flathub-deponejon.</text>"
+      "text": "<text>Flathub estas la plej bona loko akiri Flatpak-programojn. Por ŝalti ĝin, rulu la jenon:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instali Bazaar",
+      "text": "<text>Ŝaltinte Flathub, instalu Bazaar rekte el Flathub rulante la jenon:</text> <code></code> <text>Poste, lanĉu ĝin per via labortablo por grafike instali Flatpak-programojn.</text>"
     }
   },
   "solus": {
@@ -146,14 +158,18 @@
     },
     "step-3": {
       "name": "Restartigi",
-      "text": "<text>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <link>instali programojn</link>!</text> <text>Notu: grafika instalado de Flatpak-programoj nur eblas per GNOME Software kaj/aŭ KDE Discover.</text>"
+      "text": "<text>Por fini la instalon, restartigu vian sistemon. Nun vi pretas <link>instali programojn</link>!</text>"
     },
     "distroName": "Solus",
     "step-2": {
       "name": "Aldoni la deponejon Flathub",
       "text": "<text>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <filelink>la Flathub-deponejodosieron</filelink>, aŭ rulu la jenon en terminalo:</text> <code></code>"
     },
-    "introduction": "<text>Versioj de Solus ne malpli novaj ol 4.7 subtenas Flatpak — neniu agordado necesas! Oni instalas Flatpak-programojn per GNOME Software kaj/aŭ KDE Discover.</text> <text>Se Flatpak ne estas instalita, sekvu la jenajn instrukciojn por instali ĝin.</text>"
+    "introduction": "<text>Versioj de Solus ne malpli novaj ol 4.7 subtenas Flatpak — neniu agordado necesas! Oni instalas Flatpak-programojn per Bazaar.</text> <text>Se Flatpak ne estas instalita, sekvu la jenajn instrukciojn por instali ĝin.</text>",
+    "install-bazaar": {
+      "name": "Instali Bazaar",
+      "text": "<text>Ŝaltinte Flathub, instalu Bazaar rekte el Flathub rulante la jenon:</text> <code></code> <text>Poste, lanĉu ĝin per via labortablo por grafike instali Flatpak-programojn.</text>"
+    }
   },
   "alpine": {
     "step-1": {
@@ -168,6 +184,10 @@
     "step-3": {
       "name": "Aldoni la deponejon Flathub",
       "text": "<text>Flathub estas la plej bona loko akiri Flatpak-programojn. Por atingi ĝin, elŝutu kaj instalu <filelink>la Flathub-deponejodosieron</filelink>, aŭ rulu la jenon en terminalo:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instali Bazaar",
+      "text": "<text>Ŝaltinte Flathub, instalu Bazaar rekte el Flathub rulante la jenon:</text> <code></code> <text>Poste, lanĉu ĝin per via labortablo por grafike instali Flatpak-programojn.</text>"
     }
   },
   "gentoo": {
@@ -289,6 +309,10 @@
     "step-3": {
       "text": "<text>Flathub estas la plej bona loko por akiri Flatpak-programojn. Por ŝalti ĝin, elŝutu kaj instalu la <filelink>la deponejo-dosieron de Flathub</filelink>, aŭ rulu la jenon:</text> <code></code>",
       "name": "Aldoni la deponejon Flathub"
+    },
+    "install-bazaar": {
+      "name": "Instali Bazaar",
+      "text": "<text>Ŝaltinte Flathub, instalu Bazaar rekte el Flathub rulante la jenon:</text> <code></code> <text>Poste, lanĉu ĝin per via labortablo por grafike instali Flatpak-programojn.</text>"
     }
   },
   "zorin_os": {

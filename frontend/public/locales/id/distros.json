@@ -12,6 +12,10 @@
     "step-4": {
       "name": "Mulai ulang",
       "text": "<text>Untuk menyelesaikan pengaturan, mulai ulang sistem Anda. Sekarang yang perlu Anda lakukan hanyalah <link>pasang aplikasi</link>!</text>"
+    },
+    "install-bazaar": {
+      "text": "<text>Setelah Flathub diaktifkan, instal Bazaar langsung dari Flathub dengan menjalankan:</text> <code></code> <text>Kemudian buka Bazaar dari desktop Anda untuk menginstal aplikasi Flatpak melalui antarmuka grafis.</text>",
+      "name": "Instal Bazaar"
     }
   },
   "fedora": {
@@ -119,6 +123,10 @@
     "step-4": {
       "name": "Mulai ulang",
       "text": "<text>Untuk menyelesaikan pengaturan, mulai ulang sistem Anda. Sekarang yang perlu Anda lakukan hanyalah <link>pasang aplikasi</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instal Bazaar",
+      "text": "<text>Setelah Flathub diaktifkan, instal Bazaar langsung dari Flathub dengan menjalankan:</text> <code></code> <text>Kemudian buka Bazaar dari desktop Anda untuk menginstal aplikasi Flatpak melalui antarmuka grafis.</text>"
     }
   },
   "rocky_linux": {
@@ -163,20 +171,24 @@
     "distroName": "Kubuntu",
     "step-1": {
       "name": "Pasang Flatpak",
-      "text": "<text>Untuk memasang Flatpak di Kubuntu, buka Discover, pergi ke Pengaturan, pasang backend Flatpak, dan mulai ulang Discover.</text>"
+      "text": "<text>Untuk menginstal Flatpak di Kubuntu, buka aplikasi Terminal dan jalankan:</text> <code></code>"
     },
     "step-3": {
       "name": "Tambahkan repositori Flathub",
-      "text": "<text>Flathub adalah tempat terbaik untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, buka Discover, pergi ke Pengaturan, dan tambahkan repositori Flathub.</text>"
+      "text": "<text>Flathub adalah tempat terbaik untuk mendapatkan aplikasi Flatpak. Untuk mengaktifkannya, jalankan:</text> <code></code>"
     },
     "step-4": {
       "name": "Mulai ulang",
       "text": "<text>Untuk menyelesaikan pengaturan, mulai ulang sistem Anda. Sekarang yang perlu Anda lakukan hanyalah <link>pasang aplikasi</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instal Bazaar",
+      "text": "<text>Setelah Flathub diaktifkan, instal Bazaar langsung dari Flathub dengan menjalankan:</text> <code></code> <text>Kemudian buka Bazaar dari desktop Anda untuk menginstal aplikasi Flatpak melalui antarmuka grafis.</text>"
     }
   },
   "solus": {
     "distroName": "Solus",
-    "introduction": "<text>Dukungan Flatpak sudah terintegrasi dalam Solus 4.7 dan yang lebih baru—tidak perlu pengaturan apa pun! Aplikasi Flatpak dapat dipasang menggunakan GNOME Software dan/atau KDE Discover.</text> <text>Jika Flatpak belum terinstal, ikuti petunjuk di bawah ini untuk memulai.</text>",
+    "introduction": "<text>Dukungan Flatpak sudah terintegrasi dalam Solus 4.7 dan versi yang lebih baru—tidak memerlukan konfigurasi! Aplikasi Flatpak dapat diinstal menggunakan Bazaar.</text> <text>Jika Flatpak belum terinstal, ikuti petunjuk di bawah ini untuk memulai.</text>",
     "step-1": {
       "name": "Pasang Flatpak",
       "text": "<text>Untuk memasang Flatpak pada Solus, buka aplikasi Terminal dan jalankan perintah berikut:</text> <code></code>"
@@ -187,7 +199,11 @@
     },
     "step-3": {
       "name": "Mulai ulang",
-      "text": "<text>Untuk menyelesaikan pengaturan, mulai ulang sistem Anda. Sekarang yang perlu Anda lakukan hanyalah <link>pasang aplikasi</link>!</text> <text>Catatan: pemasangan grafis aplikasi Flatpak hanya tersedia melalui GNOME Software dan/atau KDE Discover.</text>"
+      "text": "<text>Untuk menyelesaikan konfigurasi, mulai ulang sistem Anda. Sekarang Anda hanya perlu <link>menginstal aplikasi</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instal Bazaar",
+      "text": "<text>Setelah Flathub diaktifkan, instal Bazaar langsung dari Flathub dengan menjalankan:</text> <code></code> <text>Kemudian buka Bazaar dari desktop Anda untuk menginstal aplikasi Flatpak melalui antarmuka grafis.</text>"
     }
   },
   "alpine": {
@@ -203,6 +219,10 @@
     "step-4": {
       "name": "Mulai ulang",
       "text": "<text>Untuk menyelesaikan pengaturan, mulai ulang sistem Anda. Sekarang yang perlu Anda lakukan hanyalah <link>pasang aplikasi</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instal Bazaar",
+      "text": "<text>Setelah Flathub diaktifkan, instal Bazaar langsung dari Flathub dengan menjalankan:</text> <code></code> <text>Kemudian buka Bazaar dari desktop Anda untuk menginstal aplikasi Flatpak melalui antarmuka grafis.</text>"
     }
   },
   "mageia": {
@@ -320,6 +340,10 @@
     "step-4": {
       "name": "Mulai ulang",
       "text": "<text>Untuk menyelesaikan pengaturan, mulai ulang sistem Anda. Sekarang yang perlu Anda lakukan hanyalah <link>pasang aplikasi</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instal Bazaar",
+      "text": "<text>Setelah Flathub diaktifkan, instal Bazaar langsung dari Flathub dengan menjalankan:</text> <code></code> <text>Kemudian buka Bazaar dari desktop Anda untuk menginstal aplikasi Flatpak melalui antarmuka grafis.</text>"
     }
   },
   "mx_linux": {
@@ -424,5 +448,9 @@
   "t2_sde": {
     "distroName": "T2 SDE",
     "introduction": "<header>Flatpak sudah terpasang secara default pada T2 SDE sejak versi 26.6 — tidak perlu pengaturan!</header> <text>Flatpak telah dikonfigurasi sebelumnya dengan repositori Flathub dan alat integrasi desktop disertakan untuk memungkinkan instalasi 1-klik dari Flathub.</text> <text>Yang perlu Anda lakukan hanyalah <link>menginstal aplikasi</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak sudah terinstal secara bawaan di Nura!</header> <text>Anda hanya perlu <link>menginstal aplikasi</link>!</text>"
   }
 }

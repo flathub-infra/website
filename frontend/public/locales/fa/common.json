@@ -973,5 +973,6 @@
   "oauth-account-email-already-used": "این رایانامه از پیش با حساب فلت‌هابی مرتبط است. با روش ورود پیشینتان (رایانامه یا فراهم‌کننده) وارد شده و سپس این فراهم‌کننده را از تنظیمات پیوند دهید. حساب‌های فلت‌هاب نمی‌توانند به صورت خودکار ادغام شوند.",
   "moderation-permissions-pull-request-review": "بازبینی اجارهٔ درخواست ادغام",
   "moderation-permissions-title": "اجازه‌ها",
-  "moderation-permissions-pull-request": "درخواست ادغام"
+  "moderation-permissions-pull-request": "درخواست ادغام",
+  "moderation-permissions-changed-count": "{count, plural, one {# اجازهٔ تغییر یافته} other {# اجازهٔ تغییر یافته}}"
 }

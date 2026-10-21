@@ -70,6 +70,10 @@
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para concluir a configuração, reinicie o seu sistema. Tudo o que precisa de fazer agora é <link>instalar aplicações</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente a partir do Flathub, executando:</text> <code></code> <text>Depois inicie-o a partir do seu ambiente de trabalho para instalar aplicações Flatpak de forma gráfica.</text>"
     }
   },
   "fedora": {
@@ -119,6 +123,10 @@
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para concluir a configuração, reinicie o seu sistema. Tudo o que precisa de fazer agora é <link>instalar aplicações</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente a partir do Flathub, executando:</text> <code></code> <text>Depois inicie-o a partir do seu ambiente de trabalho para instalar aplicações Flatpak de forma gráfica.</text>"
     }
   },
   "rocky_linux": {
@@ -163,20 +171,24 @@
     "distroName": "Kubuntu",
     "step-1": {
       "name": "Instalar o Flatpak",
-      "text": "<text>Para instalar o Flatpak no Kubuntu, abra o Discover, vá a Configurações, instale o backend do Flatpak e reinicie o Discover.</text>"
+      "text": "<text>Para instalar o Flatpak no Kubuntu, abra a aplicação Terminal e execute:</text> <code></code>"
     },
     "step-3": {
       "name": "Adicione o repositório Flathub",
-      "text": "<text>O Flathub é o melhor lugar para obter aplicações Flatpak. Para ativá-lo, abra o Discover, vá até Configurações e adicione o repositório Flathub.</text>"
+      "text": "<text>O Flathub é o melhor sítio para obter aplicações Flatpak. Para o ativar, execute:</text> <code></code>"
     },
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para concluir a configuração, reinicie o seu sistema. Tudo o que precisa de fazer agora é <link>instalar aplicações</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente a partir do Flathub, executando:</text> <code></code> <text>Depois inicie-o a partir do seu ambiente de trabalho para instalar aplicações Flatpak de forma gráfica.</text>"
     }
   },
   "solus": {
     "distroName": "Solus",
-    "introduction": "<text>O suporte ao Flatpak está integrado nas versões do Solus 4.7 e posteriores— não é necessário alterar configurações! Pode instalar as aplicações Flatpak usando o GNOME Software e/ou o KDE Discover.</text> <text>Se o Flatpak não está instalado, siga as instruções em baixo para começar.</text>",
+    "introduction": "<text>O suporte ao Flatpak está integrado no Solus 4.7 e versões posteriores—não é necessária qualquer configuração! As aplicações Flatpak podem ser instaladas através do Bazaar.</text> <text>Se o Flatpak não estiver instalado, siga as instruções abaixo para começar.</text>",
     "step-1": {
       "name": "Instalar o Flatpak",
       "text": "<text>Para instalar o Flatpak no Solus, abra a aplicação Terminal e execute o seguinte comando:</text> <code></code>"
@@ -187,7 +199,11 @@
     },
     "step-3": {
       "name": "Reiniciar",
-      "text": "<text>Para concluir a configuração, reinicie o seu sistema. Tudo o que precisa de fazer agora é <link>instalar aplicações</link>!</text> <text>Nota: a instalação gráfica de aplicações Flatpak só está apenas disponível a partir do GNOME Software e/ou o KDE Discover.</text>"
+      "text": "<text>Para concluir a configuração, reinicie o sistema. Agora só tem de <link>instalar aplicações</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente a partir do Flathub, executando:</text> <code></code> <text>Depois inicie-o a partir do seu ambiente de trabalho para instalar aplicações Flatpak de forma gráfica.</text>"
     }
   },
   "alpine": {
@@ -203,6 +219,10 @@
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para concluir a configuração, reinicie o seu sistema. Tudo o que precisa de fazer agora é <link>instalar as aplicações</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente a partir do Flathub, executando:</text> <code></code> <text>Depois inicie-o a partir do seu ambiente de trabalho para instalar aplicações Flatpak de forma gráfica.</text>"
     }
   },
   "mageia": {
@@ -320,6 +340,10 @@
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para concluir a configuração, reinicie o seu sistema. Tudo o que precisa de fazer agora é <link>instalar aplicações</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar Bazaar",
+      "text": "<text>Com o Flathub ativado, instale o Bazaar diretamente a partir do Flathub, executando:</text> <code></code> <text>Depois inicie-o a partir do seu ambiente de trabalho para instalar aplicações Flatpak de forma gráfica.</text>"
     }
   },
   "mx_linux": {

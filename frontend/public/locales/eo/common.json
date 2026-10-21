@@ -534,7 +534,10 @@
   "news": "Novaĵoj",
   "developer-portal": {
     "title": "Portalo por programistoj",
-    "runtime-version": "Rultempa medio: {version}"
+    "runtime-version": "Rultempa medio: {version}",
+    "downloads-last-month": "Elŝutoj dum la lasta monato",
+    "downloads-last-month-count": "Elŝutoj dum la lasta monato: {count}",
+    "downloads-unavailable": "Totalo de elŝutoj estas provizore ne disponebla."
   },
   "unverified": "Nekonfirmita",
   "new": "Novaj",
@@ -886,7 +889,9 @@
     "pointing-devices": "musoj aŭ montriloj",
     "support-unknown": "Nekonata subteno",
     "adaptive": "Adaptema",
-    "appname-works-on-most-devices": "{appName} funkcias sur preskaŭ ĉiaj aparatoj"
+    "appname-works-on-most-devices": "{appName} funkcias sur preskaŭ ĉiaj aparatoj",
+    "mobile-display-support-unknown": "Mankas informoj pri ĉu malgranda ekrano estas subtenata",
+    "desktop-display-support-unknown": "Mankas informoj pri ĉu granda ekrano estas subtenata"
   },
   "moderation-view-discussion": "Vidi diskuton",
   "email-login-sign-in": "Saluti",
@@ -919,13 +924,55 @@
   "passkey-never-used": "Ankoraŭ ne uzita por saluti",
   "danger-zone-confirmation": {
     "switch": {
-      "warning-title": "Tio ne estas malfarebla"
+      "warning-title": "Tio ne estas malfarebla",
+      "warning-consequence": "Post ŝanĝado, ĉi tiu programo definitive nur uzos rektan alŝutadon ĉe Flathub.",
+      "acknowledgment": "Mi komprenas, ke ŝanĝado de <app>{app_id}</app> al rekta alŝutado ne estas malfarebla"
     },
     "archive": {
-      "acknowledgment": "Mi komprenas la rezultojn de enarĥivigo de <app>{app_id}</app>"
+      "acknowledgment": "Mi komprenas la rezultojn de enarĥivigo de <app>{app_id}</app>",
+      "warning-tokens": "Ĉiuj aktivaj alŝutaj ĵetonoj por ĉi tiu programo eksvalidiĝos.",
+      "warning-title": "Enarĥivigo estigos konsekvencojn pri ĉi tiu programo kaj ĝiaj eldonantoj",
+      "warning-eol": "La ĉi-suba mesaĝo indikos la finon de vivciklo de la programo."
     }
   },
   "passkey-login-intro": "Uzi pasŝlosilon konservitan por via konto ĉe Flathub.",
   "passkey-unsupported": "Ĉi tiu TTT-legilo ne subtenas pasŝlosilon. Uzu alian metodon por saluti.",
-  "chart-description": "Diagramo pri {chart}. Ŝvebu super datenpunkto aŭ enfokusigu datenpunkton por ekzaktaj valoroj."
+  "chart-description": "Diagramo pri {chart}. Ŝvebu super datenpunkto aŭ enfokusigu datenpunkton por ekzaktaj valoroj.",
+  "email-login-rate-limited": "Troo da provoj. Bonvolu atenti unu minuton kaj reprovi.",
+  "email-login-resend-in": "Resendo ebliĝos post {seconds} s",
+  "passkey-name-invalid": "Tajpu nomon de ŝlosilo (maksimume 100 skribsignojn).",
+  "quality-metadata-changed": "Metadatenoj ŝanĝiĝis {time}",
+  "moderation-permissions-compared-with": "Komparita kun: {source}",
+  "reauth-sign-out": "Adiaŭi kaj resaluti",
+  "moderation-permissions-changed-count": "{count, plural, one {# ŝanĝita permeso} other {# ŝanĝitaj permesoj}}",
+  "developer-login-title": "Salutejo por programistoj",
+  "developer-login-hint-link": "Ĉu serĉante <link>la salutejon por programistoj</link>?",
+  "display-name": "Montronomo",
+  "display-name-updated": "Montronomo ŝanĝiĝis",
+  "display-name-invalid": "Tajpu montronomon de 1–100 skribsignoj, kun almenaŭ unu videbla skribsigno kaj sen stirsignoj aŭ tekstodirektaj signoj.",
+  "passkey-rate-limited": "Troo da pasŝlosilaj provoj. Bonvolu atenti unu minuton kaj reprovi.",
+  "email-login-request-new-link": "Reiru al la salutejo por peti novan hiperligon.",
+  "user-login-unavailable": "Retpoŝta salutado estas aktuale ne disponebla. Bonvolu reprovi poste.",
+  "user-login-intro": "Tajpu vian retpoŝtan adreson; ni sendos al vi hiperligon por saluti. Neniu pasvorto necesas.",
+  "email-login-check-your-inbox": "Se la retpoŝta adreso validas, saluta hiperligo estas sendata. Ĝi eksvalidiĝos post 15 minutoj. Se vi kreis vian konton per GitHub, GitLab, GNOME, aŭ KDE, salutu per tiu provizanto anstataŭe.",
+  "passkey-unavailable": "Salutado per pasŝlosilo estas provizore ne disponebla. Bonvolu reprovi poste.",
+  "view-builds": "Vidi konstruojn",
+  "quality-metadata-changed-since-review": "Ŝanĝita post reviziado pri kvalito",
+  "build-duration-over-time": "Daŭroj de konstruoj tra tempo",
+  "transaction-successful-description": "Via pago sukcese kompletiĝis. Jen la detaloj pri la pago.",
+  "reauth-account-mismatch": "Tiu saluto ne kongruas kun ĉi tiu konto. Salutu per unu el viaj ligitaj kontoj.",
+  "email-login-invalid-or-expired": "Jen nevalida aŭ eksvalidiĝinta hiperligo por salutado. Petu novan hiperligon por daŭrigi.",
+  "transaction-cancelled-description": "La transakcio estis nuligita. Neniom estis pagita.",
+  "passkey-remove-description": "Vi ne plu povos saluti per ĉi tiu pasŝlosilo. Seancoj uzintaj ĝin finiĝos.",
+  "passkey-login-canceled": "La saluto per pasŝlosilo estis nuligita aŭ atingis tempolimon. Reprovu.",
+  "passkey-canceled": "La peto pri pasŝlosilo estis nuligita aŭ atingis tempolimon. Reprovu.",
+  "passkey-login-failed": "Malsukcesis saluto per ĉi tiu pasŝlosilo. Reprovu, aŭ uzu alian salutan metodon.",
+  "reauth-description": "Pro sekureco, konfirmu vian identecon antaŭ ol ŝanĝi viajn pasŝlosilojn.",
+  "email-login-oauth-upgrade-required": "Ĉi tiu ago postulas provizanto-konton. Ligu vian konton al GitHub, GitLab, GNOME, aŭ KDE en la agordoj por daŭrigi.",
+  "passkeys-description": "Pasŝlosilo ebligas vin saluti en ĉi tiun konton sen retpoŝta hiperligo aŭ ekstera provizanto.",
+  "moderation-permissions-pull-request-review": "Revizio pri permesoj je tirpeto",
+  "email-login-replaced": "Por ĉi tiu konto, salutado per provizanto definitive anstataŭis salutadon per retpoŝto.",
+  "reauth-return-hint": "Konfirminte vian identecon, revenu ĉi tien, fermu ĉi tiun dialogon se ĝi estas ankoraŭ malfermita, kaj reprovu la ŝanĝon pri pasŝlosilo.",
+  "oauth-account-email-already-used": "Jen retpoŝta adreso jam asociita al konto ĉe Flathub. Salutu per via antaŭa saluta metodo (retpoŝte aŭ per provizanto), kaj ligu al ĉi tiu provizanto en agordoj. Oni ne povas aŭtomate kunfandi kontojn ĉe Flathub.",
+  "email-login-session-conflict": "Vi ankoraŭ estas salutinta kiel alia uzanto en ĉi tiu TTT-legilo. Adiaŭu unue, se vi volas uzi ĉi tiun hiperligon."
 }

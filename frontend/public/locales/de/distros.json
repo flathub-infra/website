@@ -14,7 +14,8 @@
       "text": "<text>Flathub ist der beste Ort, um Flatpak-Apps zu beziehen. Um es zu aktivieren, lade die <filelink>Flathub-Repository-Datei</filelink> herunter und installiere sie oder führe Folgendes aus:</text> <code></code>"
     },
     "install-bazaar": {
-      "name": "Bazaar installieren"
+      "name": "Bazaar installieren",
+      "text": "<text>Mit aktiviertem Flathub kannst du Bazaar direkt über Flathub installieren, indem du folgenden Befehl ausführst:</text> <code></code> <text>Starte es anschließend von deinem Desktop aus, um Flatpak-Anwendungen grafisch zu installieren.</text>"
     }
   },
   "fedora": {
@@ -124,7 +125,8 @@
       "text": "<text>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <link>Apps installieren</link>!</text>"
     },
     "install-bazaar": {
-      "name": "Bazaar installieren"
+      "name": "Bazaar installieren",
+      "text": "<text>Mit aktiviertem Flathub kannst du Bazaar direkt über Flathub installieren, indem du folgenden Befehl ausführst:</text> <code></code> <text>Starte es anschließend von deinem Desktop aus, um Flatpak-Anwendungen grafisch zu installieren.</text>"
     }
   },
   "rocky_linux": {
@@ -180,7 +182,8 @@
       "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, führe aus:</text> <code></code>"
     },
     "install-bazaar": {
-      "name": "Bazaar installieren"
+      "name": "Bazaar installieren",
+      "text": "<text>Mit aktiviertem Flathub kannst du Bazaar direkt über Flathub installieren, indem du folgenden Befehl ausführst:</text> <code></code> <text>Starte es anschließend von deinem Desktop aus, um Flatpak-Anwendungen grafisch zu installieren.</text>"
     }
   },
   "solus": {
@@ -191,15 +194,16 @@
     },
     "step-3": {
       "name": "Neustart",
-      "text": "<text>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <link>Apps installieren</link>!</text> <text>Hinweis: Die grafische Installation von Flatpak-Apps ist nur über GNOME Software und/oder KDE Discover möglich.</text>"
+      "text": "<text>Zur Vervollständigung der Einrichtung, starte dein System neu. Jetzt musst du nur noch <link>Apps installieren</link>!</text>"
     },
     "step-2": {
       "name": "Das Flathub-Repository hinzufügen",
       "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <filelink>Flathub-Repository Datei</filelink> oder führe aus:</text> <code></code>"
     },
-    "introduction": "<text>Flatpak-Unterstützung ist ab Solus 4.7 integriert - es ist keine Installation erforderlich! Flatpak-Anwendungen können mit GNOME Software und/oder KDE Discover installiert werden.</text> <text>Wenn Flatpak nicht installiert ist, folgen Sie den folgenden Anweisungen, um loszulegen.</text>",
+    "introduction": "<text>Flatpak-Unterstützung ist ab Solus 4.7 integriert – es ist keine Einrichtung erforderlich! Flatpak-Apps können mit Bazaar installiert werden.</text> <text>Falls Flatpak nicht installiert ist, befolge die nachstehenden Anweisungen, um loszulegen.</text>",
     "install-bazaar": {
-      "name": "Bazaar installieren"
+      "name": "Bazaar installieren",
+      "text": "<text>Mit aktiviertem Flathub kannst du Bazaar direkt über Flathub installieren, indem du folgenden Befehl ausführst:</text> <code></code> <text>Starte es anschließend von deinem Desktop aus, um Flatpak-Anwendungen grafisch zu installieren.</text>"
     }
   },
   "alpine": {
@@ -217,7 +221,8 @@
       "text": "<text>Flathub ist der beste Ort, um Flatpak Apps zu erhalten. Um es zu aktivieren, lade und installiere die <filelink>Flathub-Repository Datei</filelink> oder führe aus:</text> <code></code>"
     },
     "install-bazaar": {
-      "name": "Bazaar installieren"
+      "name": "Bazaar installieren",
+      "text": "<text>Mit aktiviertem Flathub kannst du Bazaar direkt über Flathub installieren, indem du folgenden Befehl ausführst:</text> <code></code> <text>Starte es anschließend von deinem Desktop aus, um Flatpak-Anwendungen grafisch zu installieren.</text>"
     }
   },
   "mageia": {
@@ -337,7 +342,8 @@
       "text": "<text>Flathub ist der beste Ort, um Flatpak-Apps zu beziehen. Um es zu aktivieren, lade die <filelink>Flathub-Repository-Datei</filelink> herunter und installiere sie oder führe Folgendes aus:</text> <code></code>"
     },
     "install-bazaar": {
-      "name": "Bazaar installieren"
+      "name": "Bazaar installieren",
+      "text": "<text>Mit aktiviertem Flathub kannst du Bazaar direkt über Flathub installieren, indem du folgenden Befehl ausführst:</text> <code></code> <text>Starte es anschließend von deinem Desktop aus, um Flatpak-Anwendungen grafisch zu installieren.</text>"
     }
   },
   "mx_linux": {

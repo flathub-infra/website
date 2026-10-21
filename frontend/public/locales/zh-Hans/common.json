@@ -973,5 +973,6 @@
   "moderation-permissions-pull-request-review": "审核拉取请求权限",
   "moderation-permissions-title": "权限",
   "moderation-permissions-pull-request": "拉取请求",
-  "moderation-permissions-compared-with": "对照方：{source}"
+  "moderation-permissions-compared-with": "对照方：{source}",
+  "moderation-permissions-changed-count": "{count, plural, one {# 个更改的权限} other {# 个更改的权限}}"
 }

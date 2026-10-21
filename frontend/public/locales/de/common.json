@@ -1,7 +1,7 @@
 {
   "go-home": "Zurück zur Startseite",
-  "search-apps": "Suche nach Apps",
-  "publish": "Publizieren",
+  "search-apps": "Apps suchen",
+  "publish": "Veröffentlichen",
   "forum": "Forum",
   "about": "Über",
   "about-description": "Flathub ist der Ort, um Apps für das gesamte Linux-Desktop-Ökosystem zu erhalten und zu veröffentlichen. Flatpak ermöglicht, dass Flathub-Apps auf fast jeder Linux-Distribution laufen.",
@@ -677,7 +677,7 @@
   "vending": {
     "purchase-not-available": "Diese Anwendung ist nicht zum Kauf verfügbar."
   },
-  "see-all-results": "Alle Ergebnisse anzeigen",
+  "see-all-results": "Alle Ergebnisse ansehen",
   "default-account": "Standard",
   "set-as-default": "Als Standard festlegen",
   "default-account-changed": "Standard Account erfolgreich festgelegt",
@@ -973,5 +973,6 @@
   "moderation-permissions-pull-request-review": "Pull Request Erlaubnis Review",
   "moderation-permissions-title": "Berechtigungen",
   "moderation-permissions-pull-request": "Pull-Request",
-  "moderation-permissions-compared-with": "Verglichen mit: {source}"
+  "moderation-permissions-compared-with": "Verglichen mit: {source}",
+  "moderation-permissions-changed-count": "{count, plural, one {# geänderte Berechtigung} other {# geänderte Berechtigungen}}"
 }
