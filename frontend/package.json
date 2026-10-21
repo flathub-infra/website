@@ -49,7 +49,7 @@
     "isomorphic-dompurify": "4.5.0",
     "linkify-html": "^4.3.3",
     "linkifyjs": "^4.3.3",
-    "lucide-react": "^1.45.0",
+    "lucide-react": "^1.59.0",
     "meilisearch": "^0.57.0",
     "new-github-issue-url": "^1.1.0",
     "next": "16.4.0",
