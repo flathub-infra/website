@@ -195,6 +195,18 @@ def test_decisions_notify_after_commit(db, notified):
     assert notified == [(f"flathub/{APP}", 17, "rejected")]
 
 
+def test_repeated_decision_does_not_notify_again(db, notified):
+    first = persist(1)
+    decide(first.assessment_id, "rejected", rationale="Too broad")
+    approved = decide(first.assessment_id)
+    inherited = persist(2, pull_request_head_revision="4" * 40)
+    assert decide(inherited.assessment_id).decision_id == approved.decision_id
+    assert notified == [
+        (f"flathub/{APP}", 17, "rejected"),
+        (f"flathub/{APP}", 17, "approved"),
+    ]
+
+
 def test_failed_or_refused_decisions_do_not_notify(db, notified, monkeypatch):
     old, new = persist(1), persist(2)
     for assessment_id, fingerprint in (

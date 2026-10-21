@@ -204,6 +204,9 @@ def decide_permission_review(
             raise HTTPException(status_code=409, detail="snapshot_mismatch")
         if row.acceptance_basis == "baseline":
             raise HTTPException(status_code=409, detail="no_review_needed")
+        unchanged = assessment.decision_outcome(body.decision, row.decision_id)
+        if all(getattr(row, key) == value for key, value in unchanged.items()):
+            return _detail(db.session, row)
         decision = models.PermissionDecision(
             assessment_id=row.id,
             reviewer_id=login.user.id,
