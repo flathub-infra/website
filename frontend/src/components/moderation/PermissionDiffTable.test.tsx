@@ -110,3 +110,35 @@ test("keeps unchanged lines aligned when a line is inserted in the middle", () =
   expect(html).toContain('mark class="rounded-sm bg-[oklch(88%_0.08_155)]')
   expect(html).toContain("/tmp")
 })
+
+test("groups bus policy changes by policy with the affected names", () => {
+  const html = render(
+    <PermissionDiffTable
+      source="baseline"
+      differences={[
+        {
+          path: ["x86_64", "Session Bus Policy", "org.b.B"],
+          before: "talk",
+          after: "own",
+        },
+        {
+          path: ["x86_64", "Session Bus Policy", "org.a.A"],
+          before: null,
+          after: "talk",
+        },
+        {
+          path: ["x86_64", "System Bus Policy"],
+          before: null,
+          after: { "org.c.C": "talk", "org.d.D": "talk" },
+        },
+      ]}
+    />,
+  )
+
+  expect(html).toContain("3 changed permissions")
+  expect(html).toContain("Session Bus Policy / talk")
+  expect(html).toContain("Session Bus Policy / own")
+  expect(html).toContain("System Bus Policy / talk")
+  expect(html).not.toContain("Session Bus Policy / org.")
+  expect(html.indexOf("org.c.C")).toBeLessThan(html.indexOf("org.d.D"))
+})

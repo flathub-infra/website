@@ -33,6 +33,40 @@ const show = (value: unknown) =>
       ? value
       : JSON.stringify(value, null, 1)
 
+const busPolicyGroups = ["Session Bus Policy", "System Bus Policy"]
+
+const groupBusPolicies = (rows: Difference[]): Difference[] => {
+  const result: Difference[] = []
+  const policies = new Map<string, Difference>()
+  for (const row of rows) {
+    const [arch, group, name] = row.path
+    if (!busPolicyGroups.includes(group)) {
+      result.push(row)
+      continue
+    }
+    for (const side of ["before", "after"] as const) {
+      const value = row[side] as Record<string, string> | string | null
+      const entries =
+        name === undefined
+          ? Object.entries(value ?? {})
+          : value === null
+            ? []
+            : [[name, value as string]]
+      for (const [busName, policy] of entries) {
+        const key = `${arch}\0${group}\0${policy}`
+        let entry = policies.get(key)
+        if (!entry) {
+          entry = { path: [arch, group, policy], before: null, after: null }
+          policies.set(key, entry)
+          result.push(entry)
+        }
+        entry[side] = [...((entry[side] as string[]) ?? []), busName].sort()
+      }
+    }
+  }
+  return result
+}
+
 type LineChange = {
   before: string | null
   after: string | null
@@ -193,7 +227,9 @@ const PermissionDiffTable: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations()
   const byArch = new Map<string, Difference[]>()
-  for (const difference of (differences ?? []) as Difference[]) {
+  for (const difference of groupBusPolicies(
+    (differences ?? []) as Difference[],
+  )) {
     const arch = difference.path[0]
     byArch.set(arch, [...(byArch.get(arch) ?? []), difference])
   }
