@@ -101,7 +101,7 @@
     "@types/rtl-detect": "^1",
     "@types/topojson-client": "^3.1.5",
     "@types/topojson-specification": "^1.0.5",
-    "@vitest/browser": "^4.1.11",
+    "@vitest/browser": "^5.0.5",
     "@vitest/coverage-v8": "^5.0.3",
     "chromatic": "^18.2.0",
     "eslint": "^9.39.2",
