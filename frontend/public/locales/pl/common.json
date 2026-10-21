@@ -973,5 +973,6 @@
   "moderation-permissions-pull-request-review": "Przegląd uprawnień w ramach pull requestu",
   "moderation-permissions-title": "Uprawnienia",
   "moderation-permissions-pull-request": "Pull request",
-  "moderation-permissions-compared-with": "Porównano z: {source}"
+  "moderation-permissions-compared-with": "Porównano z: {source}",
+  "moderation-permissions-changed-count": "{count, plural, one {# zmienione uprawnienie} few {# zmienione uprawnienia} many {# zmienionych uprawnień} other {# zmienionego uprawnienia}}"
 }

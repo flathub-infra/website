@@ -973,5 +973,6 @@
   "email-login-other-methods": "Drugi načini prijave",
   "dns-verification-main-instruction": "Ovjeri svoje pravo na korištenje ID-a aplikacije <bold>{id}</bold> objavljivanjem DNS TXT zapisa za <bold>{domain}</bold>.",
   "display-name-updated": "Prikazno ime je aktualizirano",
-  "transaction-successful": "Plaćanje je završeno"
+  "transaction-successful": "Plaćanje je završeno",
+  "moderation-permissions-changed-count": "{count, plural, one {# promijenjena dozvola} few {# promijenjene dozvole} other {# promijenjenih dozvola}}"
 }

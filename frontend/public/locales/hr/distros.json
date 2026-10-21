@@ -12,6 +12,10 @@
     "step-4": {
       "name": "Pokreni ponovo",
       "text": "<text>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instaliraj Bazaar",
+      "text": "<text>S aktiviranim Flathubom, instaliraj Bazaar izravno s Flathuba pokretanjem:</text> <code></code> <text>Zatim ga pokreni s radne površine i grafički instaliraj Flatpak aplikacije.</text>"
     }
   },
   "mageia": {
@@ -56,9 +60,13 @@
     "distroName": "Solus",
     "step-3": {
       "name": "Pokreni ponovo",
-      "text": "<text>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <link>instalirati aplikacije</link>!</text> <text>Napomena: grafička instalacija Flatpak aplikacija je dostupna samo putem aplikacija GNOME Softver i/ili KDE Discover.</text>"
+      "text": "<text>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
     },
-    "introduction": "<text>Podrška za Flatpak je ugrađena u Solus 4.7 i novijim verzijama – bez potrebe za postavljanjem! Flatpak aplikacije se mogu instalirati putem aplikacija GNOME Softver i/ili KDE Discover.</text> <text>Ako FlatPak nije instaliran, slijedite upute u nastavku da biste započeli. </text>"
+    "introduction": "<text>Podrška za Flatpak je ugrađena u Solus 4.7 i novijim verzijama – bez potrebe za postavljanjem! Flatpak aplikacije se mogu instalirati putem Bazaara.</text> <text>Ako Flatpak nije instaliran, slijedi upute u nastavku i započni. </text>",
+    "install-bazaar": {
+      "name": "Instaliraj Bazaar",
+      "text": "<text>S aktiviranim Flathubom, instaliraj Bazaar izravno s Flathuba pokretanjem:</text> <code></code> <text>Zatim ga pokreni s radne površine i grafički instaliraj Flatpak aplikacije.</text>"
+    }
   },
   "deepin": {
     "step-2": {
@@ -92,6 +100,10 @@
     "step-3": {
       "name": "Dodaj Flathub repozitorij",
       "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje preuzmi i instaliraj <filelink>datoteku Flathub repozitorija</filelink> ili pokreni sljedeće u terminalu:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instaliraj Bazaar",
+      "text": "<text>S aktiviranim Flathubom, instaliraj Bazaar izravno s Flathuba pokretanjem:</text> <code></code> <text>Zatim ga pokreni s radne površine i grafički instaliraj Flatpak aplikacije.</text>"
     }
   },
   "fedora": {
@@ -214,6 +226,10 @@
     "step-4": {
       "name": "Pokreni ponovo",
       "text": "<text>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instaliraj Bazaar",
+      "text": "<text>S aktiviranim Flathubom, instaliraj Bazaar izravno s Flathuba pokretanjem:</text> <code></code> <text>Zatim ga pokreni s radne površine i grafički instaliraj Flatpak aplikacije.</text>"
     }
   },
   "centos": {
@@ -243,15 +259,19 @@
     "distroName": "Kubuntu",
     "step-1": {
       "name": "Instaliraj Flatpak",
-      "text": "<text>Za instaliranje Flatpaka na Kubuntu, otvori Discover, idi na Postavke, instaliraj Flatpak pozadinski sustav i ponovo pokreni Discover.</text>"
+      "text": "<text>Za instaliranje Flatpaka na Kubuntu, otvori aplikaciju Terminal i pokreni: </text><code></code>"
     },
     "step-3": {
       "name": "Dodaj Flathub repozitorij",
-      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje otvori Discover, idi na postavke i dodaj Flathub repozitorij.</text>"
+      "text": "<text>Flathub je najbolje mjesto za nabavljanje Flatpak aplikacija. Za aktiviranje pokreni: </text><code></code>"
     },
     "step-4": {
       "name": "Pokreni ponovo",
       "text": "<text>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instaliraj Bazaar",
+      "text": "<text>S aktiviranim Flathubom, instaliraj Bazaar izravno s Flathuba pokretanjem:</text> <code></code> <text>Zatim ga pokreni s radne površine i grafički instaliraj Flatpak aplikacije.</text>"
     }
   },
   "openmandriva_lx": {
@@ -320,6 +340,10 @@
     "step-4": {
       "name": "Pokreni ponovo",
       "text": "<text>Za dovršavanje postavljanja, ponovo pokreni sustav. Sada moraš još samo <link>instalirati aplikacije</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instaliraj Bazaar",
+      "text": "<text>S aktiviranim Flathubom, instaliraj Bazaar izravno s Flathuba pokretanjem:</text> <code></code> <text>Zatim ga pokreni s radne površine i grafički instaliraj Flatpak aplikacije.</text>"
     }
   },
   "mx_linux": {

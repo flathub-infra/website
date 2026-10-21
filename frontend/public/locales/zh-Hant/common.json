@@ -885,7 +885,7 @@
     "touchscreens": "觸控螢幕",
     "gamepad-support": "遊戲手把支援",
     "gamepads": "遊戲手把",
-    "control-required": "需要 {device}",
+    "control-required": "需要{device}",
     "control-recommended": "推薦{device}",
     "control-supported": "支援 {device}",
     "control-unknown": "對{device}的支援情況未知"

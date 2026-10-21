@@ -335,7 +335,7 @@
     },
     "install-bazaar": {
       "name": "安装 Bazaar",
-      "text": "<text>启用 Flathub 后，运行下列代码直接 Flathub 安装 Bazaar：</text> <code></code> <text>然后从桌面启动它以图形化方式安装 Flatpak 应用。</text>"
+      "text": "<text>启用 Flathub 后，运行下列代码直接从 Flathub 安装 Bazaar：</text> <code></code> <text>然后从桌面启动它以图形化方式安装 Flatpak 应用。</text>"
     }
   },
   "mx_linux": {
