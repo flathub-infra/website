@@ -130,12 +130,22 @@ const LoginClient = ({
             <h2 className="text-xl font-bold">{t("email-login-with-email")}</h2>
           )}
           {submitState === "sent" && (
-            <p
+            <div
               role="status"
               className="rounded-xl bg-flathub-celestial-blue/10 p-4 text-sm leading-relaxed"
             >
-              {t("email-login-check-your-inbox")}
-            </p>
+              <p className="mb-3">{t("email-login-check-your-inbox")}</p>
+              <Link
+                href={
+                  returnTo
+                    ? `/login/developer?returnTo=${encodeURIComponent(returnTo)}`
+                    : "/login/developer"
+                }
+                className="inline-block font-semibold text-inherit underline underline-offset-4 hover:decoration-2 focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-flathub-celestial-blue"
+              >
+                {t("developer-login-title")}
+              </Link>
+            </div>
           )}
           <label htmlFor="login-email" className="text-sm font-semibold">
             {t("email-login-email-address")}
