@@ -569,6 +569,7 @@ def stored_baseline(monkeypatch, architectures, fingerprint=None):
             {"ref_name": ARM, "arch": "aarch64", "commit": "f" * 64},
         ],
         "fingerprint": fingerprint or fingerprint_snapshot(snapshot),
+        "runtime": None,
     }
     requests = []
 
@@ -624,6 +625,29 @@ def test_baseline_difference_needs_review_even_for_removals(
             "after": ["network"],
         }
     ]
+
+
+def test_baseline_runtime_grants_are_not_removals(
+    test_branch_source, observed, monkeypatch
+):
+    baseline, _ = stored_baseline(
+        monkeypatch, {"x86_64": {"Context": {"shared": ["ipc", "network"]}}}
+    )
+    baseline["runtime"] = "org.kde.Platform/x86_64/6.9"
+    monkeypatch.setattr(
+        assessment,
+        "runtime_permissions",
+        lambda *runtimes: (
+            ({"Context": {"shared": ["ipc"]}},)
+            if baseline["runtime"] in runtimes
+            else ()
+        ),
+    )
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(**request_body())
+    )
+    assert response.outcome == "accepted"
+    assert response.differences == []
 
 
 def test_inconsistent_baseline_is_an_error(test_branch_source, observed, monkeypatch):

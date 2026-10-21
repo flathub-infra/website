@@ -81,6 +81,9 @@ def run_main(monkeypatch, capsys, source, *args, existing=None, written=None):
         return len(written)
 
     monkeypatch.setattr(baselines, "write_baselines", write)
+    monkeypatch.setattr(
+        baselines, "backfill_runtimes", lambda values: len(list(values))
+    )
     baselines.main(["--timeout-seconds", "10", *args])
     return json.loads(capsys.readouterr().out)
 
@@ -205,6 +208,11 @@ def test_write_and_read_baselines_in_postgres(source, monkeypatch):
             (entry["app_id"], entry["flatpak_branch"]): entry["fingerprint"]
             for entry in plan["entries"]
         }
+        runtime = "org.example.Platform/x86_64/1"
+        stale = {**values[0], "runtime": runtime, "fingerprint": "0" * 64}
+        assert baselines.backfill_runtimes([stale]) == 0
+        assert baselines.backfill_runtimes([{**values[0], "runtime": runtime}]) == 1
+        assert baselines.backfill_runtimes([{**values[0], "runtime": "other"}]) == 0
         with Session() as session:
             row = session.scalars(
                 select(models.PermissionBaseline).where(
@@ -214,6 +222,7 @@ def test_write_and_read_baselines_in_postgres(source, monkeypatch):
         assert row.source == "initialized"
         assert row.snapshot == values[0]["snapshot"]
         assert row.artifacts == values[0]["artifacts"]
+        assert row.runtime == runtime
     finally:
         if isolated_engine is not None:
             isolated_engine.dispose()

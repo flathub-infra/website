@@ -273,6 +273,7 @@ def _stored_baseline(
             "snapshot": row.snapshot,
             "artifacts": row.artifacts,
             "fingerprint": row.fingerprint,
+            "runtime": row.runtime,
         }
 
 
@@ -657,7 +658,10 @@ def assess_candidate(
                     comparison,
                     candidate.snapshot,
                     runtime_permissions(
-                        candidate.runtime, published and published.runtime
+                        candidate.runtime,
+                        baseline["runtime"]
+                        if baseline
+                        else published and published.runtime,
                     ),
                 )
             ]

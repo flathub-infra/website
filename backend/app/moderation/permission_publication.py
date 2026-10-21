@@ -78,6 +78,7 @@ def _baseline_values(channel: str, candidate) -> dict[str, Any]:
         "artifacts": [asdict(item) for item in candidate.artifacts],
         "snapshot": asdict(candidate.snapshot),
         "fingerprint": fingerprint_snapshot(candidate.snapshot),
+        "runtime": candidate.runtime,
     }
 
 
@@ -156,7 +157,9 @@ def _evaluate(
             differences = [
                 asdict(d)
                 for d in compare_snapshots(
-                    before, candidate.snapshot, runtime_permissions(candidate.runtime)
+                    before,
+                    candidate.snapshot,
+                    runtime_permissions(candidate.runtime, baseline["runtime"]),
                 )
             ]
             if not differences:

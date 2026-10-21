@@ -2630,6 +2630,7 @@ class PermissionBaseline(Base):
     artifacts = mapped_column(JSONB, nullable=False)
     snapshot = mapped_column(JSONB, nullable=False)
     fingerprint = mapped_column(String, nullable=False)
+    runtime = mapped_column(String)
 
     __table_args__ = (
         CheckConstraint(

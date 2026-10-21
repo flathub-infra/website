@@ -307,7 +307,7 @@ def publish(db, monkeypatch):
     )
 
 
-def set_baseline(db, snap, fingerprint):
+def set_baseline(db, snap, fingerprint, runtime=None):
     with db() as session:
         session.add(
             models.PermissionBaseline(
@@ -321,6 +321,7 @@ def set_baseline(db, snap, fingerprint):
                 artifacts=[{"ref_name": REF, "arch": "x86_64", "commit": "c"}],
                 snapshot=snap,
                 fingerprint=fingerprint,
+                runtime=runtime,
             )
         )
 
@@ -361,6 +362,23 @@ def test_publication_accepts_runtime_inherited_permissions(db, publish, monkeypa
         publication,
         "runtime_permissions",
         lambda *runtimes: ({"Context": {"shared": ["network"]}},),
+    )
+    assert publish() == ([], {APP}, False)
+
+
+def test_publication_accepts_permissions_dropped_from_baseline_runtime(
+    db, publish, monkeypatch
+):
+    old = snapshot(["ipc", "network"])
+    runtime = "org.kde.Platform/x86_64/6.9"
+    set_baseline(db, old, fingerprint_snapshot(PermissionSnapshot(**old)), runtime)
+    persist(1, candidate_kind="push")
+    monkeypatch.setattr(
+        publication,
+        "runtime_permissions",
+        lambda *runtimes: (
+            ({"Context": {"shared": ["network"]}},) if runtime in runtimes else ()
+        ),
     )
     assert publish() == ([], {APP}, False)
 

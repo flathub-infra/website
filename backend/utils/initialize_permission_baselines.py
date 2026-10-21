@@ -7,7 +7,7 @@ from dataclasses import asdict
 from datetime import UTC, datetime
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.dialects.postgresql import insert
 
 from app import config, models
@@ -51,6 +51,7 @@ def baseline_values(item: CollectedPermissions, channel: str) -> dict[str, Any]:
         "artifacts": [asdict(artifact) for artifact in item.artifacts],
         "snapshot": asdict(item.snapshot),
         "fingerprint": fingerprint_snapshot(item.snapshot),
+        "runtime": item.runtime,
     }
 
 
@@ -126,6 +127,25 @@ def write_baselines(values: Iterable[dict[str, Any]], batch_size: int = 500) -> 
     return inserted
 
 
+def backfill_runtimes(values: Iterable[dict[str, Any]]) -> int:
+    baseline = models.PermissionBaseline
+    updated = 0
+    with get_db("writer") as db:
+        for item in values:
+            updated += db.session.execute(
+                update(baseline)
+                .where(
+                    baseline.app_id == item["app_id"],
+                    baseline.channel == item["channel"],
+                    baseline.flatpak_branch == item["flatpak_branch"],
+                    baseline.fingerprint == item["fingerprint"],
+                    baseline.runtime.is_(None),
+                )
+                .values(runtime=item["runtime"])
+            ).rowcount
+    return updated
+
+
 def report_json(plan: dict[str, Any]) -> dict[str, Any]:
     return {
         **plan,
@@ -170,6 +190,11 @@ def main(argv: list[str] | None = None) -> None:
     if args.write:
         summary["inserted"] = write_baselines(
             entry["values"] for entry in plan["entries"] if entry["status"] == "new"
+        )
+        summary["runtimes_backfilled"] = backfill_runtimes(
+            entry["values"]
+            for entry in plan["entries"]
+            if entry["status"] == "existing_same"
         )
     if args.report:
         with open(args.report, "w", encoding="utf-8") as report:
