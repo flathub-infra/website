@@ -47,9 +47,9 @@ export const OpenDefault: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
 
-    const button = canvas.getAllByRole("button")
+    const button = canvas.getByRole("button", { name: "Manual Install" })
 
-    await userEvent.click(button[1])
+    await userEvent.click(button)
   },
 }
 

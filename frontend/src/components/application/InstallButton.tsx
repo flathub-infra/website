@@ -107,7 +107,7 @@ export default function InstallButton({
   }
 
   return (
-    <div className="inline-flex w-52 basis-1/2 rounded-md sm:w-32 md:w-40">
+    <div className="inline-flex min-w-40 max-w-full flex-1 self-stretch rounded-lg sm:w-auto sm:flex-none">
       <Link
         rel="nofollow"
         href={`/apps/${appId}/install`}
@@ -115,10 +115,9 @@ export default function InstallButton({
         className={clsx(
           "transition-colors hover:bg-flathub-celestial-blue-dark dark:hover:bg-flathub-celestial-blue-light",
           "bg-flathub-celestial-blue text-gray-100 dark:bg-flathub-celestial-blue",
-          "no-wrap flex h-11 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-s-lg px-5 py-2 text-center font-bold no-underline duration-500 hover:cursor-pointer shadow-xs",
-          "w-full",
+          "flex min-h-11 min-w-0 flex-1 items-center justify-center rounded-s-lg px-5 py-2 text-center font-bold no-underline [overflow-wrap:anywhere] shadow-xs",
+          "focus-visible:relative focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flathub-celestial-blue",
         )}
-        role="button"
       >
         {t("install")}
       </Link>
@@ -128,10 +127,10 @@ export default function InstallButton({
           className={clsx(
             "transition-colors hover:bg-flathub-celestial-blue-dark dark:hover:bg-flathub-celestial-blue-light",
             "bg-flathub-celestial-blue text-gray-100 dark:bg-flathub-celestial-blue",
-            "ms-[1px] h-11 rounded-e-lg px-2 py-2 outline-0 focus:z-10 shadow-xs",
+            "ms-px flex h-full min-h-11 min-w-11 items-center justify-center rounded-e-lg px-3 py-2 shadow-xs focus-visible:relative focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flathub-celestial-blue",
           )}
         >
-          <span className="sr-only">Open options</span>
+          <span className="sr-only">{t("manual-install")}</span>
           <ChevronDownIcon className="size-5" aria-hidden="true" />
         </PopoverButton>
         <Transition
@@ -145,7 +144,7 @@ export default function InstallButton({
           <PopoverPanel
             anchor="bottom end"
             className={clsx(
-              "z-20 mt-2 rounded-xl bg-flathub-white px-4 pb-4 shadow-md dark:bg-flathub-arsenic sm:w-[450px]",
+              "z-20 mt-2 w-[min(450px,calc(100vw-2rem))] max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-xl bg-flathub-white px-4 pb-4 shadow-md [--anchor-padding:1rem] dark:bg-flathub-arsenic",
             )}
           >
             <h3 className="my-4 text-xl font-semibold">

@@ -15,7 +15,6 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react"
-import clsx from "clsx"
 import { Link, useRouter } from "src/i18n/navigation"
 
 const FavoriteButton = ({ appId }: { appId: string }) => {
@@ -59,6 +58,8 @@ const FavoriteButton = ({ appId }: { appId: string }) => {
       variant="ghost"
       size="icon-lg"
       title={t("favorite")}
+      aria-label={t("favorite")}
+      aria-pressed={isFavoriteQuery.data.data}
       onClick={() => {
         isFavoriteQuery.data.data
           ? removeFromFavoriteMutation.mutate(
@@ -116,9 +117,9 @@ export function AppHeader({
   }
 
   return (
-    <header className="col-start-2 flex w-full flex-col gap-7 py-8 pb-6 sm:flex-row">
+    <header className="col-start-2 flex min-w-0 w-full flex-wrap items-center justify-center gap-6 py-8 sm:justify-start">
       {app.icon && (
-        <div className="relative m-2 flex h-[128px] min-w-[128px] self-center">
+        <div className="relative m-2 flex size-32 shrink-0 self-center">
           <div className="absolute inset-0 rounded-[28px] bg-flathub-celestial-blue/8 dark:bg-flathub-celestial-blue/10 blur-xl scale-110" />
           <div className="relative drop-shadow-lg">
             <LogoImage
@@ -132,14 +133,9 @@ export function AppHeader({
         </div>
       )}
 
-      <div
-        className={clsx(
-          "flex flex-col my-auto gap-1.5",
-          !isQualityModalOpen && "overflow-hidden",
-        )}
-      >
-        <div className="flex items-center justify-center space-x-3 sm:justify-start">
-          <h1 className="my-0 text-center text-4xl font-extrabold tracking-tight sm:text-start truncate">
+      <div className="flex min-w-0 basis-full flex-col gap-2 sm:flex-1 sm:basis-64">
+        <div className="min-w-0">
+          <h1 className="my-0 text-center text-3xl leading-tight font-extrabold tracking-tight [overflow-wrap:anywhere] sm:text-start sm:text-4xl">
             {app.name.length > 20 && isQualityModalOpen ? (
               <>
                 <span>{app.name.slice(0, 20)}</span>{" "}
@@ -151,7 +147,7 @@ export function AppHeader({
           </h1>
         </div>
         {app.developer_name?.trim().length > 0 && (
-          <div className="text-center text-sm font-normal text-flathub-granite-gray dark:text-flathub-spanish-gray sm:text-start">
+          <div className="text-center text-sm leading-relaxed font-normal text-flathub-granite-gray [overflow-wrap:anywhere] dark:text-flathub-spanish-gray sm:text-start">
             {t(verificationStatus.verified ? "by" : "developed-by", {
               developer: app.developer_name,
             })}
@@ -167,14 +163,14 @@ export function AppHeader({
         )}
       </div>
 
-      <div className="flex items-center justify-center gap-4 sm:ms-auto">
+      <div className="flex w-full flex-wrap items-center justify-center gap-3 sm:ms-auto sm:w-auto sm:max-w-full">
         <FavoriteButton appId={app.id} />
         <InstallButton appId={app.id} />
         {app.urls?.donation && (
           <Button
             onClick={donateClicked}
             asChild
-            className="w-52 basis-1/2 sm:w-32 md:w-40"
+            className="h-auto min-h-11 min-w-32 max-w-full flex-1 whitespace-normal break-words sm:flex-none"
             variant="secondary"
             size="xl"
           >
@@ -184,7 +180,11 @@ export function AppHeader({
           </Button>
         )}
         {!!vendingSetup?.recommended_donation && !isOwned && (
-          <Button size="xl" asChild className="w-52 sm:w-32 md:w-40">
+          <Button
+            size="xl"
+            asChild
+            className="h-auto min-h-11 min-w-32 max-w-full flex-1 whitespace-normal break-words sm:flex-none"
+          >
             <Link href={`/apps/purchase/${app.id}`}>{t("kind-purchase")}</Link>
           </Button>
         )}

@@ -228,7 +228,7 @@ const SubHeader: FunctionComponent<SubHeaderProps> = ({
     <>
       <section
         aria-label={t("app-information")}
-        className="col-start-2 flex flex-wrap items-stretch justify-between pb-4"
+        className="col-start-2 mb-6 grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-[repeat(auto-fit,minmax(8rem,1fr))]"
       >
         {items}
       </section>
