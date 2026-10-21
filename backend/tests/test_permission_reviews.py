@@ -221,6 +221,25 @@ def test_failed_or_refused_decisions_do_not_notify(db, notified, monkeypatch):
     assert len(decisions) == 1
 
 
+def test_skip_leaves_pull_request_pending_without_notifying(db, notified):
+    beta = {"intended_channel": "beta", "flatpak_branch": "beta"}
+    first = persist(1, **beta)
+    decide(first.assessment_id)
+    skipped = decide(first.assessment_id, "skipped", rationale="Not now")
+    assert (skipped.outcome, skipped.acceptance_basis) == ("skipped", None)
+    inherited = persist(2, pull_request_head_revision="4" * 40, **beta)
+    assert (
+        inherited.outcome,
+        inherited.decision_id,
+        inherited.decision_rationale,
+    ) == ("pending", None, None)
+    assert reviews.read_permission_review(inherited.assessment_id, None).outcome == (
+        "skipped"
+    )
+    assert notified == [(f"flathub/{APP}", 17, "approved")]
+    assert assessment.cross_channel_basis(APP, "stable", FP) == "beta_approval"
+
+
 def test_responses_expose_active_decision_rationale(db):
     first = persist(1)
     assert first.decision_rationale is None

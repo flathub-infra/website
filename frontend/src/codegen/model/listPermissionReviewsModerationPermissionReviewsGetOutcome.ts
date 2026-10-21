@@ -12,6 +12,7 @@ export const ListPermissionReviewsModerationPermissionReviewsGetOutcome = {
   accepted: "accepted",
   pending: "pending",
   rejected: "rejected",
+  skipped: "skipped",
   error: "error",
   all: "all",
 } as const

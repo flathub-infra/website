@@ -145,7 +145,7 @@ def same_scope(a, b) -> list[Any]:
 def decision_outcome(decision: str, decision_id: int) -> dict[str, Any]:
     approved = decision == "approved"
     return {
-        "outcome": "accepted" if approved else "rejected",
+        "outcome": "accepted" if approved else decision,
         "acceptance_basis": "permission_decision" if approved else None,
         "decision_id": decision_id,
     }
@@ -174,9 +174,10 @@ def lock_pull_request(session, row) -> None:
 def _response(
     session, row: models.PermissionAssessmentObservation, newer: int | None = None
 ) -> CandidateAssessmentResponse:
+    skipped = row.outcome == "skipped"
     decision = (
         session.get(models.PermissionDecision, row.decision_id)
-        if row.decision_id is not None
+        if row.decision_id is not None and not skipped
         else None
     )
     return CandidateAssessmentResponse(
@@ -185,9 +186,9 @@ def _response(
             pipeline_id=row.pipeline_id, build_id=row.build_id
         ),
         snapshot_fingerprint=row.fingerprint,
-        outcome=row.outcome,
+        outcome="pending" if skipped else row.outcome,
         acceptance_basis=row.acceptance_basis,
-        decision_id=row.decision_id,
+        decision_id=None if skipped else row.decision_id,
         decision_rationale=decision.rationale if decision is not None else None,
         baseline_id=row.baseline_id,
         review_url=review_url(row.id),
@@ -302,6 +303,7 @@ def cross_channel_basis(app_id: str, channel: str, fingerprint: str) -> str | No
                 observation.intended_channel == "beta",
                 observation.canonicalization_version == CANONICALIZATION_VERSION,
                 observation.fingerprint == fingerprint,
+                decision.decision != "skipped",
             )
             .order_by(decision.id.desc())
             .limit(1)

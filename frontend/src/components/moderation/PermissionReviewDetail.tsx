@@ -12,6 +12,7 @@ import {
   ExternalLink,
   History,
   LoaderCircle,
+  SkipForward,
   X,
 } from "lucide-react"
 import {
@@ -125,7 +126,8 @@ const DecisionForm = ({ review }: { review: Review }) => {
           onChange={(e) => setRationale(e.target.value)}
         />
         <FieldDescription id="review-rationale-help">
-          Posted on the pull request. Required to reject; optional to approve.
+          Posted on the pull request, except when skipping. Required to reject;
+          optional otherwise.
         </FieldDescription>
       </Field>
       {error && <InlineError error={error} shown={true} />}
@@ -154,6 +156,14 @@ const DecisionForm = ({ review }: { review: Review }) => {
           >
             <X data-icon="inline-start" />
             Reject
+          </Button>
+          <Button
+            variant="outline"
+            disabled={mutation.isPending}
+            onClick={() => decide(Decision.skipped)}
+          >
+            <SkipForward data-icon="inline-start" />
+            Skip
           </Button>
         </div>
       </div>

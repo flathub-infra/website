@@ -2538,7 +2538,7 @@ class PermissionAssessmentObservation(Base):
 
     __table_args__ = (
         CheckConstraint(
-            "(outcome IN ('pending', 'accepted', 'rejected') "
+            "(outcome IN ('pending', 'accepted', 'rejected', 'skipped') "
             "AND candidate_snapshot IS NOT NULL "
             "AND fingerprint IS NOT NULL AND error_code IS NULL "
             "AND error_message IS NULL) OR "
@@ -4661,6 +4661,7 @@ class AuditEventType(enum.StrEnum):
     MODERATION_DISCUSSION_OPENED = "moderation-discussion-opened"
     PERMISSION_DECISION_APPROVED = "permission-decision-approved"
     PERMISSION_DECISION_REJECTED = "permission-decision-rejected"
+    PERMISSION_DECISION_SKIPPED = "permission-decision-skipped"
     VERIFICATION_GRANTED = "verification-granted"
     VERIFICATION_REVOKED = "verification-revoked"
     ROLE_GRANTED = "role-granted"

@@ -420,6 +420,7 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
       "accepted",
       "pending",
       "rejected",
+      "skipped",
       "error",
     ] as const),
     acceptance_basis: faker.helpers.arrayElement([
@@ -509,7 +510,11 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
     ).map(() => ({
       id: faker.number.int(),
       created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
-      decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
+      decision: faker.helpers.arrayElement([
+        "approved",
+        "rejected",
+        "skipped",
+      ] as const),
       rationale: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
         null,
@@ -537,6 +542,7 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
       "accepted",
       "pending",
       "rejected",
+      "skipped",
       "error",
     ] as const),
     acceptance_basis: faker.helpers.arrayElement([
@@ -626,7 +632,11 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
     ).map(() => ({
       id: faker.number.int(),
       created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
-      decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
+      decision: faker.helpers.arrayElement([
+        "approved",
+        "rejected",
+        "skipped",
+      ] as const),
       rationale: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
         null,

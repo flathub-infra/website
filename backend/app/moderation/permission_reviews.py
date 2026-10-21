@@ -18,7 +18,7 @@ class PermissionReviewSummary(BaseModel):
     assessment_id: int
     app_id: str
     created_at: datetime
-    outcome: Literal["accepted", "pending", "rejected", "error"]
+    outcome: Literal["accepted", "pending", "rejected", "skipped", "error"]
     acceptance_basis: assessment.AcceptanceBasis | None
     candidate_kind: str
     forge_instance: str
@@ -35,7 +35,7 @@ class PermissionReviewSummary(BaseModel):
 class PermissionDecisionEntry(BaseModel):
     id: int
     created_at: datetime
-    decision: Literal["approved", "rejected"]
+    decision: Literal["approved", "rejected", "skipped"]
     rationale: str | None
     reviewer_id: int
     reviewer_name: str | None
@@ -69,7 +69,7 @@ class PermissionReviewDetail(PermissionReviewSummary):
 
 
 class PermissionDecisionRequest(BaseModel):
-    decision: Literal["approved", "rejected"]
+    decision: Literal["approved", "rejected", "skipped"]
     fingerprint: str
     rationale: str | None = None
 
@@ -132,7 +132,7 @@ def _detail(
 def list_permission_reviews(
     _moderator: ModeratorDep,
     outcome: Annotated[
-        Literal["accepted", "pending", "rejected", "error", "all"], Query()
+        Literal["accepted", "pending", "rejected", "skipped", "error", "all"], Query()
     ] = "pending",
     include_superseded: bool = False,
     limit: Annotated[int, Query(ge=1, le=200)] = 50,
@@ -231,15 +231,11 @@ def decide_permission_review(
         }
         pull_request = (
             (row.source_repository, row.pull_request_number)
-            if row.forge_instance == "github.com"
+            if row.forge_instance == "github.com" and body.decision != "skipped"
             else None
         )
 
-    event = (
-        models.AuditEventType.PERMISSION_DECISION_APPROVED
-        if body.decision == "approved"
-        else models.AuditEventType.PERMISSION_DECISION_REJECTED
-    )
+    event = models.AuditEventType(f"permission-decision-{body.decision}")
     audit_log.enqueue_audit_log(http_request, login.user.id, event, details=details)
     if pull_request is not None:
         worker.notify_permission_decision.send(*pull_request)

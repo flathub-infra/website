@@ -11,4 +11,5 @@ export type PermissionDecisionRequestDecision =
 export const PermissionDecisionRequestDecision = {
   approved: "approved",
   rejected: "rejected",
+  skipped: "skipped",
 } as const
