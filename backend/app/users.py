@@ -2,7 +2,7 @@ from fastapi import APIRouter, FastAPI, HTTPException, Request
 
 from . import audit_log, cache, models
 from .database import get_db
-from .login_info import LoggedInDep, ModeratorDep, ModifyUsersDep, ViewUsersDep
+from .login_info import LoggedInDep, ModifyUsersDep, ViewUsersDep
 
 router = APIRouter(prefix="/users")
 
@@ -40,7 +40,7 @@ def me(login: LoggedInDep) -> models.UserResult:
         200: {"description": "List of users"},
         400: {"description": "Invalid pagination parameters"},
         401: {"description": "Unauthorized"},
-        403: {"description": "Forbidden - moderator required"},
+        403: {"description": "Forbidden - view users permission required"},
         422: {"description": "Validation error"},
         500: {"description": "Internal server error"},
     },
@@ -51,7 +51,7 @@ def users(
     page_size: int = 30,
     filterString: str | None = None,
     *,
-    _moderator: ModeratorDep,
+    _view_users: ViewUsersDep,
 ) -> models.FlathubUsersResult:
     """
     Return a list of all known users
@@ -97,7 +97,7 @@ def roles(_admin: ViewUsersDep) -> list[str]:
     },
 )
 @cache.private
-def user(user_id: int, _moderator: ModeratorDep) -> models.UserResult:
+def user(user_id: int, _view_users: ViewUsersDep) -> models.UserResult:
     """
     Return the current user
     """
