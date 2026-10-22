@@ -272,6 +272,17 @@ def test_review_listing_filters_stored_outcome_and_superseded(db):
     decide(rejected.assessment_id, "rejected", rationale="No")
     newest = persist(4)
     persist(5, candidate_kind="push")
+    set_baseline(db, SNAP, FP)
+    persist(
+        6,
+        pull_request_number=20,
+        outcome="accepted",
+        acceptance_basis="baseline",
+        baseline_id=1,
+        published_snapshot=SNAP,
+        published_fingerprint=FP,
+        differences=[],
+    )
 
     def listed(outcome, include_superseded=False):
         result = reviews.list_permission_reviews(

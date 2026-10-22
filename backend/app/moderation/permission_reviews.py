@@ -141,7 +141,8 @@ def list_permission_reviews(
     observation = models.PermissionAssessmentObservation
     newer = aliased(observation)
     query = select(observation).where(
-        observation.candidate_kind.in_(assessment.PR_CANDIDATE_KINDS)
+        observation.candidate_kind.in_(assessment.PR_CANDIDATE_KINDS),
+        observation.acceptance_basis.is_distinct_from("baseline"),
     )
     if outcome != "all":
         query = query.where(observation.outcome == outcome)
