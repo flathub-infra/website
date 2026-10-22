@@ -649,7 +649,6 @@ def test_update_zero_fills_trending_history_and_includes_last_date(monkeypatch):
         stats.update(object())
 
     assert captured["installs_over_days"] == [3] + [0] * 9 + [-2] + [0] * 9 + [9]
-    assert captured["is_new_app"] is True
     assert captured["icons_passed"] is False
 
 

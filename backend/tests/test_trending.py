@@ -18,13 +18,12 @@ from app.trending import calculate_trending_score as _calculate_trending_score
     "installs", [[0] * 20 + [100], [0] * 19 + [10, 20], [0] * 14 + [100] * 7]
 )
 @pytest.mark.parametrize("is_eol", [False, True])
-def test_new_apps_without_passing_icons_lose_ninety_percent(installs, is_eol):
+def test_apps_without_passing_icons_lose_ninety_percent(installs, is_eol):
     kwargs = {
         "installs_over_days": installs,
         "quality_passed_ratio": 1.0,
         "icon_quality_bonus": 5,
         "is_eol": is_eol,
-        "is_new_app": True,
     }
     passing_score = _calculate_trending_score(**kwargs, icons_passed=True)
     assert passing_score > 0
@@ -33,16 +32,15 @@ def test_new_apps_without_passing_icons_lose_ninety_percent(installs, is_eol):
     )
 
 
-def test_older_apps_are_not_penalized_for_icons():
+def test_older_apps_without_passing_icons_lose_ninety_percent():
     kwargs = {
         "installs_over_days": [10] * 14 + [100] * 7,
         "quality_passed_ratio": 0.5,
         "icon_quality_bonus": 2,
         "is_eol": False,
-        "is_new_app": False,
     }
-    assert _calculate_trending_score(**kwargs, icons_passed=False) == (
-        _calculate_trending_score(**kwargs, icons_passed=True)
+    assert _calculate_trending_score(**kwargs, icons_passed=False) == pytest.approx(
+        _calculate_trending_score(**kwargs, icons_passed=True) * 0.1
     )
 
 
@@ -52,7 +50,6 @@ def test_icon_penalty_does_not_improve_negative_scores():
         "quality_passed_ratio": 0.0,
         "icon_quality_bonus": 0,
         "is_eol": False,
-        "is_new_app": True,
     }
     passing_score = _calculate_trending_score(**kwargs, icons_passed=True)
     assert passing_score < 0
