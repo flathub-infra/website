@@ -1,6 +1,5 @@
 import { Metadata } from "next"
-import ModerationGuard from "src/components/moderation/ModerationGuard"
-import PermissionReviewList from "src/components/moderation/PermissionReviewList"
+import PermissionReviewsClient from "./permission-reviews-client"
 
 export const metadata: Metadata = {
   title: "Permission reviews",
@@ -8,9 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function PermissionReviewsPage() {
-  return (
-    <ModerationGuard>
-      <PermissionReviewList />
-    </ModerationGuard>
-  )
+  return <PermissionReviewsClient />
 }
