@@ -369,6 +369,36 @@ def test_discussion_excludes_permission_requests(discussion_api):
     } == {1: (url, True), 2: (url, True), 4: (None, True), 6: (None, False)}
 
 
+def test_discussion_opener_is_visible_only_to_moderators(discussion_api, monkeypatch):
+    api = discussion_api
+    api.login_as(1)
+    url = _discuss(api, 1, "Why?").json()["github_issue_url"]
+
+    def listing():
+        return {
+            item["id"]: (
+                item.get("discussion_url"),
+                item.get("discussion_opened_by"),
+                item.get("discussion_comment"),
+            )
+            for item in api.client.get(f"/moderation/apps/{APP_ID}").json()["requests"]
+        }
+
+    assert listing() == {
+        1: (url, "Moderator", "Why?"),
+        2: (url, "Moderator", "Why?"),
+        4: (None, None, None),
+    }
+
+    monkeypatch.setattr(models.FlathubUser, "dev_flatpaks", lambda self, db: {APP_ID})
+    api.login_as(2)
+    assert listing() == {
+        1: (url, None, None),
+        2: (url, None, None),
+        4: (None, None, None),
+    }
+
+
 def test_failed_discussion_steps_can_be_retried(discussion_api):
     api = discussion_api
     api.login_as(1)

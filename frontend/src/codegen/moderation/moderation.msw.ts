@@ -173,6 +173,14 @@ export const getGetModerationAppModerationAppsAppIdGetResponseMock = (
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
+    discussion_comment: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    discussion_opened_by: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
     can_open_discussion: faker.datatype.boolean(),
   })),
   requests_count: faker.number.int(),

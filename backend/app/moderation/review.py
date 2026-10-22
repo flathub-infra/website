@@ -16,7 +16,7 @@ from github import Github, GithubException
 from pydantic import AfterValidator, BaseModel, model_validator
 from sqlalchemy import Table, func, not_, or_
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, aliased
 
 from .. import (
     audit_log,
@@ -333,6 +333,8 @@ class ModerationRequestResponse(BaseModel):
     is_approved: bool | None = None
     comment: str | None = None
     discussion_url: str | None = None
+    discussion_comment: str | None = None
+    discussion_opened_by: str | None = None
     can_open_discussion: bool
 
 
@@ -563,13 +565,17 @@ def get_moderation_app(
 
     with get_db("replica") as db:
         user = db.session.merge(login.user)
-        if "moderation" not in user.permissions() and app_id not in user.dev_flatpaks(
-            db
-        ):
+        is_moderator = "moderation" in user.permissions()
+        if not is_moderator and app_id not in user.dev_flatpaks(db):
             raise HTTPException(status_code=403, detail="forbidden")
 
+        discussion_opener = aliased(models.FlathubUser)
         query = (
-            db.session.query(models.ModerationRequest, models.FlathubUser.display_name)
+            db.session.query(
+                models.ModerationRequest,
+                models.FlathubUser.display_name,
+                discussion_opener.display_name,
+            )
             .filter_by(appid=app_id)
             .filter(models.ModerationRequest.is_observation.is_(False))
             .order_by(models.ModerationRequest.created_at.desc())
@@ -589,7 +595,15 @@ def get_moderation_app(
             if not include_outdated:
                 query = query.filter_by(is_outdated=False)
 
-        query = query.join(models.FlathubUser, isouter=True)
+        query = query.join(
+            models.FlathubUser,
+            models.FlathubUser.id == models.ModerationRequest.handled_by,
+            isouter=True,
+        ).join(
+            discussion_opener,
+            discussion_opener.id == models.ModerationRequest.discussion_opened_by,
+            isouter=True,
+        )
         can_open_discussion = (
             bool(config.settings.github_bot_token)
             and models.DirectUploadApp.by_app_id(db, app_id) is None
@@ -600,7 +614,7 @@ def get_moderation_app(
 
         # Execute the query and process results within the session
         results = []
-        for row, handled_by_name in query:
+        for row, handled_by_name, discussion_opened_by_name in query:
             results.append(
                 ModerationRequestResponse(
                     id=row.id,
@@ -618,6 +632,10 @@ def get_moderation_app(
                     is_new_submission=row.is_new_submission,
                     created_at=row.created_at,
                     discussion_url=row.discussion_url,
+                    discussion_comment=row.discussion_comment if is_moderator else None,
+                    discussion_opened_by=discussion_opened_by_name
+                    if is_moderator
+                    else None,
                     can_open_discussion=can_open_discussion
                     and row.request_type != ModerationRequestType.PERMISSIONS,
                 )
@@ -2408,6 +2426,7 @@ def submit_discussion(
         if existing is not None:
             discussion_url = existing.discussion_url
             discussion_comment = existing.discussion_comment
+            discussion_opened_by = existing.discussion_opened_by
         else:
             if not config.settings.github_bot_token:
                 raise HTTPException(status_code=503, detail="discussion_unavailable")
@@ -2428,11 +2447,13 @@ def submit_discussion(
                 )
             discussion_url = issue.html_url
             discussion_comment = discussion.comment
+            discussion_opened_by = _moderator.user.id
 
         for row in pending:
             if row.discussion_url is None:
                 row.discussion_url = discussion_url
                 row.discussion_comment = discussion_comment
+                row.discussion_opened_by = discussion_opened_by
 
         appid = request.appid
         build_id = request.build_id

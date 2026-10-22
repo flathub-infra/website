@@ -360,6 +360,9 @@ export const DiscussionFlow: StoryObj<typeof AppModeration> = {
               ),
               created_at: "2024-01-01T00:00:00",
               discussion_url: savedDiscussionUrl,
+              discussion_opened_by: savedDiscussionUrl && "Jane Doe",
+              discussion_comment:
+                savedDiscussionUrl && "Please explain why this source changed.",
             })),
             requests_count: 2,
           })
@@ -431,6 +434,12 @@ export const DiscussionFlow: StoryObj<typeof AppModeration> = {
     await expect(
       await canvas.findByRole("link", { name: "View discussion" }),
     ).toHaveAttribute("href", discussionIssueUrl)
+    await expect(
+      await canvas.findByText("Discussion opened by Jane Doe"),
+    ).toBeInTheDocument()
+    await expect(
+      canvas.getByText("Please explain why this source changed."),
+    ).toBeInTheDocument()
     await expect(discussionBodies).toEqual([
       { comment: "Please explain why this source changed." },
     ])

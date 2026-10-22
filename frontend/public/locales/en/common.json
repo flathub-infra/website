@@ -248,6 +248,7 @@
   "moderation-build-id": "Build ID",
   "moderation-build-log": "Build log",
   "moderation-view-discussion": "View discussion",
+  "moderation-discussion-opened-by": "Discussion opened by {openedBy}",
   "moderation-permissions-pull-request-review": "Pull request permission review",
   "moderation-permissions-title": "Permissions",
   "moderation-permissions-pull-request": "Pull request",

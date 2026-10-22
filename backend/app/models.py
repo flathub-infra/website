@@ -2369,6 +2369,7 @@ class ModerationRequest(Base):
     build_log_url = mapped_column(String)
     discussion_url = mapped_column(String)
     discussion_comment = mapped_column(String)
+    discussion_opened_by = mapped_column(Integer, ForeignKey(FlathubUser.id))
 
     __table_args__ = (
         Index(

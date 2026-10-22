@@ -3174,7 +3174,10 @@ class EndpointQuery:
         if self.entities and self.entities[0] is models.ModerationRequest:
             if len(self.entities) == 1:
                 return requests
-            return [(request, "Moderator") for request in requests]
+            return [
+                (request, *["Moderator"] * (len(self.entities) - 1))
+                for request in requests
+            ]
         has_actionable_filter = any(
             getattr(getattr(criterion, "left", None), "key", None) == "is_observation"
             and (

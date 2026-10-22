@@ -67,19 +67,21 @@ const ReviewCard: FunctionComponent<Props> = ({
       submitDiscussionModerationRequestsIdDiscussionPost(request.id, body, {
         withCredentials: true,
       }),
-    onSuccess: () => {
-      setModal(null)
-      setComment(undefined)
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
         queryKey: ["moderation", request.app_id],
       })
+      setModal(null)
+      setComment(undefined)
     },
   })
 
+  const discussionRequest = requests.find(
+    (groupedRequest) => groupedRequest.discussion_url,
+  )
   const discussionUrl =
     discussionMutation.data?.data.github_issue_url ??
-    requests.find((groupedRequest) => groupedRequest.discussion_url)
-      ?.discussion_url
+    discussionRequest?.discussion_url
 
   const confirm = () => {
     mutation.mutate({ approve: false, comment: comment })
@@ -318,7 +320,23 @@ const ReviewCard: FunctionComponent<Props> = ({
 
         <div className="mt-6 border-t border-flathub-gainsborow pt-6 dark:border-flathub-dark-gunmetal">
           {discussionUrl && (
-            <div className="mb-3 flex sm:justify-end">
+            <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div className="text-sm">
+                {discussionRequest?.discussion_opened_by && (
+                  <>
+                    <div>
+                      {t("moderation-discussion-opened-by", {
+                        openedBy: discussionRequest.discussion_opened_by,
+                      })}
+                    </div>
+                    {discussionRequest.discussion_comment && (
+                      <blockquote className="mt-2 border-s-4 border-flathub-sonic-silver ps-2">
+                        {discussionRequest.discussion_comment}
+                      </blockquote>
+                    )}
+                  </>
+                )}
+              </div>
               <Button
                 asChild
                 size="lg"
