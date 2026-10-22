@@ -52,8 +52,8 @@ importers:
         specifier: ^9.17.0
         version: 9.17.0
       '@tanstack/charts':
-        specifier: ^1.0.0
-        version: 1.0.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: ^1.1.0
+        version: 1.1.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@tanstack/react-query':
         specifier: ^5.102.2
         version: 5.102.2(react@19.3.1)
@@ -3865,8 +3865,8 @@ packages:
       csstype:
         optional: true
 
-  '@tanstack/charts@1.0.0':
-    resolution: {integrity: sha512-4U+zbn5jzQF8MNDsvjMG7TE4Fv68mfIIiFlFmrWiBIHor8zCX+7W8gpyDcT1SYJYvOIZXv3uxbK/IjwGY40Sig==}
+  '@tanstack/charts@1.1.0':
+    resolution: {integrity: sha512-0mb05yZMrBUzjHBohcKtK1XcTKJH9b8LS2uT0iYjDiLU+QR2jo0hrUJramAgg/AfBLMu2DY5fOgKe5bsqd6z4Q==}
     peerDependencies:
       '@angular/core': '>=19'
       '@angular/platform-browser': '>=19'
@@ -4028,8 +4028,8 @@ packages:
   '@types/d3-shape@1.3.12':
     resolution: {integrity: sha512-8oMzcd4+poSLGgV0R1Q1rOlx/xdmozS4Xab7np0eamFFUYq71AU9pOCJEFnkXW2aI/oXdVYJzw6pssbSut7Z9Q==}
 
-  '@types/d3-shape@3.1.8':
-    resolution: {integrity: sha512-lae0iWfcDeR7qt7rA88BNiqdvPS5pFVPpo5OfjElwNaT2yyekbM0C9vK+yqBqEmHr6lDkRnYNoTBYlAgJa7a4w==}
+  '@types/d3-shape@3.2.0':
+    resolution: {integrity: sha512-kVd74ta9eof3eJOvbNd1vGKS/XERRyQbT26Og63hIsvDO84cjD5gEOhsXf26w3FSoNlPVz84DOFcKv/oou+fMw==}
 
   '@types/d3-time@3.0.4':
     resolution: {integrity: sha512-yuzZug1nkAAaBlBBikKZTgzCeA+k1uy4ZFwWANOfKw5z5LRhV0gNA7gNkKm7HoK+HRN0wX3EkxGk0fpbWhmB7g==}
@@ -10811,13 +10811,13 @@ snapshots:
       - preact
       - react
 
-  '@tanstack/charts@1.0.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@tanstack/charts@1.1.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       '@types/d3-force': 3.0.10
       '@types/d3-geo': 3.1.1
       '@types/d3-hierarchy': 3.1.7
       '@types/d3-sankey': 0.12.5
-      '@types/d3-shape': 3.1.8
+      '@types/d3-shape': 3.2.0
       d3-array: 3.2.4
       d3-brush: 3.0.0
       d3-contour: 4.0.2
@@ -10975,7 +10975,7 @@ snapshots:
     dependencies:
       '@types/d3-path': 1.0.11
 
-  '@types/d3-shape@3.1.8':
+  '@types/d3-shape@3.2.0':
     dependencies:
       '@types/d3-path': 3.1.1
 
