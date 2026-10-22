@@ -714,7 +714,6 @@ def update(sqldb):
             quality_passed_ratio=quality_passed_ratio,
             icon_quality_bonus=icon_quality_passed_count_batch.get(app_id, 0),
             is_eol=is_eol,
-            is_new_app=len(stats_dict_for_app) <= 14,
             icons_passed=icon_status_batch.get(app_id, False),
         )
 

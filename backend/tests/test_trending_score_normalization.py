@@ -16,6 +16,7 @@ def score(history, *, quality=0.0, icon_quality=0, is_eol=False):
         quality_passed_ratio=quality,
         icon_quality_bonus=icon_quality,
         is_eol=is_eol,
+        icons_passed=True,
     )
 
 

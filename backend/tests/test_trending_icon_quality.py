@@ -21,6 +21,7 @@ def _score(history, *, quality=0.0, icon_quality=0):
         quality_passed_ratio=quality,
         icon_quality_bonus=icon_quality,
         is_eol=False,
+        icons_passed=True,
     )
 
 
@@ -61,6 +62,7 @@ def test_icon_quality_increases_positive_momentum(icon_quality_bonus):
         quality_passed_ratio=0.0,
         icon_quality_bonus=0,
         is_eol=False,
+        icons_passed=True,
     )
 
     score = trending.calculate_trending_score(
@@ -68,6 +70,7 @@ def test_icon_quality_increases_positive_momentum(icon_quality_bonus):
         quality_passed_ratio=0.0,
         icon_quality_bonus=icon_quality_bonus,
         is_eol=False,
+        icons_passed=True,
     )
 
     assert baseline <= score <= baseline * 1.025
