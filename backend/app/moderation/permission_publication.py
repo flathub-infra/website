@@ -181,6 +181,39 @@ def _evaluate(
     return data
 
 
+def _decided(
+    build_id: int, app_id: str, channel: str, build_extended: dict[str, Any]
+) -> bool:
+    arches = sorted({p[2] for p in _refs(build_extended) if p[1] == app_id})
+    try:
+        candidate = assessment.collect_final_candidate(
+            build_id, app_id, channel, arches, [], []
+        )
+    except (PermissionSnapshotError, HTTPException):
+        return False
+    fingerprint = fingerprint_snapshot(candidate.snapshot)
+    observation = models.PermissionAssessmentObservation
+    decision = models.PermissionDecision
+    with get_db("writer") as db:
+        latest = db.session.execute(
+            select(decision.decision)
+            .join(observation, observation.id == decision.assessment_id)
+            .where(
+                observation.app_id == app_id,
+                observation.intended_channel == channel,
+                observation.flatpak_branch == candidate.flatpak_branch,
+                observation.canonicalization_version == CANONICALIZATION_VERSION,
+                observation.fingerprint == fingerprint,
+                decision.decision != "skipped",
+            )
+            .order_by(decision.id.desc())
+            .limit(1)
+        ).scalar_one_or_none()
+    if latest is not None:
+        return latest == "approved"
+    return assessment.cross_channel_basis(app_id, channel, fingerprint) is not None
+
+
 def check_build(
     *,
     build_id: int,
@@ -198,6 +231,9 @@ def check_build(
     for app_id in filter(lambda app_id: not should_skip_review(app_id), app_ids):
         push = _linked_push(build_id, app_id, repo)
         if push is None:
+            if repo == "stable" and _decided(build_id, app_id, repo, build_extended):
+                logger.info("Publication permissions %s: decided", app_id)
+                handled.add(app_id)
             continue
         if (existing := _existing_request(build_id, job_id, app_id)) is not None:
             handled.add(app_id)

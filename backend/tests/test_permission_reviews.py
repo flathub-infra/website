@@ -365,6 +365,19 @@ def test_publication_leaves_builds_without_pull_request_to_build_moderation(
     assert publish() == ([], set(), False)
 
 
+@pytest.mark.parametrize(
+    ("decisions", "handled"),
+    [(["approved"], {APP}), (["approved", "rejected"], set())],
+)
+def test_publication_applies_decision_before_push_assessment(
+    db, publish, decisions, handled
+):
+    set_baseline(db, OLD_SNAP, OLD_FP)
+    for n, decision in enumerate(decisions, 1):
+        decide(persist(n).assessment_id, decision, rationale="No")
+    assert publish() == ([], handled, False)
+
+
 def test_publication_accepts_matching_baseline(db, publish):
     set_baseline(db, SNAP, FP)
     persist(1, candidate_kind="push")
