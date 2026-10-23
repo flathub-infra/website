@@ -2,7 +2,7 @@ import {
   PHASE_DEVELOPMENT_SERVER,
   PHASE_PRODUCTION_BUILD,
 } from "next/constants"
-import { withSentryConfig } from "@sentry/nextjs"
+import { withSentryConfig } from "@sentry/nextjs/config"
 import createNextIntlPlugin from "next-intl/plugin"
 import { NextConfig } from "next"
 
