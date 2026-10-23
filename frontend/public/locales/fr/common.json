@@ -483,7 +483,9 @@
     "dark": "Sombre",
     "failing-x-checks": "Échec de {count, plural, one {# vérification} other {# vérifications}}",
     "general-runtime-not-eol": "Environnement d'exécution sous prise en charge",
-    "stats-by-category": "Statut d'examen de directives par catégorie"
+    "stats-by-category": "Statut d'examen de directives par catégorie",
+    "last-edited": "Modifiée par {editor} · {time}",
+    "system-editor": "Système"
   },
   "app-listing-quality": "Qualité de référencement de l'application",
   "issued-to": "Délivré à",
@@ -544,7 +546,8 @@
     "title": "Portail développeurs",
     "runtime-version": "Environnement d'exécution : {version}",
     "downloads-last-month": "Téléchargements du mois dernier",
-    "downloads-last-month-count": "Téléchargements du mois dernier : {count}"
+    "downloads-last-month-count": "Téléchargements du mois dernier : {count}",
+    "downloads-unavailable": "Les totaux des téléchargements sont temporairement indisponibles."
   },
   "trending": "Tendances",
   "special-license-explanation": "Cette application est développée sous la licence spéciale <bold>{ license }</bold>.",
@@ -855,7 +858,32 @@
     "works-well-on-large-screens": "Fonctionne bien sur les grands écrans",
     "mobile-display-support-unknown": "Pas assez d’informations pour savoir si les petits écrans sont pris en charge",
     "desktop-display-support-unknown": "Pas assez d’informations pour savoir si les grands écrans sont pris en charge",
-    "keyboards": "claviers"
+    "keyboards": "claviers",
+    "pointing-devices": "souris ou dispositifs de pointage"
   },
-  "reauth-title": "Confirmez que c’est vous"
+  "reauth-title": "Confirmez que c’est vous",
+  "danger-zone-confirmation": {
+    "switch": {
+      "warning-title": "Ce changement ne peut pas être annulé"
+    },
+    "archive": {
+      "warning-title": "L’archivage affecte cette app et ses éditeurs",
+      "warning-eol": "L’app sera marquée fin de vie en utilisant le message ci-dessous.",
+      "acknowledgment": "Je comprends les effets de l’archivage de <app>{app_id}</app>"
+    }
+  },
+  "user-login-heading": "Se connecter à Flathub",
+  "user-login-intro": "Saisissez votre adresse e-mail et nous vous enverrons un lien de connexion. Aucun mot de passe n’est requis.",
+  "user-login-unavailable": "La connexion par e-mail est actuellement indisponible. Veuillez réessayer ultérieurement.",
+  "email-login-sending": "Envoi …",
+  "email-login-resend-in": "Ré-envoi disponible dans {seconds}s",
+  "email-login-check-your-inbox": "Si l’adresse est valide, un lien de connexion est en route. Il expire dans 15 minutes. Si vous avez créé votre compte avec GitHub, GitLab, GNOME ou KDE, connectez-vous plutôt avec ce fournisseur.",
+  "email-login-sign-in": "Se connecter",
+  "email-login-invalid-or-expired": "Ce lien de connexion est invalide ou a expiré. Demandez-en un nouveau pour continuer.",
+  "email-login-request-new-link": "Retournez à la page de connexion pour demander un nouveau lien.",
+  "email-login-rate-limited": "Trop de tentatives. Veuillez attendre une minute puis réessayer.",
+  "email-login-session-conflict": "Vous êtes déjà connecté(e) en tant qu’utilisateur différent dans ce navigateur. Déconnectez-vous d’abord si vous souhaitez utiliser ce lien.",
+  "email-login-oauth-upgrade-required": "Cette action nécessite un compte fournisseur. Lier GitHub, GitLab, GNOME ou KDE dans les paramètres pour continuer.",
+  "verified-email": "E-mail vérifié",
+  "email-login-replaced": "La connexion par e-mail a été définitivement remplacée par la connexion par fournisseur pour ce compte."
 }

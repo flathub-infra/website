@@ -974,5 +974,6 @@
   "moderation-permissions-title": "Povolenia",
   "moderation-permissions-pull-request": "Pull request",
   "moderation-permissions-compared-with": "Porovnané s: {source}",
-  "moderation-permissions-changed-count": "{count, plural, one {# zmenené povolenie} few {# zmenené povolenia} other {# zmenených povolení}}"
+  "moderation-permissions-changed-count": "{count, plural, one {# zmenené povolenie} few {# zmenené povolenia} other {# zmenených povolení}}",
+  "moderation-discussion-opened-by": "Diskusiu otvoril používateľ {openedBy}"
 }

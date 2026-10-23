@@ -974,5 +974,6 @@
   "moderation-permissions-title": "权限",
   "moderation-permissions-pull-request": "拉取请求",
   "moderation-permissions-compared-with": "对照方：{source}",
-  "moderation-permissions-changed-count": "{count, plural, one {# 个更改的权限} other {# 个更改的权限}}"
+  "moderation-permissions-changed-count": "{count, plural, one {# 个更改的权限} other {# 个更改的权限}}",
+  "moderation-discussion-opened-by": "{openedBy} 开启的讨论"
 }

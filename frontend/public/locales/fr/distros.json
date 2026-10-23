@@ -149,6 +149,9 @@
     "step-4": {
       "name": "Redémarer",
       "text": "<text>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <link>installer des applications</link> !</text>"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar"
     }
   },
   "alt_linux": {
