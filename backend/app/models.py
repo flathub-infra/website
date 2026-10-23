@@ -2365,6 +2365,7 @@ class ModerationRequest(Base):
     handled_at = mapped_column(DateTime, index=True)
     is_approved = mapped_column(Boolean)
     comment = mapped_column(String)
+    internal_comment = mapped_column(String)
 
     build_log_url = mapped_column(String)
     discussion_url = mapped_column(String)

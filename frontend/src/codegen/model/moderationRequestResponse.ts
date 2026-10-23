@@ -11,6 +11,7 @@ import type { ModerationRequestResponseDiscussionOpenedBy } from "./moderationRe
 import type { ModerationRequestResponseDiscussionUrl } from "./moderationRequestResponseDiscussionUrl"
 import type { ModerationRequestResponseHandledAt } from "./moderationRequestResponseHandledAt"
 import type { ModerationRequestResponseHandledBy } from "./moderationRequestResponseHandledBy"
+import type { ModerationRequestResponseInternalComment } from "./moderationRequestResponseInternalComment"
 import type { ModerationRequestResponseIsApproved } from "./moderationRequestResponseIsApproved"
 import type { ModerationRequestResponseRequestData } from "./moderationRequestResponseRequestData"
 import type { ModerationRequestType } from "./moderationRequestType"
@@ -30,6 +31,7 @@ export interface ModerationRequestResponse {
   handled_at?: ModerationRequestResponseHandledAt
   is_approved?: ModerationRequestResponseIsApproved
   comment?: ModerationRequestResponseComment
+  internal_comment?: ModerationRequestResponseInternalComment
   discussion_url?: ModerationRequestResponseDiscussionUrl
   discussion_comment?: ModerationRequestResponseDiscussionComment
   discussion_opened_by?: ModerationRequestResponseDiscussionOpenedBy

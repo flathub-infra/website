@@ -5,8 +5,10 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { ReviewComment } from "./reviewComment"
+import type { ReviewInternalComment } from "./reviewInternalComment"
 
 export interface Review {
   approve: boolean
   comment?: ReviewComment
+  internal_comment?: ReviewInternalComment
 }

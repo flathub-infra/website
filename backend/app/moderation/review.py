@@ -332,6 +332,7 @@ class ModerationRequestResponse(BaseModel):
     handled_at: datetime | None = None
     is_approved: bool | None = None
     comment: str | None = None
+    internal_comment: str | None = None
     discussion_url: str | None = None
     discussion_comment: str | None = None
     discussion_opened_by: str | None = None
@@ -628,6 +629,7 @@ def get_moderation_app(
                     handled_by=handled_by_name,
                     handled_at=row.handled_at if row.handled_at else None,
                     comment=row.comment,
+                    internal_comment=row.internal_comment if is_moderator else None,
                     is_outdated=row.is_outdated,
                     is_new_submission=row.is_new_submission,
                     created_at=row.created_at,
@@ -2107,6 +2109,7 @@ def _send_held_emails(build_id: int, email_requests: list[dict[str, Any]]) -> No
 class Review(BaseModel):
     approve: bool
     comment: str | None = None
+    internal_comment: str | None = None
 
     @model_validator(mode="after")
     def reject_requires_comment(self):
@@ -2238,6 +2241,7 @@ def submit_review(
             grouped_request.handled_by = login.user.id
             grouped_request.handled_at = func.now()
             grouped_request.comment = review.comment
+            grouped_request.internal_comment = review.internal_comment
 
         job_id = request.job_id
         build_id = request.build_id

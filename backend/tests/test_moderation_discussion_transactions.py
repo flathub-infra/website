@@ -399,6 +399,36 @@ def test_discussion_opener_is_visible_only_to_moderators(discussion_api, monkeyp
     }
 
 
+def test_internal_comment_is_visible_only_to_moderators(discussion_api, monkeypatch):
+    api = discussion_api
+    api.login_as(1)
+
+    response = api.client.post(
+        "/moderation/requests/2/review",
+        json={"approve": False, "comment": "No", "internal_comment": "Secret"},
+    )
+
+    assert response.status_code == 200
+    ((_title, body),) = api.github.issues
+    (email,) = api.calls.emails
+    assert "Secret" not in body
+    assert "Secret" not in json.dumps(email)
+
+    def listing():
+        return {
+            item["id"]: item.get("internal_comment")
+            for item in api.client.get(
+                f"/moderation/apps/{APP_ID}?include_handled=true"
+            ).json()["requests"]
+        }
+
+    assert listing() == {1: "Secret", 2: "Secret", 4: None}
+
+    monkeypatch.setattr(models.FlathubUser, "dev_flatpaks", lambda self, db: {APP_ID})
+    api.login_as(2)
+    assert listing() == {1: None, 2: None, 4: None}
+
+
 def test_failed_discussion_steps_can_be_retried(discussion_api):
     api = discussion_api
     api.login_as(1)

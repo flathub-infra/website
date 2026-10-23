@@ -43,6 +43,7 @@ const ReviewCard: FunctionComponent<Props> = ({
   const queryClient = useQueryClient()
   const [modal, setModal] = useState<"discuss" | null>(null)
   const [reviewComment, setReviewComment] = useState("")
+  const [internalComment, setInternalComment] = useState("")
 
   const [comment, setComment] = useState<string | undefined>(undefined)
   const [issueUrl, setIssueUrl] = useState<string>()
@@ -51,7 +52,11 @@ const ReviewCard: FunctionComponent<Props> = ({
 
   const mutation = useMutation({
     mutationKey: ["review", request.id],
-    mutationFn: (body: { approve: boolean; comment: string | null }) =>
+    mutationFn: (body: {
+      approve: boolean
+      comment: string | null
+      internal_comment: string | null
+    }) =>
       submitReviewModerationRequestsIdReviewPost(request.id, body, {
         withCredentials: true,
       }),
@@ -86,7 +91,11 @@ const ReviewCard: FunctionComponent<Props> = ({
     discussionRequest?.discussion_url
 
   const decide = (approve: boolean) => {
-    mutation.mutate({ approve, comment: reviewComment.trim() || null })
+    mutation.mutate({
+      approve,
+      comment: reviewComment.trim() || null,
+      internal_comment: internalComment.trim() || null,
+    })
   }
 
   const confirmDiscussion = () => {
@@ -148,6 +157,14 @@ const ReviewCard: FunctionComponent<Props> = ({
             {request.comment}
           </blockquote>
         )}
+        {request.internal_comment && (
+          <div className="mt-2 text-sm">
+            <div>Internal note</div>
+            <blockquote className="mt-1 border-s-4 border-flathub-sonic-silver ps-2">
+              {request.internal_comment}
+            </blockquote>
+          </div>
+        )}
       </div>
     )
   } else if (
@@ -155,22 +172,39 @@ const ReviewCard: FunctionComponent<Props> = ({
     user.info.permissions.some((a) => a === Permission.moderation)
   ) {
     reviewForm = (
-      <Field className="mb-3">
-        <FieldLabel htmlFor={`review-comment-${request.id}`}>
-          Review comment
-        </FieldLabel>
-        <Textarea
-          id={`review-comment-${request.id}`}
-          className="min-h-32"
-          value={reviewComment}
-          aria-describedby={`review-comment-help-${request.id}`}
-          onChange={(e) => setReviewComment(e.target.value)}
-        />
-        <FieldDescription id={`review-comment-help-${request.id}`}>
-          Sent to the developers with the decision. Required to reject; optional
-          to approve.
-        </FieldDescription>
-      </Field>
+      <div className="mb-3 flex flex-col gap-3">
+        <Field>
+          <FieldLabel htmlFor={`review-comment-${request.id}`}>
+            Review comment
+          </FieldLabel>
+          <Textarea
+            id={`review-comment-${request.id}`}
+            className="min-h-32"
+            value={reviewComment}
+            aria-describedby={`review-comment-help-${request.id}`}
+            onChange={(e) => setReviewComment(e.target.value)}
+          />
+          <FieldDescription id={`review-comment-help-${request.id}`}>
+            Sent to the developers with the decision. Required to reject;
+            optional to approve.
+          </FieldDescription>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor={`internal-comment-${request.id}`}>
+            Internal note
+          </FieldLabel>
+          <Textarea
+            id={`internal-comment-${request.id}`}
+            className="min-h-20"
+            value={internalComment}
+            aria-describedby={`internal-comment-help-${request.id}`}
+            onChange={(e) => setInternalComment(e.target.value)}
+          />
+          <FieldDescription id={`internal-comment-help-${request.id}`}>
+            Visible only to moderators. Optional.
+          </FieldDescription>
+        </Field>
+      </div>
     )
     buttons = (
       <>
