@@ -650,6 +650,7 @@
   "get-involved": "Get involved",
   "links": "Links",
   "no-network-access": "No network access",
+  "no-network-access-description": "This app does not have access to the network.",
   "system-folder-x": "System folder {folder}",
   "home-subfolder-x": "Home subfolder {folder}",
   "host-system-folders": "Host system folders",
