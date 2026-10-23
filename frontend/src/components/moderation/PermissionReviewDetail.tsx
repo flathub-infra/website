@@ -38,7 +38,11 @@ import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import PermissionDiffTable from "./PermissionDiffTable"
 import OutcomeBadge from "./PermissionOutcomeBadge"
-import { reviewListFilters, reviewListQuery } from "./PermissionReviewList"
+import {
+  reviewListFilters,
+  reviewListQuery,
+  usePermissionReviewSync,
+} from "./PermissionReviewList"
 import {
   permissionReviewSurface,
   permissionReviewTheme,
@@ -65,7 +69,13 @@ const Section = ({
   </Card>
 )
 
-const DecisionForm = ({ review }: { review: Review }) => {
+const DecisionForm = ({
+  review,
+  onDecided,
+}: {
+  review: Review
+  onDecided: () => void
+}) => {
   const queryClient = useQueryClient()
   const [rationale, setRationale] = useState("")
   const [error, setError] = useState<string>()
@@ -77,6 +87,7 @@ const DecisionForm = ({ review }: { review: Review }) => {
         mutation: {
           onSuccess: () => {
             setRationale("")
+            onDecided()
             return queryClient.invalidateQueries()
           },
           onError: (e) => {
@@ -218,6 +229,7 @@ export default function PermissionReviewDetail({
 }) {
   const t = useTranslations()
   const searchParams = useSearchParams()
+  const notifyDecision = usePermissionReviewSync()
   const query =
     useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet(
       assessmentId,
@@ -348,7 +360,11 @@ export default function PermissionReviewDetail({
         </div>
         <div className="min-w-0 lg:col-span-3">
           <Section title="Review">
-            <DecisionForm key={review.assessment_id} review={review} />
+            <DecisionForm
+              key={review.assessment_id}
+              review={review}
+              onDecided={notifyDecision}
+            />
           </Section>
         </div>
       </div>

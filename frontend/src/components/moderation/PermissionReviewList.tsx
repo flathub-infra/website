@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect, useRef } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
 import { useSearchParams } from "next/navigation"
 import { ArrowUpRight, ExternalLink } from "lucide-react"
@@ -55,6 +57,18 @@ export const reviewListFilters = (searchParams: URLSearchParams) => ({
 export const reviewListQuery = (searchParams: URLSearchParams) =>
   searchParams.size ? `?${searchParams}` : ""
 
+export const usePermissionReviewSync = () => {
+  const queryClient = useQueryClient()
+  const channel = useRef<BroadcastChannel>(null)
+  useEffect(() => {
+    const current = new BroadcastChannel("permission-reviews")
+    current.onmessage = () => queryClient.invalidateQueries()
+    channel.current = current
+    return () => current.close()
+  }, [queryClient])
+  return () => channel.current?.postMessage(null)
+}
+
 export default function PermissionReviewList() {
   const t = useTranslations()
   const router = useRouter()
@@ -64,6 +78,7 @@ export default function PermissionReviewList() {
   const { outcome, includeSuperseded } = reviewListFilters(searchParams)
   const currentPage = parseInt(searchParams.get("page") ?? "1") || 1
 
+  usePermissionReviewSync()
   const query = useListPermissionReviewsModerationPermissionReviewsGet(
     {
       outcome,
