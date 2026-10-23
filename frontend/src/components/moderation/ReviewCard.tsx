@@ -17,6 +17,7 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
 import { Link, useRouter } from "src/i18n/navigation"
 import { ExternalLink, MessagesSquareIcon } from "lucide-react"
 
@@ -40,7 +41,8 @@ const ReviewCard: FunctionComponent<Props> = ({
     requests.find((groupedRequest) => !groupedRequest.handled_at) ?? requests[0]
 
   const queryClient = useQueryClient()
-  const [modal, setModal] = useState<"reject" | "discuss" | null>(null)
+  const [modal, setModal] = useState<"discuss" | null>(null)
+  const [reviewComment, setReviewComment] = useState("")
 
   const [comment, setComment] = useState<string | undefined>(undefined)
   const [issueUrl, setIssueUrl] = useState<string>()
@@ -49,7 +51,7 @@ const ReviewCard: FunctionComponent<Props> = ({
 
   const mutation = useMutation({
     mutationKey: ["review", request.id],
-    mutationFn: (body: { approve: boolean; comment?: string }) =>
+    mutationFn: (body: { approve: boolean; comment: string | null }) =>
       submitReviewModerationRequestsIdReviewPost(request.id, body, {
         withCredentials: true,
       }),
@@ -83,10 +85,8 @@ const ReviewCard: FunctionComponent<Props> = ({
     discussionMutation.data?.data.github_issue_url ??
     discussionRequest?.discussion_url
 
-  const confirm = () => {
-    mutation.mutate({ approve: false, comment: comment })
-    setModal(null)
-    setComment(undefined)
+  const decide = (approve: boolean) => {
+    mutation.mutate({ approve, comment: reviewComment.trim() || null })
   }
 
   const confirmDiscussion = () => {
@@ -104,6 +104,7 @@ const ReviewCard: FunctionComponent<Props> = ({
   }
 
   let buttons: ReactElement
+  let reviewForm: ReactElement | null = null
   if (mutation.isPending) {
     buttons = <Spinner size="m" />
   } else if (mutation.isError) {
@@ -153,16 +154,32 @@ const ReviewCard: FunctionComponent<Props> = ({
     user.info &&
     user.info.permissions.some((a) => a === Permission.moderation)
   ) {
+    reviewForm = (
+      <Field className="mb-3">
+        <FieldLabel htmlFor={`review-comment-${request.id}`}>
+          Review comment
+        </FieldLabel>
+        <Textarea
+          id={`review-comment-${request.id}`}
+          className="min-h-32"
+          value={reviewComment}
+          aria-describedby={`review-comment-help-${request.id}`}
+          onChange={(e) => setReviewComment(e.target.value)}
+        />
+        <FieldDescription id={`review-comment-help-${request.id}`}>
+          Sent to the developers with the decision. Required to reject; optional
+          to approve.
+        </FieldDescription>
+      </Field>
+    )
     buttons = (
       <>
         <Button
           size="lg"
           variant="destructive"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
-          disabled={discussionMutation.isPending}
-          onClick={() => {
-            setModal("reject")
-          }}
+          disabled={discussionMutation.isPending || !reviewComment.trim()}
+          onClick={() => decide(false)}
         >
           Reject
         </Button>
@@ -170,9 +187,7 @@ const ReviewCard: FunctionComponent<Props> = ({
           size="lg"
           className="inline-flex w-full justify-center px-3 py-2 sm:w-auto"
           disabled={discussionMutation.isPending}
-          onClick={() => {
-            mutation.mutate({ approve: true })
-          }}
+          onClick={() => decide(true)}
         >
           Approve
         </Button>
@@ -197,25 +212,6 @@ const ReviewCard: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Modal
-        shown={modal === "reject"}
-        title="Reject"
-        onClose={cancel}
-        cancelButton={{ onClick: cancel }}
-        submitButton={{
-          onClick: confirm,
-          label: "Reject",
-          disabled: !comment?.trim(),
-        }}
-      >
-        <Textarea
-          className="h-40"
-          value={comment}
-          placeholder="Comment"
-          onInput={(e) => setComment((e.target as HTMLTextAreaElement).value)}
-        />
-      </Modal>
-
       <Modal
         shown={modal === "discuss"}
         title="Open discussion"
@@ -351,6 +347,7 @@ const ReviewCard: FunctionComponent<Props> = ({
               </Button>
             </div>
           )}
+          {reviewForm}
           <div className="flex flex-col gap-3 sm:flex-row-reverse">
             {buttons}
           </div>

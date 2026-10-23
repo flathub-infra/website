@@ -228,7 +228,7 @@ export const DiscussionError: StoryObj<typeof ReviewCard> = {
       "https://github.com/flathub/tv.abc.TestApp/issues/7",
     )
     await expect(canvas.getByRole("button", { name: "Approve" })).toBeEnabled()
-    await expect(canvas.getByRole("button", { name: "Reject" })).toBeEnabled()
+    await expect(canvas.getByRole("button", { name: "Reject" })).toBeDisabled()
     await expect(
       canvas.queryByRole("button", { name: "Open discussion" }),
     ).toBeNull()
@@ -241,7 +241,7 @@ export const DirectUpload: StoryObj<typeof ReviewCard> = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     await expect(canvas.getByRole("button", { name: "Approve" })).toBeEnabled()
-    await expect(canvas.getByRole("button", { name: "Reject" })).toBeEnabled()
+    await expect(canvas.getByRole("button", { name: "Reject" })).toBeDisabled()
     await expect(
       canvas.queryByRole("button", { name: "Open discussion" }),
     ).toBeNull()

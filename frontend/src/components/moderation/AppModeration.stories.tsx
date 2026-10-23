@@ -446,12 +446,20 @@ export const DiscussionFlow: StoryObj<typeof AppModeration> = {
     await expect(
       canvas.queryByRole("button", { name: "Open discussion" }),
     ).toBeNull()
-    await expect(canvas.getByRole("button", { name: "Reject" })).toBeEnabled()
+    const reject = canvas.getByRole("button", { name: "Reject" })
+    await expect(reject).toBeDisabled()
+    await userEvent.type(canvas.getByLabelText("Review comment"), "   ")
+    await expect(reject).toBeDisabled()
+    await userEvent.clear(canvas.getByLabelText("Review comment"))
+    await userEvent.type(canvas.getByLabelText("Review comment"), "Looks good.")
+    await expect(reject).toBeEnabled()
 
     await userEvent.click(canvas.getByRole("button", { name: "Approve" }))
     await waitFor(() =>
       expect(canvas.queryByRole("button", { name: "Approve" })).toBeNull(),
     )
-    await expect(reviewBodies).toEqual([{ approve: true }])
+    await expect(reviewBodies).toEqual([
+      { approve: true, comment: "Looks good." },
+    ])
   },
 }
