@@ -605,6 +605,30 @@ def test_matching_baseline_accepts_candidate(
     assert row["published_snapshot"] == baseline["snapshot"]
 
 
+def test_first_beta_build_compares_with_stable_baseline(
+    test_branch_source, observed, monkeypatch
+):
+    baseline, _ = stored_baseline(monkeypatch, {"x86_64": NETWORK})
+    lookups = []
+
+    def lookup(app_id, channel, flatpak_branch):
+        lookups.append((channel, flatpak_branch))
+        return baseline if channel == "stable" else None
+
+    monkeypatch.setattr(assessment, "_stored_baseline", lookup)
+    monkeypatch.setattr(config.settings, "beta_repo_url", config.settings.repo_url)
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(
+            **request_body(destination_channel="beta", flatpak_branch="beta")
+        )
+    )
+    assert lookups == [("beta", "beta"), ("stable", "stable")]
+    assert response.outcome == "accepted"
+    assert response.acceptance_basis == "stable_baseline"
+    assert response.baseline_id == 12
+    assert observed[0]["published_fingerprint"] == baseline["fingerprint"]
+
+
 @needs_database
 def test_baseline_difference_needs_review_even_for_removals(
     test_branch_source, observed, monkeypatch

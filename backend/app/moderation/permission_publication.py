@@ -149,6 +149,10 @@ def _evaluate(
         )
         baseline = assessment._stored_baseline(
             app_id, channel, candidate.flatpak_branch
+        ) or (
+            assessment.stable_baseline(app_id, candidate.flatpak_branch)
+            if channel == "beta"
+            else None
         )
         if baseline is not None:
             if baseline["fingerprint"] == fingerprint:

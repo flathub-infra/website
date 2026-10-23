@@ -277,6 +277,13 @@ def _stored_baseline(
         }
 
 
+def stable_baseline(app_id: str, flatpak_branch: str) -> dict[str, Any] | None:
+    branch = (
+        "stable" if flatpak_branch == "beta" else flatpak_branch.removesuffix("beta")
+    )
+    return _stored_baseline(app_id, "stable", branch)
+
+
 def cross_channel_basis(app_id: str, channel: str, fingerprint: str) -> str | None:
     with get_db("writer") as db:
         if channel == "beta":
@@ -607,6 +614,7 @@ def assess_candidate(
     fingerprint: str | None = None
     published_fingerprint: str | None = None
     differences: list[_PermissionDifference] | None = None
+    from_stable = False
     error: PermissionSnapshotError | None = None
     try:
         if not request.matrix_succeeded:
@@ -631,13 +639,7 @@ def assess_candidate(
         baseline = _stored_baseline(
             request.app_id, request.destination_channel, request.flatpak_branch
         )
-        if baseline is not None:
-            comparison = PermissionSnapshot(**baseline["snapshot"])
-            comparison_artifacts = baseline["artifacts"]
-            published_fingerprint = fingerprint_snapshot(comparison)
-            if published_fingerprint != baseline["fingerprint"]:
-                _conflict("invalid_baseline", "Stored baseline fingerprint differs")
-        else:
+        if baseline is None:
             try:
                 published = collect_permissions(
                     repository_url=published_repo_url,
@@ -647,10 +649,19 @@ def assess_candidate(
             except PermissionSnapshotError as exc:
                 if exc.code != "missing_baseline":
                     raise
-            if published is not None:
-                comparison = published.snapshot
-                comparison_artifacts = [asdict(item) for item in published.artifacts]
-                published_fingerprint = fingerprint_snapshot(comparison)
+            if published is None and request.destination_channel == "beta":
+                baseline = stable_baseline(request.app_id, request.flatpak_branch)
+                from_stable = baseline is not None
+        if baseline is not None:
+            comparison = PermissionSnapshot(**baseline["snapshot"])
+            comparison_artifacts = baseline["artifacts"]
+            published_fingerprint = fingerprint_snapshot(comparison)
+            if published_fingerprint != baseline["fingerprint"]:
+                _conflict("invalid_baseline", "Stored baseline fingerprint differs")
+        elif published is not None:
+            comparison = published.snapshot
+            comparison_artifacts = [asdict(item) for item in published.artifacts]
+            published_fingerprint = fingerprint_snapshot(comparison)
         if comparison is not None:
             differences = [
                 {"path": item.path, "before": item.before, "after": item.after}
@@ -698,7 +709,7 @@ def assess_candidate(
         ).encode("utf-8")
     ).hexdigest()
     accepted = error is None and baseline is not None and differences == []
-    basis = "baseline" if accepted else None
+    basis = ("stable_baseline" if from_stable else "baseline") if accepted else None
     if error is None and not accepted and fingerprint is not None:
         basis = cross_channel_basis(
             request.app_id, request.destination_channel, fingerprint
