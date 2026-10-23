@@ -1,5 +1,4 @@
 {
-  "forum": "פורום",
   "about": "עלינו",
   "about-pagename": "על Flathub: חנות היישומים ללינוקס",
   "apps": "יישומים",
@@ -403,7 +402,6 @@
   "news": "חדשות",
   "reporting-issues-description": "אנו מתייחסים לדיווחי אבטחת מידע ונושאים משפטיים בכובד ראש",
   "scope-jobs": "הצגת מצב משימות",
-  "join-discourse-forum": "הצטרפות לפורום ה־Discourse",
   "developers-and-users": "מפתחים ומשתמשים",
   "download-press-kit": "הורדת ערכה לעיתונאים",
   "leave": "עזיבה",

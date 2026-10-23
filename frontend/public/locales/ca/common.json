@@ -2,7 +2,6 @@
   "go-home": "Torna a l'inici",
   "search-apps": "Cerca aplicacions",
   "publish": "Publicar",
-  "forum": "Fòrum",
   "about": "Quant a",
   "about-description": "El Flathub és el lloc per obtenir i distribuir aplicacions per a Linux. Està impulsat per Flatpak, que permet que les aplicacions del Flathub s'executin en gairebé qualsevol distribució de Linux.",
   "about-pagename": "Quant al Flathub: la botiga d'aplicacions de Linux",

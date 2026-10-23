@@ -1,6 +1,5 @@
 {
   "publish": "Апублікаваць",
-  "forum": "Форум",
   "about": "Пра Flathub",
   "about-pagename": "Пра Flathub: Крама праграм для Linux",
   "popular": "Папулярныя",
@@ -552,7 +551,6 @@
   "organizations-and-infrastructure": "Арганізацыі і інфраструктура",
   "get-in-touch": "Звяжыцеся з намі",
   "developers-and-users": "Распрацоўшчыкам і карыстальнікам",
-  "join-discourse-forum": "Далучайцеся да форуму Discourse",
   "press-description": "Мы заўжды рады адказаць на пытыанні і арганізаваць інтерв'ю з журналістамі ці тэхнічнымі пісьменнікамі",
   "chat-on-matrix": "Чат Matrix",
   "read-announcements": "Прачытаць аб'явы",

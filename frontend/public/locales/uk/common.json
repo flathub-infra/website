@@ -1,7 +1,6 @@
 {
   "go-home": "На головну",
   "search-apps": "Пошук застосунків",
-  "forum": "Форум",
   "about": "Про Flathub",
   "about-pagename": "Про Flathub: Крамниця застосунків для Linux",
   "popular": "Популярні",
@@ -544,7 +543,6 @@
   "reporting-issues-description": "Ми дуже серйозно ставимося до звітів про безпеку та юридичних питань",
   "organizations-and-infrastructure": "Організація та інфраструктура",
   "developers-and-users-block": "Зв'яжіться з командою та іншими учасниками спільноти, щоб поставити запитання та поділитися своїм досвідом",
-  "join-discourse-forum": "Приєднуйтеся до форуму Discourse",
   "chat-on-matrix": "Кімната Matrix",
   "read-announcements": "Читати оголошення",
   "download-press-kit": "Завантажити прескіт",

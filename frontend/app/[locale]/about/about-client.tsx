@@ -279,14 +279,6 @@ const GetInTouch = () => {
         </h3>
         <p className="sm:row-start-2">{t("developers-and-users-block")}</p>
         <div className="sm:row-start-3 flex flex-col gap-3">
-          <a
-            href="https://discourse.flathub.org"
-            target="_blank"
-            rel="noreferrer"
-            className="no-underline hover:underline"
-          >
-            {t("join-discourse-forum")}
-          </a>
           <div>
             <a
               href="https://matrix.to/#/#flathub:matrix.org"

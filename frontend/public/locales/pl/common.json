@@ -1,7 +1,6 @@
 {
   "search-apps": "Szukaj aplikacji",
   "publish": "Opublikuj",
-  "forum": "Forum",
   "popular": "Popularne",
   "rss-feeds": "Kanał RSS",
   "community": "Społeczność",
@@ -551,7 +550,6 @@
   "get-in-touch": "Skontaktuj się z nami",
   "developers-and-users": "Twórcy i użytkownicy",
   "developers-and-users-block": "Skontaktuj się z zespołem i innymi członkami społeczności, aby zadawać pytania i dzielić się swoją wiedzą",
-  "join-discourse-forum": "Dołącz do forum Discourse",
   "chat-on-matrix": "Rozmawiaj na Matrix",
   "press-description": "Zawsze chętnie odpowiadamy na pytania i przeprowadzamy wywiady z dziennikarzami i autorami tekstów technicznych",
   "read-announcements": "Przeczytaj ogłoszenia",

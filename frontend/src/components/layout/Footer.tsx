@@ -58,14 +58,6 @@ const Footer = () => {
           <div className="flex flex-col sm:space-y-3">
             <a
               className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
-              href="https://discourse.flathub.org/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              {t("forum")}
-            </a>
-            <a
-              className="flex h-12 items-center justify-center text-center text-xl text-inherit hover:underline sm:block sm:h-auto sm:text-start sm:text-sm"
               href="https://matrix.to/#/#flathub:matrix.org"
               target="_blank"
               rel="noreferrer"

@@ -1,5 +1,4 @@
 {
-  "forum": "Fórum",
   "about": "Acerca de",
   "about-pagename": "Acerca do Flathub: A Loja de Aplicações do Linux",
   "popular": "Popular",
@@ -537,7 +536,6 @@
   "get-in-touch": "Entre em contacto",
   "developers-and-users": "Programadores e Utilizadores",
   "developers-and-users-block": "Interaja com uma equipa ou com outros membros da comunidade para fazer perguntas e partilhar os seus conhecimentos",
-  "join-discourse-forum": "Participe no fórum do Discourse",
   "chat-on-matrix": "Faça conversações no Matrix",
   "press-description": "Estamos sempre dispostos a responder perguntas e a organizar entrevistas com jornalistas e redatores de tecnologia",
   "read-announcements": "Ler comunicados",

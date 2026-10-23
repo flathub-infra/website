@@ -1,7 +1,6 @@
 {
   "go-home": "Về Trang chủ",
   "about": "Giới thiệu",
-  "forum": "Diễn đàn",
   "publish": "Phát hành",
   "about-pagename": "Về Flathub: Cửa hàng ứng dụng cho Linux",
   "rss-feeds": "Kênh RSS",
@@ -521,7 +520,6 @@
   "updated": "Mới cập nhật",
   "get-in-touch": "Liên lạc",
   "trending-apps": "Ứng dụng thịnh hành",
-  "join-discourse-forum": "Tham gia diễn đàn Discourse",
   "developers-and-users": "Nhà phát triển & Người dùng",
   "chat-on-matrix": "Trò chuyện trên Matrix",
   "read-announcements": "Đọc các thông báo",

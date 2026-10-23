@@ -1,7 +1,6 @@
 {
   "search-apps": "Alkalmazások keresése",
   "publish": "Közzététel",
-  "forum": "Fórum",
   "about": "Névjegy",
   "about-pagename": "A Flathub névjegye: a Linux alkalmazásáruháza",
   "popular": "Népszerű",
@@ -551,7 +550,6 @@
   "more-development": "További fejlesztői eszközök",
   "slide": "Lapozás",
   "special-license-explanation": "Ezt az alkalmazást a(z) <bold>{ license }</bold> különleges licenc alapján fejlesztették ki.",
-  "join-discourse-forum": "Csatlakozás a Discourse-fórumhoz",
   "chat-on-matrix": "Matrix-csevegés",
   "contact-for-press-inquiries": "Sajtóérdeklődés kapcsolatfelvétel",
   "special-license": "Különleges licenc",

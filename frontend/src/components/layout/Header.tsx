@@ -66,11 +66,6 @@ const Header = () => {
       href: "https://docs.flathub.org/docs/for-app-authors/submission",
       current: false,
     },
-    {
-      name: t("forum"),
-      href: "https://discourse.flathub.org/",
-      current: false,
-    },
     { name: t("about"), href: "/about", current: false },
   ]
 
@@ -195,7 +190,6 @@ const Header = () => {
                       logo={logoEmail.src}
                       sameAs={[
                         "https://docs.flathub.org/",
-                        "https://discourse.flathub.org/",
                         "https://wikipedia.org/wiki/Flathub",
                         "https://fosstodon.org/@FlatpakApps",
                         "https://github.com/flathub",
