@@ -12,6 +12,10 @@
     "step-4": {
       "name": "Käivita arvuti uuesti",
       "text": "<text>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Paigalda Bazaar",
+      "text": "<text>Kui Flathub on kasutusel, siis paigalda Bazaar otse Flathubist, selleks käivita:</text> <code></code> <text>Seejärel käivita rakendus oma töölaualt ja saad Flatpaki rakendusi paigaldada graafilise kasutajaliidese abil.</text>"
     }
   },
   "fedora": {
@@ -119,6 +123,10 @@
     "step-3": {
       "name": "Lisa Flathubi tarkvarahoidla",
       "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink> või käivita terminalis järgnev käsk:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Paigalda Bazaar",
+      "text": "<text>Kui Flathub on kasutusel, siis paigalda Bazaar otse Flathubist, selleks käivita:</text> <code></code> <text>Seejärel käivita rakendus oma töölaualt ja saad Flatpaki rakendusi paigaldada graafilise kasutajaliidese abil.</text>"
     }
   },
   "rocky_linux": {
@@ -163,7 +171,7 @@
     "distroName": "Kubuntu",
     "step-3": {
       "name": "Lisa Flathubi tarkvarahoidla",
-      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks ava Discover, klõpsi valikut Seadistused ning lisa Flathubi tarkvarahoidla:</text>"
+      "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks käivita:</text> <code></code>"
     },
     "step-4": {
       "name": "Käivita arvuti uuesti",
@@ -171,7 +179,11 @@
     },
     "step-1": {
       "name": "Paigalda Flatpak",
-      "text": "<text>Flatpaki paigaldamiseks Kubuntus, ava rakendus Discover, vali Seaded, paigalda Flatpaki taustateenus ja käivita Discover uuesti.</text>"
+      "text": "<text>Flatpaki paigaldamiseks Kubuntus, ava terminalirakendus ja käivita:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Paigalda Bazaar",
+      "text": "<text>Kui Flathub on kasutusel, siis paigalda Bazaar otse Flathubist, selleks käivita:</text> <code></code> <text>Seejärel käivita rakendus oma töölaualt ja saad Flatpaki rakendusi paigaldada graafilise kasutajaliidese abil.</text>"
     }
   },
   "solus": {
@@ -182,13 +194,17 @@
     },
     "step-3": {
       "name": "Käivita arvuti uuesti",
-      "text": "<text>Flatpaki paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text> <text>Märkus: Flatpaki rakenduste paigaldamise graafiline kasutajaliides on saadaval nii GNOME Tarkvara kui KDE Discoveri näol.</text>"
+      "text": "<text>Paigaldamise lõpetamiseks käivita arvuti uuesti. Nüüd polegi muud teha, kui <link>hakka rakendusi paigaldama</link>!</text>"
     },
     "step-1": {
       "name": "Paigalda Flatpak",
       "text": "<text>Paigaldamaks Flatpakki Soluses, ava terminalirakendus ja käivita:</text> <code></code>"
     },
-    "introduction": "<text>Flatpaki tugi on olemas alates Soluse versioonist 4.7 — lisatoimingud pole vajalikud! Flatpaki paigaldamine on võimalik nii GNOME Tarkvara kui KDE Discover rakendustest.</text> <text>Kui Flatpak pole paigaldatud, siis järgi allpool toodud juhendit.</text>"
+    "introduction": "<text>Flatpaki tugi on olemas alates Soluse versioonist 4.7 - lisatoimingud pole vajalikud! Flatpaki rakenduste paigaldamiseks võid kasutada Bazaari.</text> <text>Kui Flatpak pole paigaldatud, siis järgi allpool toodud juhendit.</text>",
+    "install-bazaar": {
+      "name": "Paigalda Bazaar",
+      "text": "<text>Kui Flathub on kasutusel, siis paigalda Bazaar otse Flathubist, selleks käivita:</text> <code></code> <text>Seejärel käivita rakendus oma töölaualt ja saad Flatpaki rakendusi paigaldada graafilise kasutajaliidese abil.</text>"
+    }
   },
   "alpine": {
     "distroName": "Alpine",
@@ -203,6 +219,10 @@
     "step-3": {
       "name": "Lisa Flathubi tarkvarahoidla",
       "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla seadistusfail</filelink> või käivita terminalis järgnev käsk:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Paigalda Bazaar",
+      "text": "<text>Kui Flathub on kasutusel, siis paigalda Bazaar otse Flathubist, selleks käivita:</text> <code></code> <text>Seejärel käivita rakendus oma töölaualt ja saad Flatpaki rakendusi paigaldada graafilise kasutajaliidese abil.</text>"
     }
   },
   "mageia": {
@@ -320,6 +340,10 @@
     "step-3": {
       "name": "Lisa Flathubi tarkvarahoidla",
       "text": "<text>Flathub on parim koht Flatpaki rakenduste leidmiseks. Kasutuselevõtmiseks laadi alla ja paigalda <filelink>Flathubi tarkvarahoidla fail</filelink> või käivita:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Paigalda Bazaar",
+      "text": "<text>Kui Flathub on kasutusel, siis paigalda Bazaar otse Flathubist, selleks käivita:</text> <code></code> <text>Seejärel käivita rakendus oma töölaualt ja saad Flatpaki rakendusi paigaldada graafilise kasutajaliidese abil.</text>"
     }
   },
   "mx_linux": {

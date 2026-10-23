@@ -335,7 +335,7 @@
   "accept-invite": "Приемане на поканата",
   "remove-developer": "Премахване на разработчик",
   "invite-not-found": "Поканата не е намерена",
-  "invite-not-found-description": "Поканата, която се опитвате да приемете или откажете, не съществува.",
+  "invite-not-found-description": "Поканата, която се опитвате да приемете или откажете, не съществува. Може да е анулирана или отказана.",
   "leave-confirmation": "Сигурни ли сте, че искате да напуснете „{app}“?",
   "invite-developer-description": "Въведете кода на поканата, за да поканите разработчика. Кодът на поканата се намира в раздела <developerstabtitle>{developersTab}</developerstabtitle>.",
   "invite-code-hint": "Изпратете този код на другия разработчик, за да може да ви покани.",
@@ -939,5 +939,18 @@
   "passkey-name": "Име на ключа за достъп",
   "login-with-passkey": "Влизане с ключ за достъп",
   "moderation-permissions-title": "Разрешения",
-  "moderation-permissions-pull-request": "Заявка за сливане"
+  "moderation-permissions-pull-request": "Заявка за сливане",
+  "moderation-view-discussion": "Преглед на дискусията",
+  "moderation-discussion-opened-by": "Дискусията е отворена от {openedBy}",
+  "moderation-permissions-changed-count": "{count, plural, one {променено разрешение} other {променени разрешения}}",
+  "passkey-already-registered": "Този ключ за достъп вече е регистриран.",
+  "passkey-action-failed": "Ключът за достъп не може да бъде запазен. Опитайте отново.",
+  "reauth-title": "Потвърждаване на самоличността",
+  "passkey-name-invalid": "Въведете име на ключа за достъп до 100 символа.",
+  "reauth-sign-out": "Отписване и вписване отново",
+  "reauth-method-email": "Изпращане на връзка за вписване",
+  "passkey-login-canceled": "Вписването с ключ за достъп е анулирано или времето за изчакване е изтекло. Опитайте отново.",
+  "passkey-canceled": "Заявката за ключ за достъп е анулирана или времето за изчакване е изтекло. Опитайте отново.",
+  "passkey-rate-limited": "Твърде много опити с ключ за достъп. Моля, изчакайте и опитайте отново след няколко минути.",
+  "passkey-unsupported": "Този браузър не поддържа ключове за достъп. Изполвайте друг метод за вписване."
 }

@@ -25,7 +25,7 @@
   "about-description": "Flathub on pood, kus saada ja avaldada Linuxi rakendusi. Seda võimaldab Flatpak, mis lubab Flathub'i rakendusi kasutada igas Linuxi distributsioonis.",
   "statistics": "Statistika",
   "source-code": "Lähtekood",
-  "installed-size": "Paigaldatud suurus",
+  "installed-size": "Paigaldatud maht",
   "installs-over-time": "Paigaldusi läbi aegade",
   "popular": "Populaarsed",
   "community": "Kogukond",
@@ -56,7 +56,7 @@
   "apps-by-developer": "Rakendused arendajalt {developer}",
   "go-home": "Mine avalehele",
   "rss-feeds-description": "Kasutades oma uudistelugejat telli Flathub'i RSS-uudisvoog!",
-  "app-logo": "Rakenduse {app_name} logo",
+  "app-logo": "Rakenduse logo: {app_name}",
   "games": "Mängud",
   "audio-and-video": "Heli ja video",
   "loading": "Laadime andmeid…",
@@ -727,7 +727,7 @@
   "sub-header": {
     "download": "Allalaaditavana",
     "free": "Tasuta/vaba",
-    "downloads-per-month": "Allalaadimisi kuus",
+    "downloads-per-month": "Allalaadimist kuus",
     "amount-to-download": "Võrgust allalaaditav andmemaht",
     "size-on-disk": "Andmemaht kettal",
     "installed-runtime-size": "Käitusteegi paigaldatud maht",
@@ -973,5 +973,7 @@
   "moderation-permissions-title": "Õigused",
   "moderation-permissions-pull-request": "Mestimispäring",
   "moderation-permissions-compared-with": "Võrdlus: {source}",
-  "moderation-permissions-pull-request-review": "Mestimispäringu õiguste ülevaade"
+  "moderation-permissions-pull-request-review": "Mestimispäringu õiguste ülevaade",
+  "moderation-permissions-changed-count": "{count, plural, one {# muudetud õigus} other {# muudetud õigust}}",
+  "moderation-discussion-opened-by": "Vestluse algatas {openedBy}"
 }

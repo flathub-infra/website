@@ -907,5 +907,31 @@
   "passkey-login-intro": "Flathub hesabınız için kaydedilmiş bir geçiş anahtarı kullanın.",
   "passkey-unsupported": "Bu tarayıcı geçiş anahtarlarını desteklemiyor. Başka bir giriş yöntemi deneyin.",
   "passkey-login-canceled": "Geçiş anahtarıyla giriş iptal edildi veya zaman aşımına uğradı. Tekrar deneyin.",
-  "passkey-login-failed": "\"Bu geçiş anahtarıyla oturum açılamadı. Tekrar deneyin veya başka bir giriş yöntemi kullanın."
+  "passkey-login-failed": "\"Bu geçiş anahtarıyla oturum açılamadı. Tekrar deneyin veya başka bir giriş yöntemi kullanın.",
+  "platform-support": {
+    "appname-works-on-most-devices": "{appName} çoğu cihazda çalışır",
+    "support-unknown": "Destek bilinmiyor",
+    "appname-works-best-on-specific-hardware": "{appName} belirli donanımlarda daha iyi çalışır",
+    "appname-hardware-support": "{appName} için donanım desteği bilgisi",
+    "mobile-support": "Mobil desteği",
+    "desktop-support": "Masaüstü desteği",
+    "mobile-support-unknown": "Mobil Desteği Bilinmiyor",
+    "desktop-support-unknown": "Masaüstü Desteği Bilinmiyor",
+    "mobile-only": "Sadece Mobil",
+    "desktop-only": "Sadece Masaüstü",
+    "works-well-on-large-screens": "Geniş ekranlarda sorunsuz çalışır",
+    "works-well-on-mobile": "Mobil cihazlarda sorunsuz çalışır",
+    "may-not-work-well-on-mobile": "Mobil cihazlarda iyi çalışmayabilir",
+    "may-not-work-well-on-large-screens": "Büyük ekranlarda iyi çalışmayabilir",
+    "mobile-display-support-unknown": "Küçük ekranların desteklenip desteklenmediğini anlamak için yeterli bilgi yok",
+    "desktop-display-support-unknown": "Büyük ekranların desteklenip desteklenmediğini anlamak için yeterli bilgi yok",
+    "keyboard-support": "Klavye desteği",
+    "keyboards": "klavyeler",
+    "mouse-support": "Fare desteği",
+    "touchscreen-support": "Dokunmatik ekran desteği",
+    "touchscreens": "dokunmatik ekranlar",
+    "gamepad-support": "Oyun kumandası desteği",
+    "gamepads": "oyun kumandaları",
+    "control-recommended": "{device} önerilir"
+  }
 }
