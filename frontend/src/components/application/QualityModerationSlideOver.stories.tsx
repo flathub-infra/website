@@ -74,6 +74,23 @@ const mockResponse = (data: QualityModerationModeratorResponse) => ({
   },
 })
 
+const metadataChangedResponse = (changedAt: string) => ({
+  ...response,
+  guidelines: [
+    ...response.guidelines,
+    {
+      ...response.guidelines[0],
+      guideline_id: "branding-has-primary-brand-colors",
+      guideline: {
+        ...response.guidelines[0].guideline,
+        id: "branding-has-primary-brand-colors",
+        category: "branding" as const,
+      },
+    },
+  ],
+  metadata_changed_at: { branding: changedAt },
+})
+
 const StoryQueryProvider = ({ children }: { children: ReactNode }) => {
   const [queryClient] = useState(
     () =>
@@ -166,10 +183,7 @@ export const FirstEditDoesNotShiftChecklist: Story = {
 }
 
 export const MetadataNewerThanReview: Story = {
-  parameters: mockResponse({
-    ...response,
-    metadata_changed_at: { general: hoursAgo(1) },
-  }),
+  parameters: mockResponse(metadataChangedResponse(hoursAgo(1))),
   play: async ({ canvasElement }) => {
     const dialog = within(canvasElement.ownerDocument.body)
     await expect(
@@ -181,10 +195,7 @@ export const MetadataNewerThanReview: Story = {
 }
 
 export const MetadataOlderThanReview: Story = {
-  parameters: mockResponse({
-    ...response,
-    metadata_changed_at: { general: hoursAgo(48) },
-  }),
+  parameters: mockResponse(metadataChangedResponse(hoursAgo(48))),
   play: async ({ canvasElement }) => {
     const dialog = within(canvasElement.ownerDocument.body)
     await expect(await dialog.findByText(/Metadata changed/)).toBeVisible()

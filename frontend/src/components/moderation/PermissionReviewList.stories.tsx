@@ -129,6 +129,14 @@ export const Filters: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
+    await userEvent.click(
+      canvas.getByRole("checkbox", { name: "Include superseded assessments" }),
+    )
+    await expect(getRouter().push.mock.calls.at(-1)?.[0]).not.toContain(
+      "includeSuperseded",
+    )
+    await expect(getRouter().push.mock.calls.at(-1)?.[0]).toContain("page=1")
+
     await canvas.findByRole("table")
     await userEvent.click(canvas.getByRole("combobox", { name: "Outcome" }))
     await userEvent.click(
@@ -140,13 +148,6 @@ export const Filters: Story = {
     await expect(destination).toContain("outcome=accepted")
     await expect(destination).toContain("page=1")
     await expect(destination).toContain("includeSuperseded=true")
-    await userEvent.click(
-      canvas.getByRole("checkbox", { name: "Include superseded assessments" }),
-    )
-    await expect(getRouter().push.mock.calls.at(-1)?.[0]).not.toContain(
-      "includeSuperseded",
-    )
-    await expect(getRouter().push.mock.calls.at(-1)?.[0]).toContain("page=1")
   },
 }
 export const Empty: Story = {

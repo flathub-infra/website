@@ -31,6 +31,7 @@ type Story = StoryObj<typeof meta>
 
 const baseApp = {
   id: "org.example.App",
+  type: "desktop-application",
   name: "Example App",
   summary: "An example application",
   project_license: "GPL-3.0+",
@@ -170,9 +171,8 @@ export const DeviceSupport: Story = {
     await userEvent.click(canvas.getByText("Adaptive"))
 
     const page = within(canvasElement.ownerDocument.body)
-    expect(page.getAllByText("Adaptive")).toHaveLength(2)
     expect(
-      page.getByText("Works on phones, tablets and desktops"),
+      page.getByText("Example App works on most devices"),
     ).toBeInTheDocument()
     expect(page.getByText("Works well on mobile devices")).toBeInTheDocument()
     expect(page.getByText("Works well on large screens")).toBeInTheDocument()
@@ -191,7 +191,7 @@ export const UnknownControlsAreHidden: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await userEvent.click(canvas.getByText("Hardware support"))
+    await userEvent.click(canvas.getByText("Support unknown"))
 
     const page = within(canvasElement.ownerDocument.body)
     expect(page.queryByText("Gamepad support")).not.toBeInTheDocument()

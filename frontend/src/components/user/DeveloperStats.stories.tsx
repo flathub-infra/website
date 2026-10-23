@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { http, HttpResponse } from "msw"
 import { useState } from "react"
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
-import { expect, within } from "storybook/test"
+import { expect, waitFor, within } from "storybook/test"
 import { ApplicationCard } from "../application/ApplicationCard"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import DeveloperStats from "./DeveloperStats"
@@ -121,10 +121,12 @@ export const StatsUnavailable: Story = {
     },
   },
   play: async ({ canvasElement }) => {
-    await expect(
-      await within(canvasElement).findAllByText(
-        "Download totals are temporarily unavailable.",
-      ),
-    ).toHaveLength(3)
+    await waitFor(() => {
+      expect(
+        within(canvasElement).getAllByText(
+          "Download totals are temporarily unavailable.",
+        ),
+      ).toHaveLength(3)
+    })
   },
 }

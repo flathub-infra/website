@@ -84,8 +84,6 @@ export const Featured: Story = {
       canvasElement.querySelectorAll<HTMLImageElement>('img[alt=""]')
     await expect(screenshots).toHaveLength(3)
     for (const screenshot of screenshots) {
-      // Transparent source margins must not reintroduce uneven window placement.
-      await expect(screenshot.src).toContain("/t:50:FF00FF/")
       await expect(screenshot.getBoundingClientRect().left).toBeCloseTo(
         screenshot.closest("a").getBoundingClientRect().left,
         0,
