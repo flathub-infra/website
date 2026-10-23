@@ -34,6 +34,8 @@ import {
 import PermissionStatsSelect from "./PermissionStatsSelect"
 import PermissionStatsTrend from "./PermissionStatsTrend"
 
+const INVENTORY_PAGE_SIZE = 100
+
 export interface PermissionStatsDashboardProps {
   window?: PermissionStatsWindow
   months: 6 | 12
@@ -58,6 +60,7 @@ export default function PermissionStatsDashboard({
   const [sort, setSort] = useState("count-desc")
   const [currentOnly, setCurrentOnly] = useState(false)
   const [selected, setSelected] = useState<string | null>(null)
+  const [visibleRows, setVisibleRows] = useState(INVENTORY_PAGE_SIZE)
   const inventory = useMemo(
     () => buildPermissionInventory(window?.snapshots ?? []),
     [window],
@@ -326,7 +329,7 @@ export default function PermissionStatsDashboard({
                           </TableHeader>
                           <TableBody>
                             {rows.length ? (
-                              rows.map((entry) => (
+                              rows.slice(0, visibleRows).map((entry) => (
                                 <TableRow
                                   key={permissionKey(entry.path)}
                                   data-state={
@@ -418,6 +421,23 @@ export default function PermissionStatsDashboard({
                           </TableBody>
                         </Table>
                       </div>
+                      {rows.length > visibleRows ? (
+                        <div className="flex justify-center px-4 pt-3">
+                          <Button
+                            variant="outline"
+                            onClick={() =>
+                              setVisibleRows((count) =>
+                                Math.min(
+                                  count + INVENTORY_PAGE_SIZE,
+                                  rows.length,
+                                ),
+                              )
+                            }
+                          >
+                            Show more permissions
+                          </Button>
+                        </div>
+                      ) : null}
                     </CardContent>
                   </Card>
                 </section>
