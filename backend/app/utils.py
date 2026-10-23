@@ -338,25 +338,19 @@ def appstream2dict(
         if len(icons):
             for icon in icons:
                 icon_type = icon.attrib.get("type")
-                if icon_type == "remote" and icon.text.startswith(
-                    "https://dl.flathub.org/media/"
+                if (
+                    icon_type == "remote"
+                    and icon.text
+                    and icon.text.startswith("https://dl.flathub.org/media/")
                 ):
-                    if "icon" not in app:
-                        app["icon"] = icon.text
-                    attrs = {}
-                    for attr in icon.attrib:
-                        attrs[attr] = icon.attrib[attr]
+                    attrs = dict(icon.attrib)
                     attrs.update({"url": icon.text})
                     iconListNewLocation.append(attrs)
 
-            if not app.get("icon"):
+            if not iconListNewLocation:
                 for icon in icons:
                     icon_type = icon.attrib.get("type")
                     if icon_type == "cached":
-                        if "icon" not in app:
-                            app["icon"] = (
-                                f"https://dl.flathub.org/media/icons/128x128/{icon.text}"
-                            )
                         attrs = {}
                         for attr in icon.attrib:
                             attrs[attr] = icon.attrib[attr]
@@ -371,16 +365,16 @@ def appstream2dict(
             for icon in icons:
                 component.remove(icon)
 
-        # Bail out if the loop above didn't find an icon
-        if not app.get("icon"):
-            app["icon"] = None
-
-        if len(iconListNewLocation) == 0 and len(iconListOldLocation) == 0:
-            app["icons"] = None
-        elif len(iconListNewLocation):
+        # Select the biggest icon by height and scale, or fallback to None
+        if len(iconListNewLocation) > 0:
             app["icons"] = iconListNewLocation
+            app["icon"] = find_biggest_icon(iconListNewLocation)
+        elif len(iconListOldLocation) > 0:
+            app["icons"] = iconListOldLocation
+            app["icon"] = find_biggest_icon(iconListOldLocation)
         else:
-            app["icons"] = iconListNewLocation
+            app["icons"] = None
+            app["icon"] = None
 
         metadata = component.find("metadata")
         if metadata is not None:
@@ -925,6 +919,35 @@ def _load_platforms(with_stripe: bool) -> dict[str, Platform]:
 
 PLATFORMS = _load_platforms(False)
 PLATFORMS_WITH_STRIPE = _load_platforms(True)
+
+
+def find_biggest_icon(icons: list[dict]) -> str | None:
+    """Return the icon with the greatest effective pixel dimensions."""
+    if not icons:
+        return None
+
+    def dimension(icon: dict, key: str) -> int:
+        try:
+            return max(0, int(icon.get(key) or 0))
+        except (TypeError, ValueError):
+            return 0
+
+    def scale(icon: dict) -> int:
+        value = icon.get("scale")
+        if isinstance(value, str):
+            value = value.removesuffix("x")
+        try:
+            return max(1, int(value or 1))
+        except (TypeError, ValueError):
+            return 1
+
+    def sort_key(icon: dict) -> tuple[int, int, int, int]:
+        pixel_scale = scale(icon)
+        height = dimension(icon, "height") * pixel_scale
+        width = dimension(icon, "width") * pixel_scale
+        return (height * width, max(height, width), height, width)
+
+    return max(icons, key=sort_key).get("url")
 
 
 def is_valid_app_id(app_id: str) -> bool:
