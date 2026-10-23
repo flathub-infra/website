@@ -15,7 +15,7 @@ from sqlalchemy.orm import sessionmaker
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
-from app import config, models
+from app import models
 from app.db_session import DBSession
 from app.moderation import ostree_permissions
 from app.moderation import permission_assessment as assessment
@@ -317,7 +317,6 @@ def collected(snap):
 
 @pytest.fixture
 def publish(db, monkeypatch):
-    monkeypatch.setattr(config.settings, "permission_publication_mode", "enforce")
     monkeypatch.setattr(
         assessment, "collect_final_candidate", lambda *args: collected(SNAP)
     )
@@ -541,32 +540,18 @@ def test_rejection_rejects_pending_permissions_request(db, held):
     assert baseline(db) == ("initialized", OLD_FP)
 
 
-@pytest.mark.parametrize("mode", ["off", "observe"])
-def test_publication_without_enforcement_changes_nothing(
-    db, publish, monkeypatch, mode
-):
-    monkeypatch.setattr(config.settings, "permission_publication_mode", mode)
-    set_baseline(db, OLD_SNAP, OLD_FP)
-    persist(1, candidate_kind="push")
-    assert publish() == ([], set(), False)
-    assert baseline(db) == ("initialized", OLD_FP)
-
-
 @pytest.mark.parametrize(
-    ("mode", "channel", "linked", "direct_upload", "expected"),
+    ("channel", "linked", "direct_upload", "expected"),
     [
-        ("enforce", "stable", False, False, ("approved", FP)),
-        ("observe", "stable", True, False, ("approved", FP)),
-        ("enforce", "stable", False, True, ("initialized", OLD_FP)),
-        ("off", "stable", False, False, ("initialized", OLD_FP)),
-        ("enforce", "beta", False, False, None),
-        ("observe", "beta", True, False, ("approved", FP)),
+        ("stable", False, False, ("approved", FP)),
+        ("stable", False, True, ("initialized", OLD_FP)),
+        ("beta", False, False, None),
+        ("beta", True, False, ("approved", FP)),
     ],
 )
 def test_publication_advances_baseline(
-    db, publish, monkeypatch, mode, channel, linked, direct_upload, expected
+    db, publish, channel, linked, direct_upload, expected
 ):
-    monkeypatch.setattr(config.settings, "permission_publication_mode", mode)
     set_baseline(db, OLD_SNAP, OLD_FP)
     if linked:
         persist(1, candidate_kind="push", intended_channel=channel)

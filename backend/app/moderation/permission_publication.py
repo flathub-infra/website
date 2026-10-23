@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from sqlalchemy import func, select
 from sqlalchemy.dialects.postgresql import insert
 
-from .. import config, models
+from .. import models
 from ..database import get_db
 from ..types import ModerationRequestType
 from . import permission_assessment as assessment
@@ -22,11 +22,6 @@ from .permission_snapshot import (
 )
 
 logger = logging.getLogger(__name__)
-
-
-def mode_for(repo: str | None) -> str:
-    mode = config.settings.permission_publication_mode
-    return mode if repo in ("stable", "beta") else "off"
 
 
 def _refs(build_extended: dict[str, Any]) -> list[list[str]]:
@@ -83,9 +78,10 @@ def _baseline_values(channel: str, candidate) -> dict[str, Any]:
 
 
 def advance_published(build_id: int, channel: str, app_ids: set[str]) -> None:
-    mode = mode_for(channel)
+    if channel not in ("stable", "beta"):
+        return
     for app_id in sorted(app_ids):
-        if mode == "off" or should_skip_review(app_id):
+        if should_skip_review(app_id):
             continue
         try:
             with get_db("replica") as db:
@@ -193,27 +189,22 @@ def check_build(
     build_extended: dict[str, Any],
     build_log_url: str | None,
 ) -> tuple[list[models.ModerationRequest], set[str], bool]:
-    mode = mode_for(repo)
     requests, handled, held = [], set(), False
-    app_ids = sorted({p[1] for p in _refs(build_extended)}) if mode != "off" else []
+    app_ids = (
+        sorted({p[1] for p in _refs(build_extended)})
+        if repo in ("stable", "beta")
+        else []
+    )
     for app_id in filter(lambda app_id: not should_skip_review(app_id), app_ids):
-        try:
-            push = _linked_push(build_id, app_id, repo)
-            if push is None:
-                continue
-            if (existing := _existing_request(build_id, job_id, app_id)) is not None:
-                handled.add(app_id)
-                held = held or not existing.is_approved
-                continue
-            data = _evaluate(build_id, app_id, repo, build_extended, push)
-        except Exception:
-            if mode == "enforce":
-                raise
-            logger.exception("Publication permission check failed: %s", app_id)
+        push = _linked_push(build_id, app_id, repo)
+        if push is None:
             continue
+        if (existing := _existing_request(build_id, job_id, app_id)) is not None:
+            handled.add(app_id)
+            held = held or not existing.is_approved
+            continue
+        data = _evaluate(build_id, app_id, repo, build_extended, push)
         logger.info("Publication permissions %s: review=%s", app_id, data is not None)
-        if mode != "enforce":
-            continue
         handled.add(app_id)
         if data is not None:
             requests.append(
