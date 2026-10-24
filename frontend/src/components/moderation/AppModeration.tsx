@@ -24,6 +24,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { Link, usePathname, useRouter } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
+import ThemeToggle from "./ThemeToggle"
 
 interface Props {
   appId: string
@@ -208,7 +209,10 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
                 {appInfoQuery.data[0].name}
               </h1>
             </div>
-            <NavigatePreviousNext appId={appId} />
+            <div className="flex flex-wrap items-center gap-3">
+              <ThemeToggle />
+              <NavigatePreviousNext appId={appId} />
+            </div>
           </div>
           <div className="flex flex-col gap-2 text-sm">
             <Link
