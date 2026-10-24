@@ -178,7 +178,6 @@ def list_permission_reviews(
     offset: Annotated[int, Query(ge=0)] = 0,
 ) -> dict[str, Any]:
     observation = models.PermissionAssessmentObservation
-    newer = aliased(observation)
     query = select(observation, current_outcome).where(
         observation.candidate_kind.in_(assessment.PR_CANDIDATE_KINDS),
         observation.acceptance_basis.is_distinct_from("baseline"),
@@ -186,15 +185,7 @@ def list_permission_reviews(
     if outcome != "all":
         query = query.where(current_outcome == outcome)
     if not include_superseded:
-        query = query.where(
-            ~exists().where(
-                newer.forge_instance == observation.forge_instance,
-                newer.source_repository == observation.source_repository,
-                newer.pull_request_number == observation.pull_request_number,
-                newer.candidate_kind.in_(assessment.PR_CANDIDATE_KINDS),
-                newer.id > observation.id,
-            )
-        )
+        query = query.where(assessment.newest_in_pull_request(observation))
     with get_db("replica") as db:
         total = db.session.execute(
             select(func.count()).select_from(query.subquery())

@@ -10,7 +10,7 @@ from typing import Annotated, Any, Literal, NoReturn, Self, TypedDict
 import httpx
 from fastapi import HTTPException
 from pydantic import BaseModel, ConfigDict, Field, model_validator
-from sqlalchemy import cast, func, select, update
+from sqlalchemy import cast, exists, func, select, update
 from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy.orm import aliased
 
@@ -166,6 +166,17 @@ def superseded_by(session, row: models.PermissionAssessmentObservation) -> int |
         )
     ).scalar_one()
     return newest if newest is not None and newest > row.id else None
+
+
+def newest_in_pull_request(observation):
+    newer = aliased(models.PermissionAssessmentObservation)
+    return ~exists().where(
+        newer.forge_instance == observation.forge_instance,
+        newer.source_repository == observation.source_repository,
+        newer.pull_request_number == observation.pull_request_number,
+        newer.candidate_kind.in_(PR_CANDIDATE_KINDS),
+        newer.id > observation.id,
+    )
 
 
 def lock_pull_request(session, row) -> None:

@@ -24,6 +24,7 @@ from app.moderation import permission_publication as publication
 
 with patch("meilisearch.Client"):
     from app.moderation import permission_reviews as reviews
+    from app.moderation import permission_rules_api as rules_api
 
 from app.moderation import review as moderation_review
 from app.moderation.permission_snapshot import (
@@ -85,9 +86,10 @@ def db(monkeypatch):
         finally:
             session.close()
 
-    monkeypatch.setattr(reviews, "audit_log", MagicMock())
-    monkeypatch.setattr(reviews, "worker", MagicMock())
-    for module in (assessment, publication, reviews, moderation_review):
+    for module in (reviews, rules_api):
+        monkeypatch.setattr(module, "audit_log", MagicMock())
+        monkeypatch.setattr(module, "worker", MagicMock())
+    for module in (assessment, publication, reviews, rules_api, moderation_review):
         monkeypatch.setattr(module, "get_db", real_db)
     with real_db() as session:
         session.add(models.FlathubUser(id=1, display_name="Moderator"))
@@ -430,6 +432,81 @@ def test_rules_decide_new_assessments_until_a_moderator_overrides(db):
         ("rejected", 1, True),
         ("approved", None, False),
     ]
+
+
+NOTIFICATIONS = "org.freedesktop.Notifications"
+
+
+def rule_input(name, decision="approved", **changes):
+    values = {
+        "decision": decision,
+        "permission_group": "Session Bus Policy",
+        "key": name,
+        "value": "talk",
+        "rationale": f"{decision} {name}",
+        **changes,
+    }
+    return rules_api.PermissionRuleInput(**values)
+
+
+@pytest.mark.parametrize(
+    "changes", [{"value": "all"}, {"rationale": "  "}, {"key": ""}]
+)
+def test_rule_input_validation(changes):
+    with pytest.raises(ValueError):
+        rule_input(TRAY, **changes)
+
+
+def test_rules_preview_conflicts_and_apply_to_pending_reviews(db):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    notify = rules_api.worker.notify_permission_decision.send
+    superseded = persist(1, **TRAY_CHANGE)
+    pending = persist(2, pull_request_head_revision="4" * 40, **TRAY_CHANGE)
+    approved = persist(
+        3,
+        pull_request_number=18,
+        **TRAY_CHANGE
+        | {
+            "differences": [
+                {
+                    "path": ["x86_64", "Session Bus Policy"],
+                    "before": None,
+                    "after": {NOTIFICATIONS: "talk"},
+                }
+            ]
+        },
+    )
+    approval = decide(approved.assessment_id)
+
+    rule = rules_api.create_permission_rule(rule_input(TRAY), MagicMock(), login)
+    assert rule.updated_by_name == "Moderator"
+    with pytest.raises(HTTPException) as exc:
+        rules_api.create_permission_rule(rule_input(TRAY), MagicMock(), login)
+    assert exc.value.detail == "rule_exists"
+
+    preview = rules_api.preview_permission_rules(
+        None,
+        rules_api.PermissionRuleDraft(
+            **rule_input(NOTIFICATIONS, "rejected").model_dump()
+        ),
+    )
+    assert [(m.assessment_id, m.decision) for m in preview.pending] == [
+        (pending.assessment_id, "approved")
+    ]
+    assert [(c.decision_id, c.decision) for c in preview.conflicts] == [
+        (approval.decision_id, "rejected")
+    ]
+
+    disabled = rule_input(TRAY, enabled=False)
+    rules_api.update_permission_rule(rule.id, disabled, MagicMock(), login)
+    assert rules_api.apply_permission_rules(MagicMock(), login) == []
+    rules_api.update_permission_rule(rule.id, rule_input(TRAY), MagicMock(), login)
+
+    applied = rules_api.apply_permission_rules(MagicMock(), login)
+    assert [m.assessment_id for m in applied] == [pending.assessment_id]
+    notify.assert_called_once_with(f"flathub/{APP}", 17)
+    assert rules_api.apply_permission_rules(MagicMock(), login) == []
+    assert assessment.get_assessment(superseded.assessment_id).outcome == "accepted"
 
 
 def test_review_listing_filters_stored_outcome_and_superseded(db):
