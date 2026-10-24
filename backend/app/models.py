@@ -2603,9 +2603,65 @@ class PermissionDecision(Base):
     assessment_id = mapped_column(
         Integer, ForeignKey("permissionassessmentobservation.id"), nullable=False
     )
-    reviewer_id = mapped_column(Integer, ForeignKey("flathubuser.id"), nullable=False)
+    reviewer_id = mapped_column(Integer, ForeignKey("flathubuser.id"))
     decision = mapped_column(String, nullable=False)
     rationale = mapped_column(String)
+    rules = mapped_column(JSONB(none_as_null=True))
+
+    __table_args__ = (
+        CheckConstraint(
+            "num_nonnulls(reviewer_id, rules) = 1",
+            name="permissiondecision_decider",
+        ),
+        CheckConstraint(
+            "rules IS NULL OR decision IN ('approved', 'rejected')",
+            name="permissiondecision_rule_decision",
+        ),
+    )
+
+
+class PermissionRule(Base):
+    __tablename__ = "permissionrule"
+
+    id = mapped_column(Integer, primary_key=True)
+    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    updated_at = mapped_column(DateTime, nullable=False, server_default=func.now())
+    created_by = mapped_column(Integer, ForeignKey("flathubuser.id"), nullable=False)
+    updated_by = mapped_column(Integer, ForeignKey("flathubuser.id"), nullable=False)
+    enabled = mapped_column(Boolean, nullable=False, server_default=true())
+    decision = mapped_column(String, nullable=False)
+    permission_group = mapped_column(String, nullable=False)
+    key = mapped_column(String, nullable=False)
+    value = mapped_column(String, nullable=False)
+    rationale = mapped_column(String, nullable=False)
+
+    __table_args__ = (
+        CheckConstraint(
+            "decision IN ('approved', 'rejected')",
+            name="permissionrule_decision",
+        ),
+        CheckConstraint(
+            "permission_group IN "
+            "('Context', 'Session Bus Policy', 'System Bus Policy', 'USB Devices')",
+            name="permissionrule_group",
+        ),
+        CheckConstraint(
+            "btrim(key) <> '' AND btrim(value) <> '' AND btrim(rationale) <> ''",
+            name="permissionrule_nonempty",
+        ),
+        CheckConstraint(
+            "permission_group NOT IN ('Session Bus Policy', 'System Bus Policy') "
+            "OR value IN ('see', 'talk', 'own')",
+            name="permissionrule_bus_policy",
+        ),
+        Index(
+            "permissionrule_permission_unique",
+            permission_group,
+            key,
+            value,
+            unique=True,
+        ),
+    )
 
 
 class PermissionBaseline(Base):
@@ -4655,6 +4711,8 @@ class AuditEventType(enum.StrEnum):
     PERMISSION_DECISION_REJECTED = "permission-decision-rejected"
     PERMISSION_DECISION_SNOOZED = "permission-decision-snoozed"
     PERMISSION_DECISION_IGNORED = "permission-decision-ignored"
+    PERMISSION_RULE_CREATED = "permission-rule-created"
+    PERMISSION_RULE_UPDATED = "permission-rule-updated"
     VERIFICATION_GRANTED = "verification-granted"
     VERIFICATION_REVOKED = "verification-revoked"
     ROLE_GRANTED = "role-granted"
