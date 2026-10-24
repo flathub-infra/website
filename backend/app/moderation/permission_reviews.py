@@ -48,13 +48,22 @@ class PermissionReviewSummary(BaseModel):
     superseded_by: int | None
 
 
+class PermissionDecisionRule(BaseModel):
+    id: int
+    decision: Literal["approved", "rejected"]
+    permission_group: str
+    key: str
+    value: str
+
+
 class PermissionDecisionEntry(BaseModel):
     id: int
     created_at: datetime
     decision: Literal["approved", "rejected", "snoozed", "ignored"]
     rationale: str | None
-    reviewer_id: int
+    reviewer_id: int | None
     reviewer_name: str | None
+    rules: list[PermissionDecisionRule] | None
     fingerprint: str
     assessment_id: int
     applies: bool
@@ -119,7 +128,7 @@ def _detail(
     decisions = session.execute(
         select(decision, source, models.FlathubUser.display_name)
         .join(source, source.id == decision.assessment_id)
-        .join(models.FlathubUser, models.FlathubUser.id == decision.reviewer_id)
+        .outerjoin(models.FlathubUser, models.FlathubUser.id == decision.reviewer_id)
         .where(
             source.app_id == row.app_id,
             source.forge_instance == row.forge_instance,

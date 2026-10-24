@@ -425,9 +425,11 @@ def test_rules_decide_new_assessments_until_a_moderator_overrides(db):
     decide(first.assessment_id, "rejected", rationale="Not this app")
     rebuilt = persist(2, pull_request_head_revision="4" * 40, **TRAY_CHANGE)
     assert (rebuilt.outcome, rebuilt.decision_automatic) == ("rejected", False)
-    with db() as session:
-        decisions = session.execute(select(models.PermissionDecision.id)).all()
-    assert len(decisions) == 2
+    history = reviews.read_permission_review(rebuilt.assessment_id, None).decisions
+    assert [(d.decision, d.reviewer_id, d.rules is None) for d in history] == [
+        ("rejected", 1, True),
+        ("approved", None, False),
+    ]
 
 
 def test_review_listing_filters_stored_outcome_and_superseded(db):
