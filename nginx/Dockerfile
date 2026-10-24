@@ -1,6 +1,6 @@
 FROM openresty/openresty:bookworm-fat AS brotli
 
-ARG NGX_BROTLI_COMMIT=a71f9312c2deb28875acc7bacfdd5695a111aa53
+ARG NGX_BROTLI_COMMIT=53e0fb55f250f48fe80c0ddbf6c0f7103cdbaae1
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends build-essential cmake curl git libpcre2-dev zlib1g-dev && \
