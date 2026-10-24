@@ -3,7 +3,7 @@ from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, FastAPI, HTTPException, Query, Request
 from pydantic import BaseModel, model_validator
-from sqlalchemy import and_, case, exists, func, select, update
+from sqlalchemy import and_, case, exists, func, select
 from sqlalchemy.orm import aliased
 
 from .. import audit_log, cache, models, worker
@@ -243,24 +243,13 @@ def decide_permission_review(
             getattr(row, key) == value for key, value in unchanged.items()
         ):
             return _detail(db.session, row)
-        decision = models.PermissionDecision(
-            assessment_id=row.id,
+        decision = assessment.record_decision(
+            db.session,
+            row,
+            body.decision,
             reviewer_id=login.user.id,
-            decision=body.decision,
             rationale=body.rationale,
         )
-        db.session.add(decision)
-        db.session.flush()
-        db.session.execute(
-            update(observation)
-            .where(
-                *assessment.same_scope(observation, row),
-                observation.outcome != "error",
-                observation.acceptance_basis.is_distinct_from("baseline"),
-            )
-            .values(**assessment.decision_outcome(body.decision, decision.id))
-        )
-        db.session.refresh(row)
         detail = _detail(db.session, row)
         details = {
             "app_id": row.app_id,

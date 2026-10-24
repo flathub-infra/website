@@ -10,7 +10,7 @@ from typing import Annotated, Any, Literal, NoReturn, Self, TypedDict
 import httpx
 from fastapi import HTTPException
 from pydantic import BaseModel, ConfigDict, Field, model_validator
-from sqlalchemy import cast, func, select
+from sqlalchemy import cast, func, select, update
 from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy.orm import aliased
 
@@ -169,6 +169,38 @@ def superseded_by(session, row: models.PermissionAssessmentObservation) -> int |
 def lock_pull_request(session, row) -> None:
     key = f"{row.forge_instance}/{row.source_repository}/{row.pull_request_number}"
     session.execute(select(func.pg_advisory_xact_lock(func.hashtext(key))))
+
+
+def record_decision(
+    session,
+    row: models.PermissionAssessmentObservation,
+    decision: str,
+    *,
+    reviewer_id: int | None = None,
+    rationale: str | None = None,
+    rules: list[dict[str, Any]] | None = None,
+) -> models.PermissionDecision:
+    item = models.PermissionDecision(
+        assessment_id=row.id,
+        reviewer_id=reviewer_id,
+        decision=decision,
+        rationale=rationale,
+        rules=rules,
+    )
+    session.add(item)
+    session.flush()
+    observation = models.PermissionAssessmentObservation
+    session.execute(
+        update(observation)
+        .where(
+            *same_scope(observation, row),
+            observation.outcome != "error",
+            observation.acceptance_basis.is_distinct_from("baseline"),
+        )
+        .values(**decision_outcome(decision, item.id))
+    )
+    session.refresh(row)
+    return item
 
 
 def _response(
