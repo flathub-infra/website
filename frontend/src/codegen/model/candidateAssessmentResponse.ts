@@ -28,6 +28,7 @@ export interface CandidateAssessmentResponse {
   acceptance_basis?: CandidateAssessmentResponseAcceptanceBasis
   decision_id?: CandidateAssessmentResponseDecisionId
   decision_rationale?: CandidateAssessmentResponseDecisionRationale
+  decision_automatic?: boolean
   baseline_id?: CandidateAssessmentResponseBaselineId
   review_url: string
   superseded_by?: CandidateAssessmentResponseSupersededBy

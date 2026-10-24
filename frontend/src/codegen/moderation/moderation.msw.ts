@@ -16,6 +16,9 @@ import type {
   ModerationApp,
   ModerationAppsResponse,
   PermissionReviewDetail,
+  PermissionRuleEntry,
+  PermissionRuleMatch,
+  PermissionRulePreview,
   ReviewRequestResponse,
   ReviewResponse,
 } from "../model"
@@ -246,6 +249,7 @@ export const getPostAssessmentModerationPermissionsAssessPostResponseMock = (
     faker.string.alpha({ length: { min: 10, max: 20 } }),
     null,
   ]),
+  decision_automatic: faker.datatype.boolean(),
   baseline_id: faker.helpers.arrayElement([faker.number.int(), null]),
   review_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
   superseded_by: faker.helpers.arrayElement([faker.number.int(), null]),
@@ -348,6 +352,7 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetResponseMock =
       faker.string.alpha({ length: { min: 10, max: 20 } }),
       null,
     ]),
+    decision_automatic: faker.datatype.boolean(),
     baseline_id: faker.helpers.arrayElement([faker.number.int(), null]),
     review_url: faker.string.alpha({ length: { min: 10, max: 20 } }),
     superseded_by: faker.helpers.arrayElement([faker.number.int(), null]),
@@ -533,9 +538,27 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
         faker.string.alpha({ length: { min: 10, max: 20 } }),
         null,
       ]),
-      reviewer_id: faker.number.int(),
+      reviewer_id: faker.helpers.arrayElement([faker.number.int(), null]),
       reviewer_name: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      rules: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => ({
+          id: faker.number.int(),
+          decision: faker.helpers.arrayElement([
+            "approved",
+            "rejected",
+          ] as const),
+          permission_group: faker.string.alpha({
+            length: { min: 10, max: 20 },
+          }),
+          key: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          value: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        })),
         null,
       ]),
       fingerprint: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -657,9 +680,27 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
         faker.string.alpha({ length: { min: 10, max: 20 } }),
         null,
       ]),
-      reviewer_id: faker.number.int(),
+      reviewer_id: faker.helpers.arrayElement([faker.number.int(), null]),
       reviewer_name: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      rules: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => ({
+          id: faker.number.int(),
+          decision: faker.helpers.arrayElement([
+            "approved",
+            "rejected",
+          ] as const),
+          permission_group: faker.string.alpha({
+            length: { min: 10, max: 20 },
+          }),
+          key: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          value: faker.string.alpha({ length: { min: 10, max: 20 } }),
+        })),
         null,
       ]),
       fingerprint: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -668,6 +709,118 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
     })),
     ...overrideResponse,
   })
+
+export const getListPermissionRulesModerationPermissionRulesGetResponseMock =
+  (): PermissionRuleEntry[] =>
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
+      permission_group: faker.helpers.arrayElement([
+        "Context",
+        "Session Bus Policy",
+        "System Bus Policy",
+        "USB Devices",
+      ] as const),
+      key: faker.string.alpha({ length: { min: 1, max: 20 } }),
+      value: faker.string.alpha({ length: { min: 1, max: 20 } }),
+      rationale: faker.string.alpha({ length: { min: 1, max: 20 } }),
+      enabled: faker.datatype.boolean(),
+      id: faker.number.int(),
+      updated_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+      updated_by_name: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+    }))
+
+export const getCreatePermissionRuleModerationPermissionRulesPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<PermissionRuleEntry, object>> = {},
+  ): PermissionRuleEntry => ({
+    decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
+    permission_group: faker.helpers.arrayElement([
+      "Context",
+      "Session Bus Policy",
+      "System Bus Policy",
+      "USB Devices",
+    ] as const),
+    key: faker.string.alpha({ length: { min: 1, max: 20 } }),
+    value: faker.string.alpha({ length: { min: 1, max: 20 } }),
+    rationale: faker.string.alpha({ length: { min: 1, max: 20 } }),
+    enabled: faker.datatype.boolean(),
+    id: faker.number.int(),
+    updated_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+    updated_by_name: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    ...overrideResponse,
+  })
+
+export const getUpdatePermissionRuleModerationPermissionRulesRuleIdPutResponseMock =
+  (
+    overrideResponse: Partial<Extract<PermissionRuleEntry, object>> = {},
+  ): PermissionRuleEntry => ({
+    decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
+    permission_group: faker.helpers.arrayElement([
+      "Context",
+      "Session Bus Policy",
+      "System Bus Policy",
+      "USB Devices",
+    ] as const),
+    key: faker.string.alpha({ length: { min: 1, max: 20 } }),
+    value: faker.string.alpha({ length: { min: 1, max: 20 } }),
+    rationale: faker.string.alpha({ length: { min: 1, max: 20 } }),
+    enabled: faker.datatype.boolean(),
+    id: faker.number.int(),
+    updated_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+    updated_by_name: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    ...overrideResponse,
+  })
+
+export const getPreviewPermissionRulesModerationPermissionRulesPreviewPostResponseMock =
+  (
+    overrideResponse: Partial<Extract<PermissionRulePreview, object>> = {},
+  ): PermissionRulePreview => ({
+    pending: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      assessment_id: faker.number.int(),
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
+    })),
+    conflicts: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      assessment_id: faker.number.int(),
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
+      decision_id: faker.number.int(),
+      moderator_decision: faker.helpers.arrayElement([
+        "approved",
+        "rejected",
+      ] as const),
+    })),
+    ...overrideResponse,
+  })
+
+export const getApplyPermissionRulesModerationPermissionRulesApplyPostResponseMock =
+  (): PermissionRuleMatch[] =>
+    Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1,
+    ).map(() => ({
+      assessment_id: faker.number.int(),
+      app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
+    }))
 
 export const getGetModerationAppsModerationAppsGetMockHandler = (
   overrideResponse?:
@@ -917,6 +1070,129 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
       options,
     )
   }
+
+export const getListPermissionRulesModerationPermissionRulesGetMockHandler = (
+  overrideResponse?:
+    | PermissionRuleEntry[]
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0],
+      ) => Promise<PermissionRuleEntry[]> | PermissionRuleEntry[]),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/moderation/permission-rules",
+    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getListPermissionRulesModerationPermissionRulesGetResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
+export const getCreatePermissionRuleModerationPermissionRulesPostMockHandler = (
+  overrideResponse?:
+    | PermissionRuleEntry
+    | ((
+        info: Parameters<Parameters<typeof http.post>[1]>[0],
+      ) => Promise<PermissionRuleEntry> | PermissionRuleEntry),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post(
+    "*/moderation/permission-rules",
+    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getCreatePermissionRuleModerationPermissionRulesPostResponseMock(),
+        { status: 201 },
+      )
+    },
+    options,
+  )
+}
+
+export const getUpdatePermissionRuleModerationPermissionRulesRuleIdPutMockHandler =
+  (
+    overrideResponse?:
+      | PermissionRuleEntry
+      | ((
+          info: Parameters<Parameters<typeof http.put>[1]>[0],
+        ) => Promise<PermissionRuleEntry> | PermissionRuleEntry),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.put(
+      "*/moderation/permission-rules/:ruleId",
+      async (info: Parameters<Parameters<typeof http.put>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getUpdatePermissionRuleModerationPermissionRulesRuleIdPutResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getPreviewPermissionRulesModerationPermissionRulesPreviewPostMockHandler =
+  (
+    overrideResponse?:
+      | PermissionRulePreview
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<PermissionRulePreview> | PermissionRulePreview),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/moderation/permission-rules/preview",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getPreviewPermissionRulesModerationPermissionRulesPreviewPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
+export const getApplyPermissionRulesModerationPermissionRulesApplyPostMockHandler =
+  (
+    overrideResponse?:
+      | PermissionRuleMatch[]
+      | ((
+          info: Parameters<Parameters<typeof http.post>[1]>[0],
+        ) => Promise<PermissionRuleMatch[]> | PermissionRuleMatch[]),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post(
+      "*/moderation/permission-rules/apply",
+      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getApplyPermissionRulesModerationPermissionRulesApplyPostResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
 export const getModerationMock = () => [
   getGetModerationAppsModerationAppsGetMockHandler(),
   getGetModerationAppModerationAppsAppIdGetMockHandler(),
@@ -928,4 +1204,9 @@ export const getModerationMock = () => [
   getListPermissionReviewsModerationPermissionReviewsGetMockHandler(),
   getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetMockHandler(),
   getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMockHandler(),
+  getListPermissionRulesModerationPermissionRulesGetMockHandler(),
+  getCreatePermissionRuleModerationPermissionRulesPostMockHandler(),
+  getUpdatePermissionRuleModerationPermissionRulesRuleIdPutMockHandler(),
+  getPreviewPermissionRulesModerationPermissionRulesPreviewPostMockHandler(),
+  getApplyPermissionRulesModerationPermissionRulesApplyPostMockHandler(),
 ]

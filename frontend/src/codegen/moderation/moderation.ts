@@ -38,6 +38,11 @@ import type {
   ModerationAppsResponse,
   PermissionDecisionRequest,
   PermissionReviewDetail,
+  PermissionRuleEntry,
+  PermissionRuleInput,
+  PermissionRuleMatch,
+  PermissionRulePreview,
+  PreviewPermissionRulesModerationPermissionRulesPreviewPostBody,
   Review,
   ReviewRequest,
   ReviewRequestResponse,
@@ -1808,3 +1813,718 @@ export const useDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
       queryClient,
     )
   }
+/**
+ * @summary List Permission Rules
+ */
+export const listPermissionRulesModerationPermissionRulesGet = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<PermissionRuleEntry[]>> => {
+  return axios.get(`/moderation/permission-rules`, options)
+}
+
+export const getListPermissionRulesModerationPermissionRulesGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/moderation/permission-rules`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getListPermissionRulesModerationPermissionRulesGetQueryKey =
+  () => {
+    return [`/moderation/permission-rules`] as const
+  }
+
+export const getListPermissionRulesModerationPermissionRulesGetQueryOptions = <
+  TData = Awaited<
+    ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+  >,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+      >,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getListPermissionRulesModerationPermissionRulesGetQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>>
+  > = ({ signal }) =>
+    listPermissionRulesModerationPermissionRulesGet({ signal, ...axiosOptions })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ListPermissionRulesModerationPermissionRulesGetQueryResult =
+  NonNullable<
+    Awaited<ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>>
+  >
+export type ListPermissionRulesModerationPermissionRulesGetQueryError =
+  AxiosError<unknown>
+
+export function useListPermissionRulesModerationPermissionRulesGet<
+  TData = Awaited<
+    ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+  >,
+  TError = AxiosError<unknown>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+          >,
+          TError,
+          Awaited<
+            ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useListPermissionRulesModerationPermissionRulesGet<
+  TData = Awaited<
+    ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+  >,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+          >,
+          TError,
+          Awaited<
+            ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+export function useListPermissionRulesModerationPermissionRulesGet<
+  TData = Awaited<
+    ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+  >,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * @summary List Permission Rules
+ */
+
+export function useListPermissionRulesModerationPermissionRulesGet<
+  TData = Awaited<
+    ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+  >,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getListPermissionRulesModerationPermissionRulesGetQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Create Permission Rule
+ */
+export const createPermissionRuleModerationPermissionRulesPost = (
+  permissionRuleInput: PermissionRuleInput,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<PermissionRuleEntry>> => {
+  return axios.post(
+    `/moderation/permission-rules`,
+    permissionRuleInput,
+    options,
+  )
+}
+
+export const getCreatePermissionRuleModerationPermissionRulesPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/moderation/permission-rules`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getCreatePermissionRuleModerationPermissionRulesPostMutationKey =
+  () => ["createPermissionRuleModerationPermissionRulesPost"] as const
+
+export const getCreatePermissionRuleModerationPermissionRulesPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof createPermissionRuleModerationPermissionRulesPost>
+      >,
+      TError,
+      CreatePermissionRuleModerationPermissionRulesPostMutationVariables,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof createPermissionRuleModerationPermissionRulesPost>
+    >,
+    TError,
+    CreatePermissionRuleModerationPermissionRulesPostMutationVariables,
+    TContext
+  > => {
+    const mutationKey =
+      getCreatePermissionRuleModerationPermissionRulesPostMutationKey()
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<typeof createPermissionRuleModerationPermissionRulesPost>
+      >,
+      CreatePermissionRuleModerationPermissionRulesPostMutationVariables
+    > = (props) => {
+      const { data } = props ?? {}
+
+      return createPermissionRuleModerationPermissionRulesPost(
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type CreatePermissionRuleModerationPermissionRulesPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof createPermissionRuleModerationPermissionRulesPost>
+    >
+  >
+export type CreatePermissionRuleModerationPermissionRulesPostMutationBody =
+  PermissionRuleInput
+export type CreatePermissionRuleModerationPermissionRulesPostMutationError =
+  AxiosError<HTTPValidationError>
+export type CreatePermissionRuleModerationPermissionRulesPostMutationVariables =
+  { data: PermissionRuleInput }
+
+/**
+ * @summary Create Permission Rule
+ */
+export const useCreatePermissionRuleModerationPermissionRulesPost = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof createPermissionRuleModerationPermissionRulesPost>
+      >,
+      TError,
+      CreatePermissionRuleModerationPermissionRulesPostMutationVariables,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof createPermissionRuleModerationPermissionRulesPost>>,
+  TError,
+  CreatePermissionRuleModerationPermissionRulesPostMutationVariables,
+  TContext
+> => {
+  return useMutation(
+    getCreatePermissionRuleModerationPermissionRulesPostMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
+}
+/**
+ * @summary Update Permission Rule
+ */
+export const updatePermissionRuleModerationPermissionRulesRuleIdPut = (
+  ruleId: number,
+  permissionRuleInput: PermissionRuleInput,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<PermissionRuleEntry>> => {
+  return axios.put(
+    `/moderation/permission-rules/${ruleId}`,
+    permissionRuleInput,
+    options,
+  )
+}
+
+export const getUpdatePermissionRuleModerationPermissionRulesRuleIdPutUrl = (
+  ruleId: number,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/moderation/permission-rules/${ruleId}`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getUpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationKey =
+  () => ["updatePermissionRuleModerationPermissionRulesRuleIdPut"] as const
+
+export const getUpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof updatePermissionRuleModerationPermissionRulesRuleIdPut
+        >
+      >,
+      TError,
+      UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationVariables,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof updatePermissionRuleModerationPermissionRulesRuleIdPut>
+    >,
+    TError,
+    UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationVariables,
+    TContext
+  > => {
+    const mutationKey =
+      getUpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationKey()
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof updatePermissionRuleModerationPermissionRulesRuleIdPut
+        >
+      >,
+      UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationVariables
+    > = (props) => {
+      const { ruleId, data } = props ?? {}
+
+      return updatePermissionRuleModerationPermissionRulesRuleIdPut(
+        ruleId,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof updatePermissionRuleModerationPermissionRulesRuleIdPut>
+    >
+  >
+export type UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationBody =
+  PermissionRuleInput
+export type UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationError =
+  AxiosError<HTTPValidationError>
+export type UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationVariables =
+  { ruleId: number; data: PermissionRuleInput }
+
+/**
+ * @summary Update Permission Rule
+ */
+export const useUpdatePermissionRuleModerationPermissionRulesRuleIdPut = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof updatePermissionRuleModerationPermissionRulesRuleIdPut
+        >
+      >,
+      TError,
+      UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationVariables,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<
+    ReturnType<typeof updatePermissionRuleModerationPermissionRulesRuleIdPut>
+  >,
+  TError,
+  UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationVariables,
+  TContext
+> => {
+  return useMutation(
+    getUpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
+}
+/**
+ * @summary Preview Permission Rules
+ */
+export const previewPermissionRulesModerationPermissionRulesPreviewPost = (
+  previewPermissionRulesModerationPermissionRulesPreviewPostBody?: PreviewPermissionRulesModerationPermissionRulesPreviewPostBody,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<PermissionRulePreview>> => {
+  return axios.post(
+    `/moderation/permission-rules/preview`,
+    previewPermissionRulesModerationPermissionRulesPreviewPostBody,
+    options,
+  )
+}
+
+export const getPreviewPermissionRulesModerationPermissionRulesPreviewPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/moderation/permission-rules/preview`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getPreviewPermissionRulesModerationPermissionRulesPreviewPostMutationKey =
+  () => ["previewPermissionRulesModerationPermissionRulesPreviewPost"] as const
+
+export const getPreviewPermissionRulesModerationPermissionRulesPreviewPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof previewPermissionRulesModerationPermissionRulesPreviewPost
+        >
+      >,
+      TError,
+      PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationVariables,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<
+        typeof previewPermissionRulesModerationPermissionRulesPreviewPost
+      >
+    >,
+    TError,
+    PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationVariables,
+    TContext
+  > => {
+    const mutationKey =
+      getPreviewPermissionRulesModerationPermissionRulesPreviewPostMutationKey()
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof previewPermissionRulesModerationPermissionRulesPreviewPost
+        >
+      >,
+      PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationVariables
+    > = (props) => {
+      const { data } = props ?? {}
+
+      return previewPermissionRulesModerationPermissionRulesPreviewPost(
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof previewPermissionRulesModerationPermissionRulesPreviewPost
+      >
+    >
+  >
+export type PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationBody =
+  PreviewPermissionRulesModerationPermissionRulesPreviewPostBody | undefined
+export type PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationError =
+  AxiosError<HTTPValidationError>
+export type PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationVariables =
+  { data?: PreviewPermissionRulesModerationPermissionRulesPreviewPostBody }
+
+/**
+ * @summary Preview Permission Rules
+ */
+export const usePreviewPermissionRulesModerationPermissionRulesPreviewPost = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof previewPermissionRulesModerationPermissionRulesPreviewPost
+        >
+      >,
+      TError,
+      PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationVariables,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<
+    ReturnType<
+      typeof previewPermissionRulesModerationPermissionRulesPreviewPost
+    >
+  >,
+  TError,
+  PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationVariables,
+  TContext
+> => {
+  return useMutation(
+    getPreviewPermissionRulesModerationPermissionRulesPreviewPostMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
+}
+/**
+ * @summary Apply Permission Rules
+ */
+export const applyPermissionRulesModerationPermissionRulesApplyPost = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<PermissionRuleMatch[]>> => {
+  return axios.post(`/moderation/permission-rules/apply`, undefined, options)
+}
+
+export const getApplyPermissionRulesModerationPermissionRulesApplyPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/moderation/permission-rules/apply`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getApplyPermissionRulesModerationPermissionRulesApplyPostMutationKey =
+  () => ["applyPermissionRulesModerationPermissionRulesApplyPost"] as const
+
+export const getApplyPermissionRulesModerationPermissionRulesApplyPostMutationOptions =
+  <TError = AxiosError<unknown>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof applyPermissionRulesModerationPermissionRulesApplyPost
+        >
+      >,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof applyPermissionRulesModerationPermissionRulesApplyPost>
+    >,
+    TError,
+    void,
+    TContext
+  > => {
+    const mutationKey =
+      getApplyPermissionRulesModerationPermissionRulesApplyPostMutationKey()
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<
+          typeof applyPermissionRulesModerationPermissionRulesApplyPost
+        >
+      >,
+      void
+    > = () => {
+      return applyPermissionRulesModerationPermissionRulesApplyPost(
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type ApplyPermissionRulesModerationPermissionRulesApplyPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof applyPermissionRulesModerationPermissionRulesApplyPost>
+    >
+  >
+
+export type ApplyPermissionRulesModerationPermissionRulesApplyPostMutationError =
+  AxiosError<unknown>
+
+/**
+ * @summary Apply Permission Rules
+ */
+export const useApplyPermissionRulesModerationPermissionRulesApplyPost = <
+  TError = AxiosError<unknown>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<
+          typeof applyPermissionRulesModerationPermissionRulesApplyPost
+        >
+      >,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<
+    ReturnType<typeof applyPermissionRulesModerationPermissionRulesApplyPost>
+  >,
+  TError,
+  void,
+  TContext
+> => {
+  return useMutation(
+    getApplyPermissionRulesModerationPermissionRulesApplyPostMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
+}

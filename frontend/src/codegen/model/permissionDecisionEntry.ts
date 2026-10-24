@@ -6,15 +6,18 @@
  */
 import type { PermissionDecisionEntryDecision } from "./permissionDecisionEntryDecision"
 import type { PermissionDecisionEntryRationale } from "./permissionDecisionEntryRationale"
+import type { PermissionDecisionEntryReviewerId } from "./permissionDecisionEntryReviewerId"
 import type { PermissionDecisionEntryReviewerName } from "./permissionDecisionEntryReviewerName"
+import type { PermissionDecisionEntryRules } from "./permissionDecisionEntryRules"
 
 export interface PermissionDecisionEntry {
   id: number
   created_at: string
   decision: PermissionDecisionEntryDecision
   rationale: PermissionDecisionEntryRationale
-  reviewer_id: number
+  reviewer_id: PermissionDecisionEntryReviewerId
   reviewer_name: PermissionDecisionEntryReviewerName
+  rules: PermissionDecisionEntryRules
   fingerprint: string
   assessment_id: number
   applies: boolean
