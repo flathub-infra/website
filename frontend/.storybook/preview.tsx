@@ -5,10 +5,17 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { faker } from "@faker-js/faker"
 import { MotionGlobalConfig } from "framer-motion"
 import isChromatic from "chromatic/isChromatic"
+import { Inter } from "next/font/google"
 
 import { mswLoader } from "msw-storybook-addon/csf3"
 import { allModes } from "./modes"
 import nextIntl from "./next-intl"
+
+const inter = Inter({
+  subsets: ["latin"],
+  fallback: ["sans-serif"],
+  preload: false,
+})
 
 MotionGlobalConfig.skipAnimations = isChromatic()
 
@@ -20,6 +27,11 @@ faker.setDefaultRefDate(new Date(2024, 0, 1))
 const queryClient = new QueryClient()
 
 export default {
+  beforeAll: () => {
+    // Match the site's body font, including content rendered in portals.
+    document.body.classList.add(inter.className)
+    return () => document.body.classList.remove(inter.className)
+  },
   initialGlobals: {
     locale: "en",
     locales: {

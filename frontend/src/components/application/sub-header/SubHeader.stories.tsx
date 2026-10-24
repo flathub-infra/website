@@ -135,6 +135,15 @@ export const ProprietaryApp: Story = {
     stats: baseStats,
     safetyRating: unsafeSafetyRating,
   },
+  play: async ({ canvasElement }) => {
+    const doc = canvasElement.ownerDocument
+    await doc.fonts.ready
+
+    // Verify the preview uses the real font, not just a missing-font fallback.
+    expect(getComputedStyle(doc.body).fontFamily).toContain("Inter")
+    expect(getComputedStyle(canvasElement).fontFamily).toContain("Inter")
+    expect(await doc.fonts.load("16px Inter")).not.toHaveLength(0)
+  },
 }
 
 export const MobileFriendly: Story = {
