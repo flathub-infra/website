@@ -64,15 +64,37 @@ const review: Review = {
   error_code: null,
   error_message: null,
   linked_assessment_id: null,
-  decision_id: 1,
+  decision_id: 2,
   decisions: [
     {
-      id: 1,
+      id: 2,
       assessment_id: 3873,
       created_at: "2026-10-19T10:42:40.722811",
       decision: "rejected",
       reviewer_id: 1,
       reviewer_name: "Bartłomiej Piotrowski",
+      rules: null,
+      rationale:
+        "Use the notifications portal instead of accessing org.freedesktop.Notifications directly.",
+      fingerprint: "example-fingerprint",
+      applies: true,
+    },
+    {
+      id: 1,
+      assessment_id: 3873,
+      created_at: "2026-10-19T10:40:12.104211",
+      decision: "rejected",
+      reviewer_id: null,
+      reviewer_name: null,
+      rules: [
+        {
+          id: 2,
+          decision: "rejected",
+          permission_group: "Session Bus Policy",
+          key: "org.freedesktop.Notifications",
+          value: "talk",
+        },
+      ],
       rationale:
         "Use the notifications portal instead of accessing org.freedesktop.Notifications directly.",
       fingerprint: "example-fingerprint",

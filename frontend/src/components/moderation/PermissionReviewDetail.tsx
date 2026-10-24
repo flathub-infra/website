@@ -349,9 +349,19 @@ export default function PermissionReviewDetail({
                     <div className="flex flex-wrap items-center gap-2">
                       <OutcomeBadge outcome={d.decision} />
                       <span className="font-medium">
-                        {d.reviewer_name ?? `#${d.reviewer_id}`}
+                        {d.rules
+                          ? "Flathub (automatic)"
+                          : (d.reviewer_name ?? `#${d.reviewer_id}`)}
                       </span>
                     </div>
+                    {d.rules && (
+                      <Link
+                        href="/admin/moderation/permission-rules"
+                        className="font-mono text-xs [overflow-wrap:anywhere]"
+                      >
+                        {d.rules.map((r) => `${r.key}=${r.value}`).join(", ")}
+                      </Link>
+                    )}
                     <time
                       dateTime={d.created_at}
                       className="text-xs text-muted-foreground"
