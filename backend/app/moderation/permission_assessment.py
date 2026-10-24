@@ -17,6 +17,7 @@ from sqlalchemy.orm import aliased
 from .. import config, http_client, models, utils
 from ..database import get_db
 from ..types import JSONValue, ModerationRequestType, is_json_object
+from . import permission_rules
 from .ostree_permissions import (
     CollectedPermissions,
     _valid_segment,
@@ -105,6 +106,7 @@ class CandidateAssessmentResponse(BaseModel):
     acceptance_basis: AcceptanceBasis | None = None
     decision_id: int | None = None
     decision_rationale: str | None = None
+    decision_automatic: bool = False
     baseline_id: int | None = None
     review_url: str
     superseded_by: int | None = None
@@ -222,6 +224,7 @@ def _response(
         acceptance_basis=row.acceptance_basis,
         decision_id=None if internal else row.decision_id,
         decision_rationale=decision.rationale if decision is not None else None,
+        decision_automatic=decision is not None and decision.rules is not None,
         baseline_id=row.baseline_id,
         review_url=review_url(row.id),
         superseded_by=newer,
@@ -258,17 +261,35 @@ def _persist_observation(values: dict[str, object]) -> CandidateAssessmentRespon
             ).first()
             if latest is not None:
                 values |= decision_outcome(latest.decision, latest.id)
-        db.session.execute(
+        inserted = db.session.execute(
             insert(models.PermissionAssessmentObservation)
             .values(**values)
             .on_conflict_do_nothing(index_elements=["assessment_identity"])
-        )
+            .returning(models.PermissionAssessmentObservation.id)
+        ).scalar_one_or_none()
         row = db.session.execute(
             select(models.PermissionAssessmentObservation).where(
                 models.PermissionAssessmentObservation.assessment_identity
                 == values["assessment_identity"]
             )
         ).scalar_one()
+        if (
+            inserted is not None
+            and row.outcome == "pending"
+            and row.pull_request_number is not None
+        ):
+            verdict = permission_rules.evaluate(
+                row.differences or [],
+                db.session.scalars(select(models.PermissionRule)),
+            )
+            if verdict is not None:
+                record_decision(
+                    db.session,
+                    row,
+                    verdict.decision,
+                    rationale=verdict.rationale,
+                    rules=verdict.rules,
+                )
         response = _response(db.session, row, superseded_by(db.session, row))
     logger.info(
         "Recorded permission assessment observation",
@@ -277,6 +298,7 @@ def _persist_observation(values: dict[str, object]) -> CandidateAssessmentRespon
             "pipeline_id": response.candidate_identity.pipeline_id,
             "build_id": response.candidate_identity.build_id,
             "outcome": response.outcome,
+            "decision_automatic": response.decision_automatic,
             "assessment_identity": response.assessment_identity,
             "expected_arches": response.expected_arches,
             "error_code": response.error_code,

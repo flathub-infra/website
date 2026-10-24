@@ -40,6 +40,7 @@ TABLES = (
     models.GithubAccount,
     models.PermissionBaseline,
     models.PermissionDecision,
+    models.PermissionRule,
     models.PermissionAssessmentObservation,
     models.ModerationRequest,
     models.DirectUploadApp,
@@ -379,6 +380,54 @@ def test_responses_expose_active_decision_rationale(db):
         "Too broad"
     )
     assert persist(3, fingerprint="e" * 64).decision_rationale is None
+
+
+TRAY = "org.kde.StatusNotifierWatcher"
+TRAY_CHANGE = {
+    "published_snapshot": OLD_SNAP,
+    "published_fingerprint": OLD_FP,
+    "differences": [
+        {
+            "path": ["x86_64", "Session Bus Policy", TRAY],
+            "before": None,
+            "after": "talk",
+        }
+    ],
+}
+
+
+def add_rule(db, decision="approved", key=TRAY, rationale="Tray icons are fine."):
+    with db() as session:
+        session.add(
+            models.PermissionRule(
+                created_by=1,
+                updated_by=1,
+                decision=decision,
+                permission_group="Session Bus Policy",
+                key=key,
+                value="talk",
+                rationale=rationale,
+            )
+        )
+
+
+def test_rules_decide_new_assessments_until_a_moderator_overrides(db):
+    add_rule(db)
+    first = persist(1, **TRAY_CHANGE)
+    assert (
+        first.outcome,
+        first.acceptance_basis,
+        first.decision_rationale,
+        first.decision_automatic,
+    ) == ("accepted", "permission_decision", "Tray icons are fine.", True)
+    assert persist(1, **TRAY_CHANGE).decision_id == first.decision_id
+
+    decide(first.assessment_id, "rejected", rationale="Not this app")
+    rebuilt = persist(2, pull_request_head_revision="4" * 40, **TRAY_CHANGE)
+    assert (rebuilt.outcome, rebuilt.decision_automatic) == ("rejected", False)
+    with db() as session:
+        decisions = session.execute(select(models.PermissionDecision.id)).all()
+    assert len(decisions) == 2
 
 
 def test_review_listing_filters_stored_outcome_and_superseded(db):

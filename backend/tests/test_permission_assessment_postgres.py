@@ -29,6 +29,7 @@ PERMISSION_TABLES = [
     models.FlathubUser.__table__,
     models.PermissionBaseline.__table__,
     models.PermissionDecision.__table__,
+    models.PermissionRule.__table__,
     models.PermissionAssessmentObservation.__table__,
 ]
 
