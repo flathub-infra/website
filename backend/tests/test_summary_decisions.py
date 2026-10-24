@@ -23,6 +23,7 @@ def _decide(
     return summary_decisions.auto_approve_summary_change(
         app_id="dev.creeperkatze.full-steam-ahead",
         app_name="Full Steam Ahead",
+        description=None,
         old_summary=old_summary,
         new_summary=new_summary,
         build_id=42,
@@ -121,3 +122,28 @@ def test_unconfigured_decision_skips_request(monkeypatch, settings, summaries):
         monkeypatch.setattr(config.settings, name, value)
 
     assert _decide(**summaries) is None
+
+
+def test_decision_sends_plain_text_description(monkeypatch):
+    requests = []
+
+    def post(url, **kwargs):
+        requests.append(kwargs["json"])
+        return decision_post()(url, **kwargs)
+
+    enable_decisions(monkeypatch, post)
+
+    summary_decisions.auto_approve_summary_change(
+        app_id="dev.creeperkatze.full-steam-ahead",
+        app_name="Full Steam Ahead",
+        description="<p>Import <em>games</em>\n  from &amp; to\n Steam.</p>"
+        "<ul><li>Heroic</li><li>Lutris</li></ul>",
+        old_summary="Import games from other launchers into Steam",
+        new_summary="Import all your games into Steam",
+        build_id=42,
+        job_id=7,
+    )
+
+    assert requests[0]["state"]["description"] == (
+        "Import games from & to Steam.\n- Heroic\n- Lutris"
+    )

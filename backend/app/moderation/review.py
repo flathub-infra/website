@@ -1680,6 +1680,7 @@ def submit_review_request(
             old_summary = current_values.get("summary")
             new_summary = keys["summary"]
             app_name = current_values.get("name")
+            description = app_data.get("description")
             if (
                 isinstance(old_summary, str)
                 and old_summary
@@ -1692,6 +1693,7 @@ def submit_review_request(
                 summary_decision = summary_decisions.auto_approve_summary_change(
                     app_id=app_id,
                     app_name=app_name if isinstance(app_name, str) else None,
+                    description=description if isinstance(description, str) else None,
                     old_summary=old_summary,
                     new_summary=new_summary,
                     build_id=review_request.build_id,

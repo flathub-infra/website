@@ -1,6 +1,7 @@
 import logging
 
 import httpx
+from lxml import etree  # ty: ignore[unresolved-import]
 
 from .. import config, http_client, models
 from ..types import JSONValue, is_json_object
@@ -58,6 +59,15 @@ def _probability(value: object) -> float:
     return float(value)
 
 
+def _plain_text(description: str) -> str:
+    root = etree.fromstring(f"<description>{description}</description>")
+    return "\n".join(
+        ("- " if element.tag == "li" else "")
+        + " ".join("".join(element.itertext()).split())
+        for element in root.iter("p", "li")
+    )
+
+
 def _evaluate(payload: object) -> tuple[str, JSONValue, bool]:
     if not is_json_object(payload):
         raise TypeError("Response must be a JSON object")
@@ -104,6 +114,7 @@ def auto_approve_summary_change(
     *,
     app_id: str,
     app_name: str | None,
+    description: str | None,
     old_summary: str,
     new_summary: str,
     build_id: int,
@@ -133,6 +144,7 @@ def auto_approve_summary_change(
                     "app_name": app_name,
                     "old_summary": old_summary,
                     "new_summary": new_summary,
+                    "description": _plain_text(description) if description else None,
                 },
                 "questions": _QUESTIONS,
             },
