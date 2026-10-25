@@ -204,7 +204,7 @@ def _decided(
                 observation.flatpak_branch == candidate.flatpak_branch,
                 observation.canonicalization_version == CANONICALIZATION_VERSION,
                 observation.fingerprint == fingerprint,
-                decision.decision != "skipped",
+                decision.decision != "snoozed",
             )
             .order_by(decision.id.desc())
             .limit(1)

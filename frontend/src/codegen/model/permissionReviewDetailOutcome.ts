@@ -12,6 +12,6 @@ export const PermissionReviewDetailOutcome = {
   accepted: "accepted",
   pending: "pending",
   rejected: "rejected",
-  skipped: "skipped",
+  snoozed: "snoozed",
   error: "error",
 } as const

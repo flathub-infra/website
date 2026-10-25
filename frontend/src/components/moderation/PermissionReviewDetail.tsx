@@ -6,13 +6,13 @@ import { useSearchParams } from "next/navigation"
 import { useQueryClient } from "@tanstack/react-query"
 import { isAxiosError } from "axios"
 import {
+  AlarmClock,
   Check,
   ChevronLeft,
   ChevronRight,
   ExternalLink,
   History,
   LoaderCircle,
-  SkipForward,
   X,
 } from "lucide-react"
 import {
@@ -137,8 +137,9 @@ const DecisionForm = ({
           onChange={(e) => setRationale(e.target.value)}
         />
         <FieldDescription id="review-rationale-help">
-          Posted on the pull request, except when skipping. Required to reject;
-          optional otherwise.
+          Posted on the pull request, except when snoozing. Required to reject;
+          optional otherwise. Snoozed reviews return to the pending queue after
+          12 hours.
         </FieldDescription>
       </Field>
       {error && <InlineError error={error} shown={true} />}
@@ -171,10 +172,10 @@ const DecisionForm = ({
           <Button
             variant="outline"
             disabled={mutation.isPending}
-            onClick={() => decide(Decision.skipped)}
+            onClick={() => decide(Decision.snoozed)}
           >
-            <SkipForward data-icon="inline-start" />
-            Skip
+            <AlarmClock data-icon="inline-start" />
+            Snooze
           </Button>
         </div>
       </div>

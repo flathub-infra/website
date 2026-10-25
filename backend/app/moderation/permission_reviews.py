@@ -1,9 +1,9 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, FastAPI, HTTPException, Query, Request
 from pydantic import BaseModel, model_validator
-from sqlalchemy import exists, func, select, update
+from sqlalchemy import and_, case, exists, func, select, update
 from sqlalchemy.orm import aliased
 
 from .. import audit_log, cache, models, worker
@@ -13,12 +13,28 @@ from . import permission_assessment as assessment
 
 router = APIRouter(prefix="/moderation/permission-reviews", tags=["moderation"])
 
+SNOOZE = timedelta(hours=12)
+current_outcome = case(
+    (
+        and_(
+            models.PermissionAssessmentObservation.outcome == "snoozed",
+            ~exists().where(
+                models.PermissionDecision.id
+                == models.PermissionAssessmentObservation.decision_id,
+                models.PermissionDecision.created_at > func.now() - SNOOZE,
+            ),
+        ),
+        "pending",
+    ),
+    else_=models.PermissionAssessmentObservation.outcome,
+)
+
 
 class PermissionReviewSummary(BaseModel):
     assessment_id: int
     app_id: str
     created_at: datetime
-    outcome: Literal["accepted", "pending", "rejected", "skipped", "error"]
+    outcome: Literal["accepted", "pending", "rejected", "snoozed", "error"]
     acceptance_basis: assessment.AcceptanceBasis | None
     candidate_kind: str
     forge_instance: str
@@ -35,7 +51,7 @@ class PermissionReviewSummary(BaseModel):
 class PermissionDecisionEntry(BaseModel):
     id: int
     created_at: datetime
-    decision: Literal["approved", "rejected", "skipped"]
+    decision: Literal["approved", "rejected", "snoozed"]
     rationale: str | None
     reviewer_id: int
     reviewer_name: str | None
@@ -69,7 +85,7 @@ class PermissionReviewDetail(PermissionReviewSummary):
 
 
 class PermissionDecisionRequest(BaseModel):
-    decision: Literal["approved", "rejected", "skipped"]
+    decision: Literal["approved", "rejected", "snoozed"]
     fingerprint: str
     rationale: str | None = None
 
@@ -80,9 +96,12 @@ class PermissionDecisionRequest(BaseModel):
         return self
 
 
-def _fields(session, row: models.PermissionAssessmentObservation) -> dict[str, Any]:
+def _fields(
+    session, row: models.PermissionAssessmentObservation, outcome: str
+) -> dict[str, Any]:
     return {c.name: getattr(row, c.name) for c in row.__table__.columns} | {
         "assessment_id": row.id,
+        "outcome": outcome,
         "destination_channel": row.intended_channel,
         "difference_count": None if row.differences is None else len(row.differences),
         "superseded_by": assessment.superseded_by(session, row),
@@ -107,8 +126,13 @@ def _detail(
         .order_by(decision.id.desc())
     ).all()
     kind = "baseline" if row.baseline_id is not None else "published"
+    outcome = session.execute(
+        select(current_outcome).where(
+            models.PermissionAssessmentObservation.id == row.id
+        )
+    ).scalar_one()
     return PermissionReviewDetail(
-        **_fields(session, row),
+        **_fields(session, row, outcome),
         review_url=assessment.review_url(row.id),
         snapshot_fingerprint=row.fingerprint,
         comparison_fingerprint=row.published_fingerprint,
@@ -132,7 +156,7 @@ def _detail(
 def list_permission_reviews(
     _moderator: ModeratorDep,
     outcome: Annotated[
-        Literal["accepted", "pending", "rejected", "skipped", "error", "all"], Query()
+        Literal["accepted", "pending", "rejected", "snoozed", "error", "all"], Query()
     ] = "pending",
     include_superseded: bool = False,
     limit: Annotated[int, Query(ge=1, le=200)] = 50,
@@ -140,12 +164,12 @@ def list_permission_reviews(
 ) -> dict[str, Any]:
     observation = models.PermissionAssessmentObservation
     newer = aliased(observation)
-    query = select(observation).where(
+    query = select(observation, current_outcome).where(
         observation.candidate_kind.in_(assessment.PR_CANDIDATE_KINDS),
         observation.acceptance_basis.is_distinct_from("baseline"),
     )
     if outcome != "all":
-        query = query.where(observation.outcome == outcome)
+        query = query.where(current_outcome == outcome)
     if not include_superseded:
         query = query.where(
             ~exists().where(
@@ -162,8 +186,11 @@ def list_permission_reviews(
         ).scalar_one()
         rows = db.session.execute(
             query.order_by(observation.id.desc()).limit(limit).offset(offset)
-        ).scalars()
-        items = [PermissionReviewSummary(**_fields(db.session, row)) for row in rows]
+        )
+        items = [
+            PermissionReviewSummary(**_fields(db.session, row, state))
+            for row, state in rows
+        ]
     return {"items": items, "total": total}
 
 
@@ -206,7 +233,9 @@ def decide_permission_review(
         if row.acceptance_basis == "baseline":
             raise HTTPException(status_code=409, detail="no_review_needed")
         unchanged = assessment.decision_outcome(body.decision, row.decision_id)
-        if all(getattr(row, key) == value for key, value in unchanged.items()):
+        if body.decision != "snoozed" and all(
+            getattr(row, key) == value for key, value in unchanged.items()
+        ):
             return _detail(db.session, row)
         decision = models.PermissionDecision(
             assessment_id=row.id,
@@ -235,7 +264,7 @@ def decide_permission_review(
         }
         pull_request = (
             (row.source_repository, row.pull_request_number)
-            if row.forge_instance == "github.com" and body.decision != "skipped"
+            if row.forge_instance == "github.com" and body.decision != "snoozed"
             else None
         )
 

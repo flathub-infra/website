@@ -175,10 +175,10 @@ def lock_pull_request(session, row) -> None:
 def _response(
     session, row: models.PermissionAssessmentObservation, newer: int | None = None
 ) -> CandidateAssessmentResponse:
-    skipped = row.outcome == "skipped"
+    snoozed = row.outcome == "snoozed"
     decision = (
         session.get(models.PermissionDecision, row.decision_id)
-        if row.decision_id is not None and not skipped
+        if row.decision_id is not None and not snoozed
         else None
     )
     reviewer = (
@@ -196,9 +196,9 @@ def _response(
             pipeline_id=row.pipeline_id, build_id=row.build_id
         ),
         snapshot_fingerprint=row.fingerprint,
-        outcome="pending" if skipped else row.outcome,
+        outcome="pending" if snoozed else row.outcome,
         acceptance_basis=row.acceptance_basis,
-        decision_id=None if skipped else row.decision_id,
+        decision_id=None if snoozed else row.decision_id,
         decision_rationale=decision.rationale if decision is not None else None,
         decision_reviewer=reviewer,
         baseline_id=row.baseline_id,
@@ -322,7 +322,7 @@ def cross_channel_basis(app_id: str, channel: str, fingerprint: str) -> str | No
                 observation.intended_channel == "beta",
                 observation.canonicalization_version == CANONICALIZATION_VERSION,
                 observation.fingerprint == fingerprint,
-                decision.decision != "skipped",
+                decision.decision != "snoozed",
             )
             .order_by(decision.id.desc())
             .limit(1)

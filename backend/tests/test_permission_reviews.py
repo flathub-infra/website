@@ -2,14 +2,14 @@ import json
 import os
 import sys
 from contextlib import contextmanager
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
 import pytest
 from fastapi import HTTPException
-from sqlalchemy import create_engine, event, select, text
+from sqlalchemy import create_engine, event, func, select, text, update
 from sqlalchemy.orm import sessionmaker
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -234,12 +234,12 @@ def test_failed_or_refused_decisions_do_not_notify(db, notified, monkeypatch):
     assert len(decisions) == 1
 
 
-def test_skip_leaves_pull_request_pending_without_notifying(db, notified):
+def test_snooze_leaves_pull_request_pending_without_notifying(db, notified):
     beta = {"intended_channel": "beta", "flatpak_branch": "beta"}
     first = persist(1, **beta)
     decide(first.assessment_id)
-    skipped = decide(first.assessment_id, "skipped", rationale="Not now")
-    assert (skipped.outcome, skipped.acceptance_basis) == ("skipped", None)
+    snoozed = decide(first.assessment_id, "snoozed", rationale="Not now")
+    assert (snoozed.outcome, snoozed.acceptance_basis) == ("snoozed", None)
     inherited = persist(2, pull_request_head_revision="4" * 40, **beta)
     assert (
         inherited.outcome,
@@ -247,10 +247,38 @@ def test_skip_leaves_pull_request_pending_without_notifying(db, notified):
         inherited.decision_rationale,
     ) == ("pending", None, None)
     assert reviews.read_permission_review(inherited.assessment_id, None).outcome == (
-        "skipped"
+        "snoozed"
     )
     assert notified == [(f"flathub/{APP}", 17, "approved")]
     assert assessment.cross_channel_basis(APP, "stable", FP) == "beta_approval"
+
+
+def test_snoozed_review_resurfaces_after_twelve_hours(db, notified):
+    review = persist(1)
+
+    def listed(outcome):
+        result = reviews.list_permission_reviews(None, outcome, False, 50, 0)
+        return [item.assessment_id for item in result["items"]]
+
+    def age(hours):
+        with db() as session:
+            session.execute(
+                update(models.PermissionDecision).values(
+                    created_at=func.now() - timedelta(hours=hours)
+                )
+            )
+
+    decide(review.assessment_id, "snoozed")
+    age(11)
+    assert (listed("pending"), listed("snoozed")) == ([], [review.assessment_id])
+    age(12)
+    assert (listed("pending"), listed("snoozed")) == ([review.assessment_id], [])
+    assert reviews.read_permission_review(review.assessment_id, None).outcome == (
+        "pending"
+    )
+    assert decide(review.assessment_id, "snoozed").outcome == "snoozed"
+    assert listed("pending") == []
+    assert notified == []
 
 
 def test_responses_expose_active_decision_rationale(db):
