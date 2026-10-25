@@ -105,6 +105,7 @@ class CandidateAssessmentResponse(BaseModel):
     acceptance_basis: AcceptanceBasis | None = None
     decision_id: int | None = None
     decision_rationale: str | None = None
+    decision_reviewer: str | None = None
     baseline_id: int | None = None
     review_url: str
     superseded_by: int | None = None
@@ -180,6 +181,15 @@ def _response(
         if row.decision_id is not None and not skipped
         else None
     )
+    reviewer = (
+        session.execute(
+            select(models.GithubAccount.login).where(
+                models.GithubAccount.user == decision.reviewer_id
+            )
+        ).scalar()
+        if decision is not None and decision.created_at >= row.created_at
+        else None
+    )
     return CandidateAssessmentResponse(
         assessment_id=row.id,
         candidate_identity=CandidateIdentity(
@@ -190,6 +200,7 @@ def _response(
         acceptance_basis=row.acceptance_basis,
         decision_id=None if skipped else row.decision_id,
         decision_rationale=decision.rationale if decision is not None else None,
+        decision_reviewer=reviewer,
         baseline_id=row.baseline_id,
         review_url=review_url(row.id),
         superseded_by=newer,
