@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { http, HttpResponse } from "msw"
 import { useState, type ReactNode } from "react"
+import { ThemeProvider } from "next-themes"
 import { expect, userEvent, within } from "storybook/test"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
 import type {
@@ -114,9 +115,16 @@ const meta = {
   },
   decorators: [
     (Story, context) => (
-      <StoryQueryProvider key={context.id}>
-        <Story />
-      </StoryQueryProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="light"
+        enableSystem={false}
+        storageKey="storybook-quality-moderation-theme"
+      >
+        <StoryQueryProvider key={context.id}>
+          <Story />
+        </StoryQueryProvider>
+      </ThemeProvider>
     ),
   ],
   args: {
