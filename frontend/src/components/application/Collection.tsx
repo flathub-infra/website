@@ -138,9 +138,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
         refresh={refresh}
         customButtons={customButtons}
       />
-      <div
-        className="grid auto-rows-fr grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3"
-      >
+      <div className="grid auto-rows-fr grid-cols-1 justify-around gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3">
         {applications.map((app, index) => {
           const itemAction = renderItemAction?.(app)
           const itemFooter = renderItemFooter?.(app)
@@ -165,12 +163,7 @@ const ApplicationCollection: FunctionComponent<Props> = ({
           )
 
           return (
-            <div
-              key={app.id}
-              className={
-                hasCardFooter ? "h-full" : undefined
-              }
-            >
+            <div key={app.id} className={hasCardFooter ? "h-full" : undefined}>
               {hasCardFooter ? (
                 <Card
                   className={`h-full ${itemActionContainerClasses[variant]}`}
