@@ -1,4 +1,11 @@
-import { AlarmClock, Check, CircleAlert, Clock3, X } from "lucide-react"
+import {
+  AlarmClock,
+  Check,
+  CircleAlert,
+  CircleMinus,
+  Clock3,
+  X,
+} from "lucide-react"
 import { cva } from "class-variance-authority"
 import { Badge } from "@/components/ui/badge"
 
@@ -36,7 +43,9 @@ export default function PermissionOutcomeBadge({
           ? CircleAlert
           : outcome === "snoozed"
             ? AlarmClock
-            : Clock3
+            : outcome === "ignored"
+              ? CircleMinus
+              : Clock3
 
   return (
     <Badge

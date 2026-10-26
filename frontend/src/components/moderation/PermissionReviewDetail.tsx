@@ -8,6 +8,7 @@ import { isAxiosError } from "axios"
 import {
   AlarmClock,
   Check,
+  CircleMinus,
   ChevronLeft,
   ChevronRight,
   ExternalLink,
@@ -137,9 +138,10 @@ const DecisionForm = ({
           onChange={(e) => setRationale(e.target.value)}
         />
         <FieldDescription id="review-rationale-help">
-          Posted on the pull request, except when snoozing. Required to reject;
-          optional otherwise. Snoozed reviews return to the pending queue after
-          12 hours.
+          Posted on the pull request for approval and rejection. Ignore and
+          snooze rationales stay internal. Required to reject or ignore;
+          optional otherwise. Ignore closes only this review, not the pull
+          request. Snoozed reviews return to the pending queue after 12 hours.
         </FieldDescription>
       </Field>
       {error && <InlineError error={error} shown={true} />}
@@ -149,7 +151,7 @@ const DecisionForm = ({
             ? "Saving decision…"
             : "Review the permission changes before deciding."}
         </span>
-        <div className="flex gap-2">
+        <div className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:grid-cols-4">
           <Button
             disabled={mutation.isPending}
             onClick={() => decide(Decision.approved)}
@@ -176,6 +178,14 @@ const DecisionForm = ({
           >
             <AlarmClock data-icon="inline-start" />
             Snooze
+          </Button>
+          <Button
+            variant="outline"
+            disabled={mutation.isPending || !rationale.trim()}
+            onClick={() => decide(Decision.ignored)}
+          >
+            <CircleMinus data-icon="inline-start" />
+            Ignore
           </Button>
         </div>
       </div>

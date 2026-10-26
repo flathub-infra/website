@@ -34,7 +34,7 @@ class PermissionReviewSummary(BaseModel):
     assessment_id: int
     app_id: str
     created_at: datetime
-    outcome: Literal["accepted", "pending", "rejected", "snoozed", "error"]
+    outcome: Literal["accepted", "pending", "rejected", "snoozed", "ignored", "error"]
     acceptance_basis: assessment.AcceptanceBasis | None
     candidate_kind: str
     forge_instance: str
@@ -51,7 +51,7 @@ class PermissionReviewSummary(BaseModel):
 class PermissionDecisionEntry(BaseModel):
     id: int
     created_at: datetime
-    decision: Literal["approved", "rejected", "snoozed"]
+    decision: Literal["approved", "rejected", "snoozed", "ignored"]
     rationale: str | None
     reviewer_id: int
     reviewer_name: str | None
@@ -85,14 +85,17 @@ class PermissionReviewDetail(PermissionReviewSummary):
 
 
 class PermissionDecisionRequest(BaseModel):
-    decision: Literal["approved", "rejected", "snoozed"]
+    decision: Literal["approved", "rejected", "snoozed", "ignored"]
     fingerprint: str
     rationale: str | None = None
 
     @model_validator(mode="after")
     def check_rationale(self):
-        if self.decision == "rejected" and not (self.rationale or "").strip():
-            raise ValueError("A rejection requires a rationale")
+        if (
+            self.decision in ("rejected", "ignored")
+            and not (self.rationale or "").strip()
+        ):
+            raise ValueError(f"A {self.decision} decision requires a rationale")
         return self
 
 
@@ -156,7 +159,10 @@ def _detail(
 def list_permission_reviews(
     _moderator: ModeratorDep,
     outcome: Annotated[
-        Literal["accepted", "pending", "rejected", "snoozed", "error", "all"], Query()
+        Literal[
+            "accepted", "pending", "rejected", "snoozed", "ignored", "error", "all"
+        ],
+        Query(),
     ] = "pending",
     include_superseded: bool = False,
     limit: Annotated[int, Query(ge=1, le=200)] = 50,
@@ -264,7 +270,8 @@ def decide_permission_review(
         }
         pull_request = (
             (row.source_repository, row.pull_request_number)
-            if row.forge_instance == "github.com" and body.decision != "snoozed"
+            if row.forge_instance == "github.com"
+            and body.decision in ("approved", "rejected")
             else None
         )
 

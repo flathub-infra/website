@@ -12,4 +12,5 @@ export const PermissionDecisionEntryDecision = {
   approved: "approved",
   rejected: "rejected",
   snoozed: "snoozed",
+  ignored: "ignored",
 } as const

@@ -99,7 +99,10 @@ const handlers = (data: Review) => [
         rationale: string | null
         fingerprint: string
       }
-      if (body.decision === "rejected" && !body.rationale?.trim()) {
+      if (
+        (body.decision === "rejected" || body.decision === "ignored") &&
+        !body.rationale?.trim()
+      ) {
         return HttpResponse.json(
           { detail: "rationale_required" },
           { status: 400 },
@@ -146,6 +149,24 @@ type Story = StoryObj<typeof meta>
 
 export const Rejected: Story = {}
 export const Dark: Story = { globals: { theme: "dark" } }
+export const Ignored: Story = {
+  parameters: {
+    msw: {
+      handlers: handlers({
+        ...review,
+        outcome: "ignored",
+        decisions: [
+          {
+            ...review.decisions[0],
+            decision: "ignored",
+            rationale: "This review no longer needs a permission decision.",
+          },
+        ],
+      }),
+    },
+  },
+}
+
 export const Pending: Story = {
   parameters: {
     msw: {
@@ -155,6 +176,8 @@ export const Pending: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     const reject = await canvas.findByRole("button", { name: "Reject" })
+    const ignore = canvas.getByRole("button", { name: "Ignore" })
+    await expect(ignore).toBeDisabled()
     await expect(reject).toBeDisabled()
     await expect(canvas.getByRole("button", { name: "Approve" })).toBeEnabled()
     await expect(canvas.getByText("No decisions yet.")).toBeInTheDocument()
@@ -163,17 +186,32 @@ export const Pending: Story = {
       "   ",
     )
     await expect(reject).toBeDisabled()
+    await expect(ignore).toBeDisabled()
     await userEvent.type(
       canvas.getByRole("textbox", { name: "Decision rationale" }),
       "Use the notifications portal.",
     )
     await expect(reject).toBeEnabled()
+    await expect(ignore).toBeEnabled()
     await userEvent.click(reject)
     await waitFor(() =>
       expect(
         canvas.getByRole("textbox", { name: "Decision rationale" }),
       ).toHaveValue(""),
     )
+    await expect(ignore).toBeDisabled()
+    await userEvent.type(
+      canvas.getByRole("textbox", { name: "Decision rationale" }),
+      "This review no longer needs a permission decision.",
+    )
+    await expect(ignore).toBeEnabled()
+    await userEvent.click(ignore)
+    await waitFor(() =>
+      expect(
+        canvas.getByRole("textbox", { name: "Decision rationale" }),
+      ).toHaveValue(""),
+    )
+    await expect(ignore).toBeDisabled()
   },
 }
 export const Superseded: Story = {

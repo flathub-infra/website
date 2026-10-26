@@ -9,6 +9,7 @@ from uuid import uuid4
 
 import pytest
 from fastapi import HTTPException
+from pydantic import ValidationError
 from sqlalchemy import create_engine, event, func, select, text, update
 from sqlalchemy.orm import sessionmaker
 
@@ -232,6 +233,94 @@ def test_failed_or_refused_decisions_do_not_notify(db, notified, monkeypatch):
     with db() as session:
         decisions = session.execute(select(models.PermissionDecision.id)).all()
     assert len(decisions) == 1
+
+
+@pytest.mark.parametrize(
+    "rationale",
+    [{}, {"rationale": None}, {"rationale": ""}, {"rationale": " \t\n "}],
+)
+def test_ignore_requires_nonblank_rationale(rationale):
+    with pytest.raises(ValidationError):
+        reviews.PermissionDecisionRequest(
+            decision="ignored", fingerprint=FP, **rationale
+        )
+
+
+def test_ignore_keeps_rationale_internal_and_never_resurfaces(db, notified):
+    with db() as session:
+        session.add(models.GithubAccount(user=1, github_userid=7, login="mod"))
+    first = persist(1)
+    ignored = decide(first.assessment_id, "ignored", rationale="Tracked internally")
+    assert (ignored.outcome, ignored.acceptance_basis) == ("ignored", None)
+    (entry,) = ignored.decisions
+    assert (
+        entry.id,
+        entry.decision,
+        entry.rationale,
+        entry.reviewer_id,
+        entry.applies,
+    ) == (ignored.decision_id, "ignored", "Tracked internally", 1, True)
+    external = assessment.get_assessment(first.assessment_id)
+    assert (
+        external.outcome,
+        external.acceptance_basis,
+        external.decision_id,
+        external.decision_rationale,
+        external.decision_reviewer,
+    ) == ("pending", None, None, None, None)
+
+    def listed(outcome):
+        result = reviews.list_permission_reviews(None, outcome, False, 50, 0)
+        return [item.assessment_id for item in result["items"]]
+
+    assert (listed("pending"), listed("ignored")) == ([], [first.assessment_id])
+    with db() as session:
+        session.execute(
+            update(models.PermissionDecision).values(
+                created_at=func.now() - timedelta(days=30)
+            )
+        )
+    detail = reviews.read_permission_review(first.assessment_id, None)
+    assert detail.outcome == "ignored"
+    assert detail.decisions[0].rationale == "Tracked internally"
+    assert (listed("pending"), listed("ignored")) == ([], [first.assessment_id])
+    assert notified == []
+    reviews.worker.notify_permission_decision.send.assert_not_called()
+
+
+def test_ignore_is_inherited_only_for_same_scope_and_fingerprint(db, notified):
+    first = persist(1)
+    ignored = decide(first.assessment_id, "ignored", rationale="Tracked internally")
+    inherited = persist(2, pull_request_head_revision="4" * 40, built_revision="5" * 40)
+    assert (
+        inherited.outcome,
+        inherited.decision_id,
+        inherited.decision_rationale,
+        inherited.decision_reviewer,
+    ) == ("pending", None, None, None)
+    detail = reviews.read_permission_review(inherited.assessment_id, None)
+    assert (detail.outcome, detail.decision_id) == ("ignored", ignored.decision_id)
+    assert detail.decisions[0].rationale == "Tracked internally"
+    assert detail.decisions[0].applies is True
+
+    for n, changes in enumerate(
+        (
+            {"fingerprint": OLD_FP, "candidate_snapshot": OLD_SNAP},
+            {"flatpak_branch": "beta"},
+            {"pull_request_number": 18},
+        ),
+        3,
+    ):
+        changed = persist(n, **changes)
+        assert changed.outcome == "pending"
+        detail = reviews.read_permission_review(changed.assessment_id, None)
+        assert (detail.outcome, detail.decision_id) == ("pending", None)
+        pending = reviews.list_permission_reviews(None, "pending", False, 50, 0)
+        assert changed.assessment_id in {
+            item.assessment_id for item in pending["items"]
+        }
+    assert notified == []
+    reviews.worker.notify_permission_decision.send.assert_not_called()
 
 
 def test_snooze_leaves_pull_request_pending_without_notifying(db, notified):

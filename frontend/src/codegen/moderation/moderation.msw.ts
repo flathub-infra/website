@@ -441,6 +441,7 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
       "pending",
       "rejected",
       "snoozed",
+      "ignored",
       "error",
     ] as const),
     acceptance_basis: faker.helpers.arrayElement([
@@ -534,6 +535,7 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
         "approved",
         "rejected",
         "snoozed",
+        "ignored",
       ] as const),
       rationale: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -563,6 +565,7 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
       "pending",
       "rejected",
       "snoozed",
+      "ignored",
       "error",
     ] as const),
     acceptance_basis: faker.helpers.arrayElement([
@@ -656,6 +659,7 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
         "approved",
         "rejected",
         "snoozed",
+        "ignored",
       ] as const),
       rationale: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 10, max: 20 } }),
