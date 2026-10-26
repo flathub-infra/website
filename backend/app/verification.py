@@ -1497,9 +1497,10 @@ def archive(
         if direct_upload_app and direct_upload_app.archived:
             return
 
-    with get_db("writer") as db:
-        direct_upload_app = db.session.merge(direct_upload_app)
-        direct_upload_app.archived = True
+    if direct_upload_app is not None:
+        with get_db("writer") as db:
+            direct_upload_app = db.session.merge(direct_upload_app)
+            direct_upload_app.archived = True
 
     if not direct_upload_app:
         gh_repo_changed = _archive_github_repo(app_id)

@@ -1,4 +1,5 @@
 import datetime
+from typing import cast
 
 from fastapi import APIRouter, FastAPI, HTTPException, Path, Response
 from pydantic import BaseModel
@@ -115,7 +116,7 @@ async def _get_year_in_review_cached(
     locale: str = "en",
 ) -> YearInReviewResult:
     if value := await stats.get_year_stats(year, locale):
-        return value
+        return cast("YearInReviewResult", value)
 
     raise HTTPException(status_code=404, detail="Year statistics not available")
 

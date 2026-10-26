@@ -6,7 +6,8 @@ class zscore:
     def __init__(self, decay, pop=None):
         if pop is None:
             pop = []
-        self.sqrAvg = self.avg = 0
+        self.sqrAvg: float = 0
+        self.avg: float = 0
         # The rate at which the historic data's effect will diminish.
         self.decay = decay
         for x in pop:

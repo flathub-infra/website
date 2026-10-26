@@ -4,7 +4,7 @@ import json
 import logging
 from datetime import date, datetime, timedelta
 from math import ceil
-from typing import Any, ClassVar, Optional, TypedDict, Union, cast
+from typing import Any, ClassVar, Optional, Self, TypedDict, Union, cast
 from uuid import uuid4
 
 from fastapi import HTTPException
@@ -70,15 +70,6 @@ class QualityModerationStatus(BaseModel):
 class Base(DeclarativeBase):
     pass
 
-
-ConnectedAccount = Union[
-    "GithubAccount",
-    "GitlabAccount",
-    "GnomeAccount",
-    "GoogleAccount",
-    "KdeAccount",
-    "EmailAccount",
-]
 
 ConnectedAccountResult = Union[
     "GithubAccountResult",
@@ -4206,9 +4197,7 @@ class PermissionStatsSnapshot(Base):
         ]
 
     @classmethod
-    def get_monthly(
-        cls, db: DBSession, start_date: date, end_date: date
-    ) -> list["PermissionStatsSnapshot"]:
+    def get_monthly(cls, db: DBSession, start_date: date, end_date: date) -> list[Self]:
         dates = cls.monthly_dates(db.session, start_date, end_date)
         if not dates:
             return []
@@ -4225,7 +4214,7 @@ class PermissionStatsSnapshot(Base):
         db: DBSession,
         start_date: date | None = None,
         end_date: date | None = None,
-    ) -> list["PermissionStatsSnapshot"]:
+    ) -> list[Self]:
         query = db.session.query(cls)
         if start_date is not None:
             query = query.filter(cls.snapshot_date >= start_date)

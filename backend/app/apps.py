@@ -9,7 +9,7 @@ from .quality_metadata import update_quality_metadata_timestamps
 from .types import JSONValue, is_json_object
 
 gi.require_version("AppStream", "1.0")
-from gi.repository import AppStream  # ty: ignore[unresolved-import]
+from gi.repository import AppStream  # pyrefly: ignore[missing-module-attribute]
 
 logger = logging.getLogger(__name__)
 
@@ -87,7 +87,7 @@ def add_to_search(
             if not is_json_object(apps):
                 continue
 
-            filtered_translations = {}
+            filtered_translations: dict[str, str | list[str]] = {}
             for k, v in apps.items():
                 if k in ("name", "summary", "description"):
                     if isinstance(v, str) and len(v) > 0:

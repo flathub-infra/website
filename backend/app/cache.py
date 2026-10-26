@@ -227,8 +227,7 @@ def cached(
 
             return result
 
-        # functools.wraps preserves metadata, but ty cannot infer this ParamSpec wrapper.
-        return wrapper  # type: ignore[return-value]
+        return wrapper
 
     return decorator
 

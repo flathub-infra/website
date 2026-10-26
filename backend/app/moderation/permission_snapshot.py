@@ -136,6 +136,7 @@ def parse_permission_metadata(
             "System Bus Policy",
         ) or (group.startswith("Policy ") and group[7:]):
             values: dict[str, PermissionValue] = {}
+            key: str = ""
             try:
                 for key in key_file.get_keys(group)[0]:
                     if group == "Application" and key != "required-flatpak":

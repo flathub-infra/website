@@ -95,7 +95,7 @@ jobs:
             **/pyproject.toml
 
       - name: Check types
-        run: uv run ty check app
+        run: uv run pyrefly check
 
       - name: Apply database migrations
         run: uv run alembic upgrade head

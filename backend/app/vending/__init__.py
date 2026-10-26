@@ -42,7 +42,7 @@ logger = logging.getLogger(__name__)
 
 gi.require_version("AppStream", "1.0")
 
-from gi.repository import AppStream  # ty: ignore[unresolved-import]
+from gi.repository import AppStream  # pyrefly: ignore[missing-module-attribute]
 
 
 class VendingError(Exception):
@@ -229,7 +229,7 @@ def status(login: LoginStatusDep) -> VendingStatus:
     flow to be a vendor on Flathub.
     """
     if not login["state"].logged_in():
-        return JSONResponse(  # ty: ignore[invalid-return-type]
+        return JSONResponse(  # pyrefly: ignore[bad-return]
             {"status": "error", "error": "not logged in"}, status_code=403
         )
     with get_db("replica") as db:
@@ -285,7 +285,7 @@ def start_onboarding(
     """
 
     if not login["state"].logged_in():
-        return JSONResponse(  # ty: ignore[invalid-return-type]
+        return JSONResponse(  # pyrefly: ignore[bad-return]
             {"status": "error", "error": "not logged in"}, status_code=403
         )
     with get_db("writer") as db:
@@ -337,7 +337,7 @@ def get_dashboard_link(login: LoginStatusDep) -> VendingRedirect:
     The user must be logged in and must have onboarded.
     """
     if not login["state"].logged_in():
-        return JSONResponse(  # ty: ignore[invalid-return-type]
+        return JSONResponse(  # pyrefly: ignore[bad-return]
             {"status": "error", "error": "not logged in"}, status_code=403
         )
     with get_db("replica") as db:

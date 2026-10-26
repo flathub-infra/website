@@ -11,7 +11,7 @@ from typing import Any, TypedDict
 
 import gi
 import jwt
-from lxml import etree  # ty: ignore[unresolved-import]
+from lxml import etree
 from pydantic import BaseModel
 
 from . import config, http_client, localize, models
@@ -24,7 +24,7 @@ from .types import (
 )
 
 gi.require_version("AppStream", "1.0")
-from gi.repository import AppStream  # ty: ignore[unresolved-import]
+from gi.repository import AppStream  # pyrefly: ignore[missing-module-attribute]
 
 clean_id_re = re.compile("[^a-zA-Z0-9_-]+")
 remove_desktop_re = re.compile(r"\.desktop$")
@@ -314,14 +314,16 @@ def appstream2dict(
                 app["releases"].append(attrs.copy())
             component.remove(releases)
 
-        content_rating = component.find("content_rating")
-        if content_rating is not None:
-            parsed_content_rating = {"type": content_rating.attrib.get("type")}
-            for attr in content_rating:
-                attr_name = attr.attrib.get("id")
+        content_rating_element = component.find("content_rating")
+        if content_rating_element is not None:
+            parsed_content_rating = {"type": content_rating_element.attrib.get("type")}
+            for rating_attribute in content_rating_element:
+                attr_name = rating_attribute.attrib.get("id")
                 if attr_name:
-                    parsed_content_rating[attr_name.replace("-", "_")] = attr.text
-            component.remove(content_rating)
+                    parsed_content_rating[attr_name.replace("-", "_")] = (
+                        rating_attribute.text
+                    )
+            component.remove(content_rating_element)
 
         urls = component.findall("url")
         if len(urls):

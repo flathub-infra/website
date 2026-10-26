@@ -1,5 +1,6 @@
 import hashlib
 import re
+from typing import cast
 from urllib.parse import unquote, urlsplit
 
 import idna
@@ -60,7 +61,7 @@ def oauth_email_exists(db: DBSession, email: str) -> bool:
         )
         for value in values:
             try:
-                if normalize_login_email(value) == email:
+                if normalize_login_email(cast("str", value)) == email:
                     return True
             except ValueError:
                 continue

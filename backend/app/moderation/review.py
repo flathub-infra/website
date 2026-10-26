@@ -824,7 +824,7 @@ def _manifest_analysis_observation_values(
     else:
         collection_status = "partial"
 
-    serialized_findings = [
+    serialized_findings: list[JSONValue] = [
         finding.model_dump(mode="json", exclude_none=True)
         for finding in _manifest_source_findings_data(findings)
     ]
@@ -1201,12 +1201,13 @@ def submit_review_request(
             r.content, db
         )
 
-    sentry_context = {"build_summary": build_summary}
+    sentry_context: dict[str, Any] = {"build_summary": build_summary}
 
     app_runtime_dref: str | None = None
 
     app_ids = list(build_appstream.keys())
     direct_upload_apps_by_id = {}
+    apps_summary_by_id: dict[str, dict[str, JSONValue]] = {}
     valid_build_branches: dict[str, set[str]] = {}
     build_refs_by_app: dict[str, set[str]] = {}
     for build_ref in build_refs if isinstance(build_refs, list) else []:
@@ -2347,10 +2348,11 @@ def submit_review(
         with get_db("replica") as db:
             if not models.DirectUploadApp.by_app_id(db, appid):
                 with get_db("writer") as db:
-                    request = (
+                    request = cast(
+                        "models.ModerationRequest",
                         db.session.query(models.ModerationRequest)
                         .filter_by(id=id)
-                        .first()
+                        .first(),
                     )
                     issue = create_github_build_issue(
                         request, request.comment, discussion=False
@@ -2361,29 +2363,30 @@ def submit_review(
     else:
         app_name = None
 
+    message_info: dict[str, JSONValue] = {
+        "category": category,
+        "appId": appid,
+        "appName": app_name,
+        "buildId": build_id,
+        "buildLogUrl": build_log_url,
+        "request": {
+            "requestType": request_type,
+            "requestData": json.loads(request_data),
+            "isNewSubmission": is_new_submission,
+        },
+        "references": f"{appid}/{build_id}/held",
+    }
     payload: dict[str, JSONValue] = {
         "messageId": f"{appid}/{build_id}/{'approved' if is_approved else 'rejected'}",
         "creation_timestamp": utils.utcnow().timestamp(),
         "subject": subject,
         "previewText": subject,
         "inform_moderators": True,
-        "messageInfo": {
-            "category": category,
-            "appId": appid,
-            "appName": app_name,
-            "buildId": build_id,
-            "buildLogUrl": build_log_url,
-            "request": {
-                "requestType": request_type,
-                "requestData": json.loads(request_data),
-                "isNewSubmission": is_new_submission,
-            },
-            "references": f"{appid}/{build_id}/held",
-        },
+        "messageInfo": message_info,
     }
 
     if comment is not None:
-        payload["messageInfo"]["comment"] = comment
+        message_info["comment"] = comment
 
     worker.send_email_new.send(payload)
 

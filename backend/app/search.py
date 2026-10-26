@@ -223,7 +223,7 @@ def _normalize_translation_value(
     if not isinstance(normalized_value, dict):
         return None
 
-    clean_translation = {}
+    clean_translation: dict[str, str | list[str]] = {}
     for key, key_value in normalized_value.items():
         if not isinstance(key, str) or key not in ALLOWED_TRANSLATION_KEYS:
             continue

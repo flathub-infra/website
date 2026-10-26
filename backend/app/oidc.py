@@ -33,15 +33,32 @@ class OidcSubjectUser(Protocol):
 
 
 class OidcClientRecord(Protocol):
-    name: str
-    client_id: str
-    client_secret_hash: str
-    redirect_uris: Sequence[str]
-    allowed_scopes: Sequence[str]
-    enabled: bool
-    refresh_tokens_enabled: bool
-    require_pkce: bool
-    trusted: bool
+    @property
+    def name(self) -> str: ...
+
+    @property
+    def client_id(self) -> str: ...
+
+    @property
+    def client_secret_hash(self) -> str: ...
+
+    @property
+    def redirect_uris(self) -> Sequence[str]: ...
+
+    @property
+    def allowed_scopes(self) -> Sequence[str]: ...
+
+    @property
+    def enabled(self) -> bool: ...
+
+    @property
+    def refresh_tokens_enabled(self) -> bool: ...
+
+    @property
+    def require_pkce(self) -> bool: ...
+
+    @property
+    def trusted(self) -> bool: ...
 
 
 class _ScalarResult(Protocol):

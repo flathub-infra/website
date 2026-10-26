@@ -1,7 +1,7 @@
 import logging
 
 import httpx
-from lxml import etree  # ty: ignore[unresolved-import]
+from lxml import etree
 
 from .. import config, http_client, models
 from ..types import JSONValue, is_json_object

@@ -10,6 +10,7 @@ they're fake.
 from collections.abc import Iterable
 from itertools import dropwhile
 from time import time
+from typing import cast
 
 from fastapi import Request, Response
 
@@ -168,7 +169,7 @@ class FakeWallet(WalletBase):
         limit: int,
     ) -> list[TransactionSummary]:
         def txn_key(txn: Transaction):
-            return txn.summary.created
+            return cast("int", txn.summary.created)
 
         txns = list(FAKE_TXNS)
         txns.extend(self._get_user_transactions(request).values())

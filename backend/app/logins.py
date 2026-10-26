@@ -15,7 +15,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from enum import StrEnum
-from typing import Annotated, cast
+from typing import TYPE_CHECKING, Annotated, cast
 from urllib.parse import urlsplit
 
 import httpx
@@ -89,6 +89,11 @@ from .login_info import (
 )
 from .types import JSONValue
 
+if TYPE_CHECKING:
+    from contextlib import AbstractContextManager
+
+    from authlib.integrations.httpx_client import OAuth2Client
+
 
 def _log_login_failure[U: models.FlathubUser | None](
     request: Request,
@@ -97,9 +102,10 @@ def _log_login_failure[U: models.FlathubUser | None](
     error: str,
 ):
     """Record a failed login attempt without blocking the response."""
+    user: models.FlathubUser | None = login.user
     audit_log.enqueue_audit_log(
         request,
-        login.user.id if login.user else None,
+        user.id if user else None,
         models.AuditEventType.LOGIN_FAILURE,
         provider=method,
         details={"error": error},
@@ -478,7 +484,7 @@ def confirm_email_login(
             )
             db.session.add(account)
         else:
-            account.last_used = now
+            cast("models.EmailAccount", account).last_used = now
         db.session.execute(
             update(models.EmailLoginChallenge)
             .where(
@@ -716,7 +722,9 @@ def start_oauth_flow(
     ):
         state, created = existing_state
 
-    with oauth_providers.get_oauth_client(method) as client:
+    with cast(
+        "AbstractContextManager[OAuth2Client]", oauth_providers.get_oauth_client(method)
+    ) as client:
         url, state = client.create_authorization_url(
             provider.authorize_url,
             state=state,
@@ -1174,7 +1182,10 @@ def continue_oauth_flow(
 
     provider = oauth_providers.get_provider_config(method)
     try:
-        with oauth_providers.get_oauth_client(method) as client:
+        with cast(
+            "AbstractContextManager[OAuth2Client]",
+            oauth_providers.get_oauth_client(method),
+        ) as client:
             login_result = client.fetch_token(
                 provider.token_url,
                 code=data.code,
