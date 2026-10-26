@@ -266,8 +266,7 @@ def test_ignore_keeps_rationale_internal_and_never_resurfaces(db, notified):
         external.acceptance_basis,
         external.decision_id,
         external.decision_rationale,
-        external.decision_reviewer,
-    ) == ("pending", None, None, None, None)
+    ) == ("pending", None, None, None)
 
     def listed(outcome):
         result = reviews.list_permission_reviews(None, outcome, False, 50, 0)
@@ -296,8 +295,7 @@ def test_ignore_is_inherited_only_for_same_scope_and_fingerprint(db, notified):
         inherited.outcome,
         inherited.decision_id,
         inherited.decision_rationale,
-        inherited.decision_reviewer,
-    ) == ("pending", None, None, None)
+    ) == ("pending", None, None)
     detail = reviews.read_permission_review(inherited.assessment_id, None)
     assert (detail.outcome, detail.decision_id) == ("ignored", ignored.decision_id)
     assert detail.decisions[0].rationale == "Tracked internally"
@@ -381,21 +379,6 @@ def test_responses_expose_active_decision_rationale(db):
         "Too broad"
     )
     assert persist(3, fingerprint="e" * 64).decision_rationale is None
-
-
-def test_responses_expose_reviewer_only_for_decisions_after_assessment(db):
-    with db() as session:
-        session.add(models.GithubAccount(user=1, github_userid=7, login="mod"))
-    first = persist(1)
-    approved = decide(first.assessment_id)
-    assert assessment.get_assessment(first.assessment_id).decision_reviewer == "mod"
-    inherited = persist(2, pull_request_head_revision="4" * 40)
-    assert (inherited.decision_id, inherited.decision_reviewer) == (
-        approved.decision_id,
-        None,
-    )
-    decide(inherited.assessment_id, "rejected", rationale="Too broad")
-    assert assessment.get_assessment(inherited.assessment_id).decision_reviewer == "mod"
 
 
 def test_review_listing_filters_stored_outcome_and_superseded(db):
