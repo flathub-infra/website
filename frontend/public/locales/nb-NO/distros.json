@@ -3,26 +3,30 @@
     "distroName": "Ubuntu",
     "step-1": {
       "name": "Installer Flatpak",
-      "text": "<text> For å installere Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senere</strong>, åpne Terminal-appen og kjør: </text> <code></code>"
+      "text": "<text> For å installere Flatpak på <strong>Ubuntu 18.10 (Cosmic Cuttlefish) eller senere</strong>, åpne Terminal-appen og kjør:</text> <code></code>"
     },
     "step-3": {
-      "name": "Legg til Flathub-depotet",
-      "text": "<text>Flathub er den beste plassen å hente Flatpak apper. For å skru den på, kjør:</text> <code></code>"
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er den beste plassen å hente Flatpak apper. For å skru den på, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør:</text> <code></code>"
     },
     "step-4": {
       "name": "Omstart",
       "text": "<text>For å fullføre oppsett må du starte systemet ditt på nytt. Det eneste igjen er å <link>installere apper</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar",
+      "text": "<text>Med Flathub aktivert, installer Bazaar rett fra Flathub ved å kjøre:</text> <code></code> <text>Start det deretter fra skrivebordet for å installere Flatpak-apper grafisk.</text>"
     }
   },
   "fedora": {
     "distroName": "Fedora",
-    "introduction": "<text>Flatpak er installert som standard på Fedora Workstation, Fedora Silverblue og Fedora Kinoite. For å starte trenger du bare å skru på Flathub, som er den beste måten å hente Flatpak-apper. Flathub er en ferdig-konfigurert del av <repolink> Tredjeparts-depoter</repolink>. Som alternativ kan du laste ned og installere <filelink> Flathub depotfilen</filelink>.</text> <text>Nå er det eneste du trenger å gjøre å <applink>installere apper</applink>!</text> <text>Over er lenker som burde fungere på standarde GNOME og KDE Fedora installasjoner, men hvis de eventuelt feiler kan du legge til Flathub remote ved å kjøre:</text> <code></code>"
+    "introduction": "<text>Flatpak er installert som standard på Fedora Workstation, Fedora Silverblue og Fedora Kinoite. For å starte trenger du bare å skru på Flathub, som er den beste måten å hente Flatpak-apper. Flathub er en ferdig-konfigurert del av <repolink>tredjepartspakkebrønner</repolink>. Eventuelt kan du laste ned og installere <filelink>Flathub-pakkebrønnfilen</filelink>.</text> <text>Nå er det eneste du trenger å gjøre å <applink>installere apper</applink>!</text> <text>Over er lenker som burde fungere på standarde GNOME og KDE Fedora installasjoner, men hvis de eventuelt feiler kan du legge til Flathub remote ved å kjøre:</text> <code></code>"
   },
   "manjaro": {
     "distroName": "Manjaro",
     "step-1": {
       "name": "Skru på Flatpak gjennom Software Manager",
-      "text": "<text>Flatpak er installert som standard på Manjaro 20 eller høyere.</text> <text>For å skru på støtten kan du navigere til <strong>Software Manager</strong> (Legg til/Fjern programmer)</text> <text>Klikk på trippel-linje-menyen [eller tre prikker etter skrivebordsmiljøet] på høyre side, i rullegardinmenyen velg \"Preferanser\"</text> <text>Naviger til \"Flatpak\" fanen og skyv bryteren for å skru på Flatpak</text>"
+      "text": "<text>Flatpak er installert som standard på Manjaro 20 eller høyere.</text> <text>For å skru på støtten kan du navigere til <strong>Software Manager</strong> (Legg til/Fjern programmer)</text> <text>Klikk på trippel-linje-menyen [eller tre prikker etter skrivebordsmiljøet] på høyre side, i rullegardinmenyen velg «Preferanser»</text> <text>Naviger til «Flatpak» fanen og skyv bryteren for å skru på Flatpak.</text>"
     },
     "step-2": {
       "name": "Omstart",
@@ -59,7 +63,7 @@
       "text": "<text>For å installere Flatpak, kjør den følgende kommandoen i terminalen:</text> <code></code>"
     },
     "step-4": {
-      "name": "Legg til Flathub-depotet",
+      "name": "Legg til Flathub-pakkebrønnen",
       "text": "<text>Flathub er den beste plaseen å hente Flatpak apper. For skru det på, kjør:</text> <code></code>"
     },
     "step-5": {
@@ -88,7 +92,7 @@
     },
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
-      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å skru det på, kjør:</text> <code></code>"
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å skru det på, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør:</text> <code></code>"
     },
     "step-3": {
       "name": "Start på nytt",
@@ -119,6 +123,10 @@
     "step-4": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Etter det trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar",
+      "text": "<text>Med Flathub aktivert, installer Bazaar rett fra Flathub ved å kjøre:</text> <code></code> <text>Start det deretter fra skrivebordet for å installere Flatpak-apper grafisk.</text>"
     }
   },
   "rocky_linux": {
@@ -163,15 +171,19 @@
     "distroName": "Kubuntu",
     "step-1": {
       "name": "Installer Flatpak",
-      "text": "<text>For å installere Flatpak på Kubuntu, åpne Discover, gå til Innstillinger, installer Flatpak-bakenden og start Discover på nytt.</text>"
+      "text": "<text>For å installere Flatpak på Kubuntu, åpne Terminal-appen og kjør:</text> <code></code>"
     },
     "step-3": {
       "name": "Legg til Flathub-pakkebrønnen",
-      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å skru det på, åpne Discover, gå til Innstillinger, og legg til Flathub-pakkebrønnnen.</text>"
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å skru det på, kjør:</text> <code></code>"
     },
     "step-4": {
       "name": "Start på nytt",
       "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar",
+      "text": "<text>Med Flathub aktivert, installer Bazaar rett fra Flathub ved å kjøre:</text> <code></code> <text>Start det deretter fra skrivebordet for å installere Flatpak-apper grafisk.</text>"
     }
   },
   "solus": {
@@ -182,12 +194,16 @@
     },
     "step-3": {
       "name": "Start på nytt",
-      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>! </text> <text>Merk: grafisk installasjon av Flatpak-apper er bare tilgjengelig GNOME eller KDE Discover.</text>"
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter trenger du bare å <link>installere apper</link>! </text>"
     },
-    "introduction": "<text>Flatpak-støtte er innebygd i Solus 4.7 og nyere versjoner, så det er ikke nødvendig å installere noe! Flatpak-apper kan installeres med GNOME eller KDE Discover.</text> <text>Hvis Flatpak ikke er installert, følg instruksjonene nedenfor for å komme igang.</text>",
+    "introduction": "<text>Flatpak-støtte er innebygd i Solus 4.7 og nyere versjoner, så det er ikke nødvendig å installere noe! Flatpak-apper kan installeres med Bazaar.</text> <text>Hvis Flatpak ikke er installert, følg instruksjonene nedenfor for å komme igang.</text>",
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
       "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å aktivere det, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør følgende i en terminal:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar",
+      "text": "<text>Med Flathub aktivert, installer Bazaar rett fra Flathub ved å kjøre:</text> <code></code> <text>Start det deretter fra skrivebordet for å installere Flatpak-apper grafisk.</text>"
     }
   },
   "alpine": {
@@ -203,6 +219,10 @@
     "step-3": {
       "name": "Legg til Flathub-pakkebrønnen",
       "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør følgende i en terminal:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar",
+      "text": "<text>Med Flathub aktivert, installer Bazaar rett fra Flathub ved å kjøre:</text> <code></code> <text>Start det deretter fra skrivebordet for å installere Flatpak-apper grafisk.</text>"
     }
   },
   "mageia": {
@@ -247,7 +267,7 @@
     },
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
-      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å aktuvere det, kjør</text> <code></code> <text><strong>Merk:</strong> det anbefales å kjøre Raspberry Pi OS 64-bit siden nyere applikasjoner ofte bare har støtte for den plattformen.</text>"
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å aktivere det, kjør:</text> <code></code> <text><strong>Merk:</strong> det anbefales å kjøre Raspberry Pi OS 64-bit siden nyere applikasjoner ofte bare har støtte for den plattformen.</text>"
     }
   },
   "void_linux": {
@@ -277,7 +297,7 @@
     },
     "step-2": {
       "name": "Legg til Flathub-pakkebrønnen",
-      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør:</text> <code></code>"
     }
   },
   "pureos": {
@@ -286,7 +306,7 @@
   },
   "zorin_os": {
     "distroName": "Zorin OS",
-    "introduction": "<header>Zorin OS har innebygd Flatpak-støtte.</header> <text>Du kan bruke Software Store-appen for å laste ned Flatpak-apper.</text>"
+    "introduction": "<header>Zorin OS har innebygd Flatpak-støtte</header> <text>Du kan bruke Software Store-appen for å laste ned Flatpak-apper.</text>"
   },
   "deepin": {
     "distroName": "Deepin",
@@ -319,7 +339,11 @@
     },
     "step-3": {
       "name": "Legg til Flathub-pakkebrønnen",
-      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, kjør:</text> <code></code>"
+      "text": "<text>Flathub er det beste stedet å finne Flatpak apper. For å aktivere det, last ned og installer <filelink>Flathub-pakkebrønnfilen</filelink> eller kjør:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar",
+      "text": "<text>Med Flathub aktivert, installer Bazaar rett fra Flathub ved å kjøre:</text> <code></code> <text>Start det deretter fra skrivebordet for å installere Flatpak-apper grafisk.</text>"
     }
   },
   "mx_linux": {
@@ -405,5 +429,28 @@
   "salix": {
     "distroName": "Salix",
     "introduction": "<header>Flatpak er installert som standard på Salix siden versjon 15.0. Ingen installasjon er nødvendig!</header> <text>Flatpak er forhåndskonfigurert med Flathub-pakkebrønnen og integrert med skrivebordsmiljøet som lar deg installere apper fra Flathub med bare ett klikk.</text> <text>Alt du trenger å gjøre er å <link>installere apper</link>!</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Installer Flatpak",
+      "text": "<text>En Flatpak-pakke er tilgjengelig på SlackBuilds. For å installere den (gitt at du bruker Sbopkg/sqg), opprett først queuefilen og kjør følgende som root:</text> <codeQueue></codeQueue> <text>Kompiler deretter filen. Last den inn, trykk «Q» og vent:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Legg til Flathub-pakkebrønnen",
+      "text": "<text>Flathub er det beste stedet å få tak i Flatpak-apper. For å aktivere det, kjør:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Start på nytt",
+      "text": "<text>For å fullføre installasjonen, start systemet ditt på nytt. Deretter kan du <link>installere apper</link>!</text> <text>Merk: grafisk installasjon av Flatpak-apper kan være ustøttet på Slackware.</text>"
+    }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak er installert som standard på T2 SDE siden versjon 26.6, så du trenger ikke sette noe opp!</header> <text>Flatpak kommer forhåndskonfigurert med Flathub-pakkebrønnen og er integrert med skrivebordsmiljøet som lar deg installere apper fra Flathub med bare ett klikk.</text> <text>Alt du trenger å gjøre da er å <link>installere apper</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak er installer som standard på Nura!</header> <text>Det eneste du trenger å gjøre er å <link>installere apper</link>!</text>"
   }
 }

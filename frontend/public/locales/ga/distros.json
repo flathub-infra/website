@@ -12,6 +12,10 @@
     "step-4": {
       "name": "Athosaigh",
       "text": "<text>Chun an socrú a chur i gcrích, atosaigh do chóras. Níl le déanamh agat anois ach <link>aipeanna a shuiteáil</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Suiteáil Bazaar",
+      "text": "<text>Nuair atá Flathub cumasaithe, suiteáil Bazaar go díreach ó Flathub tríd an méid seo a rith:</text> <code></code> <text>Ansin, seol é ón deasc chun aipeanna Flatpak a shuiteáil trí chomhéadan grafach.</text>"
     }
   },
   "fedora": {
@@ -119,6 +123,10 @@
     "step-4": {
       "name": "Athosaigh",
       "text": "<text>Chun an socrú a chríochnú, atosú do chóras. Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Suiteáil Bazaar",
+      "text": "<text>Nuair atá Flathub cumasaithe, suiteáil Bazaar go díreach ó Flathub tríd an méid seo a rith:</text> <code></code> <text>Ansin, seol é ón deasc chun aipeanna Flatpak a shuiteáil trí chomhéadan grafach.</text>"
     }
   },
   "rocky_linux": {
@@ -163,15 +171,19 @@
     "distroName": "Kubuntu",
     "step-1": {
       "name": "Suiteáil Flatpak",
-      "text": "<text>Chun Flatpak a shuiteáil ar Kubuntu, oscail Discover, téigh go Socruithe, suiteáil inneall Flatpak agus atosaigh Discover.</text>"
+      "text": "<text>Chun Flatpak a shuiteáil ar Kubuntu, oscail an aip Teirminéil agus rith an méid seo a leanas:</text> <code></code>"
     },
     "step-3": {
       "name": "Cuir stór Flathub leis",
-      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, oscail Discover, téigh go Socruithe agus cuir an stór Flathub leis.</text>"
+      "text": "<text>Is é Flathub an áit is fearr chun aipeanna Flatpak a fháil. Chun é a chumasú, rith:</text> <code></code>"
     },
     "step-4": {
       "name": "Athosaigh",
       "text": "<text>Chun an socrú a chríochnú, atosú do chóras. Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Suiteáil Bazaar",
+      "text": "<text>Nuair atá Flathub cumasaithe, suiteáil Bazaar go díreach ó Flathub tríd an méid seo a rith:</text> <code></code> <text>Ansin, seol é ón deasc chun aipeanna Flatpak a shuiteáil trí chomhéadan grafach.</text>"
     }
   },
   "solus": {
@@ -186,9 +198,13 @@
     },
     "step-3": {
       "name": "Athosaigh",
-      "text": "<text>Chun an socrú a chríochnú, atosú do chóras. Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text> <text>Tabhair faoi deara: níl suiteáil ghrafach aipeanna Flatpak ar fáil ach trí Bhogearraí GNOME agus/nó KDE Discover.</text>"
+      "text": "<text>Chun an socrú a chríochnú, athsheol do chóras. Anois, níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
     },
-    "introduction": "<text>Tá tacaíocht Flatpak ionsuite i Solus 4.7 agus níos nuaí - níl aon socrú ag teastáil! Is féidir aipeanna Flatpak a shuiteáil trí úsáid a bhaint as Bogearraí GNOME agus/nó KDE Discover.</text> <text>Mura bhfuil Flatpak suiteáilte, lean na treoracha thíos chun tús a chur leis.</text>"
+    "introduction": "<text>Tá tacaíocht do Flatpak ionsuite i Solus 4.7 agus i leaganacha níos nuaí—ní gá aon rud a shocrú! Is féidir aipeanna Flatpak a shuiteáil trí úsáid a bhaint as Bazaar.</text> <text>Mura bhfuil Flatpak suiteáilte, lean na treoracha thíos chun tús a chur leis.</text>",
+    "install-bazaar": {
+      "name": "Suiteáil Bazaar",
+      "text": "<text>Nuair atá Flathub cumasaithe, suiteáil Bazaar go díreach ó Flathub tríd an méid seo a rith:</text> <code></code> <text>Ansin, seol é ón deasc chun aipeanna Flatpak a shuiteáil trí chomhéadan grafach.</text>"
+    }
   },
   "alpine": {
     "distroName": "Alpach",
@@ -203,6 +219,10 @@
     "step-4": {
       "name": "Athosaigh",
       "text": "<text>Chun an socrú a chríochnú, atosú do chóras. Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Suiteáil Bazaar",
+      "text": "<text>Nuair atá Flathub cumasaithe, suiteáil Bazaar go díreach ó Flathub tríd an méid seo a rith:</text> <code></code> <text>Ansin, seol é ón deasc chun aipeanna Flatpak a shuiteáil trí chomhéadan grafach.</text>"
     }
   },
   "mageia": {
@@ -320,6 +340,10 @@
     "step-4": {
       "name": "Athosaigh",
       "text": "<text>Chun an socrú a chríochnú, atosú do chóras. Anois níl le déanamh agat ach <link>aipeanna a shuiteáil</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Suiteáil Bazaar",
+      "text": "<text>Nuair atá Flathub cumasaithe, suiteáil Bazaar go díreach ó Flathub tríd an méid seo a rith:</text> <code></code> <text>Ansin, seol é ón deasc chun aipeanna Flatpak a shuiteáil trí chomhéadan grafach.</text>"
     }
   },
   "mx_linux": {

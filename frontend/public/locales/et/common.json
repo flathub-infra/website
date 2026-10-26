@@ -973,5 +973,6 @@
   "moderation-permissions-compared-with": "Võrdlus: {source}",
   "moderation-permissions-pull-request-review": "Mestimispäringu õiguste ülevaade",
   "moderation-permissions-changed-count": "{count, plural, one {# muudetud õigus} other {# muudetud õigust}}",
-  "moderation-discussion-opened-by": "Vestluse algatas {openedBy}"
+  "moderation-discussion-opened-by": "Vestluse algatas {openedBy}",
+  "no-network-access-description": "Sellel rakendusel puudub ligipääs võrgule."
 }

@@ -12,6 +12,10 @@
     "step-4": {
       "name": "Restart",
       "text": "<text>To complete setup, restart your system. Now all you have to do is <link>install apps</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Install Bazaar",
+      "text": "<text>With Flathub enabled, install Bazaar directly from Flathub by running:</text> <code></code> <text>Then launch it from your desktop to install Flatpak apps graphically.</text>"
     }
   },
   "fedora": {
@@ -119,6 +123,10 @@
     "step-4": {
       "name": "Restart",
       "text": "<text>To complete setup, restart your system. Now all you have to do is <link>install apps</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Install Bazaar",
+      "text": "<text>With Flathub enabled, install Bazaar directly from Flathub by running:</text> <code></code> <text>Then launch it from your desktop to install Flatpak apps graphically.</text>"
     }
   },
   "rocky_linux": {
@@ -163,20 +171,24 @@
     "distroName": "Kubuntu",
     "step-1": {
       "name": "Install Flatpak",
-      "text": "<text>To install Flatpak on Kubuntu, open Discover, go to Settings, install the Flatpak backend and restart Discover.</text>"
+      "text": "<text>To install Flatpak on Kubuntu, open the Terminal app and run:</text> <code></code>"
     },
     "step-3": {
       "name": "Add the Flathub repository",
-      "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, open Discover, go to Settings and add the Flathub repository.</text>"
+      "text": "<text>Flathub is the best place to get Flatpak apps. To enable it, run:</text> <code></code>"
     },
     "step-4": {
       "name": "Restart",
       "text": "<text>To complete setup, restart your system. Now all you have to do is <link>install apps</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Install Bazaar",
+      "text": "<text>With Flathub enabled, install Bazaar directly from Flathub by running:</text> <code></code> <text>Then launch it from your desktop to install Flatpak apps graphically.</text>"
     }
   },
   "solus": {
     "distroName": "Solus",
-    "introduction": "<text>Flatpak support is built into Solus 4.7 and newer—no setup required! Flatpak apps can be installed using GNOME Software and/or KDE Discover.</text> <text>If Flatpak is not installed, follow the instructions below to get started.</text>",
+    "introduction": "<text>Flatpak support is built into Solus 4.7 and newer—no setup required! Flatpak apps can be installed using Bazaar.</text> <text>If Flatpak is not installed, follow the instructions below to get started.</text>",
     "step-1": {
       "name": "Install Flatpak",
       "text": "<text>To install Flatpak on Solus, open the Terminal app and run:</text> <code></code>"
@@ -187,7 +199,11 @@
     },
     "step-3": {
       "name": "Restart",
-      "text": "<text>To complete setup, restart your system. Now all you have to do is <link>install apps</link>!</text> <text>Note: graphical installation of Flatpak apps is available only through GNOME Software and/or KDE Discover.</text>"
+      "text": "<text>To complete setup, restart your system. Now all you have to do is <link>install apps</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Install Bazaar",
+      "text": "<text>With Flathub enabled, install Bazaar directly from Flathub by running:</text> <code></code> <text>Then launch it from your desktop to install Flatpak apps graphically.</text>"
     }
   },
   "alpine": {
@@ -203,6 +219,10 @@
     "step-4": {
       "name": "Restart",
       "text": "<text>To complete the setup, restart your system. Now all you have to do is <link>install apps</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Install Bazaar",
+      "text": "<text>With Flathub enabled, install Bazaar directly from Flathub by running:</text> <code></code> <text>Then launch it from your desktop to install Flatpak apps graphically.</text>"
     }
   },
   "mageia": {
@@ -320,6 +340,10 @@
     "step-4": {
       "name": "Restart",
       "text": "<text>To complete setup, restart your system. Now all you have to do is <link>install apps</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Install Bazaar",
+      "text": "<text>With Flathub enabled, install Bazaar directly from Flathub by running:</text> <code></code> <text>Then launch it from your desktop to install Flatpak apps graphically.</text>"
     }
   },
   "mx_linux": {
@@ -424,5 +448,9 @@
   "t2_sde": {
     "distroName": "T2 SDE",
     "introduction": "<header>Flatpak is installed by default on T2 SDE since version 26.6 — no setup required!</header> <text>Flatpak comes preconfigured with the Flathub repository and desktop integration tools are included to allow 1-click install from Flathub.</text> <text>All you have to do is <link>install apps</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak is installed by default on Nura!</header> <text>All you have to do is <link>install apps</link>!</text>"
   }
 }

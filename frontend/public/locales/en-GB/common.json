@@ -158,7 +158,7 @@
   "transparent": "<bold>Independent & transparent</bold> — We're a grassroots open source community stewarding the best of what the ecosystem has to offer",
   "docs-guidance": "<bold>Clear docs & guidance</bold> — Extensive <doclink>documentation</doclink>, thousands of public <manifestlink>app manifests</manifestlink>, and a large community means you're always able to get help",
   "integration": "<bold>Native app store integration</bold> — Forget web downloads; Flathub delivers apps and <updateslink>automatic updates</updateslink> to users in their native app store client where they'd expect",
-  "could-not-find-match-for-search": "Could not find any apps matching your search.",
+  "could-not-find-match-for-search": "We couldn't find what you're looking for.",
   "manifest": "Manifest",
   "languages": "Languages",
   "languages-summary": "Choose the language you want to see the website in.",
@@ -400,7 +400,7 @@
   "recorder": "Recorder",
   "music": "Music",
   "setup-flathub": "Set Up Flathub",
-  "setup-flathub-description": "Set up Flathub to install and update apps on your system.",
+  "setup-flathub-description": "Follow the steps for your Linux distribution to install Flatpak, add the Flathub repository, and start installing apps.",
   "tags-colon": "Tags:",
   "flos": "Free/Libre Open Source",
   "filters": "Filters",
@@ -538,7 +538,7 @@
   "switch-to-direct-upload": "Switch app to direct upload",
   "confirm": "Confirm",
   "archive-app": "Archive this app",
-  "do-you-really-want-to-archive-app": "Are you sure? This will invalidate upload tokens and archive the application.",
+  "do-you-really-want-to-archive-app": "Review the effects below before archiving.",
   "archive": "Archive",
   "enter-end-of-life-message": "Enter end-of-life message",
   "rebase-onto-other-app": "Enter app ID your application will be rebased into",
@@ -770,7 +770,7 @@
   "more-healthfitness": "More Health & Fitness",
   "curated-app-selection-themes": {
     "winter-comforts": {
-      "description": "Great apps for reading, watching films, and playing games"
+      "description": "Apps for relaxing and taking your mind off things"
     }
   }
 }

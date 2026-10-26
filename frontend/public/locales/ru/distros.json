@@ -12,6 +12,10 @@
     "step-4": {
       "name": "Перезагрузка",
       "text": "<text>Чтобы завершить установку, перезагрузите систему. После этого, всё что остаётся — <link>устанавливать приложения</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Установка Bazaar",
+      "text": "<text>Когда Flathub включён, установите Bazaar напрямую из Flathub, выполнив:</text> <code></code> <text>Затем запустите его с рабочего стола, чтобы устанавливать приложения Flatpak графически.</text>"
     }
   },
   "fedora": {
@@ -74,7 +78,7 @@
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux",
-    "introduction": "<text>Flatpak установлен по умолчанию на Red Hat Enterprise Linux Workstation 9 и новее. Для начала все, что вам нужно сделать, это включить Flathub, который является лучшим способом получения приложений Flatpak. Просто скачайте и установите <filelink>файл репозитория Flathub</filelink>.</text> <text>Чтобы установить Flatpak на рабочую станцию Red Hat Enterprise Linux 8 или более поздней версии, выполните следующую команду в терминале:</text>  <code></code> <text> Теперь все, что вам нужно сделать - это <link>устанавливать приложения</link>!</text> <text>Приведенные выше ссылки должны работать на Red Hat Enterprise Linux Workstation 9 по умолчанию, но если по какой-либо причине они не работают, вы можете вручную добавить репозиторий Flathub, выполнив команду:</text> <codeAddRemote></codeAddRemote>"
+    "introduction": "<text>Flatpak установлен по умолчанию на Red Hat Enterprise Linux Workstation 9 и новее. Для начала всё, что вам нужно сделать, — это включить Flathub, который является лучшим способом получения приложений Flatpak. Просто скачайте и установите <filelink>файл репозитория Flathub</filelink>.</text> <text>Чтобы установить Flatpak на Red Hat Enterprise Linux Workstation 8 или более ранней версии, выполните следующую команду в терминале:</text>  <code></code> <text>Теперь всё, что вам нужно сделать, — <link>установить приложения</link>!</text> <text>Приведённые выше ссылки должны работать на установке Red Hat Enterprise Linux Workstation 9 по умолчанию, но если по какой-либо причине они не работают, вы можете вручную добавить репозиторий Flathub, выполнив команду:</text> <codeAddRemote></codeAddRemote>"
   },
   "linux_mint": {
     "distroName": "Linux Mint",
@@ -119,6 +123,10 @@
     "step-4": {
       "name": "Перезагрузка",
       "text": "<text>Чтобы завершить установку, перезагрузите систему. Теперь, все что вам нужно сделать - это <link>установить приложения</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Установка Bazaar",
+      "text": "<text>Когда Flathub включён, установите Bazaar напрямую из Flathub, выполнив:</text> <code></code> <text>Затем запустите его с рабочего стола, чтобы устанавливать приложения Flatpak графически.</text>"
     }
   },
   "rocky_linux": {
@@ -142,7 +150,7 @@
   },
   "almalinux": {
     "distroName": "AlmaLinux",
-    "introduction": "<text>Flatpak установлен по умолчанию в AlmaLinux 8 и новее при использовании GNOME. Чтобы начать работу, достаточно включить Flathub, который является лучшим способом получения приложений Flatpak. Просто скачайте и установите <filelink>Файл репозитория Flathub</filelink>.</text> <text> Теперь вам остается только <link>установить приложения</link>!</text>"
+    "introduction": "<text>Flatpak установлен по умолчанию в AlmaLinux 8 и новее при использовании GNOME. Чтобы начать работу, достаточно включить Flathub, который является лучшим способом получения приложений Flatpak. Просто скачайте и установите <filelink>файл репозитория Flathub</filelink>.</text> <text>Теперь вам остаётся только <link>установить приложения</link>!</text>"
   },
   "gentoo": {
     "distroName": "Gentoo",
@@ -163,15 +171,19 @@
     "distroName": "Kubuntu",
     "step-4": {
       "name": "Перезагрузка",
-      "text": "<text>Для завершения установки перезагрузите систему. Теперь вам осталось только <link> установить приложения</link>! </text>"
+      "text": "<text>Для завершения установки перезагрузите систему. Теперь вам осталось только <link>установить приложения</link>!</text>"
     },
     "step-1": {
       "name": "Установка Flatpak",
-      "text": "<text>Чтобы установить Flatpak на Kubuntu, откройте Discover, перейдите в раздел «Настройка», установите бэкенд Flatpak и перезапустите Discover.</text>"
+      "text": "<text>Чтобы установить Flatpak на Kubuntu, откройте приложение «Терминал» и выполните:</text> <code></code>"
     },
     "step-3": {
       "name": "Добавление репозитория Flathub",
-      "text": "<text>Flathub - лучшее место для загрузки приложений Flatpak. Чтобы включить его, откройте Discover, перейдите в раздел «Настройка» и добавьте репозиторий Flathub.</text>"
+      "text": "<text>Flathub — лучшее место для получения приложений Flatpak. Чтобы включить его, выполните:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Установка Bazaar",
+      "text": "<text>Когда Flathub включён, установите Bazaar напрямую из Flathub, выполнив:</text> <code></code> <text>Затем запустите его с рабочего стола, чтобы устанавливать приложения Flatpak графически.</text>"
     }
   },
   "solus": {
@@ -182,13 +194,17 @@
     },
     "step-3": {
       "name": "Перезагрузка",
-      "text": "<text>Для завершения установки перезагрузите систему. Теперь вам осталось только <link>установить приложения</link>!</text> <text>Примечание: графическая установка приложений Flatpak доступна только через GNOME Software и/или KDE Discover.</text>"
+      "text": "<text>Чтобы завершить установку, перезагрузите систему. Теперь вам осталось только <link>установить приложения</link>!</text>"
     },
     "step-1": {
       "name": "Установка Flatpak",
       "text": "<text>Чтобы установить Flatpak на Solus, откройте Терминал и выполните команду:</text> <code></code>"
     },
-    "introduction": "<text>Поддержка Flatpak встроена в Solus 4.7 и более новые версии - установка не требуется! Приложения Flatpak можно установить с помощью GNOME Software и/или KDE Discover.</text> <text> Если Flatpak не установлен, следуйте инструкциям ниже, чтобы начать работу.</text>"
+    "introduction": "<text>Поддержка Flatpak встроена в Solus 4.7 и более новые версии — установка не требуется! Приложения Flatpak можно устанавливать с помощью Bazaar.</text> <text>Если Flatpak не установлен, следуйте инструкциям ниже, чтобы начать работу.</text>",
+    "install-bazaar": {
+      "name": "Установка Bazaar",
+      "text": "<text>Когда Flathub включён, установите Bazaar напрямую из Flathub, выполнив:</text> <code></code> <text>Затем запустите его с рабочего стола, чтобы устанавливать приложения Flatpak графически.</text>"
+    }
   },
   "alpine": {
     "distroName": "Alpine",
@@ -203,6 +219,10 @@
     "step-3": {
       "name": "Добавление репозитория Flathub",
       "text": "<text>Flathub — лучшее место для получения Flatpak приложений. Чтобы его включить, скачайте и установите <filelink>файл репозитория Flathub</filelink> или выполните следующие команды в терминале:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Установка Bazaar",
+      "text": "<text>Когда Flathub включён, установите Bazaar напрямую из Flathub, выполнив:</text> <code></code> <text>Затем запустите его с рабочего стола, чтобы устанавливать приложения Flatpak графически.</text>"
     }
   },
   "mageia": {
@@ -320,6 +340,10 @@
     "step-3": {
       "name": "Добавление репозитория Flathub",
       "text": "<text>Flathub — лучшее место для загрузки приложений Flatpak. Чтобы включить его, скачайте и установите <filelink>файл репозитория Flathub</filelink> или выполните команду:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Установка Bazaar",
+      "text": "<text>Когда Flathub включён, установите Bazaar напрямую из Flathub, выполнив:</text> <code></code> <text>Затем запустите его с рабочего стола, чтобы устанавливать приложения Flatpak графически.</text>"
     }
   },
   "mx_linux": {

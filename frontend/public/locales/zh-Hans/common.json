@@ -973,5 +973,6 @@
   "moderation-permissions-pull-request": "拉取请求",
   "moderation-permissions-compared-with": "对照方：{source}",
   "moderation-permissions-changed-count": "{count, plural, one {# 个更改的权限} other {# 个更改的权限}}",
-  "moderation-discussion-opened-by": "{openedBy} 开启的讨论"
+  "moderation-discussion-opened-by": "{openedBy} 开启的讨论",
+  "no-network-access-description": "此应用没有网络访问权限。"
 }

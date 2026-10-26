@@ -971,5 +971,8 @@
   "moderation-permissions-pull-request-review": "Athbhreithniú ar cheadanna iarratais tarraingthe",
   "moderation-permissions-title": "Ceadanna",
   "moderation-permissions-pull-request": "Iarratas tarraingthe",
-  "moderation-permissions-compared-with": "I gcomparáid le: {source}"
+  "moderation-permissions-compared-with": "I gcomparáid le: {source}",
+  "moderation-discussion-opened-by": "Plé oscailte ag {openedBy}",
+  "moderation-permissions-changed-count": "{count, plural, one {# cead athraithe} other {# cead athraithe}}",
+  "no-network-access-description": "Níl rochtain ag an aip seo ar an líonra."
 }

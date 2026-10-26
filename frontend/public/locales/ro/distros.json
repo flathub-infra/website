@@ -1,1 +1,456 @@
-{}
+{
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Instalează Flatpak",
+      "text": "<text>Pentru a instala Flatpak pe <strong>Ubuntu 18.10 (Cosmic Cuttlefish) sau o versiune ulterioară</strong>, deschide aplicația Terminal și execută:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Adaugă depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, descarcă și instalează <filelink>fișierul depozitului Flathub</filelink> sau execută:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instalează Bazaar",
+      "text": "<text>Dacă Flathub este activat, instalează Bazaar direct de pe Flathub executând:</text> <code></code> <text>Apoi lansează-l de pe desktop pentru a instala aplicațiile Flatpak în mod grafic.</text>"
+    },
+    "step-4": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora",
+    "introduction": "<text>Flatpak este instalat implicit pe Fedora Workstation, Fedora Silverblue și Fedora Kinoite. Pentru a începe, tot ce trebuie să faci este să activezi Flathub, care este cea mai bună modalitate de a obține aplicații Flatpak. Flathub este preconfigurat ca parte a <repolink>Repozitoriilor terțe</repolink>. Alternativ, puteți descărca și instala <filelink>fișierul depozitului Flathub</filelink>.</text> <text>Acum nu mai trebuie decât să <applink>instalați aplicații</applink>!</text> <text>Linkurile de mai sus ar trebui să funcționeze pe instalările implicite Fedora cu GNOME și KDE, dar dacă din vreun motiv nu funcționează, puteți adăuga manual depozitul la distanță Flathub executând:</text> <code></code>"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-1": {
+      "name": "Activați Flatpak prin Managerul de software",
+      "text": "<text>Flatpak este instalat în mod implicit pe Manjaro 20 sau o versiune ulterioară.</text> <text>Pentru a activa suportul pentru acesta, accesați <strong>Managerul de software</strong> (Adăugare/Eliminare programe)</text> <text>Faceți clic pe meniul cu trei linii [sau pe punctele de selectare, în funcție de mediul de lucru] din dreapta, iar din meniul derulant selectați „Preferințe”</text> <text>Accesați fila „Flatpak” și glisați comutatorul pentru a activa suportul pentru Flatpak (de asemenea, este posibil să activați verificarea actualizărilor, ceea ce este recomandat).</text>"
+    },
+    "step-2": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS",
+    "introduction": "<text>Suportul pentru Flatpak este integrat în Endless OS 3.0.0 și versiunile ulterioare — nu este necesară nicio configurare!</text>"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Instalează Flatpak",
+      "text": "<text>Pentru a instala Flatpak pe sistemele de operare din familia Alt, deschideți aplicația Terminal și executați:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adaugă depozitul Flathub",
+      "text": "<text>Flathub este un loc excelent pentru a descărca aplicații Flatpak. Pentru a-l activa pe sistemul tău Alt, execută:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Reporniți dispozitivul pentru a finaliza instalarea Flatpak. Acum puteți <link>instala aplicații</link>!</text>"
+    }
+  },
+  "chrome_os": {
+    "distroName": "ChromeOS",
+    "introduction": "<text>Aplicațiile Flatpak pot fi instalate pe ChromeOS cu ajutorul stratului de compatibilitate Linux Crostini. Această opțiune nu este disponibilă pentru toate dispozitivele ChromeOS, așa că ar trebui să vă asigurați că dispozitivul dvs. este compatibil înainte de a continua. O listă a dispozitivelor compatibile este disponibilă <link>aici</link>.</text>",
+    "step-1": {
+      "name": "Activați suportul pentru Linux",
+      "text": "<text>Accesați <settingslink>chrome://os-settings</settingslink>, derulați în jos până la <strong>Dezvoltatori</strong> și activați <em>Mediul de dezvoltare Linux</em>. ChromeOS va avea nevoie de ceva timp pentru a descărca și instala Linux.</text>"
+    },
+    "step-2": {
+      "name": "Porniți un terminal Linux",
+      "text": "<text>Apăsați tasta „Căutare/Lansare”, tastați „Terminal” și lansați aplicația Terminal.</text>"
+    },
+    "step-3": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak, executați următoarea comandă în terminal:</text> <code></code>"
+    },
+    "step-4": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code>"
+    },
+    "step-5": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul Linux. Puteți face acest lucru dând clic dreapta pe terminal și apoi selectând „Oprire Linux”. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "red_hat_enterprise_linux": {
+    "distroName": "Red Hat Enterprise Linux",
+    "introduction": "<text>Flatpak este instalat implicit pe Red Hat Enterprise Linux Workstation 9 și versiunile ulterioare. Pentru a începe, tot ce trebuie să faceți este să activați Flathub, care este cea mai bună modalitate de a obține aplicații Flatpak. Pur și simplu descărcați și instalați <filelink>fișierul depozitului Flathub</filelink>.</text> <text>Pentru a instala Flatpak pe Red Hat Enterprise Linux Workstation 8 sau versiuni mai vechi, rulați următoarea comandă într-un terminal:</text>  <code></code> <text>Acum nu mai trebuie decât să <link>instalați aplicații</link>! </text> <text>Linkurile de mai sus ar trebui să funcționeze pe instalarea implicită a Red Hat Enterprise Linux Workstation 9, dar dacă nu funcționează din vreun motiv, puteți adăuga manual sursa la distanță Flathub executând:</text> <codeAddRemote></codeAddRemote>"
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint",
+    "introduction": "<text>Suportul pentru Flatpak este integrat în Linux Mint 18.3 și versiunile ulterioare — nu este necesară nicio configurare!</text>"
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Flatpak este disponibil în depozitele implicite ale tuturor versiunilor openSUSE Leap și openSUSE Tumbleweed aflate în prezent în întreținere.</text> <text>Dacă preferați o instalare grafică, puteți instala Flatpak folosind un „program de instalare cu un singur clic” de pe <link>software.opensuse.org</link>. Dacă versiunea distribuției dvs. nu este afișată în mod implicit, faceți clic pe <em>Afișați</em> din categoria Distribuții neacceptate și apoi selectați-o din listă.</text> <text>Alternativ, instalați Flatpak din linia de comandă folosind Zypper:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, descărcați și instalați <filelink>fișierul depozitului Flathub</filelink> sau executați:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "arch": {
+    "distroName": "Arch",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak pe Arch, deschide aplicația Terminal și execută:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Un pachet Flatpak este disponibil în Debian 10 (Buster) și versiunile ulterioare. Pentru a-l instala, executați următoarea comandă ca utilizator root:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, descărcați și instalați <filelink>fișierul depozitului Flathub</filelink> sau executați următoarea comandă într-un terminal:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instalați Bazaar",
+      "text": "<text>Dacă Flathub este activat, instalați Bazaar direct de pe Flathub executând:</text> <code></code> <text>Apoi lansați-l de pe desktop pentru a instala aplicațiile Flatpak în mod grafic.</text>"
+    },
+    "step-4": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Flatpak este instalat implicit pe Rocky Linux 8 și versiunile mai recente, atunci când sistemul este instalat cu un pachet de software care include GNOME (Server cu interfață grafică, Stație de lucru). Dacă utilizați un astfel de sistem, puteți sări peste acest pas. Pentru a instala Flatpak pe Rocky Linux, executați următoarea comandă într-un terminal:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, descărcați și instalați <filelink>fișierul depozitului Flathub</filelink> sau executați următoarea comandă într-un terminal:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "centos": {
+    "distroName": "CentOS Stream",
+    "introduction": "<text>Flatpak este instalat implicit pe CentOS Stream 8 și versiunile mai recente, atunci când se utilizează GNOME. Pentru a începe, tot ce trebuie să faceți este să activați Flathub, care este cea mai bună modalitate de a obține aplicații Flatpak. Pur și simplu descărcați și instalați <filelink>fișierul depozitului Flathub</filelink>.</text> <text>Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux",
+    "introduction": "<text>Flatpak este instalat implicit pe AlmaLinux 8 și versiunile mai recente, atunci când se utilizează GNOME. Pentru a începe, tot ce trebuie să faceți este să activați Flathub, care este cea mai bună modalitate de a obține aplicații Flatpak. Pur și simplu descărcați și instalați <filelink>fișierul depozitului Flathub</filelink>.</text> <text>Acum nu mai rămâne decât să <link>instalați aplicații</link>!</text>"
+  },
+  "gentoo": {
+    "distroName": "Gentoo",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak pe Gentoo, deschideți aplicația Terminal și executați:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text> <text>Notă: este posibil ca instalarea grafică a aplicațiilor Flatpak să nu fie posibilă în Gentoo.</text>"
+    }
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak pe Kubuntu, deschide aplicația Terminal și execută:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instalați Bazaar",
+      "text": "<text>Dacă Flathub este activat, instalați Bazaar direct de pe Flathub executând:</text> <code></code> <text>Apoi lansați-l de pe desktop pentru a instala aplicațiile Flatpak în mod grafic.</text>"
+    },
+    "step-4": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "solus": {
+    "distroName": "Solus",
+    "introduction": "<text>Suportul pentru Flatpak este integrat în Solus 4.7 și versiunile ulterioare — nu este necesară nicio configurare! Aplicațiile Flatpak pot fi instalate folosind Bazaar.</text> <text>Dacă Flatpak nu este instalat, urmați instrucțiunile de mai jos pentru a începe.</text>",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak pe Solus, deschideți aplicația Terminal și executați:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, descărcați și instalați <filelink>fișierul depozitului Flathub</filelink> sau executați următoarea comandă într-un terminal:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instalați Bazaar",
+      "text": "<text>Dacă Flathub este activat, instalați Bazaar direct de pe Flathub executând:</text> <code></code> <text>Apoi lansați-l de pe desktop pentru a instala aplicațiile Flatpak în mod grafic.</text>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "alpine": {
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Flatpak poate fi instalat din depozitul comunității. Executați următoarea comandă într-un terminal:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, descărcați și instalați <filelink>fișierul depozitului Flathub</filelink> sau executați următoarea comandă într-un terminal:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instalați Bazaar",
+      "text": "<text>Dacă Flathub este activat, instalați Bazaar direct de pe Flathub executând:</text> <code></code> <text>Apoi lansați-l de pe desktop pentru a instala aplicațiile Flatpak în mod grafic.</text>"
+    },
+    "step-4": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "mageia": {
+    "distroName": "Mageia",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Este disponibil un pachet Flatpak pentru Mageia 6 și versiunile ulterioare. Pentru a-l instala cu DNF, executați următoarea comandă ca utilizator root:</text> <code></code> <text>Alternativ, pentru a-l instala cu <strong>urpmi</strong>, executați:</text> <codeUrpmi></codeUrpmi>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, descărcați și instalați <filelink>fișierul depozitului Flathub</filelink> sau executați următoarea comandă într-un terminal:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text> <text>Notă: este posibil ca instalarea grafică a aplicațiilor Flatpak să nu fie posibilă în Mageia.</text>"
+    }
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx",
+    "introduction": "<header>Suportul pentru Flatpak este integrat în OpenMandriva pentru toate versiunile aflate în suport activ, începând cu versiunea stabilă/corectată „Rock 5.0”, trecând prin versiunea de dezvoltare „Cooker” și până la versiunea cu actualizare continuă „ROME”.</header> <text>Flatpak vine cu depozitul Flathub preconfigurat.</text>"
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS",
+    "introduction": "<text>Suportul pentru Flatpak este integrat în Pop!_OS 20.04 și versiunile ulterioare — nu este necesară nicio configurare!</text>"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "Instalează aplicații",
+      "text": "<text>elementary OS 5.1 și versiunile ulterioare vin cu suport pentru Flatpak integrat din fabrică. Pentru aplicațiile necurate, accesați <link>Flathub</link> pentru a instala orice aplicație folosind butonul mare „Install” și deschideți fișierul `.flatpakref` descărcat cu Sideload.</text> <text>Notă: După instalarea unei aplicații de pe o sursă la distanță precum Flathub, toate celelalte aplicații de pe acea sursă vor apărea automat și în AppCenter.</text>"
+    }
+  },
+  "raspberry_pi_os": {
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Un pachet Flatpak este disponibil în Raspberry Pi OS (denumit anterior Raspbian) Stretch și versiunile ulterioare. Pentru a-l instala, executați următoarea comandă ca utilizator root:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code> <text><strong>Notă importantă:</strong> Se recomandă utilizarea sistemului de operare Raspberry Pi pe 64 de biți, deoarece este mai probabil ca aplicațiile mai noi să fie disponibile doar pentru această platformă.</text>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text> <text>Notă: este posibil ca instalarea grafică a aplicațiilor Flatpak să nu fie posibilă pe Raspberry Pi OS.</text>"
+    }
+  },
+  "void_linux": {
+    "distroName": "Void Linux",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak pe Void Linux, executați următoarea comandă într-un terminal:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "nixos": {
+    "distroName": "NixOS",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak, configurați opțiunea NixOS <strong>services. flatpak.enable</strong> la <strong>true</strong>, introducând următoarele în fișierul <strong>/etc/nixos/configuration.nix</strong>:</text> <code></code> <text>Apoi, recompilați și treceți la noua configurație cu:</text> <codeRebuild></codeRebuild> <text>Pentru mai multe detalii, consultați <doclink>documentația NixOS</doclink>.</text>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, descărcați și instalați <filelink>fișierul depozitului Flathub</filelink> sau executați:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "pureos": {
+    "distroName": "PureOS",
+    "introduction": "<text>Flatpak este instalat implicit pe PureOS. Pentru a începe, tot ce trebuie să faci este să activezi Flathub, care este cea mai bună modalitate de a obține aplicații Flatpak. Pur și simplu descarcă și instalează <filelink>fișierul depozitului Flathub</filelink>.</text> <text>Acum nu mai rămâne decât să <link>instalezi aplicații</link>!</text>"
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS",
+    "introduction": "<header>Suportul pentru Flatpak este integrat în Zorin OS</header> <text>Puteți folosi aplicația „Software Store” pentru a descărca aplicații Flatpak.</text>"
+  },
+  "deepin": {
+    "distroName": "Deepin",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak pe Deepin, executați următoarea comandă într-un terminal:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Instalați temele Deepin",
+      "text": "<text>Pentru a instala temele de tip „light” și „dark”, executați:</text> <code></code>"
+    },
+    "step-4": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "pardus": {
+    "distroName": "Pardus",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Un pachet Flatpak este disponibil în Pardus 2019 și versiunile ulterioare. Pentru a-l instala, executați următoarea comandă ca utilizator root:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, descărcați și instalați <filelink>fișierul depozitului Flathub</filelink> sau executați:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "name": "Instalați Bazaar",
+      "text": "<text>Dacă Flathub este activat, instalați Bazaar direct de pe Flathub executând:</text> <code></code> <text>Apoi lansați-l de pe desktop pentru a instala aplicațiile Flatpak în mod grafic.</text>"
+    },
+    "step-4": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "mx_linux": {
+    "distroName": "MX Linux",
+    "step-1": {
+      "name": "Activați Flatpak prin Software Manager",
+      "text": "<text>Suportul pentru Flatpak este integrat începând cu MX 18 și versiunile ulterioare. Este necesar doar să activați depozitul Flathub urmând aceste instrucțiuni:</text> <text>Deschideți <strong>MX Package Installer</strong> (deschideți meniul și căutați în MX Tools), selectați fila „Flatpaks”; pentru a activa depozitul, va trebui să introduceți parola de root.</text>"
+    },
+    "step-2": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Un pachet Flatpak este disponibil în Pisi 2.1 și versiunile ulterioare. Pentru a-l instala, executați următoarea comandă ca utilizator root:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text> <text>Notă: este posibil ca instalarea grafică a aplicațiilor Flatpak să nu fie posibilă cu Pisi GNU/Linux.</text>"
+    }
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak pe EndeavorOS, trebuie mai întâi să vă asigurați că sistemul dvs. este la zi; executați următoarea comandă într-un terminal:</text> <codeUpdate></codeUpdate> <text>Apoi instalați Flatpak:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text> <text>Notă: este posibil ca instalarea grafică a aplicațiilor Flatpak să nu fie posibilă cu EndeavourOS.</text>"
+    }
+  },
+  "kde_neon": {
+    "distroName": "KDE neon",
+    "introduction": "<text>Suportul pentru Flatpak este integrat în KDE neon 19 și versiunile ulterioare — nu este necesară nicio configurare!</text>"
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak pe GNU Guix, executați următoarea comandă într-un terminal:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text> <text>Notă: este posibil ca instalarea grafică a aplicațiilor Flatpak să nu fie posibilă cu GNU Guix.</text>"
+    }
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux",
+    "introduction": "<header>Flatpak este instalat implicit pe Crystal Linux.</header> <text>Dacă nu ați folosit jade_gui pentru a instala Crystal sau ați ales să nu îl instalați, puteți configura Flatpak urmând pașii de mai jos.</text>",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Pentru a instala Flatpak în Crystal Linux, trebuie mai întâi să vă asigurați că pachetele sunt la zi. Rulați următoarea comandă într-un terminal:</text> <codeUpdate></codeUpdate> <text>Apoi instalați Flatpak:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text>"
+    }
+  },
+  "vanilla_os": {
+    "distroName": "Vanilla OS",
+    "introduction": "<header>Flatpak este instalat implicit pe Vanilla OS.</header> <text>Puteți folosi aplicația „Software” sau puteți naviga pe <link>Flathub</link> pentru a instala aplicații.</text> <text>Dacă, din anumite motive, Flathub nu este disponibil, îl puteți configura manual folosind următoarea comandă:</text> <code></code>"
+  },
+  "salix": {
+    "distroName": "Salix",
+    "introduction": "<header>Flatpak este instalat implicit pe Salix începând cu versiunea 15.0 — nu este necesară nicio configurare!</header> <text>Flatpak vine preconfigurat cu depozitul Flathub și include instrumente de integrare cu desktopul care permit instalarea cu un singur clic din Flathub.</text> <text>Tot ce trebuie să faci este să <link>instalezi aplicații</link>!</text>"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Instalați Flatpak",
+      "text": "<text>Un pachet Flatpak este disponibil pe SlackBuilds. Pentru a-l instala (presupunând că folosiți Sbopkg/sqg), creați mai întâi fișierul de coadă și rulați următoarea comandă ca root:</text> <codeQueue></codeQueue> <text>Apoi compilați-l. Încărcați fișierul de coadă, apăsați tasta „Q” și așteptați:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Adăugați depozitul Flathub",
+      "text": "<text>Flathub este cel mai bun loc pentru a descărca aplicații Flatpak. Pentru a-l activa, executați:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Repornire",
+      "text": "<text>Pentru a finaliza configurarea, reporniți sistemul. Acum nu mai trebuie decât să <link>instalați aplicații</link>!</text> <text>Notă: este posibil ca instalarea grafică a aplicațiilor Flatpak să nu fie posibilă în Slackware.</text>"
+    }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE",
+    "introduction": "<header>Flatpak este instalat implicit pe T2 SDE începând cu versiunea 26.6 — nu este necesară nicio configurare!</header> <text>Flatpak vine preconfigurat cu depozitul Flathub și include instrumente de integrare cu desktopul care permit instalarea cu un singur clic din Flathub.</text> <text>Tot ce trebuie să faci este să <link>instalezi aplicații</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak este instalat implicit pe Nura!</header> <text>Tot ce trebuie să faci este să <link>instalezi aplicații</link>!</text>"
+  }
+}
