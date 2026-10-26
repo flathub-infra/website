@@ -630,5 +630,78 @@
     "newcomer-description": "Ứng dụng phổ biến nhất được phát hành năm nay",
     "most-improved": "Cải thiện nhất",
     "most-improved-description": "Ứng dụng có tỉ lệ phần trăm tăng trưởng lớn nhất khi so sánh với năm trước đó"
+  },
+  "manage": "Quản lý",
+  "count": "Số lượng",
+  "country-statistics": "Thống kê quốc gia",
+  "build-duration-over-time": "Thời gian biên dịch qua mốc thời gian",
+  "category": "Loại",
+  "app-information": "Thông tin ứng dụng",
+  "sub-header": {
+    "download": "Tải xuống",
+    "free": "Miễn phí",
+    "downloads-per-month": "Số lượt tải xuống/tháng",
+    "amount-to-download": "Dung lượng cần tải xuống từ internet",
+    "size-on-disk": "Kích thước trên đĩa",
+    "installed-runtime-size": "Dung lượng môi trường đã cài đặt",
+    "total-installs": "{count} Tổng số lượt đã tải",
+    "age-rating": "Xếp hạng độ tuổi"
+  },
+  "platform-support": {
+    "appname-works-on-most-devices": "Ứng dụng {appName} hoạt động trên hầu hết thiết bị",
+    "support-unknown": "Hỗ trợ không xác định",
+    "appname-works-best-on-specific-hardware": "{appName} hoạt động tốt nhất trên phần cứng cụ thể",
+    "appname-hardware-support": "Thông tin phần cứng hỗ trợ cho {appName}",
+    "mobile-support": "Hỗ trợ trên di động",
+    "desktop-support": "Hỗ trợ trên máy tính để bàn",
+    "mobile-support-unknown": "Hỗ trợ trên di dộng không xác định",
+    "desktop-support-unknown": "Hỗ trợ trên máy tính để bàn không xác định",
+    "mobile-only": "Chỉ di động",
+    "desktop-only": "Chỉ máy tính để bàn",
+    "works-well-on-large-screens": "Hoạt động tốt trên màn hình lớn",
+    "works-well-on-mobile": "Hoạt động tốt trên thiết bị di động",
+    "may-not-work-well-on-mobile": "Có thể không hoạt động tốt trên thiết bị di động",
+    "may-not-work-well-on-large-screens": "Có thể không hoạt động tốt trên màn hình lớn",
+    "mobile-display-support-unknown": "Chưa đủ thông tin liệu màn hình nhỏ có hỗ trợ không",
+    "desktop-display-support-unknown": "Chưa đủ thông tin liệu màn hình lớn có hỗ trợ không",
+    "keyboard-support": "Hỗ trợ bàn phím",
+    "keyboards": "Bàn phím",
+    "mouse-support": "Hỗ trợ chuột",
+    "pointing-devices": "Chuột hoặc thiết bị trỏ",
+    "touchscreen-support": "Hỗ trợ màn hình cảm ứng",
+    "touchscreens": "Màn hình cảm ứng",
+    "gamepad-support": "Hỗ trợ tay cầm chơi game",
+    "gamepads": "Tay cầm chơi game",
+    "control-required": "Yêu cầu {device}",
+    "control-recommended": "Đề xuất {device}",
+    "control-supported": "Hỗ trợ {device}",
+    "control-unknown": "Hỗ trợ không xác định cho {device}"
+  },
+  "contribute-flathub": "Đóng góp cho Flathub",
+  "login-failed": "Đăng nhập thất bại",
+  "login-failed-try-again": "Không thể đăng nhập. Vui lòng thử lại.",
+  "gitlab-terms-not-accepted": "Tài khoản {provider} cần chấp nhận điều khoản dịch vụ, mở {provider} trong trình duyệt, chấp nhận điều khoản dịch vụ, sau đó thử đăng nhập lại.",
+  "open-login-provider": "Mở {provider}",
+  "back-to-login": "Quay lại đăng nhập",
+  "count-verified-desktop-apps": "Ứng dụng máy tính để bàn này đã xác minh",
+  "since-x": "Từ {date}",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Năm mới, quy trình làm việc mới"
+    },
+    "free-software-favorites": {
+      "header": "Lựa chọn của nhân viên",
+      "description": "Ứng dụng chúng tôi yêu thích hiện nay"
+    },
+    "spring-creativity": {
+      "header": "Hãy sáng tạo",
+      "description": "Làm việc với hình ảnh, âm thanh, video, và nhiều hơn nữa"
+    },
+    "fresh-desktop-releases": {
+      "header": "Xây dụng ứng dụng gốc"
+    },
+    "back-to-learning": {
+      "header": "Thông minh hơn mỗi ngày"
+    }
   }
 }

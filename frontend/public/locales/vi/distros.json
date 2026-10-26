@@ -7,11 +7,14 @@
     },
     "step-3": {
       "name": "Thêm repository Flathub",
-      "text": "<text>Flathub là nơi tốt nhất để lấy ứng dụng Flatpak. Để bật nó, chạy:</text> <code></code>"
+      "text": "<text>Flathub là nơi tốt nhất để lấy ứng dụng Flatpak. Để bật nó, tải xuống và chạy <filelink> tệp kho lưu trữ Flathub</filelink> hoặc chạy:</text> <code></code>"
     },
     "step-4": {
       "name": "Khởi động lại",
       "text": "<text>Để hoàn tất thiết lập, hãy khởi động lại hệ thống của bạn. Bây giờ tất cả những gì bạn cần làm là <link>Tải xuống ứng dụng</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Tải xuống Bazaar"
     }
   },
   "fedora": {
@@ -22,10 +25,14 @@
     "step-2": {
       "name": "Khởi động lại",
       "text": "<text>Để hoàn tất thiết lập, hãy khởi động lại hệ thống của bạn. Bây giờ tất cả những gì bạn cần làm là <link>Tải xuống ứng dụng</link>!</text>"
+    },
+    "step-1": {
+      "name": "Bật Flatpak thông qua trình quản lý phần mềm"
     }
   },
   "endless_os": {
-    "distroName": "Endless OS"
+    "distroName": "Endless OS",
+    "introduction": "<text>Flatpak đã được tích hợp sẵn trong Endless OS 3.0.0 và các phiên bản mới hơn—không cần cài đặt!</text>"
   },
   "alt_linux": {
     "distroName": "ALT Linux",
@@ -34,7 +41,8 @@
       "text": "<text>Để tải xuống Flatpak trên hệ điều hành của Alt family, mở Terminal và chạy:</text> <code></code>"
     },
     "step-2": {
-      "name": "Thêm repository Flathub"
+      "name": "Thêm repository Flathub",
+      "text": "<text>Flathub là môi trường tuyệt vời để lấy ứng dụng Flatpak, để bật trên Alt system của bạn, chạy:</text> <code></code>"
     },
     "step-3": {
       "name": "Khởi động lại",
@@ -47,24 +55,29 @@
       "name": "Kích hoạt hỗ trợ Linux"
     },
     "step-2": {
-      "name": "Khởi động terminal Linux"
+      "name": "Khởi động terminal Linux",
+      "text": "<text>Nhấn vào nút Tìm kiếm/Trình khởi chạy, gõ \"Terminal\", và chạy ứng dụng Terminal.</text>"
     },
     "step-3": {
       "name": "Tải xuống Flatpak",
       "text": "<text>Để tải xuống Flatpak, chạy lệnh sau trong terminal:</text> <code></code>"
     },
     "step-4": {
-      "name": "Thêm repository Flathub"
+      "name": "Thêm repository Flathub",
+      "text": "<text>Flathub là nơi tốt nhất để tải các ứng dụng Flatpak. Để bật Flathub, hãy chạy lệnh:</text> <code></code>"
     },
     "step-5": {
-      "name": "Khởi động lại"
-    }
+      "name": "Khởi động lại",
+      "text": "<text>Để hoàn tất thiết lập, khởi động lại Linux. Bạn có thể làm điều này bằng cách nhấp chuột phải vào terminal, sau đó chọn \"Tắt Linux\". Giờ đây tất cả những gì bạn cần làm là <link>cài đặt các ứng dụng</link>!</text>"
+    },
+    "introduction": "<text>Ứng dụng Flatpak có thể tải trên ChromeOS thông qua lớp tương thích Crostini Linux. Tính năng này không hỗ trợ tất cả các thiết bị ChromeOS, vì vậy bạn nên đảm bảo thiết bị của mình tương thích trước khi tiếp tục. Danh sách các thiết bị tương thích được cập nhật tại <link>đây</link>.</text>"
   },
   "red_hat_enterprise_linux": {
     "distroName": "Red Hat Enterprise Linux"
   },
   "linux_mint": {
-    "distroName": "Linux Mint"
+    "distroName": "Linux Mint",
+    "introduction": "<text>Flatpak được tích hợp sẵn trên Linux Mint 18.3 và phiên bản mới hơn-không cần cài đặt!</text>"
   },
   "debian": {
     "step-4": {
@@ -72,6 +85,30 @@
     },
     "step-1": {
       "name": "Tải xuống Flatpak"
+    }
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Tải xuống Flatpak"
+    },
+    "step-2": {
+      "name": "Thêm kho lưu trữ Flathub",
+      "text": "<text>Flathub và nơi tuyệt vời để lấy ứng dụng Flatpak. Để bật Flathub, tải xuống và cài đặt <filelink> kho lưu trữ Flathub </filelink>hoặc chạy:</text> <code></code>"
+    },
+    "step-3": {
+      "name": "Khởi động lại",
+      "text": "<text>Để hoàn tất thiết lập, khởi động lại hệ thống, Giờ đây tất cả những gì bạn cần làm là <link>cài đặt các ứng dụng</link>!</text>"
+    }
+  },
+  "arch": {
+    "distroName": "Arch",
+    "step-1": {
+      "name": "Tải xuống Flatpak",
+      "text": "<text>Để cài đặt Flatpak trên Arch, mở ứng dụng terminal và chạy:</text> <code></code>"
+    },
+    "step-2": {
+      "name": "Khởi động lại"
     }
   }
 }

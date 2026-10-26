@@ -46,6 +46,9 @@
     "step-4": {
       "name": "Redémarrer",
       "text": "<text>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <link>installer des applications</link> !</text>"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar"
     }
   },
   "mx_linux": {
@@ -254,6 +257,9 @@
     "step-3": {
       "name": "Ajouter le dépôt Flathub",
       "text": "<text>Flathub est le meilleur endroit pour obtenir des apps Flatpak. Pour le permettre, exécutez :</text><code></code>"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar"
     }
   },
   "solus": {
@@ -270,7 +276,10 @@
       "name": "Redémarrer",
       "text": "<text>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <link>installer des applications</link> !</text>"
     },
-    "introduction": "<text>La prise en charge de Flatpak est intégrée à Solus 4.7 et versions ultérieures ; aucune configuration n’est requise ! Les apps Flatpak peuvent être installées à l’aide de Bazaar.</text> <text>Si Flatpak n’est pas installé, suivez les instructions ci-dessous pour commencer. </text>"
+    "introduction": "<text>La prise en charge de Flatpak est intégrée à Solus 4.7 et versions ultérieures ; aucune configuration n’est requise ! Les apps Flatpak peuvent être installées à l’aide de Bazaar.</text> <text>Si Flatpak n’est pas installé, suivez les instructions ci-dessous pour commencer. </text>",
+    "install-bazaar": {
+      "name": "Installer Bazaar"
+    }
   },
   "alpine": {
     "distroName": "Alpine",
@@ -285,6 +294,9 @@
     "step-4": {
       "text": "<text>Pour terminer l'installation, redémarrez votre système. Il ne vous reste plus qu'à <link>installer des applications</link> !</text>",
       "name": "Redémarrer"
+    },
+    "install-bazaar": {
+      "name": "Installer Bazaar"
     }
   },
   "openmandriva_lx": {

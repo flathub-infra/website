@@ -723,7 +723,7 @@
     "amount-to-download": "Mengde som må lastes ned fra internett",
     "size-on-disk": "Størrelse på disk",
     "installed-runtime-size": "Størrelse på baseinstallasjon",
-    "total-installs": "Totalt antall installasjoner",
+    "total-installs": "{count} Totalt antall installasjoner",
     "age-rating": "Aldersgrense"
   },
   "quality-moderation-excluded": "Denne appen er unntatt fra kvalitetskontroll",
@@ -755,5 +755,10 @@
   "utilities-description": "Systemverktøy, filprogrammer, kalkulatorer og andre hverdagslige verktøy til Linux.",
   "science-description": "Programmer til vitenskapelig utregning, dataanalyse og forskning til Linux.",
   "education-description": "Læreapper, språkverktøy og utdanningsprogramvare til Linux.",
-  "system-description": "Systemadministrasjon, overvåking og administrative verktøy til Linux."
+  "system-description": "Systemadministrasjon, overvåking og administrative verktøy til Linux.",
+  "category": "Kategori",
+  "platform-support": {
+    "appname-works-on-most-devices": "{appName} fungerer på de fleste enheter",
+    "support-unknown": "Ukjent støtte"
+  }
 }
