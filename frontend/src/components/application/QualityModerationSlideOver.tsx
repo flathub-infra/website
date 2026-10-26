@@ -20,6 +20,7 @@ import { WindowIcon, ArrowsPointingOutIcon } from "@heroicons/react/20/solid"
 import newGithubIssueUrl from "new-github-issue-url"
 import MultiToggle from "../MultiToggle"
 import SlideOver from "../SlideOver"
+import ThemeToggle from "./ThemeToggle"
 import LogoImage from "../LogoImage"
 import { IconGridOverlay } from "./IconGridOverlay"
 import { useLocale, useTranslations } from "next-intl"
@@ -358,16 +359,19 @@ https://flathub.org/apps/details/${app.id}
         </div>
       )}
 
-      <Button className="w-fit" variant="outline" asChild>
-        <Link
-          target="_blank"
-          rel="noreferrer"
-          className="text-secondary-foreground"
-          href={`${app.id}/bannerpreview`}
-        >
-          {t("quality.banner-preview")}
-        </Link>
-      </Button>
+      <div className="flex items-center justify-between gap-3">
+        <Button className="w-fit" variant="outline" asChild>
+          <Link
+            target="_blank"
+            rel="noreferrer"
+            className="text-secondary-foreground"
+            href={`${app.id}/bannerpreview`}
+          >
+            {t("quality.banner-preview")}
+          </Link>
+        </Button>
+        <ThemeToggle />
+      </div>
       <div>
         {t.rich("quality-guideline.problems", {
           link: (chunks) => (
