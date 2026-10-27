@@ -1,14 +1,62 @@
 import datetime
+import json
 from collections.abc import Callable, Generator
 from contextlib import contextmanager
+from pathlib import Path
 from unittest.mock import MagicMock, patch
 
 import pytest
 from fastapi import Request
 from fastapi.testclient import TestClient
 
-from app import main
+from app import main, stats
 from app.login_info import LoginInformation, LoginState, login_state
+from app.routes import year_in_review
+
+
+@pytest.fixture(autouse=True)
+def complete_daily_stats(monkeypatch):
+    """Explicit zero-activity days make the sparse smoke samples a complete series."""
+    first = stats.FIRST_STATS_DATE
+    last = datetime.date(2026, 12, 31)
+    daily = {
+        first + datetime.timedelta(days=offset): {
+            "refs": {},
+            "ref_by_country": {},
+            "updates": 0,
+        }
+        for offset in range((last - first).days + 1)
+    }
+    samples = {
+        datetime.date(2024, 5, 18): "004-two-weeks-ago.json",
+        datetime.date(2024, 5, 29): "000-three-days-ago.json",
+        datetime.date(2024, 5, 30): "001-day-before-yesterday.json",
+        datetime.date(2024, 5, 31): "002-yesterday.json",
+        datetime.date(2024, 6, 1): "003-today.json",
+    }
+    for date, filename in samples.items():
+        daily[date] = json.loads(
+            (Path(__file__).parent / "stats" / filename).read_text()
+        )
+
+    monkeypatch.setattr(
+        stats,
+        "_get_stats_for_date",
+        lambda date, session=None, **kwargs: daily.get(date),
+    )
+    monkeypatch.setattr(stats, "_load_year_in_review_base", lambda year: None)
+    monkeypatch.setattr(stats, "_save_year_in_review_base", lambda year, data: None)
+    monkeypatch.setattr(
+        year_in_review,
+        "_get_year_in_review_cached",
+        year_in_review._get_year_in_review_cached.__wrapped__,
+    )
+    monkeypatch.setattr(
+        stats.utils,
+        "utcnow",
+        lambda: datetime.datetime(2027, 1, 2, tzinfo=datetime.UTC),
+    )
+    return daily
 
 
 @pytest.fixture
@@ -21,7 +69,13 @@ def client():
 def mock_date() -> Callable[[int, int, int], Generator[MagicMock]]:
     @contextmanager
     def _mock_date(year: int, month: int, day: int) -> Generator[MagicMock]:
-        with patch("app.routes.year_in_review.datetime") as mock_dt:
+        with (
+            patch("app.routes.year_in_review.datetime") as mock_dt,
+            patch(
+                "app.stats.utils.utcnow",
+                return_value=datetime.datetime(year, month, day, tzinfo=datetime.UTC),
+            ),
+        ):
             mock_dt.datetime.now.return_value = datetime.datetime(
                 year, month, day, tzinfo=datetime.UTC
             )
@@ -115,6 +169,7 @@ def test_year_in_review(client, snapshot, mock_date):
 
     with mock_date(current_year, 12, 20):
         response = client.get("/year-in-review/" + str(current_year))
+        assert response.status_code == 200
         snapshot_data = snapshot("test_year_in_review.json")
         snapshot_data["year"] = current_year
         assert snapshot_data == response.json()
@@ -128,6 +183,7 @@ def test_year_in_review_with_locale(client, snapshot, mock_date):
         response = client.get(
             "/year-in-review/" + str(current_year), params={"locale": "de"}
         )
+        assert response.status_code == 200
         snapshot_data = snapshot("test_year_in_review_with_locale.json")
         snapshot_data["year"] = current_year
         assert snapshot_data == response.json()
@@ -147,9 +203,17 @@ def test_year_in_review_invalid_year_future(client, mock_date):
 
 
 def test_year_in_review_without_previous_year(client):
-    """Test year in review when statistics not available"""
+    """The first statistics year does not require a previous-year comparison."""
     response = client.get("/year-in-review/2018")
     assert response.status_code == 200
+
+
+def test_year_in_review_missing_daily_data(client, complete_daily_stats, mock_date):
+    del complete_daily_stats[datetime.date(2024, 5, 30)]
+    with mock_date(2024, 12, 20):
+        response = client.get("/year-in-review/2024")
+    assert response.status_code == 404
+    assert response.json() == {"detail": "Year statistics not available"}
 
 
 def test_year_in_review_current_year_blocked_before_dec_15(client, mock_date):
