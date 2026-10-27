@@ -53,6 +53,7 @@ def test_historical_response_with_missing_metadata(monkeypatch, metadata):
 
     app_id = "org.example.HistoricalApp"
     base = {
+        "_snapshot": {"version": 1, "through": "2020-12-31"},
         "year": 2020,
         "total_downloads": 100,
         "new_apps_count": 1,
@@ -72,6 +73,11 @@ def test_historical_response_with_missing_metadata(monkeypatch, metadata):
         base[key] = [item]
     original = copy.deepcopy(base)
     monkeypatch.setattr(stats, "_load_year_in_review_base", lambda year: base)
+    monkeypatch.setattr(
+        stats,
+        "_build_year_in_review_base",
+        AsyncMock(side_effect=AssertionError("Finalized snapshots must not rebuild")),
+    )
 
     app = MagicMock(app_id=app_id)
     app.get_translated_appstream.return_value = metadata

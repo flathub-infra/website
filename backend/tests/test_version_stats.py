@@ -4,6 +4,7 @@ from contextlib import contextmanager
 from unittest.mock import MagicMock
 
 import orjson
+import pytest
 
 from app import stats
 
@@ -57,14 +58,18 @@ def test_recent_version_stats_adds_unknown_os_from_ostree_total(monkeypatch):
     assert flatpak_versions == {"1.16": 92, "unknown": 20}
 
 
-def test_year_in_review_uses_sync_redis_cache(monkeypatch):
+@pytest.mark.parametrize("day, refresh", [(2, True), (8, True), (9, False)])
+def test_year_in_review_refreshes_potentially_partial_cache(monkeypatch, day, refresh):
     cached_stats = {
         "updates": 7,
         "refs": {},
         "ref_by_country": {},
     }
     get_cached = MagicMock(return_value=orjson.dumps(cached_stats))
-    get_source_stats = MagicMock()
+    complete_stats = {**cached_stats, "updates": 11}
+    response = MagicMock(status_code=200)
+    response.json.return_value = complete_stats
+    get_source_stats = MagicMock(return_value=response)
 
     @contextmanager
     def empty_db(*args, **kwargs):
@@ -75,10 +80,14 @@ def test_year_in_review_uses_sync_redis_cache(monkeypatch):
     monkeypatch.setattr(
         stats.utils,
         "utcnow",
-        lambda: datetime.datetime(2018, 4, 29, tzinfo=datetime.UTC),
+        lambda: datetime.datetime(2019, 1, day, tzinfo=datetime.UTC),
     )
+    monkeypatch.setattr(stats, "FIRST_STATS_DATE", datetime.date(2018, 12, 31))
     monkeypatch.setattr(stats.redis_conn, "get", get_cached)
-    monkeypatch.setattr(stats, "_get_stats_for_date", get_source_stats)
+    set_cached = MagicMock()
+    monkeypatch.setattr(stats.redis_conn, "set", set_cached)
+    monkeypatch.setattr(stats.config.settings, "stats_baseurl", "https://example.test")
+    monkeypatch.setattr(stats.httpx.Client, "get", get_source_stats)
     monkeypatch.setattr(stats.database, "get_db", empty_db)
     monkeypatch.setattr(stats.database, "get_all_appids_for_frontend", set)
     monkeypatch.setattr(stats, "_get_app_stats_per_day", dict)
@@ -86,6 +95,14 @@ def test_year_in_review_uses_sync_redis_cache(monkeypatch):
     result = asyncio.run(stats._build_year_in_review_base(2018))
 
     assert result is not None
-    assert result["updates_count"] == 7
-    get_cached.assert_called_once_with("stats:date:2018-04-29")
-    get_source_stats.assert_not_called()
+    assert stats._year_in_review_is_finalized(result, 2018)
+    assert result["updates_count"] == (11 if refresh else 7)
+    if refresh:
+        get_cached.assert_not_called()
+        get_source_stats.assert_called_once_with(
+            "https://example.test/2018/12/31.json", timeout=30.0
+        )
+        assert orjson.loads(set_cached.call_args.args[1]) == complete_stats
+    else:
+        get_cached.assert_called_once_with("stats:date:2018-12-31")
+        get_source_stats.assert_not_called()

@@ -95,7 +95,7 @@ MINIMUM_GEM_THRESHOLD = 1000  # Minimum threshold for hidden gems calculation
 
 
 def _fetch_stats_parallel(
-    sdate: datetime.date, edate: datetime.date
+    sdate: datetime.date, edate: datetime.date, *, require_stable: bool = False
 ) -> list[StatsFromServer | None]:
     dates = [
         sdate + datetime.timedelta(days=i) for i in range((edate - sdate).days + 1)
@@ -107,7 +107,11 @@ def _fetch_stats_parallel(
         concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor,
     ):
         future_to_index = {
-            executor.submit(_get_stats_for_date, date, shared_session): idx
+            executor.submit(
+                _get_stable_stats_for_date if require_stable else _get_stats_for_date,
+                date,
+                shared_session,
+            ): idx
             for idx, date in enumerate(dates)
         }
 
@@ -122,7 +126,10 @@ def _fetch_stats_parallel(
 
 
 def _get_stats_for_date(
-    date: datetime.date, session: httpx.Client | None = None
+    date: datetime.date,
+    session: httpx.Client | None = None,
+    *,
+    use_cache: bool = True,
 ) -> StatsFromServer | None:
     stats_json_url = urlparse(
         config.settings.stats_baseurl + date.strftime("/%Y/%m/%d.json")
@@ -135,7 +142,7 @@ def _get_stats_for_date(
             return None
         return stats
     redis_key = f"stats:date:{date.isoformat()}"
-    stats_txt = redis_conn.get(redis_key)
+    stats_txt = redis_conn.get(redis_key) if use_cache else None
     if stats_txt is None:
         if session is None:
             with httpx.Client() as temp_session:
@@ -159,6 +166,16 @@ def _get_stats_for_date(
     else:
         stats = orjson.loads(stats_txt)
     return stats
+
+
+def _get_stable_stats_for_date(
+    date: datetime.date, session: httpx.Client | None = None
+) -> StatsFromServer | None:
+    # Recent shared entries may have been fetched while the source was partial.
+    # Legacy annual builds cached yesterday's data for seven days at rollover,
+    # so those entries can survive until eight days after their statistics date.
+    use_cache = date < utils.utcnow().date() - datetime.timedelta(days=8)
+    return _get_stats_for_date(date, session, use_cache=use_cache)
 
 
 def _is_stats_type(value: object) -> TypeGuard[StatsType]:
@@ -891,6 +908,20 @@ def update(sqldb):
     _generate_and_store_year_in_review_stats(sqldb)
 
 
+class _IncompleteYearStats(Exception):
+    """A required daily source is unavailable; retry without publishing."""
+
+
+def _year_in_review_is_finalized(data: dict[str, JSONValue], year: int) -> bool:
+    # Legacy rows have no coverage guarantee and must be rebuilt once.
+    snapshot = data.get("_snapshot")
+    return (
+        isinstance(snapshot, dict)
+        and snapshot.get("version") == 1
+        and snapshot.get("through") == datetime.date(year, 12, 31).isoformat()
+    )
+
+
 def _generate_and_store_year_in_review_stats(sqldb):
     current_year = utils.utcnow().year
     first_year = FIRST_STATS_DATE.year
@@ -898,7 +929,7 @@ def _generate_and_store_year_in_review_stats(sqldb):
     for year in range(first_year, current_year + 1):
         if year < current_year:
             existing = models.YearInReviewStats.get_for_year(sqldb, year)
-            if existing:
+            if existing and _year_in_review_is_finalized(existing.data, year):
                 continue
 
         try:
@@ -916,12 +947,27 @@ def _normalize_year_date_range(year: int) -> tuple[datetime.date, datetime.date]
     edate = datetime.date(year, 12, 31)
     today = utils.utcnow().date()
 
-    edate = min(edate, today)
+    # Match the stable daily horizon used by the statistics aggregates. In
+    # particular, December 31 cannot finalize the year until January 2 UTC.
+    edate = min(edate, today - datetime.timedelta(days=2))
     sdate = max(sdate, FIRST_STATS_DATE)
-    if sdate > today:
+    if sdate > edate:
         return None
 
     return (sdate, edate)
+
+
+def _fetch_complete_year_stats(
+    sdate: datetime.date, edate: datetime.date
+) -> list[StatsFromServer]:
+    results = _fetch_stats_parallel(sdate, edate, require_stable=True)
+    complete: list[StatsFromServer] = []
+    for offset, result in enumerate(results):
+        if result is None:
+            date = sdate + datetime.timedelta(days=offset)
+            raise _IncompleteYearStats(f"Missing year-in-review daily stats for {date}")
+        complete.append(result)
+    return complete
 
 
 def _get_country_downloads_for_year(year: int) -> dict[str, int]:
@@ -932,7 +978,7 @@ def _get_country_downloads_for_year(year: int) -> dict[str, int]:
     sdate, edate = date_range
 
     country_downloads: dict[str, int] = {}
-    stats_results = _fetch_stats_parallel(sdate, edate)
+    stats_results = _fetch_complete_year_stats(sdate, edate)
 
     for stats in stats_results:
         if stats and "ref_by_country" in stats and stats["ref_by_country"] is not None:
@@ -957,7 +1003,7 @@ def _get_basic_year_stats(year: int) -> dict[str, int] | None:
     total_downloads = 0
     total_updates = 0
 
-    stats_results = _fetch_stats_parallel(sdate, edate)
+    stats_results = _fetch_complete_year_stats(sdate, edate)
     for stats in stats_results:
         if stats:
             if "refs" in stats and stats["refs"] is not None:
@@ -996,7 +1042,7 @@ def _get_category_downloads_for_year(year: int) -> dict[str, int]:
     sdate, edate = date_range
 
     app_downloads = defaultdict(int)
-    stats_results = _fetch_stats_parallel(sdate, edate)
+    stats_results = _fetch_complete_year_stats(sdate, edate)
 
     for stats in stats_results:
         if stats and "refs" in stats and stats["refs"] is not None:
@@ -1038,7 +1084,7 @@ def _get_app_downloads_for_year(year: int) -> dict[str, int]:
     sdate, edate = date_range
 
     app_downloads = defaultdict(int)
-    stats_results = _fetch_stats_parallel(sdate, edate)
+    stats_results = _fetch_complete_year_stats(sdate, edate)
 
     for stats in stats_results:
         if stats and "refs" in stats and stats["refs"] is not None:
@@ -1080,16 +1126,10 @@ def _build_base_top_list(
 
 
 async def _build_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
-    sdate = datetime.date(year, 1, 1)
-    edate = datetime.date(year, 12, 31)
-
-    today = utils.utcnow().date()
-    edate = min(edate, today)
-
-    sdate = max(sdate, FIRST_STATS_DATE)
-
-    if sdate > today:
+    date_range = _normalize_year_date_range(year)
+    if date_range is None:
         return None
+    sdate, edate = date_range
 
     total_downloads = 0
     total_updates = 0
@@ -1103,49 +1143,11 @@ async def _build_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
         sdate + datetime.timedelta(days=i) for i in range((edate - sdate).days + 1)
     ]
 
-    async def _fetch_stats_async(date):
-        cache_key = f"stats:date:{date.isoformat()}"
-        try:
-            cached_value = await asyncio.to_thread(redis_conn.get, cache_key)
-        except Exception:
-            logger.exception("Failed to read cached stats for %s", date)
-            cached_value = None
-
-        if cached_value:
-            try:
-                return orjson.loads(cached_value)
-            except Exception:
-                # Fallback to recomputing if cache is corrupt
-                logger.exception("Failed to decode cached stats for %s", date)
-
-        try:
-            data = await asyncio.to_thread(_get_stats_for_date, date)
-        except Exception:
-            logger.exception("Failed to fetch stats for %s", date)
-            return None
-
-        if data is not None:
-            try:
-                today = utils.utcnow().date()
-                ttl_seconds = 60 * 60 if date.year == today.year else 60 * 60 * 24 * 7
-                await asyncio.to_thread(
-                    redis_conn.set,
-                    cache_key,
-                    orjson.dumps(data),
-                    ex=ttl_seconds,
-                )
-            except Exception:
-                # If caching fails, just proceed without cache
-                logger.exception("Failed to cache stats for %s", date)
-
-        return data
-
-    stats_results = await asyncio.gather(*[_fetch_stats_async(date) for date in dates])
+    # Use the shared fetch/cache policy: extending recent daily cache entries to
+    # a week at rollover could otherwise preserve unfinished December data.
+    stats_results = await asyncio.to_thread(_fetch_complete_year_stats, sdate, edate)
 
     for date_idx, stats in enumerate(stats_results):
-        if stats is None:
-            continue
-
         date = dates[date_idx]
 
         if "updates" in stats and stats["updates"] is not None:
@@ -1582,6 +1584,7 @@ async def _build_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
                 )
 
     base_result = {
+        "_snapshot": {"version": 1, "through": edate.isoformat()},
         "year": year,
         "total_downloads": total_downloads,
         "new_apps_count": new_apps_count,
@@ -1694,6 +1697,7 @@ async def _add_translations_to_year_in_review(
         return [item for item in value if is_json_object(item)]
 
     result = copy.deepcopy(base_data)
+    result.pop("_snapshot", None)
     result["top_apps"] = _apply_translations(_get_items("top_apps"))
     result["top_games"] = _apply_translations(_get_items("top_games"))
     result["top_emulators"] = _apply_translations(_get_items("top_emulators"))
@@ -1719,8 +1723,14 @@ async def _add_translations_to_year_in_review(
 async def get_year_stats(year: int, locale: str = "en"):
     base_data = _load_year_in_review_base(year)
 
-    if base_data is None:
-        base_data = await _build_year_in_review_base(year)
+    if base_data is None or (
+        year < utils.utcnow().year and not _year_in_review_is_finalized(base_data, year)
+    ):
+        try:
+            base_data = await _build_year_in_review_base(year)
+        except _IncompleteYearStats:
+            logger.warning("Incomplete year-in-review stats for %s; retry later", year)
+            return None
         if base_data:
             try:
                 _save_year_in_review_base(year, base_data)

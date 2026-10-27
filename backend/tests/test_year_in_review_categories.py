@@ -4,7 +4,6 @@ from contextlib import contextmanager
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
-import orjson
 import pytest
 
 
@@ -30,12 +29,14 @@ def classify_app(monkeypatch):
         monkeypatch.setattr(
             stats.utils,
             "utcnow",
-            lambda: datetime.datetime(2018, 4, 29, tzinfo=datetime.UTC),
+            lambda: datetime.datetime(2018, 5, 1, tzinfo=datetime.UTC),
         )
         monkeypatch.setattr(
-            stats.redis_conn,
-            "get",
-            lambda key: orjson.dumps({"refs": {app_id: {"x86_64": [10, 0]}}}),
+            stats,
+            "_get_stats_for_date",
+            lambda date, session=None, **kwargs: {
+                "refs": {app_id: {"x86_64": [10, 0]}}
+            },
         )
         monkeypatch.setattr(stats.database, "get_db", app_db)
         monkeypatch.setattr(stats.database, "get_all_appids_for_frontend", set)
