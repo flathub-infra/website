@@ -1181,9 +1181,9 @@ async def _build_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
 
         if "emulator" in app_subcategories:
             emulator_app_ids.add(app.app_id)
-        elif app_subcategories & {"launcherStore", "packagemanager"}:
+        elif app_subcategories & {"launcherstore", "packagemanager"}:
             game_store_app_ids.add(app.app_id)
-        elif app_subcategories & {"utility", "network", "gameTool"}:
+        elif app_subcategories & {"utility", "network", "gametool"}:
             game_utility_app_ids.add(app.app_id)
         else:
             gaming_app_ids.add(app.app_id)
