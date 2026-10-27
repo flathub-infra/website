@@ -1,3 +1,4 @@
+import functools
 import importlib.resources
 import json
 import xml.etree.ElementTree as ET
@@ -147,6 +148,11 @@ def _demangle_name(name: str) -> str:
     return name
 
 
+@functools.cache
+def _get_public_suffix_list() -> publicsuffixlist.PublicSuffixList:
+    return publicsuffixlist.PublicSuffixList()
+
+
 def _get_domain_name(app_id: str) -> tuple[str | None, bool]:
     manual_maps = _get_manual_verification_maps()
     if _matches_prefixes(app_id, "com.github", "com.gitlab"):
@@ -170,7 +176,7 @@ def _get_domain_name(app_id: str) -> tuple[str | None, bool]:
     else:
         fqdn = ".".join(reversed(app_id.split("."))).lower()
 
-        psl = publicsuffixlist.PublicSuffixList()
+        psl = _get_public_suffix_list()
         if psl.is_private(fqdn):
             private_suffix = psl.privatesuffix(fqdn)
             if private_suffix:
