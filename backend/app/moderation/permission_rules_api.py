@@ -25,18 +25,24 @@ class PermissionRuleInput(BaseModel):
         "Context", "Session Bus Policy", "System Bus Policy", "USB Devices"
     ]
     key: Text
-    value: Text
+    match_type: Literal["destination", "transition"] = "destination"
+    before: Text | None = None
+    value: Text | None
     rationale: Text
     enabled: bool = True
 
     @model_validator(mode="after")
-    def check_bus_policy(self):
-        if self.permission_group in BUS_GROUPS and self.value not in (
-            "see",
-            "talk",
-            "own",
+    def check_match(self):
+        if self.match_type == "destination":
+            if self.before is not None or self.value is None:
+                raise ValueError("Destination rules need only a non-null value")
+        elif self.before == self.value:
+            raise ValueError("Transition rules need distinct endpoints")
+        if self.permission_group in BUS_GROUPS and any(
+            endpoint is not None and endpoint not in ("none", "see", "talk", "own")
+            for endpoint in (self.before, self.value)
         ):
-            raise ValueError("Bus policy rules need a see, talk or own value")
+            raise ValueError("Bus policy endpoints need a none, see, talk or own value")
         return self
 
 
@@ -108,7 +114,13 @@ def list_permission_rules(_moderator: ModeratorDep) -> list[PermissionRuleEntry]
     rule = models.PermissionRule
     with get_db("replica") as db:
         rules = db.session.scalars(
-            select(rule).order_by(rule.permission_group, rule.key, rule.value)
+            select(rule).order_by(
+                rule.permission_group,
+                rule.key,
+                rule.match_type,
+                rule.before.nullsfirst(),
+                rule.value.nullsfirst(),
+            )
         )
         return [_entry(db.session, item) for item in rules]
 

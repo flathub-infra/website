@@ -92,7 +92,27 @@ const review: Review = {
           decision: "rejected",
           permission_group: "Session Bus Policy",
           key: "org.freedesktop.Notifications",
+          match_type: "destination",
+          before: null,
           value: "talk",
+        },
+        {
+          id: 3,
+          decision: "approved",
+          permission_group: "Context",
+          key: "filesystems",
+          match_type: "transition",
+          before: "xdg-config/kdeglobals",
+          value: "xdg-config/kdeglobals:ro",
+        },
+        {
+          id: 4,
+          decision: "approved",
+          permission_group: "Session Bus Policy",
+          key: "org.example.Removed",
+          match_type: "transition",
+          before: "talk",
+          value: null,
         },
       ],
       rationale:
@@ -171,6 +191,16 @@ type Story = StoryObj<typeof meta>
 
 export const Rejected: Story = {}
 export const Dark: Story = { globals: { theme: "dark" } }
+export const RuleHistory: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(
+      await canvas.findByRole("link", {
+        name: "org.freedesktop.Notifications=talk, filesystems: xdg-config/kdeglobals → xdg-config/kdeglobals:ro, org.example.Removed: talk → Absent",
+      }),
+    ).toBeInTheDocument()
+  },
+}
 export const Ignored: Story = {
   parameters: {
     msw: {

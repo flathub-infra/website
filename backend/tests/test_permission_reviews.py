@@ -450,11 +450,155 @@ def rule_input(name, decision="approved", **changes):
 
 
 @pytest.mark.parametrize(
-    "changes", [{"value": "all"}, {"rationale": "  "}, {"key": ""}]
+    "changes",
+    [
+        {"value": "all"},
+        {"rationale": "  "},
+        {"key": ""},
+        {"value": None},
+        {"before": "see"},
+        {"match_type": "transition", "before": None, "value": None},
+        {"match_type": "transition", "before": "talk", "value": "talk"},
+        {"match_type": "transition", "before": "all"},
+        {"match_type": "transition", "before": ""},
+        {"match_type": "transition", "before": "talk", "value": ""},
+    ],
 )
 def test_rule_input_validation(changes):
     with pytest.raises(ValueError):
         rule_input(TRAY, **changes)
+
+
+@pytest.mark.parametrize(
+    ("before", "value"),
+    [(None, "none"), ("none", None), ("none", "talk"), ("own", "talk")],
+)
+def test_transition_rule_input_accepts_absence_and_literal_none(before, value):
+    rule = rule_input(TRAY, match_type="transition", before=before, value=value)
+    assert (rule.before, rule.value) == (before, value)
+    destination = rule_input(TRAY, value="none")
+    assert (destination.match_type, destination.before) == ("destination", None)
+
+
+def test_rule_value_is_required():
+    values = rule_input(TRAY).model_dump()
+    values.pop("value")
+    with pytest.raises(ValidationError):
+        rules_api.PermissionRuleInput(**values)
+
+
+@pytest.mark.parametrize(
+    ("before", "value"), [(None, "talk"), ("talk", None), ("own", "talk")]
+)
+def test_rule_uniqueness_covers_nullable_endpoints_and_both_kinds(db, before, value):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    destination = rules_api.create_permission_rule(rule_input(TRAY), MagicMock(), login)
+    transition = rule_input(TRAY, match_type="transition", before=before, value=value)
+    entry = rules_api.create_permission_rule(transition, MagicMock(), login)
+    assert (entry.match_type, entry.before, entry.value) == (
+        "transition",
+        before,
+        value,
+    )
+    with pytest.raises(HTTPException) as exc:
+        rules_api.create_permission_rule(transition, MagicMock(), login)
+    assert exc.value.detail == "rule_exists"
+    assert {rule.id for rule in rules_api.list_permission_rules(None)} == {
+        destination.id,
+        entry.id,
+    }
+    with pytest.raises(HTTPException) as exc:
+        rules_api.update_permission_rule(entry.id, rule_input(TRAY), MagicMock(), login)
+    assert exc.value.detail == "rule_exists"
+
+
+def test_transition_preview_apply_and_history_preserve_filesystem_reduction(db):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    change = TRAY_CHANGE | {
+        "differences": [
+            {
+                "path": ["x86_64", "Context", "filesystems"],
+                "before": ["home"],
+                "after": ["home:ro"],
+            }
+        ]
+    }
+    pending = persist(1, **change)
+    destination = rule_input("filesystems", permission_group="Context", value="home:ro")
+    destination_entry = rules_api.create_permission_rule(
+        destination, MagicMock(), login
+    )
+    assert rules_api.preview_permission_rules(None).pending == []
+    rules_api.update_permission_rule(
+        destination_entry.id,
+        destination.model_copy(update={"enabled": False}),
+        MagicMock(),
+        login,
+    )
+    transition = rule_input(
+        "filesystems",
+        permission_group="Context",
+        match_type="transition",
+        before="home",
+        value="home:ro",
+        rationale="Allow only this exact reduction.",
+    )
+    draft = rules_api.PermissionRuleDraft(**transition.model_dump())
+    preview = rules_api.preview_permission_rules(None, draft)
+    assert [item.assessment_id for item in preview.pending] == [pending.assessment_id]
+    entry = rules_api.create_permission_rule(transition, MagicMock(), login)
+    applied = rules_api.apply_permission_rules(MagicMock(), login)
+    assert [item.assessment_id for item in applied] == [pending.assessment_id]
+    detail = reviews.read_permission_review(pending.assessment_id, None)
+    decision = detail.decisions[0]
+    assert decision.decision == "approved"
+    assert decision.rationale == "Allow only this exact reduction."
+    assert [rule.model_dump() for rule in decision.rules] == [
+        {
+            "id": entry.id,
+            "decision": "approved",
+            "permission_group": "Context",
+            "key": "filesystems",
+            "match_type": "transition",
+            "before": "home",
+            "value": "home:ro",
+        }
+    ]
+    rules_api.update_permission_rule(
+        entry.id,
+        transition.model_copy(update={"before": "host", "rationale": "Another rule."}),
+        MagicMock(),
+        login,
+    )
+    history = reviews.read_permission_review(pending.assessment_id, None).decisions[0]
+    assert history.rules == decision.rules
+    assert history.rationale == decision.rationale
+
+
+def test_destination_decision_history_keeps_snapshot_after_rule_update(db):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    rule = rules_api.create_permission_rule(rule_input(TRAY), MagicMock(), login)
+    result = persist(1, **TRAY_CHANGE)
+    decision = reviews.read_permission_review(result.assessment_id, None).decisions[0]
+    assert decision.rules[0].model_dump() == {
+        "id": rule.id,
+        "decision": "approved",
+        "permission_group": "Session Bus Policy",
+        "key": TRAY,
+        "match_type": "destination",
+        "before": None,
+        "value": "talk",
+    }
+    rules_api.update_permission_rule(
+        rule.id,
+        rule_input(TRAY, "rejected", rationale="Changed policy."),
+        MagicMock(),
+        login,
+    )
+    history = reviews.read_permission_review(result.assessment_id, None).decisions[0]
+    assert history.rules == decision.rules
+    assert history.decision == decision.decision
+    assert history.rationale == decision.rationale
 
 
 def test_rules_preview_conflicts_and_apply_to_pending_reviews(db):
@@ -480,6 +624,7 @@ def test_rules_preview_conflicts_and_apply_to_pending_reviews(db):
 
     rule = rules_api.create_permission_rule(rule_input(TRAY), MagicMock(), login)
     assert rule.updated_by_name == "Moderator"
+    assert (rule.match_type, rule.before) == ("destination", None)
     with pytest.raises(HTTPException) as exc:
         rules_api.create_permission_rule(rule_input(TRAY), MagicMock(), login)
     assert exc.value.detail == "rule_exists"

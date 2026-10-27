@@ -59,11 +59,13 @@ import {
 } from "./permission-review-styles"
 
 const BUS_GROUPS: string[] = [Group.Session_Bus_Policy, Group.System_Bus_Policy]
-const BUS_LEVELS = ["see", "talk", "own"]
+const BUS_LEVELS = ["none", "see", "talk", "own"]
 
 const emptyRule: RuleInput = {
   decision: Decision.approved,
   permission_group: Group.Session_Bus_Policy,
+  match_type: "destination",
+  before: null,
   key: "",
   value: "talk",
   rationale: "",
@@ -73,11 +75,18 @@ const emptyRule: RuleInput = {
 const ruleInput = (rule: Rule): RuleInput => ({
   decision: rule.decision,
   permission_group: rule.permission_group,
+  match_type: rule.match_type,
+  before: rule.before,
   key: rule.key,
   value: rule.value,
   rationale: rule.rationale,
   enabled: rule.enabled,
 })
+
+const ruleLabel = (rule: Rule) =>
+  rule.match_type === "transition"
+    ? `${rule.key}: ${rule.before ?? "Absent"} → ${rule.value ?? "Absent"}`
+    : `${rule.key}=${rule.value}`
 
 const errorText = (e: Error) => {
   const detail: unknown = isAxiosError(e) && e.response?.data?.detail
@@ -159,17 +168,30 @@ const RuleEditor = ({
   const trimmed = {
     ...draft,
     key: draft.key.trim(),
-    value: draft.value.trim(),
+    before: draft.before == null ? null : draft.before.trim(),
+    value: draft.value === null ? null : draft.value.trim(),
     rationale: draft.rationale.trim(),
   }
-  const complete = Boolean(trimmed.key && trimmed.value && trimmed.rationale)
+  const bus = BUS_GROUPS.includes(draft.permission_group)
+  const transition = draft.match_type === "transition"
+  const complete = Boolean(
+    trimmed.key &&
+    trimmed.rationale &&
+    [trimmed.before, trimmed.value].every(
+      (value) =>
+        value === null ||
+        (value.length > 0 && (!bus || BUS_LEVELS.includes(value))),
+    ) &&
+    (transition
+      ? trimmed.before !== trimmed.value
+      : trimmed.before === null && trimmed.value !== null),
+  )
   const key = JSON.stringify(trimmed)
   const current = preview?.key === key ? preview.data : undefined
   const pending =
     previewMutation.isPending ||
     createMutation.isPending ||
     updateMutation.isPending
-  const bus = BUS_GROUPS.includes(draft.permission_group)
 
   const set = (changes: Partial<RuleInput>) =>
     setDraft((previous) => ({ ...previous, ...changes }))
@@ -249,6 +271,7 @@ const RuleEditor = ({
               onValueChange={(value) =>
                 set({
                   permission_group: value as RuleInput["permission_group"],
+                  before: null,
                   value: BUS_GROUPS.includes(value) ? "talk" : "",
                 })
               }
@@ -268,6 +291,29 @@ const RuleEditor = ({
             </Select>
           </Field>
           <Field>
+            <FieldLabel htmlFor="rule-match-type">Match</FieldLabel>
+            <Select
+              value={draft.match_type}
+              onValueChange={(value) =>
+                set({
+                  match_type: value as RuleInput["match_type"],
+                  before: null,
+                  value: draft.value ?? (bus ? "talk" : ""),
+                })
+              }
+            >
+              <SelectTrigger id="rule-match-type">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="destination">Destination-only</SelectItem>
+                  <SelectItem value="transition">Exact transition</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </Field>
+          <Field>
             <FieldLabel htmlFor="rule-key">
               {bus ? "Bus name" : "Key"}
             </FieldLabel>
@@ -279,38 +325,88 @@ const RuleEditor = ({
               onChange={(e) => set({ key: e.target.value })}
             />
           </Field>
-          <Field>
-            <FieldLabel htmlFor="rule-value">
-              {bus ? "Policy" : "Entry"}
-            </FieldLabel>
-            {bus ? (
-              <Select
-                value={draft.value}
-                onValueChange={(value) => set({ value })}
-              >
-                <SelectTrigger id="rule-value">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {BUS_LEVELS.map((value) => (
-                      <SelectItem key={value} value={value}>
-                        {value}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            ) : (
-              <Input
-                id="rule-value"
-                className="font-mono"
-                value={draft.value}
-                placeholder="pulseaudio"
-                onChange={(e) => set({ value: e.target.value })}
-              />
-            )}
-          </Field>
+          {(transition
+            ? (["before", "value"] as const)
+            : (["value"] as const)
+          ).map((endpoint) => {
+            const value = draft[endpoint] ?? null
+            const prefix = transition
+              ? endpoint === "before"
+                ? "Before "
+                : "After "
+              : ""
+            const label = `${prefix}${bus ? "policy" : "entry"}`
+            const fieldLabel = label.charAt(0).toUpperCase() + label.slice(1)
+            const id = `rule-${endpoint}`
+            return (
+              <Field key={endpoint}>
+                <FieldLabel
+                  htmlFor={bus || !transition ? id : `${id}-presence`}
+                >
+                  {fieldLabel}
+                </FieldLabel>
+                {bus ? (
+                  <Select
+                    value={value ?? "__absent"}
+                    onValueChange={(selected) =>
+                      set({
+                        [endpoint]: selected === "__absent" ? null : selected,
+                      })
+                    }
+                  >
+                    <SelectTrigger id={id}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {transition && (
+                          <SelectItem value="__absent">Absent</SelectItem>
+                        )}
+                        {BUS_LEVELS.map((level) => (
+                          <SelectItem key={level} value={level}>
+                            {level}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <>
+                    {transition && (
+                      <Select
+                        value={value === null ? "absent" : "present"}
+                        onValueChange={(selected) =>
+                          set({ [endpoint]: selected === "absent" ? null : "" })
+                        }
+                      >
+                        <SelectTrigger id={`${id}-presence`}>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectItem value="absent">Absent</SelectItem>
+                            <SelectItem value="present">Present</SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    )}
+                    {value !== null && (
+                      <Input
+                        id={id}
+                        aria-label={
+                          transition ? `${fieldLabel} value` : undefined
+                        }
+                        className="font-mono"
+                        value={value}
+                        placeholder="pulseaudio"
+                        onChange={(e) => set({ [endpoint]: e.target.value })}
+                      />
+                    )}
+                  </>
+                )}
+              </Field>
+            )
+          })}
         </div>
         <Field>
           <FieldLabel htmlFor="rule-rationale">Rationale</FieldLabel>
@@ -517,7 +613,7 @@ export default function PermissionRuleList() {
                       {rule.permission_group}
                     </div>
                     <div className="font-mono text-[13px] [overflow-wrap:anywhere]">
-                      {rule.key}={rule.value}
+                      {ruleLabel(rule)}
                     </div>
                   </TableCell>
                   <TableCell className="max-w-md px-5 py-3 align-top text-sm whitespace-pre-wrap [overflow-wrap:anywhere]">
@@ -527,7 +623,7 @@ export default function PermissionRuleList() {
                     <Switch
                       checked={rule.enabled}
                       disabled={toggle.isPending}
-                      aria-label={`Enable rule ${rule.key}=${rule.value}`}
+                      aria-label={`Enable rule ${ruleLabel(rule)}`}
                       onCheckedChange={(enabled) => {
                         setError(undefined)
                         toggle.mutate({
@@ -547,7 +643,7 @@ export default function PermissionRuleList() {
                     <Button
                       variant="outline"
                       size="sm"
-                      aria-label={`Edit rule ${rule.key}=${rule.value}`}
+                      aria-label={`Edit rule ${ruleLabel(rule)}`}
                       onClick={() => setEditing(rule)}
                     >
                       <Pencil data-icon="inline-start" />

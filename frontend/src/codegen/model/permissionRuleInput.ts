@@ -4,16 +4,20 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { PermissionRuleInputBefore } from "./permissionRuleInputBefore"
 import type { PermissionRuleInputDecision } from "./permissionRuleInputDecision"
+import type { PermissionRuleInputMatchType } from "./permissionRuleInputMatchType"
 import type { PermissionRuleInputPermissionGroup } from "./permissionRuleInputPermissionGroup"
+import type { PermissionRuleInputValue } from "./permissionRuleInputValue"
 
 export interface PermissionRuleInput {
   decision: PermissionRuleInputDecision
   permission_group: PermissionRuleInputPermissionGroup
   /** @minLength 1 */
   key: string
-  /** @minLength 1 */
-  value: string
+  match_type?: PermissionRuleInputMatchType
+  before?: PermissionRuleInputBefore
+  value: PermissionRuleInputValue
   /** @minLength 1 */
   rationale: string
   enabled?: boolean

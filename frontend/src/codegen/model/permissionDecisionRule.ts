@@ -4,12 +4,17 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { PermissionDecisionRuleBefore } from "./permissionDecisionRuleBefore"
 import type { PermissionDecisionRuleDecision } from "./permissionDecisionRuleDecision"
+import type { PermissionDecisionRuleMatchType } from "./permissionDecisionRuleMatchType"
+import type { PermissionDecisionRuleValue } from "./permissionDecisionRuleValue"
 
 export interface PermissionDecisionRule {
   id: number
   decision: PermissionDecisionRuleDecision
   permission_group: string
   key: string
-  value: string
+  match_type?: PermissionDecisionRuleMatchType
+  before?: PermissionDecisionRuleBefore
+  value: PermissionDecisionRuleValue
 }

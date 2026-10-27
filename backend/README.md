@@ -3,6 +3,15 @@
 This is the fastapi based backend for https://www.flathub.org
 Not the backend for flathub itself. Go here, if you're looking for that https://github.com/flathub-infra/ is your best bet.
 
+## Permission rules
+
+Permission rules support destination-only matching and exact transitions. Destination-only
+rules retain their existing behavior for added entries and bus-policy increases. Exact
+transitions specify `before` and `value`; a null endpoint means absent, not a wildcard.
+They can approve or reject additions, removals, and replacements such as read-write to
+read-only filesystem access. Every changed entry needs approval coverage, and a matching
+rejection takes precedence. Preview rules before saving or applying them to pending reviews.
+
 ## Development
 
 ### Prerequisites

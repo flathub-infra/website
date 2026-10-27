@@ -4,17 +4,21 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { PermissionRuleDraftBefore } from "./permissionRuleDraftBefore"
 import type { PermissionRuleDraftDecision } from "./permissionRuleDraftDecision"
 import type { PermissionRuleDraftId } from "./permissionRuleDraftId"
+import type { PermissionRuleDraftMatchType } from "./permissionRuleDraftMatchType"
 import type { PermissionRuleDraftPermissionGroup } from "./permissionRuleDraftPermissionGroup"
+import type { PermissionRuleDraftValue } from "./permissionRuleDraftValue"
 
 export interface PermissionRuleDraft {
   decision: PermissionRuleDraftDecision
   permission_group: PermissionRuleDraftPermissionGroup
   /** @minLength 1 */
   key: string
-  /** @minLength 1 */
-  value: string
+  match_type?: PermissionRuleDraftMatchType
+  before?: PermissionRuleDraftBefore
+  value: PermissionRuleDraftValue
   /** @minLength 1 */
   rationale: string
   enabled?: boolean

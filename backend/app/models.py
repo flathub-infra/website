@@ -2632,7 +2632,9 @@ class PermissionRule(Base):
     decision = mapped_column(String, nullable=False)
     permission_group = mapped_column(String, nullable=False)
     key = mapped_column(String, nullable=False)
-    value = mapped_column(String, nullable=False)
+    match_type = mapped_column(String, nullable=False, server_default="destination")
+    before = mapped_column(String)
+    value = mapped_column(String)
     rationale = mapped_column(String, nullable=False)
 
     __table_args__ = (
@@ -2646,20 +2648,50 @@ class PermissionRule(Base):
             name="permissionrule_group",
         ),
         CheckConstraint(
-            "btrim(key) <> '' AND btrim(value) <> '' AND btrim(rationale) <> ''",
+            "btrim(key) <> '' AND btrim(rationale) <> '' "
+            "AND (before IS NULL OR btrim(before) <> '') "
+            "AND (value IS NULL OR btrim(value) <> '')",
             name="permissionrule_nonempty",
         ),
         CheckConstraint(
+            "(match_type = 'destination' AND before IS NULL AND value IS NOT NULL) "
+            "OR (match_type = 'transition' AND num_nonnulls(before, value) > 0 "
+            "AND before IS DISTINCT FROM value)",
+            name="permissionrule_match_type",
+        ),
+        CheckConstraint(
             "permission_group NOT IN ('Session Bus Policy', 'System Bus Policy') "
-            "OR value IN ('see', 'talk', 'own')",
+            "OR ((before IS NULL OR before IN ('none', 'see', 'talk', 'own')) "
+            "AND (value IS NULL OR value IN ('none', 'see', 'talk', 'own')))",
             name="permissionrule_bus_policy",
         ),
         Index(
-            "permissionrule_permission_unique",
+            "permissionrule_addition_unique",
+            match_type,
             permission_group,
             key,
             value,
             unique=True,
+            postgresql_where=before.is_(None),
+        ),
+        Index(
+            "permissionrule_removal_unique",
+            match_type,
+            permission_group,
+            key,
+            before,
+            unique=True,
+            postgresql_where=value.is_(None),
+        ),
+        Index(
+            "permissionrule_replacement_unique",
+            match_type,
+            permission_group,
+            key,
+            before,
+            value,
+            unique=True,
+            postgresql_where=and_(before.isnot(None), value.isnot(None)),
         ),
     )
 

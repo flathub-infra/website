@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { http, HttpResponse } from "msw"
 import { useState } from "react"
-import { expect, userEvent, within } from "storybook/test"
+import { expect, userEvent, waitFor, within } from "storybook/test"
 import type { PermissionRuleEntry, PermissionRulePreview } from "src/codegen"
 import PermissionRuleList from "./PermissionRuleList"
 
@@ -12,6 +12,8 @@ const rules: PermissionRuleEntry[] = [
     decision: "approved",
     permission_group: "Session Bus Policy",
     key: "org.kde.StatusNotifierWatcher",
+    match_type: "destination",
+    before: null,
     value: "talk",
     rationale:
       "Registering tray icons through org.kde.StatusNotifierWatcher is considered safe.",
@@ -24,11 +26,52 @@ const rules: PermissionRuleEntry[] = [
     decision: "rejected",
     permission_group: "Session Bus Policy",
     key: "org.freedesktop.Notifications",
+    match_type: "destination",
+    before: null,
     value: "talk",
     rationale:
       "Use the notifications portal instead of accessing org.freedesktop.Notifications directly.",
     enabled: true,
     updated_at: "2026-10-24T19:21:00.000000",
+    updated_by_name: "Bartłomiej Piotrowski",
+  },
+  {
+    id: 3,
+    decision: "approved",
+    permission_group: "Context",
+    key: "filesystems",
+    match_type: "transition",
+    before: "xdg-config/kdeglobals",
+    value: "xdg-config/kdeglobals:ro",
+    rationale: "Allow this exact change to read-only access.",
+    enabled: true,
+    updated_at: "2026-10-24T19:22:00.000000",
+    updated_by_name: "Bartłomiej Piotrowski",
+  },
+  {
+    id: 4,
+    decision: "approved",
+    permission_group: "Session Bus Policy",
+    key: "org.example.Removed",
+    match_type: "transition",
+    before: "talk",
+    value: null,
+    rationale: "Allow removal of this bus permission.",
+    enabled: true,
+    updated_at: "2026-10-24T19:23:00.000000",
+    updated_by_name: "Bartłomiej Piotrowski",
+  },
+  {
+    id: 5,
+    decision: "rejected",
+    permission_group: "System Bus Policy",
+    key: "org.example.Restricted",
+    match_type: "transition",
+    before: null,
+    value: "none",
+    rationale: "Keep literal none distinct from an absent policy.",
+    enabled: false,
+    updated_at: "2026-10-24T19:24:00.000000",
     updated_by_name: "Bartłomiej Piotrowski",
   },
 ]
@@ -60,6 +103,12 @@ const handlers = (items: PermissionRuleEntry[]) => [
   ),
   http.post("*/moderation/permission-rules/apply", () =>
     HttpResponse.json(preview.pending),
+  ),
+  http.put("*/moderation/permission-rules/:id", async ({ request, params }) =>
+    HttpResponse.json({
+      ...rules.find((rule) => rule.id === Number(params.id)),
+      ...((await request.json()) as object),
+    }),
   ),
   http.post("*/moderation/permission-rules", () =>
     HttpResponse.json(rules[0], { status: 201 }),
@@ -119,5 +168,136 @@ export const SaveNeedsPreview: Story = {
     await expect(
       dialog.getByRole("button", { name: "Save despite conflicts" }),
     ).toBeEnabled()
+  },
+}
+
+export const EditRemoval: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(
+      await canvas.findByRole("button", {
+        name: "Edit rule org.example.Removed: talk → Absent",
+      }),
+    )
+    const body = within(document.body)
+    const dialog = within(await body.findByRole("dialog"))
+    await expect(dialog.getByLabelText("Match")).toHaveTextContent(
+      "Exact transition",
+    )
+    await expect(dialog.getByLabelText("Before policy")).toHaveTextContent(
+      "talk",
+    )
+    await expect(dialog.getByLabelText("After policy")).toHaveTextContent(
+      "Absent",
+    )
+    await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
+    await userEvent.click(dialog.getByRole("button", { name: "Preview" }))
+    await expect(
+      await dialog.findByRole("button", { name: "Save despite conflicts" }),
+    ).toBeEnabled()
+    await userEvent.click(dialog.getByLabelText("After policy"))
+    await userEvent.click(await body.findByRole("option", { name: "none" }))
+    await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
+    await expect(dialog.getByRole("button", { name: "Preview" })).toBeEnabled()
+    await userEvent.click(dialog.getByLabelText("Before policy"))
+    await userEvent.click(await body.findByRole("option", { name: "none" }))
+    await expect(dialog.getByRole("button", { name: "Preview" })).toBeDisabled()
+    await userEvent.click(dialog.getByLabelText("Before policy"))
+    await userEvent.click(await body.findByRole("option", { name: "Absent" }))
+    await expect(dialog.getByRole("button", { name: "Preview" })).toBeEnabled()
+    await userEvent.click(dialog.getByLabelText("After policy"))
+    await userEvent.click(await body.findByRole("option", { name: "Absent" }))
+    await expect(dialog.getByRole("button", { name: "Preview" })).toBeDisabled()
+  },
+}
+
+export const EditReduction: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(
+      await canvas.findByRole("button", {
+        name: "Edit rule filesystems: xdg-config/kdeglobals → xdg-config/kdeglobals:ro",
+      }),
+    )
+    const body = within(document.body)
+    const dialog = within(await body.findByRole("dialog"))
+    await expect(dialog.getByLabelText("Before entry")).toHaveTextContent(
+      "Present",
+    )
+    await expect(dialog.getByLabelText("Before entry value")).toHaveValue(
+      "xdg-config/kdeglobals",
+    )
+    await expect(dialog.getByLabelText("After entry value")).toHaveValue(
+      "xdg-config/kdeglobals:ro",
+    )
+    await userEvent.clear(dialog.getByLabelText("After entry value"))
+    await expect(dialog.getByRole("button", { name: "Preview" })).toBeDisabled()
+    await userEvent.type(
+      dialog.getByLabelText("After entry value"),
+      "xdg-config/kdeglobals",
+    )
+    await expect(dialog.getByRole("button", { name: "Preview" })).toBeDisabled()
+    await userEvent.type(dialog.getByLabelText("After entry value"), ":ro")
+    await userEvent.click(dialog.getByRole("button", { name: "Preview" }))
+    await expect(
+      await dialog.findByRole("button", { name: "Save despite conflicts" }),
+    ).toBeEnabled()
+    await userEvent.click(dialog.getByLabelText("Match"))
+    await userEvent.click(
+      await body.findByRole("option", { name: "Destination-only" }),
+    )
+    await expect(
+      dialog.queryByLabelText("Before entry"),
+    ).not.toBeInTheDocument()
+    await expect(dialog.getByLabelText("Entry")).toHaveValue(
+      "xdg-config/kdeglobals:ro",
+    )
+    await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
+    await userEvent.click(dialog.getByLabelText("Match"))
+    await userEvent.click(
+      await body.findByRole("option", { name: "Exact transition" }),
+    )
+    await expect(dialog.getByLabelText("Before entry")).toHaveTextContent(
+      "Absent",
+    )
+    await expect(dialog.getByLabelText("After entry value")).toHaveValue(
+      "xdg-config/kdeglobals:ro",
+    )
+    await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
+  },
+}
+
+export const CreateTransition: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(
+      await canvas.findByRole("button", { name: "New rule" }),
+    )
+    const body = within(document.body)
+    const dialogElement = await body.findByRole("dialog")
+    const dialog = within(dialogElement)
+    await expect(dialog.getByLabelText("Match")).toHaveTextContent(
+      "Destination-only",
+    )
+    await userEvent.click(dialog.getByLabelText("Match"))
+    await userEvent.click(
+      await body.findByRole("option", { name: "Exact transition" }),
+    )
+    await expect(dialog.getByLabelText("Before policy")).toHaveTextContent(
+      "Absent",
+    )
+    await userEvent.type(dialog.getByLabelText("Bus name"), "org.example.Bus")
+    await userEvent.type(
+      dialog.getByLabelText("Rationale"),
+      "Handle this exact addition.",
+    )
+    await userEvent.click(dialog.getByLabelText("After policy"))
+    await userEvent.click(await body.findByRole("option", { name: "none" }))
+    await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
+    await userEvent.click(dialog.getByRole("button", { name: "Preview" }))
+    await userEvent.click(
+      await dialog.findByRole("button", { name: "Save despite conflicts" }),
+    )
+    await waitFor(() => expect(dialogElement).not.toBeInTheDocument())
   },
 }

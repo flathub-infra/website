@@ -557,7 +557,18 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
             length: { min: 10, max: 20 },
           }),
           key: faker.string.alpha({ length: { min: 10, max: 20 } }),
-          value: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          match_type: faker.helpers.arrayElement([
+            "destination",
+            "transition",
+          ] as const),
+          before: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
+          value: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
         })),
         null,
       ]),
@@ -699,7 +710,18 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
             length: { min: 10, max: 20 },
           }),
           key: faker.string.alpha({ length: { min: 10, max: 20 } }),
-          value: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          match_type: faker.helpers.arrayElement([
+            "destination",
+            "transition",
+          ] as const),
+          before: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
+          value: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
         })),
         null,
       ]),
@@ -724,7 +746,18 @@ export const getListPermissionRulesModerationPermissionRulesGetResponseMock =
         "USB Devices",
       ] as const),
       key: faker.string.alpha({ length: { min: 1, max: 20 } }),
-      value: faker.string.alpha({ length: { min: 1, max: 20 } }),
+      match_type: faker.helpers.arrayElement([
+        "destination",
+        "transition",
+      ] as const),
+      before: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 1, max: 20 } }),
+        null,
+      ]),
+      value: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 1, max: 20 } }),
+        null,
+      ]),
       rationale: faker.string.alpha({ length: { min: 1, max: 20 } }),
       enabled: faker.datatype.boolean(),
       id: faker.number.int(),
@@ -747,7 +780,18 @@ export const getCreatePermissionRuleModerationPermissionRulesPostResponseMock =
       "USB Devices",
     ] as const),
     key: faker.string.alpha({ length: { min: 1, max: 20 } }),
-    value: faker.string.alpha({ length: { min: 1, max: 20 } }),
+    match_type: faker.helpers.arrayElement([
+      "destination",
+      "transition",
+    ] as const),
+    before: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 1, max: 20 } }),
+      null,
+    ]),
+    value: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 1, max: 20 } }),
+      null,
+    ]),
     rationale: faker.string.alpha({ length: { min: 1, max: 20 } }),
     enabled: faker.datatype.boolean(),
     id: faker.number.int(),
@@ -771,7 +815,18 @@ export const getUpdatePermissionRuleModerationPermissionRulesRuleIdPutResponseMo
       "USB Devices",
     ] as const),
     key: faker.string.alpha({ length: { min: 1, max: 20 } }),
-    value: faker.string.alpha({ length: { min: 1, max: 20 } }),
+    match_type: faker.helpers.arrayElement([
+      "destination",
+      "transition",
+    ] as const),
+    before: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 1, max: 20 } }),
+      null,
+    ]),
+    value: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 1, max: 20 } }),
+      null,
+    ]),
     rationale: faker.string.alpha({ length: { min: 1, max: 20 } }),
     enabled: faker.datatype.boolean(),
     id: faker.number.int(),

@@ -359,7 +359,13 @@ export default function PermissionReviewDetail({
                         href="/admin/moderation/permission-rules"
                         className="font-mono text-xs [overflow-wrap:anywhere]"
                       >
-                        {d.rules.map((r) => `${r.key}=${r.value}`).join(", ")}
+                        {d.rules
+                          .map((r) =>
+                            r.match_type === "transition"
+                              ? `${r.key}: ${r.before ?? "Absent"} → ${r.value ?? "Absent"}`
+                              : `${r.key}=${r.value}`,
+                          )
+                          .join(", ")}
                       </Link>
                     )}
                     <time
