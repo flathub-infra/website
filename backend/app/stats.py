@@ -1675,12 +1675,14 @@ async def _add_translations_to_year_in_review(
             app_id = item["app_id"]
             if not isinstance(app_id, str):
                 continue
+            # Historical apps may no longer have metadata. Keep the API's string
+            # contract; the frontend omits empty icons and summaries.
             translated_items.append(
                 {
                     **item,
                     "name": app_names.get(app_id) or app_id,
-                    "icon": app_icons.get(app_id),
-                    "summary": app_summaries.get(app_id),
+                    "icon": app_icons.get(app_id, ""),
+                    "summary": app_summaries.get(app_id, ""),
                 }
             )
         return translated_items
