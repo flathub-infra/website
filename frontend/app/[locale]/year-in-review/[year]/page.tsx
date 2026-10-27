@@ -118,7 +118,10 @@ export default async function YearInReviewPage({
     <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
       <div className="space-y-8 py-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-2 ms-auto">
+          <nav
+            aria-label={t("year-in-review.select-year")}
+            className="flex flex-wrap items-center gap-2 ms-auto"
+          >
             <span className="text-sm font-medium text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70">
               {t("year-in-review.select-year")}:
             </span>
@@ -127,8 +130,9 @@ export default async function YearInReviewPage({
                 <Link
                   key={y}
                   href={`/year-in-review/${y}`}
+                  aria-current={y === year ? "page" : undefined}
                   className={clsx(
-                    "rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-200",
+                    "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors duration-200 motion-reduce:transition-none",
                     y === year
                       ? "bg-flathub-celestial-blue text-white shadow-md"
                       : "bg-flathub-gainsborow/30 text-flathub-dark-gunmetal hover:bg-flathub-celestial-blue/20 dark:bg-flathub-arsenic/30 dark:text-flathub-gainsborow dark:hover:bg-flathub-celestial-blue/30",
@@ -138,7 +142,7 @@ export default async function YearInReviewPage({
                 </Link>
               ))}
             </div>
-          </div>
+          </nav>
         </div>
 
         <YearInReview
@@ -173,7 +177,9 @@ export default async function YearInReviewPage({
             href="/"
             className="text-flathub-celestial-blue hover:text-flathub-electric-purple transition-colors"
           >
-            <span className="inline-block rtl:rotate-180">←</span>{" "}
+            <span aria-hidden="true" className="inline-block rtl:rotate-180">
+              ←
+            </span>{" "}
             {t("go-home")}
           </Link>
         </div>

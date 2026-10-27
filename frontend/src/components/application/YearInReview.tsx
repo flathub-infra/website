@@ -78,11 +78,28 @@ function AnimatedCounter({
   value: number
   duration?: number
 }) {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(value)
 
   useEffect(() => {
+    const motionPreference = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    )
     let startTime: number | null = null
     let animationFrameId: number | null = null
+
+    const stopAnimation = () => {
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId)
+        animationFrameId = null
+      }
+    }
+
+    const handleMotionChange = () => {
+      if (motionPreference.matches) {
+        stopAnimation()
+        setCount(value)
+      }
+    }
 
     const animate = (currentTime: number) => {
       if (startTime === null) {
@@ -97,16 +114,25 @@ function AnimatedCounter({
       }
     }
 
-    animationFrameId = requestAnimationFrame(animate)
+    if (motionPreference.matches || duration <= 0) {
+      setCount(value)
+    } else {
+      animationFrameId = requestAnimationFrame(animate)
+    }
+    motionPreference.addEventListener("change", handleMotionChange)
 
     return () => {
-      if (animationFrameId !== null) {
-        cancelAnimationFrame(animationFrameId)
-      }
+      stopAnimation()
+      motionPreference.removeEventListener("change", handleMotionChange)
     }
   }, [value, duration])
 
-  return <>{count.toLocaleString()}</>
+  return (
+    <>
+      <span aria-hidden="true">{count.toLocaleString()}</span>
+      <span className="sr-only">{value.toLocaleString()}</span>
+    </>
+  )
 }
 
 const rankBadgeVariants = cva(
@@ -240,7 +266,10 @@ export function YearStatsGrid({
             <div className="absolute inset-0 bg-gradient-to-r from-flathub-celestial-blue/5 via-purple-500/5 to-flathub-vivid-crimson/5 dark:from-flathub-celestial-blue/10 dark:via-purple-500/10 dark:to-flathub-vivid-crimson/10" />
             <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-3 sm:gap-4">
-                <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-flathub-celestial-blue to-purple-500 flex items-center justify-center text-2xl sm:text-3xl shadow-lg">
+                <div
+                  aria-hidden="true"
+                  className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-flathub-celestial-blue to-purple-500 flex items-center justify-center text-2xl sm:text-3xl shadow-lg"
+                >
                   📈
                 </div>
                 <div className="text-center sm:text-start">
@@ -298,8 +327,12 @@ export function TopAppsSection({
           <Card className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl">
             <CardHeader className="pb-4 px-3 sm:px-6">
               <CardTitle className="text-xl font-black flex items-center gap-2">
-                <span className="text-2xl">🏆</span>
-                <span>{t("year-in-review.top-apps")}</span>
+                <h2 className="flex items-center gap-2">
+                  <span aria-hidden="true" className="text-2xl">
+                    🏆
+                  </span>
+                  <span>{t("year-in-review.top-apps")}</span>
+                </h2>
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0 px-3 sm:px-6">
@@ -310,7 +343,7 @@ export function TopAppsSection({
                     href={`/apps/${app.app_id}`}
                     className="block group"
                   >
-                    <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-all">
+                    <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-colors">
                       <RankBadge rank={index + 1} size="lg" />
                       <div className="flex items-start gap-4 ms-6">
                         <div className="w-16 h-16 flex-shrink-0">
@@ -355,8 +388,12 @@ export function TopAppsSection({
           <Card className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl">
             <CardHeader className="pb-4 px-3 sm:px-6">
               <CardTitle className="text-xl font-black flex items-center gap-2">
-                <span className="text-2xl">🎮</span>
-                <span>{t("year-in-review.top-games")}</span>
+                <h2 className="flex items-center gap-2">
+                  <span aria-hidden="true" className="text-2xl">
+                    🎮
+                  </span>
+                  <span>{t("year-in-review.top-games")}</span>
+                </h2>
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-0 px-3 sm:px-6">
@@ -367,7 +404,7 @@ export function TopAppsSection({
                     href={`/apps/${game.app_id}`}
                     className="block group"
                   >
-                    <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-all">
+                    <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-colors">
                       <RankBadge rank={index + 1} size="lg" />
                       <div className="flex items-start gap-4 ms-6">
                         <div className="w-16 h-16 flex-shrink-0">
@@ -440,8 +477,12 @@ export function TopAppsSection({
               >
                 <CardHeader className="pb-3 px-3 sm:px-6">
                   <CardTitle className="lg:text-base text-xl font-bold flex items-center gap-2">
-                    <span className="text-2xl lg:text-xl">{section.icon}</span>
-                    <span>{section.title}</span>
+                    <h2 className="flex items-center gap-2">
+                      <span aria-hidden="true" className="text-2xl lg:text-xl">
+                        {section.icon}
+                      </span>
+                      <span>{section.title}</span>
+                    </h2>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0 px-3 sm:px-6">
@@ -452,7 +493,7 @@ export function TopAppsSection({
                         href={`/apps/${app.app_id}`}
                         className="block group"
                       >
-                        <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-all">
+                        <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-colors">
                           <RankBadge rank={index + 1} size="md" />
                           <div className="flex items-start gap-4 ms-6">
                             <div className="w-16 h-16 flex-shrink-0">
@@ -517,8 +558,12 @@ export function GeographicInsightsSection({
     <Card className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl">
       <CardHeader className="pb-4 px-3 sm:px-6">
         <CardTitle className="text-xl font-black flex items-center gap-2">
-          <span className="text-2xl">🌍</span>
-          <span>{t("year-in-review.geographic-insights")}</span>
+          <h2 className="flex items-center gap-2">
+            <span aria-hidden="true" className="text-2xl">
+              🌍
+            </span>
+            <span>{t("year-in-review.geographic-insights")}</span>
+          </h2>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0 px-3 sm:px-6">
@@ -538,9 +583,9 @@ export function GeographicInsightsSection({
           {geographicStats.fastest_growing_regions &&
             geographicStats.fastest_growing_regions.length > 0 && (
               <div>
-                <div className="text-xs font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow mb-2 uppercase tracking-wider">
+                <h3 className="text-xs font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow mb-2 uppercase tracking-wider">
                   {t("year-in-review.fastest-growing-regions")}
-                </div>
+                </h3>
                 <div className="grid gap-1.5">
                   {geographicStats.fastest_growing_regions.map(
                     (region, idx) => {
@@ -576,9 +621,9 @@ export function GeographicInsightsSection({
           {/* Top Countries */}
           {geographicStats.top_countries && (
             <div>
-              <div className="text-xs font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow mb-2 uppercase tracking-wider">
+              <h3 className="text-xs font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow mb-2 uppercase tracking-wider">
                 {t("year-in-review.top-countries")}
-              </div>
+              </h3>
               <div className="grid gap-1.5">
                 {geographicStats.top_countries
                   .slice(0, 5)
@@ -634,13 +679,15 @@ export function CategoryHighlightsSection({
   return (
     <div className="space-y-10">
       <div className="text-center space-y-6 mb-12">
-        <h3 className="text-2xl sm:text-3xl font-black text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+        <h2 className="text-2xl sm:text-3xl font-black text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
           {t("year-in-review.category-highlights")}
-        </h3>
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
           <div className="p-5 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/70 dark:from-blue-900/30 dark:to-blue-800/20 border lg:border-2 border-blue-200/80 dark:border-blue-700/50 shadow-lg">
             <div className="flex items-start gap-3">
-              <span className="text-3xl">🏆</span>
+              <span aria-hidden="true" className="text-3xl">
+                🏆
+              </span>
               <div className="flex-1">
                 <div className="font-black text-sm text-blue-900 dark:text-blue-200 mb-1.5">
                   {t("year-in-review.most-popular")}
@@ -653,7 +700,9 @@ export function CategoryHighlightsSection({
           </div>
           <div className="p-5 rounded-xl bg-gradient-to-br from-purple-50 to-purple-100/70 dark:from-purple-900/30 dark:to-purple-800/20 border lg:border-2 border-purple-200/80 dark:border-purple-700/50 shadow-lg">
             <div className="flex items-start gap-3">
-              <span className="text-3xl">📈</span>
+              <span aria-hidden="true" className="text-3xl">
+                📈
+              </span>
               <div className="flex-1">
                 <div className="font-black text-sm text-purple-900 dark:text-purple-200 mb-1.5">
                   {t("year-in-review.biggest-growth")}
@@ -666,7 +715,9 @@ export function CategoryHighlightsSection({
           </div>
           <div className="p-5 rounded-xl bg-gradient-to-br from-amber-50 to-amber-100/70 dark:from-amber-900/30 dark:to-amber-800/20 border lg:border-2 border-amber-200/80 dark:border-amber-700/50 shadow-lg">
             <div className="flex items-start gap-3">
-              <span className="text-3xl">✨</span>
+              <span aria-hidden="true" className="text-3xl">
+                ✨
+              </span>
               <div className="flex-1">
                 <div className="font-black text-sm text-amber-900 dark:text-amber-200 mb-1.5">
                   {t("year-in-review.newcomer-of-year")}
@@ -679,7 +730,9 @@ export function CategoryHighlightsSection({
           </div>
           <div className="p-5 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100/70 dark:from-emerald-900/30 dark:to-emerald-800/20 border lg:border-2 border-emerald-200/80 dark:border-emerald-700/50 shadow-lg">
             <div className="flex items-start gap-3">
-              <span className="text-3xl">🏅</span>
+              <span aria-hidden="true" className="text-3xl">
+                🏅
+              </span>
               <div className="flex-1">
                 <div className="font-black text-sm text-emerald-900 dark:text-emerald-200 mb-1.5">
                   {t("year-in-review.most-improved")}
@@ -699,13 +752,13 @@ export function CategoryHighlightsSection({
             className="p-4 sm:p-8 rounded-2xl bg-white dark:bg-flathub-arsenic border lg:border-2 border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl"
           >
             <div>
-              <h4 className="text-xl lg:text-2xl font-black mb-8 text-flathub-dark-gunmetal dark:text-flathub-gainsborow pb-4 ps-4 relative border-b lg:border-b-2 border-transparent">
+              <h3 className="text-xl lg:text-2xl font-black mb-8 text-flathub-dark-gunmetal dark:text-flathub-gainsborow pb-4 ps-4 relative border-b lg:border-b-2 border-transparent">
                 <span
                   aria-hidden="true"
                   className="absolute inset-x-0 bottom-0 h-1 rounded-full bg-gradient-to-r from-flathub-celestial-blue via-purple-500 to-flathub-sunset-pink rtl:bg-gradient-to-l shadow-[0_0_10px_rgba(33,150,243,0.3)]"
                 />
                 {cat.category_name}
-              </h4>
+              </h3>
               <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
                 {cat.winners.map((winner) => (
                   <Link
@@ -713,7 +766,7 @@ export function CategoryHighlightsSection({
                     href={`/apps/${winner.app_id}`}
                     className="group block"
                   >
-                    <div className="p-5 rounded-xl bg-gradient-to-br from-white/90 to-flathub-lotion/60 dark:from-flathub-dark-gunmetal/70 dark:to-flathub-dark-gunmetal/50 hover:from-white dark:hover:from-flathub-dark-gunmetal/90 dark:hover:to-flathub-dark-gunmetal/70 border lg:border-2 border-flathub-gainsborow/60 dark:border-flathub-arsenic/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl h-full flex flex-col backdrop-blur-sm hover:border-flathub-celestial-blue/50 dark:hover:border-flathub-celestial-blue/40">
+                    <div className="p-5 rounded-xl bg-gradient-to-br from-white/90 to-flathub-lotion/60 dark:from-flathub-dark-gunmetal/70 dark:to-flathub-dark-gunmetal/50 hover:from-white dark:hover:from-flathub-dark-gunmetal/90 dark:hover:to-flathub-dark-gunmetal/70 border lg:border-2 border-flathub-gainsborow/60 dark:border-flathub-arsenic/50 transition-[border-color,box-shadow,scale] duration-300 motion-reduce:transition-none motion-safe:hover:scale-[1.02] hover:shadow-2xl h-full flex flex-col backdrop-blur-sm hover:border-flathub-celestial-blue/50 dark:hover:border-flathub-celestial-blue/40">
                       {/* Award badges */}
                       <div className="flex flex-wrap gap-2 mb-4">
                         {winner.awards.map((award, aidx) => {
@@ -754,7 +807,8 @@ export function CategoryHighlightsSection({
                                 config.textColor,
                               )}
                             >
-                              <span>{config.icon}</span> {config.label}
+                              <span aria-hidden="true">{config.icon}</span>{" "}
+                              {config.label}
                             </div>
                           )
                         })}
@@ -874,8 +928,12 @@ export function HiddenGemsSection({ hiddenGems }: { hiddenGems: HiddenGem[] }) {
     <Card className="bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-950/20 dark:to-pink-950/20 border-0 lg:border border-purple-200/50 dark:border-purple-800/30 shadow-xl h-full">
       <CardHeader className="pb-4 px-3 sm:px-6">
         <CardTitle className="text-xl font-black flex items-center gap-2">
-          <span className="text-2xl">💎</span>
-          <span>{t("year-in-review.hidden-gems")}</span>
+          <h2 className="flex items-center gap-2">
+            <span aria-hidden="true" className="text-2xl">
+              💎
+            </span>
+            <span>{t("year-in-review.hidden-gems")}</span>
+          </h2>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0 px-3 sm:px-6">
@@ -887,13 +945,13 @@ export function HiddenGemsSection({ hiddenGems }: { hiddenGems: HiddenGem[] }) {
             <Link
               key={gem.app_id}
               href={`/apps/${gem.app_id}`}
-              className="flex items-center gap-3 p-3.5 rounded-xl bg-white/70 dark:bg-flathub-dark-gunmetal/40 hover:bg-white dark:hover:bg-flathub-dark-gunmetal/60 transition-all group border lg:border-2 border-purple-200/60 dark:border-purple-800/30 hover:shadow-lg hover:scale-[1.01]"
+              className="flex items-center gap-3 p-3.5 rounded-xl bg-white/70 dark:bg-flathub-dark-gunmetal/40 hover:bg-white dark:hover:bg-flathub-dark-gunmetal/60 transition-[background-color,box-shadow,scale] motion-reduce:transition-none group border lg:border-2 border-purple-200/60 dark:border-purple-800/30 hover:shadow-lg motion-safe:hover:scale-[1.01]"
             >
               {gem.icon && (
                 <LogoImage iconUrl={gem.icon} appName={gem.name} size={64} />
               )}
               <div className="flex-1 min-w-0">
-                <div className="font-black text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow truncate group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 dark:group-hover:from-purple-400 dark:group-hover:to-pink-400 transition-all">
+                <div className="font-black text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow truncate group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 dark:group-hover:from-purple-400 dark:group-hover:to-pink-400 transition-colors">
                   {gem.name}
                 </div>
                 <div className="text-[11px] text-flathub-dark-gunmetal/60 dark:text-flathub-gainsborow/60 line-clamp-1 mb-1.5">
@@ -932,8 +990,12 @@ export function PlatformDiversitySection({
     <Card className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl">
       <CardHeader className="pb-4 px-3 sm:px-6">
         <CardTitle className="text-xl font-black flex items-center gap-2">
-          <span className="text-2xl">💻</span>
-          <span>{t("year-in-review.platform-downloads")}</span>
+          <h2 className="flex items-center gap-2">
+            <span aria-hidden="true" className="text-2xl">
+              💻
+            </span>
+            <span>{t("year-in-review.platform-downloads")}</span>
+          </h2>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0 px-3 sm:px-6">
@@ -986,8 +1048,12 @@ export function TrendingCategoriesSection({
     <Card className="bg-gradient-to-br from-blue-50/50 to-cyan-50/50 dark:from-blue-950/20 dark:to-cyan-950/20 border-0 lg:border border-blue-200/50 dark:border-blue-800/30 shadow-xl">
       <CardHeader className="pb-4 px-3 sm:px-6">
         <CardTitle className="text-xl font-black flex items-center gap-2">
-          <span className="text-2xl">🚀</span>
-          <span>{t("year-in-review.trending-categories")}</span>
+          <h2 className="flex items-center gap-2">
+            <span aria-hidden="true" className="text-2xl">
+              🚀
+            </span>
+            <span>{t("year-in-review.trending-categories")}</span>
+          </h2>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-0 px-3 sm:px-6">
@@ -1006,12 +1072,12 @@ export function TrendingCategoriesSection({
             return (
               <div
                 key={cat.category}
-                className="p-5 rounded-xl bg-white/60 dark:bg-flathub-dark-gunmetal/30 border lg:border-2 border-blue-200/60 dark:border-blue-800/30 hover:shadow-lg transition-all"
+                className="p-5 rounded-xl bg-white/60 dark:bg-flathub-dark-gunmetal/30 border lg:border-2 border-blue-200/60 dark:border-blue-800/30 hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <div className="font-black text-base text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+                  <h3 className="font-black text-base text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
                     {getCategoryDisplayName(cat.category)}
-                  </div>
+                  </h3>
                   <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-500 dark:from-emerald-400 dark:to-green-300">
                     +{cat.growth_percentage.toFixed(0)}%
                   </div>
@@ -1033,7 +1099,7 @@ export function TrendingCategoriesSection({
                     </div>
                     <div className="h-3 bg-flathub-gainsborow/40 dark:bg-black/40 rounded-full overflow-hidden shadow-inner">
                       <div
-                        className="h-full bg-gradient-to-r from-flathub-celestial-blue to-blue-400 dark:from-flathub-celestial-blue dark:to-blue-500 rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(33,150,243,0.4)]"
+                        className="h-full bg-gradient-to-r from-flathub-celestial-blue to-blue-400 dark:from-flathub-celestial-blue dark:to-blue-500 rounded-full transition-[width] duration-500 motion-reduce:transition-none shadow-[0_0_8px_rgba(33,150,243,0.4)]"
                         style={{ width: `${currentWidth}%` }}
                       />
                     </div>
@@ -1054,7 +1120,7 @@ export function TrendingCategoriesSection({
                     </div>
                     <div className="h-3 bg-flathub-gainsborow/40 dark:bg-black/40 rounded-full overflow-hidden shadow-inner">
                       <div
-                        className="h-full bg-flathub-dark-gunmetal/40 dark:bg-flathub-gainsborow/25 rounded-full transition-all duration-500"
+                        className="h-full bg-flathub-dark-gunmetal/40 dark:bg-flathub-gainsborow/25 rounded-full transition-[width] duration-500 motion-reduce:transition-none"
                         style={{ width: `${previousWidth}%` }}
                       />
                     </div>
@@ -1199,10 +1265,10 @@ export function YearInReview({
             href={`/year-in-review/${year}`}
             className="inline-block group relative"
           >
-            <h2 className="text-5xl lg:text-7xl font-black mb-4 tracking-tighter bg-gradient-to-r from-flathub-celestial-blue via-flathub-vivid-crimson to-flathub-celestial-blue bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient group-hover:scale-105 transition-transform duration-500">
+            <h1 className="text-5xl lg:text-7xl font-black mb-4 tracking-tighter bg-gradient-to-r from-flathub-celestial-blue via-flathub-vivid-crimson to-flathub-celestial-blue bg-clip-text text-transparent bg-[length:200%_auto] motion-safe:animate-gradient motion-safe:group-hover:scale-105 transition-transform duration-500 motion-reduce:transition-none">
               {t("year-in-review.title", { year })}
-            </h2>
-            <div className="h-1 w-0 group-hover:w-full bg-gradient-to-r from-flathub-celestial-blue to-flathub-sunset-pink transition-all duration-500 mx-auto rounded-full shadow-[0_0_15px_rgba(33,150,243,0.5)]" />
+            </h1>
+            <div className="h-1 w-0 group-hover:w-full bg-gradient-to-r from-flathub-celestial-blue to-flathub-sunset-pink transition-[width] duration-500 motion-reduce:transition-none mx-auto rounded-full shadow-[0_0_15px_rgba(33,150,243,0.5)]" />
           </Link>
           <p className="text-lg lg:text-xl font-medium text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70 max-w-3xl mx-auto mt-6 leading-relaxed">
             {t("year-in-review.description")}
