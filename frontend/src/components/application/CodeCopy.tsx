@@ -1,7 +1,11 @@
 import { useTranslations } from "next-intl"
 import { FunctionComponent, useEffect, useState } from "react"
 import { CopyToClipboard } from "react-copy-to-clipboard-ts"
-import { CheckIcon, Square2StackIcon } from "@heroicons/react/24/solid"
+import {
+  CheckIcon,
+  ExclamationCircleIcon,
+  Square2StackIcon,
+} from "@heroicons/react/24/solid"
 import { cn } from "@/lib/utils"
 
 interface Props {
@@ -18,48 +22,84 @@ const CodeCopy: FunctionComponent<Props> = ({
   nested,
 }) => {
   const t = useTranslations()
-  const [copied, setCopied] = useState(false)
+  const [status, setStatus] = useState<"idle" | "copied" | "failed">("idle")
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (copied) {
-        setCopied(false)
-      }
-    }, 1200)
+    if (status !== "copied") {
+      return
+    }
+    const timeout = setTimeout(() => setStatus("idle"), 3000)
 
     return () => clearTimeout(timeout)
-  }, [copied])
+  }, [status])
 
   return (
     <div
       className={cn(
         "whitespace-pre-line",
-        `relative mx-0 mb-3 mt-0 block overflow-auto break-words p-2 pe-10 text-sm`,
-        "font-mono",
+        "relative mx-0 mb-3 mt-0 min-w-0 p-3 pe-14 text-sm",
         nested
           ? "rounded-lg bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray"
           : "rounded-xl bg-flathub-gainsborow text-flathub-arsenic dark:bg-flathub-arsenic dark:text-flathub-gray-x11",
         className,
       )}
     >
-      {text}
+      <code
+        dir="ltr"
+        className="block whitespace-pre-wrap [overflow-wrap:anywhere]"
+      >
+        {text}
+      </code>
       <CopyToClipboard
         text={text.trim()}
-        onCopy={() => {
-          setCopied(true)
-          if (onCopy) {
+        options={{ message: t("copy-failed") }}
+        onCopy={(_, success) => {
+          setStatus(success ? "copied" : "failed")
+          if (success && onCopy) {
             onCopy()
           }
         }}
       >
         <button
-          className="absolute end-2 top-[6px] cursor-pointer border-none bg-transparent text-2xl text-flathub-sonic-silver transition hover:text-flathub-dark-gunmetal dark:text-flathub-spanish-gray dark:hover:text-flathub-gainsborow"
-          title={t("copy-text")}
+          type="button"
+          className="absolute end-0 top-0 flex size-11 cursor-pointer items-center justify-center rounded-lg border-none bg-transparent text-2xl text-flathub-sonic-silver transition hover:text-flathub-dark-gunmetal focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flathub-celestial-blue dark:text-flathub-spanish-gray dark:hover:text-flathub-gainsborow"
+          title={
+            status === "copied"
+              ? t("copy-success")
+              : status === "failed"
+                ? t("copy-failed")
+                : t("copy-text")
+          }
+          aria-label={t("copy-text")}
         >
-          {!copied && <Square2StackIcon className="size-6" />}
-          {copied && <CheckIcon className="text-green-600 size-6" />}
+          {status === "idle" && (
+            <Square2StackIcon aria-hidden="true" className="size-6" />
+          )}
+          {status === "copied" && (
+            <CheckIcon aria-hidden="true" className="text-green-600 size-6" />
+          )}
+          {status === "failed" && (
+            <ExclamationCircleIcon
+              aria-hidden="true"
+              className="size-6 text-red-600"
+            />
+          )}
         </button>
       </CopyToClipboard>
+      <span
+        role="status"
+        className={
+          status === "idle"
+            ? "sr-only"
+            : "pointer-events-none absolute end-12 top-1 z-10 max-w-[calc(100%-3.5rem)] whitespace-normal rounded-lg bg-flathub-white px-3 py-2 font-sans text-sm text-flathub-dark-gunmetal shadow-md dark:bg-flathub-dark-gunmetal dark:text-flathub-gray-x11"
+        }
+      >
+        {status === "copied"
+          ? t("copy-success")
+          : status === "failed"
+            ? t("copy-failed")
+            : ""}
+      </span>
     </div>
   )
 }
