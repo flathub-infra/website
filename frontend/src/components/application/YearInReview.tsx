@@ -1,6 +1,6 @@
 "use client"
 
-import { useLocale, useTranslations } from "next-intl"
+import { useFormatter, useLocale, useTranslations } from "next-intl"
 import { Link } from "src/i18n/navigation"
 import { useEffect, useState, useMemo, useCallback } from "react"
 import clsx from "clsx"
@@ -79,6 +79,7 @@ function AnimatedCounter({
   duration?: number
 }) {
   const [count, setCount] = useState(value)
+  const format = useFormatter()
 
   useEffect(() => {
     const motionPreference = window.matchMedia(
@@ -129,8 +130,8 @@ function AnimatedCounter({
 
   return (
     <>
-      <span aria-hidden="true">{count.toLocaleString()}</span>
-      <span className="sr-only">{value.toLocaleString()}</span>
+      <span aria-hidden="true">{format.number(count)}</span>
+      <span className="sr-only">{format.number(value)}</span>
     </>
   )
 }
@@ -188,8 +189,11 @@ function RankBadge({
   color?: "celestial-blue"
   variant?: "absolute" | "inline"
 }) {
+  const format = useFormatter()
   return (
-    <div className={rankBadgeVariants({ size, color, variant })}>{rank}</div>
+    <div className={rankBadgeVariants({ size, color, variant })}>
+      {format.number(rank)}
+    </div>
   )
 }
 
@@ -292,8 +296,12 @@ export function YearStatsGrid({
                       : "text-transparent bg-clip-text bg-gradient-to-r from-flathub-sunset-pink to-flathub-vivid-crimson",
                   )}
                 >
-                  {totalDownloadsChange >= 0 ? "+" : ""}
-                  {totalDownloadsChangePercentage.toFixed(1)}%
+                  {new Intl.NumberFormat(locale, {
+                    style: "percent",
+                    signDisplay: "always",
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                  }).format(totalDownloadsChangePercentage / 100)}
                 </div>
               </div>
             </div>
@@ -573,7 +581,9 @@ export function GeographicInsightsSection({
               {t("year-in-review.countries-reached")}
             </div>
             <div className="text-2xl font-black text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
-              {geographicStats.total_countries}
+              {new Intl.NumberFormat(locale).format(
+                geographicStats.total_countries,
+              )}
             </div>
           </div>
         </div>
@@ -608,7 +618,10 @@ export function GeographicInsightsSection({
                             </div>
                           </div>
                           <div className="text-xs font-bold text-flathub-status-green dark:text-flathub-status-green-dark">
-                            +{region.growth_percentage}%
+                            {new Intl.NumberFormat(locale, {
+                              style: "percent",
+                              signDisplay: "always",
+                            }).format(region.growth_percentage / 100)}
                           </div>
                         </div>
                       )
@@ -857,10 +870,14 @@ export function CategoryHighlightsSection({
                             bgColor = "bg-blue-100/80 dark:bg-blue-900/40"
                             textColor = "text-blue-800 dark:text-blue-200"
                           } else if (award.type === "growth") {
-                            text = t("year-in-review.x-growth", {
-                              percentage: (
-                                award.data as YearInReviewCategoryGrowthApp
-                              ).growth_percentage,
+                            text = t("year-in-review.x-growth-formatted", {
+                              percentage: new Intl.NumberFormat(locale, {
+                                style: "percent",
+                                signDisplay: "always",
+                              }).format(
+                                (award.data as YearInReviewCategoryGrowthApp)
+                                  .growth_percentage / 100,
+                              ),
                             })
                             bgColor = "bg-purple-100/80 dark:bg-purple-900/40"
                             textColor = "text-purple-800 dark:text-purple-200"
@@ -881,10 +898,14 @@ export function CategoryHighlightsSection({
                             bgColor = "bg-amber-100/80 dark:bg-amber-900/40"
                             textColor = "text-amber-800 dark:text-amber-200"
                           } else {
-                            text = t("year-in-review.x-growth", {
-                              percentage: (
-                                award.data as YearInReviewCategoryGrowthApp
-                              ).growth_percentage,
+                            text = t("year-in-review.x-growth-formatted", {
+                              percentage: new Intl.NumberFormat(locale, {
+                                style: "percent",
+                                signDisplay: "always",
+                              }).format(
+                                (award.data as YearInReviewCategoryGrowthApp)
+                                  .growth_percentage / 100,
+                              ),
                             })
                             bgColor = "bg-emerald-100/80 dark:bg-emerald-900/40"
                             textColor = "text-emerald-800 dark:text-emerald-200"
@@ -1011,7 +1032,11 @@ export function PlatformDiversitySection({
                   {plat.architecture.toUpperCase()}
                 </div>
                 <div className="text-3xl lg:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-flathub-celestial-blue via-purple-500 to-flathub-sunset-pink mb-1">
-                  {plat.percentage.toFixed(1)}%
+                  {new Intl.NumberFormat(locale, {
+                    style: "percent",
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                  }).format(plat.percentage / 100)}
                 </div>
                 <div className="text-xs font-bold text-flathub-dark-gunmetal/60 dark:text-flathub-gainsborow/60">
                   {new Intl.NumberFormat(locale, {
@@ -1079,7 +1104,11 @@ export function TrendingCategoriesSection({
                     {getCategoryDisplayName(cat.category)}
                   </h3>
                   <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-500 dark:from-emerald-400 dark:to-green-300">
-                    +{cat.growth_percentage.toFixed(0)}%
+                    {new Intl.NumberFormat(locale, {
+                      style: "percent",
+                      signDisplay: "always",
+                      maximumFractionDigits: 0,
+                    }).format(cat.growth_percentage / 100)}
                   </div>
                 </div>
 

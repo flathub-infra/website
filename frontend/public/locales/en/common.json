@@ -813,7 +813,7 @@
     "hidden-gems": "Hidden Gems",
     "hidden-gems-description": "Apps with growing traction",
     "platform-downloads": "Platform downloads",
-    "x-growth": "+{percentage}% growth"
+    "x-growth-formatted": "{percentage} growth"
   },
   "quality": {
     "missing-brand-colors": "Missing brand colors",
