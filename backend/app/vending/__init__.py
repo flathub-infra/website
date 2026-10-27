@@ -212,6 +212,7 @@ router = APIRouter(prefix="/vending")
 @router.get(
     "/status",
     tags=["vending"],
+    response_model=VendingStatus,
     responses={
         200: {"model": VendingStatus},
         201: {"description": "User never began onboarding"},
@@ -221,7 +222,7 @@ router = APIRouter(prefix="/vending")
     },
 )
 @cache.private
-def status(login: LoginStatusDep) -> VendingStatus:
+def status(login: LoginStatusDep) -> VendingStatus | JSONResponse:
     """
     Retrieve the vending status of the logged in user.
 
@@ -229,7 +230,7 @@ def status(login: LoginStatusDep) -> VendingStatus:
     flow to be a vendor on Flathub.
     """
     if not login["state"].logged_in():
-        return JSONResponse(  # pyrefly: ignore[bad-return]
+        return JSONResponse(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
     with get_db("replica") as db:
@@ -268,6 +269,7 @@ def status(login: LoginStatusDep) -> VendingStatus:
 @router.post(
     "/status/onboarding",
     tags=["vending"],
+    response_model=VendingRedirect,
     responses={
         200: {"description": "Onboarding completed successfully"},
         401: {"description": "Unauthorized"},
@@ -279,13 +281,13 @@ def status(login: LoginStatusDep) -> VendingStatus:
 @cache.no_store
 def start_onboarding(
     data: VendingOnboardingRequest, login: LoginStatusDep
-) -> VendingRedirect:
+) -> VendingRedirect | JSONResponse:
     """
     Start or continue the onboarding process.
     """
 
     if not login["state"].logged_in():
-        return JSONResponse(  # pyrefly: ignore[bad-return]
+        return JSONResponse(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
     with get_db("writer") as db:
@@ -321,6 +323,7 @@ def start_onboarding(
 @router.get(
     "/status/dashboardlink",
     tags=["vending"],
+    response_model=VendingRedirect,
     responses={
         200: {"model": VendingRedirect},
         401: {"description": "Unauthorized"},
@@ -330,14 +333,14 @@ def start_onboarding(
     },
 )
 @cache.no_store
-def get_dashboard_link(login: LoginStatusDep) -> VendingRedirect:
+def get_dashboard_link(login: LoginStatusDep) -> VendingRedirect | JSONResponse:
     """
     Retrieve a link to the logged in user's Stripe express dashboard.
 
     The user must be logged in and must have onboarded.
     """
     if not login["state"].logged_in():
-        return JSONResponse(  # pyrefly: ignore[bad-return]
+        return JSONResponse(
             {"status": "error", "error": "not logged in"}, status_code=403
         )
     with get_db("replica") as db:
