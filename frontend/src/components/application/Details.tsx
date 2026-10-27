@@ -89,7 +89,7 @@ const Details: FunctionComponent<Props> = ({
         {isDesktopAppstreamTypeGuard(app) &&
           Array.isArray(app.screenshots) &&
           app.screenshots.length > 0 && <CarouselStrip app={app} />}
-        <div className="col-start-2 flex flex-col gap-8 pt-2">
+        <div className="col-start-2 flex min-w-0 flex-col gap-8 pt-2 sm:gap-10">
           {isDesktopAppstreamTypeGuard(app) && (
             <Description
               app={app}
@@ -139,7 +139,7 @@ const Details: FunctionComponent<Props> = ({
 
           {/* Tags & Architectures */}
           {(summary?.arches?.length > 0 || keywords?.length > 0) && (
-            <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-3 pt-6 text-sm text-flathub-granite-gray dark:text-flathub-spanish-gray">
+            <div className="flex min-w-0 flex-col items-start gap-6 border-t border-flathub-gainsborow pt-6 text-sm text-flathub-granite-gray dark:border-flathub-granite-gray dark:text-flathub-spanish-gray">
               <Tags keywords={keywords} />
               {summary?.arches?.length > 0 && (
                 <div className="flex flex-wrap items-center gap-2">
