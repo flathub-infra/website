@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { http, HttpResponse } from "msw"
+import { delay, http, HttpResponse } from "msw"
 import { useState } from "react"
 import { expect, userEvent, waitFor, within } from "storybook/test"
 import type { PermissionReviewDetail as Review } from "src/codegen"
@@ -123,10 +123,13 @@ const review: Review = {
   ],
 }
 
-const handlers = (data: Review) => [
-  http.get("*/moderation/permission-reviews/3873", () =>
-    HttpResponse.json(data),
-  ),
+const handlers = (data: Review, responseDelay = 0) => [
+  http.get("*/moderation/permission-reviews/3873", async () => {
+    if (responseDelay) {
+      await delay(responseDelay)
+    }
+    return HttpResponse.json(data)
+  }),
   http.get("*/moderation/permission-reviews", () =>
     HttpResponse.json({
       items: [{ assessment_id: 3874 }, { assessment_id: 3873 }],
@@ -222,7 +225,8 @@ export const Ignored: Story = {
 export const Pending: Story = {
   parameters: {
     msw: {
-      handlers: handlers({ ...review, outcome: "pending", decisions: [] }),
+      // Keep the post-decision refetch pending after the rationale is cleared.
+      handlers: handlers({ ...review, outcome: "pending", decisions: [] }, 200),
     },
   },
   play: async ({ canvasElement }) => {
@@ -243,26 +247,32 @@ export const Pending: Story = {
       canvas.getByRole("textbox", { name: "Decision rationale" }),
       "Use the notifications portal.",
     )
-    await expect(reject).toBeEnabled()
-    await expect(ignore).toBeEnabled()
+    await waitFor(() => {
+      expect(reject).toBeEnabled()
+      expect(ignore).toBeEnabled()
+    })
     await userEvent.click(reject)
-    await waitFor(() =>
-      expect(
-        canvas.getByRole("textbox", { name: "Decision rationale" }),
-      ).toHaveValue(""),
-    )
+    await waitFor(() => {
+      const rationale = canvas.getByRole("textbox", {
+        name: "Decision rationale",
+      })
+      expect(rationale).toHaveValue("")
+      expect(rationale).toBeEnabled()
+    })
     await expect(ignore).toBeDisabled()
     await userEvent.type(
       canvas.getByRole("textbox", { name: "Decision rationale" }),
       "This review no longer needs a permission decision.",
     )
-    await expect(ignore).toBeEnabled()
+    await waitFor(() => expect(ignore).toBeEnabled())
     await userEvent.click(ignore)
-    await waitFor(() =>
-      expect(
-        canvas.getByRole("textbox", { name: "Decision rationale" }),
-      ).toHaveValue(""),
-    )
+    await waitFor(() => {
+      const rationale = canvas.getByRole("textbox", {
+        name: "Decision rationale",
+      })
+      expect(rationale).toHaveValue("")
+      expect(rationale).toBeEnabled()
+    })
     await expect(ignore).toBeDisabled()
   },
 }

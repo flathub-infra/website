@@ -144,6 +144,23 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+const selectOption = async (
+  dialog: ReturnType<typeof within>,
+  label: string,
+  name: string,
+) => {
+  const body = within(document.body)
+  await userEvent.click(dialog.getByLabelText(label))
+  await userEvent.click(await body.findByRole("option", { name }))
+  // Radix keeps the dialog hidden and pointer-blocked until the exit animation
+  // finishes. The selected value updates before the portal has been removed.
+  await waitFor(() =>
+    expect(
+      body.queryByRole("listbox", { hidden: true }),
+    ).not.toBeInTheDocument(),
+  )
+}
+
 export const Light: Story = { globals: { theme: "light" } }
 export const Dark: Story = { globals: { theme: "dark" } }
 export const Empty: Story = {
@@ -195,18 +212,14 @@ export const EditRemoval: Story = {
     await expect(
       await dialog.findByRole("button", { name: "Save despite conflicts" }),
     ).toBeEnabled()
-    await userEvent.click(dialog.getByLabelText("After policy"))
-    await userEvent.click(await body.findByRole("option", { name: "none" }))
+    await selectOption(dialog, "After policy", "none")
     await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
     await expect(dialog.getByRole("button", { name: "Preview" })).toBeEnabled()
-    await userEvent.click(dialog.getByLabelText("Before policy"))
-    await userEvent.click(await body.findByRole("option", { name: "none" }))
+    await selectOption(dialog, "Before policy", "none")
     await expect(dialog.getByRole("button", { name: "Preview" })).toBeDisabled()
-    await userEvent.click(dialog.getByLabelText("Before policy"))
-    await userEvent.click(await body.findByRole("option", { name: "Absent" }))
+    await selectOption(dialog, "Before policy", "Absent")
     await expect(dialog.getByRole("button", { name: "Preview" })).toBeEnabled()
-    await userEvent.click(dialog.getByLabelText("After policy"))
-    await userEvent.click(await body.findByRole("option", { name: "Absent" }))
+    await selectOption(dialog, "After policy", "Absent")
     await expect(dialog.getByRole("button", { name: "Preview" })).toBeDisabled()
   },
 }
@@ -242,10 +255,7 @@ export const EditReduction: Story = {
     await expect(
       await dialog.findByRole("button", { name: "Save despite conflicts" }),
     ).toBeEnabled()
-    await userEvent.click(dialog.getByLabelText("Match"))
-    await userEvent.click(
-      await body.findByRole("option", { name: "Destination-only" }),
-    )
+    await selectOption(dialog, "Match", "Destination-only")
     await expect(
       dialog.queryByLabelText("Before entry"),
     ).not.toBeInTheDocument()
@@ -253,10 +263,7 @@ export const EditReduction: Story = {
       "xdg-config/kdeglobals:ro",
     )
     await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
-    await userEvent.click(dialog.getByLabelText("Match"))
-    await userEvent.click(
-      await body.findByRole("option", { name: "Exact transition" }),
-    )
+    await selectOption(dialog, "Match", "Exact transition")
     await expect(dialog.getByLabelText("Before entry")).toHaveTextContent(
       "Absent",
     )
@@ -279,10 +286,7 @@ export const CreateTransition: Story = {
     await expect(dialog.getByLabelText("Match")).toHaveTextContent(
       "Destination-only",
     )
-    await userEvent.click(dialog.getByLabelText("Match"))
-    await userEvent.click(
-      await body.findByRole("option", { name: "Exact transition" }),
-    )
+    await selectOption(dialog, "Match", "Exact transition")
     await expect(dialog.getByLabelText("Before policy")).toHaveTextContent(
       "Absent",
     )
@@ -291,8 +295,7 @@ export const CreateTransition: Story = {
       dialog.getByLabelText("Rationale"),
       "Handle this exact addition.",
     )
-    await userEvent.click(dialog.getByLabelText("After policy"))
-    await userEvent.click(await body.findByRole("option", { name: "none" }))
+    await selectOption(dialog, "After policy", "none")
     await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
     await userEvent.click(dialog.getByRole("button", { name: "Preview" }))
     await userEvent.click(
