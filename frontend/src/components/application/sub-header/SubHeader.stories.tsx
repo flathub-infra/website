@@ -140,9 +140,10 @@ export const ProprietaryApp: Story = {
     await doc.fonts.ready
 
     // Verify the preview uses the real font, not just a missing-font fallback.
-    expect(getComputedStyle(doc.body).fontFamily).toContain("Inter")
-    expect(getComputedStyle(canvasElement).fontFamily).toContain("Inter")
-    expect(await doc.fonts.load("16px Inter")).not.toHaveLength(0)
+    const fontFamily = getComputedStyle(doc.body).fontFamily
+    expect(getComputedStyle(canvasElement).fontFamily).toBe(fontFamily)
+    const primaryFont = fontFamily.split(",")[0].trim()
+    expect(await doc.fonts.load(`16px ${primaryFont}`)).not.toHaveLength(0)
   },
 }
 

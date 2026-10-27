@@ -5,14 +5,18 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { faker } from "@faker-js/faker"
 import { MotionGlobalConfig } from "framer-motion"
 import isChromatic from "chromatic/isChromatic"
-import { Inter } from "next/font/google"
+import localFont from "next/font/local"
 
 import { mswLoader } from "msw-storybook-addon/csf3"
 import { allModes } from "./modes"
 import nextIntl from "./next-intl"
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = localFont({
+  src: [
+    { path: "../public/assets/fonts/Inter-Regular.ttf", weight: "400" },
+    { path: "../public/assets/fonts/Inter-SemiBold.ttf", weight: "600" },
+    { path: "../public/assets/fonts/Inter-Black.ttf", weight: "900" },
+  ],
   fallback: ["sans-serif"],
   preload: false,
 })
