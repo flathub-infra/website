@@ -180,12 +180,6 @@ def cached(
                         )
 
                     if isinstance(cache_entry, dict) and "value" in cache_entry:
-                        stale_value = _deserialize_value(
-                            cache_entry,
-                            adapter,
-                            expected_type,
-                        )
-
                         try:
                             if await redis.set(refresh_lock_key, "1", ex=10, nx=True):
                                 try:
@@ -208,7 +202,11 @@ def cached(
                         except Exception:
                             logger.exception("Cache refresh error for %s", func_name)
 
-                        return stale_value
+                        return _deserialize_value(
+                            cache_entry,
+                            adapter,
+                            expected_type,
+                        )
 
             except Exception:
                 logger.exception("Cache get error for %s", func_name)
