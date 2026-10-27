@@ -47,7 +47,7 @@ export async function GET(
   let data: YearInReviewResult
   try {
     const response = await getYearInReviewYearInReviewYearGet(year, {
-      locale: "en",
+      locale,
     })
     data = response.data
 
@@ -64,19 +64,10 @@ export async function GET(
     })
   }
 
-  // Format large numbers
-  const formatNumber = (num: number): string => {
-    if (num >= 1_000_000_000) {
-      return `${(num / 1_000_000_000).toFixed(1)}B`
-    }
-    if (num >= 1_000_000) {
-      return `${(num / 1_000_000).toFixed(1)}M`
-    }
-    if (num >= 1_000) {
-      return `${(num / 1_000).toFixed(1)}K`
-    }
-    return num.toLocaleString()
-  }
+  const formatNumber = new Intl.NumberFormat(locale, {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format
 
   // Get top 3 app icons for the visual
   const topAppIcons = data.top_apps

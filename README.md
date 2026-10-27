@@ -123,7 +123,12 @@ You can find more backend instructions in the README in the backend folder.
 
 ## Translations
 
-We're using [Weblate](https://hosted.weblate.org/engage/flathub/) to translate the UI. So feel free, to contribute translations over there.
+Contribute UI translations through [Weblate](https://hosted.weblate.org/engage/flathub/).
+
+When contributing code, edit only the English source files in `frontend/public/locales/en/`.
+Weblate manages all other locale files. Submit changes to those translations through Weblate.
+
+Use a new message key when changing what a placeholder contains. For example, replacing a raw number with a formatted percentage needs a new key to prevent existing translations from adding a second percent sign. Missing translations fall back to English.
 
 <a href="https://hosted.weblate.org/engage/flathub/">
 <img src="https://hosted.weblate.org/widgets/flathub/-/glossary/multi-auto.svg" alt="Translation status" />
