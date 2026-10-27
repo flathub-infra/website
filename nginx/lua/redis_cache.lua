@@ -291,6 +291,50 @@ local function async_refresh(uri, args)
     end
 end
 
+local function release_refresh_lock(red, lock_key, token)
+    local _, err = red:eval(
+        "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) end return 0",
+        1, lock_key, token
+    )
+    if err then
+        ngx.log(ngx.ERR, "Failed to release cache refresh lock: ", err)
+    end
+end
+
+local function schedule_refresh(red, cache_key, uri, args)
+    local lock_key = "cache:nginx-refresh:" .. cache_key
+    local token = ngx.var.request_id
+    local acquired, err = red:set(lock_key, token, "NX", "EX", 60)
+    if not acquired or acquired == ngx.null then
+        if err then
+            ngx.log(ngx.ERR, "Failed to acquire cache refresh lock: ", err)
+        end
+        return
+    end
+
+    local ok, timer_err = ngx.timer.at(0, function(premature)
+        local timer_red = connect_redis()
+        if not timer_red then
+            return
+        end
+
+        if not premature and timer_red:get(lock_key) == token then
+            local refreshed, refresh_err = pcall(async_refresh, uri, args)
+            if not refreshed then
+                ngx.log(ngx.ERR, "Async cache refresh failed: ", refresh_err)
+            end
+        end
+
+        release_refresh_lock(timer_red, lock_key, token)
+        set_keepalive(timer_red)
+    end)
+
+    if not ok then
+        release_refresh_lock(red, lock_key, token)
+        ngx.log(ngx.ERR, "Failed to schedule cache refresh: ", timer_err)
+    end
+end
+
 function _M.try_cache()
     local method = ngx.req.get_method()
     if method ~= "GET" and method ~= "HEAD" then
@@ -309,7 +353,6 @@ function _M.try_cache()
     end
 
     local cached_data = get_from_cache(red, cache_key)
-    set_keepalive(red)
 
     if cached_data and cached_data.value ~= nil and cached_data.value ~= cjson.null then
         ngx.header["Content-Type"] = "application/json"
@@ -318,18 +361,17 @@ function _M.try_cache()
 
         if cached_data.is_stale then
             ngx.header["X-Cache-Status"] = "STALE"
-            local uri = ngx.var.uri
-            local args = ngx.req.get_uri_args()
-            ngx.timer.at(0, function()
-                async_refresh(uri, args)
-            end)
+            schedule_refresh(red, cache_key, ngx.var.uri, ngx.req.get_uri_args())
         else
             ngx.header["X-Cache-Status"] = "HIT"
         end
 
+        set_keepalive(red)
         ngx.say(cjson.encode(cached_data.value))
         ngx.exit(ngx.HTTP_OK)
     end
+
+    set_keepalive(red)
 end
 
 return _M
