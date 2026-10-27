@@ -60,11 +60,11 @@ const BadgesClient = (): JSX.Element => {
   const [locale, setLocale] = useState("en")
 
   const badgeExampleCode = `<a href='https://flathub.org/apps/org.gimp.GIMP'>
-    <img width='240' alt='Get it on Flathub' src='${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/badge?locale=${locale}'/>
-  </a>`
+  <img width='240' alt='Get it on Flathub' src='${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/badge?locale=${locale}'/>
+</a>`
   const paddedBadgeExampleCode = `<a href='https://flathub.org/apps/org.gimp.GIMP'>
-    <img height='80' alt='Get it on Flathub' src='${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/badge?locale=${locale}&size=padded'/>
-  </a>`
+  <img height='80' alt='Get it on Flathub' src='${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/badge?locale=${locale}&size=padded'/>
+</a>`
   const badgeExampleCodeMoinMoin = `[[https://flathub.org/apps/org.gimp.GIMP|{{${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/badge?locale=${locale}|Get it on Flathub|width=240,align=middle}}]]`
 
   return (
