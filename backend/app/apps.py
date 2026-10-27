@@ -326,8 +326,11 @@ def get_addons(app_id: str, branch: str = "stable") -> list[str]:
                 extension_ids.append(f"{ext_id}//{branch}")
 
         addons = {
-            f"{addon.app_id}//{addon.summary.get('branch', branch) if addon.summary else branch}"
-            for addon in sqldb.query(models.App)
+            f"{app_id}//{summary_branch or branch}"
+            for app_id, summary_branch in sqldb.query(
+                models.App.app_id,
+                models.App.summary["branch"].as_string(),
+            )
             .filter(models.App.type == "addon")
             .filter(~models.App.is_eol)
             .all()
