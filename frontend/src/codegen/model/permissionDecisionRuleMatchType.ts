@@ -11,4 +11,5 @@ export type PermissionDecisionRuleMatchType =
 export const PermissionDecisionRuleMatchType = {
   destination: "destination",
   transition: "transition",
+  "grouped-delta": "grouped-delta",
 } as const

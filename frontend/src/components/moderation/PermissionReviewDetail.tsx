@@ -39,6 +39,7 @@ import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import PermissionDiffTable from "./PermissionDiffTable"
 import OutcomeBadge from "./PermissionOutcomeBadge"
+import { ruleLabel } from "./permission-rule-label"
 import {
   reviewListFilters,
   reviewListQuery,
@@ -359,13 +360,7 @@ export default function PermissionReviewDetail({
                         href="/admin/moderation/permission-rules"
                         className="font-mono text-xs [overflow-wrap:anywhere]"
                       >
-                        {d.rules
-                          .map((r) =>
-                            r.match_type === "transition"
-                              ? `${r.key}: ${r.before ?? "Absent"} → ${r.value ?? "Absent"}`
-                              : `${r.key}=${r.value}`,
-                          )
-                          .join(", ")}
+                        {d.rules.map(ruleLabel).join(", ")}
                       </Link>
                     )}
                     <time

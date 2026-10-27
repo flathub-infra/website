@@ -74,6 +74,22 @@ const rules: PermissionRuleEntry[] = [
     updated_at: "2026-10-24T19:24:00.000000",
     updated_by_name: "Bartłomiej Piotrowski",
   },
+  {
+    id: 6,
+    decision: "approved",
+    permission_group: "Context",
+    key: "devices",
+    match_type: "grouped-delta",
+    before: null,
+    value: null,
+    removed: [],
+    added: ["all", "if:all:!has-input-device", "input"],
+    rationale:
+      "Allow this ordered Jellyfin device delta while preserving unchanged dri access.",
+    enabled: true,
+    updated_at: "2026-10-27T10:00:00.000000",
+    updated_by_name: "Bartłomiej Piotrowski",
+  },
 ]
 
 const preview: PermissionRulePreview = {
@@ -296,6 +312,87 @@ export const CreateTransition: Story = {
       "Handle this exact addition.",
     )
     await selectOption(dialog, "After policy", "none")
+    await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
+    await userEvent.click(dialog.getByRole("button", { name: "Preview" }))
+    await userEvent.click(
+      await dialog.findByRole("button", { name: "Save despite conflicts" }),
+    )
+    await waitFor(() => expect(dialogElement).not.toBeInTheDocument())
+  },
+}
+
+export const JellyfinGroupedDelta: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(
+      await canvas.findByRole("button", {
+        name: "Edit rule devices: remove [] → add [all, if:all:!has-input-device, input] (atomic group)",
+      }),
+    )
+    const body = within(document.body)
+    const dialog = within(await body.findByRole("dialog"))
+    await expect(dialog.getByLabelText("Match")).toHaveTextContent(
+      "Grouped delta",
+    )
+    await expect(dialog.getByLabelText("Removed entries")).toHaveValue("")
+    await expect(dialog.getByLabelText("Added entries")).toHaveValue(
+      "all\nif:all:!has-input-device\ninput",
+    )
+    await expect(dialog.queryByLabelText("Entry")).not.toBeInTheDocument()
+    await userEvent.type(dialog.getByLabelText("Removed entries"), "all")
+    await expect(dialog.getByRole("button", { name: "Preview" })).toBeDisabled()
+    await userEvent.clear(dialog.getByLabelText("Removed entries"))
+    await userEvent.type(dialog.getByLabelText("Added entries"), "\ninput")
+    await expect(dialog.getByRole("button", { name: "Preview" })).toBeDisabled()
+    await userEvent.clear(dialog.getByLabelText("Added entries"))
+    await expect(dialog.getByRole("button", { name: "Preview" })).toBeDisabled()
+    await userEvent.type(
+      dialog.getByLabelText("Added entries"),
+      "all\nif:all:!has-input-device\ninput",
+    )
+    await userEvent.click(dialog.getByRole("button", { name: "Preview" }))
+    await expect(
+      await dialog.findByRole("button", { name: "Save despite conflicts" }),
+    ).toBeEnabled()
+    await userEvent.click(dialog.getByLabelText("Group"))
+    await userEvent.click(
+      await body.findByRole("option", { name: "Session Bus Policy" }),
+    )
+    await expect(dialog.getByLabelText("Match")).toHaveTextContent(
+      "Destination-only",
+    )
+    await expect(
+      dialog.queryByLabelText("Added entries"),
+    ).not.toBeInTheDocument()
+    await expect(dialog.getByLabelText("Bus name")).toHaveValue("")
+    await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
+  },
+}
+
+export const CreateGroupedDelta: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(
+      await canvas.findByRole("button", { name: "New rule" }),
+    )
+    const body = within(document.body)
+    const dialogElement = await body.findByRole("dialog")
+    const dialog = within(dialogElement)
+    await userEvent.click(dialog.getByLabelText("Group"))
+    await userEvent.click(await body.findByRole("option", { name: "Context" }))
+    await userEvent.click(dialog.getByLabelText("Match"))
+    await userEvent.click(
+      await body.findByRole("option", { name: "Grouped delta" }),
+    )
+    await userEvent.type(dialog.getByLabelText("Key"), "devices")
+    await userEvent.type(
+      dialog.getByLabelText("Added entries"),
+      "all\nif:all:!has-input-device\ninput",
+    )
+    await userEvent.type(
+      dialog.getByLabelText("Rationale"),
+      "Preserve unchanged dri access for Jellyfin.",
+    )
     await expect(dialog.getByRole("button", { name: "Save" })).toBeDisabled()
     await userEvent.click(dialog.getByRole("button", { name: "Preview" }))
     await userEvent.click(

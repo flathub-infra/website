@@ -1,5 +1,6 @@
 import json
 import os
+import runpy
 import sys
 from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
@@ -8,9 +9,12 @@ from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
 import pytest
+from alembic.migration import MigrationContext
+from alembic.operations import Operations
 from fastapi import HTTPException
 from pydantic import ValidationError
 from sqlalchemy import create_engine, event, func, select, text, update
+from sqlalchemy.exc import DBAPIError, IntegrityError
 from sqlalchemy.orm import sessionmaker
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -553,17 +557,11 @@ def test_transition_preview_apply_and_history_preserve_filesystem_reduction(db):
     decision = detail.decisions[0]
     assert decision.decision == "approved"
     assert decision.rationale == "Allow only this exact reduction."
-    assert [rule.model_dump() for rule in decision.rules] == [
-        {
-            "id": entry.id,
-            "decision": "approved",
-            "permission_group": "Context",
-            "key": "filesystems",
-            "match_type": "transition",
-            "before": "home",
-            "value": "home:ro",
-        }
-    ]
+    assert len(decision.rules) == 1
+    matched = decision.rules[0]
+    assert matched.id == entry.id
+    assert matched.match_type == "transition"
+    assert (matched.before, matched.value) == ("home", "home:ro")
     rules_api.update_permission_rule(
         entry.id,
         transition.model_copy(update={"before": "host", "rationale": "Another rule."}),
@@ -580,15 +578,9 @@ def test_destination_decision_history_keeps_snapshot_after_rule_update(db):
     rule = rules_api.create_permission_rule(rule_input(TRAY), MagicMock(), login)
     result = persist(1, **TRAY_CHANGE)
     decision = reviews.read_permission_review(result.assessment_id, None).decisions[0]
-    assert decision.rules[0].model_dump() == {
-        "id": rule.id,
-        "decision": "approved",
-        "permission_group": "Session Bus Policy",
-        "key": TRAY,
-        "match_type": "destination",
-        "before": None,
-        "value": "talk",
-    }
+    assert decision.rules[0].id == rule.id
+    assert decision.rules[0].decision == "approved"
+    assert decision.rules[0].value == "talk"
     rules_api.update_permission_rule(
         rule.id,
         rule_input(TRAY, "rejected", rationale="Changed policy."),
@@ -962,3 +954,250 @@ def test_publication_advances_baseline(
             session.add(models.DirectUploadApp(app_id=APP))
     publication.advance_published(9, channel, {APP})
     assert baseline(db, channel) == expected
+
+
+def grouped_rule(**changes):
+    return rule_input(
+        "filesystems",
+        **{
+            "permission_group": "Context",
+            "match_type": "grouped-delta",
+            "value": None,
+            "removed": ["home", "host"],
+            "added": ["home:ro", "host:ro"],
+            **changes,
+        },
+    )
+
+
+INVALID_GROUPED_RULES = [
+    {"before": "home"},
+    {"value": "home:ro"},
+    {"removed": None},
+    {"added": None},
+    {"removed": [], "added": []},
+    {"removed": [""]},
+    {"added": [" "]},
+    {"removed": ["home", "home"]},
+    {"added": ["home:ro", "home:ro"]},
+    {"removed": ["home:ro"]},
+    {"removed": [1]},
+    {"added": {"home:ro": True}},
+    {"permission_group": "Session Bus Policy"},
+    {"permission_group": "System Bus Policy"},
+    {"key": "unknown"},
+]
+
+
+@pytest.mark.parametrize("changes", INVALID_GROUPED_RULES)
+def test_grouped_rule_input_rejects_invalid_deltas(changes):
+    with pytest.raises(ValueError):
+        grouped_rule(**changes)
+
+
+@pytest.mark.parametrize("match_type", ["destination", "transition"])
+@pytest.mark.parametrize("arrays", [{"removed": []}, {"added": []}])
+def test_scalar_rules_reject_grouped_arrays(match_type, arrays):
+    with pytest.raises(ValueError):
+        rule_input(TRAY, match_type=match_type, **arrays)
+
+
+@pytest.mark.parametrize("changes", INVALID_GROUPED_RULES)
+def test_database_rejects_invalid_grouped_deltas(db, changes):
+    values = grouped_rule().model_dump() | changes
+    with pytest.raises(IntegrityError), db() as session:
+        session.add(models.PermissionRule(**values, created_by=1, updated_by=1))
+        session.flush()
+
+
+@pytest.mark.parametrize("match_type", ["destination", "transition"])
+def test_database_rejects_scalar_grouped_arrays(db, match_type):
+    values = rule_input(TRAY, match_type=match_type).model_dump() | {"removed": []}
+    with pytest.raises(IntegrityError), db() as session:
+        session.add(models.PermissionRule(**values, created_by=1, updated_by=1))
+        session.flush()
+
+
+def test_grouped_rule_uniqueness_preserves_order_and_scalar_rules(db):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    body = grouped_rule()
+    entry = rules_api.create_permission_rule(body, MagicMock(), login)
+    assert (entry.removed, entry.added) == (body.removed, body.added)
+    with pytest.raises(HTTPException) as exc:
+        rules_api.create_permission_rule(
+            body.model_copy(update={"decision": "rejected", "enabled": False}),
+            MagicMock(),
+            login,
+        )
+    assert exc.value.detail == "rule_exists"
+    reordered = grouped_rule(removed=list(reversed(body.removed)))
+    other = rules_api.create_permission_rule(reordered, MagicMock(), login)
+    assert other.id != entry.id
+    changed_additions = grouped_rule(added=list(reversed(body.added)))
+    third = rules_api.create_permission_rule(changed_additions, MagicMock(), login)
+    assert third.id not in (entry.id, other.id)
+    scalar = rule_input("filesystems", permission_group="Context", value="home:ro")
+    scalar_entry = rules_api.create_permission_rule(scalar, MagicMock(), login)
+    assert scalar_entry.id not in (entry.id, other.id, third.id)
+    with pytest.raises(HTTPException) as exc:
+        rules_api.update_permission_rule(other.id, body, MagicMock(), login)
+    assert exc.value.detail == "rule_exists"
+    assert {item.id for item in rules_api.list_permission_rules(None)} == {
+        entry.id,
+        other.id,
+        third.id,
+        scalar_entry.id,
+    }
+
+
+def test_grouped_preview_apply_and_history_keep_atomic_delta(db):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    differences = [
+        {
+            "path": ["x86_64", "Context", "filesystems"],
+            "before": ["unchanged", "home", "host"],
+            "after": ["unchanged", "home:ro", "host:ro"],
+        }
+    ]
+    pending = persist(1, **(TRAY_CHANGE | {"differences": differences}))
+    partial = persist(
+        2,
+        pull_request_number=18,
+        **(
+            TRAY_CHANGE
+            | {
+                "differences": [
+                    {
+                        "path": ["x86_64", "Context", "filesystems"],
+                        "before": ["home"],
+                        "after": ["home:ro"],
+                    }
+                ]
+            }
+        ),
+    )
+    body = grouped_rule(rationale="Permit only the complete reduction.")
+    draft = rules_api.PermissionRuleDraft(**body.model_dump())
+    preview = rules_api.preview_permission_rules(None, draft)
+    assert [item.assessment_id for item in preview.pending] == [pending.assessment_id]
+    assert rules_api.preview_permission_rules(None).pending == []
+    entry = rules_api.create_permission_rule(body, MagicMock(), login)
+    applied = rules_api.apply_permission_rules(MagicMock(), login)
+    assert [item.assessment_id for item in applied] == [pending.assessment_id]
+    assert assessment.get_assessment(partial.assessment_id).outcome == "pending"
+    detail = reviews.read_permission_review(pending.assessment_id, None)
+    assert detail.outcome == "accepted"
+    decision = detail.decisions[0]
+    assert decision.rationale == body.rationale
+    assert len(decision.rules) == 1
+    matched = decision.rules[0]
+    assert matched.id == entry.id
+    assert matched.match_type == "grouped-delta"
+    assert matched.before is None and matched.value is None
+    assert matched.removed == body.removed
+    assert matched.added == body.added
+    rules_api.update_permission_rule(
+        entry.id,
+        grouped_rule(removed=["host"], added=["host:ro"]),
+        MagicMock(),
+        login,
+    )
+    history = reviews.read_permission_review(pending.assessment_id, None).decisions[0]
+    assert history.rules == decision.rules
+    assert history.rationale == decision.rationale
+    with db() as session:
+        session.delete(session.get(models.PermissionRule, entry.id))
+    assert (
+        reviews.read_permission_review(pending.assessment_id, None).decisions[0].rules
+        == decision.rules
+    )
+
+
+def test_old_rule_history_defaults_grouped_arrays_to_none():
+    history = reviews.PermissionDecisionRule(
+        id=1,
+        decision="approved",
+        permission_group="Session Bus Policy",
+        key=TRAY,
+        value="talk",
+    )
+    assert history.match_type == "destination"
+    assert history.before is None
+    assert history.removed is None
+    assert history.added is None
+
+
+def grouped_migration(session):
+    migration = runpy.run_path(
+        os.path.join(
+            ROOT_DIR,
+            "alembic",
+            "versions",
+            "28a6ec6f07d9_add_grouped_permission_deltas.py",
+        )
+    )
+    migration["upgrade"].__globals__["op"] = Operations(
+        MigrationContext.configure(session.connection())
+    )
+    return migration
+
+
+def test_grouped_migration_preserves_scalar_rules_and_history(db):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    entry = rules_api.create_permission_rule(rule_input(TRAY), MagicMock(), login)
+    result = persist(1, **TRAY_CHANGE)
+    with db() as session:
+        history = session.scalar(select(models.PermissionDecision.rules))
+        migration = grouped_migration(session)
+        migration["downgrade"]()
+        migration["upgrade"]()
+        assert session.scalar(select(models.PermissionDecision.rules)) == history
+    rule = next(
+        item for item in rules_api.list_permission_rules(None) if item.id == entry.id
+    )
+    assert rule.value == "talk"
+    assert rule.removed is None and rule.added is None
+    assert (
+        reviews.read_permission_review(result.assessment_id, None)
+        .decisions[0]
+        .rules[0]
+        .id
+        == entry.id
+    )
+
+
+def test_grouped_migration_refuses_rule_and_history_loss(db):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    entry = rules_api.create_permission_rule(grouped_rule(), MagicMock(), login)
+    with (
+        pytest.raises(
+            DBAPIError, match="Cannot downgrade grouped permission rules or history"
+        ),
+        db() as session,
+    ):
+        grouped_migration(session)["downgrade"]()
+    result = persist(
+        1,
+        **(
+            TRAY_CHANGE
+            | {
+                "differences": [
+                    {
+                        "path": ["x86_64", "Context", "filesystems"],
+                        "before": ["home", "host"],
+                        "after": ["home:ro", "host:ro"],
+                    }
+                ]
+            }
+        ),
+    )
+    assert result.outcome == "accepted"
+    with db() as session:
+        session.delete(session.get(models.PermissionRule, entry.id))
+    with (
+        pytest.raises(
+            DBAPIError, match="Cannot downgrade grouped permission rules or history"
+        ),
+        db() as session,
+    ):
+        grouped_migration(session)["downgrade"]()

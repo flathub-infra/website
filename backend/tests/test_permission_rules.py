@@ -205,3 +205,98 @@ def test_exact_bus_transition_and_rejection_precedence(before, after):
     assert evaluate(differences, [*RULES, transition]).decision == "approved"
     transition.decision = "rejected"
     assert evaluate(differences, [*RULES, transition]).decision == "rejected"
+
+
+@pytest.mark.parametrize(
+    "before,after,expected",
+    [
+        (["dri"], ["all", "if:all:!has-input-device", "dri", "input"], "approved"),
+        ([], ["all", "if:all:!has-input-device", "input"], "approved"),
+        (
+            ["kvm", "dri"],
+            ["kvm", "all", "if:all:!has-input-device", "dri", "input"],
+            "approved",
+        ),
+        (["dri"], ["all", "dri"], None),
+        (["dri"], ["input", "dri"], None),
+        (["dri"], ["if:all:!has-input-device", "all", "dri", "input"], None),
+        (["dri"], ["all", "if:all:!has-usb-device", "dri", "input"], None),
+        (["dri"], ["all", "if:all:!has-input-device", "input"], None),
+        (["dri"], ["all", "if:all:!has-input-device", "dri", "input", "kvm"], None),
+        (["dri"], ["all", "if:all:!has-input-device", "dri", "input", "input"], None),
+        (
+            ["dri", "kvm"],
+            ["kvm", "all", "if:all:!has-input-device", "dri", "input"],
+            None,
+        ),
+        (
+            ["dri", "!all"],
+            ["all", "if:all:!has-input-device", "dri", "input", "!all"],
+            None,
+        ),
+        (
+            ["dri", "if:all:false"],
+            ["all", "if:all:!has-input-device", "dri", "input", "if:all:false"],
+            None,
+        ),
+    ],
+)
+def test_grouped_device_delta_is_atomic_and_ordered(before, after, expected):
+    grouped = rule(
+        5, "approved", "devices", None, group="Context", match_type="grouped-delta"
+    )
+    grouped.removed = []
+    grouped.added = ["all", "if:all:!has-input-device", "input"]
+    verdict = evaluate([change(["Context", "devices"], before, after)], [grouped])
+    assert (verdict.decision if verdict else None) == expected
+
+
+def test_grouped_delta_composes_with_other_rules_and_rejection_wins():
+    grouped = rule(
+        5, "approved", "devices", None, group="Context", match_type="grouped-delta"
+    )
+    grouped.removed = []
+    grouped.added = ["all", "if:all:!has-input-device", "input"]
+    differences = [
+        change(
+            ["Context", "devices"],
+            ["dri"],
+            ["all", "if:all:!has-input-device", "dri", "input", "kvm"],
+        )
+    ]
+    kvm = rule(6, "approved", "devices", "kvm", group="Context")
+    assert evaluate(differences, [grouped, kvm]).decision == "approved"
+    kvm.decision = "rejected"
+    assert evaluate(differences, [grouped, kvm]).decision == "rejected"
+    kvm.decision = "approved"
+    grouped.enabled = False
+    assert evaluate(differences, [grouped, kvm]) is None
+    grouped.enabled = True
+    grouped.decision = "rejected"
+    assert evaluate(differences, [grouped, kvm]).decision == "rejected"
+
+
+def test_grouped_reduction_needs_both_endpoints():
+    grouped = rule(
+        5, "approved", "filesystems", None, group="Context", match_type="grouped-delta"
+    )
+    grouped.removed = ["home", "xdg-download"]
+    grouped.added = ["home:ro", "xdg-download:ro"]
+    exact = [
+        change(
+            ["Context", "filesystems"],
+            ["home", "xdg-download"],
+            ["home:ro", "xdg-download:ro"],
+        )
+    ]
+    assert evaluate(exact, [grouped]).decision == "approved"
+    partial = [change(["Context", "filesystems"], ["home"], ["home:ro"])]
+    assert evaluate(partial, [grouped]) is None
+    reverse = [
+        change(
+            ["Context", "filesystems"],
+            ["home:ro", "xdg-download:ro"],
+            ["home", "xdg-download"],
+        )
+    ]
+    assert evaluate(reverse, [grouped]) is None

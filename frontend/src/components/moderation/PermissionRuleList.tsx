@@ -53,6 +53,7 @@ import InlineError from "../InlineError"
 import Modal from "../Modal"
 import Spinner from "../Spinner"
 import OutcomeBadge from "./PermissionOutcomeBadge"
+import { ruleLabel } from "./permission-rule-label"
 import {
   permissionReviewSurface,
   permissionReviewTheme,
@@ -66,6 +67,8 @@ const emptyRule: RuleInput = {
   permission_group: Group.Session_Bus_Policy,
   match_type: "destination",
   before: null,
+  removed: null,
+  added: null,
   key: "",
   value: "talk",
   rationale: "",
@@ -77,16 +80,13 @@ const ruleInput = (rule: Rule): RuleInput => ({
   permission_group: rule.permission_group,
   match_type: rule.match_type,
   before: rule.before,
+  removed: rule.removed ?? null,
+  added: rule.added ?? null,
   key: rule.key,
   value: rule.value,
   rationale: rule.rationale,
   enabled: rule.enabled,
 })
-
-const ruleLabel = (rule: Rule) =>
-  rule.match_type === "transition"
-    ? `${rule.key}: ${rule.before ?? "Absent"} → ${rule.value ?? "Absent"}`
-    : `${rule.key}=${rule.value}`
 
 const errorText = (e: Error) => {
   const detail: unknown = isAxiosError(e) && e.response?.data?.detail
@@ -170,21 +170,53 @@ const RuleEditor = ({
     key: draft.key.trim(),
     before: draft.before == null ? null : draft.before.trim(),
     value: draft.value === null ? null : draft.value.trim(),
+    removed: draft.removed?.map((entry) => entry.trim()) ?? null,
+    added: draft.added?.map((entry) => entry.trim()) ?? null,
     rationale: draft.rationale.trim(),
   }
   const bus = BUS_GROUPS.includes(draft.permission_group)
   const transition = draft.match_type === "transition"
+  const grouped = draft.match_type === "grouped-delta"
+  const groupedKey =
+    draft.permission_group === Group.USB_Devices ||
+    (draft.permission_group === Group.Context &&
+      [
+        "shared",
+        "sockets",
+        "devices",
+        "features",
+        "filesystems",
+        "persistent",
+      ].includes(trimmed.key))
+  const removed = trimmed.removed ?? []
+  const added = trimmed.added ?? []
+  const validEntries = [removed, added].every(
+    (entries) =>
+      entries.every((entry) => entry.length > 0) &&
+      new Set(entries).size === entries.length,
+  )
   const complete = Boolean(
     trimmed.key &&
     trimmed.rationale &&
-    [trimmed.before, trimmed.value].every(
-      (value) =>
-        value === null ||
-        (value.length > 0 && (!bus || BUS_LEVELS.includes(value))),
-    ) &&
-    (transition
-      ? trimmed.before !== trimmed.value
-      : trimmed.before === null && trimmed.value !== null),
+    (grouped
+      ? groupedKey &&
+        trimmed.before === null &&
+        trimmed.value === null &&
+        trimmed.removed !== null &&
+        trimmed.added !== null &&
+        removed.length + added.length > 0 &&
+        validEntries &&
+        !removed.some((entry) => added.includes(entry))
+      : trimmed.removed === null &&
+        trimmed.added === null &&
+        [trimmed.before, trimmed.value].every(
+          (value) =>
+            value === null ||
+            (value.length > 0 && (!bus || BUS_LEVELS.includes(value))),
+        ) &&
+        (transition
+          ? trimmed.before !== trimmed.value
+          : trimmed.before === null && trimmed.value !== null)),
   )
   const key = JSON.stringify(trimmed)
   const current = preview?.key === key ? preview.data : undefined
@@ -271,8 +303,20 @@ const RuleEditor = ({
               onValueChange={(value) =>
                 set({
                   permission_group: value as RuleInput["permission_group"],
+                  key: "",
+                  match_type:
+                    grouped && BUS_GROUPS.includes(value)
+                      ? "destination"
+                      : draft.match_type,
                   before: null,
-                  value: BUS_GROUPS.includes(value) ? "talk" : "",
+                  value:
+                    grouped && !BUS_GROUPS.includes(value)
+                      ? null
+                      : BUS_GROUPS.includes(value)
+                        ? "talk"
+                        : "",
+                  removed: grouped && !BUS_GROUPS.includes(value) ? [] : null,
+                  added: grouped && !BUS_GROUPS.includes(value) ? [] : null,
                 })
               }
             >
@@ -298,7 +342,12 @@ const RuleEditor = ({
                 set({
                   match_type: value as RuleInput["match_type"],
                   before: null,
-                  value: draft.value ?? (bus ? "talk" : ""),
+                  value:
+                    value === "grouped-delta"
+                      ? null
+                      : (draft.value ?? (bus ? "talk" : "")),
+                  removed: value === "grouped-delta" ? [] : null,
+                  added: value === "grouped-delta" ? [] : null,
                 })
               }
             >
@@ -309,6 +358,9 @@ const RuleEditor = ({
                 <SelectGroup>
                   <SelectItem value="destination">Destination-only</SelectItem>
                   <SelectItem value="transition">Exact transition</SelectItem>
+                  <SelectItem value="grouped-delta" disabled={bus}>
+                    Grouped delta
+                  </SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
@@ -324,90 +376,138 @@ const RuleEditor = ({
               placeholder={bus ? "org.kde.StatusNotifierWatcher" : "sockets"}
               onChange={(e) => set({ key: e.target.value })}
             />
+            {grouped && (
+              <FieldDescription>
+                {draft.permission_group === Group.Context
+                  ? "Use shared, sockets, devices, features, filesystems, or persistent."
+                  : "Match a USB device list."}
+              </FieldDescription>
+            )}
           </Field>
-          {(transition
-            ? (["before", "value"] as const)
-            : (["value"] as const)
-          ).map((endpoint) => {
-            const value = draft[endpoint] ?? null
-            const prefix = transition
-              ? endpoint === "before"
-                ? "Before "
-                : "After "
-              : ""
-            const label = `${prefix}${bus ? "policy" : "entry"}`
-            const fieldLabel = label.charAt(0).toUpperCase() + label.slice(1)
-            const id = `rule-${endpoint}`
-            return (
-              <Field key={endpoint}>
-                <FieldLabel
-                  htmlFor={bus || !transition ? id : `${id}-presence`}
-                >
-                  {fieldLabel}
-                </FieldLabel>
-                {bus ? (
-                  <Select
-                    value={value ?? "__absent"}
-                    onValueChange={(selected) =>
+          {grouped
+            ? (["removed", "added"] as const).map((endpoint) => (
+                <Field key={endpoint}>
+                  <FieldLabel htmlFor={`rule-${endpoint}`}>
+                    {endpoint === "removed"
+                      ? "Removed entries"
+                      : "Added entries"}
+                  </FieldLabel>
+                  <Textarea
+                    id={`rule-${endpoint}`}
+                    className="min-h-24 font-mono"
+                    value={(draft[endpoint] ?? []).join("\n")}
+                    aria-describedby={`rule-${endpoint}-help`}
+                    onChange={(event) =>
                       set({
-                        [endpoint]: selected === "__absent" ? null : selected,
+                        [endpoint]:
+                          event.target.value === ""
+                            ? []
+                            : event.target.value.split("\n"),
                       })
                     }
-                  >
-                    <SelectTrigger id={id}>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {transition && (
-                          <SelectItem value="__absent">Absent</SelectItem>
-                        )}
-                        {BUS_LEVELS.map((level) => (
-                          <SelectItem key={level} value={level}>
-                            {level}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                ) : (
-                  <>
-                    {transition && (
+                  />
+                  <FieldDescription id={`rule-${endpoint}-help`}>
+                    One entry per line, in order. Leave empty for no entries.
+                    Entries must be unique and cannot appear in both lists.
+                  </FieldDescription>
+                </Field>
+              ))
+            : (transition
+                ? (["before", "value"] as const)
+                : (["value"] as const)
+              ).map((endpoint) => {
+                const value = draft[endpoint] ?? null
+                const prefix = transition
+                  ? endpoint === "before"
+                    ? "Before "
+                    : "After "
+                  : ""
+                const label = `${prefix}${bus ? "policy" : "entry"}`
+                const fieldLabel =
+                  label.charAt(0).toUpperCase() + label.slice(1)
+                const id = `rule-${endpoint}`
+                return (
+                  <Field key={endpoint}>
+                    <FieldLabel
+                      htmlFor={bus || !transition ? id : `${id}-presence`}
+                    >
+                      {fieldLabel}
+                    </FieldLabel>
+                    {bus ? (
                       <Select
-                        value={value === null ? "absent" : "present"}
+                        value={value ?? "__absent"}
                         onValueChange={(selected) =>
-                          set({ [endpoint]: selected === "absent" ? null : "" })
+                          set({
+                            [endpoint]:
+                              selected === "__absent" ? null : selected,
+                          })
                         }
                       >
-                        <SelectTrigger id={`${id}-presence`}>
+                        <SelectTrigger id={id}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
-                            <SelectItem value="absent">Absent</SelectItem>
-                            <SelectItem value="present">Present</SelectItem>
+                            {transition && (
+                              <SelectItem value="__absent">Absent</SelectItem>
+                            )}
+                            {BUS_LEVELS.map((level) => (
+                              <SelectItem key={level} value={level}>
+                                {level}
+                              </SelectItem>
+                            ))}
                           </SelectGroup>
                         </SelectContent>
                       </Select>
+                    ) : (
+                      <>
+                        {transition && (
+                          <Select
+                            value={value === null ? "absent" : "present"}
+                            onValueChange={(selected) =>
+                              set({
+                                [endpoint]: selected === "absent" ? null : "",
+                              })
+                            }
+                          >
+                            <SelectTrigger id={`${id}-presence`}>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectGroup>
+                                <SelectItem value="absent">Absent</SelectItem>
+                                <SelectItem value="present">Present</SelectItem>
+                              </SelectGroup>
+                            </SelectContent>
+                          </Select>
+                        )}
+                        {value !== null && (
+                          <Input
+                            id={id}
+                            aria-label={
+                              transition ? `${fieldLabel} value` : undefined
+                            }
+                            className="font-mono"
+                            value={value}
+                            placeholder="pulseaudio"
+                            onChange={(e) =>
+                              set({ [endpoint]: e.target.value })
+                            }
+                          />
+                        )}
+                      </>
                     )}
-                    {value !== null && (
-                      <Input
-                        id={id}
-                        aria-label={
-                          transition ? `${fieldLabel} value` : undefined
-                        }
-                        className="font-mono"
-                        value={value}
-                        placeholder="pulseaudio"
-                        onChange={(e) => set({ [endpoint]: e.target.value })}
-                      />
-                    )}
-                  </>
-                )}
-              </Field>
-            )
-          })}
+                  </Field>
+                )
+              })}
         </div>
+        {grouped && (
+          <FieldDescription>
+            Match both ordered lists as one atomic group. Unchanged entries and
+            unrelated changes do not affect the match. At least one list must
+            contain an entry.
+          </FieldDescription>
+        )}
         <Field>
           <FieldLabel htmlFor="rule-rationale">Rationale</FieldLabel>
           <Textarea

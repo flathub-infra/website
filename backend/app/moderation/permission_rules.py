@@ -57,10 +57,43 @@ def _verdict(
                 "match_type": rule.match_type,
                 "before": rule.before,
                 "value": rule.value,
+                "removed": rule.removed,
+                "added": rule.added,
             }
             for rule in unique
         ],
     )
+
+
+def _group_tokens(
+    path: tuple[str, ...],
+    left: list[str],
+    right: list[str],
+    removed: set[str],
+    added: set[str],
+    rule: models.PermissionRule,
+) -> set[tuple[int, str]] | None:
+    if rule.removed is None or rule.added is None:
+        return None
+    if not set(rule.removed) <= removed or not set(rule.added) <= added:
+        return None
+    if [item for item in left if item in rule.removed] != rule.removed or [
+        item for item in right if item in rule.added
+    ] != rule.added:
+        return None
+    if path[0] == "Context":
+        names = {
+            permission_snapshot._context_entry_name(path[1], item)
+            for item in (*rule.removed, *rule.added)
+        }
+        if None in names or any(
+            permission_snapshot._context_entry_name(path[1], item) in names
+            and item not in endpoints
+            for items, endpoints in ((left, rule.removed), (right, rule.added))
+            for item in items
+        ):
+            return None
+    return {(0, item) for item in rule.removed} | {(1, item) for item in rule.added}
 
 
 def evaluate(
@@ -91,21 +124,13 @@ def evaluate(
             ordered = [item for item in left if item in right] == [
                 item for item in right if item in left
             ]
-            for items in (left, right):
-                names = (
-                    [
-                        permission_snapshot._context_entry_name(path[1], item)
-                        for item in items
-                    ]
-                    if path[0] == "Context"
-                    else items
-                )
-                if None in names or len(set(names)) != len(names):
-                    ordered = False
-            if not ordered or not required:
-                complete = False
+            grouped: set[tuple[int, str]] = set()
             for rule in candidates:
-                if rule.match_type == "transition":
+                if rule.match_type == "grouped-delta":
+                    tokens = _group_tokens(path, left, right, removed, added, rule)
+                    if tokens is None:
+                        continue
+                elif rule.match_type == "transition":
                     if (rule.before is not None and rule.before not in removed) or (
                         rule.value is not None and rule.value not in added
                     ):
@@ -113,7 +138,7 @@ def evaluate(
                     tokens = (
                         {(0, rule.before)} if rule.before is not None else set()
                     ) | ({(1, rule.value)} if rule.value is not None else set())
-                elif rule.value in added:
+                elif rule.match_type == "destination" and rule.value in added:
                     tokens = {(1, rule.value)}
                 else:
                     continue
@@ -122,6 +147,24 @@ def evaluate(
                 else:
                     approving.append(rule)
                     covered.update(tokens)
+                    if rule.match_type == "grouped-delta":
+                        grouped.update(tokens)
+            for side, items in enumerate((left, right)):
+                if len(set(items)) != len(items):
+                    ordered = False
+                remaining = [item for item in items if (side, item) not in grouped]
+                names = (
+                    [
+                        permission_snapshot._context_entry_name(path[1], item)
+                        for item in remaining
+                    ]
+                    if path[0] == "Context"
+                    else remaining
+                )
+                if None in names or len(set(names)) != len(names):
+                    ordered = False
+            if not ordered or not required:
+                complete = False
             if not required <= covered:
                 complete = False
         elif (before is None or isinstance(before, str)) and (
@@ -133,7 +176,8 @@ def evaluate(
                 if (
                     rule.before == before and rule.value == after
                     if rule.match_type == "transition"
-                    else path[0] in BUS_GROUPS
+                    else rule.match_type == "destination"
+                    and path[0] in BUS_GROUPS
                     and before in BUS_LEVELS
                     and after in BUS_LEVELS
                     and BUS_LEVELS[after] > BUS_LEVELS[before]

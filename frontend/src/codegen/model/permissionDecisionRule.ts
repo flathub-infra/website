@@ -4,9 +4,11 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { PermissionDecisionRuleAdded } from "./permissionDecisionRuleAdded"
 import type { PermissionDecisionRuleBefore } from "./permissionDecisionRuleBefore"
 import type { PermissionDecisionRuleDecision } from "./permissionDecisionRuleDecision"
 import type { PermissionDecisionRuleMatchType } from "./permissionDecisionRuleMatchType"
+import type { PermissionDecisionRuleRemoved } from "./permissionDecisionRuleRemoved"
 import type { PermissionDecisionRuleValue } from "./permissionDecisionRuleValue"
 
 export interface PermissionDecisionRule {
@@ -17,4 +19,6 @@ export interface PermissionDecisionRule {
   match_type?: PermissionDecisionRuleMatchType
   before?: PermissionDecisionRuleBefore
   value: PermissionDecisionRuleValue
+  removed?: PermissionDecisionRuleRemoved
+  added?: PermissionDecisionRuleAdded
 }

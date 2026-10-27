@@ -114,6 +114,17 @@ const review: Review = {
           before: "talk",
           value: null,
         },
+        {
+          id: 6,
+          decision: "approved",
+          permission_group: "Context",
+          key: "devices",
+          match_type: "grouped-delta",
+          before: null,
+          value: null,
+          removed: [],
+          added: ["all", "if:all:!has-input-device", "input"],
+        },
       ],
       rationale:
         "Use the notifications portal instead of accessing org.freedesktop.Notifications directly.",

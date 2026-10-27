@@ -4,10 +4,12 @@
  * Flathub API
  * OpenAPI spec version: 0.1.0
  */
+import type { PermissionRuleEntryAdded } from "./permissionRuleEntryAdded"
 import type { PermissionRuleEntryBefore } from "./permissionRuleEntryBefore"
 import type { PermissionRuleEntryDecision } from "./permissionRuleEntryDecision"
 import type { PermissionRuleEntryMatchType } from "./permissionRuleEntryMatchType"
 import type { PermissionRuleEntryPermissionGroup } from "./permissionRuleEntryPermissionGroup"
+import type { PermissionRuleEntryRemoved } from "./permissionRuleEntryRemoved"
 import type { PermissionRuleEntryUpdatedByName } from "./permissionRuleEntryUpdatedByName"
 import type { PermissionRuleEntryValue } from "./permissionRuleEntryValue"
 
@@ -19,6 +21,8 @@ export interface PermissionRuleEntry {
   match_type?: PermissionRuleEntryMatchType
   before?: PermissionRuleEntryBefore
   value: PermissionRuleEntryValue
+  removed?: PermissionRuleEntryRemoved
+  added?: PermissionRuleEntryAdded
   /** @minLength 1 */
   rationale: string
   enabled?: boolean

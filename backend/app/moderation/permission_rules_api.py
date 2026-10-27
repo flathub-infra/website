@@ -25,19 +25,53 @@ class PermissionRuleInput(BaseModel):
         "Context", "Session Bus Policy", "System Bus Policy", "USB Devices"
     ]
     key: Text
-    match_type: Literal["destination", "transition"] = "destination"
+    match_type: Literal["destination", "transition", "grouped-delta"] = "destination"
     before: Text | None = None
     value: Text | None
+    removed: list[Text] | None = None
+    added: list[Text] | None = None
     rationale: Text
     enabled: bool = True
 
     @model_validator(mode="after")
     def check_match(self):
-        if self.match_type == "destination":
-            if self.before is not None or self.value is None:
-                raise ValueError("Destination rules need only a non-null value")
-        elif self.before == self.value:
-            raise ValueError("Transition rules need distinct endpoints")
+        if self.match_type == "grouped-delta":
+            if self.before is not None or self.value is not None:
+                raise ValueError("Grouped deltas need null scalar endpoints")
+            if self.removed is None or self.added is None:
+                raise ValueError(
+                    "Grouped deltas need explicit removed and added arrays"
+                )
+            if not self.removed and not self.added:
+                raise ValueError("Grouped deltas need at least one changed entry")
+            if len(set(self.removed)) != len(self.removed) or len(
+                set(self.added)
+            ) != len(self.added):
+                raise ValueError("Grouped deltas need distinct entries")
+            if set(self.removed) & set(self.added):
+                raise ValueError("Grouped deltas cannot remove and add the same entry")
+            if not (
+                self.permission_group == "USB Devices"
+                or self.permission_group == "Context"
+                and self.key
+                in (
+                    "shared",
+                    "sockets",
+                    "devices",
+                    "features",
+                    "filesystems",
+                    "persistent",
+                )
+            ):
+                raise ValueError("Grouped deltas need a list-valued permission")
+        else:
+            if self.removed is not None or self.added is not None:
+                raise ValueError("Scalar rules cannot contain grouped deltas")
+            if self.match_type == "destination":
+                if self.before is not None or self.value is None:
+                    raise ValueError("Destination rules need only a non-null value")
+            elif self.before == self.value:
+                raise ValueError("Transition rules need distinct endpoints")
         if self.permission_group in BUS_GROUPS and any(
             endpoint is not None and endpoint not in ("none", "see", "talk", "own")
             for endpoint in (self.before, self.value)

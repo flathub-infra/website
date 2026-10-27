@@ -10,6 +10,7 @@ from uuid import uuid4
 from fastapi import HTTPException
 from pydantic import BaseModel
 from sqlalchemy import (
+    DDL,
     BigInteger,
     Boolean,
     CheckConstraint,
@@ -27,6 +28,7 @@ from sqlalchemy import (
     case,
     delete,
     desc,
+    event,
     false,
     func,
     or_,
@@ -2635,6 +2637,8 @@ class PermissionRule(Base):
     match_type = mapped_column(String, nullable=False, server_default="destination")
     before = mapped_column(String)
     value = mapped_column(String)
+    removed = mapped_column(JSONB(none_as_null=True))
+    added = mapped_column(JSONB(none_as_null=True))
     rationale = mapped_column(String, nullable=False)
 
     __table_args__ = (
@@ -2654,9 +2658,14 @@ class PermissionRule(Base):
             name="permissionrule_nonempty",
         ),
         CheckConstraint(
-            "(match_type = 'destination' AND before IS NULL AND value IS NOT NULL) "
+            "(match_type = 'destination' AND before IS NULL AND value IS NOT NULL "
+            "AND removed IS NULL AND added IS NULL) "
             "OR (match_type = 'transition' AND num_nonnulls(before, value) > 0 "
-            "AND before IS DISTINCT FROM value)",
+            "AND before IS DISTINCT FROM value AND removed IS NULL AND added IS NULL) "
+            "OR (match_type = 'grouped-delta' AND before IS NULL AND value IS NULL "
+            "AND permissionrule_valid_delta(removed, added) "
+            "AND (permission_group = 'USB Devices' OR (permission_group = 'Context' "
+            "AND key IN ('shared', 'sockets', 'devices', 'features', 'filesystems', 'persistent'))))",
             name="permissionrule_match_type",
         ),
         CheckConstraint(
@@ -2672,7 +2681,7 @@ class PermissionRule(Base):
             key,
             value,
             unique=True,
-            postgresql_where=before.is_(None),
+            postgresql_where=and_(match_type != "grouped-delta", before.is_(None)),
         ),
         Index(
             "permissionrule_removal_unique",
@@ -2681,7 +2690,7 @@ class PermissionRule(Base):
             key,
             before,
             unique=True,
-            postgresql_where=value.is_(None),
+            postgresql_where=and_(match_type != "grouped-delta", value.is_(None)),
         ),
         Index(
             "permissionrule_replacement_unique",
@@ -2693,7 +2702,47 @@ class PermissionRule(Base):
             unique=True,
             postgresql_where=and_(before.isnot(None), value.isnot(None)),
         ),
+        Index(
+            "permissionrule_grouped_delta_unique",
+            permission_group,
+            key,
+            removed,
+            added,
+            unique=True,
+            postgresql_where=match_type == "grouped-delta",
+        ),
     )
+
+
+event.listen(
+    PermissionRule.__table__,
+    "before_create",
+    DDL(
+        """
+        CREATE OR REPLACE FUNCTION permissionrule_valid_delta(removed jsonb, added jsonb)
+        RETURNS boolean
+        LANGUAGE sql IMMUTABLE
+        AS $$
+            SELECT CASE
+                WHEN removed IS NULL OR added IS NULL
+                    OR jsonb_typeof(removed) <> 'array'
+                    OR jsonb_typeof(added) <> 'array'
+                THEN false
+                ELSE jsonb_array_length(removed) + jsonb_array_length(added) > 0
+                    AND NOT EXISTS (
+                        SELECT 1 FROM jsonb_array_elements(removed || added) AS entries(value)
+                        WHERE jsonb_typeof(value) <> 'string'
+                            OR (value #>> '{}') !~ '[^[:space:]]'
+                    )
+                    AND (
+                        SELECT count(*) = count(DISTINCT value)
+                        FROM jsonb_array_elements(removed || added) AS entries(value)
+                    )
+            END
+        $$
+        """
+    ).execute_if(dialect="postgresql"),
+)
 
 
 class PermissionBaseline(Base):

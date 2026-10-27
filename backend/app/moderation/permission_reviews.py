@@ -53,9 +53,11 @@ class PermissionDecisionRule(BaseModel):
     decision: Literal["approved", "rejected"]
     permission_group: str
     key: str
-    match_type: Literal["destination", "transition"] = "destination"
+    match_type: Literal["destination", "transition", "grouped-delta"] = "destination"
     before: str | None = None
     value: str | None
+    removed: list[str] | None = None
+    added: list[str] | None = None
 
 
 class PermissionDecisionEntry(BaseModel):

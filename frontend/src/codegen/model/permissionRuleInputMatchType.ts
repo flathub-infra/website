@@ -11,4 +11,5 @@ export type PermissionRuleInputMatchType =
 export const PermissionRuleInputMatchType = {
   destination: "destination",
   transition: "transition",
+  "grouped-delta": "grouped-delta",
 } as const
