@@ -87,10 +87,10 @@ class StatsResultApp(BaseModel):
 )
 @cache.cached(ttl=900)
 async def get_stats(response: Response) -> StatsResult | None:
-    if value := database.get_json_key("stats"):
-        if isinstance(value, dict):
-            return _normalize_stats_result(value)
-        return value
+    with database.get_db() as sqldb:
+        value = sqldb.get(models.StatsGlobal, 1)
+        if value:
+            return _normalize_stats_result(value.data)
 
     response.status_code = 404
     return None

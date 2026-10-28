@@ -37,6 +37,7 @@ from sqlalchemy import (
     update,
 )
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB, ExcludeConstraint
+from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.orm import (
     DeclarativeBase,
     Mapped,
@@ -4751,8 +4752,34 @@ class AppStats(Base):
 
     @classmethod
     def bulk_set_stats(cls, db, stats_dict: dict[str, AppStatsData]) -> None:
-        for app_id, stats_data in stats_dict.items():
-            cls.set_stats(db, app_id, stats_data)
+        if not stats_dict:
+            return
+        rows = [
+            {
+                "app_id": app_id,
+                "installs_total": data.get("installs_total", 0),
+                "installs_last_month": data.get("installs_last_month", 0),
+                "installs_last_7_days": data.get("installs_last_7_days", 0),
+                "installs_per_day": data.get("installs_per_day", {}),
+                "installs_per_country": data.get("installs_per_country", {}),
+            }
+            for app_id, data in stats_dict.items()
+        ]
+        for offset in range(0, len(rows), 1000):
+            stmt = pg_insert(cls).values(rows[offset : offset + 1000])
+            db.execute(
+                stmt.on_conflict_do_update(
+                    index_elements=[cls.app_id],
+                    set_={
+                        "installs_total": stmt.excluded.installs_total,
+                        "installs_last_month": stmt.excluded.installs_last_month,
+                        "installs_last_7_days": stmt.excluded.installs_last_7_days,
+                        "installs_per_day": stmt.excluded.installs_per_day,
+                        "installs_per_country": stmt.excluded.installs_per_country,
+                        "updated_at": func.now(),
+                    },
+                )
+            )
 
     def to_dict(self) -> AppStatsData:
         return {
@@ -4762,6 +4789,40 @@ class AppStats(Base):
             "installs_per_day": self.installs_per_day or {},
             "installs_per_country": self.installs_per_country or {},
         }
+
+
+class StatsDaily(Base):
+    __tablename__ = "stats_daily"
+
+    date: Mapped[_dt.date] = mapped_column(Date, primary_key=True)
+    data: Mapped[JSONObject] = mapped_column(JSONB, nullable=False)
+    fetched_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+
+
+class StatsDailyRef(Base):
+    __tablename__ = "stats_daily_ref"
+
+    date: Mapped[_dt.date] = mapped_column(
+        Date, ForeignKey("stats_daily.date", ondelete="CASCADE"), primary_key=True
+    )
+    ref: Mapped[str] = mapped_column(String, primary_key=True)
+    architecture: Mapped[str] = mapped_column(String, primary_key=True)
+    downloads: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    updates: Mapped[int] = mapped_column(BigInteger, nullable=False)
+
+
+class StatsGlobal(Base):
+    __tablename__ = "stats_global"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    data: Mapped[JSONObject] = mapped_column(JSONB, nullable=False)
+    computed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+
+    __table_args__ = (CheckConstraint("id = 1", name="ck_stats_global_singleton"),)
 
 
 class YearInReviewStats(Base):

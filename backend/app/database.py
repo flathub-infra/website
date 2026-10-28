@@ -1,7 +1,6 @@
 from contextlib import contextmanager
 from typing import Literal
 
-import orjson
 import redis.asyncio as aioredis
 from sqlalchemy import create_engine, or_
 from sqlalchemy.orm import Session, sessionmaker
@@ -151,13 +150,6 @@ def get_json_key(key: str):
         with get_db() as sqldb:
             app_stats = models.AppStats.get_stats(sqldb, app_id)
             return app_stats.to_dict() if app_stats else None
-
-    from .worker.redis import redis_conn
-
-    if value := redis_conn.get(key):
-        if not isinstance(value, (str, bytes, bytearray, memoryview)):
-            raise TypeError("Redis JSON value must be text or bytes")
-        return orjson.loads(value)
 
     return None
 
