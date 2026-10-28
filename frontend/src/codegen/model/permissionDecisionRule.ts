@@ -21,4 +21,5 @@ export interface PermissionDecisionRule {
   value: PermissionDecisionRuleValue
   removed?: PermissionDecisionRuleRemoved
   added?: PermissionDecisionRuleAdded
+  required?: string[]
 }

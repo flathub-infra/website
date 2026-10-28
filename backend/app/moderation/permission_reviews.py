@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, FastAPI, HTTPException, Query, Request
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, Field, model_validator
 from sqlalchemy import and_, case, exists, func, select
 from sqlalchemy.orm import aliased
 
@@ -58,6 +58,7 @@ class PermissionDecisionRule(BaseModel):
     value: str | None
     removed: list[str] | None = None
     added: list[str] | None = None
+    required: list[str] = Field(default_factory=list)
 
 
 class PermissionDecisionEntry(BaseModel):

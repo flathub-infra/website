@@ -30,6 +30,7 @@ class PermissionRuleInput(BaseModel):
     value: Text | None
     removed: list[Text] | None = None
     added: list[Text] | None = None
+    required: list[Text] = Field(default_factory=list)
     rationale: Text
     enabled: bool = True
 
@@ -50,6 +51,10 @@ class PermissionRuleInput(BaseModel):
                 raise ValueError("Grouped deltas need distinct entries")
             if set(self.removed) & set(self.added):
                 raise ValueError("Grouped deltas cannot remove and add the same entry")
+            if len(set(self.required)) != len(self.required):
+                raise ValueError("Required entries must be distinct")
+            if set(self.required) & (set(self.removed) | set(self.added)):
+                raise ValueError("Required entries cannot be changed")
             if not (
                 self.permission_group == "USB Devices"
                 or self.permission_group == "Context"
@@ -67,6 +72,8 @@ class PermissionRuleInput(BaseModel):
         else:
             if self.removed is not None or self.added is not None:
                 raise ValueError("Scalar rules cannot contain grouped deltas")
+            if self.required:
+                raise ValueError("Scalar rules cannot require unchanged entries")
             if self.match_type == "destination":
                 if self.before is not None or self.value is None:
                     raise ValueError("Destination rules need only a non-null value")

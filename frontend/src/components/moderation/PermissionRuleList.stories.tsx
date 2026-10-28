@@ -90,6 +90,22 @@ const rules: PermissionRuleEntry[] = [
     updated_at: "2026-10-27T10:00:00.000000",
     updated_by_name: "Bartłomiej Piotrowski",
   },
+  {
+    id: 7,
+    decision: "approved",
+    permission_group: "Context",
+    key: "devices",
+    match_type: "grouped-delta",
+    before: null,
+    value: null,
+    removed: ["dri"],
+    added: [],
+    required: ["all"],
+    rationale: "Remove redundant dri access while all device access remains.",
+    enabled: true,
+    updated_at: "2026-10-28T10:00:00.000000",
+    updated_by_name: "Bartłomiej Piotrowski",
+  },
 ]
 
 const preview: PermissionRulePreview = {

@@ -69,6 +69,7 @@ const emptyRule: RuleInput = {
   before: null,
   removed: null,
   added: null,
+  required: [],
   key: "",
   value: "talk",
   rationale: "",
@@ -82,6 +83,7 @@ const ruleInput = (rule: Rule): RuleInput => ({
   before: rule.before,
   removed: rule.removed ?? null,
   added: rule.added ?? null,
+  required: rule.required ?? [],
   key: rule.key,
   value: rule.value,
   rationale: rule.rationale,
@@ -172,6 +174,7 @@ const RuleEditor = ({
     value: draft.value === null ? null : draft.value.trim(),
     removed: draft.removed?.map((entry) => entry.trim()) ?? null,
     added: draft.added?.map((entry) => entry.trim()) ?? null,
+    required: draft.required?.map((entry) => entry.trim()) ?? [],
     rationale: draft.rationale.trim(),
   }
   const bus = BUS_GROUPS.includes(draft.permission_group)
@@ -190,7 +193,8 @@ const RuleEditor = ({
       ].includes(trimmed.key))
   const removed = trimmed.removed ?? []
   const added = trimmed.added ?? []
-  const validEntries = [removed, added].every(
+  const required = trimmed.required
+  const validEntries = [removed, added, required].every(
     (entries) =>
       entries.every((entry) => entry.length > 0) &&
       new Set(entries).size === entries.length,
@@ -206,7 +210,8 @@ const RuleEditor = ({
         trimmed.added !== null &&
         removed.length + added.length > 0 &&
         validEntries &&
-        !removed.some((entry) => added.includes(entry))
+        !removed.some((entry) => added.includes(entry)) &&
+        !required.some((entry) => [...removed, ...added].includes(entry))
       : trimmed.removed === null &&
         trimmed.added === null &&
         [trimmed.before, trimmed.value].every(
@@ -317,6 +322,7 @@ const RuleEditor = ({
                         : "",
                   removed: grouped && !BUS_GROUPS.includes(value) ? [] : null,
                   added: grouped && !BUS_GROUPS.includes(value) ? [] : null,
+                  required: [],
                 })
               }
             >
@@ -348,6 +354,7 @@ const RuleEditor = ({
                       : (draft.value ?? (bus ? "talk" : "")),
                   removed: value === "grouped-delta" ? [] : null,
                   added: value === "grouped-delta" ? [] : null,
+                  required: [],
                 })
               }
             >
@@ -385,12 +392,14 @@ const RuleEditor = ({
             )}
           </Field>
           {grouped
-            ? (["removed", "added"] as const).map((endpoint) => (
+            ? (["removed", "added", "required"] as const).map((endpoint) => (
                 <Field key={endpoint}>
                   <FieldLabel htmlFor={`rule-${endpoint}`}>
                     {endpoint === "removed"
                       ? "Removed entries"
-                      : "Added entries"}
+                      : endpoint === "added"
+                        ? "Added entries"
+                        : "Required unchanged entries"}
                   </FieldLabel>
                   <Textarea
                     id={`rule-${endpoint}`}
@@ -407,8 +416,9 @@ const RuleEditor = ({
                     }
                   />
                   <FieldDescription id={`rule-${endpoint}-help`}>
-                    One entry per line, in order. Leave empty for no entries.
-                    Entries must be unique and cannot appear in both lists.
+                    {endpoint === "required"
+                      ? "One entry per line. Each entry must remain present before and after the change, and cannot appear in either changed list."
+                      : "One entry per line, in order. Leave empty for no entries. Entries must be unique and cannot appear in both lists."}
                   </FieldDescription>
                 </Field>
               ))
@@ -503,9 +513,10 @@ const RuleEditor = ({
         </div>
         {grouped && (
           <FieldDescription>
-            Match both ordered lists as one atomic group. Unchanged entries and
-            unrelated changes do not affect the match. At least one list must
-            contain an entry.
+            Match both ordered lists as one atomic group. Required entries must
+            remain unchanged. Other unchanged entries and unrelated changes do
+            not affect the match. At least one changed list must contain an
+            entry.
           </FieldDescription>
         )}
         <Field>

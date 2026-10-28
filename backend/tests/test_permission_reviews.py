@@ -983,6 +983,14 @@ INVALID_GROUPED_RULES = [
     {"removed": ["home:ro"]},
     {"removed": [1]},
     {"added": {"home:ro": True}},
+    {"required": [""]},
+    {"required": [" "]},
+    {"required": ["other", "other"]},
+    {"required": ["home"]},
+    {"required": ["home:ro"]},
+    {"required": [1]},
+    {"required": None},
+    {"required": {"other": True}},
     {"permission_group": "Session Bus Policy"},
     {"permission_group": "System Bus Policy"},
     {"key": "unknown"},
@@ -1000,6 +1008,22 @@ def test_grouped_rule_input_rejects_invalid_deltas(changes):
 def test_scalar_rules_reject_grouped_arrays(match_type, arrays):
     with pytest.raises(ValueError):
         rule_input(TRAY, match_type=match_type, **arrays)
+
+
+@pytest.mark.parametrize("match_type", ["destination", "transition"])
+def test_scalar_rules_reject_required_entries(match_type):
+    with pytest.raises(ValueError):
+        rule_input(TRAY, match_type=match_type, required=["other"])
+
+
+@pytest.mark.parametrize("match_type", ["destination", "transition"])
+def test_database_rejects_scalar_required_entries(db, match_type):
+    values = rule_input(TRAY, match_type=match_type).model_dump() | {
+        "required": ["other"]
+    }
+    with pytest.raises(IntegrityError), db() as session:
+        session.add(models.PermissionRule(**values, created_by=1, updated_by=1))
+        session.flush()
 
 
 @pytest.mark.parametrize("changes", INVALID_GROUPED_RULES)
@@ -1050,6 +1074,20 @@ def test_grouped_rule_uniqueness_preserves_order_and_scalar_rules(db):
     }
 
 
+def test_grouped_rule_uniqueness_includes_required_entries(db):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    unconditional = grouped_rule()
+    conditional = grouped_rule(required=["unchanged"])
+    first = rules_api.create_permission_rule(unconditional, MagicMock(), login)
+    second = rules_api.create_permission_rule(conditional, MagicMock(), login)
+    assert first.required == []
+    assert second.required == ["unchanged"]
+    assert first.id != second.id
+    with pytest.raises(HTTPException) as exc:
+        rules_api.create_permission_rule(conditional, MagicMock(), login)
+    assert exc.value.detail == "rule_exists"
+
+
 def test_grouped_preview_apply_and_history_keep_atomic_delta(db):
     login = SimpleNamespace(user=SimpleNamespace(id=1))
     differences = [
@@ -1076,7 +1114,9 @@ def test_grouped_preview_apply_and_history_keep_atomic_delta(db):
             }
         ),
     )
-    body = grouped_rule(rationale="Permit only the complete reduction.")
+    body = grouped_rule(
+        rationale="Permit only the complete reduction.", required=["unchanged"]
+    )
     draft = rules_api.PermissionRuleDraft(**body.model_dump())
     preview = rules_api.preview_permission_rules(None, draft)
     assert [item.assessment_id for item in preview.pending] == [pending.assessment_id]
@@ -1096,6 +1136,7 @@ def test_grouped_preview_apply_and_history_keep_atomic_delta(db):
     assert matched.before is None and matched.value is None
     assert matched.removed == body.removed
     assert matched.added == body.added
+    assert matched.required == body.required
     rules_api.update_permission_rule(
         entry.id,
         grouped_rule(removed=["host"], added=["host:ro"]),

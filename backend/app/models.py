@@ -2639,6 +2639,7 @@ class PermissionRule(Base):
     value = mapped_column(String)
     removed = mapped_column(JSONB(none_as_null=True))
     added = mapped_column(JSONB(none_as_null=True))
+    required = mapped_column(JSONB, nullable=False, default=list, server_default="[]")
     rationale = mapped_column(String, nullable=False)
 
     __table_args__ = (
@@ -2667,6 +2668,11 @@ class PermissionRule(Base):
             "AND (permission_group = 'USB Devices' OR (permission_group = 'Context' "
             "AND key IN ('shared', 'sockets', 'devices', 'features', 'filesystems', 'persistent'))))",
             name="permissionrule_match_type",
+        ),
+        CheckConstraint(
+            "permissionrule_valid_required(required, removed, added) "
+            "AND (match_type = 'grouped-delta' OR required = '[]'::jsonb)",
+            name="permissionrule_required",
         ),
         CheckConstraint(
             "permission_group NOT IN ('Session Bus Policy', 'System Bus Policy') "
@@ -2708,6 +2714,7 @@ class PermissionRule(Base):
             key,
             removed,
             added,
+            required,
             unique=True,
             postgresql_where=match_type == "grouped-delta",
         ),
@@ -2739,7 +2746,29 @@ event.listen(
                         FROM jsonb_array_elements(removed || added) AS entries(value)
                     )
             END
-        $$
+        $$;
+        CREATE OR REPLACE FUNCTION permissionrule_valid_required(required jsonb, removed jsonb, added jsonb)
+        RETURNS boolean
+        LANGUAGE sql IMMUTABLE
+        AS $$
+            SELECT CASE
+                WHEN required IS NULL OR jsonb_typeof(required) <> 'array' THEN false
+                ELSE NOT EXISTS (
+                    SELECT 1 FROM jsonb_array_elements(required) AS entries(value)
+                    WHERE jsonb_typeof(value) <> 'string'
+                        OR (value #>> '{}') !~ '[^[:space:]]'
+                )
+                AND (
+                    SELECT count(*) = count(DISTINCT value)
+                    FROM jsonb_array_elements(required) AS entries(value)
+                )
+                AND NOT EXISTS (
+                    SELECT 1 FROM jsonb_array_elements(required) AS entries(value)
+                    WHERE coalesce(removed, '[]'::jsonb) @> jsonb_build_array(value)
+                        OR coalesce(added, '[]'::jsonb) @> jsonb_build_array(value)
+                )
+            END
+        $$;
         """
     ).execute_if(dialect="postgresql"),
 )

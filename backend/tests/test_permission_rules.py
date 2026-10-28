@@ -300,3 +300,27 @@ def test_grouped_reduction_needs_both_endpoints():
         )
     ]
     assert evaluate(reverse, [grouped]) is None
+
+
+@pytest.mark.parametrize(
+    ("before", "after", "expected"),
+    [
+        (["all", "dri"], ["all"], "approved"),
+        (["dri"], [], None),
+        (["all", "dri"], [], None),
+        (["dri"], ["all"], None),
+        (["all", "dri"], ["all", "kvm"], None),
+        (["all", "dri", "kvm"], ["all"], None),
+    ],
+)
+def test_grouped_removal_requires_unchanged_device(before, after, expected):
+    grouped = rule(
+        5, "approved", "devices", None, group="Context", match_type="grouped-delta"
+    )
+    grouped.removed = ["dri"]
+    grouped.added = []
+    grouped.required = ["all"]
+    verdict = evaluate([change(["Context", "devices"], before, after)], [grouped])
+    assert (verdict.decision if verdict else None) == expected
+    if verdict:
+        assert verdict.rules[0]["required"] == ["all"]

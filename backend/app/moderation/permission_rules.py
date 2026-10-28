@@ -59,6 +59,7 @@ def _verdict(
                 "value": rule.value,
                 "removed": rule.removed,
                 "added": rule.added,
+                "required": rule.required or [],
             }
             for rule in unique
         ],
@@ -74,6 +75,8 @@ def _group_tokens(
     rule: models.PermissionRule,
 ) -> set[tuple[int, str]] | None:
     if rule.removed is None or rule.added is None:
+        return None
+    if not set(rule.required or []) <= set(left) & set(right):
         return None
     if not set(rule.removed) <= removed or not set(rule.added) <= added:
         return None
