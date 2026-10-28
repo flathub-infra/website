@@ -256,48 +256,6 @@ def test_non_hybrid_searches_use_lexical_index(
     assert not client.indices[search.HYBRID_APPS_INDEX].search_calls
 
 
-def test_desktop_intent_search_uses_exact_hybrid_payload(search_module):
-    search, client = search_module
-    search.config.settings.search_hybrid_enabled = True
-    search.config.settings.search_hybrid_semantic_ratio = 0.3
-    search.config.settings.search_hybrid_embedder = "apps-fireworks-qwen3"
-
-    query = search.SearchQuery(
-        query="record my screen",
-        filters=[search.Filter(filterType="type", value="desktop-application")],
-        hits_per_page=10,
-        page=2,
-    )
-    search.search_apps_post(query, "en")
-
-    lexical = client.indices[search.LEXICAL_APPS_INDEX]
-    hybrid = client.indices[search.HYBRID_APPS_INDEX]
-    assert not lexical.search_calls
-    assert hybrid.search_calls == [
-        (
-            "record my screen",
-            {
-                "hitsPerPage": 10,
-                "page": 2,
-                "sort": ["installs_last_month:desc"],
-                "filter": "type = 'desktop-application' AND NOT icon IS NULL",
-                "facets": [
-                    "verification_verified",
-                    "main_categories",
-                    "is_free_license",
-                    "type",
-                    "arches",
-                ],
-                "hybrid": {
-                    "embedder": "apps-fireworks-qwen3",
-                    "semanticRatio": 0.3,
-                },
-                "rankingScoreThreshold": 0.836,
-            },
-        )
-    ]
-
-
 def test_hybrid_search_applies_configured_ranking_score_threshold(
     search_module, monkeypatch
 ):

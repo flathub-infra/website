@@ -139,6 +139,14 @@ _configure_meilisearch_index(client)
 _configure_meilisearch_index(client, HYBRID_APPS_INDEX)
 
 
+def _localized_attributes(locale: str) -> list[str]:
+    attributes = [name for name in AppsIndex.model_fields if name != "translations"]
+    attributes.append(f"translations.{locale}")
+    if "-" in locale:
+        attributes.append(f"translations.{locale.split('-')[0]}")
+    return attributes
+
+
 def _translate_name_and_summary[
     U: (
         MeilisearchResponse[AppsIndex],
@@ -181,8 +189,8 @@ def _translate_name_and_summary[
                 ):
                     searchResult.keywords = translated_keywords
 
-            # Always delete translations from the response, regardless of whether a locale match was found
-            del searchResult.translations
+        # Always delete translations from the response, regardless of whether a locale match was found
+        del searchResult.translations
 
     return searchResults
 
@@ -517,6 +525,7 @@ def get_by_selected_categories(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "filter": [
                         category_list,
                         *exclude_subcategories_list,
@@ -565,6 +574,7 @@ def get_by_selected_category_and_subcategory(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "filter": [
                         f"main_categories = {selected_category.value}",
                         selected_subcategory_list,
@@ -594,6 +604,7 @@ def get_by_installs_last_month(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "sort": ["installs_last_month:desc"],
                     "hitsPerPage": hits_per_page or 250,
                     "page": page or 1,
@@ -616,6 +627,7 @@ def get_by_trending(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "sort": ["trending:desc"],
                     "hitsPerPage": hits_per_page or 250,
                     "page": page or 1,
@@ -638,6 +650,7 @@ def get_by_added_at(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "sort": ["added_at:desc"],
                     "hitsPerPage": hits_per_page or 250,
                     "page": page or 1,
@@ -660,6 +673,7 @@ def get_by_updated_at(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "sort": ["updated_at:desc"],
                     "hitsPerPage": hits_per_page or 250,
                     "page": page or 1,
@@ -682,6 +696,7 @@ def get_by_verified(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "filter": [
                         "verification_verified = true",
                         "type IN [console-application, desktop-application]",
@@ -705,6 +720,7 @@ def get_by_favorites_count(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "filter": [
                         "type IN [console-application, desktop-application]",
                         "NOT icon IS NULL",
@@ -727,6 +743,7 @@ def get_by_mobile(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "filter": [
                         "isMobileFriendly = true",
                         "type IN [console-application, desktop-application]",
@@ -754,6 +771,7 @@ def get_by_developer(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "filter": [
                         f"developer_name = '{escaped_developer}'",
                         "type IN [console-application, desktop-application]",
@@ -781,6 +799,7 @@ def get_by_keyword(
             client.index(LEXICAL_APPS_INDEX).search(
                 "",
                 {
+                    "attributesToRetrieve": _localized_attributes(locale),
                     "filter": [
                         f"localized_keywords = '{escaped_keyword}'",
                         "type IN [console-application, desktop-application]",
@@ -878,6 +897,7 @@ def search_apps_post(
     searchquery: SearchQuery, locale: str
 ) -> MeilisearchResponse[AppsIndex]:
     options = _search_apps_options(searchquery)
+    options["attributesToRetrieve"] = _localized_attributes(locale)
     hybrid_candidate = config.settings.search_hybrid_enabled and _is_hybrid_candidate(
         searchquery
     )
