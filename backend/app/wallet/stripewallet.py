@@ -274,7 +274,7 @@ class StripeWallet(WalletBase):
             payment_intent = stripe.PaymentIntent.create(
                 amount=txn_value,
                 currency=txn_currency,
-                payment_method_types=["card"],
+                allowed_payment_method_types=["card"],
                 customer=customer_id,
                 description=description,
             )
