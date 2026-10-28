@@ -153,51 +153,34 @@ def test_missing_comparison_data_prevents_publication(annual_stats):
     assert asyncio.run(stats.get_year_stats(2019)) is None
 
 
-def test_known_historical_gap_preserves_daily_alignment(monkeypatch):
-    before = {"updates": 7, "refs": {}}
-    after = {"updates": 11, "refs": {}}
-    monkeypatch.setattr(
-        stats, "_fetch_stats_parallel", lambda *args, **kwargs: [before, None, after]
+def test_known_historical_gap_preserves_daily_alignment(stats_database):
+    fetched = datetime.datetime(2018, 6, 22, tzinfo=datetime.UTC)
+    stats_db.save_day(datetime.date(2018, 6, 18), {"updates": 7, "refs": {}}, fetched)
+    stats_db.save_day(datetime.date(2018, 6, 20), {"updates": 11, "refs": {}}, fetched)
+
+    assert (
+        stats._annual_data(datetime.date(2018, 6, 18), datetime.date(2018, 6, 20))[3]
+        == 18
     )
 
-    result = stats._fetch_complete_year_stats(
-        datetime.date(2018, 6, 18), datetime.date(2018, 6, 20)
+
+def test_known_historical_gap_uses_data_when_available(stats_database):
+    day = datetime.date(2018, 6, 19)
+    stats_db.save_day(
+        day,
+        {"updates": 7, "refs": {}},
+        datetime.datetime(2018, 6, 22, tzinfo=datetime.UTC),
     )
-    assert len(result) == 3
-    assert result[0] == before
-    assert result[2] == after
-    assert result[1] == {
-        "date": datetime.date(2018, 6, 19),
-        "countries": {},
-        "delta_downloads": 0,
-        "downloads": 0,
-        "updates": 0,
-        "flatpak_versions": {},
-        "os_flatpak_versions": {},
-        "os_versions": {},
-        "ostree_versions": {},
-        "ref_by_country": {},
-        "ref_by_os_version": {},
-        "refs": {},
-    }
 
-
-def test_known_historical_gap_uses_data_when_available(monkeypatch):
-    daily = {"updates": 7, "refs": {}}
-    monkeypatch.setattr(stats, "_fetch_stats_parallel", lambda *args, **kwargs: [daily])
-
-    assert stats._fetch_complete_year_stats(
-        datetime.date(2018, 6, 19), datetime.date(2018, 6, 19)
-    ) == [daily]
+    assert stats._annual_data(day, day)[3] == 7
 
 
 @pytest.mark.parametrize("day", [18, 20])
-def test_other_historical_gaps_still_raise(monkeypatch, day):
-    monkeypatch.setattr(stats, "_fetch_stats_parallel", lambda *args, **kwargs: [None])
+def test_other_historical_gaps_still_raise(stats_database, day):
     date = datetime.date(2018, 6, day)
 
     with pytest.raises(stats._IncompleteYearStats, match=date.isoformat()):
-        stats._fetch_complete_year_stats(date, date)
+        stats._annual_data(date, date)
 
 
 def test_zero_activity_is_complete_data(annual_stats):
