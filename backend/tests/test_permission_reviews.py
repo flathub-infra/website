@@ -276,7 +276,9 @@ def test_ignore_keeps_rationale_internal_and_never_resurfaces(db, notified):
     ) == ("pending", None, None, None)
 
     def listed(outcome):
-        result = reviews.list_permission_reviews(None, outcome, False, 50, 0)
+        result = reviews.list_permission_reviews(
+            None, outcome, include_superseded=False, limit=50, offset=0
+        )
         return [item.assessment_id for item in result["items"]]
 
     assert (listed("pending"), listed("ignored")) == ([], [first.assessment_id])
@@ -320,7 +322,9 @@ def test_ignore_is_inherited_only_for_same_scope_and_fingerprint(db, notified):
         assert changed.outcome == "pending"
         detail = reviews.read_permission_review(changed.assessment_id, None)
         assert (detail.outcome, detail.decision_id) == ("pending", None)
-        pending = reviews.list_permission_reviews(None, "pending", False, 50, 0)
+        pending = reviews.list_permission_reviews(
+            None, "pending", include_superseded=False, limit=50, offset=0
+        )
         assert changed.assessment_id in {
             item.assessment_id for item in pending["items"]
         }
@@ -351,7 +355,9 @@ def test_snoozed_review_resurfaces_after_twelve_hours(db, notified):
     review = persist(1)
 
     def listed(outcome):
-        result = reviews.list_permission_reviews(None, outcome, False, 50, 0)
+        result = reviews.list_permission_reviews(
+            None, outcome, include_superseded=False, limit=50, offset=0
+        )
         return [item.assessment_id for item in result["items"]]
 
     def age(hours):
@@ -667,7 +673,7 @@ def test_review_listing_filters_stored_outcome_and_superseded(db):
 
     def listed(outcome, include_superseded=False):
         result = reviews.list_permission_reviews(
-            None, outcome, include_superseded, 50, 0
+            None, outcome, include_superseded=include_superseded, limit=50, offset=0
         )
         return {item.assessment_id: item for item in result["items"]}
 
@@ -679,6 +685,25 @@ def test_review_listing_filters_stored_outcome_and_superseded(db):
     everything = listed("pending", True)
     assert everything.keys() == pending | {superseded.assessment_id}
     assert everything[superseded.assessment_id].superseded_by == newest.assessment_id
+
+
+def test_review_listing_filters_automatic_decisions(db):
+    add_rule(db)
+    automatic = persist(1, **TRAY_CHANGE)
+    manual = persist(2, pull_request_number=18)
+    decide(manual.assessment_id, "rejected", rationale="No")
+    assert automatic.outcome == "accepted"
+    assert assessment.get_assessment(manual.assessment_id).outcome == "rejected"
+
+    def listed(automatic_only):
+        result = reviews.list_permission_reviews(
+            None, "all", automatic=automatic_only, limit=50, offset=0
+        )
+        return {item.assessment_id for item in result["items"]}
+
+    both = {automatic.assessment_id, manual.assessment_id}
+    assert listed(False) == both
+    assert listed(True) == {automatic.assessment_id}
 
 
 def collected(snap):

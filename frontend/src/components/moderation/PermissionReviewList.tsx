@@ -52,6 +52,7 @@ export const reviewListFilters = (searchParams: URLSearchParams) => ({
     Object.values(Outcome).find((o) => o === searchParams.get("outcome")) ??
     Outcome.pending,
   includeSuperseded: searchParams.get("includeSuperseded") === "true",
+  automatic: searchParams.get("automatic") === "true",
 })
 
 export const reviewListQuery = (searchParams: URLSearchParams) =>
@@ -75,7 +76,8 @@ export default function PermissionReviewList() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const { outcome, includeSuperseded } = reviewListFilters(searchParams)
+  const { outcome, includeSuperseded, automatic } =
+    reviewListFilters(searchParams)
   const currentPage = parseInt(searchParams.get("page") ?? "1") || 1
 
   usePermissionReviewSync()
@@ -83,6 +85,7 @@ export default function PermissionReviewList() {
     {
       outcome,
       include_superseded: includeSuperseded,
+      automatic,
       limit: PAGE_SIZE,
       offset: (currentPage - 1) * PAGE_SIZE,
     },
@@ -111,7 +114,7 @@ export default function PermissionReviewList() {
         aria-label="Permission assessments"
       >
         <div className="flex flex-wrap items-end justify-between gap-5 border-b p-5">
-          <FieldGroup className="w-full flex-row flex-wrap items-end gap-x-6 gap-y-4 sm:w-[32rem]">
+          <FieldGroup className="w-full flex-row flex-wrap items-end gap-x-6 gap-y-4 md:w-auto md:flex-nowrap">
             <Field className="w-40 shrink-0 gap-2">
               <FieldLabel htmlFor="review-outcome">Outcome</FieldLabel>
               <Select
@@ -138,13 +141,31 @@ export default function PermissionReviewList() {
             </Field>
             <Field orientation="horizontal" className="w-full pb-2 sm:w-auto">
               <Checkbox
+                id="automatic-decisions"
+                checked={automatic}
+                onCheckedChange={(checked) =>
+                  setParams({ automatic: checked ? "true" : undefined })
+                }
+              />
+              <FieldLabel
+                htmlFor="automatic-decisions"
+                className="whitespace-nowrap"
+              >
+                Show only automatic decisions
+              </FieldLabel>
+            </Field>
+            <Field orientation="horizontal" className="w-full pb-2 sm:w-auto">
+              <Checkbox
                 id="include-superseded"
                 checked={includeSuperseded}
                 onCheckedChange={(checked) =>
                   setParams({ includeSuperseded: checked ? "true" : undefined })
                 }
               />
-              <FieldLabel htmlFor="include-superseded">
+              <FieldLabel
+                htmlFor="include-superseded"
+                className="whitespace-nowrap"
+              >
                 Include superseded assessments
               </FieldLabel>
             </Field>
@@ -182,6 +203,7 @@ export default function PermissionReviewList() {
           <Table className="block md:table">
             <caption className="sr-only">
               Permission assessments, filtered by {outcome} outcome
+              {automatic ? ", decided automatically" : ""}
             </caption>
             <TableHeader className="hidden md:table-header-group">
               <TableRow>

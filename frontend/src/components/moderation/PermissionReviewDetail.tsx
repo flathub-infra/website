@@ -196,9 +196,10 @@ const DecisionForm = ({
 
 const NavigatePreviousNext = ({ assessmentId }: { assessmentId: number }) => {
   const searchParams = useSearchParams()
-  const { outcome, includeSuperseded } = reviewListFilters(searchParams)
+  const { outcome, includeSuperseded, automatic } =
+    reviewListFilters(searchParams)
   const query = useListPermissionReviewsModerationPermissionReviewsGet(
-    { outcome, include_superseded: includeSuperseded, limit: 200 },
+    { outcome, include_superseded: includeSuperseded, automatic, limit: 200 },
     { axios: { withCredentials: true } },
   )
   const items = (query.data?.data.items ?? []) as { assessment_id: number }[]

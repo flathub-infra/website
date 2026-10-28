@@ -38,6 +38,7 @@ const items = Array.from({ length: 126 }, (_, i) => ({
   destination_channel: i % 7 === 6 ? "beta" : "stable",
   flatpak_branch: i % 7 === 6 ? "beta" : "stable",
   outcome: outcomes[i % outcomes.length],
+  automatic: i % 3 === 0,
   superseded_by: i % 11 === 10 ? 4308 - i : null,
 }))
 
@@ -48,6 +49,7 @@ const listHandler = (paginated = false) =>
     const filtered = (paginated ? items : items.slice(0, 12)).filter(
       (item) =>
         (outcome === "all" || item.outcome === outcome) &&
+        (params.get("automatic") !== "true" || item.automatic) &&
         (params.get("include_superseded") === "true" ||
           item.superseded_by === null),
     )
@@ -137,6 +139,13 @@ export const Filters: Story = {
     )
     await expect(getRouter().push.mock.calls.at(-1)?.[0]).toContain("page=1")
 
+    await userEvent.click(
+      canvas.getByRole("checkbox", { name: "Show only automatic decisions" }),
+    )
+    await expect(getRouter().push.mock.calls.at(-1)?.[0]).toContain(
+      "automatic=true",
+    )
+
     await canvas.findByRole("table")
     await userEvent.click(canvas.getByRole("combobox", { name: "Outcome" }))
     await userEvent.click(
@@ -148,6 +157,23 @@ export const Filters: Story = {
     await expect(destination).toContain("outcome=accepted")
     await expect(destination).toContain("page=1")
     await expect(destination).toContain("includeSuperseded=true")
+  },
+}
+export const AutomaticOnly: Story = {
+  parameters: {
+    nextjs: {
+      navigation: { query: { outcome: "all", automatic: "true" } },
+    },
+    msw: { handlers: [listHandler()] },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(
+      canvas.getByRole("checkbox", { name: "Show only automatic decisions" }),
+    ).toBeChecked()
+    await expect(
+      await canvas.findByText("1–4 of 4 assessments"),
+    ).toBeInTheDocument()
   },
 }
 export const Empty: Story = {

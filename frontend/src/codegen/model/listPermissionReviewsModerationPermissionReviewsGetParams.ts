@@ -9,6 +9,7 @@ import type { ListPermissionReviewsModerationPermissionReviewsGetOutcome } from 
 export type ListPermissionReviewsModerationPermissionReviewsGetParams = {
   outcome?: ListPermissionReviewsModerationPermissionReviewsGetOutcome
   include_superseded?: boolean
+  automatic?: boolean
   /**
    * @minimum 1
    * @maximum 200

@@ -179,6 +179,7 @@ def list_permission_reviews(
         Query(),
     ] = "pending",
     include_superseded: bool = False,
+    automatic: bool = False,
     limit: Annotated[int, Query(ge=1, le=200)] = 50,
     offset: Annotated[int, Query(ge=0)] = 0,
 ) -> dict[str, Any]:
@@ -189,6 +190,13 @@ def list_permission_reviews(
     )
     if outcome != "all":
         query = query.where(current_outcome == outcome)
+    if automatic:
+        query = query.where(
+            exists().where(
+                models.PermissionDecision.id == observation.decision_id,
+                models.PermissionDecision.rules.isnot(None),
+            )
+        )
     if not include_superseded:
         query = query.where(assessment.newest_in_pull_request(observation))
     with get_db("replica") as db:
