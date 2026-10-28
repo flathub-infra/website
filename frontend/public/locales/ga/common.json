@@ -718,8 +718,7 @@
     "downloads-vs-previous-year": "Íoslódálacha i gcomparáid le {year}",
     "hidden-gems": "Seoda Folaithe",
     "hidden-gems-description": "Aipeanna a bhfuil tarraingt mhéadaitheach acu",
-    "platform-downloads": "Íoslódálacha ardáin",
-    "x-growth": "+{percentage}% fáis"
+    "platform-downloads": "Íoslódálacha ardáin"
   },
   "app-information": "Faisnéis faoin aip",
   "sub-header": {

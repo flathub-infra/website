@@ -718,8 +718,7 @@
     "downloads-vs-previous-year": "Transferências vs {year}",
     "hidden-gems": "Gemas escondidas",
     "hidden-gems-description": "Aplicações em crescimento",
-    "platform-downloads": "Transferências por plataformas",
-    "x-growth": "+{percentage}% crescimento"
+    "platform-downloads": "Transferências por plataformas"
   },
   "quality-moderation-excluded": "Esta aplicação está excluída de controlos de qualidade",
   "app-information": "Informação da aplicação",

@@ -657,7 +657,13 @@
   },
   "download": {
     "install-x": "Paigalda „{x}“",
-    "fallback-instructions": "<opening>Sa avad „{name}“ oma pakihaldusest…</opening><support>Kui mitte midagi ei juhtu, siis võib-olla sinu seade ei toeta <i>flatpak+https</i>võrguaadresse.</support><listPrefix>Sel juhul võid sa:</listPrefix><ol><li>laadida alla <link>.flatpakref</link> faili</li><li>ja käivitada ta oma failihalduriga</li></ol><setupLine><linkSetup>Lisateave Flatpaki paigalduse kohta</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Sa avad „{name}“ oma pakihaldusest…</opening><support>Kui mitte midagi ei juhtu, siis võib-olla sinu seade ei toeta <i>flatpak+https</i>võrguaadresse.</support><listPrefix>Sel juhul võid sa:</listPrefix><ol><li>laadida alla <link>.flatpakref</link> faili</li><li>ja käivitada ta oma failihalduriga</li></ol><setupLine><linkSetup>Lisateave Flatpaki paigalduse kohta</linkSetup></setupLine>",
+    "open-instructions": "Sinu tarkvarahaldur on sinu Linuxi rakendustepood. Luba veebibrauseril seda avada ja vali „Paigalda“.",
+    "open-again": "Ava tarkvarahalduris",
+    "file-description": "Ava fail allalaadimiste kaustast oma tarkvarahaldurifa ja vali „Paigalda“.",
+    "download-file": "Laadi .flatpakref alla",
+    "open-file": "Fail .flatpakref viitab rakendusele. Selle allalaadimine veel ei paigalda mitte midagi.",
+    "terminal-instructions": "Peale seadistust aseta ta oma Linuxi arvuti terminali ja vajuta sisetusklahvi."
   },
   "country-statistics": "Statistika riikide kaupa",
   "since-x": "Alates {date}",
@@ -715,7 +721,7 @@
     "hidden-gems": "Peidetud pärlid",
     "hidden-gems-description": "Kasvava populaarsusega rakendused",
     "platform-downloads": "Allalaadimise platvormide kaupa",
-    "x-growth": "+{percentage}% kasvu"
+    "x-growth-formatted": "{percentage} kasv"
   },
   "year-in-review-banner": {
     "title": "Flathubi {year}. aasta kokkuvõte",
@@ -974,5 +980,7 @@
   "moderation-permissions-pull-request-review": "Mestimispäringu õiguste ülevaade",
   "moderation-permissions-changed-count": "{count, plural, one {# muudetud õigus} other {# muudetud õigust}}",
   "moderation-discussion-opened-by": "Vestluse algatas {openedBy}",
-  "no-network-access-description": "Sellel rakendusel puudub ligipääs võrgule."
+  "no-network-access-description": "Sellel rakendusel puudub ligipääs võrgule.",
+  "copy-success": "Kopeeritud lõikelauale",
+  "copy-failed": "Automaatne kopeerimine ei õnnestunud. Vali tekst ja kopeeri käsitsi."
 }

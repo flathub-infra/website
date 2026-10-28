@@ -657,7 +657,13 @@
   },
   "download": {
     "install-x": "Zainstaluj “{x}”",
-    "fallback-instructions": "<opening>Otwierając „{name}” w menedżerze oprogramowania…</opening><support>Jeśli nic się nie dzieje, być może twój system nie obsługuje adresów <i>flatpak+https</i>.</support><listPrefix>W takim przypadku możesz:</listPrefix><ol><li>Pobrać plik <link>.flatpakref</link></li><li>Następnie uruchomić go z menedżera plików</li></ol><setupLine><linkSetup>Instrukcje instalacji Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Otwierając „{name}” w menedżerze oprogramowania…</opening><support>Jeśli nic się nie dzieje, być może twój system nie obsługuje adresów <i>flatpak+https</i>.</support><listPrefix>W takim przypadku możesz:</listPrefix><ol><li>Pobrać plik <link>.flatpakref</link></li><li>Następnie uruchomić go z menedżera plików</li></ol><setupLine><linkSetup>Instrukcje instalacji Flatpak</linkSetup></setupLine>",
+    "open-instructions": "Twój menedżer oprogramowania to sklep z aplikacjami dla systemu Linux. Zezwól przeglądarce na otwarcie go, a następnie wybierz opcję Zainstaluj.",
+    "open-again": "Otwórz w menedżerze oprogramowania",
+    "file-description": "Otwórz plik z folderu Pobrane w menedżerze oprogramowania, a następnie wybierz opcję Zainstaluj.",
+    "download-file": "Pobierz .flatpakref",
+    "open-file": "Plik .flatpakref wskazuje lokalizację aplikacji. Jego pobranie nie powoduje jej zainstalowania.",
+    "terminal-instructions": "Po zakończeniu konfiguracji wklej poniższy tekst do terminala na komputerze z systemem Linux i naciśnij klawisz Enter."
   },
   "country-statistics": "Statystyki dotyczące krajów",
   "since-x": "Od {date}",
@@ -718,8 +724,8 @@
     "downloads-vs-previous-year": "Pobrania w porównaniu z {year}",
     "hidden-gems-description": "Aplikacje zyskujące na popularności",
     "hidden-gems": "Ukryte perełki",
-    "x-growth": "Wzrost o +{percentage}%",
-    "platform-downloads": "Pobrania według platformy"
+    "platform-downloads": "Pobrania według platformy",
+    "x-growth-formatted": "Wzrost o {percentage}"
   },
   "quality-moderation-excluded": "Ta aplikacja nie podlega kontroli jakości",
   "app-information": "Informacje o aplikacji",
@@ -974,5 +980,7 @@
   "moderation-permissions-compared-with": "Porównano z: {source}",
   "moderation-permissions-changed-count": "{count, plural, one {# zmienione uprawnienie} few {# zmienione uprawnienia} many {# zmienionych uprawnień} other {# zmienionego uprawnienia}}",
   "moderation-discussion-opened-by": "Dyskusja rozpoczęta przez {openedBy}",
-  "no-network-access-description": "Ta aplikacja nie ma dostępu do sieci."
+  "no-network-access-description": "Ta aplikacja nie ma dostępu do sieci.",
+  "copy-success": "Skopiowano do schowka",
+  "copy-failed": "Nie udało się skopiować automatycznie. Zaznacz tekst i skopiuj go ręcznie."
 }

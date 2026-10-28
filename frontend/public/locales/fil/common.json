@@ -712,7 +712,6 @@
     "downloads-vs-previous-year": "Mga Download vs {year}",
     "hidden-gems": "Mga Nakatagong Hiyas",
     "hidden-gems-description": "Mga app na may lumalaking impluwensya",
-    "platform-downloads": "Mga download sa platform",
-    "x-growth": "+{percentage}% na paglago"
+    "platform-downloads": "Mga download sa platform"
   }
 }

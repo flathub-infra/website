@@ -121,7 +121,7 @@
   "save-card-for-reuse": "Запазване на картата за повторно използване",
   "transaction-went-wrong": "Нещо се обърка по време на трансакцията.",
   "continue": "Продължаване",
-  "manual-install-instructions": "Не забравяйте да прочетете <distroguide>инструкциите за вашата дистрибуция</distroguide>",
+  "manual-install-instructions": "Не забравяйте да прочетете <distroguide>инструкциите за вашата дистрибуция на Линукс</distroguide>",
   "app-install-error-try-again": "Инсталирането на приложението е неуспешно. Моля, опитайте отново.",
   "could-not-find-match-for-search": "Няма намерени резултати.",
   "languages-summary": "Изберете езика на уебсайта.",
@@ -657,7 +657,13 @@
   },
   "download": {
     "install-x": "Инсталиране на „{x}“",
-    "fallback-instructions": "<opening>Отваряне на „{name}“ във вашия софтуерен мениджър…</opening><support>Ако нищо не се случи, може би вашата система не поддържа връзката <i>flatpak+https</i>.</support><listPrefix>В такъв случай може:</listPrefix><ol><li>Да изтеглите файла <link>.flatpakref</link></li><li>След това да го стартирате от вашия файлов мениджър</li></ol><setupLine><linkSetup>Инструкции за инсталиране на „Flatpak“</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Отваряне на „{name}“ във вашия софтуерен мениджър…</opening><support>Ако нищо не се случи, може би вашата система не поддържа връзката <i>flatpak+https</i>.</support><listPrefix>В такъв случай може:</listPrefix><ol><li>Да изтеглите файла <link>.flatpakref</link></li><li>След това да го стартирате от вашия файлов мениджър</li></ol><setupLine><linkSetup>Инструкции за инсталиране на „Flatpak“</linkSetup></setupLine>",
+    "open-again": "Отваряне в софтуерния мениджър",
+    "download-file": "Изтегляне на „.flatpakref“",
+    "file-description": "Отворете файла от папката за изтегляния във вашия софтуерен мениджър, след това изберете „Инсталиране“.",
+    "open-file": "Файлът „.flatpakref“ е референция към приложението. Изтеглянето му не го инсталира.",
+    "terminal-instructions": "Поставете следната команда в терминала на вашата дистрибуция на Линукс и натиснете „Enter“.",
+    "open-instructions": "Позволете на браузъра си да отвори вашия софтуерен мениджър, след това изберете \"Инсталиране\"."
   },
   "since-x": "От {date}",
   "country-statistics": "Статистика по държави",
@@ -701,7 +707,6 @@
     "year-over-year-growth": "Годишен растеж",
     "downloads-vs-previous-year": "Изтегляния спрямо {year}",
     "platform-downloads": "Изтегляния по платформа",
-    "x-growth": "+{percentage}% растеж",
     "title": "Равносметка за {year} година",
     "category-highlights": "Акценти по категория",
     "app-updates": "Общо обновявания",
@@ -974,5 +979,7 @@
       "warning-eol": "Приложението ще бъде маркирано с изтекъл експлоатационен живот със съобщението по-долу.",
       "acknowledgment": "Разбирам последствията от архивирането на „<app>{app_id}</app>“"
     }
-  }
+  },
+  "copy-success": "Копирано в клипборда",
+  "copy-failed": "Автоматичното копиране е неуспешно. Изберете текста и го копирайте ръчно."
 }

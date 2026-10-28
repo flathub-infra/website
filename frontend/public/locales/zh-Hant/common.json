@@ -714,8 +714,7 @@
     "downloads-vs-previous-year": "下載次數 vs {year}",
     "hidden-gems": "口袋名單",
     "hidden-gems-description": "日益受到歡迎的應用程式",
-    "platform-downloads": "平台下載",
-    "x-growth": "+{percentage}% 增長"
+    "platform-downloads": "平台下載"
   },
   "year-in-review-banner": {
     "title": "Flathub {year} 年度回顧",
