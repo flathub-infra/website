@@ -560,6 +560,7 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
           match_type: faker.helpers.arrayElement([
             "destination",
             "transition",
+            "grouped-delta",
           ] as const),
           before: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -568,6 +569,27 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetRe
           value: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
+          ]),
+          removed: faker.helpers.arrayElement([
+            Array.from(
+              { length: faker.number.int({ min: 1, max: 10 }) },
+              (_, i) => i + 1,
+            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            null,
+          ]),
+          added: faker.helpers.arrayElement([
+            Array.from(
+              { length: faker.number.int({ min: 1, max: 10 }) },
+              (_, i) => i + 1,
+            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            null,
+          ]),
+          required: faker.helpers.arrayElement([
+            Array.from(
+              { length: faker.number.int({ min: 1, max: 10 }) },
+              (_, i) => i + 1,
+            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            undefined,
           ]),
         })),
         null,
@@ -713,6 +735,7 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
           match_type: faker.helpers.arrayElement([
             "destination",
             "transition",
+            "grouped-delta",
           ] as const),
           before: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -721,6 +744,27 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
           value: faker.helpers.arrayElement([
             faker.string.alpha({ length: { min: 10, max: 20 } }),
             null,
+          ]),
+          removed: faker.helpers.arrayElement([
+            Array.from(
+              { length: faker.number.int({ min: 1, max: 10 }) },
+              (_, i) => i + 1,
+            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            null,
+          ]),
+          added: faker.helpers.arrayElement([
+            Array.from(
+              { length: faker.number.int({ min: 1, max: 10 }) },
+              (_, i) => i + 1,
+            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            null,
+          ]),
+          required: faker.helpers.arrayElement([
+            Array.from(
+              { length: faker.number.int({ min: 1, max: 10 }) },
+              (_, i) => i + 1,
+            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            undefined,
           ]),
         })),
         null,
@@ -749,6 +793,7 @@ export const getListPermissionRulesModerationPermissionRulesGetResponseMock =
       match_type: faker.helpers.arrayElement([
         "destination",
         "transition",
+        "grouped-delta",
       ] as const),
       before: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 1, max: 20 } }),
@@ -757,6 +802,27 @@ export const getListPermissionRulesModerationPermissionRulesGetResponseMock =
       value: faker.helpers.arrayElement([
         faker.string.alpha({ length: { min: 1, max: 20 } }),
         null,
+      ]),
+      removed: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 1, max: 20 } })),
+        null,
+      ]),
+      added: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 1, max: 20 } })),
+        null,
+      ]),
+      required: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 1, max: 20 } })),
+        undefined,
       ]),
       rationale: faker.string.alpha({ length: { min: 1, max: 20 } }),
       enabled: faker.datatype.boolean(),
@@ -783,6 +849,7 @@ export const getCreatePermissionRuleModerationPermissionRulesPostResponseMock =
     match_type: faker.helpers.arrayElement([
       "destination",
       "transition",
+      "grouped-delta",
     ] as const),
     before: faker.helpers.arrayElement([
       faker.string.alpha({ length: { min: 1, max: 20 } }),
@@ -791,6 +858,27 @@ export const getCreatePermissionRuleModerationPermissionRulesPostResponseMock =
     value: faker.helpers.arrayElement([
       faker.string.alpha({ length: { min: 1, max: 20 } }),
       null,
+    ]),
+    removed: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha({ length: { min: 1, max: 20 } })),
+      null,
+    ]),
+    added: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha({ length: { min: 1, max: 20 } })),
+      null,
+    ]),
+    required: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha({ length: { min: 1, max: 20 } })),
+      undefined,
     ]),
     rationale: faker.string.alpha({ length: { min: 1, max: 20 } }),
     enabled: faker.datatype.boolean(),
@@ -818,6 +906,7 @@ export const getUpdatePermissionRuleModerationPermissionRulesRuleIdPutResponseMo
     match_type: faker.helpers.arrayElement([
       "destination",
       "transition",
+      "grouped-delta",
     ] as const),
     before: faker.helpers.arrayElement([
       faker.string.alpha({ length: { min: 1, max: 20 } }),
@@ -826,6 +915,27 @@ export const getUpdatePermissionRuleModerationPermissionRulesRuleIdPutResponseMo
     value: faker.helpers.arrayElement([
       faker.string.alpha({ length: { min: 1, max: 20 } }),
       null,
+    ]),
+    removed: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha({ length: { min: 1, max: 20 } })),
+      null,
+    ]),
+    added: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha({ length: { min: 1, max: 20 } })),
+      null,
+    ]),
+    required: faker.helpers.arrayElement([
+      Array.from(
+        { length: faker.number.int({ min: 1, max: 10 }) },
+        (_, i) => i + 1,
+      ).map(() => faker.string.alpha({ length: { min: 1, max: 20 } })),
+      undefined,
     ]),
     rationale: faker.string.alpha({ length: { min: 1, max: 20 } }),
     enabled: faker.datatype.boolean(),
