@@ -1,33 +1,19 @@
-import asyncio
 import datetime
-from contextlib import contextmanager
 from unittest.mock import MagicMock
 
-import orjson
 import pytest
 
-from app import stats
+from app import stats, stats_db
 
 
-def test_add_unknown_version_count():
-    versions = {"1.16": 80, "unknown": 5}
-
-    stats._add_unknown_version_count(versions, total=100, reported=85)
-    stats._add_unknown_version_count(versions, total=10, reported=12)
-
-    assert versions == {"1.16": 80, "unknown": 20}
-
-
-def test_recent_version_stats_adds_unknown_os_from_ostree_total(monkeypatch):
+def test_recent_version_stats_adds_unknown_os_from_ostree_total(
+    monkeypatch, stats_database
+):
     end_date = datetime.date(2026, 8, 12)
     payloads = {
         end_date: {
             "ostree_versions": {"1.16": 100},
-            "os_versions": {
-                "fedora;42": 40,
-                "arch;unknown": 25,
-                "unknown": 2,
-            },
+            "os_versions": {"fedora;42": 40, "arch;unknown": 25, "unknown": 2},
             "flatpak_versions": {"1.16": 80, "unknown": 5},
         },
         end_date - datetime.timedelta(days=1): {
@@ -35,74 +21,58 @@ def test_recent_version_stats_adds_unknown_os_from_ostree_total(monkeypatch):
             "os_versions": {"fedora;42": 12},
             "flatpak_versions": {"1.16": 12},
         },
-        end_date - datetime.timedelta(days=2): {
-            "os_versions": {"debian;13": 5},
-        },
+        end_date - datetime.timedelta(days=2): {"os_versions": {"debian;13": 5}},
     }
-
-    monkeypatch.setattr(
-        stats.utils,
-        "utcnow",
-        lambda: datetime.datetime(2026, 8, 14, tzinfo=datetime.UTC),
-    )
-    monkeypatch.setattr(stats, "_get_stats_for_date", payloads.get)
-
-    os_versions, flatpak_versions, _ = stats._compute_recent_version_stats(days=3)
-
-    assert os_versions == {
+    now = datetime.datetime(2026, 8, 14, tzinfo=datetime.UTC)
+    monkeypatch.setattr(stats.utils, "utcnow", lambda: now)
+    monkeypatch.setattr(stats.search, "get_number_of_verified_apps", lambda: 0)
+    monkeypatch.setattr(stats, "get_category_totals", list)
+    for day, payload in payloads.items():
+        stats_db.save_day(day, payload, now)
+    with stats_database() as db:
+        result = stats._global_data(db, 0)
+    assert result["os_versions"] == {
         "fedora;42": 52,
         "arch;unknown": 25,
         "debian;13": 5,
         "unknown": 35,
     }
-    assert flatpak_versions == {"1.16": 92, "unknown": 20}
+    assert result["flatpak_versions"] == {"1.16": 92, "unknown": 20}
 
 
-@pytest.mark.parametrize("day, refresh", [(2, True), (8, True), (9, False)])
-def test_year_in_review_refreshes_potentially_partial_cache(monkeypatch, day, refresh):
-    cached_stats = {
-        "updates": 7,
-        "refs": {},
-        "ref_by_country": {},
-    }
-    get_cached = MagicMock(return_value=orjson.dumps(cached_stats))
-    complete_stats = {**cached_stats, "updates": 11}
+@pytest.mark.parametrize("fetched_day, refresh", [(1, True), (2, False)])
+def test_partial_source_refreshes_before_stable_use(
+    monkeypatch, stats_database, fetched_day, refresh
+):
+    day = datetime.date(2018, 12, 31)
+    cached = {"updates": 7, "refs": {}, "ref_by_country": {}}
+    complete = {**cached, "updates": 11}
+    now = datetime.datetime(2019, 1, 2, 1, tzinfo=datetime.UTC)
+    stats_db.save_day(
+        day, cached, datetime.datetime(2019, 1, fetched_day, tzinfo=datetime.UTC)
+    )
+    monkeypatch.setattr(stats.utils, "utcnow", lambda: now)
     response = MagicMock(status_code=200)
-    response.json.return_value = complete_stats
-    get_source_stats = MagicMock(return_value=response)
+    response.json.return_value = complete
+    session = MagicMock()
+    session.get.return_value = response
+    result = stats._get_stats_for_date(day, session)
+    assert result["updates"] == (11 if refresh else 7)
+    assert stats_db.load_day(day)[0]["updates"] == result["updates"]
+    assert session.get.called == refresh
 
-    @contextmanager
-    def empty_db(*args, **kwargs):
-        sqldb = MagicMock()
-        sqldb.query.return_value.filter.return_value.all.return_value = []
-        yield sqldb
 
+def test_failed_source_fetch_preserves_previous_day(monkeypatch, stats_database):
+    day = datetime.date(2026, 8, 12)
+    previous = {"refs": {"org.example.App": {"x86_64": [10, 2]}}}
+    fetched = datetime.datetime(2026, 8, 13, tzinfo=datetime.UTC)
+    stats_db.save_day(day, previous, fetched)
     monkeypatch.setattr(
         stats.utils,
         "utcnow",
-        lambda: datetime.datetime(2019, 1, day, tzinfo=datetime.UTC),
+        lambda: datetime.datetime(2026, 8, 14, tzinfo=datetime.UTC),
     )
-    monkeypatch.setattr(stats, "FIRST_STATS_DATE", datetime.date(2018, 12, 31))
-    monkeypatch.setattr(stats.redis_conn, "get", get_cached)
-    set_cached = MagicMock()
-    monkeypatch.setattr(stats.redis_conn, "set", set_cached)
-    monkeypatch.setattr(stats.config.settings, "stats_baseurl", "https://example.test")
-    monkeypatch.setattr(stats.httpx.Client, "get", get_source_stats)
-    monkeypatch.setattr(stats.database, "get_db", empty_db)
-    monkeypatch.setattr(stats.database, "get_all_appids_for_frontend", set)
-    monkeypatch.setattr(stats, "_get_app_stats_per_day", dict)
-
-    result = asyncio.run(stats._build_year_in_review_base(2018))
-
-    assert result is not None
-    assert stats._year_in_review_is_finalized(result, 2018)
-    assert result["updates_count"] == (11 if refresh else 7)
-    if refresh:
-        get_cached.assert_not_called()
-        get_source_stats.assert_called_once_with(
-            "https://example.test/2018/12/31.json", timeout=30.0
-        )
-        assert orjson.loads(set_cached.call_args.args[1]) == complete_stats
-    else:
-        get_cached.assert_called_once_with("stats:date:2018-12-31")
-        get_source_stats.assert_not_called()
+    session = MagicMock()
+    session.get.return_value = MagicMock(status_code=404)
+    assert stats._get_stats_for_date(day, session) is None
+    assert stats_db.load_day(day) == (previous, fetched)

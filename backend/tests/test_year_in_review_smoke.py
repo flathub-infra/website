@@ -8,25 +8,18 @@ from unittest.mock import MagicMock, patch
 import pytest
 from fastapi import Request
 from fastapi.testclient import TestClient
+from sqlalchemy import delete, text
 
-from app import main, stats
+from app import main, models, stats, stats_db
 from app.login_info import LoginInformation, LoginState, login_state
 from app.routes import year_in_review
 
 
 @pytest.fixture(autouse=True)
-def complete_daily_stats(monkeypatch):
+def complete_daily_stats(monkeypatch, stats_database):
     """Explicit zero-activity days make the sparse smoke samples a complete series."""
     first = stats.FIRST_STATS_DATE
     last = datetime.date(2026, 12, 31)
-    daily = {
-        first + datetime.timedelta(days=offset): {
-            "refs": {},
-            "ref_by_country": {},
-            "updates": 0,
-        }
-        for offset in range((last - first).days + 1)
-    }
     samples = {
         datetime.date(2024, 5, 18): "004-two-weeks-ago.json",
         datetime.date(2024, 5, 29): "000-three-days-ago.json",
@@ -34,16 +27,22 @@ def complete_daily_stats(monkeypatch):
         datetime.date(2024, 5, 31): "002-yesterday.json",
         datetime.date(2024, 6, 1): "003-today.json",
     }
-    for date, filename in samples.items():
-        daily[date] = json.loads(
-            (Path(__file__).parent / "stats" / filename).read_text()
+    fetched = datetime.datetime(2027, 1, 2, tzinfo=datetime.UTC)
+    with stats_database() as db:
+        db.execute(
+            text("""
+                INSERT INTO stats_daily (date, data, fetched_at)
+                SELECT day::date, '{"refs": {}, "ref_by_country": {}, "updates": 0}'::jsonb, :fetched
+                FROM generate_series(CAST(:first AS date), CAST(:last AS date), '1 day'::interval) day
+            """),
+            {"first": first, "last": last, "fetched": fetched},
         )
-
-    monkeypatch.setattr(
-        stats,
-        "_get_stats_for_date",
-        lambda date, session=None, **kwargs: daily.get(date),
-    )
+    for date, filename in samples.items():
+        stats_db.save_day(
+            date,
+            json.loads((Path(__file__).parent / "stats" / filename).read_text()),
+            fetched,
+        )
     monkeypatch.setattr(stats, "_load_year_in_review_base", lambda year: None)
     monkeypatch.setattr(stats, "_save_year_in_review_base", lambda year, data: None)
     monkeypatch.setattr(
@@ -56,7 +55,7 @@ def complete_daily_stats(monkeypatch):
         "utcnow",
         lambda: datetime.datetime(2027, 1, 2, tzinfo=datetime.UTC),
     )
-    return daily
+    return stats_database
 
 
 @pytest.fixture
@@ -209,7 +208,12 @@ def test_year_in_review_without_previous_year(client):
 
 
 def test_year_in_review_missing_daily_data(client, complete_daily_stats, mock_date):
-    del complete_daily_stats[datetime.date(2024, 5, 30)]
+    with complete_daily_stats() as db:
+        db.execute(
+            delete(models.StatsDaily).where(
+                models.StatsDaily.date == datetime.date(2024, 5, 30)
+            )
+        )
     with mock_date(2024, 12, 20):
         response = client.get("/year-in-review/2024")
     assert response.status_code == 404

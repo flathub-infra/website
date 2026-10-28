@@ -8,9 +8,9 @@ import pytest
 
 
 @pytest.fixture
-def classify_app(monkeypatch):
+def classify_app(monkeypatch, stats_database):
     # Initialize models before stats/utils and avoid search setup's network calls.
-    from app import models  # noqa: F401
+    from app import stats_db
 
     with patch("meilisearch.Client"):
         from app import stats
@@ -31,16 +31,13 @@ def classify_app(monkeypatch):
             "utcnow",
             lambda: datetime.datetime(2018, 5, 1, tzinfo=datetime.UTC),
         )
-        monkeypatch.setattr(
-            stats,
-            "_get_stats_for_date",
-            lambda date, session=None, **kwargs: {
-                "refs": {app_id: {"x86_64": [10, 0]}}
-            },
+        stats_db.save_day(
+            datetime.date(2018, 4, 29),
+            {"refs": {app_id: {"x86_64": [10, 0]}}},
+            datetime.datetime(2018, 5, 1, tzinfo=datetime.UTC),
         )
         monkeypatch.setattr(stats.database, "get_db", app_db)
         monkeypatch.setattr(stats.database, "get_all_appids_for_frontend", set)
-        monkeypatch.setattr(stats, "_get_app_stats_per_day", dict)
         monkeypatch.setattr(stats.config.settings, "env", "development")
 
         result = asyncio.run(stats._build_year_in_review_base(2018))
