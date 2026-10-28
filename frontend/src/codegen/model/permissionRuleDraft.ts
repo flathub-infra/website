@@ -23,6 +23,7 @@ export interface PermissionRuleDraft {
   value: PermissionRuleDraftValue
   removed?: PermissionRuleDraftRemoved
   added?: PermissionRuleDraftAdded
+  /** @items.minLength 1 */
   required?: string[]
   /** @minLength 1 */
   rationale: string
