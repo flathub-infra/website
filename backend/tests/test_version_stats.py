@@ -25,7 +25,9 @@ def test_recent_version_stats_adds_unknown_os_from_ostree_total(
     }
     now = datetime.datetime(2026, 8, 14, tzinfo=datetime.UTC)
     monkeypatch.setattr(stats.utils, "utcnow", lambda: now)
-    monkeypatch.setattr(stats.search, "get_number_of_verified_apps", lambda: 0)
+    monkeypatch.setattr(
+        stats.search, "get_number_of_verified_apps", lambda: 0, raising=False
+    )
     monkeypatch.setattr(stats, "get_category_totals", list)
     for day, payload in payloads.items():
         stats_db.save_day(day, payload, now)

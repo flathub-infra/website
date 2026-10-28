@@ -54,6 +54,7 @@ jobs:
       DATABASE_REPLICA_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
       MAINTENANCE_TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
       PERMISSION_ASSESSMENT_TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
+      STATS_TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
     services:
       postgres:
         image: postgres:17-alpine
