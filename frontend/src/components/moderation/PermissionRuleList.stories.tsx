@@ -370,10 +370,7 @@ export const JellyfinGroupedDelta: Story = {
     await expect(
       await dialog.findByRole("button", { name: "Save despite conflicts" }),
     ).toBeEnabled()
-    await userEvent.click(dialog.getByLabelText("Group"))
-    await userEvent.click(
-      await body.findByRole("option", { name: "Session Bus Policy" }),
-    )
+    await selectOption(dialog, "Group", "Session Bus Policy")
     await expect(dialog.getByLabelText("Match")).toHaveTextContent(
       "Destination-only",
     )
@@ -394,12 +391,8 @@ export const CreateGroupedDelta: Story = {
     const body = within(document.body)
     const dialogElement = await body.findByRole("dialog")
     const dialog = within(dialogElement)
-    await userEvent.click(dialog.getByLabelText("Group"))
-    await userEvent.click(await body.findByRole("option", { name: "Context" }))
-    await userEvent.click(dialog.getByLabelText("Match"))
-    await userEvent.click(
-      await body.findByRole("option", { name: "Grouped delta" }),
-    )
+    await selectOption(dialog, "Group", "Context")
+    await selectOption(dialog, "Match", "Grouped delta")
     await userEvent.type(dialog.getByLabelText("Key"), "devices")
     await userEvent.type(
       dialog.getByLabelText("Added entries"),
