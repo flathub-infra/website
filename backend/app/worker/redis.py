@@ -5,9 +5,9 @@ import redis
 from .. import config
 
 redis_conn = redis.Redis(
-    host=config.settings.redis_host,
-    port=config.settings.redis_port,
-    db=config.settings.redis_db,
+    host=config.settings.redis_cache_host,
+    port=config.settings.redis_cache_port,
+    db=config.settings.redis_cache_db,
     decode_responses=True,
 )
 

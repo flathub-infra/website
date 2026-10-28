@@ -1,8 +1,19 @@
 services:
-  redis:
-    image: docker.io/library/redis:6
+  redis-cache:
+    image: docker.io/valkey/valkey@sha256:75010b6854cb5ba6a0b1540d1bd3238541a31e3f8018cd31f9e5b92bb3192fa6
+    command: ["valkey-server", "--save", "", "--appendonly", "no", "--maxmemory", "2gb", "--maxmemory-policy", "allkeys-lfu"]
     ports:
       - "6379:6379"
+    mem_limit: 4g
+
+  redis-state:
+    image: docker.io/valkey/valkey@sha256:75010b6854cb5ba6a0b1540d1bd3238541a31e3f8018cd31f9e5b92bb3192fa6
+    command: ["valkey-server", "--save", "", "--appendonly", "yes", "--appendfsync", "everysec", "--maxmemory", "2gb", "--maxmemory-policy", "noeviction"]
+    ports:
+      - "6380:6379"
+    mem_limit: 4g
+    volumes:
+      - redis-state-data:/data
 
   meilisearch:
     image: docker.io/getmeili/meilisearch:v1.47.0
@@ -20,7 +31,12 @@ services:
     command: bash -c "alembic upgrade head && granian --interface asgi app.main:app --host 0.0.0.0 --port 8000 --reload --reload-paths app --reload-ignore-dirs __pycache__ --access-log"
     environment: &backend-env
       ENV: development
-      REDIS_HOST: redis
+      REDIS_CACHE_HOST: redis-cache
+      REDIS_CACHE_PORT: 6379
+      REDIS_CACHE_DB: 0
+      REDIS_STATE_HOST: redis-state
+      REDIS_STATE_PORT: 6379
+      REDIS_STATE_DB: 0
       STRIPE_SECRET_KEY: $STRIPE_SECRET_KEY
       STRIPE_PUBLIC_KEY: $STRIPE_PUBLIC_KEY
       STRIPE_WEBHOOK_KEY: $STRIPE_WEBHOOK_KEY
@@ -38,7 +54,8 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - redis
+      - redis-cache
+      - redis-state
       - db
       - meilisearch
     volumes:
@@ -75,7 +92,8 @@ services:
     environment:
       <<: *backend-env
     depends_on:
-      - redis
+      - redis-cache
+      - redis-state
       - db
       - meilisearch
     volumes:
@@ -94,7 +112,8 @@ services:
     command: python -m app.worker
     environment: *backend-env
     depends_on:
-      - redis
+      - redis-cache
+      - redis-state
       - db
       - meilisearch
     volumes:
@@ -124,3 +143,6 @@ services:
       - "5050:80"
     depends_on:
       - db
+
+volumes:
+  redis-state-data:

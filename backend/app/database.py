@@ -15,9 +15,9 @@ async def get_redis() -> aioredis.Redis:
     global _redis
     if _redis is None:
         _redis = aioredis.Redis(
-            host=config.settings.redis_host,
-            port=config.settings.redis_port,
-            db=config.settings.redis_db,
+            host=config.settings.redis_cache_host,
+            port=config.settings.redis_cache_port,
+            db=config.settings.redis_cache_db,
             decode_responses=True,
         )
     return _redis

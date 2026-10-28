@@ -7,11 +7,11 @@ cjson.encode_empty_table_as_object(false)
 local _M = {}
 
 local function get_redis_host()
-    return os.getenv("REDIS_HOST") or "redis"
+    return os.getenv("REDIS_CACHE_HOST") or "redis-cache"
 end
 
 local function get_redis_port()
-    return tonumber(os.getenv("REDIS_PORT")) or 6379
+    return tonumber(os.getenv("REDIS_CACHE_PORT")) or 6379
 end
 
 local function encode_sorted_json(tbl)

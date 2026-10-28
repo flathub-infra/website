@@ -405,9 +405,9 @@ def test_failed_enqueue_releases_address_reservation(monkeypatch):
     if not url:
         pytest.skip("OIDC_TEST_DATABASE_URL is not configured")
     store = redis.Redis(
-        host=config.settings.redis_host,
-        port=config.settings.redis_port,
-        db=config.settings.redis_db,
+        host=config.settings.redis_state_host,
+        port=config.settings.redis_state_port,
+        db=config.settings.redis_state_db,
         decode_responses=True,
     )
     try:

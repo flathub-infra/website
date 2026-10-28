@@ -240,9 +240,9 @@ router = APIRouter(prefix="/auth")
 
 
 _email_rate_store = redis.Redis(
-    host=config.settings.redis_host,
-    port=config.settings.redis_port,
-    db=config.settings.redis_db,
+    host=config.settings.redis_state_host,
+    port=config.settings.redis_state_port,
+    db=config.settings.redis_state_db,
     decode_responses=True,
     socket_connect_timeout=0.2,
     socket_timeout=0.2,

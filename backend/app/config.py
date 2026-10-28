@@ -9,9 +9,12 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class Settings(BaseSettings):
     app_name: str = "Flathub API"
-    redis_host: str = "localhost"
-    redis_port: int = 6379
-    redis_db: int = 0
+    redis_cache_host: str = "localhost"
+    redis_cache_port: int = 6379
+    redis_cache_db: int = 0
+    redis_state_host: str = "localhost"
+    redis_state_port: int = 6380
+    redis_state_db: int = 0
     database_url: str = "postgresql+psycopg://postgres:postgres@db:5432"
     database_replica_url: str = "postgresql+psycopg://postgres:postgres@db:5432"
     meilisearch_url: str = "http://meilisearch:7700"

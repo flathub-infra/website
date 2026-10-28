@@ -14,9 +14,9 @@ HYBRID_RECONCILIATION_LOCK_KEY = "search:apps-hybrid:reconciliation-lock"
 RECONCILIATION_STATE_TTL_SECONDS = 21_600
 
 redis_conn = redis.Redis(
-    host=config.settings.redis_host,
-    port=config.settings.redis_port,
-    db=config.settings.redis_db,
+    host=config.settings.redis_state_host,
+    port=config.settings.redis_state_port,
+    db=config.settings.redis_state_db,
     decode_responses=True,
 )
 
