@@ -49,8 +49,8 @@ from .routes import (
 if config.settings.sentry_dsn:
     sentry_sdk.init(
         dsn=config.settings.sentry_dsn,
-        traces_sample_rate=0.1,
-        profiles_sample_rate=0.1,
+        traces_sample_rate=0.02,
+        profiles_sample_rate=0.02,
         environment="production",
         integrations=[
             StarletteIntegration(),
