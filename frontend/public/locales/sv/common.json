@@ -439,8 +439,7 @@
     "downloads-vs-previous-year": "Nedladdningar jämfört med {year}",
     "hidden-gems": "Dolda pärlor",
     "hidden-gems-description": "Appar på frammarsch",
-    "platform-downloads": "Plattformsnedladdningar",
-    "x-growth": "+{percentage} % tillväxt"
+    "platform-downloads": "Plattformsnedladdningar"
   },
   "special-code-description": "Denna app utvecklas under en särskild licens. Källkodens tillgänglighet är inte garanterad.",
   "role-playing": "Rollspel",

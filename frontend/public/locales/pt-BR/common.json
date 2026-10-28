@@ -714,8 +714,7 @@
     "downloads-vs-previous-year": "Downloads em relação a {year}",
     "hidden-gems": "Tesouros Escondidos",
     "hidden-gems-description": "Aplicativos com crescente popularidade",
-    "platform-downloads": "Downloads por plataforma",
-    "x-growth": "Crescimento de +{percentage}%"
+    "platform-downloads": "Downloads por plataforma"
   },
   "year-in-review-banner": {
     "title": "Flathub {year}, o Resumo do Ano",

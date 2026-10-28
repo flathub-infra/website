@@ -734,7 +734,6 @@
     "hidden-gems": "Tajni savjeti",
     "hidden-gems-description": "Aplikacije s rastućom popularnošću",
     "platform-downloads": "Preuzimanja za platforme",
-    "x-growth": "+{percentage} % rasta",
     "title": "Pregled godine {year}.",
     "description": "Slavimo godinu rasta i inovacija na Flathubu",
     "category-highlights": "Istaknute aplikacije kategorije"
@@ -973,5 +972,6 @@
   "display-name-updated": "Prikazno ime je aktualizirano",
   "transaction-successful": "Plaćanje je završeno",
   "moderation-permissions-changed-count": "{count, plural, one {# promijenjena dozvola} few {# promijenjene dozvole} other {# promijenjenih dozvola}}",
-  "moderation-discussion-opened-by": "Raspravu je otvorio/la {openedBy}"
+  "moderation-discussion-opened-by": "Raspravu je otvorio/la {openedBy}",
+  "no-network-access-description": "Ova aplikacija nema pristup mreži."
 }

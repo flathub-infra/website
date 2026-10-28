@@ -707,8 +707,7 @@
     "downloads-vs-previous-year": "Latauksia vrt. {year}",
     "hidden-gems": "Piilotetut aarteet",
     "hidden-gems-description": "Kasvavaa vetoa keräävät sovellukset",
-    "platform-downloads": "Alustakohtaiset lataukset",
-    "x-growth": "+{percentage} % kasvu"
+    "platform-downloads": "Alustakohtaiset lataukset"
   },
   "app-information": "Sovelluksen tiedot",
   "sub-header": {

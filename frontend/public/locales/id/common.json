@@ -718,8 +718,7 @@
     "downloads-vs-previous-year": "Unduhan vs {year}",
     "hidden-gems": "Permata Tersembunyi",
     "hidden-gems-description": "Aplikasi dengan daya tarik yang meningkat",
-    "platform-downloads": "Unduhan platform",
-    "x-growth": "Pertumbuhan +{percentage}%"
+    "platform-downloads": "Unduhan platform"
   },
   "app-information": "Informasi aplikasi",
   "sub-header": {

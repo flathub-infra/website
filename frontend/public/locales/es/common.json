@@ -710,8 +710,7 @@
     "downloads-vs-previous-year": "Descargas frente al {year}",
     "hidden-gems": "Gemas ocultas",
     "hidden-gems-description": "Aplicaciones con creciente popularidad",
-    "platform-downloads": "Descargas de la plataforma",
-    "x-growth": "crecimiento de +{percentage}%"
+    "platform-downloads": "Descargas de la plataforma"
   },
   "vending": {
     "purchase-not-available": "Esta aplicación no está disponible para su compra."

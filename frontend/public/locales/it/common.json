@@ -725,8 +725,7 @@
     "downloads-vs-previous-year": "Download vs {year}",
     "hidden-gems": "Gemme nascoste",
     "hidden-gems-description": "Applicazioni in rapida crescita",
-    "platform-downloads": "Download della piattaforma",
-    "x-growth": "+{percentage}% di crescita"
+    "platform-downloads": "Download della piattaforma"
   },
   "content-rating": {
     "subtitle": "{appName} è adatto a persone di {age} anni",

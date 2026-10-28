@@ -712,8 +712,7 @@
     "downloads-vs-previous-year": "Downloads vs {year}",
     "hidden-gems": "Hidden Gems",
     "hidden-gems-description": "Apps with growing traction",
-    "platform-downloads": "Platform downloads",
-    "x-growth": "+{percentage}% growth"
+    "platform-downloads": "Platform downloads"
   },
   "app-information": "App information",
   "sub-header": {

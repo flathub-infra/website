@@ -739,7 +739,6 @@
     "hidden-gems": "الجواهر الخفية",
     "hidden-gems-description": "تطبيقات ذات شعبية متزايدة",
     "platform-downloads": "تحميلات المنصة",
-    "x-growth": "+{percentage}% نمو",
     "description": "نحتفل بعام من النمو والابتكار في فلاتهب",
     "select-year": "اختر العام",
     "category-highlights": "أبرز التصنيفات",
@@ -854,7 +853,7 @@
   "remove-bookmark": "أزِل العلامة",
   "remove-from-favorites": "أزِل {app} من العلامات",
   "platform-support": {
-    "adaptive": "متكيف",
+    "adaptive": "مُتكيف",
     "appname-works-on-most-devices": "يعمل {appName} على اغلب الأجهزة",
     "support-unknown": "الدعم مجهول",
     "appname-works-best-on-specific-hardware": "يعمل {appName} بشكل أفضل على أجهزة معينة",

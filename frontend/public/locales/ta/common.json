@@ -705,8 +705,7 @@
     "downloads-vs-previous-year": "பதிவிறக்கங்கள் vs {year}",
     "hidden-gems": "மறைக்கப்பட்ட ரத்தினங்கள்",
     "hidden-gems-description": "வளர்ந்து வரும் இழுவை கொண்ட பயன்பாடுகள்",
-    "platform-downloads": "பிளாட்ஃபார்ம் பதிவிறக்கங்கள்",
-    "x-growth": "+{percentage}% வளர்ச்சி"
+    "platform-downloads": "பிளாட்ஃபார்ம் பதிவிறக்கங்கள்"
   },
   "download": {
     "install-x": "“{x}” ஐ நிறுவவும்",

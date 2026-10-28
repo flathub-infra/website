@@ -718,8 +718,7 @@
     "downloads-vs-previous-year": "По сравнению с {year} годом",
     "hidden-gems": "Потаённые самоцветы",
     "hidden-gems-description": "Приложения, набирающие популярность",
-    "platform-downloads": "Скачивания по платформам",
-    "x-growth": "Рост: +{percentage} %"
+    "platform-downloads": "Скачивания по платформам"
   },
   "app-information": "Сведения о приложении",
   "sub-header": {

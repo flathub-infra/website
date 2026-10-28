@@ -712,8 +712,7 @@
     "downloads-vs-previous-year": "Nedlasinger sammenlignet med {year}",
     "hidden-gems": "Skjulte perler",
     "hidden-gems-description": "Apper på fremmarsj",
-    "platform-downloads": "Plattformsnedlastinger",
-    "x-growth": "+{percentage}% vekst"
+    "platform-downloads": "Plattformsnedlastinger"
   },
   "app-information": "Appinformasjon",
   "sub-header": {

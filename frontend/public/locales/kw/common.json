@@ -623,8 +623,7 @@
     "downloads-vs-previous-year": "Iskargow erbynn {year}",
     "hidden-gems": "Gemmow Kudh",
     "hidden-gems-description": "Appys gans awedhyans tevi",
-    "platform-downloads": "Iskargow bynkyow",
-    "x-growth": "+{percentage}% tevyans"
+    "platform-downloads": "Iskargow bynkyow"
   },
   "quality": {
     "missing-brand-colors": "Kolors merkys fyllel",

@@ -646,7 +646,7 @@
     "hidden-gems": "Skryté perly",
     "hidden-gems-description": "Aplikácie s rastúcou popularitou",
     "platform-downloads": "Platformové stiahnutia",
-    "x-growth": "+{percentage}% rast"
+    "x-growth-formatted": "{percentage} rast"
   },
   "quality": {
     "missing-brand-colors": "Chýbajú farby značky",
@@ -731,7 +731,13 @@
   },
   "download": {
     "install-x": "Nainštalovať „{x}“",
-    "fallback-instructions": "<opening>Otváram „{name}“ vo vašom správcovi softvéru…</opening><support>Ak sa nič nedeje, váš systém možno nepodporuje URL <i>flatpak+https</i>.</support><listPrefix>V takom prípade môžete:</listPrefix><ol><li>Stiahnuť <link>súbor .flatpakref</link></li><li>Potom ho spustiť zo správcu súborov</li></ol><setupLine><linkSetup>Inštrukcie na inštaláciu Flatpaku</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Otváram „{name}“ vo vašom správcovi softvéru…</opening><support>Ak sa nič nedeje, váš systém možno nepodporuje URL <i>flatpak+https</i>.</support><listPrefix>V takom prípade môžete:</listPrefix><ol><li>Stiahnuť <link>súbor .flatpakref</link></li><li>Potom ho spustiť zo správcu súborov</li></ol><setupLine><linkSetup>Inštrukcie na inštaláciu Flatpaku</linkSetup></setupLine>",
+    "open-instructions": "Váš správca softvéru je váš obchod s aplikáciami pre Linux. Povoľte prehliadaču otvoriť ho a potom vyberte možnosť Inštalovať.",
+    "open-again": "Otvoriť v správcovi softvéru",
+    "file-description": "Otvorte súbor z priečinka na stiahnuté súbory vo vašom správcovi softvéru a potom vyberte možnosť Inštalovať.",
+    "download-file": "Stiahnuť .flatpakref",
+    "open-file": "Súbor .flatpakref odkazuje na aplikáciu. Jeho stiahnutie ju nenainštaluje.",
+    "terminal-instructions": "Po nastavení prilepte tento príkaz do terminálu na vašom počítači so systémom Linux a stlačte Enter."
   },
   "developer-portal": {
     "title": "Portál vývojára",
@@ -974,5 +980,7 @@
   "moderation-permissions-compared-with": "Porovnané s: {source}",
   "moderation-permissions-changed-count": "{count, plural, one {# zmenené povolenie} few {# zmenené povolenia} other {# zmenených povolení}}",
   "moderation-discussion-opened-by": "Diskusiu otvoril používateľ {openedBy}",
-  "no-network-access-description": "Táto aplikácia nemá prístup k sieti."
+  "no-network-access-description": "Táto aplikácia nemá prístup k sieti.",
+  "copy-success": "Skopírované do schránky",
+  "copy-failed": "Nepodarilo sa automaticky skopírovať. Vyberte text a skopírujte ho manuálne."
 }

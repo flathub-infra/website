@@ -649,7 +649,13 @@
   },
   "download": {
     "install-x": "安装“{x}”",
-    "fallback-instructions": "<opening>正在使用您的软件管理器打开“{name}”……</opening><support>如果没有任何反应，有可能您的系统不支持 <i>flatpak+https</i> 链接。</support><listPrefix>这种情况下，您可以：</listPrefix><ol><li>下载 <link>.flatpakref</link> 文件</li><li>然后在您的文件管理器中运行该文件</li></ol><setupLine><linkSetup>Flatpak 安装指南</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>正在使用您的软件管理器打开“{name}”……</opening><support>如果没有任何反应，有可能您的系统不支持 <i>flatpak+https</i> 链接。</support><listPrefix>这种情况下，您可以：</listPrefix><ol><li>下载 <link>.flatpakref</link> 文件</li><li>然后在您的文件管理器中运行该文件</li></ol><setupLine><linkSetup>Flatpak 安装指南</linkSetup></setupLine>",
+    "open-instructions": "你的软件管理器是你的 Linux 应用商店。允许浏览器打开它，然后选择安装。",
+    "open-again": "在软件管理器中打开",
+    "file-description": "在软件管理器中打开来自下载文件夹的文件，然后选择安装。",
+    "download-file": "下载 .flatpakref",
+    "open-file": "这个 .flatpakref 文件指向应用。下载它不会安装它。",
+    "terminal-instructions": "设置好后，将这个粘贴到 Linux 计算机上的终端中并按 Enter 键。"
   },
   "country-statistics": "国家/地区统计数据",
   "all-the-apps-you-want": "<bold>海量应用，随心选择</bold> — 从您熟悉的大厂应用，到新兴的独立开发者佳作，Flathub 拥有数千款应用满足您的所需。",
@@ -712,10 +718,10 @@
     "hidden-gems": "宝藏应用",
     "hidden-gems-description": "增长势头显著的应用",
     "platform-downloads": "平台下载量",
-    "x-growth": "增长 {percentage}%",
     "top-game-stores": "热门游戏商店",
     "top-game-utilities": "热门游戏工具",
-    "top-emulators": "热门模拟器"
+    "top-emulators": "热门模拟器",
+    "x-growth-formatted": "{percentage} 增速"
   },
   "year-in-review-banner": {
     "description": "重温年度热门应用和趋势",
@@ -974,5 +980,7 @@
   "moderation-permissions-compared-with": "对照方：{source}",
   "moderation-permissions-changed-count": "{count, plural, one {# 个更改的权限} other {# 个更改的权限}}",
   "moderation-discussion-opened-by": "{openedBy} 开启的讨论",
-  "no-network-access-description": "此应用没有网络访问权限。"
+  "no-network-access-description": "此应用没有网络访问权限。",
+  "copy-success": "已复制到剪贴板",
+  "copy-failed": "无法自动复制。选择文本并手动复制。"
 }

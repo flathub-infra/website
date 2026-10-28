@@ -708,8 +708,7 @@
     "downloads-vs-previous-year": "{year}年とのダウンロード数比較",
     "hidden-gems": "隠れた名作アプリ",
     "hidden-gems-description": "じわじわと注目を集めているアプリ",
-    "platform-downloads": "プラットフォーム別のダウンロード数",
-    "x-growth": "+{percentage}% 成長"
+    "platform-downloads": "プラットフォーム別のダウンロード数"
   },
   "year-in-review-banner": {
     "title": "{year}年 Flathub 年間レポート",
