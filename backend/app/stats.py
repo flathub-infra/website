@@ -965,6 +965,26 @@ def _fetch_complete_year_stats(
     for offset, result in enumerate(results):
         if result is None:
             date = sdate + datetime.timedelta(days=offset)
+            # This day is absent from the historical archive. Keep a placeholder
+            # so annual totals can be built without shifting subsequent dates.
+            if date == datetime.date(2018, 6, 19):
+                complete.append(
+                    {
+                        "date": date,
+                        "countries": {},
+                        "delta_downloads": 0,
+                        "downloads": 0,
+                        "updates": 0,
+                        "flatpak_versions": {},
+                        "os_flatpak_versions": {},
+                        "os_versions": {},
+                        "ostree_versions": {},
+                        "ref_by_country": {},
+                        "ref_by_os_version": {},
+                        "refs": {},
+                    }
+                )
+                continue
             raise _IncompleteYearStats(f"Missing year-in-review daily stats for {date}")
         complete.append(result)
     return complete
