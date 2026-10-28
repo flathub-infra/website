@@ -210,7 +210,7 @@ export const RuleHistory: Story = {
     const canvas = within(canvasElement)
     await expect(
       await canvas.findByRole("link", {
-        name: "org.freedesktop.Notifications=talk, filesystems: xdg-config/kdeglobals → xdg-config/kdeglobals:ro, org.example.Removed: talk → Absent",
+        name: "org.freedesktop.Notifications=talk, filesystems: xdg-config/kdeglobals → xdg-config/kdeglobals:ro, org.example.Removed: talk → Absent, devices: remove [] → add [all, if:all:!has-input-device, input] (atomic group)",
       }),
     ).toBeInTheDocument()
   },
