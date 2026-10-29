@@ -4,6 +4,7 @@ import hmac
 import itertools
 import json
 import logging
+import re
 from collections.abc import Mapping, Sequence
 from collections.abc import Set as AbstractSet
 from datetime import UTC, datetime
@@ -102,6 +103,20 @@ def _summaries_equivalent(current: str | None, candidate: str | None) -> bool:
         normalized.append(" ".join(tokens))
 
     return _within_one_edit(normalized[0], normalized[1])
+
+
+_OR_LATER_OPERATOR = re.compile(r"(?<=[0-9A-Za-z.])\+")
+
+
+def _licenses_equivalent(current: JSONValue, candidate: JSONValue) -> bool:
+    if current == candidate:
+        return True
+    if not isinstance(current, str) or not isinstance(candidate, str):
+        return False
+
+    return _OR_LATER_OPERATOR.sub("-or-later", current) == _OR_LATER_OPERATOR.sub(
+        "-or-later", candidate
+    )
 
 
 def _extra_data_origins(extra_data: Mapping[str, JSONValue]) -> list[str] | None:
@@ -1296,11 +1311,20 @@ def submit_review_request(
 
             for key, value in current_values.items():
                 candidate_value = keys[key]
-                if value == candidate_value or (
-                    key == "summary"
-                    and (value is None or isinstance(value, str))
-                    and (candidate_value is None or isinstance(candidate_value, str))
-                    and _summaries_equivalent(value, candidate_value)
+                if (
+                    value == candidate_value
+                    or (
+                        key == "summary"
+                        and (value is None or isinstance(value, str))
+                        and (
+                            candidate_value is None or isinstance(candidate_value, str)
+                        )
+                        and _summaries_equivalent(value, candidate_value)
+                    )
+                    or (
+                        key == "project_license"
+                        and _licenses_equivalent(value, candidate_value)
+                    )
                 ):
                     keys.pop(key, None)
 

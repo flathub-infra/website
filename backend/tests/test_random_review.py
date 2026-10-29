@@ -1484,6 +1484,75 @@ def test_exact_equal_summary_does_not_request_review(monkeypatch, summary):
     assert harness.db.session.persisted == []
 
 
+@pytest.mark.parametrize(
+    ("published", "candidate"),
+    [
+        ("GPL-3.0+", "GPL-3.0-or-later"),
+        ("GPL-3.0-or-later", "GPL-3.0+"),
+        ("LGPL-3.0+", "LGPL-3.0-or-later"),
+        ("LGPL-3.0-or-later", "LGPL-3.0+"),
+        ("GPL-3.0+ AND MIT", "GPL-3.0-or-later AND MIT"),
+        ("GPL-3.0-or-later AND MIT", "GPL-3.0+ AND MIT"),
+        (
+            "(GPL-3.0+ OR MIT) AND Apache-2.0",
+            "(GPL-3.0-or-later OR MIT) AND Apache-2.0",
+        ),
+        (
+            "GPL-2.0+ WITH Bison-exception-2.2",
+            "GPL-2.0-or-later WITH Bison-exception-2.2",
+        ),
+    ],
+)
+def test_equivalent_license_does_not_request_review(monkeypatch, published, candidate):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["project_license"] = published
+    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    metadata = _unchanged_values()["org.example.App"]
+    metadata["project_license"] = candidate
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+
+    assert harness.call().requires_review is False
+    assert harness.db.session.persisted == []
+
+
+@pytest.mark.parametrize(
+    ("published", "candidate"),
+    [
+        ("GPL-3.0+", "GPL-2.0-or-later"),
+        ("GPL-3.0+", "GPL-3.0-only"),
+        ("GPL-3.0-or-later", "GPL-3.0"),
+        ("LGPL-3.0+", "LGPL-2.1-or-later"),
+        ("GPL-3.0+ AND MIT", "GPL-3.0-or-later AND Apache-2.0"),
+        ("GPL-3.0+ WITH Classpath-exception-2.0", "GPL-3.0-or-later"),
+    ],
+)
+def test_license_change_requests_review(monkeypatch, published, candidate):
+    current_values = _unchanged_values()
+    current_values["org.example.App"]["project_license"] = published
+    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    metadata = _unchanged_values()["org.example.App"]
+    metadata["project_license"] = candidate
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    assert len(harness.db.session.persisted) == 1
+    request = harness.db.session.persisted[0]
+    assert request.request_type == ModerationRequestType.APPDATA
+    data = json.loads(request.request_data)
+    assert data["keys"] == {"project_license": candidate}
+    assert data["current_values"]["project_license"] == published
+
+
 _OLD_SUMMARY = "Import games from other launchers into Steam"
 _NEW_SUMMARY = "Import all your games into Steam"
 
