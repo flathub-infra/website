@@ -25,7 +25,7 @@ def refresh_cache():
 
 
 async def _prepopulate_cache():
-    from ..routes import apps, quality_moderation, stats
+    from ..routes import apps, stats
 
     top_app_ids = _get_top_apps(1000)
 
@@ -43,11 +43,6 @@ async def _prepopulate_cache():
             await apps.get_eol_message_appid(app_id=app_id, branch="stable")
         except Exception:
             logger.exception("Error prepopulating EOL data for %s", app_id)
-
-        try:
-            quality_moderation.get_quality_moderation_for_app(app_id=app_id)
-        except Exception:
-            logger.exception("Error prepopulating quality moderation for %s", app_id)
 
         try:
             response = Response()
