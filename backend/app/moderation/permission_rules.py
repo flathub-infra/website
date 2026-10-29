@@ -92,6 +92,7 @@ def _group_tokens(
         if None in names or any(
             permission_snapshot._context_entry_name(path[1], item) in names
             and item not in endpoints
+            and item not in (rule.required or [])
             for items, endpoints in ((left, rule.removed), (right, rule.added))
             for item in items
         ):

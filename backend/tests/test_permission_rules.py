@@ -324,3 +324,48 @@ def test_grouped_removal_requires_unchanged_device(before, after, expected):
     assert (verdict.decision if verdict else None) == expected
     if verdict:
         assert verdict.rules[0]["required"] == ["all"]
+
+
+@pytest.mark.parametrize(
+    ("before", "after", "expected"),
+    [
+        (
+            ["all"],
+            ["all", "if:all:!has-input-device", "dri", "input"],
+            "approved",
+        ),
+        (
+            ["all", "kvm"],
+            ["all", "if:all:!has-input-device", "dri", "input", "kvm"],
+            "approved",
+        ),
+        ([], ["all", "if:all:!has-input-device", "dri", "input"], None),
+        (["all"], ["if:all:!has-input-device", "dri", "input"], None),
+        (["all"], ["all", "if:all:!has-input-device", "input"], None),
+        (["all"], ["all", "dri", "if:all:!has-input-device", "input"], None),
+        (
+            ["all", "!all"],
+            ["all", "if:all:!has-input-device", "dri", "input", "!all"],
+            None,
+        ),
+        (
+            ["all", "if:all:false"],
+            ["all", "if:all:!has-input-device", "dri", "input", "if:all:false"],
+            None,
+        ),
+        (
+            ["all"],
+            ["all", "if:all:!has-input-device", "dri", "input", "kvm"],
+            None,
+        ),
+    ],
+)
+def test_grouped_input_transition_requires_existing_all(before, after, expected):
+    grouped = rule(
+        9, "approved", "devices", None, group="Context", match_type="grouped-delta"
+    )
+    grouped.removed = []
+    grouped.added = ["if:all:!has-input-device", "dri", "input"]
+    grouped.required = ["all"]
+    verdict = evaluate([change(["Context", "devices"], before, after)], [grouped])
+    assert (verdict.decision if verdict else None) == expected
