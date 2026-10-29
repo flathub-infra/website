@@ -219,7 +219,11 @@ def test_exact_bus_transition_and_rejection_precedence(before, after):
         ),
         (["dri"], ["all", "dri"], None),
         (["dri"], ["input", "dri"], None),
-        (["dri"], ["if:all:!has-input-device", "all", "dri", "input"], None),
+        (
+            ["dri"],
+            ["if:all:!has-input-device", "all", "dri", "input"],
+            "approved",
+        ),
         (["dri"], ["all", "if:all:!has-usb-device", "dri", "input"], None),
         (["dri"], ["all", "if:all:!has-input-device", "input"], None),
         (["dri"], ["all", "if:all:!has-input-device", "dri", "input", "kvm"], None),
@@ -227,7 +231,7 @@ def test_exact_bus_transition_and_rejection_precedence(before, after):
         (
             ["dri", "kvm"],
             ["kvm", "all", "if:all:!has-input-device", "dri", "input"],
-            None,
+            "approved",
         ),
         (
             ["dri", "!all"],
@@ -241,7 +245,7 @@ def test_exact_bus_transition_and_rejection_precedence(before, after):
         ),
     ],
 )
-def test_grouped_device_delta_is_atomic_and_ordered(before, after, expected):
+def test_grouped_device_delta_is_atomic_and_order_insensitive(before, after, expected):
     grouped = rule(
         5, "approved", "devices", None, group="Context", match_type="grouped-delta"
     )
@@ -276,19 +280,17 @@ def test_grouped_delta_composes_with_other_rules_and_rejection_wins():
     assert evaluate(differences, [grouped, kvm]).decision == "rejected"
 
 
-def test_grouped_reduction_needs_both_endpoints():
+@pytest.mark.parametrize("before", [["home", "xdg-download"], ["xdg-download", "home"]])
+@pytest.mark.parametrize(
+    "after", [["home:ro", "xdg-download:ro"], ["xdg-download:ro", "home:ro"]]
+)
+def test_grouped_reduction_needs_both_endpoints(before, after):
     grouped = rule(
         5, "approved", "filesystems", None, group="Context", match_type="grouped-delta"
     )
     grouped.removed = ["home", "xdg-download"]
     grouped.added = ["home:ro", "xdg-download:ro"]
-    exact = [
-        change(
-            ["Context", "filesystems"],
-            ["home", "xdg-download"],
-            ["home:ro", "xdg-download:ro"],
-        )
-    ]
+    exact = [change(["Context", "filesystems"], before, after)]
     assert evaluate(exact, [grouped]).decision == "approved"
     partial = [change(["Context", "filesystems"], ["home"], ["home:ro"])]
     assert evaluate(partial, [grouped]) is None
@@ -342,7 +344,11 @@ def test_grouped_removal_requires_unchanged_device(before, after, expected):
         ([], ["all", "if:all:!has-input-device", "dri", "input"], None),
         (["all"], ["if:all:!has-input-device", "dri", "input"], None),
         (["all"], ["all", "if:all:!has-input-device", "input"], None),
-        (["all"], ["all", "dri", "if:all:!has-input-device", "input"], None),
+        (
+            ["all"],
+            ["all", "dri", "if:all:!has-input-device", "input"],
+            "approved",
+        ),
         (
             ["all", "!all"],
             ["all", "if:all:!has-input-device", "dri", "input", "!all"],
@@ -369,3 +375,27 @@ def test_grouped_input_transition_requires_existing_all(before, after, expected)
     grouped.required = ["all"]
     verdict = evaluate([change(["Context", "devices"], before, after)], [grouped])
     assert (verdict.decision if verdict else None) == expected
+
+
+@pytest.mark.parametrize(
+    "differences",
+    [
+        [
+            change(
+                ["Context", "sockets"],
+                ["x11", "wayland"],
+                ["wayland", "pulseaudio", "x11"],
+            )
+        ],
+        [
+            change(
+                ["Context", "devices"],
+                ["all", "if:all:!has-input-device"],
+                ["if:all:!has-input-device", "all"],
+            ),
+            change(["Context", "sockets"], [], ["pulseaudio"]),
+        ],
+    ],
+)
+def test_reordering_does_not_block_covered_grants(differences):
+    assert evaluate(differences, RULES).decision == "approved"

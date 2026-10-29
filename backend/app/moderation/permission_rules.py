@@ -80,10 +80,6 @@ def _group_tokens(
         return None
     if not set(rule.removed) <= removed or not set(rule.added) <= added:
         return None
-    if [item for item in left if item in rule.removed] != rule.removed or [
-        item for item in right if item in rule.added
-    ] != rule.added:
-        return None
     if path[0] == "Context":
         names = {
             permission_snapshot._context_entry_name(path[1], item)
@@ -122,12 +118,14 @@ def evaluate(
             ):
                 complete = False
                 continue
-            removed, added = set(left) - set(right), set(right) - set(left)
+            left_entries, right_entries = set(left), set(right)
+            if len(left_entries) != len(left) or len(right_entries) != len(right):
+                complete = False
+            removed, added = left_entries - right_entries, right_entries - left_entries
+            if not removed and not added:
+                continue
             required = {(0, item) for item in removed} | {(1, item) for item in added}
             covered: set[tuple[int, str]] = set()
-            ordered = [item for item in left if item in right] == [
-                item for item in right if item in left
-            ]
             grouped: set[tuple[int, str]] = set()
             for rule in candidates:
                 if rule.match_type == "grouped-delta":
@@ -154,8 +152,6 @@ def evaluate(
                     if rule.match_type == "grouped-delta":
                         grouped.update(tokens)
             for side, items in enumerate((left, right)):
-                if len(set(items)) != len(items):
-                    ordered = False
                 remaining = [item for item in items if (side, item) not in grouped]
                 names = (
                     [
@@ -166,9 +162,7 @@ def evaluate(
                     else remaining
                 )
                 if None in names or len(set(names)) != len(names):
-                    ordered = False
-            if not ordered or not required:
-                complete = False
+                    complete = False
             if not required <= covered:
                 complete = False
         elif (before is None or isinstance(before, str)) and (
