@@ -18,7 +18,7 @@ dependencies = [
     "alembic>=1.18.5,<2.0.0",
     "itsdangerous<3.0,>=2.2",
     "PyGithub<3.0,>=2.6",
-    "vcrpy>=8.3.0,<9.0.0",
+    "vcrpy>=8.3.0,<10.0.0",
     "python-gitlab>=8.5.0,<9.0",
     "stripe>=15.4.0,<17.0",
     "PyJWT<3.0.0,>=2.10.1",
@@ -48,7 +48,7 @@ dev = [
     "pytest>=9.1.1,<10.0.0",
     "pytest-insta<1.0.0,>=0.3.0",
     "watchgod<1.0,>=0.8",
-    "vcrpy>=8.3.0,<9.0.0",
+    "vcrpy>=8.3.0,<10.0.0",
     "pyrefly>=1.4.0",
 ]
 
