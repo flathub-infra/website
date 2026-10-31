@@ -1,4 +1,18 @@
 {
+  "app-maintenance": {
+    "title": "Maintenance",
+    "runtime": "Published runtime",
+    "loading-runtime": "Loading runtime information",
+    "runtime-unavailable": "Runtime information is unavailable.",
+    "runtime-eol": "This runtime is end of life",
+    "runtime-eol-description": "Switch to a supported runtime and publish a new build.",
+    "builds": "Build results",
+    "view-builds": "View build results",
+    "update-checker": "Update-checker configuration",
+    "view-manifest": "View packaging manifest",
+    "manifest-unavailable": "No packaging manifest link is available.",
+    "checker-docs": "Configuration guide"
+  },
   "flathub": "Flathub",
   "flathub-logo": "Flathub Logo",
   "more-pages": "More pages",
