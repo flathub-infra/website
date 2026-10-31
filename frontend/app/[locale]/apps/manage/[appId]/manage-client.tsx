@@ -10,7 +10,7 @@ import {
 } from "@headlessui/react"
 import { motion } from "framer-motion"
 import { ChevronUpIcon } from "@heroicons/react/24/solid"
-import { Button } from "@/components/ui/button"
+import AppMaintenance from "src/components/application/AppMaintenance"
 
 import AppDevelopersControls from "../../../../../src/components/application/AppDevelopersControls"
 import UploadTokenControls from "../../../../../src/components/application/AppUploadControls/UploadTokenControls"
@@ -35,7 +35,7 @@ import {
 interface Props {
   app: Pick<
     GetAppstreamAppstreamAppIdGet200,
-    "id" | "name" | "bundle" | "type" | "icon"
+    "id" | "name" | "bundle" | "type" | "icon" | "metadata"
   >
   vendingConfig: VendingConfig
 }
@@ -132,14 +132,21 @@ export default function ManageClient({ app, vendingConfig }: Props) {
                   <LogoImage iconUrl={app.icon} appName={app.name} size={64} />
                   <h1 className="text-4xl font-extrabold">{app.name}</h1>
                 </Link>
-                <Button asChild variant="secondary" className="mt-4">
-                  <Link
-                    href={{ pathname: "/builds", query: { appId: app.id } }}
-                  >
-                    {t("view-builds")}
-                  </Link>
-                </Button>
                 <div className="*:py-3 divide-y divide-flathub-gainsborow dark:divide-flathub-granite-gray">
+                  {isAnApp ? (
+                    <SettingsDisclosure
+                      sectionTitle={t("app-maintenance.title")}
+                    >
+                      <AppMaintenance
+                        appId={app.id}
+                        manifestUrl={app.metadata?.["flathub::manifest"]}
+                      />
+                    </SettingsDisclosure>
+                  ) : (
+                    <Link href={`/builds/apps/${app.id}`}>
+                      {t("view-builds")}
+                    </Link>
+                  )}
                   {isAnApp && (
                     <SettingsDisclosure sectionTitle={t("verification")}>
                       <AppVerificationControls.AppVerificationSetup
