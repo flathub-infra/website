@@ -50,6 +50,24 @@ async function isAuthenticated(request: NextRequest): Promise<boolean> {
   }
 }
 
+// The "pt" locale is European Portuguese, but next-intl resolves "pt-PT" to "pt-BR".
+// Map it to "pt" so browsers sending "pt-PT,pt;q=0.9" land on /pt.
+function normalizeAcceptLanguage(request: NextRequest): NextRequest {
+  const header = request.headers.get("accept-language")
+  if (!header) {
+    return request
+  }
+
+  const normalized = header.replace(/\bpt-PT\b/gi, "pt")
+  if (normalized === header) {
+    return request
+  }
+
+  const headers = new Headers(request.headers)
+  headers.set("accept-language", normalized)
+  return new NextRequest(request, { headers })
+}
+
 export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
@@ -60,7 +78,9 @@ export default async function proxy(request: NextRequest) {
   }
 
   // Handle internationalization first - this will redirect if locale is missing
-  const i18nResponse = createMiddleware(routing)(request)
+  const i18nResponse = createMiddleware(routing)(
+    normalizeAcceptLanguage(request),
+  )
 
   // If i18n middleware wants to redirect, let it
   if (i18nResponse) {
