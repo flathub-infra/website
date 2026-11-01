@@ -29,7 +29,7 @@ jobs:
 
       - name: Login to ghcr.io
         # 4.1.0
-        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f
+        uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -60,7 +60,7 @@ jobs:
 
       - name: Create Sentry release
         # 3.7.0
-        uses: getsentry/action-release@ff07929a6537bac57790c3451cf4d364aca38528
+        uses: getsentry/action-release@e6703d0b00208e0b3687ba660d18ab5af7892821
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: flathub
