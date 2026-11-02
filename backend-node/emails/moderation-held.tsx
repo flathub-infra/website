@@ -7,6 +7,7 @@ export interface ModerationEmailProps {
   appName: string | null
   category: "moderation_approved" | "moderation_held" | "moderation_rejected"
   subject: string
+  heading?: string
   previewText: string
   buildId: number
   buildLogUrl: string | null
@@ -82,6 +83,7 @@ export const ModerationHeldEmail = ({
   appId,
   appName,
   subject,
+  heading,
   previewText,
   buildId,
   buildLogUrl,
@@ -95,6 +97,7 @@ export const ModerationHeldEmail = ({
     <Base
       previewText={previewText}
       subject={subject}
+      heading={heading}
       category={category}
       appId={appId}
       appName={appName}

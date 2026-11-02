@@ -6,6 +6,7 @@ interface DeveloperInviteEmailProps {
   appName: string | null
   category: "developer_invite"
   subject: string
+  heading?: string
   previewText: string
   inviter: string
 }
@@ -15,6 +16,7 @@ export const DeveloperInviteEmail = ({
   appId,
   appName,
   subject,
+  heading,
   previewText,
   inviter,
 }: DeveloperInviteEmailProps) => {
@@ -26,6 +28,7 @@ export const DeveloperInviteEmail = ({
     <Base
       previewText={previewText}
       subject={subject}
+      heading={heading}
       category={category}
       appId={appId}
       appName={appName}

@@ -492,7 +492,9 @@ def test_enabled_selected_creates_random_request(monkeypatch):
     assert request.appid == "org.example.App"
     assert json.loads(request.request_data) == moderation._random_review_request_data()
     assert harness.emails
-    assert harness.emails[0]["subject"] == "Build #42 held for review"
+    assert harness.emails[0]["subject"] == "Review of build #42"
+    assert harness.emails[0]["heading"] == "Build #42 held for review"
+    assert harness.emails[0]["previewText"] == "Build #42 held for review"
 
 
 def test_beta_permission_hold_sends_held_email(monkeypatch):
@@ -515,9 +517,7 @@ def test_beta_permission_hold_sends_held_email(monkeypatch):
 
     assert harness.call().requires_review is True
     assert harness.db.session.persisted == [request]
-    assert [email["subject"] for email in harness.emails] == [
-        "Build #42 held for review"
-    ]
+    assert [email["subject"] for email in harness.emails] == ["Review of build #42"]
 
 
 def test_email_uses_request_data_after_committed_objects_expire(monkeypatch):

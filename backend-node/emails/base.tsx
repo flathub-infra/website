@@ -27,6 +27,7 @@ export function buildAppName(appId?: string, appName?: string | null) {
 export const Base = ({
   children,
   subject,
+  heading,
   category,
   appId,
   appName,
@@ -34,6 +35,7 @@ export const Base = ({
 }: {
   children: React.ReactNode
   subject: string
+  heading?: string
   category: string
   appId?: string
   appName?: string | null
@@ -85,7 +87,7 @@ export const Base = ({
             </Section>
             <Hr></Hr>
             <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-              {subject}
+              {heading ?? subject}
             </Heading>
             {children}
             <Hr />

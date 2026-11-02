@@ -6,6 +6,7 @@ export interface BuildNotificationEmailProps {
   appName: string | null
   category: "build_notification"
   subject: string
+  heading?: string
   previewText: string
   diagnostics: Diagnostic[]
   anyWarnings: boolean
@@ -218,6 +219,7 @@ export const BuildNotificationEmail = ({
   appId,
   appName,
   subject,
+  heading,
   previewText,
   diagnostics,
   anyWarnings,
@@ -231,6 +233,7 @@ export const BuildNotificationEmail = ({
     <Base
       previewText={previewText}
       subject={subject}
+      heading={heading}
       category={category}
       appId={appId}
       appName={appName}

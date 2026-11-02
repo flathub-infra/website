@@ -6,6 +6,7 @@ interface UploadTokenCreatedEmailProps {
   appName: string | null
   category: "upload_token_created"
   subject: string
+  heading?: string
   previewText: string
   issuedTo: string
   comment: string
@@ -19,6 +20,7 @@ export const UploadTokenCreatedEmail = ({
   appId,
   appName,
   subject,
+  heading,
   previewText,
   issuedTo,
   comment,
@@ -32,6 +34,7 @@ export const UploadTokenCreatedEmail = ({
     <Base
       previewText={previewText}
       subject={subject}
+      heading={heading}
       category={category}
       appId={appId}
       appName={appName}

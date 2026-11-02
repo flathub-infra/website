@@ -13,6 +13,7 @@ export const ModerationRejectedEmail = ({
   appId,
   appName,
   subject,
+  heading,
   previewText,
   buildId,
   buildLogUrl,
@@ -30,6 +31,7 @@ export const ModerationRejectedEmail = ({
     <Base
       previewText={previewText}
       subject={subject}
+      heading={heading}
       category={category}
       appId={appId}
       appName={appName}
