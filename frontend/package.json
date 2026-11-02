@@ -26,7 +26,7 @@
     "@radix-ui/react-slider": "^1.4.7",
     "@sentry/nextjs": "^10.70.0",
     "@simplewebauthn/browser": "^14.0.0",
-    "@stripe/react-stripe-js": "^6.3.0",
+    "@stripe/react-stripe-js": "^6.12.0",
     "@stripe/stripe-js": "^9.17.0",
     "@tanstack/charts": "^1.1.0",
     "@tanstack/react-query": "^5.102.2",
