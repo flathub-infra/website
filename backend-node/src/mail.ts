@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto"
+import { toPlainText } from "@react-email/render"
 import { createTransport } from "nodemailer"
 import { Headers, Options } from "nodemailer/lib/mailer"
 
@@ -72,7 +73,7 @@ export async function sendMail({
     to: to,
     subject: subject,
     html: emailHtml,
-    text,
+    text: text ?? (emailHtml ? toPlainText(emailHtml) : undefined),
     headers: headers,
   }
 
