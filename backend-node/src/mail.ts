@@ -58,6 +58,7 @@ export async function sendMail({
 
   const headers: Headers = {
     "X-Flathub-Reason": category,
+    "Auto-Submitted": "auto-generated",
   }
 
   const normalizedMessageId = normalizeMessageId(messageId)
