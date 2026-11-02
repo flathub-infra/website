@@ -3,18 +3,17 @@
 import { useTranslations } from "next-intl"
 import Breadcrumbs from "../../../../../../../../src/components/Breadcrumbs"
 import ApplicationCollectionSuspense from "../../../../../../../../src/components/application/ApplicationCollectionSuspense"
-import { mapAppsIndexToAppstreamListItem } from "../../../../../../../../src/meilisearch"
+import type { AppstreamListItem } from "src/types/Appstream"
 import {
   tryParseCategory,
   tryParseSubCategory,
 } from "../../../../../../../../src/types/Category"
-import {
-  MeilisearchResponseAppsIndex,
-  MainCategory,
-} from "../../../../../../../../src/codegen"
+import type { MainCategory } from "../../../../../../../../src/codegen"
 
 interface Props {
-  applications: MeilisearchResponseAppsIndex
+  applications: AppstreamListItem[]
+  totalPages: number
+  totalHits: number
   mainCategory: string
   subcategory: string
   page: number
@@ -22,6 +21,8 @@ interface Props {
 
 export default function SubcategoryPageClient({
   applications,
+  totalPages,
+  totalHits,
   mainCategory,
   subcategory,
   page,
@@ -52,10 +53,10 @@ export default function SubcategoryPageClient({
 
       <ApplicationCollectionSuspense
         title={subcategoryName}
-        applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
-        page={applications.page}
-        totalPages={applications.totalPages}
-        totalHits={applications.totalHits}
+        applications={applications}
+        page={page}
+        totalPages={totalPages}
+        totalHits={totalHits}
       />
     </div>
   )

@@ -4,6 +4,7 @@ import { Metadata } from "next"
 import VerifiedCollectionClient from "./verified-collection-client"
 import { getTranslations } from "next-intl/server"
 import { parsePositivePageNumber } from "@/utils/page-number"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 
 interface Props {
   params: Promise<{
@@ -52,5 +53,11 @@ export default async function VerifiedCollectionPage({ params }: Props) {
     notFound()
   }
 
-  return <VerifiedCollectionClient applications={applications} />
+  return (
+    <VerifiedCollectionClient
+      applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
+      page={applications.page}
+      totalPages={applications.totalPages}
+    />
+  )
 }

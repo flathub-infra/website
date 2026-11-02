@@ -4,6 +4,7 @@ import { Metadata } from "next"
 import DeveloperCollectionClient from "./developer-collection-client"
 import { getTranslations } from "next-intl/server"
 import { parsePositivePageNumber } from "@/utils/page-number"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 
 interface Props {
   params: Promise<{
@@ -59,7 +60,10 @@ export default async function DeveloperCollectionPage({ params }: Props) {
 
   return (
     <DeveloperCollectionClient
-      applications={applications}
+      applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
+      page={applications.page}
+      totalPages={applications.totalPages}
+      totalHits={applications.totalHits}
       developer={developerDecoded}
     />
   )

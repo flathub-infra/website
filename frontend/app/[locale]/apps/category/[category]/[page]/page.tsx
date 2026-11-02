@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { parsePositivePageNumber } from "@/utils/page-number"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import {
   AppSchemasSortBy,
   getCategoryCollectionCategoryCategoryGet,
@@ -92,7 +93,10 @@ export default async function CategoryPagePaginated({
 
   return (
     <CategoryPageClient
-      applications={applications}
+      applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
+      page={applications.page}
+      totalPages={applications.totalPages}
+      totalHits={applications.totalHits}
       locale={locale}
       category={category}
     />
