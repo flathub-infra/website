@@ -22,7 +22,11 @@ class PermissionRuleInput(BaseModel):
 
     decision: Literal["approved", "rejected"]
     permission_group: Literal[
-        "Context", "Session Bus Policy", "System Bus Policy", "USB Devices"
+        "Application",
+        "Context",
+        "Session Bus Policy",
+        "System Bus Policy",
+        "USB Devices",
     ]
     key: Text
     match_type: Literal["destination", "transition", "grouped-delta"] = "destination"
@@ -36,6 +40,11 @@ class PermissionRuleInput(BaseModel):
 
     @model_validator(mode="after")
     def check_match(self):
+        if self.permission_group == "Application":
+            if self.key != "required-flatpak":
+                raise ValueError("Application rules need the required-flatpak key")
+            if self.match_type != "transition":
+                raise ValueError("Application rules need an exact transition")
         if self.match_type == "grouped-delta":
             if self.before is not None or self.value is not None:
                 raise ValueError("Grouped deltas need null scalar endpoints")

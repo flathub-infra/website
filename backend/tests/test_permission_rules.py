@@ -377,6 +377,77 @@ def test_grouped_input_transition_requires_existing_all(before, after, expected)
     assert (verdict.decision if verdict else None) == expected
 
 
+def test_combined_assessment_approves_device_delta_and_flatpak_removal():
+    grouped = rule(
+        9, "approved", "devices", None, group="Context", match_type="grouped-delta"
+    )
+    grouped.removed = []
+    grouped.added = ["all", "if:all:!has-input-device"]
+    grouped.required = ["dri", "input"]
+    flatpak = rule(
+        10,
+        "approved",
+        "required-flatpak",
+        None,
+        group="Application",
+        match_type="transition",
+        before="1.16.0",
+    )
+    differences = [
+        change(
+            ["Context", "devices"],
+            ["dri", "input"],
+            ["all", "if:all:!has-input-device", "dri", "input"],
+        ),
+        change(
+            ["Application", "required-flatpak"],
+            ["1.14", "1.16.0"],
+            ["1.14"],
+        ),
+    ]
+    verdict = evaluate(differences, [grouped, flatpak])
+    assert verdict is not None
+    assert verdict.decision == "approved"
+    assert [item["id"] for item in verdict.rules] == [9, 10]
+    assert evaluate(differences, [grouped]) is None
+    assert evaluate(differences, [flatpak]) is None
+
+
+@pytest.mark.parametrize(
+    ("before", "after"),
+    [
+        (["1.14", "1.15.0"], ["1.14"]),
+        (["1.14", "1.16.0"], ["1.16.0"]),
+        (["1.14"], ["1.14", "1.16.0"]),
+    ],
+)
+def test_flatpak_rule_does_not_cover_other_versions(before, after):
+    flatpak = rule(
+        10,
+        "approved",
+        "required-flatpak",
+        None,
+        group="Application",
+        match_type="transition",
+        before="1.16.0",
+    )
+    differences = [change(["Application", "required-flatpak"], before, after)]
+    assert evaluate(differences, [flatpak]) is None
+
+
+@pytest.mark.parametrize("before", [["dri"], ["input"]])
+def test_device_delta_requires_dri_and_input_unchanged(before):
+    grouped = rule(
+        9, "approved", "devices", None, group="Context", match_type="grouped-delta"
+    )
+    grouped.removed = []
+    grouped.added = ["all", "if:all:!has-input-device"]
+    grouped.required = ["dri", "input"]
+    after = ["all", "if:all:!has-input-device", "dri", "input"]
+    differences = [change(["Context", "devices"], before, after)]
+    assert evaluate(differences, [grouped]) is None
+
+
 @pytest.mark.parametrize(
     "differences",
     [

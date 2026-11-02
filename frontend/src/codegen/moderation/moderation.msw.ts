@@ -784,6 +784,7 @@ export const getListPermissionRulesModerationPermissionRulesGetResponseMock =
     ).map(() => ({
       decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
       permission_group: faker.helpers.arrayElement([
+        "Application",
         "Context",
         "Session Bus Policy",
         "System Bus Policy",
@@ -840,6 +841,7 @@ export const getCreatePermissionRuleModerationPermissionRulesPostResponseMock =
   ): PermissionRuleEntry => ({
     decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
     permission_group: faker.helpers.arrayElement([
+      "Application",
       "Context",
       "Session Bus Policy",
       "System Bus Policy",
@@ -897,6 +899,7 @@ export const getUpdatePermissionRuleModerationPermissionRulesRuleIdPutResponseMo
   ): PermissionRuleEntry => ({
     decision: faker.helpers.arrayElement(["approved", "rejected"] as const),
     permission_group: faker.helpers.arrayElement([
+      "Application",
       "Context",
       "Session Bus Policy",
       "System Bus Policy",

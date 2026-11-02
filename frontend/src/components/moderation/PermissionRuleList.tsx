@@ -60,6 +60,7 @@ import {
 } from "./permission-review-styles"
 
 const BUS_GROUPS: string[] = [Group.Session_Bus_Policy, Group.System_Bus_Policy]
+const GROUPED_GROUPS: string[] = [Group.Context, Group.USB_Devices]
 const BUS_LEVELS = ["none", "see", "talk", "own"]
 
 const emptyRule: RuleInput = {
@@ -180,6 +181,7 @@ const RuleEditor = ({
   const bus = BUS_GROUPS.includes(draft.permission_group)
   const transition = draft.match_type === "transition"
   const grouped = draft.match_type === "grouped-delta"
+  const groupedable = GROUPED_GROUPS.includes(draft.permission_group)
   const groupedKey =
     draft.permission_group === Group.USB_Devices ||
     (draft.permission_group === Group.Context &&
@@ -305,26 +307,28 @@ const RuleEditor = ({
             <FieldLabel htmlFor="rule-group">Group</FieldLabel>
             <Select
               value={draft.permission_group}
-              onValueChange={(value) =>
+              onValueChange={(value) => {
+                const nextGrouped = grouped && GROUPED_GROUPS.includes(value)
                 set({
                   permission_group: value as RuleInput["permission_group"],
-                  key: "",
+                  key: value === Group.Application ? "required-flatpak" : "",
                   match_type:
-                    grouped && BUS_GROUPS.includes(value)
-                      ? "destination"
-                      : draft.match_type,
+                    value === Group.Application
+                      ? "transition"
+                      : grouped && !nextGrouped
+                        ? "destination"
+                        : draft.match_type,
                   before: null,
-                  value:
-                    grouped && !BUS_GROUPS.includes(value)
-                      ? null
-                      : BUS_GROUPS.includes(value)
-                        ? "talk"
-                        : "",
-                  removed: grouped && !BUS_GROUPS.includes(value) ? [] : null,
-                  added: grouped && !BUS_GROUPS.includes(value) ? [] : null,
+                  value: nextGrouped
+                    ? null
+                    : BUS_GROUPS.includes(value)
+                      ? "talk"
+                      : "",
+                  removed: nextGrouped ? [] : null,
+                  added: nextGrouped ? [] : null,
                   required: [],
                 })
-              }
+              }}
             >
               <SelectTrigger id="rule-group">
                 <SelectValue />
@@ -363,9 +367,14 @@ const RuleEditor = ({
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="destination">Destination-only</SelectItem>
+                  <SelectItem
+                    value="destination"
+                    disabled={draft.permission_group === Group.Application}
+                  >
+                    Destination-only
+                  </SelectItem>
                   <SelectItem value="transition">Exact transition</SelectItem>
-                  <SelectItem value="grouped-delta" disabled={bus}>
+                  <SelectItem value="grouped-delta" disabled={!groupedable}>
                     Grouped delta
                   </SelectItem>
                 </SelectGroup>
@@ -380,7 +389,14 @@ const RuleEditor = ({
               id="rule-key"
               className="font-mono"
               value={draft.key}
-              placeholder={bus ? "org.kde.StatusNotifierWatcher" : "sockets"}
+              disabled={draft.permission_group === Group.Application}
+              placeholder={
+                bus
+                  ? "org.kde.StatusNotifierWatcher"
+                  : draft.permission_group === Group.Application
+                    ? "required-flatpak"
+                    : "sockets"
+              }
               onChange={(e) => set({ key: e.target.value })}
             />
             {grouped && (
@@ -388,6 +404,12 @@ const RuleEditor = ({
                 {draft.permission_group === Group.Context
                   ? "Use shared, sockets, devices, features, filesystems, or persistent."
                   : "Match a USB device list."}
+              </FieldDescription>
+            )}
+            {draft.permission_group === Group.Application && (
+              <FieldDescription>
+                Application rules match one exact required-flatpak version
+                transition.
               </FieldDescription>
             )}
           </Field>

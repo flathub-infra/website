@@ -1018,6 +1018,7 @@ INVALID_GROUPED_RULES = [
     {"required": {"other": True}},
     {"permission_group": "Session Bus Policy"},
     {"permission_group": "System Bus Policy"},
+    {"permission_group": "Application", "key": "required-flatpak"},
     {"key": "unknown"},
 ]
 
@@ -1039,6 +1040,60 @@ def test_scalar_rules_reject_grouped_arrays(match_type, arrays):
 def test_scalar_rules_reject_required_entries(match_type):
     with pytest.raises(ValueError):
         rule_input(TRAY, match_type=match_type, required=["other"])
+
+
+def application_rule_input():
+    return rule_input(
+        "required-flatpak",
+        permission_group="Application",
+        match_type="transition",
+        before="1.16.0",
+        value=None,
+    )
+
+
+def test_application_rule_is_restricted_to_required_flatpak(db):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    with pytest.raises(ValueError):
+        rule_input("runtime", permission_group="Application")
+    entry = rules_api.create_permission_rule(
+        application_rule_input(), MagicMock(), login
+    )
+    assert (
+        entry.permission_group,
+        entry.key,
+        entry.match_type,
+        entry.before,
+        entry.value,
+    ) == ("Application", "required-flatpak", "transition", "1.16.0", None)
+
+
+def application_destination_values():
+    return {
+        "decision": "approved",
+        "permission_group": "Application",
+        "key": "required-flatpak",
+        "match_type": "destination",
+        "value": "1.17.0",
+        "rationale": "Require a newer Flatpak version.",
+        "enabled": True,
+    }
+
+
+def test_application_rules_need_exact_transition(db):
+    with pytest.raises(ValueError):
+        rule_input(
+            "required-flatpak",
+            permission_group="Application",
+            value="1.17.0",
+        )
+    with pytest.raises(IntegrityError), db() as session:
+        session.add(
+            models.PermissionRule(
+                **application_destination_values(), created_by=1, updated_by=1
+            )
+        )
+        session.flush()
 
 
 @pytest.mark.parametrize("match_type", ["destination", "transition"])
@@ -1206,6 +1261,55 @@ def grouped_migration(session):
         MigrationContext.configure(session.connection())
     )
     return migration
+
+
+def application_migration(session):
+    migration = runpy.run_path(
+        os.path.join(
+            ROOT_DIR,
+            "alembic",
+            "versions",
+            "00ab42ba9c5e_allow_application_permission_rules.py",
+        )
+    )
+    migration["upgrade"].__globals__["op"] = Operations(
+        MigrationContext.configure(session.connection())
+    )
+    return migration
+
+
+def test_application_migration_guards_downgrade_and_restores_group(db):
+    login = SimpleNamespace(user=SimpleNamespace(id=1))
+    entry = rules_api.create_permission_rule(
+        application_rule_input(), MagicMock(), login
+    )
+    with (
+        pytest.raises(
+            DBAPIError, match="Cannot downgrade application permission rules"
+        ),
+        db() as session,
+    ):
+        application_migration(session)["downgrade"]()
+    with db() as session:
+        session.delete(session.get(models.PermissionRule, entry.id))
+    values = application_rule_input().model_dump()
+    with db() as session:
+        application_migration(session)["downgrade"]()
+    with pytest.raises(IntegrityError), db() as session:
+        session.add(models.PermissionRule(**values, created_by=1, updated_by=1))
+        session.flush()
+    with db() as session:
+        application_migration(session)["upgrade"]()
+    assert rules_api.create_permission_rule(
+        application_rule_input(), MagicMock(), login
+    )
+    with pytest.raises(IntegrityError), db() as session:
+        session.add(
+            models.PermissionRule(
+                **application_destination_values(), created_by=1, updated_by=1
+            )
+        )
+        session.flush()
 
 
 def test_grouped_migration_preserves_scalar_rules_and_history(db):

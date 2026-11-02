@@ -9,6 +9,7 @@ export type PermissionRuleDraftPermissionGroup =
   (typeof PermissionRuleDraftPermissionGroup)[keyof typeof PermissionRuleDraftPermissionGroup]
 
 export const PermissionRuleDraftPermissionGroup = {
+  Application: "Application",
   Context: "Context",
   Session_Bus_Policy: "Session Bus Policy",
   System_Bus_Policy: "System Bus Policy",

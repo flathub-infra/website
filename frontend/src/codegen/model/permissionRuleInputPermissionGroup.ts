@@ -9,6 +9,7 @@ export type PermissionRuleInputPermissionGroup =
   (typeof PermissionRuleInputPermissionGroup)[keyof typeof PermissionRuleInputPermissionGroup]
 
 export const PermissionRuleInputPermissionGroup = {
+  Application: "Application",
   Context: "Context",
   Session_Bus_Policy: "Session Bus Policy",
   System_Bus_Policy: "System Bus Policy",

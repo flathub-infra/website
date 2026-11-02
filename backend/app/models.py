@@ -2650,7 +2650,8 @@ class PermissionRule(Base):
         ),
         CheckConstraint(
             "permission_group IN "
-            "('Context', 'Session Bus Policy', 'System Bus Policy', 'USB Devices')",
+            "('Application', 'Context', 'Session Bus Policy', 'System Bus Policy', "
+            "'USB Devices')",
             name="permissionrule_group",
         ),
         CheckConstraint(
@@ -2660,14 +2661,15 @@ class PermissionRule(Base):
             name="permissionrule_nonempty",
         ),
         CheckConstraint(
-            "(match_type = 'destination' AND before IS NULL AND value IS NOT NULL "
-            "AND removed IS NULL AND added IS NULL) "
+            "(permission_group <> 'Application' OR match_type = 'transition') "
+            "AND ((match_type = 'destination' AND before IS NULL "
+            "AND value IS NOT NULL AND removed IS NULL AND added IS NULL) "
             "OR (match_type = 'transition' AND num_nonnulls(before, value) > 0 "
             "AND before IS DISTINCT FROM value AND removed IS NULL AND added IS NULL) "
             "OR (match_type = 'grouped-delta' AND before IS NULL AND value IS NULL "
             "AND permissionrule_valid_delta(removed, added) "
             "AND (permission_group = 'USB Devices' OR (permission_group = 'Context' "
-            "AND key IN ('shared', 'sockets', 'devices', 'features', 'filesystems', 'persistent'))))",
+            "AND key IN ('shared', 'sockets', 'devices', 'features', 'filesystems', 'persistent')))))",
             name="permissionrule_match_type",
         ),
         CheckConstraint(
