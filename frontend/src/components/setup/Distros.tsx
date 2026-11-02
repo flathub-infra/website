@@ -3112,7 +3112,7 @@ const Slackware = ({ locale }: { locale: string }) => {
             code: (chunk) => (
               <CodeCopy
                 text={
-                  "flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo"
+                  "flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo"
                 }
               />
             ),
