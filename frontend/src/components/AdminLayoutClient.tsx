@@ -189,7 +189,7 @@ const AdminLayoutClient = ({
 
         <main
           className={clsx(
-            "",
+            "min-w-0",
             adminNavigation.length === 1
               ? "col-span-12"
               : "col-span-10 lg:col-span-10 col-start-2 lg:col-start-3 lg:row-span-2 lg:row-start-1",

@@ -114,7 +114,7 @@ export default function PermissionReviewList() {
         aria-label="Permission assessments"
       >
         <div className="flex flex-wrap items-end justify-between gap-5 border-b p-5">
-          <FieldGroup className="w-full flex-row flex-wrap items-end gap-x-6 gap-y-4 md:w-auto md:flex-nowrap">
+          <FieldGroup className="w-full flex-row flex-wrap items-end gap-x-6 gap-y-4">
             <Field className="w-40 shrink-0 gap-2">
               <FieldLabel htmlFor="review-outcome">Outcome</FieldLabel>
               <Select
