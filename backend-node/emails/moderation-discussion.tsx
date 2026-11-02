@@ -8,6 +8,7 @@ export const ModerationDiscussionEmail = ({
   appId,
   appName,
   subject,
+  heading,
   previewText,
   buildId,
   buildLogUrl,
@@ -24,6 +25,7 @@ export const ModerationDiscussionEmail = ({
     <Base
       previewText={previewText}
       subject={subject}
+      heading={heading}
       category={category}
       appId={appId}
       appName={appName}

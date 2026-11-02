@@ -37,6 +37,9 @@ const EmailBody = z.object({
   subject: z.string().min(3).openapi({
     example: "Test subject",
   }),
+  heading: z.string().min(1).optional().openapi({
+    example: "Build #123 approved",
+  }),
   previewText: z.string().min(3).openapi({
     example: "New login to Flathub account",
   }),
@@ -261,6 +264,7 @@ app.openapi(route, async (c) => {
     creation_timestamp,
     to,
     subject,
+    heading,
     messageInfo,
     previewText,
   } = c.req.valid("json")
@@ -290,6 +294,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       SecurityLoginEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -298,6 +303,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       EmailLoginEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -310,6 +316,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       BuildNotificationEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -318,6 +325,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       DeveloperInviteEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -326,6 +334,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       DeveloperInviteAcceptedEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -334,6 +343,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       DeveloperInviteDeclinedEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -342,6 +352,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       DeveloperLeftEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -350,6 +361,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       ModerationApprovedEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -358,6 +370,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       ModerationHeldEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -366,6 +379,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       ModerationDiscussionEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -374,6 +388,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       ModerationRejectedEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),
@@ -382,6 +397,7 @@ app.openapi(route, async (c) => {
     emailHtml = await render(
       UploadTokenCreatedEmail({
         subject,
+        heading,
         previewText,
         ...messageInfo,
       }),

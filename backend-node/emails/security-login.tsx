@@ -5,6 +5,7 @@ import { Base } from "./base"
 interface SecurityLoginEmailProps {
   category: "security_login"
   subject: string
+  heading?: string
   provider: string
   login: string
   time: string
@@ -15,6 +16,7 @@ interface SecurityLoginEmailProps {
 export const SecurityLoginEmail = ({
   category,
   subject,
+  heading,
   provider,
   login,
   time,
@@ -24,7 +26,12 @@ export const SecurityLoginEmail = ({
   const formattedTime = format(time, "PPPPpppp")
 
   return (
-    <Base previewText={previewText} subject={subject} category={category}>
+    <Base
+      previewText={previewText}
+      subject={subject}
+      heading={heading}
+      category={category}
+    >
       <Text>Someone recently logged into your account on Flathub.</Text>
       <Text className="-mt-4">
         If this was you, there's nothing for you to do right now.

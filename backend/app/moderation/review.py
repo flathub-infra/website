@@ -2106,12 +2106,13 @@ def _send_held_emails(build_id: int, email_requests: list[dict[str, Any]]) -> No
         else:
             app_name = None
 
-        subject = f"Build #{build_id} held for review"
+        heading = f"Build #{build_id} held for review"
         payload = {
             "messageId": f"{app_id}/{build_id}/held",
             "creation_timestamp": utils.utcnow().timestamp(),
-            "subject": subject,
-            "previewText": subject,
+            "subject": f"Review of build #{build_id}",
+            "heading": heading,
+            "previewText": heading,
             "inform_moderators": True,
             "messageInfo": {
                 "category": EmailCategory.MODERATION_HELD,
@@ -2364,10 +2365,10 @@ def submit_review(
     issue = None
     if is_approved:
         category = EmailCategory.MODERATION_APPROVED
-        subject = f"Build #{build_id} approved"
+        heading = f"Build #{build_id} approved"
     else:
         category = EmailCategory.MODERATION_REJECTED
-        subject = f"Build #{build_id} rejected"
+        heading = f"Build #{build_id} rejected"
 
         with get_db("replica") as db:
             if not models.DirectUploadApp.by_app_id(db, appid):
@@ -2403,8 +2404,9 @@ def submit_review(
     payload: dict[str, JSONValue] = {
         "messageId": f"{appid}/{build_id}/{'approved' if is_approved else 'rejected'}",
         "creation_timestamp": utils.utcnow().timestamp(),
-        "subject": subject,
-        "previewText": subject,
+        "subject": f"Review of build #{build_id}",
+        "heading": heading,
+        "previewText": heading,
         "inform_moderators": True,
         "messageInfo": message_info,
     }
@@ -2527,12 +2529,13 @@ def submit_discussion(
     else:
         app_name = None
 
-    subject = f"Discussion opened for build #{build_id}"
+    heading = f"Discussion opened for build #{build_id}"
     payload: dict[str, JSONValue] = {
         "messageId": f"{appid}/{build_id}/discussion",
         "creation_timestamp": utils.utcnow().timestamp(),
-        "subject": subject,
-        "previewText": subject,
+        "subject": f"Review of build #{build_id}",
+        "heading": heading,
+        "previewText": heading,
         "inform_moderators": True,
         "inform_only_moderators": True,
         "messageInfo": {

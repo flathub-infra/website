@@ -149,3 +149,40 @@ def test_send_email_new_moderator_only_excludes_developers(
     emails.send_email_new(payload, FakeDb(github_users=[developer]))
 
     assert [dest for dest, _message in sent] == expected
+
+
+@pytest.mark.parametrize("app_name", ["Example App", None])
+@pytest.mark.parametrize("heading", ["Build #42 approved", None])
+def test_email_subject_is_prefixed_and_explicit_heading_is_preserved(
+    monkeypatch, app_name, heading
+):
+    sent = []
+    set_fake_worker(monkeypatch, sent)
+    monkeypatch.setattr(
+        emails.models.FlathubUser,
+        "by_permission",
+        lambda db, permission: [FakeUser(1, "moderator@example.com")],
+    )
+    payload = {
+        "subject": "Review of build #42",
+        "previewText": "Build #42 approved",
+        "inform_only_moderators": True,
+        "messageInfo": {
+            "category": "moderation_approved",
+            "appId": "org.example.App",
+            "appName": app_name,
+        },
+    }
+    if heading is not None:
+        payload["heading"] = heading
+
+    emails.send_email_new(payload, FakeDb())
+
+    message = sent[0][1]
+    prefix = app_name or "org.example.App"
+    assert message["subject"] == f"{prefix} | Review of build #42"
+    assert message["previewText"] == "Build #42 approved"
+    if heading is not None:
+        assert message["heading"] == heading
+    else:
+        assert "heading" not in message

@@ -4,6 +4,7 @@ import { Base } from "./base"
 interface EmailLoginEmailProps {
   category: "email_login"
   subject: string
+  heading?: string
   signInUrl: string
   expiresAt: string
   previewText: string
@@ -35,11 +36,17 @@ export function createEmailLoginText(signInUrl: string, expiresAt: string) {
 export const EmailLoginEmail = ({
   category,
   subject,
+  heading,
   signInUrl,
   expiresAt,
   previewText,
 }: EmailLoginEmailProps) => (
-  <Base previewText={previewText} subject={subject} category={category}>
+  <Base
+    previewText={previewText}
+    subject={subject}
+    heading={heading}
+    category={category}
+  >
     <Text>Use this link to sign in to Flathub.</Text>
     <Text className="-mt-4">
       If this is your first time, Flathub will create an account for you.

@@ -6,6 +6,7 @@ interface DeveloperLeftEmailProps {
   appName: string | null
   category: "developer_left"
   subject: string
+  heading?: string
   previewText: string
   login: string
 }
@@ -15,6 +16,7 @@ export const DeveloperLeftEmail = ({
   appId,
   appName,
   subject,
+  heading,
   previewText,
   login,
 }: DeveloperLeftEmailProps) => {
@@ -24,6 +26,7 @@ export const DeveloperLeftEmail = ({
     <Base
       previewText={previewText}
       subject={subject}
+      heading={heading}
       category={category}
       appId={appId}
       appName={appName}

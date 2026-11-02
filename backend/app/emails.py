@@ -193,7 +193,7 @@ def send_email_new(payload: JSONObject, db) -> None:
     messages: list[tuple[str, JSONObject]] = []
     raw_message_info = payload.get("messageInfo")
     message_info = raw_message_info if is_json_object(raw_message_info) else {}
-    app_name = message_info.get("appName")
+    app_name = message_info.get("appName") or message_info.get("appId")
 
     subject = payload.get("subject")
     if isinstance(app_name, str) and isinstance(subject, str):
