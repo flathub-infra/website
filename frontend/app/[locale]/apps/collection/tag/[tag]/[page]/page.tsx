@@ -4,6 +4,7 @@ import { Metadata } from "next"
 import TagCollectionClient from "./tag-collection-client"
 import { getTranslations } from "next-intl/server"
 import { parsePositivePageNumber } from "@/utils/page-number"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 
 interface Props {
   params: Promise<{
@@ -53,5 +54,13 @@ export default async function TagCollectionPage({ params }: Props) {
     notFound()
   }
 
-  return <TagCollectionClient applications={applications} tag={tagDecoded} />
+  return (
+    <TagCollectionClient
+      applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
+      page={applications.page}
+      totalPages={applications.totalPages}
+      totalHits={applications.totalHits}
+      tag={tagDecoded}
+    />
+  )
 }

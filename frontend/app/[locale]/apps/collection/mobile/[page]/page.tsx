@@ -4,6 +4,7 @@ import { Metadata } from "next"
 import MobileCollectionClient from "./mobile-collection-client"
 import { getTranslations } from "next-intl/server"
 import { parsePositivePageNumber } from "@/utils/page-number"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 
 interface Props {
   params: Promise<{
@@ -52,5 +53,12 @@ export default async function MobileCollectionPage({ params }: Props) {
     notFound()
   }
 
-  return <MobileCollectionClient applications={applications} />
+  return (
+    <MobileCollectionClient
+      applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
+      page={applications.page}
+      totalPages={applications.totalPages}
+      totalHits={applications.totalHits}
+    />
+  )
 }

@@ -4,6 +4,7 @@ import { Metadata } from "next"
 import RecentlyUpdatedCollectionClient from "./recently-updated-collection-client"
 import { getTranslations } from "next-intl/server"
 import { parsePositivePageNumber } from "@/utils/page-number"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 
 interface Props {
   params: Promise<{
@@ -52,5 +53,11 @@ export default async function RecentlyUpdatedCollectionPage({ params }: Props) {
     notFound()
   }
 
-  return <RecentlyUpdatedCollectionClient applications={applications} />
+  return (
+    <RecentlyUpdatedCollectionClient
+      applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
+      page={applications.page}
+      totalPages={applications.totalPages}
+    />
+  )
 }

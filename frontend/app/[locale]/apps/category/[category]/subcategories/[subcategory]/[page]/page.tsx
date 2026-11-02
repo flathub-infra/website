@@ -12,6 +12,7 @@ import {
 import SubcategoryPageClient from "./subcategory-page-client"
 import { getTranslations } from "next-intl/server"
 import { parsePositivePageNumber } from "@/utils/page-number"
+import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 
 export const dynamic = "force-static"
 export const revalidate = 3600
@@ -130,10 +131,12 @@ export default async function SubcategoryPage({ params }: Props) {
 
   return (
     <SubcategoryPageClient
-      applications={applications}
+      applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
+      totalPages={applications.totalPages}
+      totalHits={applications.totalHits}
       mainCategory={category}
       subcategory={subcategory}
-      page={page}
+      page={applications.page}
     />
   )
 }

@@ -8,20 +8,25 @@ import {
   getSubcategory,
   tryParseSubCategory,
 } from "../../../../../../src/types/Category"
-import { mapAppsIndexToAppstreamListItem } from "../../../../../../src/meilisearch"
 import Tile from "../../../../../../src/components/Tile"
 import type { JSX } from "react"
-import type { MeilisearchResponseAppsIndex } from "../../../../../../src/codegen"
+import type { AppstreamListItem } from "src/types/Appstream"
 import type { MainCategory } from "../../../../../../src/codegen"
 
 interface CategoryPageClientProps {
-  applications: MeilisearchResponseAppsIndex
+  applications: AppstreamListItem[]
+  page: number
+  totalPages: number
+  totalHits: number
   locale: string
   category: MainCategory
 }
 
 const CategoryPageClient = ({
   applications,
+  page,
+  totalPages,
+  totalHits,
   locale,
   category,
 }: CategoryPageClientProps): JSX.Element => {
@@ -59,10 +64,10 @@ const CategoryPageClient = ({
 
       <ApplicationCollectionSuspense
         title={title}
-        applications={applications.hits.map(mapAppsIndexToAppstreamListItem)}
-        page={applications.page}
-        totalPages={applications.totalPages}
-        totalHits={applications.totalHits}
+        applications={applications}
+        page={page}
+        totalPages={totalPages}
+        totalHits={totalHits}
       />
     </div>
   )
