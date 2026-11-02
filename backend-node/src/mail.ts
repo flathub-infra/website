@@ -1,19 +1,28 @@
+import { createHash } from "node:crypto"
 import { createTransport } from "nodemailer"
 import { Headers, Options } from "nodemailer/lib/mailer"
 
 const DEFAULT_MESSAGE_ID_DOMAIN = "flathub.org"
 
-function normalizeMessageId(rawId: string): string {
+export function normalizeMessageId(rawId: string): string {
   const trimmed = rawId.trim()
-  if (trimmed.startsWith("<") && trimmed.endsWith(">")) {
-    return trimmed
+  const bare =
+    trimmed.startsWith("<") && trimmed.endsWith(">")
+      ? trimmed.slice(1, -1)
+      : trimmed
+  const candidate = bare.includes("@")
+    ? bare
+    : `${bare}@${DEFAULT_MESSAGE_ID_DOMAIN}`
+  // Preserve existing dot-atom IDs so replies still match previously sent mail.
+  const atom = "[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+"
+  const dotAtom = `${atom}(?:\\.${atom})*`
+  if (new RegExp(`^${dotAtom}@${dotAtom}$`).test(candidate)) {
+    return `<${candidate}>`
   }
 
-  if (trimmed.includes("@")) {
-    return `<${trimmed}>`
-  }
-
-  return `<${trimmed}@${DEFAULT_MESSAGE_ID_DOMAIN}>`
+  // Invalid IDs (including timestamp-based IDs) need a stable, safe encoding.
+  const digest = createHash("sha256").update(bare).digest("hex")
+  return `<sha256-${digest}@${DEFAULT_MESSAGE_ID_DOMAIN}>`
 }
 
 export async function sendMail({
