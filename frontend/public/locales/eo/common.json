@@ -657,7 +657,13 @@
   },
   "download": {
     "install-x": "Instali «{x}»",
-    "fallback-instructions": "<opening>Malfermante «{name}» en via programadministrilo…</opening><support>Se nenio okazas, eble via sistemo ne subtenas la redadresojn <i>flatpak+https</i>.</support><listPrefix>Tiokaze, vi povas:</listPrefix><ol><li>Elŝuti la <link>dosieron .flatpakref</link></li><li>Kaj poste ruli ĝin per via dosieradministrilo</li></ol><setupLine><linkSetup>Instrukcioj por instali Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Malfermante «{name}» en via programadministrilo…</opening><support>Se nenio okazas, eble via sistemo ne subtenas la redadresojn <i>flatpak+https</i>.</support><listPrefix>Tiokaze, vi povas:</listPrefix><ol><li>Elŝuti la <link>dosieron .flatpakref</link></li><li>Kaj poste ruli ĝin per via dosieradministrilo</li></ol><setupLine><linkSetup>Instrukcioj por instali Flatpak</linkSetup></setupLine>",
+    "download-file": "Elŝuti .flatpakref",
+    "open-file": "La dosiero .flatpakref montras la programon. Elŝutado de ĝi mem ne instalas la programon.",
+    "open-instructions": "Via programadministrilo estas via programvendejo por Linux. Permesu al via TTT-legilo malfermi ĝin, kaj elektu instali.",
+    "open-again": "Malfermi per programadministrilo",
+    "file-description": "Malfermu la dosieron el via elŝutujo per via programadministrilo, kaj poste elektu instali.",
+    "terminal-instructions": "Post agordo, algluu ĉi tiun en terminalon de via komputilo de Linux, kaj premu la enigklavon."
   },
   "count": "Kalkulo",
   "country-statistics": "Statistikoj pri landoj",
@@ -714,7 +720,8 @@
     "biggest-growth-description": "Tiu programo, kiu gajnis la plej multon da novaj elŝutoj kompare kun la lasta jaro",
     "most-improved-description": "La programo, kun la plej granda procenta kresko kompare al la lasta jaro",
     "year-over-year-growth": "Kresko kompare kun lasta jaro",
-    "hidden-gems-description": "Populariĝantaj programoj"
+    "hidden-gems-description": "Populariĝantaj programoj",
+    "x-growth-formatted": "kresko de {percentage}"
   },
   "year-in-review-banner": {
     "title": "{year} retrospekte ĉe Flathub",
@@ -971,5 +978,9 @@
   "email-login-replaced": "Por ĉi tiu konto, salutado per provizanto definitive anstataŭis salutadon per retpoŝto.",
   "reauth-return-hint": "Konfirminte vian identecon, revenu ĉi tien, fermu ĉi tiun dialogon se ĝi estas ankoraŭ malfermita, kaj reprovu la ŝanĝon pri pasŝlosilo.",
   "oauth-account-email-already-used": "Jen retpoŝta adreso jam asociita al konto ĉe Flathub. Salutu per via antaŭa saluta metodo (retpoŝte aŭ per provizanto), kaj ligu al ĉi tiu provizanto en agordoj. Oni ne povas aŭtomate kunfandi kontojn ĉe Flathub.",
-  "email-login-session-conflict": "Vi ankoraŭ estas salutinta kiel alia uzanto en ĉi tiu TTT-legilo. Adiaŭu unue, se vi volas uzi ĉi tiun hiperligon."
+  "email-login-session-conflict": "Vi ankoraŭ estas salutinta kiel alia uzanto en ĉi tiu TTT-legilo. Adiaŭu unue, se vi volas uzi ĉi tiun hiperligon.",
+  "copy-success": "Kopiita en tondujon",
+  "moderation-discussion-opened-by": "Diskuto komencita de {openedBy}",
+  "no-network-access-description": "Jen programo nekapabla atingi reton.",
+  "copy-failed": "Ne povis kopii aŭtomate. Elektu la tekston, kaj kopiu ĝin malaŭtomate."
 }

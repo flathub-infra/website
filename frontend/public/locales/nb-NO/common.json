@@ -93,7 +93,7 @@
   "languages-summary": "Velg språket du ønsker å se nettstedet på.",
   "languages-description": "Velg et språk for å bytte til det:",
   "switch-language": "Bytt språk",
-  "could-not-find-match-for-search": "Fant ingen apper som samsvarer med søket.",
+  "could-not-find-match-for-search": "Vi klarte ikke å finne det du leter etter.",
   "previous-page": "Forrige side",
   "vending-onboard": "Opprett en Stripe Express-konto",
   "x-downloads": "{x} nedlastinger",
@@ -272,7 +272,7 @@
   "flathub-index-description": "Få tak i alle favorittappene dine på hvilket som helst Linux-system",
   "app-eol": "Denne appen er ikke tilgjengelig på Flathub lenger",
   "distribution-flathub-setup": "Oppsett av Flathub på {distribution}",
-  "find-your-distribution": "Finn ditt system",
+  "find-your-distribution": "Finn distribusjonen din…",
   "no-results-found": "Ingen treff",
   "apps-by-developer": "Apper fra {developer}",
   "rss-apps": "Trenger du en RSS-app? Finn en her på <link>Flathub</link>.",
@@ -296,7 +296,9 @@
   "news": "Nyheter",
   "developer-portal": {
     "title": "Utviklerportal",
-    "runtime-version": "Base: {version}"
+    "runtime-version": "Base: {version}",
+    "downloads-last-month": "Nedlastinger i løpet av den siste måneden",
+    "downloads-last-month-count": "Nedlastinger i løpet av den siste måneden: {count}"
   },
   "moderation-rejected-by": "Avvist av {handledBy} {handledAt} ({handledAtRel})",
   "quality-guideline": {
@@ -351,7 +353,9 @@
     "light": "Lys",
     "dark": "Mørk",
     "failing-x-checks": "Mislykkede {count, plural, one {# check} other {# checks}}",
-    "general-runtime-not-eol": "Base er ikke utløpt"
+    "general-runtime-not-eol": "Base er ikke utløpt",
+    "last-edited": "Redigert av {editor} · {time}",
+    "system-editor": "System"
   },
   "updated-apps": "Oppdaterte apper",
   "stripe-error-payment_intent_authentication_failure": "Autentisering av betalingsmåte mislyktes. Velg en annen betalingsmåte og prøv igjen.",
@@ -454,7 +458,7 @@
   "token-redeem-placeholder": "Oppgi en eierskapsnøkkel",
   "token-failed": "Uthenting av nøkkel mislyktes",
   "app-already-exists": "Det finnes allerede en app med denne ID-en.",
-  "probably-safe": "Sannsynligvis trygg",
+  "probably-safe": "Lav risiko",
   "can-read-all-data-on-file-system": "Kan se alle data på systemet",
   "get-involved": "Bli med",
   "user-configuration-subfolder-x": "Innstillingsmappe {folder}",
@@ -494,7 +498,7 @@
   "new-stable-token": "Ny stabil nøkkel",
   "create-token": "Opprett nøkkel",
   "token-name": "Nøkkelnavn",
-  "scopes": "Tillatelser",
+  "scopes": "Omfang",
   "developers-and-users": "Utviklere og brukere",
   "read-announcements": "Les kunngjøringer",
   "special-license": "Spesiell lisens",
@@ -539,8 +543,8 @@
   "community-repository-description": "Publiser appen din på Flathub ved å laste opp Flatpak-manifestet og eventuelle tilhørende filer til et kodelager under GitHub-organisasjonen vår. Appen vil bygges på Flathub sin infrastruktur og publiseres rett etterpå.",
   "new-community-repository": "Ny fellesskapslager-app",
   "release-link-no-changelog": "Dette er nytt",
-  "unsafe": "Utrygg",
-  "potentially-unsafe": "Potensielt utrygg",
+  "unsafe": "Høy risiko",
+  "potentially-unsafe": "Middels risiko",
   "has-network-access": "Har nettverkstilgang",
   "can-access-hardware-devices": "Kan bruke enheter som kameraer og spillkontroller",
   "can-access-input-devices": "Har tilgang til inndataenheter som tastatur, mus og spillkontroller",
@@ -654,7 +658,9 @@
   "since-x": "Siden {date}",
   "download": {
     "install-x": "Installer «{x}»",
-    "fallback-instructions": "<opening>«{name}» skal åpnes i programvarebehandleren din…</opening><support>Hvis ingenting skjer, kan det hende at systemet ditt ikke støtter <i>flatpak+https</i> URL-er.</support><listPrefix>I det tilfellet kan du</listPrefix><ol><li>Laste ned <link>.flatpakref-filen</link></li><li>Deretter kjøre den fra filprogrammet ditt</li></ol><setupLine><linkSetup>Instruksjoner om hvordan man installerer Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>«{name}» skal åpnes i programvarebehandleren din…</opening><support>Hvis ingenting skjer, kan det hende at systemet ditt ikke støtter <i>flatpak+https</i> URL-er.</support><listPrefix>I det tilfellet kan du</listPrefix><ol><li>Laste ned <link>.flatpakref-filen</link></li><li>Deretter kjøre den fra filprogrammet ditt</li></ol><setupLine><linkSetup>Instruksjoner om hvordan man installerer Flatpak</linkSetup></setupLine>",
+    "download-file": "Last ned .flatpakref",
+    "open-file": ".flatpakref-filen peker til appen. Å laste den ned installerer den ikke."
   },
   "uses-privileged-socket": "Bruker en privilegert socket",
   "socket-may-allow-extra-permissions": "Bruker en socket som gjør det mulig å få flere rettigheter",
@@ -712,7 +718,8 @@
     "downloads-vs-previous-year": "Nedlasinger sammenlignet med {year}",
     "hidden-gems": "Skjulte perler",
     "hidden-gems-description": "Apper på fremmarsj",
-    "platform-downloads": "Plattformsnedlastinger"
+    "platform-downloads": "Plattformsnedlastinger",
+    "x-growth-formatted": "{percentage} vekst"
   },
   "app-information": "Appinformasjon",
   "sub-header": {
@@ -758,6 +765,123 @@
   "category": "Kategori",
   "platform-support": {
     "appname-works-on-most-devices": "{appName} fungerer på de fleste enheter",
-    "support-unknown": "Ukjent støtte"
-  }
+    "support-unknown": "Ukjent støtte",
+    "may-not-work-well-on-large-screens": "Fungerer kanskje dårlig på større skjermer",
+    "mobile-display-support-unknown": "Ikke nok informasjon for å vite om små skjermer støttes",
+    "desktop-display-support-unknown": "Ikke nok informasjon for å vite om store skjermer støttes",
+    "keyboard-support": "Støtte for tastatur",
+    "keyboards": "tastatur",
+    "mouse-support": "Støtte for mus",
+    "pointing-devices": "mus eller andre pekeenheter",
+    "touchscreen-support": "Støtte for touchskjerm",
+    "touchscreens": "touchskjemrer",
+    "gamepad-support": "Støtte for kontroller",
+    "gamepads": "kontrollere",
+    "control-required": "Krever {device}",
+    "control-recommended": "Anbefaler {device}",
+    "adaptive": "Adaptiv",
+    "appname-works-best-on-specific-hardware": "{appName} fungerer best på spesifikk maskinvare",
+    "appname-hardware-support": "Informasjon om maskinvarestøtte til {appName}",
+    "mobile-support": "Støtte for mobile enheter",
+    "desktop-support": "Støtte for skrivebordsmaskiner",
+    "mobile-support-unknown": "Ukjent støtte for mobile enheter",
+    "desktop-support-unknown": "Ukjent støtte for skrivebordsmaskiner",
+    "mobile-only": "Kun for mobile enheter",
+    "desktop-only": "Kun til skrivebordsmaskiner",
+    "works-well-on-large-screens": "Fungerer bra på store skjermer",
+    "works-well-on-mobile": "Fungerer bra på mobile enheter",
+    "may-not-work-well-on-mobile": "Kan kanskje funke dårlig på mobile enheter",
+    "control-supported": "Støtter {device}",
+    "control-unknown": "Ukjent støtte for {device}"
+  },
+  "contribute-flathub": "Bidra til Flathub",
+  "copy-success": "Kopiert til utklippstavlen",
+  "copy-failed": "Kunne ikke kopiere automatisk. Velg teksten og kopier den manuelt.",
+  "login-failed": "Innlogging mislyktes",
+  "login-failed-try-again": "Kunne ikke logge inn. Prøv igjen.",
+  "open-login-provider": "Åpne {provider}",
+  "back-to-login": "Tilbake til innlogging",
+  "curated-app-selection-themes": {
+    "new-year-new-workflows": {
+      "header": "Nytt år, nye arbeidsflyter",
+      "description": "Apper for en ny start, uansett hvordan du jobber"
+    },
+    "free-software-favorites": {
+      "header": "Redaksjonens valg",
+      "description": "Apper vi elsker akkurat nå"
+    },
+    "spring-creativity": {
+      "header": "Vær kreativ",
+      "description": "Arbeid med bilder, lyd, video og mer"
+    },
+    "fresh-desktop-releases": {
+      "description": "Utvikle apper som føles ut som de hører hjemme på systemet ditt"
+    },
+    "staying-connected": {
+      "header": "Hold kontakten",
+      "description": "Apper til deling, prating og tid sammen"
+    },
+    "summer-travel": {
+      "header": "Klar til ferie",
+      "description": "Apper til dit hvor din neste tur tar deg"
+    },
+    "back-to-learning": {
+      "header": "Smartere hver dag",
+      "description": "Apper til oppdagelser, læring og skape kunnskap"
+    },
+    "winter-comforts": {
+      "header": "Gjør det koselig",
+      "description": "Apper til når du skal slappe av og tenke på noe annet"
+    },
+    "take-better-notes": {
+      "header": "Skriv bedre notater",
+      "description": "Nye verktøy som fanger opp dine beste ideer"
+    },
+    "get-focused": {
+      "header": "Fokuser",
+      "description": "Alt du trenger for å holde deg i flyten"
+    },
+    "make-some-noise": {
+      "header": "Lag litt lyd",
+      "description": "Apper til å lage, leke med og utforske lyd"
+    }
+  },
+  "moderation-summary-changes": "Endringer i oppsummeringen",
+  "moderation-manifest-added": "Lagt til",
+  "moderation-manifest-removed": "Fjernet",
+  "quality-metadata-changed": "Metadata endret {time}",
+  "moderation-view-discussion": "Se diskusjon",
+  "moderation-discussion-opened-by": "Diskusjon åpnet av {openedBy}",
+  "moderation-permissions-title": "Tillatelser",
+  "moderation-permissions-compared-with": "Sammenlignet med: {source}",
+  "user-id": "Flahub-bruker-ID",
+  "display-name": "Visningsnavn",
+  "display-name-updated": "Visningsnavn endret",
+  "save": "Lagre",
+  "unverified-app-disclaimer-unknown-developer": "apputvikleren",
+  "clear-filters": "Nullstill filtere",
+  "transaction-cancelled-description": "Denne transaksjonen ble avbrutt. Ingen betaling ble gjort.",
+  "transaction-successful": "Betaling fullført",
+  "transaction-successful-description": "Betalingen din ble fullført. Detaljene rundt betalingen er nedenfor.",
+  "remove-bookmark": "Fjern bokmerke",
+  "remove-from-favorites": "Fjern {app} fra bokmerkene",
+  "x-installs": "{x} installasjoner",
+  "dns-record-value": "Verdi",
+  "dns-verification": "DNS-verifikasjon",
+  "share": "Del",
+  "no-network-access-description": "Denne appen har ingen tilgang til nettverket.",
+  "danger-zone-confirmation": {
+    "switch": {
+      "warning-title": "Denne endringen kan ikke gjøres om"
+    }
+  },
+  "email-login-with-email": "Logg inn med e-post",
+  "email-account": "E-post",
+  "user-login-heading": "Logg inn til Flathub",
+  "developer-login-title": "Innlogging for utviklere",
+  "email-login-other-methods": "Andre innloggingsmetoder",
+  "email-login-email-address": "E-postadresse",
+  "email-login-sign-in": "Logg inn",
+  "verified-email": "Verifisert e-post",
+  "email-login-sending": "Sender…"
 }

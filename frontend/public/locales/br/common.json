@@ -169,7 +169,8 @@
   "more-utility": "Muioc'h a C'houlevioù mavek",
   "more-office": "Muioc'h eus Kenderc'husted",
   "download": {
-    "install-x": "Staliañ “{x}”"
+    "install-x": "Staliañ “{x}”",
+    "download-file": "Pellgargañ .flatpakref"
   },
   "lightbox": {
     "screenshot": "Tapadenn-skramm",

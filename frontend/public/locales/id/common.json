@@ -115,7 +115,7 @@
   "stripe-declined-generic_decline": "Kartu ditolak karena alasan yang tidak diketahui.",
   "stripe-declined-insufficient_funds": "Kartu tidak memiliki dana yang cukup.",
   "less": "Lebih sedikit",
-  "failed-to-load-refresh": "Sumber daya gagal dimuat. Cobal segarkan.",
+  "failed-to-load-refresh": "Sumber daya gagal dimuat. Coba segarkan.",
   "remove-saved-card": "Hapus kartu tersimpan",
   "status": "Status",
   "retry-checkout": "Coba checkout lagi",
@@ -656,7 +656,8 @@
   },
   "download": {
     "install-x": "Pasang “{x}”",
-    "fallback-instructions": "<opening>Membuka “{name}” di pengelola perangkat lunak Anda…</opening><support>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung <i>flatpak+https</i> urls.</support><listPrefix>Dalam hal ini anda dapat:</listPrefix><ol><li>Mengunduh melalui <link>.flatpakref file</link></li><li>Kemudian jalankan dari pengelola berkas Anda</li></ol><setupLine><linkSetup>Petunjuk untuk memasang Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Membuka “{name}” di pengelola perangkat lunak Anda…</opening><support>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung <i>flatpak+https</i> urls.</support><listPrefix>Dalam hal ini anda dapat:</listPrefix><ol><li>Mengunduh melalui <link>.flatpakref file</link></li><li>Kemudian jalankan dari pengelola berkas Anda</li></ol><setupLine><linkSetup>Petunjuk untuk memasang Flatpak</linkSetup></setupLine>",
+    "download-file": "Unduh .flatpakref"
   },
   "count": "Jumlah",
   "country-statistics": "Statistik Negara",
@@ -971,5 +972,9 @@
   "reauth-method-email": "Kirim tautan masuk ke email saya",
   "reauth-sign-out": "Keluar dan masuk kembali",
   "passkey-remove-prompt": "Hapus kunci sandi “{name}”?",
-  "passkey-remove-description": "Anda tidak akan dapat lagi masuk dengan kunci sandi ini. Sesi yang menggunakan kunci sandi ini untuk masuk akan berakhir."
+  "passkey-remove-description": "Anda tidak akan dapat lagi masuk dengan kunci sandi ini. Sesi yang menggunakan kunci sandi ini untuk masuk akan berakhir.",
+  "copy-failed": "Tidak dapat menyalin otomatis. Pilih teks dan salin secara manual.",
+  "copy-success": "Disalin ke papan klip",
+  "moderation-discussion-opened-by": "Diskusi dibuka oleh {openedBy}",
+  "no-network-access-description": "Aplikasi ini tidak memiliki akses ke jaringan."
 }
