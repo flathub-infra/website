@@ -107,12 +107,16 @@ test.each(["en", "de", "tr", "ar", "ja"])(
         }).format(value),
       )
     }
-    expect(html).toContain(
-      `${new Intl.NumberFormat(locale, {
+    const growthMessage = messages["year-in-review"][
+      "x-growth-formatted"
+    ].replace(
+      "{percentage}",
+      new Intl.NumberFormat(locale, {
         style: "percent",
         signDisplay: "always",
-      }).format(12.34)} growth`,
+      }).format(12.34),
     )
+    expect(html).toContain(growthMessage)
   },
 )
 
