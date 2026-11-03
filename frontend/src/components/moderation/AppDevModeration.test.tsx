@@ -53,7 +53,11 @@ describe("developer review queue", () => {
 
   it("restores history and pagination from the URL with a separate cache entry", () => {
     mocks.params = new URLSearchParams("reviewHistory=true&page=2")
-    expect(render()).toContain("No reviews to show for this app.")
+    mocks.query.mockReturnValue({
+      isSuccess: true,
+      data: { data: { requests: [], requests_count: 11 } },
+    })
+    render()
     const options = mocks.query.mock.calls[0][0]
     options.queryFn({ signal: new AbortController().signal })
     expect(mocks.request.mock.calls[0][1]).toEqual({
@@ -69,6 +73,17 @@ describe("developer review queue", () => {
       10,
       10,
     ])
+  })
+
+  it("does not report all caught up for an empty page when pending reviews exist", () => {
+    mocks.params = new URLSearchParams("page=2")
+    mocks.query.mockReturnValue({
+      isSuccess: true,
+      data: { data: { requests: [], requests_count: 1 } },
+    })
+    const html = render()
+    expect(html).not.toContain("No changes awaiting review")
+    expect(html).not.toContain("You're all caught up")
   })
 
   it.each(["0", "-1", "invalid", "1.5"])(
