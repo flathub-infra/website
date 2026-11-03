@@ -657,7 +657,13 @@
   },
   "download": {
     "install-x": "安裝「{x}」",
-    "fallback-instructions": "<opening>正在於您的軟體管理器開啟「{name}」……</opening><support>若沒有反應，代表您的系統可能不支援 <i>flatpak+https</i> URL。</support><listPrefix>在這種情況下，您可以：</listPrefix><ol><li>下載 <link>.flatpakref</link> 檔案</li><li>然後在您的檔案管理程式中執行該檔案</li></ol><setupLine><linkSetup>安裝 Flatpak 的說明</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>正在於您的軟體管理器開啟「{name}」……</opening><support>若沒有反應，代表您的系統可能不支援 <i>flatpak+https</i> URL。</support><listPrefix>在這種情況下，您可以：</listPrefix><ol><li>下載 <link>.flatpakref</link> 檔案</li><li>然後在您的檔案管理程式中執行該檔案</li></ol><setupLine><linkSetup>安裝 Flatpak 的說明</linkSetup></setupLine>",
+    "open-instructions": "您的軟體管理程式即是您的 Linux 應用程式商店。請允許瀏覽器開啟它，然後選擇「安裝」。",
+    "open-again": "在軟體管理程式中開啟",
+    "file-description": "請在軟體管理程式中開啟下載資料夾內的檔案，然後選擇「安裝」。",
+    "download-file": "下載 .flatpakref",
+    "open-file": ".flatpakref 檔案指向該應用程式。下載該檔案並不代表已安裝該應用程式。",
+    "terminal-instructions": "設定完成後，請將此內容貼到 Linux 電腦的終端機中，然後按下 Enter 鍵。"
   },
   "country-statistics": "國家統計",
   "since-x": "從 {date} 開始",
@@ -714,7 +720,8 @@
     "downloads-vs-previous-year": "下載次數 vs {year}",
     "hidden-gems": "口袋名單",
     "hidden-gems-description": "日益受到歡迎的應用程式",
-    "platform-downloads": "平台下載"
+    "platform-downloads": "平台下載",
+    "x-growth-formatted": "增長 {percentage}"
   },
   "year-in-review-banner": {
     "title": "Flathub {year} 年度回顧",
@@ -970,5 +977,10 @@
   "moderation-permissions-pull-request-review": "拉取請求的權限審查",
   "moderation-permissions-title": "權限",
   "moderation-permissions-pull-request": "拉取請求",
-  "moderation-permissions-compared-with": "相較於：{source}"
+  "moderation-permissions-compared-with": "相較於：{source}",
+  "copy-success": "已複製到剪貼簿",
+  "copy-failed": "無法自動複製。請選取文字並手動複製。",
+  "moderation-discussion-opened-by": "由 {openedBy} 開啟的討論",
+  "moderation-permissions-changed-count": "{count, plural, one {# 個變更的權限} other {# 個變更的權限}}",
+  "no-network-access-description": "此應用程式無權存取網路。"
 }

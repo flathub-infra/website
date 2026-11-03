@@ -720,7 +720,8 @@
     "most-popular-description": "Приложението с най-много изтегляния тази година",
     "top-game-stores": "Водещи магазини за игри",
     "top-game-utilities": "Водещи помощни програми за игри",
-    "top-emulators": "Водещи емулатори"
+    "top-emulators": "Водещи емулатори",
+    "x-growth-formatted": "{percentage} растеж"
   },
   "year-in-review-banner": {
     "title": "Равносметка на „Flathub“ за {year} година",

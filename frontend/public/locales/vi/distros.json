@@ -85,7 +85,8 @@
     },
     "step-1": {
       "name": "Tải xuống Flatpak"
-    }
+    },
+    "distroName": "Debian"
   },
   "opensuse": {
     "distroName": "openSUSE",

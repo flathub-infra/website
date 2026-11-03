@@ -550,7 +550,7 @@
   "chat-on-matrix": "Чат в Matrix",
   "press-description": "Мы всегда рады ответить на вопросы и организовать интервью с журналистами и техническими писателями",
   "read-announcements": "Читать анонсы",
-  "download-press-kit": "Скачать пресс-кит",
+  "download-press-kit": "Загрузить пресс-кит",
   "organizations-and-infrastructure": "Организации и инфраструктура",
   "developers-and-users": "Разработчикам и пользователям",
   "developers-and-users-block": "Свяжитесь с командой и другими участниками сообщества, чтобы задавать вопросы и делиться своим опытом",
@@ -657,7 +657,13 @@
   },
   "download": {
     "install-x": "Установка «{x}»",
-    "fallback-instructions": "<opening>Открываем «{name}» в вашем менеджере ПО…</opening><support>Если ничего не происходит, возможно, ваша система не поддерживает URL-адреса <i>flatpak+https</i>.</support><listPrefix>В таком случае, попробуйте:</listPrefix><ol><li>Загрузить <link>файл .flatpakref</link></li><li>Запустить его через файловый менеджер</li></ol><setupLine><linkSetup>Инструкции по установке Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Открываем «{name}» в вашем менеджере ПО…</opening><support>Если ничего не происходит, возможно, ваша система не поддерживает URL-адреса <i>flatpak+https</i>.</support><listPrefix>В таком случае, попробуйте:</listPrefix><ol><li>Загрузить <link>файл .flatpakref</link></li><li>Запустить его через файловый менеджер</li></ol><setupLine><linkSetup>Инструкции по установке Flatpak</linkSetup></setupLine>",
+    "open-instructions": "Разрешите браузеру открыть менеджер ПО вашего Linux-дистрибутива, после чего нажмите «Установить».",
+    "open-again": "Открыть в менеджере ПО",
+    "file-description": "Откройте загруженный файл при помощи менеджера ПО, после чего нажмите «Установить».",
+    "download-file": "Загрузить .flatpakref",
+    "open-file": "Сам файл .flatpakref — это указатель для менеджера ПО. Его загрузка не приведёт к автоматической установке приложения.",
+    "terminal-instructions": "После настройки Flathub вставьте следующую команду в терминал и нажмите Enter."
   },
   "country-statistics": "Статистика по странам",
   "since-x": "С {date}",
@@ -692,7 +698,7 @@
     "select-year": "Выберите год",
     "category-highlights": "Лучшее по категориям",
     "most-popular": "Самое популярное",
-    "most-popular-description": "Приложение с наибольшим числом скачиваний в этом году",
+    "most-popular-description": "Приложение с наибольшим числом загрузок в этом году",
     "total-downloads": "Загрузок всего",
     "new-apps": "Новых приложений",
     "total-apps": "Приложений всего",
@@ -703,7 +709,7 @@
     "top-game-utilities": "Топ инструментов для игр",
     "top-emulators": "Топ эмуляторов",
     "biggest-growth": "Наибольший рост",
-    "biggest-growth-description": "Приложений, набравшее больше всего скачиваний по сравнению с прошлым годом",
+    "biggest-growth-description": "Приложений, набравшее больше всего загрузок по сравнению с прошлым годом",
     "newcomer-of-year": "Дебют этого года",
     "newcomer-description": "Самое популярное приложение, выпущенное в этом году",
     "most-improved": "Триумфальный взлёт",
@@ -718,7 +724,8 @@
     "downloads-vs-previous-year": "По сравнению с {year} годом",
     "hidden-gems": "Потаённые самоцветы",
     "hidden-gems-description": "Приложения, набирающие популярность",
-    "platform-downloads": "Скачивания по платформам"
+    "platform-downloads": "Число загрузок по платформам",
+    "x-growth-formatted": "{percentage} роста"
   },
   "app-information": "Сведения о приложении",
   "sub-header": {
@@ -973,5 +980,7 @@
   "reauth-method-email": "Отправить мне ссылку для входа по электронной почте",
   "reauth-sign-out": "Выйти и войти снова",
   "passkey-remove-prompt": "Удалить ключ доступа «{name}»?",
-  "passkey-remove-description": "Вы больше не сможете входить с помощью этого ключа доступа. Сеансы, в которые вы вошли с его помощью, будут завершены."
+  "passkey-remove-description": "Вы больше не сможете входить с помощью этого ключа доступа. Сеансы, в которые вы вошли с его помощью, будут завершены.",
+  "copy-success": "Скопировано",
+  "copy-failed": "Не удалось скопировать автоматически, выполните копирование вручную."
 }

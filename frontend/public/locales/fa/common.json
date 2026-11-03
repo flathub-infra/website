@@ -637,7 +637,13 @@
   },
   "download": {
     "install-x": "نصب «{x}»",
-    "fallback-instructions": "<opening>گشودن «{name}» در مدیر نرم‌افزارهایتان…</opening><support>اگر اتّفاقی نیفتاد شاید سامانه‌تان از نشانی‌های <i>flatpak+https</i> پشتیبانی نمی‌کند.</support><listPrefix>در این صورت می‌توانید:</listPrefix><ol><li><link>پروندهٔ ‪.flatpakref‬</link> را بار بگیرید</li><li>سپس از مدیر پرونده‌تان اجراایش کنید</li></ol><setupLine><linkSetup>دستورالعمل‌های نصب فلت‌پک</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>گشودن «{name}» در مدیر نرم‌افزارهایتان…</opening><support>اگر اتّفاقی نیفتاد شاید سامانه‌تان از نشانی‌های <i>flatpak+https</i> پشتیبانی نمی‌کند.</support><listPrefix>در این صورت می‌توانید:</listPrefix><ol><li><link>پروندهٔ ‪.flatpakref‬</link> را بار بگیرید</li><li>سپس از مدیر پرونده‌تان اجراایش کنید</li></ol><setupLine><linkSetup>دستورالعمل‌های نصب فلت‌پک</linkSetup></setupLine>",
+    "open-instructions": "مدیر نرم‌افزارتان فروشکاه کارهٔ گنو/لینوکستان است. اجازه به مرورگرتان برای گشودن و سپس نصبش.",
+    "open-again": "گشودن در مدیر نرم‌افزار",
+    "file-description": "گشودن پرونده از شاخهٔ بارگیری‌هایتان در مدیر نرم‌افزار و گزینش نصب.",
+    "download-file": "بارگیری ‪.flatpakref‬",
+    "open-file": "پروندهٔ ‪.flatpakref‬ به کاره اشاره می‌کند. بارگیریش نصبش نخواهد کرد.",
+    "terminal-instructions": "جایگذاریش در پایانهٔ رایانهٔ گنو/لینوکسیتان پس از برپایی و زدن ورود."
   },
   "country-statistics": "آمار کشورها",
   "since-x": "از {date}",
@@ -714,7 +720,8 @@
     "platform-downloads": "بارگیری‌های بن‌سازه",
     "top-emulators": "برترین شبیه‌سازها",
     "top-game-stores": "برترین فروشگاه‌های بازی",
-    "top-game-utilities": "برترین ابزارهای بازی"
+    "top-game-utilities": "برترین ابزارهای بازی",
+    "x-growth-formatted": "{percentage} رشد"
   },
   "year-in-review-banner": {
     "title": "بازبینی سال {year} فلت‌هاب",
@@ -894,7 +901,7 @@
       "warning-title": "بایگانی کردن روی این کاره و ناشرانش تأثیر می‌گذارد",
       "warning-tokens": "همهٔ ژتون‌های بارگذاری فعّال این کاره نامعتبر خواهند شد.",
       "warning-eol": "این کاره با پیام زیر به عنوان «پایان عمر» علامت خواهد خورد.",
-      "acknowledgment": "تأثیرات بایگانی کرد <app>{app_id}</app> را می‌فهمم"
+      "acknowledgment": "تأثیرات بایگانی کردن <app>{app_id}</app> را می‌فهمم"
     }
   },
   "user-login-heading": "ورود به فلت‌هاب",
@@ -971,5 +978,9 @@
   "moderation-permissions-pull-request-review": "بازبینی اجارهٔ درخواست ادغام",
   "moderation-permissions-title": "اجازه‌ها",
   "moderation-permissions-pull-request": "درخواست ادغام",
-  "moderation-permissions-changed-count": "{count, plural, one {# اجازهٔ تغییر یافته} other {# اجازهٔ تغییر یافته}}"
+  "moderation-permissions-changed-count": "{count, plural, one {# اجازهٔ تغییر یافته} other {# اجازهٔ تغییر یافته}}",
+  "copy-success": "در تخته‌گیره رونوشت شد",
+  "copy-failed": "نتوانست به صورت خودکار رونوشت کند. گزینش متن و رونوشت دستیش.",
+  "moderation-discussion-opened-by": "گفت‌وگو به دست {openedBy} ایجاد شد",
+  "no-network-access-description": "این کاره به شبکه دسترسی ندارد."
 }
