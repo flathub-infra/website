@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from .upstream import UpstreamEvidence, numeric_version
 
-SignalKind = Literal["stale", "runtime", "eol", "unknown", "upstream"]
+SignalKind = Literal["stale", "runtime", "unknown", "upstream"]
 FINGERPRINT_PATTERN = r"^(?:v[1-9][0-9]{0,13}:)?[0-9a-f]{64}$"
 CURRENT_FINGERPRINT_VERSION = 2
 SEVERITY_ORDER = {"high": 0, "medium": 1, "low": 2}
@@ -185,7 +185,11 @@ def assess(evidence: Evidence, now: datetime, stale_days: int = 365) -> Maintena
     updated = naive_utc(evidence.last_updated_at) if evidence.last_updated_at else None
     age = max(0, (now - updated).days) if updated else None
     signals = []
-    if evidence.upstream and evidence.upstream.status == "newer":
+    if (
+        not evidence.is_eol
+        and evidence.upstream
+        and evidence.upstream.status == "newer"
+    ):
         upstream = evidence.upstream
         signals.append(
             MaintenanceSignal(
@@ -198,7 +202,7 @@ def assess(evidence: Evidence, now: datetime, stale_days: int = 365) -> Maintena
                 checked_at=upstream.checked_at,
             )
         )
-    if evidence.runtime_eol is True:
+    if not evidence.is_eol and evidence.runtime_eol is True:
         signals.append(
             MaintenanceSignal(
                 kind="runtime",
@@ -208,17 +212,7 @@ def assess(evidence: Evidence, now: datetime, stale_days: int = 365) -> Maintena
                 next_step="Check the manifest and plan a supported-runtime migration.",
             )
         )
-    if evidence.is_eol and evidence.installs_last_7_days > 0:
-        signals.append(
-            MaintenanceSignal(
-                kind="eol",
-                severity="high",
-                confidence="confirmed",
-                evidence="This app's published branch is end of life and still receives downloads.",
-                next_step="Review the retirement message and whether a replacement can be offered.",
-            )
-        )
-    if age is not None and age >= stale_days:
+    if not evidence.is_eol and age is not None and age >= stale_days:
         signals.append(
             MaintenanceSignal(
                 kind="stale",
@@ -228,7 +222,7 @@ def assess(evidence: Evidence, now: datetime, stale_days: int = 365) -> Maintena
                 next_step="Compare upstream releases and packaging activity. Age alone is not abandonment.",
             )
         )
-    if updated is None:
+    if not evidence.is_eol and updated is None:
         signals.append(
             MaintenanceSignal(
                 kind="unknown",
@@ -321,7 +315,7 @@ def dashboard(
             continue
         if queue == "mine" and case.owner_id != user_id:
             continue
-        if queue in ("stale", "runtime", "eol", "unknown", "upstream") and not any(
+        if queue in ("stale", "runtime", "unknown", "upstream") and not any(
             s.kind == queue for s in case.signals
         ):
             continue

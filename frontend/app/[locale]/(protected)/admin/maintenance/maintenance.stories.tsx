@@ -119,6 +119,7 @@ const handlers = [
     const search = (params.get("search") || "").toLowerCase()
     const selected = cases.filter(
       (app) =>
+        app.signals.length > 0 &&
         (queue === "snoozed" ? app.snoozed : !app.snoozed) &&
         (queue === "all" ||
           queue === "snoozed" ||
@@ -135,7 +136,7 @@ const handlers = [
     )
     const campaigns: MaintenanceDashboard["campaigns"] = []
     for (const app of cases) {
-      if (!app.runtime || !app.runtime_eol) {
+      if (!app.runtime || !app.runtime_eol || app.signals.length === 0) {
         continue
       }
       let campaign = campaigns.find((group) => group.runtime === app.runtime)
@@ -149,8 +150,10 @@ const handlers = [
     return HttpResponse.json({
       cases: selected.slice((page - 1) * pageSize, page * pageSize),
       total: selected.length,
-      active: cases.filter((app) => !app.snoozed).length,
-      snoozed: cases.filter((app) => app.snoozed).length,
+      active: cases.filter((app) => !app.snoozed && app.signals.length > 0)
+        .length,
+      snoozed: cases.filter((app) => app.snoozed && app.signals.length > 0)
+        .length,
       page,
       page_size: pageSize,
       campaigns,
@@ -293,6 +296,13 @@ const meta = {
         cases[0].signals = cases[0].signals.filter(
           (signal) => signal.kind !== "runtime",
         )
+      } else if (parameters.maintenanceScenario === "retirement") {
+        cases.push({
+          ...structuredClone(fixture[0]),
+          app_id: "org.example.RetiredAtlas",
+          name: "Retired Atlas",
+          signals: [],
+        })
       }
       saveDelayMs = parameters.maintenanceScenario === "delayed-save" ? 500 : 0
       failNextRefresh = false
@@ -317,6 +327,35 @@ type Story = StoryObj<typeof meta>
 export const ActionQueue: Story = {}
 export const FullQueue: Story = {
   parameters: { maintenanceScenario: "pagination" },
+}
+
+export const RetiredAppsExcluded: Story = {
+  parameters: { maintenanceScenario: "retirement" },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await canvas.findByRole("button", { name: "Star Chart" })
+    await expect(
+      canvas.queryByRole("button", { name: "Retired Atlas" }),
+    ).not.toBeInTheDocument()
+    await expect(
+      canvas.queryByRole("option", { name: /retire/i }),
+    ).not.toBeInTheDocument()
+    for (const [queue, result] of [
+      ["runtime", "Star Chart"],
+      ["mine", "Paper Plane"],
+      ["snoozed", null],
+    ] as const) {
+      await userEvent.selectOptions(canvas.getByLabelText("Queue"), queue)
+      if (result) {
+        await canvas.findByRole("button", { name: result })
+      } else {
+        await canvas.findByText("No cases in this queue")
+      }
+      await expect(
+        canvas.queryByRole("button", { name: "Retired Atlas" }),
+      ).not.toBeInTheDocument()
+    }
+  },
 }
 
 export const CaseDetails: Story = {

@@ -145,9 +145,36 @@ def test_signals_and_priority_are_separate_from_reach():
     )
     retired = assess(Evidence("retired", "Retired", NOW, 10, is_eol=True), NOW)
     data = dashboard([old_popular, runtime, retired], NOW, user_id=1)
-    assert [c.app_id for c in data.cases] == ["retired", "runtime", "old"]
+    assert [c.app_id for c in data.cases] == ["runtime", "old"]
+    assert data.active == 2
     assert data.campaigns[0].apps == 1
     assert not assess(Evidence("retired", "Retired", NOW, is_eol=True), NOW).signals
+
+
+def test_retired_apps_are_excluded_from_every_queue_and_count():
+    retired = assess(
+        Evidence(
+            "retired",
+            "Retired",
+            NOW - timedelta(days=800),
+            10,
+            "org.Runtime/x86_64/old",
+            True,
+            is_eol=True,
+        ),
+        NOW,
+    )
+    assert not retired.signals
+    data = dashboard([retired], NOW, user_id=1)
+    assert data.active == 0 and data.snoozed == 0 and not data.campaigns
+    for queue in ("all", "runtime", "stale", "unknown", "upstream"):
+        assert not dashboard([retired], NOW, user_id=1, queue=queue).cases
+    retired.owner_id = 1
+    assert not dashboard([retired], NOW, user_id=1, queue="mine").cases
+    retired.snoozed = True
+    assert not dashboard([retired], NOW, user_id=1, queue="snoozed").cases
+    assert dashboard([retired], NOW, user_id=1).snoozed == 0
+    assert not assess(Evidence("retired", "Retired", is_eol=True), NOW).signals
 
 
 def test_snooze_ignores_daily_age_downloads_and_threshold_but_wakes_on_evidence():
@@ -698,7 +725,12 @@ def test_snooze_rejects_unreviewed_evidence_even_when_version_is_unchanged(
     assert "evidence changed" in response.json()["detail"]
     with Session() as session:
         assert session.get(models.MaintenanceTriage, "org.Test.App") is None
-    assert client.get("/admin/maintenance").json()["total"] == 1
+    # Retirement resolves the queue entry rather than creating another signal.
+    assert client.get("/admin/maintenance").json()["total"] == (
+        0 if change == "eol" else 1
+    )
+    if change == "eol":
+        assert updated["signals"] == []
     # Refreshing and reviewing the new evidence permits the snooze.
     response = client.post(
         path,

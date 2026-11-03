@@ -47,11 +47,10 @@ import {
 
 const credentials = { withCredentials: true }
 const queues = [
-  ["all", "All active"],
+  ["all", "Needs maintenance"],
   ["runtime", "EOL runtime"],
   ["stale", "No recent updates"],
   ["upstream", "Newer upstream release"],
-  ["eol", "Retired, still downloaded"],
   ["unknown", "Unknown activity"],
   ["mine", "Assigned to me"],
   ["snoozed", "Snoozed"],
@@ -61,7 +60,6 @@ const signalLabels = {
   upstream: "Newer upstream release",
   runtime: "EOL runtime",
   stale: "No recent updates",
-  eol: "EOL app",
   unknown: "Unknown activity",
 }
 const upstreamStatusLabels: Record<string, string> = {
@@ -121,13 +119,13 @@ export function RadarQueue({
   }
 
   return (
-    <Table aria-label="Maintenance cases">
-      <TableHeader>
+    <Table aria-label="Maintenance cases" className="table-fixed">
+      <TableHeader className="bg-muted/40">
         <TableRow>
-          <TableHead className="ps-0">App</TableHead>
+          <TableHead className="w-[44%] ps-4 sm:w-[34%]">App</TableHead>
           <TableHead>Signals</TableHead>
-          <TableHead className="hidden md:table-cell">Updated</TableHead>
-          <TableHead className="hidden pe-0 text-end sm:table-cell">
+          <TableHead className="hidden w-32 md:table-cell">Updated</TableHead>
+          <TableHead className="hidden w-36 pe-4 text-end sm:table-cell">
             Downloads / 7d
           </TableHead>
         </TableRow>
@@ -135,23 +133,26 @@ export function RadarQueue({
       <TableBody>
         {data.cases.map((app) => (
           <TableRow key={app.app_id}>
-            <TableCell className="w-2/5 whitespace-normal py-3 ps-0">
+            <TableCell className="whitespace-normal py-4 ps-4 align-top">
               <button
-                className="rounded-sm py-1 text-start font-semibold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+                className="max-w-full break-words rounded-sm py-1 text-start font-semibold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
                 onClick={() => onSelect(app.app_id)}
               >
                 {app.name}
               </button>
               <span
-                className="block max-w-[28vw] truncate text-xs text-muted-foreground sm:max-w-72 lg:max-w-96"
+                className="block truncate font-mono text-[11px] text-muted-foreground"
                 dir="ltr"
                 title={app.app_id}
                 translate="no"
               >
                 {app.app_id}
               </span>
+              <span className="mt-2 block text-xs tabular-nums text-muted-foreground sm:hidden">
+                {app.installs_last_7_days.toLocaleString()} downloads / 7d
+              </span>
             </TableCell>
-            <TableCell className="whitespace-normal py-3">
+            <TableCell className="whitespace-normal py-5 align-top">
               <div className="flex flex-wrap gap-1">
                 {app.signals.map((signal) => (
                   <Badge
@@ -175,6 +176,11 @@ export function RadarQueue({
                   </Badge>
                 ) : null}
               </div>
+              {app.signals[0] ? (
+                <p className="mt-2 hidden max-w-prose text-xs leading-relaxed text-muted-foreground lg:block">
+                  {app.signals[0].next_step}
+                </p>
+              ) : null}
               {app.owner_id !== null ? (
                 <span className="mt-1 block text-xs text-muted-foreground">
                   {app.owned_by_me
@@ -186,7 +192,7 @@ export function RadarQueue({
             <TableCell className="hidden tabular-nums md:table-cell">
               {utcDate(app.last_updated_at)}
             </TableCell>
-            <TableCell className="hidden pe-0 text-end font-mono tabular-nums sm:table-cell">
+            <TableCell className="hidden pe-4 text-end font-mono tabular-nums sm:table-cell">
               {app.installs_last_7_days.toLocaleString()}
             </TableCell>
           </TableRow>
@@ -688,11 +694,20 @@ export default function MaintenanceClient() {
         info?.permissions?.includes(Permission.moderation) ?? false
       }
     >
-      <div className="flex flex-col gap-4 px-2 pb-12 sm:gap-6 lg:pe-8 [--muted-foreground:color-mix(in_srgb,var(--foreground)_70%,var(--background))]">
-        <header className="flex items-start justify-between gap-3 sm:items-center">
-          <h1 className="min-w-0 flex-1 text-2xl font-bold tracking-tight sm:text-3xl">
-            Maintenance Radar
-          </h1>
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-2 pb-12 pt-4 sm:px-5 lg:px-8 [--muted-foreground:color-mix(in_srgb,var(--foreground)_70%,var(--background))]">
+        <header className="flex items-start justify-between gap-4">
+          <div className="flex min-w-0 flex-col gap-2">
+            <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+              Flathub / Maintenance
+            </p>
+            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Maintenance Radar
+            </h1>
+            <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
+              Find the next useful intervention. Investigate signals, coordinate
+              with maintainers, and keep apps moving.
+            </p>
+          </div>
           <Button
             variant="outline"
             size="icon"
@@ -705,28 +720,30 @@ export default function MaintenanceClient() {
             <span className="hidden sm:inline">Refresh</span>
           </Button>
         </header>
-        <dl className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b pb-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-y sm:py-4">
-          <div className="flex items-baseline gap-2 sm:flex-col sm:items-start sm:gap-1">
-            <dt className="text-xs text-muted-foreground">Active</dt>
-            <dd className="font-mono text-base tabular-nums sm:text-3xl">
+        <dl className="grid grid-cols-3 divide-x rounded-xl border bg-muted/20 py-4">
+          <div className="flex flex-col gap-2 px-3 sm:px-6">
+            <dt className="text-xs text-muted-foreground">Needs maintenance</dt>
+            <dd className="font-mono text-2xl tracking-tight tabular-nums sm:text-3xl">
               {data?.active.toLocaleString() ?? "—"}
             </dd>
           </div>
-          <div className="flex items-baseline gap-2 sm:flex-col sm:items-start sm:gap-1">
-            <dt className="text-xs text-muted-foreground">EOL runtimes</dt>
-            <dd className="font-mono text-base tabular-nums sm:text-3xl">
+          <div className="flex flex-col gap-2 px-3 sm:px-6">
+            <dt className="text-xs text-muted-foreground">
+              EOL runtime groups
+            </dt>
+            <dd className="font-mono text-2xl tracking-tight tabular-nums sm:text-3xl">
               {data?.campaigns.length.toLocaleString() ?? "—"}
             </dd>
           </div>
-          <div className="flex items-baseline gap-2 sm:flex-col sm:items-start sm:gap-1">
+          <div className="flex flex-col gap-2 px-3 sm:px-6">
             <dt className="text-xs text-muted-foreground">Snoozed</dt>
-            <dd className="font-mono text-base tabular-nums sm:text-3xl">
+            <dd className="font-mono text-2xl tracking-tight tabular-nums sm:text-3xl">
               {data?.snoozed.toLocaleString() ?? "—"}
             </dd>
           </div>
         </dl>
         {data && data.campaigns.length > 0 ? (
-          <details className="group border-b pb-2 sm:pb-4">
+          <details className="group rounded-xl border px-4 py-3 sm:px-5">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 rounded-sm py-1 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring sm:text-base [&::-webkit-details-marker]:hidden">
               Runtime migrations
               <ChevronDown
@@ -735,7 +752,8 @@ export default function MaintenanceClient() {
               />
             </summary>
             <p className="mt-2 text-xs text-muted-foreground">
-              Highest downloads first. Includes snoozed apps.
+              Non-retired apps on end-of-life runtimes, highest downloads first.
+              Includes snoozed apps; excludes retired apps.
             </p>
             <div className="mt-3 grid gap-2 xl:grid-cols-2">
               {data.campaigns.slice(0, 6).map((campaign) => (
@@ -776,22 +794,32 @@ export default function MaintenanceClient() {
           </details>
         ) : null}
         <section
-          className="flex flex-col gap-3 sm:gap-4"
+          className="flex min-w-0 flex-col gap-4"
           aria-label="Maintenance queue"
         >
+          <div className="flex flex-col gap-1">
+            <h2 className="text-lg font-semibold tracking-tight">
+              {queues.find(([id]) => id === queue)?.[1]}
+            </h2>
+            <p className="text-xs leading-relaxed text-muted-foreground">
+              Highest severity first, then weekly downloads. Select an app to
+              investigate.
+            </p>
+          </div>
           <form
+            className="rounded-xl border bg-muted/20 p-4 sm:p-5"
             onSubmit={(event) => {
               event.preventDefault()
               setSearch(searchInput)
               setPage(1)
             }}
           >
-            <FieldGroup className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-              <Field className="gap-2 sm:gap-3">
+            <FieldGroup className="grid grid-cols-2 items-end gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,0.7fr)_minmax(0,1.6fr)]">
+              <Field className="min-w-0 gap-2">
                 <FieldLabel htmlFor="maintenance-queue">Queue</FieldLabel>
                 <select
                   id="maintenance-queue"
-                  className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+                  className="h-12 min-w-0 rounded-xl border border-input bg-background px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring"
                   value={queue}
                   onChange={(event) => selectQueue(event.target.value as Queue)}
                 >
@@ -802,13 +830,13 @@ export default function MaintenanceClient() {
                   ))}
                 </select>
               </Field>
-              <Field className="gap-2 sm:gap-3">
+              <Field className="min-w-0 gap-2">
                 <FieldLabel htmlFor="maintenance-threshold">
                   Stale after
                 </FieldLabel>
                 <select
                   id="maintenance-threshold"
-                  className="h-10 rounded-md border border-input bg-background px-3 text-sm"
+                  className="h-12 min-w-0 rounded-xl border border-input bg-background px-3 text-sm focus-visible:outline-2 focus-visible:outline-ring"
                   value={staleDays}
                   onChange={(event) => {
                     setStaleDays(Number(event.target.value))
@@ -820,11 +848,12 @@ export default function MaintenanceClient() {
                   <option value={730}>2 years</option>
                 </select>
               </Field>
-              <Field className="col-span-2 gap-2 sm:gap-3">
+              <Field className="col-span-2 min-w-0 gap-2 xl:col-span-1">
                 <FieldLabel htmlFor="maintenance-search">Search</FieldLabel>
-                <div className="flex gap-2">
+                <div className="flex min-w-0 gap-2">
                   <Input
                     id="maintenance-search"
+                    className="min-w-0"
                     name="maintenance-search"
                     autoComplete="off"
                     spellCheck={false}
@@ -833,7 +862,11 @@ export default function MaintenanceClient() {
                     maxLength={200}
                     onChange={(event) => setSearchInput(event.target.value)}
                   />
-                  <Button type="submit" variant="outline">
+                  <Button
+                    type="submit"
+                    variant="outline"
+                    className="h-12 shrink-0"
+                  >
                     Search
                   </Button>
                 </div>
@@ -878,11 +911,13 @@ export default function MaintenanceClient() {
                 {data.total.toLocaleString()} cases · refreshed{" "}
                 {utcDate(data.evaluated_at)}
               </div>
-              <RadarQueue
-                data={data}
-                onSelect={setSelected}
-                draftAppIds={draftAppIds}
-              />
+              <div className="overflow-hidden rounded-xl border">
+                <RadarQueue
+                  data={data}
+                  onSelect={setSelected}
+                  draftAppIds={draftAppIds}
+                />
+              </div>
               <div className="flex items-center justify-between gap-3">
                 <Button
                   variant="outline"
