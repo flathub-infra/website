@@ -14,12 +14,13 @@ export default {
   parameters: {
     nextjs: {
       appDirectory: true,
+      navigation: { query: { reviewHistory: "true" } },
     },
   },
   component: AppDevModeration,
   decorators: [
     (Story) => {
-      queryClient.setQueryData(["moderation", "tv.abc.TestApp", 10, 0], {
+      queryClient.setQueryData(["moderation", "tv.abc.TestApp", true, 10, 0], {
         data: {
           requests: [
             {

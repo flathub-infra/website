@@ -57,7 +57,7 @@ export default function UploadTokenControls({
   } else {
     content = (
       <>
-        <div className="grid w-full grid-cols-2 gap-4">
+        <div className="flex flex-wrap gap-3">
           <Button
             size="lg"
             onClick={() => {

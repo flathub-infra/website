@@ -21,15 +21,36 @@ vi.mock("src/codegen/app/app", () => ({
 }))
 vi.mock("src/i18n/navigation", () => ({ Link: "a" }))
 
-function render(manifestUrl?: string) {
+function render(manifestUrl?: string | null) {
   return renderToStaticMarkup(
-    <NextIntlClientProvider locale="en" messages={messages}>
+    <NextIntlClientProvider locale="en" messages={messages} timeZone="UTC">
       <AppMaintenance appId="org.example.App" manifestUrl={manifestUrl} />
     </NextIntlClientProvider>,
   )
 }
 
 describe("maintainer evidence", () => {
+  it.each([null, undefined])(
+    "uses the app detail fallback when manifest metadata is %s",
+    (manifest) => {
+      expect(render(manifest)).toContain(
+        'href="https://github.com/flathub/org.example.App"',
+      )
+    },
+  )
+
+  it("preserves empty manifest metadata like the app detail page", () => {
+    expect(render("")).toContain('href=""')
+    expect(render("")).not.toContain(
+      'href="https://github.com/flathub/org.example.App"',
+    )
+  })
+
+  it("prefers an explicit packaging location over the default repository", () => {
+    expect(render("https://example.org/manifest.json")).toContain(
+      'href="https://example.org/manifest.json"',
+    )
+  })
   it.each([false, undefined])(
     "does not claim support from an EOL flag of %s",
     (flag) => {
@@ -39,7 +60,6 @@ describe("maintainer evidence", () => {
       expect(html).toContain("org.gnome.Platform/x86_64/48")
       expect(html).not.toContain("supported")
       expect(html).toContain("/builds/apps/org.example.App")
-      expect(html).not.toContain("https://github.com/flathub/org.example.App")
     },
   )
 

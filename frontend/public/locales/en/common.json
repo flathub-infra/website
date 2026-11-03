@@ -11,7 +11,18 @@
     "update-checker": "Update checker",
     "view-manifest": "View packaging manifest",
     "manifest-unavailable": "No packaging manifest link is available.",
-    "checker-docs": "Configuration guide"
+    "checker-docs": "Configuration guide",
+    "view-repository": "Packaging repository",
+    "builds-description": "Follow builds, inspect logs, and check publication results.",
+    "checker-description": "Configure automatic source updates in your packaging manifest."
+  },
+  "app-management": {
+    "sections": "App management sections",
+    "reviews": "Reviews",
+    "view-listing": "View app listing",
+    "review-history": "Include past reviews",
+    "no-pending-reviews": "No changes awaiting review",
+    "no-pending-description": "You're all caught up. Turn on past reviews to revisit previous changes."
   },
   "flathub": "Flathub",
   "flathub-logo": "Flathub Logo",
