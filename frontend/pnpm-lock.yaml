@@ -308,8 +308,8 @@ importers:
         specifier: ^3.0.3
         version: 3.0.3(msw@2.15.0(@types/node@26.6.5)(typescript@5.9.3))(storybook@10.6.3(@types/react@19.3.0)(prettier@3.9.9)(react@19.3.1))
       openapi3-ts:
-        specifier: ^4.6.0
-        version: 4.6.0
+        specifier: ^4.6.2
+        version: 4.6.2
       orval:
         specifier: 8.43.0
         version: 8.43.0(@faker-js/faker@10.6.0)(@tanstack/react-query@5.102.2(react@19.3.1))(msw@2.15.0(@types/node@26.6.5)(typescript@5.9.3))(prettier@3.9.9)(typedoc-plugin-markdown@4.13.0(typedoc@0.28.20(typescript@5.9.3)))(typedoc@0.28.20(typescript@5.9.3))(typescript@5.9.3)(zod@3.25.76)
@@ -6158,8 +6158,8 @@ packages:
     resolution: {integrity: sha512-YgBpdJHPyQ2UE5x+hlSXcnejzAvD0b22U2OuAP+8OnlJT+PjWPxtgmGqKKc+RgTM63U9gN0YzrYc71R2WT/hTA==}
     engines: {node: '>=18'}
 
-  openapi3-ts@4.6.0:
-    resolution: {integrity: sha512-a4sfn6L2sIShhtzJqmjGrARvxAW/3F2BJDdyRVvNF9VhAsZSh5hSyI3a9TNvmzBxXmq66nY5LNT5bQcBxYAZZg==}
+  openapi3-ts@4.6.2:
+    resolution: {integrity: sha512-gyyil3DweqhXiEhTqtAs9wwRLfWHmetwhI4kmM5Rn0d6gtmK863Ki7qqbQnp9+Wwlqoe3B1LFWj7kMp5ctE4rQ==}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -7410,11 +7410,6 @@ packages:
 
   yallist@4.0.0:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
-
-  yaml@2.9.0:
-    resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
-    engines: {node: '>= 14.6'}
-    hasBin: true
 
   yaml@2.9.1:
     resolution: {integrity: sha512-3NxN8+78OdzbT7C/WjGsyfPAtJaN3FNDsWxv7Y7mcDsT/oOmgW8BpyQQFFBnvZE3j9Y2Sdz1ULFLezL7Eb2yFw==}
@@ -13153,9 +13148,9 @@ snapshots:
       is-inside-container: 1.0.0
       wsl-utils: 0.1.0
 
-  openapi3-ts@4.6.0:
+  openapi3-ts@4.6.2:
     dependencies:
-      yaml: 2.9.0
+      yaml: 2.9.1
 
   optionator@0.9.4:
     dependencies:
@@ -14625,8 +14620,6 @@ snapshots:
   yallist@3.1.1: {}
 
   yallist@4.0.0: {}
-
-  yaml@2.9.0: {}
 
   yaml@2.9.1: {}
 
