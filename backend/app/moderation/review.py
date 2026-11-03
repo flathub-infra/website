@@ -2070,7 +2070,7 @@ def submit_review_request(
     )
     if not requires_review:
         permission_publication.advance_published(
-            review_request.build_id, "stable", set(app_ids)
+            review_request.build_id, "stable", set(app_ids) & candidate_app_ids
         )
         return ReviewRequestResponse(requires_review=False)
 
