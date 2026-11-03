@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useState, type ReactNode } from "react"
 import { http, HttpResponse } from "msw"
-import { expect, userEvent, within } from "storybook/test"
+import { expect, userEvent, waitFor, within } from "storybook/test"
 import { getRouter } from "@storybook/nextjs-vite/navigation.mock"
 import { UserContext, UserDispatchContext } from "src/context/user-info"
 import { getGetUserinfoAuthUserinfoGetResponseMock } from "src/codegen/auth/auth.msw"
@@ -199,6 +199,72 @@ export const ReviewHistory: Story = {
 export const LongName: Story = {
   args: {
     app: { ...meta.args.app, name: "ExpressLRS Configurator", icon: "" },
+  },
+}
+
+export const OutOfRangePendingPage: Story = {
+  parameters: {
+    nextjs: {
+      navigation: {
+        pathname: `/apps/manage/${appId}`,
+        query: { page: "2", source: "bookmark" },
+      },
+    },
+    msw: {
+      handlers: [
+        http.get("*/moderation/apps/:appId", () =>
+          HttpResponse.json({ requests: [], requests_count: 1 }),
+        ),
+        ...handlers.filter(
+          (handler) => handler.info.path !== "*/moderation/apps/:appId",
+        ),
+      ],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await waitFor(() =>
+      expect(getRouter().replace).toHaveBeenCalledWith(
+        `/apps/manage/${appId}?page=1&source=bookmark`,
+        { scroll: false },
+      ),
+    )
+    await expect(
+      canvas.queryByText("No changes awaiting review"),
+    ).not.toBeInTheDocument()
+  },
+}
+
+export const OutOfRangeHistoryPage: Story = {
+  parameters: {
+    nextjs: {
+      navigation: {
+        pathname: `/apps/manage/${appId}`,
+        query: { reviewHistory: "true", page: "9" },
+      },
+    },
+    msw: {
+      handlers: [
+        http.get("*/moderation/apps/:appId", () =>
+          HttpResponse.json({ requests: [], requests_count: 11 }),
+        ),
+        ...handlers.filter(
+          (handler) => handler.info.path !== "*/moderation/apps/:appId",
+        ),
+      ],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await waitFor(() =>
+      expect(getRouter().replace).toHaveBeenCalledWith(
+        `/apps/manage/${appId}?reviewHistory=true&page=2`,
+        { scroll: false },
+      ),
+    )
+    await expect(
+      canvas.queryByText("No reviews to show for this app."),
+    ).not.toBeInTheDocument()
   },
 }
 export const DirectUpload: Story = {

@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl"
 import { useSearchParams } from "next/navigation"
-import { FunctionComponent } from "react"
+import { FunctionComponent, useEffect } from "react"
 import { CheckCheck } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { usePathname, useRouter } from "src/i18n/navigation"
@@ -47,10 +47,23 @@ export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
     enabled: !!appId,
   })
 
-  const pages = Array.from(
-    { length: Math.ceil((query.data?.data.requests_count ?? 0) / PAGE_SIZE) },
-    (_, i) => i + 1,
-  )
+  const totalRequests = query.data?.data.requests_count ?? 0
+  const pageCount = Math.ceil(totalRequests / PAGE_SIZE)
+  const lastPage = Math.max(1, pageCount)
+  const isPageOutOfRange = query.isSuccess && currentPage > lastPage
+  const paramsString = searchParams.toString()
+
+  useEffect(() => {
+    if (!isPageOutOfRange) {
+      return
+    }
+
+    const params = new URLSearchParams(paramsString)
+    params.set("page", lastPage.toString())
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+  }, [isPageOutOfRange, lastPage, paramsString, pathname, router])
+
+  const pages = Array.from({ length: pageCount }, (_, i) => i + 1)
 
   return (
     <>
@@ -77,12 +90,12 @@ export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
           {t("app-management.review-history")}
         </label>
       </div>
-      {query.isPending && <Spinner size="m" />}
+      {(query.isPending || isPageOutOfRange) && <Spinner size="m" />}
       {query.isError && (
         <InlineError error={t(query.error.message)} shown={true} />
       )}
 
-      {query.isSuccess && query.data.data.requests.length === 0 && (
+      {query.isSuccess && !isPageOutOfRange && totalRequests === 0 && (
         <div
           className="grid grid-cols-[24px_minmax(0,1fr)] items-start gap-x-3 gap-y-1 border-t border-border py-4"
           role="status"
