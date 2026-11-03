@@ -181,7 +181,6 @@ def test_high_severity_guidance_precedes_upstream_release_investigation():
         installs_last_7_days=10,
         runtime="org.example.Runtime/x86_64/old",
         runtime_eol=True,
-        is_eol=True,
         upstream=release_evidence(
             observation(), [{"version": "1.0"}], SOURCE, "stable", NOW
         ),
@@ -189,11 +188,14 @@ def test_high_severity_guidance_precedes_upstream_release_investigation():
     case = assess(evidence, NOW)
     assert [signal.kind for signal in case.signals] == [
         "runtime",
-        "eol",
         "upstream",
         "stale",
     ]
     assert "supported-runtime migration" in case.signals[0].next_step
+
+    # Retirement suppresses every signal, including newer upstream releases.
+    evidence.is_eol = True
+    assert not assess(evidence, NOW).signals
 
 
 @pytest.mark.parametrize(

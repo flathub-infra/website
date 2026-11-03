@@ -12,7 +12,6 @@ export const GetMaintenanceDashboardAdminMaintenanceGetQueue = {
   all: "all",
   stale: "stale",
   runtime: "runtime",
-  eol: "eol",
   unknown: "unknown",
   upstream: "upstream",
   mine: "mine",

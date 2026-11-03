@@ -11,7 +11,6 @@ export type MaintenanceSignalKind =
 export const MaintenanceSignalKind = {
   stale: "stale",
   runtime: "runtime",
-  eol: "eol",
   unknown: "unknown",
   upstream: "upstream",
 } as const

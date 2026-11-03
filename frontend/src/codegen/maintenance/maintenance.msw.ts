@@ -38,7 +38,6 @@ export const getGetMaintenanceDashboardAdminMaintenanceGetResponseMock = (
       kind: faker.helpers.arrayElement([
         "stale",
         "runtime",
-        "eol",
         "unknown",
         "upstream",
       ] as const),
@@ -140,7 +139,6 @@ export const getGetMaintenanceCaseAdminMaintenanceAppIdGetResponseMock = (
     kind: faker.helpers.arrayElement([
       "stale",
       "runtime",
-      "eol",
       "unknown",
       "upstream",
     ] as const),
@@ -227,7 +225,6 @@ export const getUpdateMaintenanceCaseAdminMaintenanceAppIdPostResponseMock = (
     kind: faker.helpers.arrayElement([
       "stale",
       "runtime",
-      "eol",
       "unknown",
       "upstream",
     ] as const),

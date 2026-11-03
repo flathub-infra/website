@@ -130,7 +130,7 @@ def load_cases(
 def get_maintenance_dashboard(
     admin: ModeratorDep,
     queue: Literal[
-        "all", "stale", "runtime", "eol", "unknown", "upstream", "mine", "snoozed"
+        "all", "stale", "runtime", "unknown", "upstream", "mine", "snoozed"
     ] = "all",
     search: str = Query(default="", max_length=200),
     runtime: str | None = Query(default=None, max_length=300),
