@@ -35,7 +35,7 @@ const meta = {
   decorators: [
     (Story) => (
       <QueryProvider>
-        <div className="mx-auto max-w-3xl rounded-xl bg-flathub-white p-6 shadow-md dark:bg-flathub-arsenic">
+        <div className="mx-auto max-w-6xl p-6 [--muted-foreground:var(--flathub-granite-gray)] [--primary:var(--flathub-celestial-blue-dark)] dark:[--muted-foreground:var(--flathub-gray-x11)] dark:[--primary:var(--flathub-celestial-blue-light)] dark:[--primary-foreground:var(--flathub-dark-gunmetal)] [&_p]:mb-0">
           <h2 className="mb-6 text-xl font-semibold">Maintenance</h2>
           <Story />
         </div>
@@ -86,6 +86,7 @@ export const Unavailable: Story = {
 }
 
 export const Loading: Story = {
+  args: { manifestUrl: null },
   parameters: {
     msw: {
       handlers: [
@@ -96,4 +97,9 @@ export const Loading: Story = {
       ],
     },
   },
+}
+
+export const MissingManifestMetadata: Story = {
+  ...NoEolFlag,
+  args: { manifestUrl: null },
 }
