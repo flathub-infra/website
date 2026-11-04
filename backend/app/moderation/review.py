@@ -396,7 +396,7 @@ def create_github_build_issue(
             else f"build {build_id}"
         )
         body = (
-            "The Flathub team (@flathub/build-moderation) opened a discussion "
+            "The Flathub team (@flathub/reviewers) opened a discussion "
             f"about {build_ref}.\n\n"
             "The build remains withheld pending review. This discussion does not "
             "approve or reject it.\n"
@@ -405,7 +405,7 @@ def create_github_build_issue(
         title = f"Change in build {build_id} rejected"
         body = (
             f"A change in [build {build_id}]({build_log_url}) has been reviewed by "
-            "the Flathub team (@flathub/build-moderation), and rejected for the "
+            "the Flathub team (@flathub/reviewers), and rejected for the "
             "following reason:\n"
         )
     body += f"\n{quoted_comment}\n"
