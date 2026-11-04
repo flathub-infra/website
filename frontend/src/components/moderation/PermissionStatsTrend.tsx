@@ -1,21 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { useLocale } from "next-intl"
+import { useFormatter, useLocale, useTranslations } from "next-intl"
 import { defineChart, lineY } from "@tanstack/charts"
 import { scaleBand } from "@tanstack/charts/scales/band"
 import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { tooltip } from "@tanstack/charts/tooltip"
 import { crosshair } from "@tanstack/charts/crosshair"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { TanstackChart } from "src/components/charts/chart"
 import {
   Table,
@@ -27,7 +19,6 @@ import {
 } from "@/components/ui/table"
 import {
   buildMonthlyPermissionTrend,
-  permissionGroupLabel,
   type PermissionEntry,
   type PermissionStatsWindow,
 } from "./permission-stats"
@@ -43,6 +34,21 @@ export default function PermissionStatsTrend({
   entry?: PermissionEntry
 }) {
   const locale = useLocale()
+  const t = useTranslations("permission-statistics")
+  const common = useTranslations()
+  const format = useFormatter()
+  const metricValue = (value: number) =>
+    metric === "percentage"
+      ? format.number(value / 100, {
+          style: "percent",
+          maximumFractionDigits: 1,
+        })
+      : number.format(value)
+  const dateLabel = (value: string) =>
+    format.dateTime(new Date(value + "T00:00:00Z"), {
+      dateStyle: "medium",
+      timeZone: "UTC",
+    })
   const [metric, setMetric] = useState<"count" | "percentage">("count")
   const number = new Intl.NumberFormat(locale, { maximumFractionDigits: 1 })
   const monthLabel = (value: string) =>
@@ -73,13 +79,17 @@ export default function PermissionStatsTrend({
         axis: { ticks: { format: monthLabel } },
       },
       y: {
-        scale: scaleLinear,
+        scale: scaleLinear().domain([
+          0,
+          metric === "percentage"
+            ? 100
+            : Math.max(1, ...points.map((point) => point.count ?? 0)),
+        ]),
         nice: true,
         grid: true,
         axis: {
           ticks: {
-            format: (value) =>
-              number.format(value) + (metric === "percentage" ? "%" : ""),
+            format: (value) => metricValue(value),
           },
         },
       },
@@ -89,126 +99,102 @@ export default function PermissionStatsTrend({
     tooltip: {
       use: tooltip,
       content: (points) => ({
-        title: `${points[0]?.datum.snapshotDate ?? "No snapshot"}${points[0]?.datum.month === window.end_month ? " · Latest available observation" : ""}`,
+        title: points[0]?.datum.snapshotDate
+          ? dateLabel(points[0].datum.snapshotDate)
+          : t("no-snapshot"),
         rows: points.map((point) => ({
-          label:
-            metric === "percentage" ? "Share of eligible apps" : "App count",
+          label: metric === "percentage" ? t("eligible-share") : t("app-count"),
           value:
             point.yValue == null
-              ? "Unavailable"
-              : number.format(Number(point.yValue)) +
-                (metric === "percentage" ? "%" : ""),
+              ? t("unavailable")
+              : metricValue(Number(point.yValue)),
           color: point.color,
         })),
       }),
     },
   })
   return (
-    <section id={id} aria-label="Monthly adoption trend">
-      <Card className="gap-4 py-4">
-        <CardHeader className="gap-3 px-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <CardTitle>
-              <h2>Monthly adoption trend</h2>
-            </CardTitle>
-            <PermissionStatsSelect
-              label="Measure"
-              value={metric}
-              onValueChange={(value) => setMetric(value as typeof metric)}
-              options={[
-                { value: "count", label: "App count" },
-                { value: "percentage", label: "Share of eligible apps" },
-              ]}
-              disabled={!entry || window.snapshots.length < 2}
+    <section
+      id={id}
+      aria-label={t("trend")}
+      className="min-w-0 border-t border-border bg-muted/30 px-4 py-5 sm:px-6"
+    >
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h3 className="text-sm font-semibold">{t("trend")}</h3>
+          <PermissionStatsSelect
+            label={t("measure")}
+            hideLabel
+            value={metric}
+            onValueChange={(value) => setMetric(value as typeof metric)}
+            options={[
+              { value: "count", label: t("app-count") },
+              { value: "percentage", label: t("eligible-share") },
+            ]}
+            disabled={!entry || window.snapshots.length < 2}
+          />
+        </div>
+        {window.snapshots.length < 2 ? (
+          <Alert role="status">
+            <AlertTitle>{t("no-history")}</AlertTitle>
+            <AlertDescription>{t("no-history-description")}</AlertDescription>
+          </Alert>
+        ) : entry ? (
+          <div className="flex flex-col gap-4">
+            <TanstackChart
+              definition={definition}
+              className="h-[clamp(15rem,34vw,18rem)] w-full"
+              ariaLabel={t(metric === "count" ? "chart-count" : "chart-share", {
+                permission: entry.value,
+              })}
             />
           </div>
-          {entry ? (
-            <div className="flex flex-col gap-1" aria-live="polite">
-              <span className="text-xs text-muted-foreground">
-                Selected permission
-              </span>
-              <div className="break-all font-mono text-sm font-medium">
-                {entry.value}
-              </div>
-              <CardDescription>
-                {permissionGroupLabel(entry.groupPath)}
-              </CardDescription>
-            </div>
-          ) : (
-            <CardDescription>
-              Select a permission to inspect its history.
-            </CardDescription>
-          )}
-        </CardHeader>
-        <CardContent className="px-4">
-          {window.snapshots.length < 2 ? (
-            <Alert role="status">
-              <AlertTitle>Trend history not available yet</AlertTitle>
-              <AlertDescription>
-                Only one monthly snapshot is available. The current counts are
-                shown above.
-              </AlertDescription>
-            </Alert>
-          ) : entry ? (
-            <div className="flex flex-col gap-4">
-              <TanstackChart
-                definition={definition}
-                className="h-[clamp(15rem,34vw,18rem)] w-full"
-                ariaLabel={`Monthly ${metric === "count" ? "app count" : "recorded permission share"} for ${entry.value}`}
-              />
-              <details className="text-xs">
-                <summary className="cursor-pointer text-muted-foreground">
-                  Snapshot dates and metadata coverage
-                </summary>
-                <Table className="mt-2" aria-label="Monthly observations">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Month</TableHead>
-                      <TableHead>Observed</TableHead>
-                      <TableHead className="text-end">Apps</TableHead>
-                      <TableHead className="text-end">Coverage</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {points.map((point) => (
-                      <TableRow key={point.month}>
-                        <TableCell>{monthLabel(point.month)}</TableCell>
-                        <TableCell>
-                          {point.snapshotDate ?? "No snapshot"}
-                          {point.month === window.end_month &&
-                          point.snapshotDate ? (
-                            <span className="ms-2 text-xs text-muted-foreground">
-                              Latest available
-                            </span>
-                          ) : null}
-                        </TableCell>
-                        <TableCell className="text-end tabular-nums">
-                          {point.count === null
-                            ? "—"
-                            : number.format(point.count)}
-                        </TableCell>
-                        <TableCell className="text-end tabular-nums">
-                          {point.metadataCoverage === null
-                            ? "—"
-                            : number.format(point.metadataCoverage) + "%"}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </details>
-            </div>
-          ) : null}
-        </CardContent>
-        <CardFooter className="px-4">
-          <span className="text-xs leading-relaxed text-muted-foreground">
-            Shares are the percentage of eligible apps with this recorded
-            permission. Counts cover apps with stable metadata; a decrease can
-            reflect missing metadata, rather than removed access. Missing months
-            remain gaps.
-          </span>
-        </CardFooter>
-      </Card>
+        ) : null}
+        {entry ? (
+          <details className="mt-5 border-t border-border pt-4 text-xs">
+            <summary className="cursor-pointer text-muted-foreground">
+              {t("snapshot-details")}
+            </summary>
+            <Table
+              className="mt-2"
+              aria-label={t("snapshot-details")}
+              tabIndex={0}
+            >
+              <TableHeader>
+                <TableRow>
+                  <TableHead>{t("month")}</TableHead>
+                  <TableHead>{t("observed")}</TableHead>
+                  <TableHead className="text-end">{common("apps")}</TableHead>
+                  <TableHead className="text-end">{t("coverage")}</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {points.map((point) => (
+                  <TableRow key={point.month}>
+                    <TableCell>{monthLabel(point.month)}</TableCell>
+                    <TableCell>
+                      {point.snapshotDate
+                        ? dateLabel(point.snapshotDate)
+                        : t("no-snapshot")}
+                    </TableCell>
+                    <TableCell className="text-end tabular-nums">
+                      {point.count === null ? "—" : number.format(point.count)}
+                    </TableCell>
+                    <TableCell className="text-end tabular-nums">
+                      {point.metadataCoverage === null
+                        ? "—"
+                        : format.number(point.metadataCoverage / 100, {
+                            style: "percent",
+                            maximumFractionDigits: 1,
+                          })}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </details>
+        ) : null}
+      </div>
     </section>
   )
 }

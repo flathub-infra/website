@@ -33,6 +33,7 @@ import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
 import { useLocale, useTranslations } from "next-intl"
 import { useRouter } from "src/i18n/navigation"
+import StatisticsHeader from "src/components/StatisticsHeader"
 import { getIntlLocale } from "src/localize"
 import CountryMap, { type CountryMapValue } from "@/components/ui/country-map"
 
@@ -908,7 +909,9 @@ const StatisticsClient = ({
 
   return (
     <div className="max-w-11/12 mx-auto mt-12 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <h1 className="mb-8 text-4xl font-extrabold">{t("statistics")}</h1>
+      <div className="mb-8">
+        <StatisticsHeader active="overview" />
+      </div>
       <div className="flex flex-wrap gap-3 md:flex-nowrap">
         <ListBox
           items={[

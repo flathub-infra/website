@@ -126,16 +126,32 @@ export function buildMonthlyPermissionTrend(
   return points
 }
 
-export function permissionGroupLabel(path: string[]): string {
+export function permissionGroupLabel(
+  path: string[],
+  translate?: (key: string) => string,
+): string {
   return path
-    .map(
-      (segment) =>
-        ({
-          context: "Context",
-          "system-bus": "System bus",
-          "session-bus": "Session bus",
-          "unset-environment": "Unset environment",
-        })[segment] ?? segment.charAt(0).toUpperCase() + segment.slice(1),
-    )
+    .map((segment) => {
+      const labels = {
+        context: "Context",
+        "system-bus": "System bus",
+        "session-bus": "Session bus",
+        "unset-environment": "Unset environment",
+        shared: "Shared",
+        sockets: "Sockets",
+        devices: "Devices",
+        features: "Features",
+        filesystems: "Filesystems",
+        persistent: "Persistent",
+        environment: "Environment",
+        talk: "Talk",
+        own: "Own",
+        see: "See",
+        none: "No access",
+      }
+      return Object.hasOwn(labels, segment)
+        ? (translate?.(segment) ?? labels[segment])
+        : segment.charAt(0).toUpperCase() + segment.slice(1)
+    })
     .join(" / ")
 }

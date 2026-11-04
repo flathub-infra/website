@@ -17,6 +17,7 @@ export default function PermissionStatsSelect({
   onValueChange,
   options,
   disabled,
+  hideLabel = false,
 }: {
   label: string
   ariaLabel?: string
@@ -24,15 +25,23 @@ export default function PermissionStatsSelect({
   onValueChange: (value: string) => void
   options: { value: string; label: string }[]
   disabled?: boolean
+  hideLabel?: boolean
 }) {
   const id = useId()
   return (
-    <div className="flex items-center gap-2">
-      <label htmlFor={id} className="text-sm text-muted-foreground">
+    <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
+      <label
+        htmlFor={id}
+        className={hideLabel ? "sr-only" : "text-sm text-muted-foreground"}
+      >
         {label}
       </label>
       <Select value={value} onValueChange={onValueChange} disabled={disabled}>
-        <SelectTrigger id={id} aria-label={ariaLabel}>
+        <SelectTrigger
+          id={id}
+          aria-label={ariaLabel}
+          className="min-w-0 max-w-full"
+        >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
