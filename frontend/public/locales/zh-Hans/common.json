@@ -982,5 +982,30 @@
   "moderation-discussion-opened-by": "{openedBy} 开启的讨论",
   "no-network-access-description": "此应用没有网络访问权限。",
   "copy-success": "已复制到剪贴板",
-  "copy-failed": "无法自动复制。选择文本并手动复制。"
+  "copy-failed": "无法自动复制。选择文本并手动复制。",
+  "app-maintenance": {
+    "title": "维护",
+    "runtime": "已发布的运行时",
+    "loading-runtime": "正在加载运行时信息",
+    "runtime-unavailable": "运行时信息不可用。",
+    "runtime-eol": "这个运行时生命周期已结束",
+    "runtime-eol-description": "切换到受支持的运行时并发布一个新版本。",
+    "builds": "构建",
+    "view-builds": "查看构建结果",
+    "update-checker": "更新检查器",
+    "view-manifest": "查看打包清单",
+    "manifest-unavailable": "打包清单链接不可用。",
+    "checker-docs": "配置指南",
+    "view-repository": "打包仓库",
+    "builds-description": "跟踪构建、查看日志并检查发布结果。",
+    "checker-description": "在你的打包清单中配置自动源码更新。"
+  },
+  "app-management": {
+    "sections": "应用管理部分",
+    "reviews": "审核",
+    "view-listing": "查看应用上架情况",
+    "review-history": "包含以往审核",
+    "no-pending-reviews": "没有等待审核的更改",
+    "no-pending-description": "没有要处理的事项。打开以往审核再次查看之前的变更。"
+  }
 }

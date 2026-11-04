@@ -982,5 +982,30 @@
   "moderation-discussion-opened-by": "Dyskusja rozpoczęta przez {openedBy}",
   "no-network-access-description": "Ta aplikacja nie ma dostępu do sieci.",
   "copy-success": "Skopiowano do schowka",
-  "copy-failed": "Nie udało się skopiować automatycznie. Zaznacz tekst i skopiuj go ręcznie."
+  "copy-failed": "Nie udało się skopiować automatycznie. Zaznacz tekst i skopiuj go ręcznie.",
+  "app-maintenance": {
+    "title": "Przerwa techniczna",
+    "runtime": "Opublikowane środowisko uruchomieniowe",
+    "loading-runtime": "Wczytywanie informacji o środowisku uruchomieniowym",
+    "runtime-unavailable": "Informacje o środowisku uruchomieniowym jest niedostępne.",
+    "runtime-eol": "To środowisko uruchomieniowe osiągnęło koniec okresu wsparcia",
+    "runtime-eol-description": "Przełącz się na wspierane środowisko uruchomieniowe i opublikuj nową kompilację.",
+    "builds": "Kompilacje",
+    "view-builds": "Zobacz wynik kompilacji",
+    "update-checker": "Sprawdzanie aktualizacji",
+    "view-manifest": "Wyświetl manifest pakietu",
+    "manifest-unavailable": "Brak dostępnego linku do manifestu pakietu.",
+    "checker-docs": "Przewodnik po konfiguracji",
+    "view-repository": "Repozytorium pakietów",
+    "builds-description": "Śledź kompilacje, przeglądaj logi i sprawdzaj wyniki publikacji.",
+    "checker-description": "Skonfiguruj automatyczne aktualizacje źródeł w manifeście pakietu."
+  },
+  "app-management": {
+    "reviews": "Opinie",
+    "view-listing": "Zobacz listing aplikacji",
+    "review-history": "Uwzględnij przeszłe opinie",
+    "no-pending-description": "Jesteś na bieżąco. Włącz przegląd poprzednich weryfikacji, aby ponownie przejrzeć wcześniejsze zmiany.",
+    "sections": "Sekcje zarządzania aplikacjami",
+    "no-pending-reviews": "Brak zmian oczekujących na weryfikację"
+  }
 }

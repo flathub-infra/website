@@ -982,5 +982,30 @@
   "moderation-discussion-opened-by": "Vestluse algatas {openedBy}",
   "no-network-access-description": "Sellel rakendusel puudub ligipääs võrgule.",
   "copy-success": "Kopeeritud lõikelauale",
-  "copy-failed": "Automaatne kopeerimine ei õnnestunud. Vali tekst ja kopeeri käsitsi."
+  "copy-failed": "Automaatne kopeerimine ei õnnestunud. Vali tekst ja kopeeri käsitsi.",
+  "app-maintenance": {
+    "title": "Hooldus",
+    "runtime": "Avaldatud käitusteek",
+    "loading-runtime": "Laadin käitusteegi teavet",
+    "runtime-unavailable": "Käitusteegi teave pole saadaval.",
+    "runtime-eol": "Selle käitusteegi kasutusperiood on lõppenud",
+    "runtime-eol-description": "Asu kasutama uuemat käitusteeki ja kompileeri uus rakenduse variant.",
+    "builds": "Kompileeritud versioonid",
+    "view-builds": "Vaata kompileerimise tulemusi",
+    "update-checker": "Uuenduste kontrollija",
+    "checker-docs": "Seadistuse juhend",
+    "view-manifest": "Vaata pakendamiseks vajalikku rakenduse kontrollfaili",
+    "manifest-unavailable": "Pakendamiseks vajaliku rakenduse kontrollfaili linki pole saadaval.",
+    "view-repository": "Tarkvarahoidla",
+    "builds-description": "Jälgi kompileerimist, uuri logisid ja vaata avaldamise tulemusi.",
+    "checker-description": "Seadista oma rakenduse kontrollfailis lähtekoodi automaatset uuendamist."
+  },
+  "app-management": {
+    "sections": "Rakenduste halduse alajaotused",
+    "reviews": "Ülevaatamised",
+    "review-history": "Kaasa varasemad ülevaatamised",
+    "no-pending-reviews": "Ühtegi muudatust pole ülevaatamise ootel",
+    "no-pending-description": "Kõik on tehtud. Varasemat muudatuste vaatamiseks lülita nende kuvamine sisse.",
+    "view-listing": "Vaata rakenduse avaldamise teavet"
+  }
 }
