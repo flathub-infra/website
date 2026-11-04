@@ -131,7 +131,17 @@ def _detail(
     decision = models.PermissionDecision
     source = aliased(models.PermissionAssessmentObservation)
     decisions = session.execute(
-        select(decision, source, models.FlathubUser.display_name)
+        select(
+            decision,
+            source,
+            func.coalesce(
+                func.nullif(models.FlathubUser.display_name, ""),
+                select(models.GithubAccount.login)
+                .where(models.GithubAccount.user == decision.reviewer_id)
+                .limit(1)
+                .scalar_subquery(),
+            ),
+        )
         .join(source, source.id == decision.assessment_id)
         .outerjoin(models.FlathubUser, models.FlathubUser.id == decision.reviewer_id)
         .where(

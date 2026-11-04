@@ -394,6 +394,22 @@ def test_responses_expose_active_decision_rationale(db):
     assert persist(3, fingerprint="e" * 64).decision_rationale is None
 
 
+def test_decision_reviewer_name_falls_back_to_github_login(db):
+    with db() as session:
+        user = session.get(models.FlathubUser, 1)
+        user.display_name = None
+        session.add(models.GithubAccount(user=1, github_userid=123, login="reviewer"))
+    review = persist(1)
+    decide(review.assessment_id)
+    history = reviews.read_permission_review(review.assessment_id, None).decisions
+    assert history[0].reviewer_name == "reviewer"
+
+    with db() as session:
+        session.get(models.FlathubUser, 1).display_name = "Moderator"
+    history = reviews.read_permission_review(review.assessment_id, None).decisions
+    assert history[0].reviewer_name == "Moderator"
+
+
 TRAY = "org.kde.StatusNotifierWatcher"
 TRAY_CHANGE = {
     "published_snapshot": OLD_SNAP,
