@@ -243,6 +243,7 @@
 
   --destructive: var(--flathub-vivid-crimson);
   --destructive-foreground: var(--flathub-lotion);
+  --warning: var(--flathub-status-yellow);
 
   --border: var(--flathub-gainsborow);
   --input: var(--flathub-sonic-silver);
@@ -289,6 +290,7 @@
 
   --destructive: var(--flathub-dark-candy-apple-red);
   --destructive-foreground: var(--flathub-lotion);
+  --warning: var(--flathub-status-yellow-dark);
 
   --border: var(--flathub-granite-gray);
   --input: var(--flathub-spanish-gray);

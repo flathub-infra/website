@@ -21,7 +21,7 @@ import {
   useManualVerificationVerificationAppIdManualVerificationPost,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Separator } from "@/components/ui/separator"
 import { useTranslations } from "next-intl"
 
 interface Props {
@@ -122,13 +122,39 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
     onVerified?.()
   }, [onVerified, query])
 
-  if (query.isPending || verificationAvailableMethods.isPending) {
+  if (query.isPending || verificationAvailableMethods.isLoading) {
     return <Spinner size="m" />
   }
 
   let content: ReactElement
   if (query.error) {
     content = <InlineError shown={true} error={query.error.message} />
+  } else if (query.data.data.verified && !isNewApp) {
+    content = (
+      <div className="flex flex-col items-start gap-5">
+        <p className="font-semibold">
+          <StatusInfo status={query.data.data} />
+        </p>
+        <Button variant="outline" onClick={() => setConfirmUnverify(true)}>
+          {t("unverify")}
+        </Button>
+        <ConfirmDialog
+          isVisible={confirmUnverify}
+          prompt={t("unverify", { appId: app.id })}
+          action={t("unverify")}
+          actionVariant="destructive"
+          onConfirmed={() => {
+            setConfirmUnverify(false)
+            unverifyVerificationAppIdUnverifyPost(app.id, {
+              withCredentials: true,
+            }).then(() => query.refetch())
+          }}
+          onCancelled={() => setConfirmUnverify(false)}
+        >
+          {t("unverify-app-prompt", { appId: app.id })}
+        </ConfirmDialog>
+      </div>
+    )
   } else if (verificationAvailableMethods.error?.response?.data) {
     const errorData = verificationAvailableMethods.error.response.data
     // Handle custom error responses with string detail
@@ -212,9 +238,12 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
     }
   } else {
     content = (
-      <div className="space-y-3">
-        <p className="xl:max-w-[75%]">
-          {t.rich("verification-instructions", {
+      <div className="flex flex-col gap-5">
+        <p className="font-semibold">
+          <StatusInfo status={query.data.data} />
+        </p>
+        <p className="max-w-prose text-sm leading-relaxed text-foreground">
+          {t.rich("app-management.verification-description", {
             doclink: (chunk) => (
               <a
                 href="https://docs.flathub.org/docs/for-app-authors/verification"
@@ -227,12 +256,6 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
             ),
           })}
         </p>
-        <div className="xl:max-w-[75%]">
-          <Alert>
-            <AlertDescription>{t("verification-warning")}</AlertDescription>
-          </Alert>
-        </div>
-
         {verificationAvailableMethods.isPending ? (
           <Spinner size="m" />
         ) : (
@@ -275,6 +298,9 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
             },
           )
         )}
+        <p className="max-w-prose text-xs leading-relaxed text-muted-foreground">
+          {t("verification-warning")}
+        </p>
       </div>
     )
   }
@@ -287,10 +313,11 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
       {content}
 
       {isAdmin && (
-        <div className="mt-3">
+        <div className="mt-6 flex flex-col items-start gap-4">
+          <Separator />
+          <h3 className="text-sm font-semibold">Administrator actions</h3>
           <Button
-            size="lg"
-            variant="secondary"
+            variant="outline"
             disabled={query.data?.data.verified}
             onClick={() => {
               manualVerifyMutation.mutate(

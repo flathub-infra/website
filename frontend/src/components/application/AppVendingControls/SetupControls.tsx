@@ -24,6 +24,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Link } from "src/i18n/navigation"
+import { CreditCard } from "lucide-react"
 
 interface Props {
   app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name" | "bundle">
@@ -152,11 +153,30 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
 
   if (!statusQuery.data.data || !statusQuery.data.data.details_submitted) {
     return (
-      <p>
-        <Link href="/developer-portal#accepting-payment">
-          {t("vending-onboard")}
-        </Link>
-      </p>
+      <div className="flex flex-col items-start gap-6">
+        <p className="max-w-prose text-sm leading-relaxed text-foreground">
+          {t("app-management.payments-description")}
+        </p>
+        <div className="flex w-full flex-col items-start justify-between gap-5 border-t border-border pt-6 sm:flex-row sm:items-center">
+          <div className="flex items-center gap-3">
+            <CreditCard
+              className="size-5 shrink-0 text-muted-foreground"
+              aria-hidden
+            />
+            <div className="flex flex-col gap-1">
+              <h3 className="text-sm font-semibold">Stripe Express</h3>
+              <p className="text-sm text-muted-foreground">
+                {t("app-management.payment-account-status")}
+              </p>
+            </div>
+          </div>
+          <Button asChild>
+            <Link href="/developer-portal#accepting-payment">
+              {t("app-management.set-up-payments")}
+            </Link>
+          </Button>
+        </div>
+      </div>
     )
   }
 

@@ -19,6 +19,29 @@ interface Props {
   manifestUrl?: string | null
 }
 
+export function AppRuntimeWarning({ appId }: { appId: string }) {
+  const t = useTranslations("app-maintenance")
+  const summary = useGetSummarySummaryAppIdGet(appId)
+  const metadata = summary.data?.data?.metadata
+
+  if (
+    summary.isPending ||
+    summary.isError ||
+    !metadata?.runtime ||
+    metadata.runtimeIsEol !== true
+  ) {
+    return null
+  }
+
+  return (
+    <Alert variant="warning" className="mb-6">
+      <AlertTriangle className="size-4" aria-hidden />
+      <AlertTitle>{t("runtime-eol")}</AlertTitle>
+      <AlertDescription>{t("runtime-eol-description")}</AlertDescription>
+    </Alert>
+  )
+}
+
 export default function AppMaintenance({ appId, manifestUrl }: Props) {
   const t = useTranslations("app-maintenance")
   const summary = useGetSummarySummaryAppIdGet(appId)
@@ -54,7 +77,7 @@ export default function AppMaintenance({ appId, manifestUrl }: Props) {
                 {runtime}
               </code>
               {isEol && (
-                <Alert variant="destructive">
+                <Alert variant="warning">
                   <AlertTriangle className="size-4" aria-hidden />
                   <AlertTitle>{t("runtime-eol")}</AlertTitle>
                   <AlertDescription>

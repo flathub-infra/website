@@ -11,6 +11,8 @@ import {
   useRevokeUploadTokenUploadTokensTokenIdRevokeDelete,
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Field, FieldLabel } from "@/components/ui/field"
 import { UTCDate } from "@date-fns/utc"
 
 export default function UploadTokenControls({
@@ -57,32 +59,58 @@ export default function UploadTokenControls({
   } else {
     content = (
       <>
-        <div className="flex flex-wrap gap-3">
-          <Button
-            size="lg"
-            onClick={() => {
-              setRepo("beta")
-              setModalVisible(true)
-            }}
-            disabled={!query.data.data.allowed_repos.includes("beta")}
-          >
-            {t("new-beta-token")}
-          </Button>
-          {query.data.data.allowed_repos.includes("stable") && (
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <h2 className="text-xl font-semibold tracking-tight">
+            {t("app-management.uploads")}
+          </h2>
+          <div className="flex flex-wrap gap-3">
             <Button
-              size="lg"
               onClick={() => {
-                setRepo("stable")
+                setRepo("beta")
                 setModalVisible(true)
               }}
+              disabled={!query.data.data.allowed_repos.includes("beta")}
             >
-              {t("new-stable-token")}
+              {t("new-beta-token")}
             </Button>
-          )}
+            {query.data.data.allowed_repos.includes("stable") && (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setRepo("stable")
+                  setModalVisible(true)
+                }}
+              >
+                {t("new-stable-token")}
+              </Button>
+            )}
+          </div>
         </div>
+        <p className="mt-5 max-w-prose text-sm leading-relaxed text-foreground">
+          {t("app-management.uploads-description")}
+        </p>
+        <Field orientation="horizontal" className="mt-6">
+          <Checkbox
+            id="show-expired-tokens"
+            checked={showExpired}
+            onCheckedChange={(checked) => setShowExpired(checked === true)}
+          />
+          <FieldLabel htmlFor="show-expired-tokens">
+            {t("show-expired-tokens")}
+          </FieldLabel>
+        </Field>
 
         {query.data.data.tokens.length === 0 && (
-          <p className="mt-6">{t("no-tokens-to-show")}</p>
+          <p
+            className="mt-5 border-t border-border py-6 text-sm text-muted-foreground"
+            role="status"
+          >
+            {t(
+              showExpired
+                ? "no-tokens-to-show"
+                : "app-management.no-active-tokens",
+            )}
+          </p>
         )}
 
         {query.data.data.tokens.length > 0 && (
@@ -165,22 +193,17 @@ export default function UploadTokenControls({
             </table>
           </div>
         )}
-
-        {!showExpired && (
-          <Button
-            size="lg"
-            className="mt-4"
-            onClick={() => setShowExpired(true)}
-          >
-            {t("show-expired-tokens")}
-          </Button>
-        )}
       </>
     )
   }
 
   return (
     <>
+      {!query.isSuccess && (
+        <h2 className="mb-6 text-xl font-semibold tracking-tight">
+          {t("app-management.uploads")}
+        </h2>
+      )}
       {content}
 
       <NewTokenDialog
