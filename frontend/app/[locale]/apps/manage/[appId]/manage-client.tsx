@@ -1,12 +1,22 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import { type ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { GitBranch } from "lucide-react"
 import { Link } from "src/i18n/navigation"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import AppMaintenance from "src/components/application/AppMaintenance"
+import AppMaintenance, {
+  AppRuntimeWarning,
+} from "src/components/application/AppMaintenance"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import AppDevelopersControls from "src/components/application/AppDevelopersControls"
 import UploadTokenControls from "src/components/application/AppUploadControls/UploadTokenControls"
 import * as AppVerificationControls from "src/components/application/AppVerificationControls"
@@ -50,7 +60,9 @@ function ManagementPanel({
       forceMount
       className="mt-0 min-w-0 pt-0 data-[state=inactive]:hidden"
     >
-      <h2 className="mb-5 text-2xl font-bold tracking-tight">{title}</h2>
+      {value !== "uploads" && (
+        <h2 className="mb-6 text-xl font-semibold tracking-tight">{title}</h2>
+      )}
       {children}
     </TabsContent>
   )
@@ -59,6 +71,7 @@ function ManagementPanel({
 export default function ManageClient({ app, vendingConfig }: Props) {
   const t = useTranslations()
   const user = useUserContext()
+  const [selectedSection, setSelectedSection] = useState("reviews")
   const isAnApp = [
     "desktop",
     "console-application",
@@ -92,6 +105,20 @@ export default function ManageClient({ app, vendingConfig }: Props) {
     ...(isAnApp
       ? [
           {
+            value: "maintenance",
+            title: t("app-maintenance.title"),
+            content: (
+              <AppMaintenance
+                appId={app.id}
+                manifestUrl={app.metadata?.["flathub::manifest"]}
+              />
+            ),
+          },
+        ]
+      : []),
+    ...(isAnApp
+      ? [
+          {
             value: "verification",
             title: t("verification"),
             content: (
@@ -108,7 +135,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
       ? [
           {
             value: "payment",
-            title: t("accepting-payment"),
+            title: t("app-management.payments"),
             content: (
               <AppVendingControls.SetupControls
                 app={app}
@@ -142,7 +169,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
       ? [
           {
             value: "uploads",
-            title: t("upload-tokens"),
+            title: t("app-management.uploads"),
             content: <UploadTokenControls app={app} />,
           },
         ]
@@ -171,7 +198,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
   ]
 
   return (
-    <div className="mx-auto mb-16 mt-6 w-11/12 max-w-[1400px] [--muted-foreground:var(--flathub-granite-gray)] [--primary:var(--flathub-celestial-blue-dark)] dark:[--muted-foreground:var(--flathub-gray-x11)] dark:[--primary:var(--flathub-celestial-blue-light)] dark:[--primary-foreground:var(--flathub-dark-gunmetal)] [&_p]:mb-0 [&_p_a:not([data-slot=button])]:text-foreground [&_p_a:not([data-slot=button])]:underline [&_p_a:not([data-slot=button])]:underline-offset-[3px]">
+    <div className="mx-auto mb-16 mt-6 w-11/12 max-w-[1200px] [--muted-foreground:var(--flathub-granite-gray)] [--primary:var(--flathub-celestial-blue-dark)] dark:[--muted-foreground:var(--flathub-gray-x11)] dark:[--primary:var(--flathub-celestial-blue-light)] dark:[--primary-foreground:var(--flathub-dark-gunmetal)] [&_p]:mb-0 [&_p_a:not([data-slot=button])]:text-foreground [&_p_a:not([data-slot=button])]:underline [&_p_a:not([data-slot=button])]:underline-offset-[3px]">
       <LoginGuard
         condition={(info: GetUserinfoAuthUserinfoGet200) =>
           info.dev_flatpaks?.includes(app.id)
@@ -184,7 +211,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
               <LogoImage iconUrl={app.icon} appName={app.name} size={64} />
             </div>
             <div className="min-w-0">
-              <h1 className="text-3xl font-bold tracking-tight [overflow-wrap:anywhere] sm:text-4xl">
+              <h1 className="text-2xl font-bold tracking-tight [overflow-wrap:anywhere] sm:text-4xl">
                 {app.name}
               </h1>
               <p
@@ -206,23 +233,11 @@ export default function ManageClient({ app, vendingConfig }: Props) {
           </Button>
         </header>
 
-        {isAnApp ? (
-          <section
-            aria-labelledby="maintenance-heading"
-            className="mb-8 rounded-xl bg-flathub-white p-[clamp(18px,2.5vw,28px)] shadow-md dark:bg-flathub-arsenic"
-          >
-            <h2
-              id="maintenance-heading"
-              className="mb-5 text-2xl font-bold tracking-tight"
-            >
-              {t("app-maintenance.title")}
-            </h2>
-            <AppMaintenance
-              appId={app.id}
-              manifestUrl={app.metadata?.["flathub::manifest"]}
-            />
-          </section>
-        ) : (
+        {isAnApp && selectedSection !== "maintenance" && (
+          <AppRuntimeWarning appId={app.id} />
+        )}
+
+        {!isAnApp && (
           <div className="mb-8">
             <Button asChild variant="secondary">
               <Link href={`/builds/apps/${app.id}`}>
@@ -234,18 +249,51 @@ export default function ManageClient({ app, vendingConfig }: Props) {
         )}
 
         <Tabs
-          defaultValue="reviews"
+          value={selectedSection}
+          onValueChange={setSelectedSection}
           orientation="vertical"
-          className="grid items-start gap-8 md:grid-cols-[190px_minmax(0,1fr)] xl:gap-12"
+          className="grid items-start gap-4 md:min-h-[34rem] md:grid-cols-[190px_minmax(0,1fr)] md:gap-8"
         >
           <nav aria-label={t("app-management.sections")} className="min-w-0">
-            <div className="mb-4 flex items-center gap-3 text-sm font-semibold leading-[1.6] text-muted-foreground">
+            <div className="mb-4 hidden items-center gap-3 text-xs font-semibold leading-[1.6] text-muted-foreground md:flex">
               {t("manage")}
+            </div>
+            <div className="md:hidden">
+              <label
+                htmlFor="management-section"
+                className="mb-2 block text-xs font-semibold text-muted-foreground"
+              >
+                {t("app-management.manage-app")}
+              </label>
+              <Select
+                value={selectedSection}
+                onValueChange={setSelectedSection}
+              >
+                <SelectTrigger
+                  id="management-section"
+                  className="w-full data-[size=default]:h-11"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {sections.map(({ value, title }) => (
+                      <SelectItem
+                        key={value}
+                        value={value}
+                        className="min-h-11"
+                      >
+                        {title}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
             <TabsList
               aria-label={t("app-management.sections")}
               variant="rail"
-              className="grid w-full grid-cols-2 md:grid-cols-1"
+              className="hidden w-full md:grid md:grid-cols-1"
             >
               {sections.map(({ value, title }) => (
                 <TabsTrigger
@@ -259,7 +307,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
               ))}
             </TabsList>
           </nav>
-          <div className="min-w-0 rounded-xl bg-flathub-white p-[clamp(18px,2.5vw,28px)] shadow-md dark:bg-flathub-arsenic">
+          <div className="min-w-0 rounded-xl bg-flathub-white p-[clamp(18px,2.5vw,28px)] shadow-sm dark:bg-flathub-arsenic">
             {sections.map(({ value, title, content }) => (
               <ManagementPanel key={value} value={value} title={title}>
                 {content}

@@ -31,10 +31,12 @@ export const ArchiveConfirmation: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     await userEvent.click(
-      await canvas.findByRole("button", { name: "Archive this app" }),
+      await canvas.findByRole("button", { name: "Archive", exact: true }),
     )
 
-    const dialog = within(canvasElement.ownerDocument.body)
+    const dialog = within(
+      await within(canvasElement.ownerDocument.body).findByRole("dialog"),
+    )
     await waitFor(() =>
       expect(
         dialog.getByText("Archiving affects this app and its publishers"),
@@ -54,11 +56,13 @@ export const DirectUploadConfirmation: Story = {
     const canvas = within(canvasElement)
     await userEvent.click(
       await canvas.findByRole("button", {
-        name: "Switch app to direct upload",
+        name: "Switch upload method",
       }),
     )
 
-    const dialog = within(canvasElement.ownerDocument.body)
+    const dialog = within(
+      await within(canvasElement.ownerDocument.body).findByRole("dialog"),
+    )
     await waitFor(() =>
       expect(
         dialog.getByText("This change cannot be undone"),

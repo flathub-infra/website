@@ -5,11 +5,19 @@ import { http, HttpResponse } from "msw"
 import { expect, userEvent, waitFor, within } from "storybook/test"
 import { getRouter } from "@storybook/nextjs-vite/navigation.mock"
 import { UserContext, UserDispatchContext } from "src/context/user-info"
-import { getGetUserinfoAuthUserinfoGetResponseMock } from "src/codegen/auth/auth.msw"
+import type { UserInfo } from "src/codegen/model"
 import ManageClient from "./manage-client"
+import Header from "src/components/layout/Header"
+import Footer from "src/components/layout/Footer"
 
 const appId = "org.filezillaproject.Filezilla"
-const user = getGetUserinfoAuthUserinfoGetResponseMock()
+const user: UserInfo = {
+  displayname: "Flathub maintainer",
+  default_account: { login: "flathub-maintainer", avatar: null },
+  auths: {},
+  invite_code: "",
+  accepted_publisher_agreement_at: null,
+}
 
 function Providers({
   children,
@@ -90,7 +98,16 @@ const handlers = [
     HttpResponse.json({ verified: false }),
   ),
   http.get("*/verification/:appId/available-methods", () =>
-    HttpResponse.json([]),
+    HttpResponse.json({
+      methods: [
+        { method: "website", website: "filezilla-project.org" },
+        {
+          method: "dns",
+          dns_domain: "filezilla-project.org",
+          dns_record_name: "_flathub.filezilla-project.org",
+        },
+      ],
+    }),
   ),
   http.get("*/vendingapp/:appId/setup", () =>
     HttpResponse.json({
@@ -145,21 +162,35 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
+export const FullPage: Story = {
+  render: (args) => (
+    <div className="flex min-h-screen flex-col bg-flathub-lotion dark:bg-flathub-dark-gunmetal">
+      <Header />
+      <main className="pt-[68px]">
+        <ManageClient {...args} />
+      </main>
+      <Footer />
+    </div>
+  ),
+}
+
 export const RepositoryManaged: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByRole("tab", { name: "Maintenance" }))
     await expect(
       await canvas.findByRole("link", { name: "Packaging repository" }),
     ).toHaveAttribute("href", `https://github.com/flathub/${appId}`)
+    await userEvent.click(canvas.getByRole("tab", { name: "Reviews" }))
     await expect(
       await canvas.findByText("No changes awaiting review"),
     ).toBeVisible()
     canvas.getByRole("tab", { name: "Reviews" }).focus()
-    await userEvent.keyboard("{ArrowDown}")
+    await userEvent.keyboard("{ArrowDown}{ArrowDown}")
     await expect(
       canvas.getByRole("tabpanel", { name: "Verification" }),
     ).toBeVisible()
-    await userEvent.keyboard("{ArrowUp}")
+    await userEvent.keyboard("{ArrowUp}{ArrowUp}")
     await expect(
       canvas.getByRole("tabpanel", { name: "Reviews" }),
     ).toBeVisible()
@@ -167,7 +198,7 @@ export const RepositoryManaged: Story = {
       canvas.getByRole("checkbox", { name: "Include past reviews" }),
     )
     await expect(getRouter().replace).toHaveBeenCalledWith(
-      `/apps/manage/${appId}?reviewHistory=true`,
+      `/en/apps/manage/${appId}?reviewHistory=true`,
       { scroll: false },
     )
   },
@@ -191,7 +222,7 @@ export const ReviewHistory: Story = {
       canvas.getByRole("checkbox", { name: "Include past reviews" }),
     )
     await expect(getRouter().replace).toHaveBeenCalledWith(
-      `/apps/manage/${appId}?`,
+      `/en/apps/manage/${appId}?`,
       { scroll: false },
     )
   },
@@ -199,6 +230,65 @@ export const ReviewHistory: Story = {
 export const LongName: Story = {
   args: {
     app: { ...meta.args.app, name: "ExpressLRS Configurator", icon: "" },
+  },
+}
+
+export const EndOfLifeRuntime: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/summary/:appId", () =>
+          HttpResponse.json({
+            metadata: {
+              runtime: "org.gnome.Platform/x86_64/47",
+              runtimeIsEol: true,
+            },
+          }),
+        ),
+        ...handlers.filter(
+          (handler) => handler.info.path !== "*/summary/:appId",
+        ),
+      ],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await expect(await canvas.findByRole("alert")).toHaveTextContent(
+      "This runtime is end of life",
+    )
+    await userEvent.click(canvas.getByRole("tab", { name: "Maintenance" }))
+    await expect(canvas.getByRole("alert")).toHaveTextContent(
+      "This runtime is end of life",
+    )
+    await userEvent.click(canvas.getByRole("tab", { name: "Reviews" }))
+    await expect(canvas.getByRole("alert")).toHaveTextContent(
+      "This runtime is end of life",
+    )
+  },
+}
+
+export const VerifiedApp: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/verification/:appId/status", () =>
+          HttpResponse.json({ verified: true, method: "manual" }),
+        ),
+        ...handlers.filter(
+          (handler) => handler.info.path !== "*/verification/:appId/status",
+        ),
+      ],
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    await userEvent.click(canvas.getByRole("tab", { name: "Verification" }))
+    await expect(
+      await canvas.findByRole("button", { name: "Mark as manually verified" }),
+    ).toBeDisabled()
+    await expect(
+      canvas.getByText("Your app is currently verified by the Flathub team"),
+    ).toBeVisible()
   },
 }
 
@@ -225,7 +315,7 @@ export const OutOfRangePendingPage: Story = {
     const canvas = within(canvasElement)
     await waitFor(() =>
       expect(getRouter().replace).toHaveBeenCalledWith(
-        `/apps/manage/${appId}?page=1&source=bookmark`,
+        `/en/apps/manage/${appId}?page=1&source=bookmark`,
         { scroll: false },
       ),
     )
@@ -258,7 +348,7 @@ export const OutOfRangeHistoryPage: Story = {
     const canvas = within(canvasElement)
     await waitFor(() =>
       expect(getRouter().replace).toHaveBeenCalledWith(
-        `/apps/manage/${appId}?reviewHistory=true&page=2`,
+        `/en/apps/manage/${appId}?reviewHistory=true&page=2`,
         { scroll: false },
       ),
     )
@@ -285,6 +375,7 @@ export const DirectUpload: Story = {
     await expect(
       await canvas.findByRole("tab", { name: "Developers" }),
     ).toBeInTheDocument()
+    await userEvent.click(canvas.getByRole("tab", { name: "Maintenance" }))
     await expect(
       canvas.getByRole("link", { name: "Packaging repository" }),
     ).toHaveAttribute("href", `https://github.com/flathub/${appId}`)
@@ -307,7 +398,7 @@ export const Runtime: Story = {
       await canvas.findByRole("link", { name: "View builds" }),
     ).toHaveAttribute(
       "href",
-      "/builds/apps/org.freedesktop.Sdk.Extension.node20",
+      "/en/builds/apps/org.freedesktop.Sdk.Extension.node20",
     )
     await expect(
       canvas.queryByRole("region", { name: "Maintenance" }),

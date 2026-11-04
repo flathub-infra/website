@@ -15,7 +15,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Separator } from "@/components/ui/separator"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline"
 
@@ -99,9 +99,10 @@ const SwitchToDirectUpload = ({
           setAcknowledged(false)
           setModalVisible(true)
         }}
-        variant="secondary"
+        variant="outline"
+        className="h-auto min-h-9 shrink-0 whitespace-normal"
       >
-        {t("switch-to-direct-upload")}
+        {t("app-management.switch-upload-method")}
       </Button>
       <ConfirmDialog
         isVisible={modalVisible}
@@ -164,9 +165,10 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
           setAcknowledged(false)
           setModalVisible(true)
         }}
-        variant="secondary"
+        variant="destructive"
+        className="h-auto min-h-9 shrink-0 whitespace-normal"
       >
-        {t("archive-app")}
+        {t("archive")}
       </Button>
       <Modal
         shown={modalVisible}
@@ -250,16 +252,33 @@ export default function DangerZoneControls({
     content = <p>{t("error-occurred")}</p>
   } else {
     content = (
-      <>
-        <Alert variant="destructive">
-          <AlertDescription className="flex flex-col gap-3">
-            {!query.data.data.is_direct_upload_app && (
+      <div className="flex flex-col gap-6">
+        {!query.data.data.is_direct_upload_app && (
+          <>
+            <div className="flex flex-col items-start justify-between gap-5 lg:flex-row lg:items-center">
+              <div className="flex max-w-prose flex-col gap-2">
+                <h3 className="font-semibold">
+                  {t("switch-to-direct-upload")}
+                </h3>
+                <p className="text-sm leading-relaxed text-foreground">
+                  {t("danger-zone-confirmation.switch.warning-consequence")}
+                </p>
+              </div>
               <SwitchToDirectUpload app={app} />
-            )}
-            <ArchiveApp app={app} />
-          </AlertDescription>
-        </Alert>
-      </>
+            </div>
+            <Separator />
+          </>
+        )}
+        <div className="flex flex-col items-start justify-between gap-5 lg:flex-row lg:items-center">
+          <div className="flex max-w-prose flex-col gap-2">
+            <h3 className="font-semibold">{t("archive-app")}</h3>
+            <p className="text-sm leading-relaxed text-foreground">
+              {t("app-management.archive-description")}
+            </p>
+          </div>
+          <ArchiveApp app={app} />
+        </div>
+      </div>
     )
   }
 
