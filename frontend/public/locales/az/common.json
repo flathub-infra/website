@@ -249,7 +249,6 @@
   "website-validation-instruction": "<link>{webpage}</link> ünvanında aşağıdakı token ilə səhifə yaradın: <i>{token}</i> Əgər səhifə artıq mövcuddursa, tokeni səhifəyə əlavə edin.",
   "simulation": "Simulyasiya",
   "verified-login-provider": "@{login_name}, {login_provider}üzərində",
-  "verification-instructions": "Flathub quraşdırmanızın tətbiq tərtibatçısı tərəfindən təsdiqləndiyini göstərmək üçün tətbiq ID-nizi doğrulayın. Siz tətbiqin domenindəki websayt vasitəsilə və ya mənbə kodu hostinq saytında tətbiqin hesabına girişi yoxlamaqla tətbiqə nəzarət etdiyinizi sübut etməlisiniz. Təsdiqlənmiş nişan proqram adı, nəşr adı və tətbiq ID-sinin doğrulanma yolu ilə yanaşı göstəriləcək.",
   "try-again": "Yenidən Cəhd et",
   "sequencer": "Sequencer",
   "login-provider-verification-failed": "Doğrulama tələbləri yerinə yetirilmədi.",

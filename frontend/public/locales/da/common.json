@@ -275,7 +275,6 @@
   "show-less": "Vis mindre",
   "token-redeem-placeholder": "Indtast en ejerskabstoken",
   "app-is-verified": "Denne app er verificeret",
-  "verification-instructions": "Verificer dit app-id for at indikere, at din Flathub-upload er godkendt af app-udvikleren. Du skal bevise, at du har kontrol over appen via et websted på appens domæne eller ved at kontrollere adgangen til appens konto på et kildekodehostingswebsted. Det bekræftede emblem vil blive vist sammen med appnavnet, udgivernavnet og den måde, app-id'et blev bekræftet på.",
   "website-validation-instruction": "Opret en side på <link>{webpage}</link>, der indeholder følgende token: <i>{token}</i> Hvis siden allerede eksisterer, skal du tilføje tokenet til det.",
   "verified-manually-tooltip": "Ejerskabet af <appid></appid> app-id'et er blevet manuelt bekræftet af Flathub-teamet",
   "login-provider-verification-not-org-admin": "Du er i øjeblikket logget ind på <loginprovider></loginprovider> som <currentname></currentname>. Denne konto er ikke administrator af <orgname></orgname> organisationen. For at bekræfte denne app skal du anmode om administratorrettigheder i organisationen eller logge ind på en konto, der allerede har dem.",
