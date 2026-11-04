@@ -47,3 +47,46 @@ def test_daily_statistics_sum_runtime_branches(stats_database, reverse):
             day.isoformat(): installs,
             (day + datetime.timedelta(days=1)).isoformat(): installs,
         }
+
+
+def test_app_stats_group_installs_per_distro(stats_database):
+    now = datetime.datetime(2026, 8, 13, tzinfo=datetime.UTC)
+    payload = {
+        "refs": {"org.example.App": {"x86_64": [40, 5], "aarch64": [10, 5]}},
+        "ref_by_os_version": {
+            "org.example.App": {
+                "fedora;44": [12, 2],
+                "fedora;45": [5, 0],
+                "ubuntu;26.10": [8, 3],
+                "unknown;unknown": [4, 0],
+                "org.kde.Platform;6.11": [2, 0],
+                "org.gnome.os;50": [1, 0],
+            }
+        },
+    }
+    stats_db.save_day(now.date() - datetime.timedelta(days=1), payload, now)
+    stats_db.save_day(now.date() - datetime.timedelta(days=30), payload, now)
+    with stats_database() as db:
+        stats._prepare_app_snapshot(db, now.date())
+        result = stats._app_batch(db, ["org.example.App"], now.date())
+
+    item = result["org.example.App"]
+    assert item["installs_last_month"] == 40
+    assert item["installs_per_distro"] == {
+        "fedora": 15,
+        "ubuntu": 5,
+        "org.gnome.os": 1,
+    }
+    assert item["installs_unreported_distro"] == 19
+    assert stats.get_distro_name("org.gnome.os") == "GNOME OS"
+    assert stats.get_distro_name("some-distro") == "Some Distro"
+
+
+def test_format_distro_installs_keeps_top_distros():
+    per_distro = {f"distro-{i}": i + 1 for i in range(25)}
+    top, other = stats.format_distro_installs(per_distro)
+
+    assert len(top) == stats.MAX_DISTROS_IN_RESPONSE
+    assert top[0] == {"id": "distro-24", "name": "Distro 24", "installs": 25}
+    assert top[-1]["installs"] == 6
+    assert other == 1 + 2 + 3 + 4 + 5

@@ -1051,6 +1051,9 @@ def test_app_stats_by_id(client):
         "installs_last_month": 509,
         "installs_last_7_days": 467,
         "installs_per_country": {"DE": 84, "FI": 921, "US": 12},
+        "installs_per_distro": [],
+        "installs_other_distros": 0,
+        "installs_unreported_distro": 509,
     }
 
     assert response.status_code == 200
