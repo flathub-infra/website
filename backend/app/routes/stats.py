@@ -72,10 +72,19 @@ def _normalize_stats_result(value: dict[str, JSONValue]) -> StatsResult:
     )
 
 
+class StatsResultAppDistro(BaseModel):
+    id: str
+    name: str
+    installs: int
+
+
 class StatsResultApp(BaseModel):
     installs_total: int
     installs_per_day: dict[str, int]
     installs_per_country: dict[str, int]
+    installs_per_distro: list[StatsResultAppDistro]
+    installs_other_distros: int
+    installs_unreported_distro: int
     installs_last_month: int
     installs_last_7_days: int
     id: str
@@ -157,6 +166,10 @@ async def get_stats_for_app(
     days: int = 180,
 ) -> StatsResultApp | None:
     if value := stats.get_installs_by_ids([app_id]).get(app_id, None):
+        value["installs_per_distro"], value["installs_other_distros"] = (
+            stats.format_distro_installs(value["installs_per_distro"])
+        )
+
         if all:
             return value
 

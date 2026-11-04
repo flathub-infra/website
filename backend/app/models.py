@@ -4718,6 +4718,8 @@ class AppStatsData(TypedDict, total=False):
     installs_last_7_days: int
     installs_per_day: dict[str, int]
     installs_per_country: dict[str, int]
+    installs_per_distro: dict[str, int]
+    installs_unreported_distro: int
 
 
 class AppStats(Base):
@@ -4739,6 +4741,12 @@ class AppStats(Base):
     )
     installs_per_country: Mapped[dict[str, int] | None] = mapped_column(
         JSONB, nullable=True
+    )
+    installs_per_distro: Mapped[dict[str, int] | None] = mapped_column(
+        JSONB, nullable=True
+    )
+    installs_unreported_distro: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default=text("0")
     )
     updated_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
@@ -4763,6 +4771,10 @@ class AppStats(Base):
             app_stats.installs_last_7_days = stats_data.get("installs_last_7_days", 0)
             app_stats.installs_per_day = stats_data.get("installs_per_day", {})
             app_stats.installs_per_country = stats_data.get("installs_per_country", {})
+            app_stats.installs_per_distro = stats_data.get("installs_per_distro", {})
+            app_stats.installs_unreported_distro = stats_data.get(
+                "installs_unreported_distro", 0
+            )
             app_stats.updated_at = func.now()
         else:
             app_stats = cls(
@@ -4772,6 +4784,10 @@ class AppStats(Base):
                 installs_last_7_days=stats_data.get("installs_last_7_days", 0),
                 installs_per_day=stats_data.get("installs_per_day", {}),
                 installs_per_country=stats_data.get("installs_per_country", {}),
+                installs_per_distro=stats_data.get("installs_per_distro", {}),
+                installs_unreported_distro=stats_data.get(
+                    "installs_unreported_distro", 0
+                ),
             )
             db.add(app_stats)
 
@@ -4790,6 +4806,8 @@ class AppStats(Base):
                 "installs_last_7_days": data.get("installs_last_7_days", 0),
                 "installs_per_day": data.get("installs_per_day", {}),
                 "installs_per_country": data.get("installs_per_country", {}),
+                "installs_per_distro": data.get("installs_per_distro", {}),
+                "installs_unreported_distro": data.get("installs_unreported_distro", 0),
             }
             for app_id, data in stats_dict.items()
         ]
@@ -4804,6 +4822,8 @@ class AppStats(Base):
                         "installs_last_7_days": stmt.excluded.installs_last_7_days,
                         "installs_per_day": stmt.excluded.installs_per_day,
                         "installs_per_country": stmt.excluded.installs_per_country,
+                        "installs_per_distro": stmt.excluded.installs_per_distro,
+                        "installs_unreported_distro": stmt.excluded.installs_unreported_distro,
                         "updated_at": func.now(),
                     },
                 )
@@ -4816,6 +4836,8 @@ class AppStats(Base):
             "installs_last_7_days": self.installs_last_7_days,
             "installs_per_day": self.installs_per_day or {},
             "installs_per_country": self.installs_per_country or {},
+            "installs_per_distro": self.installs_per_distro or {},
+            "installs_unreported_distro": self.installs_unreported_distro,
         }
 
 
