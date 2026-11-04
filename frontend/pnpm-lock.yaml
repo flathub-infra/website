@@ -230,8 +230,8 @@ importers:
         specifier: ^0.5.20
         version: 0.5.20(tailwindcss@4.3.3)
       '@tanstack/eslint-plugin-query':
-        specifier: ^5.104.4
-        version: 5.104.4(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3)
+        specifier: ^5.105.0
+        version: 5.105.0(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3)
       '@tanstack/react-query-devtools':
         specifier: ^5.102.2
         version: 5.102.2(@tanstack/react-query@5.102.2(react@19.3.1))(react@19.3.1)
@@ -3855,8 +3855,8 @@ packages:
       vue:
         optional: true
 
-  '@tanstack/eslint-plugin-query@5.104.4':
-    resolution: {integrity: sha512-hdiLHE3zgGgZ3oxRqmVwWNk/hfCIvA6thpMZso15Z2LrEdlABKrrQvfiL33ta8sMSdm8ABRMSeFZeN9a0P1q3A==}
+  '@tanstack/eslint-plugin-query@5.105.0':
+    resolution: {integrity: sha512-nQTKJa7RMzhHAl03fVchPDDgt341Onxj7MmZTNt754awyQzjCLKLM+Ki36Y6gwq8UBz8M/xDxEg8it/JOTWifQ==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: ^5.6.0 || ^6.0.0 || ^7.0.0
@@ -10579,9 +10579,9 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@tanstack/eslint-plugin-query@5.104.4(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3)':
+  '@tanstack/eslint-plugin-query@5.105.0(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/utils': 8.71.2(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.72.1(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3)
       eslint: 9.39.2(jiti@2.7.0)
     optionalDependencies:
       typescript: 5.9.3
