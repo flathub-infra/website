@@ -982,5 +982,30 @@
   "moderation-discussion-opened-by": "Diskusiu otvoril používateľ {openedBy}",
   "no-network-access-description": "Táto aplikácia nemá prístup k sieti.",
   "copy-success": "Skopírované do schránky",
-  "copy-failed": "Nepodarilo sa automaticky skopírovať. Vyberte text a skopírujte ho manuálne."
+  "copy-failed": "Nepodarilo sa automaticky skopírovať. Vyberte text a skopírujte ho manuálne.",
+  "app-maintenance": {
+    "title": "Údržba",
+    "runtime": "Publikovaný runtime",
+    "loading-runtime": "Načítavanie informácií o runtime",
+    "runtime-unavailable": "Informácie o runtime nie sú dostupné.",
+    "runtime-eol": "Tento runtime dosiahol koniec životnosti",
+    "runtime-eol-description": "Prepnite na podporovaný runtime a publikujte nové zostavenie.",
+    "builds": "Zostavenia",
+    "view-builds": "Zobraziť výsledky zostavení",
+    "update-checker": "Kontrola aktualizácií",
+    "view-manifest": "Zobraziť balíkový manifest",
+    "manifest-unavailable": "Odkaz na balíkový manifest nie je k dispozícii.",
+    "checker-docs": "Konfiguračná príručka",
+    "view-repository": "Balíkový repozitár",
+    "builds-description": "Sledujte zostavenia, kontrolujte logy a overujte výsledky publikovania.",
+    "checker-description": "Nakonfigurujte automatické aktualizácie zdrojového kódu vo vašom balíkovom manifeste."
+  },
+  "app-management": {
+    "sections": "Sekcie správy aplikácií",
+    "reviews": "Recenzie",
+    "view-listing": "Zobraziť výpis aplikácie",
+    "review-history": "Zahrnúť minulé recenzie",
+    "no-pending-reviews": "Žiadne zmeny čakajúce na recenziu",
+    "no-pending-description": "Máte všetko hotové. Zapnite minulé recenzie, aby ste sa mohli vrátiť k predchádzajúcim zmenám."
+  }
 }
