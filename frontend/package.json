@@ -119,7 +119,7 @@
     "orval": "8.43.0",
     "playwright": "^1.62.1",
     "postcss": "^8.5.32",
-    "prettier": "^3.9.9",
+    "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "redis": "4.7.0",
     "storybook": "^10.6.5",
