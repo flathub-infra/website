@@ -78,6 +78,8 @@ export default function ManageClient({ app, vendingConfig }: Props) {
     "console-application",
     "desktop-application",
   ].includes(app.type)
+  // SDK packages are represented by AppStream as runtimes.
+  const canViewMaintenance = isAnApp || app.type === "runtime"
   const canManagePayments =
     isAnApp &&
     (!IS_PRODUCTION || user.info?.permissions?.includes(Permission.moderation))
@@ -103,7 +105,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
       title: t("app-management.reviews"),
       content: <AppDevModeration appId={app.id} />,
     },
-    ...(isAnApp
+    ...(canViewMaintenance
       ? [
           {
             value: "maintenance",
