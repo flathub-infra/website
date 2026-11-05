@@ -238,7 +238,7 @@
   "player": "Mediespiller",
   "recorder": "Opptak",
   "music": "Musikk",
-  "setup-flathub-description": "Sett opp Flathub for å installere og oppdatere apper på systemet ditt.",
+  "setup-flathub-description": "Følg guiden for din Linux-distribusjon for å installere Flatpak, legg til Flathub-pakkebrønnen, og begynn å installere apper.",
   "tags-colon": "Nøkkelord:",
   "flos": "Fri og åpen",
   "filters": "Filtre",
@@ -443,7 +443,7 @@
   "app-of-the-day": "Dagens app",
   "cannot-abandon-app": "Forlating av app mislyktes",
   "invalid-appid": "Ugyldig app-ID",
-  "do-you-really-want-to-archive-app": "Er du sikker? Dette vil gjøre eksisterende opplastingsnøkler ugyldige og arkivere appen.",
+  "do-you-really-want-to-archive-app": "Gå gjennom endringene før du arkiverer.",
   "archive": "Arkiver",
   "trending": "Aktuelt",
   "trending-apps": "Aktuelle apper",
@@ -813,7 +813,8 @@
       "description": "Arbeid med bilder, lyd, video og mer"
     },
     "fresh-desktop-releases": {
-      "description": "Utvikle apper som føles ut som de hører hjemme på systemet ditt"
+      "description": "Utvikle apper som føles ut som de hører hjemme på systemet ditt",
+      "header": "Bygg innebygde apper"
     },
     "staying-connected": {
       "header": "Hold kontakten",
@@ -842,6 +843,14 @@
     "make-some-noise": {
       "header": "Lag litt lyd",
       "description": "Apper til å lage, leke med og utforske lyd"
+    },
+    "tools-for-developers": {
+      "header": "Viktige verktøy for nettutviklere",
+      "description": "Å lage nettsider er mer morsomt med disse appene"
+    },
+    "get-to-work": {
+      "header": "Kom i gang med arbeidet",
+      "description": "Programmer som hjelper deg med å få ting gjort"
     }
   },
   "moderation-summary-changes": "Endringer i oppsummeringen",
@@ -870,7 +879,14 @@
   "no-network-access-description": "Denne appen har ingen tilgang til nettverket.",
   "danger-zone-confirmation": {
     "switch": {
-      "warning-title": "Denne endringen kan ikke gjøres om"
+      "warning-title": "Denne endringen kan ikke gjøres om",
+      "acknowledgment": "Jeg forstår at å bytte over <app>{app_id}</app> til direkteopplasting ikke kan gjøres om"
+    },
+    "archive": {
+      "warning-title": "Å arkivere denne appen påvirker denne appen og dens utgivere",
+      "warning-tokens": "Alle aktive opplastingsnøkler til denne appen vil ugyldiggjøres.",
+      "warning-eol": "Appen vil markeres som utgått med meldingen vist nedenfor.",
+      "acknowledgment": "Jeg forstår hva arkivering av <app>{app_id}</app> vil gjøre"
     }
   },
   "email-login-with-email": "Logg inn med e-post",
@@ -881,5 +897,101 @@
   "email-login-email-address": "E-postadresse",
   "email-login-sign-in": "Logg inn",
   "verified-email": "Verifisert e-post",
-  "email-login-sending": "Sender…"
+  "email-login-sending": "Sender…",
+  "app-maintenance": {
+    "title": "Vedlikehold",
+    "runtime": "Publisert baseinstallasjon",
+    "loading-runtime": "Laster inn baseinformasjon",
+    "runtime-unavailable": "Baseinformasjon er utilgjengelig.",
+    "runtime-eol-description": "Bytt til en baseinstallasjon som fortsatt støttes og publiser et nytt bygg.",
+    "builds": "Bygg",
+    "view-builds": "Vis byggresultater",
+    "update-checker": "Oppdatteringssjekker",
+    "view-manifest": "Vis pakkemanifestet",
+    "manifest-unavailable": "Ingen lenke til et pakkemanifest er tilgjengelig.",
+    "checker-docs": "Configurasjonsguide",
+    "view-repository": "Pakkebrønn",
+    "builds-description": "Følg med på bygg, sjekk logger og resultater etter publisering.",
+    "checker-description": "Konfigurer automatisk kildeoppdateringer i pakkemanifestet ditt.",
+    "runtime-eol": "Denne baseinstallasjonen er utgått"
+  },
+  "app-management": {
+    "payments": "Betalinger",
+    "reviews": "Anmeldelser",
+    "manage-app": "Håndter app",
+    "payment-account-status": "Kontooppsett kreves",
+    "switch-upload-method": "Endre opplastingsmetode",
+    "set-up-payments": "Sett opp betalinger",
+    "verification-description": "Vis at denne appen er godkjent av utvikleren sin. Velg en metode nedenfor for å vise at du kontrollerer domenet til appen eller er vertskildekontoen. Les <doclink>verifiseringsguiden</doclink> for mer informasjon.",
+    "review-history": "Ta med tidligere anmeldelser",
+    "no-pending-reviews": "Ingen endringer trenger å gjennomgås",
+    "uploads": "Opplastingsnøkler",
+    "no-active-tokens": "Ingen opplastingsnøkler er aktive.",
+    "payments-description": "Koble til en Stripe Express-konto for å motta betalinger til appen din. Når kontoen din er klar, kan du konfigurere bidragsforslag og priser her.",
+    "uploads-description": "Lag opplastingsnøkler for å publisere byggene dine fra utviklingsverktøyene dine. Håndter og trekk tilbake nøkler her.",
+    "archive-description": "Trekk tilbake alle opplastingsnøkler og merk denne appen som utgått. Du kan gi en beskjed og forslag til erstattningsapp for brukere som fortsatt har appen.",
+    "view-listing": "Vis appoppføring"
+  },
+  "manage": "Håndter",
+  "build-duration-over-time": "Byggtid over tid",
+  "view-builds": "Vis bygg",
+  "moderation-manifest-source-origin": "Endringer i manifestkilden",
+  "moderation-build-log": "Bygglogg",
+  "could-not-find-match-with-filters": "Vi kunne ikke finne noen gode resultater med disse filterene.",
+  "other-apps-to-explore": "Her er noen kule apper verdt å se på.",
+  "health-fitness": "Helse og trening",
+  "more-healthfitness": "Mer innen helse og trening",
+  "dns-record-not-found": "Ingen TXT-oppføring ble funnet på {record}.",
+  "dns-lookup-failed": "Klarte ikke å slå opp TXT-oppføringer på {record}.",
+  "app-is-currently-verified-by-dns": "Appen din bekreftes nå gjennom DNS-kontroll av <domain></domain>",
+  "verified-dns-tooltip": "Eieren av <appid></appid>-app-ID-en har blitt bekreftet ved DNS-kontroll av <domain></domain>",
+  "runtime": "Baseinstallasjon",
+  "chart-description": "Diagramm som viser {chart}. Hold musepekeren over et datapunkt for å se nøyaktige verdier.",
+  "gitlab-terms-not-accepted": "{provider}-kontoen din krever at du aksepterer bruksvilkårene. Åpne {provider} i en nettleser, aksepter bruksvilkårene, og prøv deretter å logge inn igjen.",
+  "reauth-account-mismatch": "Innloggingen samsvarte ikke med denne kontoen. Logg inn med en av dine tilkoblede kontoer.",
+  "oauth-account-email-already-used": "Denne e-posten er allerede assosiert med en Flathub-konto. Logg inn med din tidligere innloggingsmetode (e-post eller gjennom leverandøren din), og lenk deretter kontoen til leverandøren fra innstillinger. Flathub-kontoer kan ikke slås sammen automatisk.",
+  "health-fitness-description": "Helse- og treningsapper til Linux.",
+  "moderation-random-review": "Valgt ut tilfeldig til gjennomgang",
+  "quality-metadata-changed-since-review": "Endret siden siste kvalitetssjekk",
+  "dns-validation-instruction": "Legg til følgende DNS-oppføring uten å fjerne noen andre TXT-oppføringer. Det kan ta tid før DNS-endringene er synlige for oss.",
+  "dns-token-not-present": "TXT-oppføringene på {record} inneholder ikke verifiseringsnøkkelen.",
+  "upload-token-create-failed": "Kunne ikke lage opplastingsnøkkel. Prøv igjen.",
+  "os-version-distribution": "Fordeling av operativsystemversjoner (siste 30 dager)",
+  "flatpak-version-distribution": "Fordeling av Flatpak-versjoner (siste 30 dager)",
+  "os-flatpak-version-distribution": "Flatpak-versjon per operativsystem (siste 30 dager)",
+  "user-login-intro": "Skriv inn e-posten din så sender vi deg en innloggingslenke. Du trenger ikke noe passord.",
+  "user-login-unavailable": "Innlogging via e-post er utilgjengelig for øyeblikket. Prøv igjen senere.",
+  "developer-login-hint-link": "Leter du etter <link>utviklerinnloggingen</link>?",
+  "email-login-send-link": "Send meg en innloggingslenke på e-post",
+  "reauth-method-email": "Send meg en innloggingslenke på e-post",
+  "email-login-resend-in": "En ny e-post kan sendes om {seconds} s",
+  "email-login-invalid-or-expired": "Denne innloggingslenken er ugyldig eller har gått ut. Be om en ny en for å fortsette.",
+  "email-login-request-new-link": "Gå tilbake til innloggingssiden og be om en ny lenke.",
+  "email-login-rate-limited": "Du har forsøkt for mange ganger. Vent et minutt og prøv igjen.",
+  "email-login-session-conflict": "Du er allerede innlogget som en annen bruker i denne nettleseren. Logg ut først før du bruker denne lenken.",
+  "passkey-login-intro": "Bruk en passnøkkel forbundet med Flahub-kontoen din.",
+  "login-with-passkey": "Logg inn med passnøkkel",
+  "passkey-unsupported": "Denne nettleseren støtter ikke passnøkler. Bruk en annen innloggingsmetode.",
+  "passkey-login-canceled": "Passnøkkelinnloggingen ble avbrutt eller tok for lang tid. Prøv igjen.",
+  "passkey-login-failed": "Denne passnøkkelen kunne ikke logge deg inn. Prøv igjen eller bruk en annen innloggingsmetode.",
+  "passkey-rate-limited": "Du har forsøkt å logge inn med passnøkkel for mange ganger. Vent et minutt og prøv igjen.",
+  "passkey-unavailable": "Innlogging med passnøkler er for øyeblikket utilgjengelig. Prøv igjen senere.",
+  "passkeys": "Passnøkler",
+  "passkeys-empty": "Du har ikke lagt til en passnøkkel enda.",
+  "passkey-name": "Navnet til passnøkkelen",
+  "passkey-add": "Legg til en passnøkkel",
+  "passkey-added": "Passnøkkel lagt til.",
+  "passkey-rename": "Omdøp",
+  "passkey-renamed": "Passnøkkel omdøpt.",
+  "passkey-removed": "Passnøkkel fjernet.",
+  "passkey-created-at": "Lagt til {time}",
+  "passkey-last-used-at": "Sist brukt {time}",
+  "passkey-never-used": "Ikke brukt til å logge inn enda",
+  "passkey-already-registered": "Denne passnøkkelen er allerede registrert.",
+  "passkey-name-invalid": "Skriv inn et navn til passnøkkelen din på opptil 100 tegn.",
+  "passkey-action-failed": "Passnøkkelen kunne ikke lagres. Prøv igjen.",
+  "reauth-title": "Bekreft det faktisk er deg",
+  "reauth-sign-out": "Logg ut og logg inn igjen",
+  "passkey-remove-prompt": "Fjern passnøkkelen «{name}»?",
+  "passkey-remove-description": "Du vil ikke lenger kunne logge inn med denne passnøkkelen. Hvis du er innlogget med den, vil du bli logget ut."
 }

@@ -1004,6 +1004,17 @@
     "view-listing": "Zobraziť výpis aplikácie",
     "review-history": "Zahrnúť minulé recenzie",
     "no-pending-reviews": "Žiadne zmeny čakajúce na recenziu",
-    "no-pending-description": "Máte všetko hotové. Zapnite minulé recenzie, aby ste sa mohli vrátiť k predchádzajúcim zmenám."
+    "no-pending-description": "Máte všetko hotové. Zapnite minulé recenzie, aby ste sa mohli vrátiť k predchádzajúcim zmenám.",
+    "manage-app": "Spravovať aplikáciu",
+    "payments": "Platby",
+    "uploads": "Tokeny na nahrávanie",
+    "payment-account-status": "Vyžaduje sa nastavenie účtu",
+    "switch-upload-method": "Prepnúť metódu nahrávania",
+    "no-active-tokens": "Žiadne aktívne tokeny na nahrávanie.",
+    "payments-description": "Prepojte účet Stripe Express a prijímajte platby za svoju aplikáciu. Keď bude váš účet pripravený, môžete tu nakonfigurovať odporúčané príspevky a ceny.",
+    "set-up-payments": "Nastaviť platby",
+    "uploads-description": "Vytvorte tokeny na nahrávanie, aby ste mohli publikovať zostavenia z vašich vývojárskych nástrojov alebo CI. Tu môžete spravovať a rušiť existujúce tokeny.",
+    "archive-description": "Zrušte všetky tokeny na nahrávanie a označte túto aplikáciu ako na konci životnosti. Pre existujúcich používateľov môžete poskytnúť správu a náhradnú aplikáciu.",
+    "verification-description": "Ukážte používateľom, že táto aplikácia je schválená jej vývojárom. Vyberte si nižšie metódu, ktorou dokážete, že ovládate jej doménu alebo hostingový účet zdrojového kódu. Podrobnosti nájdete v <doclink>príručke na overenie</doclink>."
   }
 }

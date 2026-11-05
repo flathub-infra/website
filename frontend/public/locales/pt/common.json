@@ -657,7 +657,13 @@
   },
   "download": {
     "install-x": "Instalar “{x}”",
-    "fallback-instructions": "<opening>A abrir “{name}” no seu gestor de software…</opening><support>Se não acontecer nada, é provável que o seu sistema não suporte URL's <i>flatpak+https</i>.</support><listPrefix>Neste caso, pode:</listPrefix><ol><li>transferir o ficheiro <link>.flatpakref</link></li><li>De seguida, execute esse ficheiro no seu gestor de ficheiros</li></ol><setupLine><linkSetup>Consulte as instruções para instalar o Flatpak</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>A abrir “{name}” no seu gestor de software…</opening><support>Se não acontecer nada, é provável que o seu sistema não suporte URL's <i>flatpak+https</i>.</support><listPrefix>Neste caso, pode:</listPrefix><ol><li>transferir o ficheiro <link>.flatpakref</link></li><li>De seguida, execute esse ficheiro no seu gestor de ficheiros</li></ol><setupLine><linkSetup>Consulte as instruções para instalar o Flatpak</linkSetup></setupLine>",
+    "open-instructions": "O seu gestor de software é o a sua loja de apps Linux. Permita que o seu navegador a abra, depois escolha instalar.",
+    "open-again": "Abrir no gestor de software",
+    "file-description": "Abrir o ficheiro a partir da sua pasta de transferências no seu gestor de software, depois escolha instalar.",
+    "download-file": "Transferir .flatpakref",
+    "open-file": "O ficheiro .flatpakref aponta para a app. Transferi-lo não o instala.",
+    "terminal-instructions": "Depois de configurar, copie isto para um terminal no seu computador Linux e prima Enter."
   },
   "count": "Contagem",
   "developed-by": "desenvolvido por {developer}",
@@ -716,7 +722,8 @@
     "downloads-vs-previous-year": "Transferências vs {year}",
     "hidden-gems": "Gemas escondidas",
     "hidden-gems-description": "Aplicações em crescimento",
-    "platform-downloads": "Transferências por plataformas"
+    "platform-downloads": "Transferências por plataformas",
+    "x-growth-formatted": "{percentage} crescimento"
   },
   "quality-moderation-excluded": "Esta aplicação está excluída de controlos de qualidade",
   "app-information": "Informação da aplicação",
@@ -969,5 +976,45 @@
   "reauth-method-email": "Enviar-me uma ligação de início de sessão por email",
   "reauth-sign-out": "Terminar sessão e iniciar sessão novamente",
   "passkey-remove-prompt": "Remover a chave-passe “{name}”?",
-  "passkey-remove-description": "Deixará de poder iniciar sessão com esta chave-passe. As sessões iniciadas com ela serão terminadas."
+  "passkey-remove-description": "Deixará de poder iniciar sessão com esta chave-passe. As sessões iniciadas com ela serão terminadas.",
+  "app-maintenance": {
+    "title": "Manutenção",
+    "runtime": "Runtime publicado",
+    "loading-runtime": "A carregar informação do runtime",
+    "runtime-unavailable": "A informação do runtime não está disponível.",
+    "runtime-eol": "Este runtime terminou o seu tempo de vida",
+    "runtime-eol-description": "Mude para um runtime suportado e publique uma nova compilação.",
+    "builds": "Compilações",
+    "view-builds": "Ver resultados de compilação",
+    "update-checker": "Verificador de atualizações",
+    "view-manifest": "Ver manifesto de empacotamento",
+    "manifest-unavailable": "O link do manifesto de empacotamento não está disponível.",
+    "checker-docs": "Guia de configuração",
+    "view-repository": "Repositório de empacotamento",
+    "builds-description": "Siga compilações, inspecione históricos, e verifique resultados de publicação.",
+    "checker-description": "Configurar atualizações automáticas de fontes no seu manifesto de empacotamento."
+  },
+  "app-management": {
+    "manage-app": "Gerir app",
+    "payments": "Pagamentos",
+    "uploads": "Carregar tokens",
+    "payment-account-status": "Requer configuração de conta",
+    "switch-upload-method": "Mudar método de carregamento",
+    "no-active-tokens": "Sem tokens ativos em carregamento.",
+    "payments-description": "Ligue uma conta Stripe Express para receber pagamentos pela sua aplicação. Assim que a sua conta estiver pronta, poderá configurar aqui as contribuições sugeridas e os preços.",
+    "set-up-payments": "Configurar pagamentos",
+    "uploads-description": "Crie tokens de carregamento para publicar compilações a partir das suas ferramentas de desenvolvimento ou da integração contínua (CI). Faça a gestão e revogue os tokens existentes aqui.",
+    "archive-description": "Revogue todos os tokens de carregamento e marque esta aplicação como fim de vida. Pode incluir uma mensagem e indicar uma aplicação alternativa para os utilizadores existentes.",
+    "verification-description": "Mostre aos utilizadores que esta aplicação foi aprovada pelo seu programador. Escolha um dos métodos abaixo para comprovar que controla o domínio ou a conta de alojamento de origem. Leia o <doclink>guia de verificação</doclink> para mais detalhes.",
+    "sections": "Secções de gestão de aplicações",
+    "reviews": "Avaliações",
+    "view-listing": "Ver listagem de apps",
+    "review-history": "Incluir avaliações anteriores",
+    "no-pending-reviews": "Nenhumas alterações aguardam revisão",
+    "no-pending-description": "Já está em dia. Ative a opção de rever as revisões anteriores para consultar as alterações anteriores."
+  },
+  "copy-success": "Copiado para a área de transferência",
+  "copy-failed": "Não foi possível copiar automaticamente. Selecione o texto e copie-o manualmente.",
+  "moderation-discussion-opened-by": "Debate iniciado por {openedBy}",
+  "no-network-access-description": "Esta app não tem acesso à rede."
 }

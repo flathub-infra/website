@@ -1004,6 +1004,21 @@
     "review-history": "Uwzględnij przeszłe opinie",
     "no-pending-description": "Jesteś na bieżąco. Włącz przegląd poprzednich weryfikacji, aby ponownie przejrzeć wcześniejsze zmiany.",
     "sections": "Sekcje zarządzania aplikacjami",
-    "no-pending-reviews": "Brak zmian oczekujących na weryfikację"
-  }
+    "no-pending-reviews": "Brak zmian oczekujących na weryfikację",
+    "manage-app": "Zarządzaj aplikacją",
+    "payments": "Płatności",
+    "uploads": "Prześlij tokeny",
+    "payment-account-status": "Konieczne jest utworzenie konta",
+    "switch-upload-method": "Zmień metodę przesyłania",
+    "no-active-tokens": "Brak aktywnych tokenów przesyłania.",
+    "payments-description": "Połącz konto Stripe Express, aby otrzymywać płatności za swoją aplikację. Gdy konto będzie gotowe, możesz tutaj skonfigurować sugerowane kwoty wpłat i cennik.",
+    "set-up-payments": "Skonfiguruj płatności",
+    "uploads-description": "Utwórz tokeny do przesyłania plików, aby publikować kompilacje z poziomu narzędzi programistycznych lub systemu CI. Tutaj możesz zarządzać istniejącymi tokenami i je cofać.",
+    "archive-description": "Unieważnij wszystkie tokeny do przesyłania danych i oznacz tę aplikację jako wycofaną z użytku. Możesz zamieścić komunikat oraz wskazać aplikację zastępczą dla obecnych użytkowników.",
+    "verification-description": "Pokaż użytkownikom, że ta aplikacja została zatwierdzona przez jej twórcę. Wybierz jedną z poniższych metod, aby potwierdzić, że masz kontrolę nad domeną lub kontem hostingowym, z którego pochodzi aplikacja. Szczegółowe informacje znajdziesz w <doclink>przewodniku po weryfikacji</doclink>."
+  },
+  "moderation-approved": "Zatwierdzono",
+  "moderation-rejected": "Odrzucono",
+  "moderation-approved-on": "Zatwierdzono w dniu {handledAt} ({handledAtRel})",
+  "moderation-rejected-on": "Odrzucono w dniu {handledAt} ({handledAtRel})"
 }
