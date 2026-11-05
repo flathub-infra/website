@@ -980,5 +980,41 @@
   "moderation-permissions-changed-count": "{count, plural, one {# cead athraithe} other {# cead athraithe}}",
   "no-network-access-description": "Níl rochtain ag an aip seo ar an líonra.",
   "copy-success": "Cóipeáilte chuig an ngearrthaisce",
-  "copy-failed": "Níorbh fhéidir cóipeáil go huathoibríoch. Roghnaigh an téacs agus cóipeáil de láimh é."
+  "copy-failed": "Níorbh fhéidir cóipeáil go huathoibríoch. Roghnaigh an téacs agus cóipeáil de láimh é.",
+  "app-maintenance": {
+    "title": "Cothabháil",
+    "runtime": "Fad ama foilsithe",
+    "loading-runtime": "Ag luchtú faisnéise aimsire rite",
+    "runtime-unavailable": "Níl faisnéis faoin am rite ar fáil.",
+    "runtime-eol": "Tá deireadh le saolré an ama rite seo",
+    "runtime-eol-description": "Athraigh go timpeallacht rite a fhaigheann tacaíocht agus foilsigh tógáil nua.",
+    "builds": "Tógálacha",
+    "view-builds": "Féach ar thorthaí an tiomsaithe",
+    "update-checker": "Seiceálaí nuashonruithe",
+    "view-manifest": "Féach ar an liosta pacáistithe",
+    "manifest-unavailable": "Níl nasc ar fáil le haghaidh liosta pacáistithe.",
+    "checker-docs": "Treoir chumraíochta",
+    "view-repository": "Stór pacáistithe",
+    "builds-description": "Lean tógálacha, scrúdaigh logaí, agus seiceáil torthaí foilsithe.",
+    "checker-description": "Cumraigh nuashonruithe uathoibríocha foinse i do mhanifest pacáistithe."
+  },
+  "app-management": {
+    "manage-app": "Bainistigh aip",
+    "payments": "Íocaíochtaí",
+    "uploads": "Comharthaí uaslódála",
+    "payment-account-status": "Teastaíonn socrú cuntais",
+    "switch-upload-method": "Athraigh an modh uaslódála",
+    "no-active-tokens": "Níl aon chomharthaí uaslódála gníomhacha ann.",
+    "payments-description": "Ceangail cuntas Stripe Express chun íocaíochtaí a fháil do d’aip. Nuair a bheidh do chuntas réidh, is féidir leat ranníocaíochtaí molta agus praghsáil a chumrú anseo.",
+    "set-up-payments": "Socraigh íocaíochtaí",
+    "uploads-description": "Cruthaigh comharthaí uaslódála chun tógálacha a fhoilsiú ó d’uirlisí forbartha nó ó chóras CI. Bainistigh agus cúlghairm comharthaí atá ann cheana anseo.",
+    "archive-description": "Cealaigh gach comhartha uaslódála agus marcáil an aip seo mar cheann atá ag teacht chun deiridh. Is féidir leat teachtaireacht agus aip athsholáthair a sholáthar d’úsáideoirí reatha.",
+    "verification-description": "Taispeáin d’úsáideoirí go bhfuil an aip seo formheasta ag a forbróir. Roghnaigh modh thíos chun a chruthú go bhfuil smacht agat ar a fearann nó ar an gcuntas óstála foinse. Féach an <doclink>treoir fíoraithe</doclink> chun tuilleadh sonraí a fháil.",
+    "sections": "Rannóga bainistíochta aipeanna",
+    "reviews": "Léirmheasanna",
+    "view-listing": "Féach ar liostú an aip",
+    "review-history": "Cuir léirmheasanna roimhe seo san áireamh",
+    "no-pending-reviews": "Níl aon athruithe ag fanacht le hathbhreithniú",
+    "no-pending-description": "Tá gach rud cothrom le dáta agat. Cuir athbhreithnithe san am atá thart ar siúl chun breathnú arís ar athruithe a rinneadh cheana."
+  }
 }

@@ -1004,6 +1004,17 @@
     "view-listing": "查看应用上架情况",
     "review-history": "包含以往审核",
     "no-pending-reviews": "没有等待审核的更改",
-    "no-pending-description": "没有要处理的事项。打开以往审核再次查看之前的变更。"
+    "no-pending-description": "没有要处理的事项。打开以往审核再次查看之前的变更。",
+    "manage-app": "管理程序",
+    "payments": "付款",
+    "uploads": "上传令牌",
+    "payment-account-status": "需要设置账户",
+    "switch-upload-method": "切换上传方式",
+    "no-active-tokens": "无活跃的上传令牌。",
+    "payments-description": "连接一个 Stripe Express 账户来接收你程序的付款。一旦账户就绪，您可以在此配置建议的捐赠和价格。",
+    "set-up-payments": "设置付款",
+    "uploads-description": "创建上传令牌来从开发工具或 CI 发布版本。在此管理和撤销现有令牌。",
+    "archive-description": "撤销所有上传令牌并标记该程序为 EOL。可以给现有用户提供一条消息和一个替代品。",
+    "verification-description": "向用户显示该程序由其开发者批准。在下面选择一种方式来证明你控制其域名或源码托管账户。阅读 <doclink>验证指南</doclink> 获取详细信息。"
   }
 }

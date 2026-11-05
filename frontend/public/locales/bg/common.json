@@ -285,8 +285,8 @@
   "moderation-pending-reviews": "Изчакващи рецензии",
   "moderation-no-review-requests": "Няма рецензии за приложението.",
   "moderation-outdated": "Остаряла",
-  "moderation-approved-by": "Одобрено от {handledBy} на {handledAt} ({handledAtRel})",
-  "moderation-rejected-by": "Отхвърлено от {handledBy} на {handledAt} ({handledAtRel})",
+  "moderation-approved-by": "Одобрена от {handledBy} на {handledAt} ({handledAtRel})",
+  "moderation-rejected-by": "Отхвърлена от {handledBy} на {handledAt} ({handledAtRel})",
   "flos": "Свободен лиценз с отворен код",
   "moderation-new-value": "Нова стойност",
   "moderation-value": "Стойност",
@@ -1004,6 +1004,14 @@
     "review-history": "Включване на миналите рецензии",
     "no-pending-reviews": "Няма промени, очакващи рецензия",
     "sections": "Раздели за управление на приложението",
-    "no-pending-description": "Няма нови промени. Включете миналите рецензии, за да разгледате предишните промени."
-  }
+    "no-pending-description": "Няма нови промени. Включете миналите рецензии, за да разгледате предишните промени.",
+    "uploads": "Добавяне на жетони",
+    "manage-app": "Управление на приложението",
+    "payments": "Плащания",
+    "no-active-tokens": "Няма активни жетони."
+  },
+  "moderation-approved": "Одобрена",
+  "moderation-rejected": "Отхвърлена",
+  "moderation-approved-on": "Одобрена на {handledAt} ({handledAtRel})",
+  "moderation-rejected-on": "Отхвърлена на {handledAt} ({handledAtRel})"
 }
