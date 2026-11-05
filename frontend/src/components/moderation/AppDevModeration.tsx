@@ -67,11 +67,11 @@ export const AppDevModeration: FunctionComponent<Props> = ({ appId }) => {
 
   return (
     <>
-      <div className="mb-6 flex flex-col gap-5">
+      <div className="mb-7 flex flex-col gap-5">
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {t("moderation-dev-description")}
         </p>
-        <label className="flex w-fit cursor-pointer items-center gap-2 text-sm">
+        <label className="flex w-fit cursor-pointer items-center gap-2.5 rounded-lg border border-border px-3 py-2 text-sm transition-colors hover:bg-muted">
           <Checkbox
             checked={includeHistory}
             onCheckedChange={(checked) => {

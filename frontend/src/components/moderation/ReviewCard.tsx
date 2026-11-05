@@ -17,9 +17,14 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Field, FieldDescription, FieldLabel } from "@/components/ui/field"
-import { Link, useRouter } from "src/i18n/navigation"
-import { ExternalLink, MessagesSquareIcon } from "lucide-react"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Link } from "src/i18n/navigation"
+import { Check, Clock, ExternalLink, MessagesSquareIcon, X } from "lucide-react"
 
 interface Props {
   title: string
@@ -33,7 +38,6 @@ const ReviewCard: FunctionComponent<Props> = ({
   children,
 }) => {
   const t = useTranslations()
-  const router = useRouter()
   const locale = useLocale()
   const i18n = getIntlLocale(locale)
   const user = useUserContext()
@@ -139,7 +143,13 @@ const ReviewCard: FunctionComponent<Props> = ({
       addSuffix: true,
     })
     const message = t(
-      request.is_approved ? "moderation-approved-by" : "moderation-rejected-by",
+      request.handled_by
+        ? request.is_approved
+          ? "moderation-approved-by"
+          : "moderation-rejected-by"
+        : request.is_approved
+          ? "moderation-approved-on"
+          : "moderation-rejected-on",
       {
         handledBy: request.handled_by,
         handledAt: date.toLocaleDateString(getIntlLocale(i18n.language)),
@@ -148,7 +158,7 @@ const ReviewCard: FunctionComponent<Props> = ({
     )
 
     buttons = (
-      <div>
+      <div className="text-sm text-muted-foreground">
         <div title={date.toLocaleString(getIntlLocale(i18n.language))}>
           {message}
         </div>
@@ -172,39 +182,47 @@ const ReviewCard: FunctionComponent<Props> = ({
     user.info.permissions.some((a) => a === Permission.moderation)
   ) {
     reviewForm = (
-      <div className="mb-3 flex flex-col gap-3">
-        <Field>
+      <FieldGroup className="mb-5 grid gap-5 md:grid-cols-[3fr_2fr]">
+        <Field className="gap-2">
           <FieldLabel htmlFor={`review-comment-${request.id}`}>
             Review comment
           </FieldLabel>
           <Textarea
             id={`review-comment-${request.id}`}
-            className="min-h-32"
+            variant="surface"
+            className="min-h-24 resize-y"
             value={reviewComment}
             aria-describedby={`review-comment-help-${request.id}`}
             onChange={(e) => setReviewComment(e.target.value)}
           />
-          <FieldDescription id={`review-comment-help-${request.id}`}>
+          <FieldDescription
+            className="m-0"
+            id={`review-comment-help-${request.id}`}
+          >
             Sent to the developers with the decision. Required to reject;
             optional to approve.
           </FieldDescription>
         </Field>
-        <Field>
+        <Field className="gap-2">
           <FieldLabel htmlFor={`internal-comment-${request.id}`}>
             Internal note
           </FieldLabel>
           <Textarea
             id={`internal-comment-${request.id}`}
-            className="min-h-20"
+            variant="surface"
+            className="min-h-24 resize-y"
             value={internalComment}
             aria-describedby={`internal-comment-help-${request.id}`}
             onChange={(e) => setInternalComment(e.target.value)}
           />
-          <FieldDescription id={`internal-comment-help-${request.id}`}>
+          <FieldDescription
+            className="m-0"
+            id={`internal-comment-help-${request.id}`}
+          >
             Visible only to moderators. Optional.
           </FieldDescription>
         </Field>
-      </div>
+      </FieldGroup>
     )
     buttons = (
       <>
@@ -266,6 +284,7 @@ const ReviewCard: FunctionComponent<Props> = ({
         </label>
         <Textarea
           id={`discussion-comment-${request.id}`}
+          variant="surface"
           className="h-40"
           value={comment ?? ""}
           placeholder="Comment"
@@ -277,11 +296,34 @@ const ReviewCard: FunctionComponent<Props> = ({
         />
       </Modal>
 
-      <div className="rounded-xl bg-flathub-white p-6 shadow-md dark:bg-flathub-arsenic">
-        <div className="mb-6 border-b border-flathub-gainsborow pb-6 dark:border-flathub-dark-gunmetal">
-          <div className="flex sm:gap-4 flex-row justify-between align-middle">
-            <div className="flex-1">
-              <h2 className="text-2xl leading-none font-bold">
+      <div className="overflow-hidden rounded-xl bg-flathub-white text-card-foreground shadow-sm dark:bg-flathub-arsenic [--muted-foreground:var(--flathub-granite-gray)] dark:[--muted-foreground:var(--flathub-gray-x11)]">
+        <div className="border-b border-border p-[clamp(18px,2.5vw,28px)]">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="min-w-0 flex-1">
+              <div className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {request.handled_at || mutation.isSuccess ? (
+                  request.is_approved ||
+                  (mutation.isSuccess && mutation.variables.approve) ? (
+                    <Check
+                      className="size-4 text-flathub-status-green dark:text-flathub-status-green-dark"
+                      aria-hidden
+                    />
+                  ) : (
+                    <X className="size-4 text-destructive" aria-hidden />
+                  )
+                ) : (
+                  <Clock className="size-4" aria-hidden />
+                )}
+                {t(
+                  request.handled_at || mutation.isSuccess
+                    ? request.is_approved ||
+                      (mutation.isSuccess && mutation.variables.approve)
+                      ? "moderation-approved"
+                      : "moderation-rejected"
+                    : "status-pending",
+                )}
+              </div>
+              <h2 className="text-xl font-semibold leading-tight tracking-tight">
                 {title}
                 {request.is_outdated && (
                   <span className="ms-2 inline-block align-middle">
@@ -290,7 +332,7 @@ const ReviewCard: FunctionComponent<Props> = ({
                 )}
               </h2>
               <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
-                <span className="font-medium text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                <span className="font-medium text-muted-foreground">
                   {t("moderation-build-id")}:
                 </span>
                 <span className="rounded bg-flathub-gainsborow px-2.5 py-1 font-mono text-xs font-medium dark:bg-flathub-dark-gunmetal">
@@ -311,7 +353,7 @@ const ReviewCard: FunctionComponent<Props> = ({
             </div>
             <div className="flex flex-col items-end gap-2 text-sm">
               <span
-                className="text-flathub-sonic-silver dark:text-flathub-spanish-gray"
+                className="text-muted-foreground"
                 title={parseISO(request.created_at + "Z").toLocaleString(
                   getIntlLocale(i18n.language),
                 )}
@@ -326,7 +368,7 @@ const ReviewCard: FunctionComponent<Props> = ({
                     id={`review-${groupedRequest.id}`}
                     key={groupedRequest.id}
                     href={`#review-${groupedRequest.id}`}
-                    className="font-mono text-xs text-flathub-celestial-blue hover:underline dark:text-flathub-celestial-blue"
+                    className="font-mono text-xs text-flathub-celestial-blue-dark hover:underline dark:text-flathub-celestial-blue-light"
                   >
                     #{groupedRequest.id}
                   </Link>
@@ -336,56 +378,71 @@ const ReviewCard: FunctionComponent<Props> = ({
           </div>
         </div>
 
-        {children}
+        <div className="p-[clamp(18px,2.5vw,28px)]">{children}</div>
 
         {user.info &&
           user.info.permissions.some((a) => a === Permission.moderation) && (
-            <div className="mt-6 border-t border-flathub-gainsborow pt-6 dark:border-flathub-dark-gunmetal">
-              <CodeCopy
-                nested
-                text={`flatpak install --user https://dl.flathub.org/build-repo/${request.build_id}/${request.app_id}.flatpakref`}
-              />
-            </div>
+            <details className="mx-[clamp(18px,2.5vw,28px)] mb-[clamp(18px,2.5vw,28px)] rounded-lg bg-muted/40">
+              <summary className="cursor-pointer rounded-lg px-4 py-3 text-sm font-medium marker:text-muted-foreground hover:bg-muted/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                Install this build for testing
+              </summary>
+              <div className="px-3 pb-3">
+                <CodeCopy
+                  nested
+                  text={`flatpak install --user https://dl.flathub.org/build-repo/${request.build_id}/${request.app_id}.flatpakref`}
+                />
+              </div>
+            </details>
           )}
 
-        <div className="mt-6 border-t border-flathub-gainsborow pt-6 dark:border-flathub-dark-gunmetal">
-          {discussionUrl && (
-            <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <div className="text-sm">
-                {discussionRequest?.discussion_opened_by && (
-                  <>
-                    <div>
-                      {t("moderation-discussion-opened-by", {
-                        openedBy: discussionRequest.discussion_opened_by,
-                      })}
-                    </div>
-                    {discussionRequest.discussion_comment && (
-                      <blockquote className="mt-2 border-s-4 border-flathub-sonic-silver ps-2">
-                        {discussionRequest.discussion_comment}
-                      </blockquote>
-                    )}
-                  </>
-                )}
+        {(request.handled_at ||
+          reviewForm ||
+          discussionUrl ||
+          mutation.isPending ||
+          mutation.isError ||
+          mutation.isSuccess) && (
+          <div className="border-t border-border p-[clamp(18px,2.5vw,28px)]">
+            {discussionUrl && (
+              <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div className="text-sm">
+                  {discussionRequest?.discussion_opened_by && (
+                    <>
+                      <div>
+                        {t("moderation-discussion-opened-by", {
+                          openedBy: discussionRequest.discussion_opened_by,
+                        })}
+                      </div>
+                      {discussionRequest.discussion_comment && (
+                        <blockquote className="mt-2 border-s-4 border-flathub-sonic-silver ps-2">
+                          {discussionRequest.discussion_comment}
+                        </blockquote>
+                      )}
+                    </>
+                  )}
+                </div>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="w-full px-3 py-2 sm:w-auto"
+                >
+                  <a href={discussionUrl} rel="noreferrer" target="_blank">
+                    <MessagesSquareIcon className="h-4 w-4" />
+                    {t("moderation-view-discussion")}
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                </Button>
               </div>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="w-full px-3 py-2 sm:w-auto"
-              >
-                <a href={discussionUrl} rel="noreferrer" target="_blank">
-                  <MessagesSquareIcon className="h-4 w-4" />
-                  {t("moderation-view-discussion")}
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </a>
-              </Button>
+            )}
+            {reviewForm}
+            <div
+              data-handled={!!request.handled_at}
+              className="flex flex-col gap-3 sm:flex-row-reverse sm:flex-wrap sm:data-[handled=true]:flex-row"
+            >
+              {buttons}
             </div>
-          )}
-          {reviewForm}
-          <div className="flex flex-col gap-3 sm:flex-row-reverse">
-            {buttons}
           </div>
-        </div>
+        )}
       </div>
     </>
   )

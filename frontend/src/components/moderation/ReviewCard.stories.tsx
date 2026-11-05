@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import ReviewCard from "./ReviewCard"
+import AppstreamChangesRow from "./AppstreamChangesRow"
 import { faker } from "@faker-js/faker"
 import { ModerationRequestResponse, Permission } from "../../codegen/model"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
@@ -31,7 +32,9 @@ export default {
       })
       return (
         <QueryClientProvider client={queryClient}>
-          <Story />
+          <div className="mx-auto w-full max-w-5xl">
+            <Story />
+          </div>
         </QueryClientProvider>
       )
     },
@@ -77,7 +80,7 @@ export const PrimaryRejected = () => {
   return (
     <UserContext value={{ ...userInfo }}>
       <ReviewCard title={t("moderation-appstream")} requests={[request]}>
-        <div>Show table here</div>
+        <AppstreamChangesRow request={request} grouped />
       </ReviewCard>
     </UserContext>
   )
@@ -122,7 +125,7 @@ export const Primary = () => {
   return (
     <UserContext value={{ ...userInfo }}>
       <ReviewCard title={t("moderation-appstream")} requests={[request]}>
-        <div>Show table here</div>
+        <AppstreamChangesRow request={request} grouped />
       </ReviewCard>
     </UserContext>
   )
@@ -137,34 +140,38 @@ const moderator: UserState = {
 
 const PendingCard = ({ canOpenDiscussion }: { canOpenDiscussion: boolean }) => {
   const [freshClient] = useState(() => new QueryClient())
+  const request: ModerationRequestResponse = {
+    request_type: "appdata",
+    request_data: {
+      keys: {
+        name: "GNOME Text Editor",
+        summary: "Edit text files",
+        description: "A simple text editor for GNOME",
+      },
+      current_values: {
+        name: "Text Editor",
+        summary: "Edit text files",
+        description: "Text editor for the GNOME desktop",
+      },
+    },
+    id: request_id,
+    app_id: "org.gnome.TextEditor",
+    created_at: "2024-01-01T00:00:00",
+    build_id: 4242,
+    job_id: 77,
+    is_outdated: false,
+    is_new_submission: false,
+    can_open_discussion: canOpenDiscussion,
+    handled_by: null,
+    handled_at: null,
+    is_approved: null,
+    comment: null,
+  }
   return (
     <QueryClientProvider client={freshClient}>
       <UserContext value={moderator}>
-        <ReviewCard
-          title="Build changes"
-          requests={[
-            {
-              request_type: "appdata",
-              request_data: {
-                keys: { Name: "Test App" },
-                current_values: { Name: "Old Test App" },
-              },
-              id: request_id,
-              app_id: "tv.abc.TestApp",
-              created_at: "2024-01-01T00:00:00",
-              build_id: 4242,
-              job_id: 77,
-              is_outdated: false,
-              is_new_submission: false,
-              can_open_discussion: canOpenDiscussion,
-              handled_by: null,
-              handled_at: null,
-              is_approved: null,
-              comment: null,
-            },
-          ]}
-        >
-          <div>Show table here</div>
+        <ReviewCard title="Build changes" requests={[request]}>
+          <AppstreamChangesRow request={request} grouped />
         </ReviewCard>
       </UserContext>
     </QueryClientProvider>
@@ -245,5 +252,12 @@ export const DirectUpload: StoryObj<typeof ReviewCard> = {
     await expect(
       canvas.queryByRole("button", { name: "Open discussion" }),
     ).toBeNull()
+    const install = canvas.getByText("Install this build for testing")
+    const command = canvas.getByText(/flatpak install --user/)
+    await expect(command).not.toBeVisible()
+    await userEvent.click(install)
+    await expect(command).toBeVisible()
+    await userEvent.click(install)
+    await expect(command).not.toBeVisible()
   },
 }

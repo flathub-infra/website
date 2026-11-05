@@ -36,6 +36,14 @@ const MarkDiff = ({
   diff: diff.Diff[]
   type: "old" | "new"
 }) => {
+  const hasValue = currentDiff.some(
+    ([operation, value]) =>
+      value.length > 0 &&
+      operation !== (type === "old" ? diff.INSERT : diff.DELETE),
+  )
+  if (!hasValue) {
+    return <span className="text-muted-foreground">—</span>
+  }
   return currentDiff.map((a, i) => {
     if (type === "new" && a[0] === diff.DELETE) {
       return null
@@ -47,7 +55,7 @@ const MarkDiff = ({
       return (
         <mark
           key={i}
-          className="dark:bg-flathub-status-green bg-flathub-status-green-dark dark:text-white"
+          className="rounded-sm bg-flathub-status-green/20 text-foreground underline decoration-flathub-status-green underline-offset-4 dark:bg-flathub-status-green/20"
         >
           {a[1]}
         </mark>
@@ -57,7 +65,7 @@ const MarkDiff = ({
       return (
         <mark
           key={i}
-          className="dark:bg-flathub-status-red bg-flathub-status-red-dark text-white"
+          className="rounded-sm bg-flathub-status-red/15 text-foreground dark:bg-flathub-status-red/20"
         >
           {a[1]}
         </mark>
@@ -99,6 +107,7 @@ const TableRow = ({
   currentValueList: string[]
   newValueList: string[]
 }) => {
+  const t = useTranslations()
   const length = Math.max(currentValueList.length, newValueList.length)
 
   const diffForIndex: { [key: number]: diff.Diff[] } = {}
@@ -113,24 +122,36 @@ const TableRow = ({
 
   return (
     <tr key={valueKey}>
-      <td className="align-top px-4 py-3 font-mono text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+      <td className="align-top px-4 py-3 font-mono text-xs text-muted-foreground">
         {valueKey}
       </td>
       {!is_new_submission && (
-        <td className="align-top px-4 py-3">
-          <ArrayWithNewlines
-            array={currentValueList}
-            diffForIndex={diffForIndex}
-            type={"old"}
-          />
+        <td
+          data-label={t("moderation-old-value")}
+          className="align-top px-4 py-3"
+        >
+          <div className="min-w-0">
+            <ArrayWithNewlines
+              array={currentValueList}
+              diffForIndex={diffForIndex}
+              type={"old"}
+            />
+          </div>
         </td>
       )}
-      <td className="align-top px-4 py-3">
-        <ArrayWithNewlines
-          array={newValueList}
-          diffForIndex={diffForIndex}
-          type={"new"}
-        />
+      <td
+        data-label={t(
+          is_new_submission ? "moderation-value" : "moderation-new-value",
+        )}
+        className="align-top px-4 py-3"
+      >
+        <div className="min-w-0">
+          <ArrayWithNewlines
+            array={newValueList}
+            diffForIndex={diffForIndex}
+            type={"new"}
+          />
+        </div>
       </td>
     </tr>
   )
@@ -145,6 +166,7 @@ const DiffRow = ({
   request: ModerationRequestResponse
   requestData: RequestData
 }) => {
+  const t = useTranslations()
   // can be string or string[]
   const currentValues = requestData.current_values[valueKey] as
     string | string[] | { [key: string]: string[] }
@@ -185,16 +207,30 @@ const DiffRow = ({
 
     return (
       <tr>
-        <td className="align-top px-4 py-3 font-mono text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+        <td className="align-top px-4 py-3 font-mono text-xs text-muted-foreground">
           {valueKey}
         </td>
         {!request.is_new_submission && (
-          <td className="align-top px-4 py-3">
-            <MarkDiff diff={diffString} type="old" />
+          <td
+            data-label={t("moderation-old-value")}
+            className="align-top px-4 py-3"
+          >
+            <div className="min-w-0">
+              <MarkDiff diff={diffString} type="old" />
+            </div>
           </td>
         )}
-        <td className="align-top px-4 py-3">
-          <MarkDiff diff={diffString} type="new" />
+        <td
+          data-label={t(
+            request.is_new_submission
+              ? "moderation-value"
+              : "moderation-new-value",
+          )}
+          className="align-top px-4 py-3"
+        >
+          <div className="min-w-0">
+            <MarkDiff diff={diffString} type="new" />
+          </div>
         </td>
       </tr>
     )
@@ -289,19 +325,28 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-flathub-gainsborow dark:border-flathub-dark-gunmetal">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-flathub-gainsborow bg-flathub-gainsborow/30 text-start dark:border-flathub-dark-gunmetal dark:bg-flathub-dark-gunmetal/30">
-                <th className="w-1/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+        <div className="overflow-x-auto rounded-lg border border-border">
+          <table className="w-full table-fixed text-sm leading-relaxed [overflow-wrap:anywhere] max-sm:[&_tr]:flex max-sm:[&_tr]:flex-col max-sm:[&_td]:block max-sm:[&_td]:py-2 max-sm:[&_td:first-child]:bg-muted/50 max-sm:[&_td:not(:first-child)]:grid max-sm:[&_td:not(:first-child)]:grid-cols-[4.5rem_minmax(0,1fr)] max-sm:[&_td:not(:first-child)]:gap-x-3 max-sm:[&_td:not(:first-child)]:before:font-sans max-sm:[&_td:not(:first-child)]:before:text-xs max-sm:[&_td:not(:first-child)]:before:font-semibold max-sm:[&_td:not(:first-child)]:before:text-muted-foreground max-sm:[&_td:not(:first-child)]:before:content-[attr(data-label)] [&_td:not(:first-child)]:font-mono [&_td:not(:first-child)]:text-[13px]">
+            <thead className="max-sm:sr-only">
+              <tr className="border-b border-border bg-muted/50 text-start">
+                <th
+                  scope="col"
+                  className="w-1/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-foreground/75"
+                >
                   {t("moderation-key")}
                 </th>
                 {!request.is_new_submission && (
-                  <th className="w-2/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                  <th
+                    scope="col"
+                    className="w-2/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-foreground/75"
+                  >
                     {t("moderation-old-value")}
                   </th>
                 )}
-                <th className="w-2/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-flathub-sonic-silver dark:text-flathub-spanish-gray">
+                <th
+                  scope="col"
+                  className="w-2/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-foreground/75"
+                >
                   {request.is_new_submission
                     ? t("moderation-value")
                     : t("moderation-new-value")}
@@ -309,7 +354,7 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-flathub-gainsborow bg-flathub-white dark:divide-flathub-dark-gunmetal dark:bg-flathub-arsenic">
+            <tbody className="divide-y divide-border">
               {uniqueKeys.map((key) => (
                 <DiffRow
                   key={key}
@@ -327,8 +372,8 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({
 
   if (grouped) {
     return (
-      <section className="space-y-4">
-        <h3 className="text-xl font-bold">{title}</h3>
+      <section className="flex flex-col gap-3">
+        <h3 className="text-base font-semibold">{title}</h3>
         {content}
       </section>
     )
