@@ -401,8 +401,8 @@ export const Runtime: Story = {
       "/en/builds/apps/org.freedesktop.Sdk.Extension.node20",
     )
     await expect(
-      canvas.queryByRole("region", { name: "Maintenance" }),
-    ).not.toBeInTheDocument()
+      await canvas.findByRole("tab", { name: "Maintenance" }),
+    ).toBeInTheDocument()
     await expect(
       canvas.queryByRole("tab", { name: "Verification" }),
     ).not.toBeInTheDocument()
