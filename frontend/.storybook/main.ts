@@ -5,7 +5,10 @@ import { fileURLToPath } from "url"
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const config: StorybookConfig = {
-  stories: ["../**/*.mdx", "../**/*.stories.@(js|jsx|ts|tsx)"],
+  stories: [
+    "../{app,src,@}/**/*.mdx",
+    "../{app,src,@}/**/*.stories.@(js|jsx|ts|tsx)",
+  ],
 
   addons: [
     "@chromatic-com/storybook",

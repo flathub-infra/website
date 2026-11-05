@@ -85,6 +85,36 @@ export const RandomReview = () => {
   return <AppstreamChangesRow request={request} />
 }
 
+export const ApprovedLicenseChange = () => (
+  <AppstreamChangesRow
+    request={{
+      id: 7328,
+      app_id: "com.geekbench.Geekbench6",
+      request_type: "appdata",
+      build_id: 334306,
+      job_id: 1,
+      created_at: "2026-10-29T12:00:00",
+      handled_at: "2026-10-29T13:00:00",
+      handled_by: null,
+      is_approved: true,
+      is_outdated: false,
+      is_new_submission: false,
+      can_open_discussion: false,
+      request_data: {
+        current_values: { project_license: "LicenseRef-proprietary" },
+        keys: {
+          project_license:
+            "LicenseRef-proprietary=https://www.primatelabs.com/legal/eula-v6.html",
+        },
+      },
+    }}
+  />
+)
+
+ApprovedLicenseChange.parameters = {
+  mockingDate: "2026-11-05T12:00:00Z",
+}
+
 export const PermissionChange = () => {
   const request: ModerationRequestResponse = {
     id: 277,

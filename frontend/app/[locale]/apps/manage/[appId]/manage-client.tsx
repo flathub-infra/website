@@ -58,7 +58,8 @@ function ManagementPanel({
     <TabsContent
       value={value}
       forceMount
-      className="mt-0 min-w-0 pt-0 data-[state=inactive]:hidden"
+      className="mt-0 min-w-0 rounded-xl bg-flathub-white p-[clamp(18px,2.5vw,28px)] shadow-sm dark:bg-flathub-arsenic data-[state=inactive]:hidden data-[reviews=true]:bg-transparent data-[reviews=true]:p-0 data-[reviews=true]:shadow-none dark:data-[reviews=true]:bg-transparent"
+      data-reviews={value === "reviews"}
     >
       {value !== "uploads" && (
         <h2 className="mb-6 text-xl font-semibold tracking-tight">{title}</h2>
@@ -307,7 +308,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
               ))}
             </TabsList>
           </nav>
-          <div className="min-w-0 rounded-xl bg-flathub-white p-[clamp(18px,2.5vw,28px)] shadow-sm dark:bg-flathub-arsenic">
+          <div className="min-w-0">
             {sections.map(({ value, title, content }) => (
               <ManagementPanel key={value} value={value} title={title}>
                 {content}
