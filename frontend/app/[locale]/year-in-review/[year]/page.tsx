@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { headers } from "next/headers"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import {
@@ -13,22 +14,13 @@ const MIN_YEAR = 2018
 
 function getMaxAvailableYear(): number {
   const now = new Date()
-  const currentYear = now.getFullYear()
-  const currentMonth = now.getMonth()
-  const currentDay = now.getDate()
+  const currentYear = now.getUTCFullYear()
+  const currentMonth = now.getUTCMonth()
+  const currentDay = now.getUTCDate()
 
   const isLateDecember = currentMonth === 11 && currentDay >= 15
 
   return isLateDecember ? currentYear : currentYear - 1
-}
-
-export async function generateStaticParams() {
-  const maxYear = getMaxAvailableYear()
-  const years: { year: string }[] = []
-  for (let year = maxYear; year >= maxYear - 5 && year >= MIN_YEAR; year--) {
-    years.push({ year: year.toString() })
-  }
-  return years
 }
 
 export async function generateMetadata({
@@ -69,8 +61,7 @@ export async function generateMetadata({
   }
 }
 
-export const dynamic = "force-static"
-export const revalidate = 3600 // Revalidate every hour
+export const dynamic = "force-dynamic"
 
 export default async function YearInReviewPage({
   params,
@@ -81,12 +72,20 @@ export default async function YearInReviewPage({
 
   const t = await getTranslations()
 
-  const year = parseInt(yearParam, 10)
-  const maxYear = getMaxAvailableYear()
+  const year = Number(yearParam)
+  const publicMaxYear = getMaxAvailableYear()
 
-  if (isNaN(year) || year < MIN_YEAR || year > maxYear) {
+  if (
+    !Number.isInteger(year) ||
+    year < MIN_YEAR ||
+    year > new Date().getUTCFullYear()
+  ) {
     notFound()
   }
+
+  // Only unreleased years need authentication.
+  // The API checks the session's admin permission before returning preview data.
+  const cookie = year > publicMaxYear ? (await headers()).get("cookie") : null
 
   let yearInReviewData: YearInReviewResult | null = null
   try {
@@ -95,6 +94,7 @@ export default async function YearInReviewPage({
       {
         locale,
       },
+      cookie ? { headers: { Cookie: cookie } } : undefined,
     )
     yearInReviewData = yearInReviewResponse.data
   } catch (error) {
@@ -110,6 +110,7 @@ export default async function YearInReviewPage({
     yearInReviewData.year >= 2024 && !!yearInReviewData.geographic_stats
 
   const availableYears: number[] = []
+  const maxYear = Math.max(publicMaxYear, year)
   for (let y = maxYear; y >= MIN_YEAR; y--) {
     availableYears.push(y)
   }
