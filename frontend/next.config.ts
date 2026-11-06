@@ -124,6 +124,16 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
   async redirects() {
     return [
       {
+        source: "/admin/permission-statistics",
+        destination: "/statistics/permissions",
+        permanent: true,
+      },
+      {
+        source: "/:locale/admin/permission-statistics",
+        destination: "/:locale/statistics/permissions",
+        permanent: true,
+      },
+      {
         source: "/home",
         destination: "/en/",
         permanent: true,
