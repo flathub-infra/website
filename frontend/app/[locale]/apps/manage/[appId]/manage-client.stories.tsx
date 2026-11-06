@@ -382,7 +382,7 @@ export const DirectUpload: Story = {
   },
 }
 
-export const Runtime: Story = {
+export const Runtime = {
   args: {
     app: {
       ...meta.args.app,
@@ -406,5 +406,29 @@ export const Runtime: Story = {
     await expect(
       canvas.queryByRole("tab", { name: "Verification" }),
     ).not.toBeInTheDocument()
+  },
+} satisfies Story
+
+export const SdkExtension: Story = {
+  args: {
+    ...Runtime.args,
+    app: {
+      ...Runtime.args.app,
+      type: "addon",
+    },
+  },
+  play: async (context) => {
+    await Runtime.play(context)
+    const canvas = within(context.canvasElement)
+    await userEvent.click(canvas.getByRole("tab", { name: "Maintenance" }))
+    await expect(
+      canvas.getByRole("heading", { name: "Maintenance" }),
+    ).toBeVisible()
+    await expect(
+      canvas.getByRole("link", { name: "Packaging repository" }),
+    ).toHaveAttribute(
+      "href",
+      "https://github.com/flathub/org.freedesktop.Sdk.Extension.node20",
+    )
   },
 }

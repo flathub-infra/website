@@ -78,8 +78,9 @@ export default function ManageClient({ app, vendingConfig }: Props) {
     "console-application",
     "desktop-application",
   ].includes(app.type)
-  // SDK packages are represented by AppStream as runtimes.
-  const canViewMaintenance = isAnApp || app.type === "runtime"
+  // SDK extensions can be represented by AppStream as add-ons, not runtimes.
+  const canViewMaintenance =
+    isAnApp || app.type === "runtime" || app.type === "addon"
   const canManagePayments =
     isAnApp &&
     (!IS_PRODUCTION || user.info?.permissions?.includes(Permission.moderation))
