@@ -104,3 +104,33 @@ export function mapScreenshot(screenshot: Screenshot) {
     srcSet: screenshotVariant,
   }
 }
+
+export function findBiggestIcon(
+  icons: GetAppstreamAppstreamAppIdGet200["icons"],
+): string | undefined {
+  if (!icons?.length) {
+    return undefined
+  }
+
+  return (
+    icons.reduce<(typeof icons)[number] | undefined>((biggest, icon) => {
+      if (!biggest) {
+        return icon
+      }
+
+      const pixelHeight = (icon.height ?? 0) * (icon.scale ?? 1)
+      const biggestPixelHeight = (biggest.height ?? 0) * (biggest.scale ?? 1)
+      const pixelWidth = (icon.width ?? 0) * (icon.scale ?? 1)
+      const biggestPixelWidth = (biggest.width ?? 0) * (biggest.scale ?? 1)
+      const pixelArea = pixelHeight * pixelWidth
+      const biggestPixelArea = biggestPixelHeight * biggestPixelWidth
+
+      return pixelArea > biggestPixelArea ||
+        (pixelArea === biggestPixelArea &&
+          Math.max(pixelHeight, pixelWidth) >
+            Math.max(biggestPixelHeight, biggestPixelWidth))
+        ? icon
+        : biggest
+    }, undefined)?.url ?? undefined
+  )
+}
