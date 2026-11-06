@@ -75,7 +75,7 @@
     "yet-another-react-lightbox": "^3.32.1"
   },
   "devDependencies": {
-    "@babel/core": "^8.0.1",
+    "@babel/core": "^8.1.0",
     "@chromatic-com/storybook": "^5.6.0",
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^10.6.0",
