@@ -1016,5 +1016,9 @@
     "review-history": "Cuir léirmheasanna roimhe seo san áireamh",
     "no-pending-reviews": "Níl aon athruithe ag fanacht le hathbhreithniú",
     "no-pending-description": "Tá gach rud cothrom le dáta agat. Cuir athbhreithnithe san am atá thart ar siúl chun breathnú arís ar athruithe a rinneadh cheana."
-  }
+  },
+  "moderation-approved-on": "Ceadaithe ar {handledAt} ({handledAtRel})",
+  "moderation-rejected-on": "Diúltaithe ar {handledAt} ({handledAtRel})",
+  "moderation-rejected": "Diúltaithe",
+  "moderation-approved": "Ceadaithe"
 }

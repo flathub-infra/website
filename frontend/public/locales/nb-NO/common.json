@@ -57,7 +57,7 @@
   "retry-or-go-home": "Prøv igjen eller gå til <link>startsiden</link>.",
   "reporting-issues": "Rapportering av feil",
   "acknowledgements": "Anerkjennelser",
-  "acknowledgements-block": "<p>Flathub ville ikke ha vært mulig uten generøs støtte fra de følgende organisasjonene og individene.</p>",
+  "acknowledgements-block": "<p>Flathub ville ikke ha vært mulig å bygge uten den generøs støtten som gis av Flatpak- og Flathub-fellesskapet. Vi takker alle tidligere og nåværende bidragsytere, sponsorer og organisasjoner. Uten deres støtte hadde det ikke vært mulig å holde all infrastrukturen som holder Flathub oppegående vedlike.</p>",
   "official-badges": "Offisielle Flathub-etiketter",
   "badges-block": "Disse etikettene kan brukes til promotering av apper som er tilgjengelige på Flathub",
   "badges-description": "Offisielle etiketter til promotering av apper",
@@ -297,7 +297,8 @@
     "title": "Utviklerportal",
     "runtime-version": "Base: {version}",
     "downloads-last-month": "Nedlastinger i løpet av den siste måneden",
-    "downloads-last-month-count": "Nedlastinger i løpet av den siste måneden: {count}"
+    "downloads-last-month-count": "Nedlastinger i løpet av den siste måneden: {count}",
+    "downloads-unavailable": "Totalt antall nedlastinger er ikke tilgjengelig for øyeblikket."
   },
   "moderation-rejected-by": "Avvist av {handledBy} {handledAt} ({handledAtRel})",
   "quality-guideline": {
@@ -354,7 +355,8 @@
     "failing-x-checks": "Mislykkede {count, plural, one {# check} other {# checks}}",
     "general-runtime-not-eol": "Base er ikke utløpt",
     "last-edited": "Redigert av {editor} · {time}",
-    "system-editor": "System"
+    "system-editor": "System",
+    "stats-by-category": "Kontrollstatus etter kategori"
   },
   "updated-apps": "Oppdaterte apper",
   "stripe-error-payment_intent_authentication_failure": "Autentisering av betalingsmåte mislyktes. Velg en annen betalingsmåte og prøv igjen.",
@@ -658,7 +660,11 @@
     "install-x": "Installer «{x}»",
     "fallback-instructions": "<opening>«{name}» skal åpnes i programvarebehandleren din…</opening><support>Hvis ingenting skjer, kan det hende at systemet ditt ikke støtter <i>flatpak+https</i> URL-er.</support><listPrefix>I det tilfellet kan du</listPrefix><ol><li>Laste ned <link>.flatpakref-filen</link></li><li>Deretter kjøre den fra filprogrammet ditt</li></ol><setupLine><linkSetup>Instruksjoner om hvordan man installerer Flatpak</linkSetup></setupLine>",
     "download-file": "Last ned .flatpakref",
-    "open-file": ".flatpakref-filen peker til appen. Å laste den ned installerer den ikke."
+    "open-file": ".flatpakref-filen peker til appen. Å laste den ned installerer den ikke.",
+    "file-description": "Åpne filen fra nedlastingsmappen i programvarebehandleren din, og velg deretter «Installer».",
+    "terminal-instructions": "Etter installasjon, lim dette inn i et terminalvindu på Linux-maskinen din og trykk «Enter».",
+    "open-instructions": "Programvarebehandleren din er stedet du laster ned apper fra på Linux. La nettleseren din åpne den, og velg deretter «installer».",
+    "open-again": "Åpne i programvarebehandler"
   },
   "uses-privileged-socket": "Bruker en privilegert socket",
   "socket-may-allow-extra-permissions": "Bruker en socket som gjør det mulig å få flere rettigheter",
@@ -880,7 +886,8 @@
   "danger-zone-confirmation": {
     "switch": {
       "warning-title": "Denne endringen kan ikke gjøres om",
-      "acknowledgment": "Jeg forstår at å bytte over <app>{app_id}</app> til direkteopplasting ikke kan gjøres om"
+      "acknowledgment": "Jeg forstår at å bytte over <app>{app_id}</app> til direkteopplasting ikke kan gjøres om",
+      "warning-consequence": "Å bytte endrer premanent denne appen til å lastes opp direkte til Flathub."
     },
     "archive": {
       "warning-title": "Å arkivere denne appen påvirker denne appen og dens utgivere",
@@ -993,5 +1000,20 @@
   "reauth-title": "Bekreft det faktisk er deg",
   "reauth-sign-out": "Logg ut og logg inn igjen",
   "passkey-remove-prompt": "Fjern passnøkkelen «{name}»?",
-  "passkey-remove-description": "Du vil ikke lenger kunne logge inn med denne passnøkkelen. Hvis du er innlogget med den, vil du bli logget ut."
+  "passkey-remove-description": "Du vil ikke lenger kunne logge inn med denne passnøkkelen. Hvis du er innlogget med den, vil du bli logget ut.",
+  "email-login-check-your-inbox": "Hvis adressen er gyldig, så er en innloggingslenke på vei. Den går ut om 15 minutter. Hvis du laget kontoen din med GitHub, GitLab, GNOME eller KDE, logg inn med dem istedenfor.",
+  "email-login-oauth-upgrade-required": "Denne handlingen krever en leverandørkonto. Koble kontoen til GitHub, GitLab, GNOME eller KDE i innstillingene for å fortsette.",
+  "moderation-approved-on": "Godkjent {handledAt} ({handledAtRel})",
+  "passkey-canceled": "Passnøkkelforespørselen ble avbrutt eller tok for lang tid. Prøv igjen.",
+  "reauth-description": "For sikkerhets skyld, bekreft identiteten din før du endrer passnøklene dine.",
+  "passkeys-description": "Passnøkler lar deg logge inn til denne kontoen uten å bruke en e-postlenke eller en ekstern leverandør.",
+  "moderation-rejected-on": "Avvist {handledAt} ({handledAtRel})",
+  "display-name-invalid": "Skriv inn et visningsnavn på 1-100 tegn med minst ett synlig tegn og ingen kontrolltegn eller tegn som endrer skriveretning.",
+  "founding-supporters": "Grunnleggende støttespillere",
+  "email-login-replaced": "Innlogging via e-post har blitt permanent erstattet av innlogging gjennom en leverandør for denne kontoen.",
+  "moderation-rejected": "Avvist",
+  "reauth-return-hint": "Etter å ha bekreftet identiteten din, kom tilbake hit, lukk denne meldingen hvis den fortsatt er åpen, og prøv å endre passnøkkel på nytt.",
+  "unverified-app-disclaimer-package": "Denne pakken er satt sammen av fellesskapet og er ikke verifisert av, forbundet med eller støttet av {developer}.",
+  "moderation-approved": "Godkjent",
+  "dns-verification-main-instruction": "Verifiser retten din til å bruke app-ID-en <bold>{id}</bold> ved å publisere en DNS TXT-oppføring for <bold>{domain}</bold>."
 }
