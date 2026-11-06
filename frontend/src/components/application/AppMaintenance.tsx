@@ -138,7 +138,7 @@ export default function AppMaintenance({ appId, manifestUrl }: Props) {
             className="h-auto min-h-7 max-w-full whitespace-normal px-0 text-start text-xs text-foreground underline underline-offset-4"
           >
             <a
-              href="https://github.com/flathub/flatpak-external-data-checker#readme"
+              href="https://github.com/flathub-infra/flatpak-external-data-checker#readme"
               target="_blank"
               rel="noreferrer"
             >

@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl"
 import { useState, type ReactNode } from "react"
-import { GitBranch } from "lucide-react"
 import { Link } from "src/i18n/navigation"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -239,17 +238,6 @@ export default function ManageClient({ app, vendingConfig }: Props) {
 
         {isAnApp && selectedSection !== "maintenance" && (
           <AppRuntimeWarning appId={app.id} />
-        )}
-
-        {!isAnApp && (
-          <div className="mb-8">
-            <Button asChild variant="secondary">
-              <Link href={`/builds/apps/${app.id}`}>
-                <GitBranch data-icon="inline-start" aria-hidden />
-                {t("view-builds")}
-              </Link>
-            </Button>
-          </div>
         )}
 
         <Tabs

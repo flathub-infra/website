@@ -395,12 +395,6 @@ export const Runtime = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
     await expect(
-      await canvas.findByRole("link", { name: "View builds" }),
-    ).toHaveAttribute(
-      "href",
-      "/en/builds/apps/org.freedesktop.Sdk.Extension.node20",
-    )
-    await expect(
       await canvas.findByRole("tab", { name: "Maintenance" }),
     ).toBeInTheDocument()
     await expect(
