@@ -52,6 +52,65 @@ HIGH_DOWNLOADS_THRESHOLD = (
     5000  # Higher threshold for stricter filtering (percentage growth)
 )
 MINIMUM_GEM_THRESHOLD = 1000  # Minimum threshold for hidden gems calculation
+NOT_DISTROS = [
+    "",
+    "unknown",
+    "org.freedesktop.Platform",
+    "org.freedesktop.Sdk",
+    "org.freedesktop.platform",
+    "org.gnome.Platform",
+    "org.gnome.Sdk",
+    "org.kde.Platform",
+    "org.kde.Sdk",
+]
+MAX_DISTROS_IN_RESPONSE = 20
+DISTRO_NAMES = {
+    "almalinux": "AlmaLinux",
+    "altlinux": "ALT Linux",
+    "arch": "Arch Linux",
+    "archarm": "Arch Linux ARM",
+    "artix": "Artix Linux",
+    "aurora": "Aurora",
+    "bazzite": "Bazzite",
+    "biglinux": "BigLinux",
+    "bluefin": "Bluefin",
+    "bluefin-dakota": "Bluefin Dakota",
+    "cachyos": "CachyOS",
+    "centos": "CentOS Stream",
+    "debian": "Debian",
+    "elementary": "elementary OS",
+    "eln": "Fedora ELN",
+    "endeavouros": "EndeavourOS",
+    "fedora": "Fedora",
+    "fedora-asahi-remix": "Fedora Asahi Remix",
+    "garuda": "Garuda Linux",
+    "gentoo": "Gentoo",
+    "hummingbird": "Fedora Hummingbird",
+    "kali": "Kali Linux",
+    "kde-linux": "KDE Linux",
+    "linuxmint": "Linux Mint",
+    "manjaro": "Manjaro",
+    "neon": "KDE neon",
+    "nixos": "NixOS",
+    "nobara": "Nobara",
+    "omarchy": "Omarchy",
+    "opensuse-leap": "openSUSE Leap",
+    "opensuse-slowroll": "openSUSE Slowroll",
+    "opensuse-tumbleweed": "openSUSE Tumbleweed",
+    "org.gnome.os": "GNOME OS",
+    "pika": "PikaOS",
+    "pop": "Pop!_OS",
+    "rhel": "Red Hat Enterprise Linux",
+    "secureblue": "secureblue",
+    "solus": "Solus",
+    "steamos": "SteamOS",
+    "tuxedo": "TUXEDO OS",
+    "ubuntu": "Ubuntu",
+    "ultramarine": "Ultramarine Linux",
+    "vanilla": "Vanilla OS",
+    "void": "Void Linux",
+    "zorin": "Zorin OS",
+}
 
 
 def _get_stats_for_date(
@@ -147,6 +206,21 @@ def get_category_totals():
         )
 
     return categories
+
+
+def get_distro_name(distro: str) -> str:
+    return DISTRO_NAMES.get(distro, distro.replace("-", " ").title())
+
+
+def format_distro_installs(
+    per_distro: dict[str, int],
+) -> tuple[list[dict[str, str | int]], int]:
+    distros = sorted(per_distro.items(), key=lambda item: -item[1])
+    top = [
+        {"id": distro, "name": get_distro_name(distro), "installs": installs}
+        for distro, installs in distros[:MAX_DISTROS_IN_RESPONSE]
+    ]
+    return top, sum(installs for _, installs in distros[MAX_DISTROS_IN_RESPONSE:])
 
 
 def get_installs_by_ids(ids: list[str]):
@@ -290,6 +364,26 @@ def _prepare_app_snapshot(sqldb, today):
         ) ON COMMIT DROP
     """)
     )
+    sqldb.execute(
+        text("""
+        CREATE TEMPORARY TABLE stats_app_distro_snapshot ON COMMIT DROP AS
+        SELECT split_part(refs.key, '/', 1) AS app_id,
+               split_part(versions.key, ';', 1) AS distro,
+               coalesce(sum((versions.value->>0)::bigint - (versions.value->>1)::bigint), 0) AS installs
+        FROM stats_daily d
+        CROSS JOIN LATERAL jsonb_each(CASE WHEN jsonb_typeof(d.data->'ref_by_os_version') = 'object' THEN d.data->'ref_by_os_version' ELSE '{}'::jsonb END) refs
+        CROSS JOIN LATERAL jsonb_each(CASE WHEN jsonb_typeof(refs.value) = 'object' THEN refs.value ELSE '{}'::jsonb END) versions
+        WHERE d.date BETWEEN :start AND :today
+          AND split_part(versions.key, ';', 1) <> ALL(:not_distros)
+        GROUP BY 1, 2
+    """),
+        {
+            "start": today - datetime.timedelta(days=29),
+            "today": today,
+            "not_distros": NOT_DISTROS,
+        },
+    )
+    sqldb.execute(text("CREATE INDEX ON stats_app_distro_snapshot (app_id)"))
     stable = today - datetime.timedelta(days=2)
     for start, end in _date_windows(FIRST_STATS_DATE, stable):
         sqldb.execute(
@@ -318,6 +412,8 @@ def _app_batch(sqldb, ids, today) -> dict[str, models.AppStatsData]:
             "installs_last_7_days": 0,
             "installs_per_day": {},
             "installs_per_country": {},
+            "installs_per_distro": {},
+            "installs_unreported_distro": 0,
         }
         for app_id in ids
     }
@@ -350,6 +446,19 @@ def _app_batch(sqldb, ids, today) -> dict[str, models.AppStatsData]:
     ).yield_per(1000)
     for app_id, country, count in rows:
         result[app_id]["installs_per_country"][country] = int(count or 0)
+    rows = sqldb.execute(
+        text("""
+        SELECT app_id, distro, installs FROM stats_app_distro_snapshot
+        WHERE app_id = ANY(:ids) AND installs > 0
+    """),
+        {"ids": ids},
+    ).yield_per(1000)
+    for app_id, distro, count in rows:
+        result[app_id]["installs_per_distro"][distro] = int(count)
+    for item in result.values():
+        item["installs_unreported_distro"] = max(
+            item["installs_last_month"] - sum(item["installs_per_distro"].values()), 0
+        )
     return result
 
 
@@ -394,6 +503,11 @@ def update(sqldb):
             item["installs_total"] += source["installs_total"]
             item["installs_last_month"] += source["installs_last_month"]
             item["installs_last_7_days"] += source["installs_last_7_days"]
+            item["installs_unreported_distro"] += source["installs_unreported_distro"]
+            for name, count in source["installs_per_distro"].items():
+                item["installs_per_distro"][name] = (
+                    item["installs_per_distro"].get(name, 0) + count
+                )
             for name, count in source["installs_per_day"].items():
                 item["installs_per_day"][name] = (
                     item["installs_per_day"].get(name, 0) + count
