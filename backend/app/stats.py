@@ -295,13 +295,13 @@ def _prepare_app_snapshot(sqldb, today):
         sqldb.execute(
             text("""
             INSERT INTO stats_app_country_snapshot (app_id, country, installs)
-            SELECT refs.key, countries.key,
+            SELECT split_part(refs.key, '/', 1), countries.key,
                    coalesce(sum((countries.value->>0)::bigint - (countries.value->>1)::bigint), 0)
             FROM stats_daily d
             CROSS JOIN LATERAL jsonb_each(CASE WHEN jsonb_typeof(d.data->'ref_by_country') = 'object' THEN d.data->'ref_by_country' ELSE '{}'::jsonb END) refs
             CROSS JOIN LATERAL jsonb_each(CASE WHEN jsonb_typeof(refs.value) = 'object' THEN refs.value ELSE '{}'::jsonb END) countries
             WHERE d.date BETWEEN :start AND :end
-            GROUP BY refs.key, countries.key
+            GROUP BY split_part(refs.key, '/', 1), countries.key
             ON CONFLICT (app_id, country) DO UPDATE
             SET installs = stats_app_country_snapshot.installs + excluded.installs
         """),
