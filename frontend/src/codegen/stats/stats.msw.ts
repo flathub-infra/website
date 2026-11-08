@@ -24,6 +24,16 @@ export const getGetStatsStatsGetResponseMock = (): GetStatsStatsGet200 =>
       countries: {
         [faker.string.alphanumeric(5)]: faker.number.int(),
       },
+      country_population: faker.helpers.arrayElement([
+        {
+          year: faker.number.int(),
+          revision: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          populations: {
+            [faker.string.alphanumeric(5)]: faker.number.int(),
+          },
+        },
+        null,
+      ]),
       downloads_per_day: {
         [faker.string.alphanumeric(5)]: faker.number.int(),
       },

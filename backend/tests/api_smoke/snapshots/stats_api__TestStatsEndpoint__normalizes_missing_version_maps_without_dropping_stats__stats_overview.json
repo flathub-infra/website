@@ -7,6 +7,14 @@
     "US": 987,
     "DE": 654
   },
+  "country_population": {
+    "year": 2026,
+    "revision": "2024 (revision 1)",
+    "populations": {
+      "US": 349035494,
+      "DE": 83644258
+    }
+  },
   "downloads_per_day": {
     "2026-01-14": 42
   },

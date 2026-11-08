@@ -1,0 +1,51 @@
+import { describe, expect, it } from "vitest"
+import { getCountryDownloads } from "./country-downloads"
+
+describe("country download metrics", () => {
+  const countries = { US: 200, DE: 100, AX: 50, FR: 0 }
+  const populations = { US: 1_000_000, DE: 100_000, FR: 100_000 }
+
+  it("preserves raw counts and their ranking by default", () => {
+    expect(getCountryDownloads(countries, populations, false)).toEqual([
+      { country: "US", downloads: 200, value: 200 },
+      { country: "DE", downloads: 100, value: 100 },
+      { country: "AX", downloads: 50, value: 50 },
+      { country: "FR", downloads: 0, value: 0 },
+    ])
+  })
+
+  it("normalizes and reorders countries, keeping unavailable populations last", () => {
+    expect(getCountryDownloads(countries, populations, true)).toEqual([
+      { country: "DE", downloads: 100, value: 100 },
+      { country: "US", downloads: 200, value: 20 },
+      { country: "FR", downloads: 0, value: 0 },
+      { country: "AX", downloads: 50, value: null },
+    ])
+  })
+
+  it.each([undefined, 0, -1, NaN, Infinity])(
+    "does not divide by an unavailable or invalid population: %s",
+    (population) => {
+      const values = population === undefined ? {} : { US: population }
+      expect(getCountryDownloads({ US: 10 }, values, true)[0].value).toBeNull()
+    },
+  )
+
+  it("matches lowercase statistics codes and preserves fractional rates", () => {
+    const [row] = getCountryDownloads({ us: 1 }, { US: 3_000_000 }, true)
+    expect(row.country).toBe("us")
+    expect(row.value).toBeCloseTo(1 / 30)
+  })
+
+  it("does not mutate API data and handles absent population metadata", () => {
+    expect(
+      getCountryDownloads(Object.freeze(countries), undefined, true),
+    ).toEqual(
+      Object.entries(countries).map(([country, downloads]) => ({
+        country,
+        downloads,
+        value: null,
+      })),
+    )
+  })
+})

@@ -20,7 +20,7 @@ import countriesAtlas from "src/data/countries.topo.json"
 
 interface CountryProperties {
   countryCode: string
-  value: number
+  value: number | null
 }
 
 type CountryFeature = Feature<Geometry, CountryProperties>
@@ -40,15 +40,17 @@ const countryFeatures: CountryFeature[] = atlasFeatures.features.map(
 
 export interface CountryMapValue {
   country: string
-  value: number
+  value: number | null
 }
+
+export const COUNTRY_MAP_NO_DATA_COLOR = "oklch(var(--muted-foreground) / 0.35)"
 
 interface CountryMapProps {
   data: CountryMapValue[]
   ariaLabel?: string
   onCountrySelect?: (countryCode: string) => void
   showTooltip?: boolean
-  metric?: "downloads" | "installs"
+  metric?: "downloads" | "installs" | "downloads-per-capita"
 }
 
 export default function CountryMap({
@@ -95,10 +97,18 @@ export default function CountryMap({
       ...country,
       properties: {
         ...country.properties,
-        value: valuesByCountry.get(country.properties.countryCode) ?? 0,
+        value: valuesByCountry.has(country.properties.countryCode)
+          ? valuesByCountry.get(country.properties.countryCode)!
+          : metric === "downloads-per-capita"
+            ? null
+            : 0,
       },
     }))
-    const maxValue = Math.max(0, ...data.map(({ value }) => value)) || 1
+    const maxValue = Math.max(0, ...data.map(({ value }) => value ?? 0)) || 1
+    const colorScale = scaleSequential((value) => {
+      const percentage = value > 0 ? 20 + value * 80 : 0
+      return `color-mix(in oklab, oklch(var(--bg-color-secondary)), oklch(var(--color-primary)) ${percentage}%)`
+    }).domain([0, maxValue])
     const regionNames = new Intl.DisplayNames(locale, { type: "region" })
     const fallbackRegionNames = new Intl.DisplayNames("en", { type: "region" })
 
@@ -121,6 +131,10 @@ export default function CountryMap({
               ])
           },
           color: (country) => country.properties.value,
+          fill: (country) =>
+            country.properties.value === null
+              ? COUNTRY_MAP_NO_DATA_COLOR
+              : colorScale(country.properties.value),
           stroke: "oklch(var(--text-primary))",
           strokeOpacity: 0.45,
           strokeWidth: 0.45,
@@ -137,13 +151,7 @@ export default function CountryMap({
         }),
       ],
       scales: { x: null, y: null },
-      color: {
-        scale: () =>
-          scaleSequential((value) => {
-            const percentage = value > 0 ? 20 + value * 80 : 0
-            return `color-mix(in oklab, oklch(var(--bg-color-secondary)), oklch(var(--color-primary)) ${percentage}%)`
-          }).domain([0, maxValue]),
-      },
+      color: { scale: () => colorScale },
       margin: 0,
       focusRing: false,
       pointer: false,
@@ -158,11 +166,21 @@ export default function CountryMap({
                 regionNames.of(countryCode) ??
                 fallbackRegionNames.of(countryCode) ??
                 t("unknown")
-              const formattedValue = value.toLocaleString(locale)
+              if (value === null) {
+                return `${countryName}: ${t("country-downloads.population-unavailable")}`
+              }
+              const formattedValue = value.toLocaleString(locale, {
+                minimumFractionDigits:
+                  metric === "downloads-per-capita" ? 2 : 0,
+                maximumFractionDigits:
+                  metric === "downloads-per-capita" ? 2 : 0,
+              })
               const valueText =
-                metric === "downloads"
-                  ? t("x-downloads", { x: formattedValue, count: value })
-                  : t("x-installs", { x: formattedValue, count: value })
+                metric === "downloads-per-capita"
+                  ? t("country-downloads.x-per-100000", { x: formattedValue })
+                  : metric === "downloads"
+                    ? t("x-downloads", { x: formattedValue, count: value })
+                    : t("x-installs", { x: formattedValue, count: value })
               return `${countryName}: ${valueText}`
             },
           }
@@ -188,7 +206,12 @@ export default function CountryMap({
         definition={definition}
         aspectRatio={4 / 3}
         initialWidth={600}
-        ariaLabel={ariaLabel ?? t("downloads-per-country")}
+        ariaLabel={
+          ariaLabel ??
+          (metric === "downloads-per-capita"
+            ? t("country-downloads.per-capita-map-label")
+            : t("downloads-per-country"))
+        }
         onRender={(context) => {
           renderContextRef.current = context
         }}
