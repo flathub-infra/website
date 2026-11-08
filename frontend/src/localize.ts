@@ -47,6 +47,8 @@ import {
   ptBR,
   gl,
   eu,
+  ms,
+  sl,
 } from "date-fns/locale"
 
 export type Language =
@@ -106,6 +108,9 @@ export type Language =
   | "kw"
   | "eu"
   | "sk"
+  | "brh"
+  | "ms"
+  | "sl"
 
 export const languages: Language[] = [
   "en",
@@ -164,6 +169,9 @@ export const languages: Language[] = [
   "kw",
   "eu",
   "sk",
+  "brh",
+  "ms",
+  "sl",
 ]
 
 export function getDateFnsLocale(language?: string): Locale {
@@ -280,6 +288,12 @@ export function getDateFnsLocale(language?: string): Locale {
       return eu
     case "sk":
       return sk
+    case "ms":
+      return ms
+    case "sl":
+      return sl
+    case "brh":
+      return enGB // date-fns has no Brahui locale
 
     default:
       return enGB
@@ -520,6 +534,12 @@ export function getLanguageFlag(language: Language): string {
       return ""
     case "sk":
       return "🇸🇰"
+    case "brh":
+      return ""
+    case "ms":
+      return "🇲🇾"
+    case "sl":
+      return "🇸🇮"
   }
 }
 
