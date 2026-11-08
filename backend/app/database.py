@@ -14,11 +14,15 @@ _redis: aioredis.Redis | None = None
 async def get_redis() -> aioredis.Redis:
     global _redis
     if _redis is None:
-        _redis = aioredis.Redis(
-            host=config.settings.redis_cache_host,
-            port=config.settings.redis_cache_port,
-            db=config.settings.redis_cache_db,
-            decode_responses=True,
+        _redis = aioredis.Redis.from_pool(
+            aioredis.BlockingConnectionPool(
+                host=config.settings.redis_cache_host,
+                port=config.settings.redis_cache_port,
+                db=config.settings.redis_cache_db,
+                decode_responses=True,
+                max_connections=100,
+                timeout=1,
+            )
         )
     return _redis
 
