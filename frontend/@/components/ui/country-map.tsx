@@ -140,8 +140,8 @@ export default function CountryMap({
       color: {
         scale: () =>
           scaleSequential((value) => {
-            const percentage = Math.round(value * 100)
-            return `color-mix(in oklch, oklch(var(--bg-color-secondary)), oklch(var(--color-primary)) ${percentage}%)`
+            const percentage = value > 0 ? 20 + value * 80 : 0
+            return `color-mix(in oklab, oklch(var(--bg-color-secondary)), oklch(var(--color-primary)) ${percentage}%)`
           }).domain([0, maxValue]),
       },
       margin: 0,
