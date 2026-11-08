@@ -59,6 +59,9 @@ LANGUAGES = [
     "kw",
     "eu",
     "sk",
+    "brh",
+    "ms",
+    "sl",
 ]
 
 
