@@ -1016,5 +1016,9 @@
     "uploads-description": "创建上传令牌来从开发工具或 CI 发布版本。在此管理和撤销现有令牌。",
     "archive-description": "撤销所有上传令牌并标记该程序为 EOL。可以给现有用户提供一条消息和一个替代品。",
     "verification-description": "向用户显示该程序由其开发者批准。在下面选择一种方式来证明你控制其域名或源码托管账户。阅读 <doclink>验证指南</doclink> 获取详细信息。"
-  }
+  },
+  "moderation-approved-on": "批准于 {handledAt} ({handledAtRel})",
+  "moderation-rejected-on": "拒绝于 {handledAt} ({handledAtRel})",
+  "moderation-rejected": "被拒绝",
+  "moderation-approved": "已批准"
 }

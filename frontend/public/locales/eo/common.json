@@ -980,5 +980,39 @@
   "copy-success": "Kopiita en tondujon",
   "moderation-discussion-opened-by": "Diskuto komencita de {openedBy}",
   "no-network-access-description": "Jen programo nekapabla atingi reton.",
-  "copy-failed": "Ne povis kopii aŭtomate. Elektu la tekston, kaj kopiu ĝin malaŭtomate."
+  "copy-failed": "Ne povis kopii aŭtomate. Elektu la tekston, kaj kopiu ĝin malaŭtomate.",
+  "app-management": {
+    "manage-app": "Administri programon",
+    "payments": "Pagoj",
+    "uploads": "Alŝuti ĵetonojn",
+    "reviews": "Revizioj",
+    "set-up-payments": "Agordi pagojn",
+    "payment-account-status": "Devas agordi pagojn",
+    "switch-upload-method": "Ŝanĝi metodon de alŝuto",
+    "no-active-tokens": "Neniu aktiva alŝuta ĵetono.",
+    "no-pending-reviews": "Neniuj reviziendaj ŝanĝoj",
+    "view-listing": "Vidi programan registraĵon",
+    "review-history": "Inkluzivi antaŭajn reviziojn"
+  },
+  "app-maintenance": {
+    "builds": "Konstruoj",
+    "loading-runtime": "Ŝargante informojn pri rultempa medio",
+    "runtime-unavailable": "Ne haveblas informoj pri rultempa medio.",
+    "runtime-eol": "Jen malaktuala rultempa medio",
+    "view-builds": "Vidi rezultojn de konstruado",
+    "runtime": "Eldonita rultempa medio",
+    "checker-docs": "Manlibro pri agordado",
+    "view-repository": "Pakada deponejo",
+    "runtime-eol-description": "Ŝanĝu al subtenata rultempa medio, kaj alŝutu novan konstruon.",
+    "update-checker": "Kontrolilo pri ĝisdatigoj",
+    "title": "Mastrumado",
+    "view-manifest": "Vidi pakadan manifeston",
+    "manifest-unavailable": "Mankas hiperligo al pakada manifesto.",
+    "checker-description": "Agordu aŭtomatajn ĝisdatigojn pri fonto en via pakada manifesto.",
+    "builds-description": "Sekvu konstruojn, inspektu protokolojn, kaj kontrolu rezultojn pri eldonado."
+  },
+  "moderation-approved": "Aprobita",
+  "moderation-rejected": "Malaprobita",
+  "moderation-approved-on": "Aprobita je {handledAt} ({handledAtRel})",
+  "moderation-rejected-on": "Malaprobita je {handledAt} ({handledAtRel})"
 }
