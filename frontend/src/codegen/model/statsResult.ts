@@ -6,6 +6,7 @@
  */
 import type { StatsResultCategoryTotals } from "./statsResultCategoryTotals"
 import type { StatsResultCountries } from "./statsResultCountries"
+import type { StatsResultCountryPopulation } from "./statsResultCountryPopulation"
 import type { StatsResultDeltaDownloadsPerDay } from "./statsResultDeltaDownloadsPerDay"
 import type { StatsResultDownloadsPerDay } from "./statsResultDownloadsPerDay"
 import type { StatsResultFlatpakVersions } from "./statsResultFlatpakVersions"
@@ -17,6 +18,7 @@ import type { StatsResultUpdatesPerDay } from "./statsResultUpdatesPerDay"
 export interface StatsResult {
   totals: StatsResultTotals
   countries: StatsResultCountries
+  country_population?: StatsResultCountryPopulation
   downloads_per_day: StatsResultDownloadsPerDay
   updates_per_day: StatsResultUpdatesPerDay
   delta_downloads_per_day: StatsResultDeltaDownloadsPerDay

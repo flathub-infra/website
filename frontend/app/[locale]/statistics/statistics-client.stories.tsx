@@ -1,12 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { http, HttpResponse } from "msw"
+import { expect, userEvent, within } from "storybook/test"
+import countriesAtlas from "src/data/countries.topo.json"
 import { UserContext } from "../../../src/context/user-info"
 import {
   Permission,
   type StatsResult,
   type UserInfo,
 } from "../../../src/codegen"
-import StatisticsClient from "./statistics-client"
+import StatisticsClient, { DownloadsPerCountry } from "./statistics-client"
 
 const meta = {
   title: "Pages/Statistics/Charts",
@@ -152,5 +154,131 @@ export const AllCharts: Story = {
       JP: "Japan",
       CA: "Canada",
     },
+  },
+}
+
+export const PopulationComparison: Story = {
+  args: {
+    ...AllCharts.args,
+    stats: {
+      ...stats,
+      countries: { US: 200, DE: 100, AX: 50, FR: 0 },
+      country_population: {
+        year: 2026,
+        revision: "2024 (revision 1)",
+        populations: { US: 1_000_000, DE: 100_000, FR: 100_000 },
+      },
+    },
+    countryNames: {
+      US: "United States",
+      DE: "Germany",
+      AX: "Åland Islands",
+      FR: "France",
+    },
+  },
+  render: (args) => (
+    <div className="mx-auto max-w-5xl px-4">
+      <DownloadsPerCountry
+        stats={args.stats}
+        countryNames={args.countryNames}
+      />
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const toggle = canvas.getByRole("switch", { name: "Per 100,000 people" })
+    expect(toggle).not.toBeChecked()
+    const totalList = canvas.getByRole("list", { name: "Total downloads" })
+    expect(within(totalList).getAllByRole("listitem")[0]).toHaveTextContent(
+      "United States",
+    )
+
+    await userEvent.click(toggle)
+    expect(toggle).toBeChecked()
+    const normalizedList = canvas.getByRole("list", {
+      name: "Per 100,000 people",
+    })
+    const rows = within(normalizedList).getAllByRole("listitem")
+    expect(rows[0]).toHaveTextContent("Germany")
+    expect(rows[1]).toHaveTextContent("United States")
+    expect(rows[1]).toHaveTextContent("20")
+    expect(within(rows[1]).getByText("200 total")).toBeVisible()
+    expect(within(rows[1]).getByText("200 downloads")).toHaveClass("sr-only")
+    expect(rows[2]).toHaveTextContent("France")
+    expect(rows[2]).not.toHaveTextContent("Population data unavailable")
+    expect(rows[3]).toHaveTextContent("Åland Islands")
+    expect(rows[3]).toHaveTextContent("Population data unavailable")
+    expect(within(rows[3]).getByText("50 total")).toBeVisible()
+    expect(within(rows[3]).getByText("50 downloads")).toHaveClass("sr-only")
+
+    toggle.focus()
+    await userEvent.keyboard("[Space]")
+    expect(toggle).not.toBeChecked()
+    expect(
+      within(
+        canvas.getByRole("list", { name: "Total downloads" }),
+      ).getAllByRole("listitem")[0],
+    ).toHaveTextContent("United States")
+  },
+}
+
+export const WithoutPopulationData: Story = {
+  ...PopulationComparison,
+  args: {
+    ...PopulationComparison.args,
+    stats: { ...stats, country_population: null },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    expect(canvas.getByRole("switch")).toBeDisabled()
+    expect(canvas.getByRole("list", { name: "Total downloads" })).toBeVisible()
+  },
+}
+
+const mapCountryCodes = countriesAtlas.objects.countries.geometries.map(
+  (country) => country.properties.countryCode,
+)
+const mapRegionNames = new Intl.DisplayNames("en", { type: "region" })
+
+export const LongCountryList: Story = {
+  ...PopulationComparison,
+  args: {
+    ...PopulationComparison.args,
+    stats: {
+      ...stats,
+      countries: Object.fromEntries(
+        mapCountryCodes.map((country, i) => [country, (i + 1) * 50_000]),
+      ),
+      country_population: {
+        year: 2026,
+        revision: "2024 (revision 1)",
+        populations: Object.fromEntries(
+          mapCountryCodes.map((country) => [country, 1_000_000]),
+        ),
+      },
+    },
+    countryNames: Object.fromEntries(
+      mapCountryCodes.map((country) => [
+        country,
+        mapRegionNames.of(country) ?? country,
+      ]),
+    ),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement)
+    const list = canvas.getByRole("list", { name: "Total downloads" })
+    expect(within(list).getAllByRole("listitem")).toHaveLength(
+      mapCountryCodes.length,
+    )
+    expect(list.scrollHeight).toBeGreaterThan(list.clientHeight)
+    expect(list.clientHeight).toBeGreaterThan(0)
+    expect(list.clientHeight).toBeLessThanOrEqual(500)
+    expect(canvasElement.scrollWidth).toBeLessThanOrEqual(
+      canvasElement.clientWidth,
+    )
+    await userEvent.click(canvas.getByRole("switch"))
+    expect(
+      canvas.getByRole("list", { name: "Per 100,000 people" }).clientHeight,
+    ).toBeLessThanOrEqual(500)
   },
 }

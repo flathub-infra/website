@@ -5,6 +5,7 @@ from fastapi import APIRouter, FastAPI, Path, Response
 from pydantic import BaseModel
 
 from .. import cache, database, models, stats, utils
+from ..country_population import CountryPopulation, get_country_population
 from ..types import JSONValue, PermissionCount
 
 router = APIRouter(
@@ -30,6 +31,7 @@ class StatsResultCategoryTotals(BaseModel):
 class StatsResult(BaseModel):
     totals: dict[str, int]
     countries: dict[str, int]
+    country_population: CountryPopulation | None = None
     downloads_per_day: dict[str, int]
     updates_per_day: dict[str, int]
     delta_downloads_per_day: dict[str, int]
@@ -65,7 +67,9 @@ def _normalize_stats_result(value: dict[str, JSONValue]) -> StatsResult:
     if "os_flatpak_versions" not in value or value["os_flatpak_versions"] is None:
         value["os_flatpak_versions"] = {}
 
-    return StatsResult.model_validate(value)
+    return StatsResult.model_validate(
+        {**value, "country_population": get_country_population(utils.utcnow().year)}
+    )
 
 
 class StatsResultApp(BaseModel):

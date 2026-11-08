@@ -1,4 +1,17 @@
 {
+  "country-downloads": {
+    "description": "These totals count downloads, not individual users.",
+    "country": "Country",
+    "lower": "Fewer",
+    "higher": "More",
+    "total-downloads": "Total downloads",
+    "per-100000": "Per 100,000 people",
+    "per-capita-map-label": "Downloads per 100,000 people in each country",
+    "x-per-100000": "{x} downloads per 100,000 people",
+    "x-total": "{x} total",
+    "population-unavailable": "Population data unavailable",
+    "source": "We use {year} midyear population projections from <source>United Nations World Population Prospects {revision}</source>. The UN licenses the data under <license>CC BY 3.0 IGO</license>."
+  },
   "app-maintenance": {
     "title": "Maintenance",
     "runtime": "Published runtime",

@@ -1,17 +1,45 @@
 import type { ScaleSequential } from "d3-scale"
 import { renderToStaticMarkup } from "react-dom/server"
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import CountryMap, { type CountryMapValue } from "./country-map"
+import CountryMap, {
+  COUNTRY_MAP_NO_DATA_COLOR,
+  type CountryMapValue,
+} from "./country-map"
 
-const { chart } = vi.hoisted(() => ({
+type TestCountry = { properties: { countryCode: string; value: number | null } }
+
+const { chart, shape } = vi.hoisted(() => ({
   chart: vi.fn<
     (props: {
-      definition: { color: { scale: () => ScaleSequential<string> } }
+      definition: {
+        color: { scale: () => ScaleSequential<string> }
+        tooltip: { format: (point: { datum: TestCountry }) => string }
+      }
     }) => null
   >(() => null),
+  shape:
+    vi.fn<
+      (
+        rows: TestCountry[],
+        options: { fill: (country: TestCountry) => string },
+      ) => void
+    >(),
 }))
 
 vi.mock("@tanstack/charts/react", () => ({ Chart: chart }))
+vi.mock("@tanstack/charts/geo", async (importOriginal) => {
+  const original = await importOriginal<typeof import("@tanstack/charts/geo")>()
+  return {
+    ...original,
+    geoShape: (...args: Parameters<typeof original.geoShape>) => {
+      shape(
+        args[0] as TestCountry[],
+        args[1] as unknown as Parameters<typeof shape>[1],
+      )
+      return original.geoShape(...args)
+    },
+  }
+})
 vi.mock("next-intl", () => ({
   useLocale: () => "en",
   useTranslations: () => (key: string) => key,
@@ -27,7 +55,10 @@ function getPercentage(color: string) {
 }
 
 describe("country map colors", () => {
-  beforeEach(() => chart.mockClear())
+  beforeEach(() => {
+    chart.mockClear()
+    shape.mockClear()
+  })
 
   it("keeps small positive counts visibly distinct from zero", () => {
     const color = getColorScale([
@@ -61,5 +92,36 @@ describe("country map colors", () => {
 
     expect(jpMaximum(1)).toBe(usMaximum(1))
     expect(jpMaximum(5000)).toBe(usMaximum(5000))
+  })
+
+  it("distinguishes missing population from a genuine zero rate", () => {
+    renderToStaticMarkup(
+      <CountryMap
+        metric="downloads-per-capita"
+        data={[
+          { country: "US", value: 12.5 },
+          { country: "CA", value: 0 },
+          { country: "NF", value: null },
+        ]}
+      />,
+    )
+    const [rows, options] = shape.mock.lastCall!
+    const country = (code: string) =>
+      rows.find((row) => row.properties.countryCode === code)!
+    const zero = country("CA")
+    const unavailable = country("NF")
+    expect(unavailable.properties.value).toBeNull()
+    expect(options.fill(unavailable)).toBe(COUNTRY_MAP_NO_DATA_COLOR)
+    expect(options.fill(zero)).not.toBe(COUNTRY_MAP_NO_DATA_COLOR)
+    expect(chart.mock.lastCall![0].definition.color.scale().domain()).toEqual([
+      0, 12.5,
+    ])
+    const format = chart.mock.lastCall![0].definition.tooltip.format
+    expect(format({ datum: unavailable })).toContain(
+      "country-downloads.population-unavailable",
+    )
+    expect(format({ datum: country("US") })).toContain(
+      "country-downloads.x-per-100000",
+    )
   })
 })

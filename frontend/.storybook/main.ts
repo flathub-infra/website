@@ -32,6 +32,8 @@ const config: StorybookConfig = {
   async viteFinal(config) {
     return {
       ...config,
+      // Storybook serves static assets through staticDirs.
+      publicDir: false,
       resolve: {
         ...(config.resolve ?? {}),
         alias: {

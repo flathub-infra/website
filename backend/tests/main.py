@@ -935,6 +935,8 @@ def test_addons_for_non_existent_app(client):
 
 
 def test_stats(client):
+    from app.country_population import get_country_population
+
     time.sleep(3)
     response = client.get("/stats")
     today = datetime.datetime.now(datetime.UTC).date()
@@ -948,6 +950,7 @@ def test_stats(client):
     three_days_ago_in_2024 = datetime.date(2024, 5, 29)
     two_weeks_ago_in_2024 = datetime.date(2024, 5, 18)
 
+    population = get_country_population(today.year)
     expected = {
         "totals": {
             "downloads": 13596,
@@ -960,6 +963,7 @@ def test_stats(client):
             {"category": "Office", "count": 1},
         ],
         "countries": {"DE": 852, "FI": 5572, "NL": 144, "US": 3044},
+        "country_population": population.model_dump() if population else None,
         "os_versions": {},
         "flatpak_versions": {},
         "os_flatpak_versions": {},
