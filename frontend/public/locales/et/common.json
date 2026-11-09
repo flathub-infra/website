@@ -1004,6 +1004,8 @@
     "review-history": "Kaasa varasemad ülevaatamised",
     "no-pending-reviews": "Ühtegi muudatust pole ülevaatamise ootel",
     "no-pending-description": "Kõik on tehtud. Varasemat muudatuste vaatamiseks lülita nende kuvamine sisse.",
-    "view-listing": "Vaata rakenduse avaldamise teavet"
+    "view-listing": "Vaata rakenduse avaldamise teavet",
+    "manage-app": "Halda rakendust",
+    "payments": "Maksed"
   }
 }

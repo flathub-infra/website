@@ -980,5 +980,8 @@
   "email-account": "E-mail",
   "developer-login-hint-link": "Vous cherchez la <link>connexion développeurs</link> ?",
   "developer-login-title": "Connexion développeurs",
-  "email-login-email-address": "Adresse e-mail"
+  "email-login-email-address": "Adresse e-mail",
+  "app-management": {
+    "payments": "Paiements"
+  }
 }
