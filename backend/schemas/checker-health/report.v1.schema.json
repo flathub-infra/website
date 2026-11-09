@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/flathub-infra/flatpak-external-data-checker/master/data/report.v1.schema.json",
+  "title": "Flatpak External Data Checker report, version 1",
+  "description": "The --report-json output, including failed and skipped runs.",
+  "type": "object",
+  "properties": {
+    "schema_version": { "const": 1 },
+    "manifest": { "type": "string", "description": "The absolute path to the input manifest." },
+    "started_at": { "type": "string", "format": "date-time" },
+    "finished_at": { "type": "string", "format": "date-time" },
+    "mode": { "enum": [ "check", "lint" ] },
+    "status": { "$ref": "#/$defs/status" },
+    "delivery": { "$ref": "#/$defs/delivery" },
+    "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
+    "errors": { "type": "array", "items": { "$ref": "#/$defs/error" } },
+    "outdated": { "type": "integer", "minimum": 0 },
+    "branches": { "type": "array", "items": { "$ref": "#/$defs/branch" } }
+  },
+  "required": [ "schema_version", "manifest", "started_at", "finished_at", "mode", "status", "delivery", "sources", "errors" ],
+  "additionalProperties": false,
+  "$defs": {
+    "status": { "enum": [ "completed", "failed", "skipped" ] },
+    "delivery": {
+      "enum": [ "not_requested", "no_changes", "edited", "committed", "pr_handled", "pending", "failed" ],
+      "description": "The update outcome, separate from source checks. pr_handled covers new and existing PRs."
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "message": { "type": "string" },
+        "branch": { "type": "string" }
+      },
+      "required": [ "type", "message" ],
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "manifest": { "type": "string", "description": "The source manifest's path relative to the root manifest directory." },
+        "source_pointer": { "type": [ "string", "null" ], "format": "json-pointer", "description": "The source's JSON Pointer. An empty string means the document root. null means not found." },
+        "module": { "type": [ "string", "null" ] },
+        "type": { "enum": [ "archive", "file", "extra-data", "git" ] },
+        "checker_type": { "type": [ "string", "null" ] },
+        "checkers_run": { "type": "array", "items": { "type": "string" } },
+        "status": { "enum": [ "checked", "unchecked", "failed", "update_available", "blocked" ] },
+        "reason": { "enum": [ null, "update_group", "update_policy", "broken_url", "filtered", "no_update_checker", "no_applicable_checker", "no_candidate" ] },
+        "state": { "type": [ "string", "null" ], "description": "The source's state flags, separated by | when more than one applies." },
+        "current": { "$ref": "source-state.v1.schema.json" },
+        "candidate": { "oneOf": [ { "type": "null" }, { "$ref": "source-state.v1.schema.json" } ] },
+        "selected_version": { "type": [ "string", "null" ] },
+        "update_group": { "type": [ "string", "null" ] },
+        "errors": { "type": "array", "items": { "$ref": "#/$defs/error" } },
+        "branch": { "type": "string", "description": "The runtime branch name, included only in top-level source entries." }
+      },
+      "required": [ "manifest", "source_pointer", "module", "type", "checker_type", "checkers_run", "status", "reason", "state", "current", "candidate", "selected_version", "update_group", "errors" ],
+      "additionalProperties": false
+    },
+    "runtime_eol": {
+      "type": "object",
+      "properties": {
+        "ref": { "type": "string" },
+        "end_of_life": { "type": [ "string", "null" ] },
+        "end_of_life_rebase": { "type": [ "string", "null" ] }
+      },
+      "required": [ "ref", "end_of_life", "end_of_life_rebase" ],
+      "additionalProperties": false
+    },
+    "branch": {
+      "type": "object",
+      "properties": {
+        "branch": { "type": "string" },
+        "status": { "$ref": "#/$defs/status" },
+        "delivery": { "$ref": "#/$defs/delivery" },
+        "skip_reason": { "const": "runtime-end-of-life", "description": "Why the checker skipped this branch." },
+        "runtime_eol": { "type": "array", "items": { "$ref": "#/$defs/runtime_eol" }, "description": "Parent runtime refs with EOL reasons or replacement refs." },
+        "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
+        "errors": { "type": "array", "items": { "$ref": "#/$defs/error" } },
+        "outdated": { "type": "integer", "minimum": 0 }
+      },
+      "required": [ "branch", "status", "delivery", "sources", "errors" ],
+      "additionalProperties": false
+    }
+  }
+}

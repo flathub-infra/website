@@ -30,6 +30,7 @@ from .moderation import review as moderation
 from .routes import (
     app_picks,
     apps,
+    checker_health,
     collection,
     exceptions,
     favorites,
@@ -105,6 +106,7 @@ invites.register_to_app(router)
 
 app_picks.register_to_app(router)
 maintenance.register_to_app(router)
+checker_health.register_to_app(router)
 collection.register_to_app(router)
 feed.register_to_app(router)
 quality_moderation.register_to_app(router)

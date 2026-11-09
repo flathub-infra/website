@@ -8,7 +8,7 @@ from typing import Any, ClassVar, Optional, Self, TypedDict, Union, cast
 from uuid import uuid4
 
 from fastapi import HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, JsonValue
 from sqlalchemy import (
     DDL,
     BigInteger,
@@ -4545,6 +4545,37 @@ class Exceptions(Base):
     def get_all_exceptions(cls, db) -> dict[str, JSONObject]:
         exceptions = db.query(cls).all()
         return {exception.app_id: exception.value for exception in exceptions}
+
+
+class CheckerHealthArtifact(Base):
+    __tablename__ = "checkerhealthartifact"
+    __table_args__ = (
+        Index(
+            "ix_checkerhealthartifact_run_attempt", "run_id", "run_attempt", unique=True
+        ),
+    )
+
+    artifact_id: Mapped[int] = mapped_column(
+        BigInteger, primary_key=True, autoincrement=False
+    )
+    run_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    run_attempt: Mapped[int] = mapped_column(Integer, nullable=False)
+    imported_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False, server_default=func.now()
+    )
+
+
+class CheckerHealthObservation(Base):
+    __tablename__ = "checkerhealthobservation"
+
+    artifact_id: Mapped[int] = mapped_column(
+        BigInteger, ForeignKey("checkerhealthartifact.artifact_id"), primary_key=True
+    )
+    app_id: Mapped[str] = mapped_column(String, primary_key=True, index=True)
+    run_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    run_attempt: Mapped[int] = mapped_column(Integer, nullable=False)
+    observed_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    report: Mapped[dict[str, JsonValue]] = mapped_column(JSONB, nullable=False)
 
 
 class MaintenanceUpstream(Base):

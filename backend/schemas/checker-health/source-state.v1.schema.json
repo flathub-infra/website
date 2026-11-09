@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/flathub-infra/flatpak-external-data-checker/master/data/source-state.v1.schema.json",
+  "title": "Flatpak External Data Checker source state, version 1",
+  "description": "Current or new source data, not the enclosing parent object.",
+  "$defs": {
+    "source-state": {
+      "file": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string" },
+          "checksum": {
+            "type": "object",
+            "properties": {
+              "md5": { "type": [ "string", "null" ] },
+              "sha1": { "type": [ "string", "null" ] },
+              "sha256": { "type": [ "string", "null" ] },
+              "sha512": { "type": [ "string", "null" ] }
+            },
+            "required": [ "md5", "sha1", "sha256", "sha512" ],
+            "additionalProperties": false
+          },
+          "size": { "type": [ "integer", "null" ] },
+          "version": { "type": [ "string", "null" ] },
+          "timestamp": { "$ref": "#/$defs/timestamp" }
+        },
+        "required": [ "url", "checksum", "size", "version", "timestamp" ],
+        "additionalProperties": false
+      },
+      "git": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string" },
+          "commit": { "type": [ "string", "null" ] },
+          "tag": { "type": [ "string", "null" ] },
+          "branch": { "type": [ "string", "null" ] },
+          "version": { "type": [ "string", "null" ] },
+          "timestamp": { "$ref": "#/$defs/timestamp" }
+        },
+        "required": [ "url", "commit", "tag", "branch", "version", "timestamp" ],
+        "additionalProperties": false
+      }
+    },
+    "timestamp": {
+      "type": [ "string", "null" ],
+      "description": "Python datetime.isoformat() output or null if unknown. Fractional seconds and missing timezones are allowed. RFC 3339 conformance is not required."
+    }
+  },
+  "type": "object",
+  "oneOf": [
+    { "$ref": "#/$defs/source-state/file" },
+    { "$ref": "#/$defs/source-state/git" }
+  ]
+}
