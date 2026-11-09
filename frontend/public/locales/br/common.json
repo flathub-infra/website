@@ -296,5 +296,10 @@
   "email-login-sign-in": "Kevreañ",
   "email-login-sending": "O kas…",
   "email-login-email-address": "Chomlec'h postel",
-  "email-login-with-email": "Kevreañ gant ur postel"
+  "email-login-with-email": "Kevreañ gant ur postel",
+  "moderation-approved": "Aotreet",
+  "app-management": {
+    "payments": "Paemantoù",
+    "manage-app": "Merañ an arload"
+  }
 }
