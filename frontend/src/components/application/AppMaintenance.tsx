@@ -13,6 +13,9 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useGetSummarySummaryAppIdGet } from "src/codegen/app/app"
 import { Link } from "src/i18n/navigation"
+import { useUserContext } from "src/context/user-info"
+import { Permission } from "src/codegen/model"
+import CheckerHealth from "./CheckerHealth"
 
 interface Props {
   appId: string
@@ -44,6 +47,8 @@ export function AppRuntimeWarning({ appId }: { appId: string }) {
 
 export default function AppMaintenance({ appId, manifestUrl }: Props) {
   const t = useTranslations("app-maintenance")
+  const user = useUserContext()
+  const isAdmin = user.info?.permissions.includes(Permission["modify-users"])
   const summary = useGetSummarySummaryAppIdGet(appId)
   const metadata = summary.data?.data?.metadata
   const runtime = metadata?.runtime
@@ -147,6 +152,7 @@ export default function AppMaintenance({ appId, manifestUrl }: Props) {
           </Button>
         </div>
       </section>
+      {isAdmin && <CheckerHealth appId={appId} />}
     </div>
   )
 }
