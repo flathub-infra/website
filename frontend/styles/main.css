@@ -4,6 +4,85 @@
 
 /* Build infrastructure: quiet surfaces, precise type, and a shared rhythm. */
 @layer components {
+  .permission-statistics {
+    --muted-foreground: var(--flathub-granite-gray);
+    --primary: var(--flathub-celestial-blue-dark);
+  }
+
+  .permission-statistics p {
+    margin-bottom: 0;
+  }
+
+  .permission-list {
+    @apply m-0 list-none p-0;
+  }
+
+  .permission-list-item {
+    @apply border-b border-border;
+  }
+
+  .permission-list-item-open {
+    box-shadow: -3px 0 0 oklch(var(--primary));
+  }
+
+  [dir="rtl"] .permission-list-item-open {
+    box-shadow: 3px 0 0 oklch(var(--primary));
+  }
+
+  .permission-list-button {
+    @apply grid w-full cursor-pointer grid-cols-[minmax(0,1fr)_auto_1rem] items-center gap-x-3 gap-y-1 px-3 py-3 text-foreground transition-colors hover:bg-muted/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring;
+  }
+
+  .permission-list-button > span:first-child {
+    grid-row: 1 / 3;
+  }
+
+  .permission-list-count {
+    @apply col-start-2 row-start-1 text-end;
+  }
+
+  .permission-list-share {
+    @apply col-start-2 row-start-2 flex items-center justify-end gap-3 text-muted-foreground;
+  }
+
+  .permission-list-chevron {
+    @apply col-start-3 row-span-2 row-start-1 text-muted-foreground motion-safe:transition-transform;
+  }
+
+  .permission-list-heading {
+    @apply gap-x-5 px-4 text-xs text-muted-foreground;
+    grid-template-columns: minmax(0, 1fr) 6rem 12rem 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .permission-list-button {
+      @apply gap-x-5 px-4;
+      grid-template-columns: minmax(0, 1fr) 6rem 12rem 1rem;
+    }
+
+    .permission-list-button > span:first-child,
+    .permission-list-count,
+    .permission-list-share,
+    .permission-list-chevron {
+      grid-row: 1;
+    }
+
+    .permission-list-share {
+      display: grid;
+      grid-template-columns: 5rem 4rem;
+      grid-column: 3;
+    }
+    .permission-list-chevron {
+      grid-column: 4;
+    }
+  }
+
+  .dark .permission-statistics {
+    --muted-foreground: var(--flathub-gray-x11);
+    --primary: var(--flathub-celestial-blue-light);
+    --primary-foreground: var(--flathub-dark-gunmetal);
+  }
+
   .build-workspace {
     @apply mx-auto w-11/12 max-w-[1400px] pb-12;
     --muted-foreground: var(--flathub-granite-gray);
