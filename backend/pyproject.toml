@@ -50,6 +50,7 @@ dev = [
     "watchgod<1.0,>=0.8",
     "vcrpy>=8.3.0,<10.0.0",
     "pyrefly>=1.4.0",
+    "jsonschema[format-nongpl]>=4.23,<5",
 ]
 
 [tool.ruff]
