@@ -204,7 +204,8 @@ export default function ManageClient({ app, vendingConfig }: Props) {
     <div className="mx-auto mb-16 mt-6 w-11/12 max-w-[1200px] [--muted-foreground:var(--flathub-granite-gray)] [--primary:var(--flathub-celestial-blue-dark)] dark:[--muted-foreground:var(--flathub-gray-x11)] dark:[--primary:var(--flathub-celestial-blue-light)] dark:[--primary-foreground:var(--flathub-dark-gunmetal)] [&_p]:mb-0 [&_p_a:not([data-slot=button])]:text-foreground [&_p_a:not([data-slot=button])]:underline [&_p_a:not([data-slot=button])]:underline-offset-[3px]">
       <LoginGuard
         condition={(info: GetUserinfoAuthUserinfoGet200) =>
-          info.dev_flatpaks?.includes(app.id)
+          info.dev_flatpaks?.includes(app.id) ||
+          info.permissions?.includes(Permission["modify-users"])
         }
       >
         <Breadcrumbs pages={pages} />
