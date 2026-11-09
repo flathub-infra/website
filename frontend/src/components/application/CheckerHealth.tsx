@@ -3,7 +3,7 @@
 import { useFormatter } from "next-intl"
 import { checkerHealthText as t } from "./CheckerHealth.messages"
 import { useId, useState, type ReactNode } from "react"
-import { ArrowUpRight, ChevronDown, RefreshCw } from "lucide-react"
+import { ChevronDown, RefreshCw } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -40,7 +40,27 @@ function DisclosureTitle({ children }: { children: ReactNode }) {
   )
 }
 
-function RunLink({ url, children }: { url: string; children: ReactNode }) {
+function RunLink({
+  url,
+  children,
+  prominent = false,
+}: {
+  url: string
+  children: ReactNode
+  prominent?: boolean
+}) {
+  if (!prominent) {
+    return (
+      <a
+        className="inline-flex min-h-11 items-center rounded-sm text-foreground underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {children}
+      </a>
+    )
+  }
   return (
     <Button
       asChild
@@ -49,7 +69,6 @@ function RunLink({ url, children }: { url: string; children: ReactNode }) {
     >
       <a href={url} target="_blank" rel="noreferrer">
         {children}
-        <ArrowUpRight data-icon="inline-end" aria-hidden />
       </a>
     </Button>
   )
@@ -139,7 +158,7 @@ function Source({
           />
         </summary>
         {expanded && (
-          <div className="flex min-w-0 flex-col gap-4 pb-5 pt-1">
+          <div className="flex min-w-0 flex-col gap-2 pb-3">
             {unresolved && (
               <div className="flex flex-col gap-1">
                 <p className="font-medium">
@@ -176,8 +195,9 @@ function Source({
             {observation.recovered_at && (
               <p>{t("recovered", { date: date(observation.recovered_at) })}</p>
             )}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
               <RunLink
+                prominent={unresolved || source.status === "failed"}
                 url={
                   unresolved && observation.last_failure_run_url
                     ? observation.last_failure_run_url
@@ -189,13 +209,13 @@ function Source({
                   : t("run-logs")}
               </RunLink>
               {unresolved && observation.last_failure_at ? (
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-muted-foreground sm:ms-auto">
                   {t("last-failure-time", {
                     date: date(observation.last_failure_at),
                   })}
                 </span>
               ) : (
-                <span className="text-xs text-muted-foreground">
+                <span className="text-xs text-muted-foreground sm:ms-auto">
                   {t("observed-time", { date: date(observation.observed_at) })}
                 </span>
               )}
@@ -554,7 +574,9 @@ export default function CheckerHealth({ appId }: { appId: string }) {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-base font-semibold">{t("title")}</h3>
         {!query.isPending && !query.isError && latestRun && (
-          <RunLink url={latestRun.run_url}>{t("latest-run")}</RunLink>
+          <RunLink url={latestRun.run_url} prominent>
+            {t("latest-run")}
+          </RunLink>
         )}
       </div>
       {query.isPending ? (

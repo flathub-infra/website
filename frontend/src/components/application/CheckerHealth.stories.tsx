@@ -288,7 +288,10 @@ export const InMaintenancePanel: Story = {
         info: { permissions: [Permission["modify-users"]] },
       }}
     >
-      <AppMaintenance appId={appId} />
+      <div className="rounded-xl bg-flathub-white p-[clamp(18px,2.5vw,28px)] shadow-sm dark:bg-flathub-arsenic">
+        <h2 className="mb-6 text-xl font-semibold">Maintenance</h2>
+        <AppMaintenance appId={appId} />
+      </div>
     </UserContext>
   ),
   parameters: {
@@ -301,6 +304,54 @@ export const InMaintenancePanel: Story = {
           HttpResponse.json({
             metadata: {
               runtime: "org.freedesktop.Platform/x86_64/25.08",
+              runtimeIsEol: false,
+            },
+          }),
+        ),
+      ],
+    },
+  },
+}
+
+export const CheckedSourcesInMaintenancePanel: Story = {
+  render: InMaintenancePanel.render,
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/apps/org.example.App/checker-health", () =>
+          HttpResponse.json({
+            ...evidence,
+            diagnostics: [],
+            sources: Array.from({ length: 42 }, (_, index) => {
+              const modules = [
+                "libopenmpt",
+                "libde265",
+                "libheif",
+                "libraw",
+                "libhdhomerun",
+                "libssh",
+                "dav1d",
+                "ffmpeg",
+                "libbluray",
+                "libcdio",
+              ]
+              return {
+                branch: null,
+                source: checkerSource({
+                  module: modules[index] ?? `dependency-${index}`,
+                  manifest: "tv.kodi.Kodi.yml",
+                  source_pointer: `/modules/${index}/sources/0`,
+                }),
+                observed_at: evidence.last_check_at!,
+                run_url: evidence.history![0].run_url,
+              }
+            }),
+          } satisfies Health),
+        ),
+        http.get("*/summary/org.example.App", () =>
+          HttpResponse.json({
+            metadata: {
+              runtime: "org.freedesktop.Platform/x86_64/26.08",
               runtimeIsEol: false,
             },
           }),
