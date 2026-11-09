@@ -20,6 +20,14 @@ vi.mock("src/codegen/app/app", () => ({
   useGetSummarySummaryAppIdGet: () => query,
 }))
 vi.mock("src/i18n/navigation", () => ({ Link: "a" }))
+const user = vi.hoisted(() => ({
+  info: undefined as { permissions: string[] } | undefined,
+}))
+vi.mock("src/context/user-info", () => ({ useUserContext: () => user }))
+const checkerQuery = vi.hoisted(() => vi.fn(() => ({ isPending: true })))
+vi.mock("src/codegen/checker-health/checker-health", () => ({
+  useGetCheckerHealthAppsAppIdCheckerHealthGet: checkerQuery,
+}))
 
 function render(manifestUrl?: string | null) {
   return renderToStaticMarkup(
@@ -30,6 +38,27 @@ function render(manifestUrl?: string | null) {
 }
 
 describe("maintainer evidence", () => {
+  it.each([
+    { permissions: undefined },
+    { permissions: [] },
+    { permissions: ["moderation"] },
+  ])(
+    "hides checker health and avoids requests without admin permission: %s",
+    ({ permissions }) => {
+      user.info = permissions ? { permissions } : undefined
+      checkerQuery.mockClear()
+      expect(render()).not.toContain("Update check health")
+      expect(checkerQuery).not.toHaveBeenCalled()
+    },
+  )
+
+  it("shows checker health for admins", () => {
+    user.info = { permissions: ["modify-users"] }
+    expect(render()).toContain("Update check health")
+    expect(checkerQuery).toHaveBeenCalled()
+    user.info = undefined
+  })
+
   it.each([null, undefined])(
     "uses the app detail fallback when manifest metadata is %s",
     (manifest) => {

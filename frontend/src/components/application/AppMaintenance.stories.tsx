@@ -24,6 +24,10 @@ const response = (runtimeIsEol?: boolean) => ({
   },
 })
 
+const checkerHandler = http.get("*/apps/org.example.App/checker-health", () =>
+  HttpResponse.json({}),
+)
+
 const meta = {
   title: "Components/Application/AppMaintenance",
   component: AppMaintenance,
@@ -54,6 +58,7 @@ export const EndOfLife: Story = {
         http.get("*/summary/org.example.App", () =>
           HttpResponse.json(response(true)),
         ),
+        checkerHandler,
       ],
     },
   },
@@ -66,6 +71,7 @@ export const NoEolFlag: Story = {
         http.get("*/summary/org.example.App", () =>
           HttpResponse.json(response(false)),
         ),
+        checkerHandler,
       ],
     },
   },
@@ -80,6 +86,7 @@ export const Unavailable: Story = {
           "*/summary/org.example.App",
           () => new HttpResponse(null, { status: 503 }),
         ),
+        checkerHandler,
       ],
     },
   },
@@ -94,6 +101,7 @@ export const Loading: Story = {
           await delay("infinite")
           return HttpResponse.json(response())
         }),
+        checkerHandler,
       ],
     },
   },
