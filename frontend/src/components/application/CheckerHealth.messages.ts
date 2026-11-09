@@ -48,7 +48,7 @@ export const checkerHealthText = createTranslator({
       "Showing up to 20 reports, retained after GitHub artifacts expire. “Pull request handled” can mean an existing open or closed pull request was found. It does not prove a new pull request was opened or an update merged.",
     "about-reports": "What these reports tell you",
     "observation-note":
-      "Each source has its own last observation. An absent or unchecked source is unknown, not a successful check.",
+      "Sources may have older observations. Missing or unchecked results remain unknown.",
     "unknown-next-step":
       "This app may not have been included in a recent run, or its report may not have been imported yet. Check the workflow runs for more information.",
     "browse-runs": "Browse workflow runs",

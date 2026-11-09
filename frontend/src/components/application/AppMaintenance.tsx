@@ -1,13 +1,7 @@
 "use client"
 
 import { useTranslations } from "next-intl"
-import {
-  AlertTriangle,
-  ArrowUpRight,
-  Boxes,
-  GitBranch,
-  RefreshCw,
-} from "lucide-react"
+import { AlertTriangle, Boxes, GitBranch, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -134,7 +128,6 @@ export default function AppMaintenance({ appId, manifestUrl }: Props) {
           >
             <a href={packagingUrl} target="_blank" rel="noreferrer">
               {t(manifestUrl != null ? "view-manifest" : "view-repository")}
-              <ArrowUpRight data-icon="inline-end" aria-hidden />
             </a>
           </Button>
           <Button
