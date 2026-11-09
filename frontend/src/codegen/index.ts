@@ -1,6 +1,7 @@
 export * from "./app/app"
 export * from "./app-picks/app-picks"
 export * from "./auth/auth"
+export * from "./checker-health/checker-health"
 export * from "./collection/collection"
 export * from "./direct-upload-apps/direct-upload-apps"
 export * from "./email/email"
