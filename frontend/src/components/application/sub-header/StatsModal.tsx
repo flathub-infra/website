@@ -3,9 +3,10 @@ import { getIntlLocale } from "../../../localize"
 import { StatsResultApp } from "src/codegen"
 import Modal from "../../Modal"
 import AppStatistics from "../AppStats"
-import CountryMap, { type CountryMapValue } from "@/components/ui/country-map"
 import Tabs, { Tab } from "../../Tabs"
 import { UTCDate } from "@date-fns/utc"
+import CountryStatistics from "src/components/charts/CountryStatistics"
+import { useState } from "react"
 
 const StatsModal = ({
   isOpen,
@@ -19,15 +20,9 @@ const StatsModal = ({
   locale: string
 }) => {
   const t = useTranslations()
+  const [normalizePopulation, setNormalizePopulation] = useState(false)
 
   const countryStatisticsStartDate = new UTCDate(2024, 3, 15)
-
-  const countryData: CountryMapValue[] = stats.installs_per_country
-    ? Object.entries(stats.installs_per_country).map(([key, value]) => ({
-        country: key,
-        value: value as number,
-      }))
-    : []
 
   const tabs: Tab[] = []
 
@@ -45,38 +40,49 @@ const StatsModal = ({
   tabs.push({
     name: t("country-statistics"),
     content: (
-      <div className="flex flex-col items-center p-4 w-full">
-        <CountryMap
-          data={countryData}
-          ariaLabel={t("country-statistics")}
+      <div className="w-full">
+        <CountryStatistics
           metric="installs"
-        />
-        <p className="mt-2 text-xs text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-          {t("since-x", {
+          normalization={{
+            enabled: normalizePopulation,
+            onChange: setNormalizePopulation,
+          }}
+          stats={{
+            countries: stats.installs_per_country,
+            country_population: stats.country_population,
+          }}
+          periodLabel={t("since-x", {
             date: countryStatisticsStartDate.toLocaleDateString(
               getIntlLocale(locale),
             ),
           })}
-        </p>
+        />
       </div>
     ),
-    replacePadding: "p-0",
+    replacePadding: "p-4 sm:p-5",
   })
 
   return (
     <Modal
       shown={isOpen}
       onClose={onClose}
-      centerTitle
-      title={t("statistics")}
+      title={
+        <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <span>{t("statistics")}</span>
+          <span className="text-xs font-normal text-foreground/70">
+            {t("sub-header.total-installs", {
+              count: stats.installs_total.toLocaleString(getIntlLocale(locale)),
+            })}
+          </span>
+        </span>
+      }
       size="xl"
     >
-      <div className="flex justify-end pb-2 text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-        {t("sub-header.total-installs", {
-          count: stats.installs_total.toLocaleString(getIntlLocale(locale)),
-        })}
-      </div>
-      <Tabs tabs={tabs} tabsIdentifier="stats-modal" />
+      {tabs.length > 1 ? (
+        <Tabs tabs={tabs} tabsIdentifier="stats-modal" />
+      ) : (
+        tabs[0].content
+      )}
     </Modal>
   )
 }
