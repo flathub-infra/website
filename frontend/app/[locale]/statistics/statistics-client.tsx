@@ -27,17 +27,14 @@ import { scaleLinear } from "@tanstack/charts/scales/linear"
 import { scaleOrdinal } from "@tanstack/charts/scales/ordinal"
 import { tooltip } from "@tanstack/charts/tooltip"
 import { primaryStroke } from "../../../src/chartComponents"
-import { createRef, useId, useMemo, useState, type JSX } from "react"
+import { useMemo, useState, type JSX } from "react"
 import { ChartLegendItems, TanstackChart } from "src/components/charts/chart"
-import ReactCountryFlag from "react-country-flag"
 import clsx from "clsx"
 import { useLocale, useTranslations } from "next-intl"
 import { useRouter } from "src/i18n/navigation"
 import { getIntlLocale } from "src/localize"
-import CountryMap, { type CountryMapValue } from "@/components/ui/country-map"
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
-import { Switch } from "@/components/ui/switch"
-import { getCountryDownloads } from "src/components/charts/country-downloads"
+import CountryStatistics from "src/components/charts/CountryStatistics"
+export { FlathubWorldMap } from "src/components/charts/CountryStatistics"
 
 interface StatisticsClientProps {
   stats: StatsResult
@@ -52,230 +49,17 @@ const GUIDELINE_CHART_COLORS = {
   unrated: "oklch(var(--flathub-sonic-silver))",
 }
 
-export const FlathubWorldMap = ({
-  country_data,
-  refs,
-  perCapita = false,
-}: {
-  country_data: CountryMapValue[]
-  refs?: { [key: string]: React.RefObject<HTMLDivElement | null> }
-  perCapita?: boolean
-}) => {
-  const handleClick = (countryCode: string) =>
-    refs?.[countryCode]?.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest",
-    })
-
-  return (
-    <CountryMap
-      data={country_data}
-      onCountrySelect={handleClick}
-      metric={perCapita ? "downloads-per-capita" : "downloads"}
-    />
-  )
-}
-
 export const DownloadsPerCountry = ({
   stats,
   countryNames,
 }: {
   stats: StatsResult
   countryNames: Record<string, string>
-}) => {
-  const t = useTranslations()
-  const locale = useLocale()
-  const switchId = useId()
-  const descriptionId = useId()
-  const [normalizePopulation, setNormalizePopulation] = useState(false)
-  const population = stats.country_population
-  const perCapita = normalizePopulation && !!population
-  const countries = getCountryDownloads(
-    stats.countries ?? {},
-    population?.populations,
-    perCapita,
-  )
-  const country_data: CountryMapValue[] = [...countries]
-  if (perCapita) {
-    const reported = new Set(
-      countries.map(({ country }) => country.toUpperCase()),
-    )
-    for (const [country, count] of Object.entries(population.populations)) {
-      if (!reported.has(country) && Number.isFinite(count) && count > 0) {
-        country_data.push({ country, value: 0 })
-      }
-    }
-  }
-  const refs = useMemo(
-    () =>
-      Object.fromEntries(
-        Object.keys(stats.countries ?? {}).map((country) => [
-          country,
-          createRef<HTMLDivElement>(),
-        ]),
-      ),
-    [stats.countries],
-  )
-
-  return (
-    <>
-      <div className="mb-5 mt-12 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h2 className="text-2xl font-bold">{t("downloads-per-country")}</h2>
-          <p className="mb-0 mt-1 text-sm leading-relaxed text-foreground/80">
-            {t("country-downloads.description")}
-          </p>
-        </div>
-        <FieldGroup className="w-56 shrink-0">
-          <Field orientation="horizontal" data-disabled={!population}>
-            <Switch
-              id={switchId}
-              checked={perCapita}
-              onCheckedChange={setNormalizePopulation}
-              disabled={!population}
-              aria-describedby={perCapita ? descriptionId : undefined}
-            />
-            <FieldLabel htmlFor={switchId}>
-              {t("country-downloads.per-100000")}
-            </FieldLabel>
-          </Field>
-        </FieldGroup>
-      </div>
-      <div className="grid overflow-hidden rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-        <div className="flex min-w-0 flex-col justify-between">
-          <FlathubWorldMap
-            country_data={country_data}
-            refs={refs}
-            perCapita={perCapita}
-          />
-          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-5 pb-5 pt-2 text-xs">
-            <div className="flex items-center gap-2">
-              <span>{t("country-downloads.lower")}</span>
-              <span
-                aria-hidden="true"
-                className="h-2 w-20 rounded-full rtl:rotate-180"
-                style={{
-                  background:
-                    "linear-gradient(90deg, color-mix(in oklab, oklch(var(--bg-color-secondary)), oklch(var(--color-primary)) 20%), oklch(var(--color-primary)))",
-                }}
-              />
-              <span>{t("country-downloads.higher")}</span>
-            </div>
-            {perCapita && (
-              <p className="m-0 flex items-center gap-2 leading-normal">
-                <span
-                  aria-hidden="true"
-                  className="size-2.5 shrink-0 rounded-sm bg-muted-foreground/35"
-                />
-                {t("country-downloads.population-unavailable")}
-              </p>
-            )}
-          </div>
-        </div>
-        <div className="relative min-h-0 min-w-0 border-t border-border lg:border-s lg:border-t-0">
-          <div className="flex min-h-0 flex-col lg:absolute lg:inset-0">
-            <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-4 text-sm font-semibold">
-              <span>{t("country-downloads.country")}</span>
-              <span className="text-end">
-                {perCapita
-                  ? t("country-downloads.per-100000")
-                  : t("country-downloads.total-downloads")}
-              </span>
-            </div>
-            <div
-              role="list"
-              // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- Keyboard users need a focus target to scroll this list.
-              tabIndex={0}
-              aria-label={
-                perCapita
-                  ? t("country-downloads.per-100000")
-                  : t("country-downloads.total-downloads")
-              }
-              className="min-h-0 max-h-[420px] overflow-y-auto p-3 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary lg:max-h-none lg:flex-1"
-            >
-              {countries.map(({ country, downloads, value }, i) => {
-                return (
-                  <div
-                    role="listitem"
-                    key={country}
-                    ref={refs[country]}
-                    className={clsx(
-                      "grid grid-cols-[1.25rem_minmax(0,1fr)_minmax(0,1fr)] items-center gap-2 px-2 py-3 text-sm",
-                      value === null &&
-                        i > 0 &&
-                        countries[i - 1].value !== null &&
-                        "mt-2 border-t border-border pt-4",
-                    )}
-                  >
-                    <div className="tabular-nums">
-                      {value !== null ? `${i + 1}.` : ""}
-                    </div>
-                    <div className="flex min-w-0 gap-2 items-center">
-                      <ReactCountryFlag
-                        countryCode={country}
-                        aria-hidden="true"
-                      />
-                      <div>{countryNames[country] ?? t("unknown")}</div>
-                    </div>
-                    <div className="flex min-w-0 flex-col items-end text-end tabular-nums">
-                      <div className="font-semibold">
-                        {value === null
-                          ? t("country-downloads.population-unavailable")
-                          : value.toLocaleString(locale, {
-                              minimumFractionDigits: perCapita ? 2 : 0,
-                              maximumFractionDigits: perCapita ? 2 : 0,
-                            })}
-                      </div>
-                      {perCapita && (
-                        <div className="mt-0.5 text-xs">
-                          <span aria-hidden="true">
-                            {t("country-downloads.x-total", {
-                              x: downloads.toLocaleString(locale),
-                            })}
-                          </span>
-                          <span className="sr-only">
-                            {t("x-downloads", {
-                              x: downloads.toLocaleString(locale),
-                              count: downloads,
-                            })}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-      {perCapita && (
-        <p
-          id={descriptionId}
-          className="mb-0 mt-4 max-w-4xl text-sm leading-relaxed text-foreground/80"
-        >
-          {t.rich("country-downloads.source", {
-            year: population.year,
-            revision: population.revision,
-            source: (chunks) => (
-              <a href="https://population.un.org/wpp/" className="underline">
-                {chunks}
-              </a>
-            ),
-            license: (chunks) => (
-              <a
-                href="https://creativecommons.org/licenses/by/3.0/igo/"
-                className="whitespace-nowrap underline"
-              >
-                {chunks}
-              </a>
-            ),
-          })}
-        </p>
-      )}
-    </>
-  )
-}
+}) => (
+  <div className="mt-12">
+    <CountryStatistics stats={stats} countryNames={countryNames} />
+  </div>
+)
 
 const DownloadsOverTime = ({ stats }: { stats: StatsResult }) => {
   const t = useTranslations()

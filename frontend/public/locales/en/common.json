@@ -1,6 +1,9 @@
 {
   "country-downloads": {
-    "description": "These totals count downloads, not individual users.",
+    "no-country-data": "No country data yet.",
+    "population-source": "{year} population data",
+    "methodology": "Rates count downloads, not users. No rate without population data.",
+    "description": "Downloads, not users.",
     "country": "Country",
     "lower": "Fewer",
     "higher": "More",
@@ -10,7 +13,14 @@
     "x-per-100000": "{x} downloads per 100,000 people",
     "x-total": "{x} total",
     "population-unavailable": "Population data unavailable",
-    "source": "We use {year} midyear population projections from <source>United Nations World Population Prospects {revision}</source>. The UN licenses the data under <license>CC BY 3.0 IGO</license>."
+    "source": "{year} midyear projections from <source>UN World Population Prospects {revision}</source>, licensed under <license>CC BY 3.0 IGO</license>."
+  },
+  "country-installs": {
+    "title": "Installs by country",
+    "total-installs": "Total installs",
+    "description": "Rates count installs, not users.",
+    "per-capita-map-label": "Installs per 100,000 people in each country",
+    "x-per-100000": "{x} installs per 100,000 people"
   },
   "app-maintenance": {
     "title": "Maintenance",
@@ -176,7 +186,7 @@
   "count-verified-desktop-apps": "Verified desktop apps",
   "since": "Since",
   "since-x": "Since {date}",
-  "downloads-per-country": "Downloads per Country",
+  "downloads-per-country": "Downloads per country",
   "downloads-over-time": "Downloads over time",
   "home": "Home",
   "flathub-description": "Find and install hundreds of apps and games for Linux. Enjoy Firefox, Telegram, RetroArch, GIMP and many more!",
