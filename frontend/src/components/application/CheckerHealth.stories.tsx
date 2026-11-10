@@ -252,6 +252,84 @@ export const Loading: Story = {
   },
 }
 
+export const MultipleBranches: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/apps/org.example.App/checker-health", () =>
+          HttpResponse.json({
+            ...evidence,
+            diagnostics: [],
+            sources: ["branch/25.08", "branch/26.08"].flatMap((branch) =>
+              ["node", "yarn"].map((module, index) => ({
+                branch,
+                source: checkerSource({
+                  module,
+                  manifest: "org.freedesktop.Sdk.Extension.node22.yaml",
+                  source_pointer: `/modules/${index}/sources/0`,
+                }),
+                observed_at: evidence.last_check_at!,
+                run_url: evidence.history![0].run_url,
+              })),
+            ),
+          } satisfies Health),
+        ),
+      ],
+    },
+  },
+}
+
+export const SingleBranch: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/apps/org.example.App/checker-health", () =>
+          HttpResponse.json({
+            ...evidence,
+            diagnostics: [],
+            sources: ["node", "yarn"].map((module, index) => ({
+              branch: null,
+              source: checkerSource({
+                module,
+                manifest: "org.freedesktop.Sdk.Extension.node22.yaml",
+                source_pointer: `/modules/${index}/sources/0`,
+              }),
+              observed_at: evidence.last_check_at!,
+              run_url: evidence.history![0].run_url,
+            })),
+          } satisfies Health),
+        ),
+      ],
+    },
+  },
+}
+
+export const MixedObservationDates: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/apps/org.example.App/checker-health", () =>
+          HttpResponse.json({
+            ...evidence,
+            diagnostics: [],
+            sources: ["node", "yarn"].map((module, index) => ({
+              branch: "branch/26.08",
+              source: checkerSource({
+                module,
+                manifest: "org.freedesktop.Sdk.Extension.node22.yaml",
+                source_pointer: `/modules/${index}/sources/0`,
+              }),
+              observed_at:
+                index === 0 ? evidence.last_check_at! : "2026-11-07T17:45:00Z",
+              run_url: evidence.history![0].run_url,
+            })),
+          } satisfies Health),
+        ),
+      ],
+    },
+  },
+}
+
 export const ReportErrorsOnly: Story = {
   parameters: {
     msw: {

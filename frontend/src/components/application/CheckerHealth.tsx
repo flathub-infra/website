@@ -3,12 +3,20 @@
 import { useFormatter } from "next-intl"
 import { checkerHealthText as t } from "./CheckerHealth.messages"
 import { useId, useState, type ReactNode } from "react"
-import { ChevronDown, RefreshCw } from "lucide-react"
+import {
+  CircleCheck,
+  CircleHelp,
+  ChevronDown,
+  GitBranch,
+  RefreshCw,
+  ScanSearch,
+} from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
+import { cn } from "@/lib/utils"
 import { useGetCheckerHealthAppsAppIdCheckerHealthGet } from "src/codegen/checker-health/checker-health"
 import type {
   CheckerHealth as Health,
@@ -104,9 +112,13 @@ function sourceGroup(item: CheckerSourceHealth) {
 function Source({
   observation,
   initiallyExpanded,
+  sharedManifest,
+  sharedObservedAt,
 }: {
   observation: CheckerSourceHealth
   initiallyExpanded: boolean
+  sharedManifest?: string
+  sharedObservedAt?: string
 }) {
   const date = useCheckDate()
   const source = observation.source
@@ -124,41 +136,69 @@ function Source({
       ? "recovered"
       : source.status
   const reasonKey = `reason-${source.reason}`
+  const showManifest = source.module && source.manifest !== sharedManifest
+  const showObservedAt = observation.observed_at !== sharedObservedAt
+  const compact = !showManifest && !showObservedAt
 
   return (
-    <li className="min-w-0 border-t border-border">
+    <li className="min-w-0 border-t border-border first:border-t-0">
       <details
         className={detailsClass}
         open={expanded}
         onToggle={(event) => setExpanded(event.currentTarget.open)}
       >
-        <summary className={disclosureClass}>
+        <summary
+          className={cn(
+            disclosureClass,
+            "px-4 hover:bg-muted/60 focus-visible:-outline-offset-2",
+            !compact &&
+              "max-sm:grid max-sm:grid-cols-[minmax(0,1fr)_auto] max-sm:gap-y-2",
+          )}
+        >
           <span className="flex min-w-0 flex-1 flex-col gap-1">
             <span className="font-semibold [overflow-wrap:anywhere]">
               {source.module || source.manifest}
             </span>
-            <span className="flex flex-col gap-x-3 gap-y-1 text-xs text-muted-foreground [overflow-wrap:anywhere] sm:flex-row sm:flex-wrap">
-              <span>{observation.branch ?? t("default-branch")}</span>
-              {source.module && <span>{source.manifest}</span>}
-            </span>
+            {!compact && (
+              <span className="flex flex-col gap-x-3 gap-y-1 text-xs text-muted-foreground [overflow-wrap:anywhere] sm:flex-row sm:flex-wrap">
+                {showManifest && <span>{source.manifest}</span>}
+                {showObservedAt && (
+                  <time dateTime={observation.observed_at}>
+                    {t("observed-time", {
+                      date: date(observation.observed_at),
+                    })}
+                  </time>
+                )}
+              </span>
+            )}
           </span>
           <Badge
             variant={
               unresolved || source.status === "failed"
                 ? "destructive"
-                : "static"
+                : "outline"
             }
-            className="max-w-[45%] shrink-0 text-center"
+            className={cn(
+              "max-w-[45%] shrink-0 gap-1.5 text-center",
+              !compact &&
+                "max-sm:row-start-2 max-sm:max-w-full max-sm:justify-self-start",
+            )}
           >
+            {(status === "checked" || status === "recovered") && (
+              <CircleCheck className="size-3.5 shrink-0" aria-hidden />
+            )}
+            {status === "unchecked" && (
+              <CircleHelp className="size-3.5 shrink-0" aria-hidden />
+            )}
             {t(`status-${status}`)}
           </Badge>
           <ChevronDown
-            className="size-4 shrink-0 text-muted-foreground"
+            className="size-4 shrink-0 text-muted-foreground max-sm:col-start-2 max-sm:row-start-1"
             aria-hidden
           />
         </summary>
         {expanded && (
-          <div className="flex min-w-0 flex-col gap-2 pb-3">
+          <div className="mx-4 mb-4 flex min-w-0 flex-col gap-2 rounded-md bg-muted p-4">
             {unresolved && (
               <div className="flex flex-col gap-1">
                 <p className="font-medium">
@@ -299,13 +339,62 @@ function Source({
   )
 }
 
+function SourceSummary({ sources }: { sources: CheckerSourceHealth[] }) {
+  const format = useFormatter()
+  const groups = ["failures", "updates", "recovered", "checked", "unchecked"]
+  const counts = Object.fromEntries(
+    groups.map((group) => [
+      group,
+      sources.filter((item) => sourceGroup(item) === group).length,
+    ]),
+  )
+
+  return (
+    <div className="flex items-start gap-3 rounded-lg border-s-2 border-primary bg-card p-4 text-card-foreground sm:p-5">
+      <ScanSearch className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
+      <div className="flex min-w-0 flex-col gap-2">
+        <p className="text-base font-semibold">
+          {counts.failures
+            ? t("summary-failures", { count: counts.failures })
+            : t("summary-no-failures")}
+        </p>
+        <dl className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+          {groups
+            .filter((group) => counts[group] > 0)
+            .map((group) => (
+              <div key={group} className="flex flex-row-reverse gap-1.5">
+                <dt className="text-muted-foreground">
+                  {t(`filter-${group}`)}
+                </dt>
+                <dd className="font-semibold tabular-nums">
+                  {format.number(counts[group])}
+                </dd>
+              </div>
+            ))}
+        </dl>
+        <p className="max-w-prose text-xs leading-relaxed text-muted-foreground">
+          {t("observation-note")}
+        </p>
+      </div>
+    </div>
+  )
+}
+
 function SourceList({ sources }: { sources: CheckerSourceHealth[] }) {
   const format = useFormatter()
+  const date = useCheckDate()
   const id = useId()
   const [search, setSearch] = useState("")
   const [filter, setFilter] = useState("all")
   const [limit, setLimit] = useState(10)
+  const [filtersExpanded, setFiltersExpanded] = useState(false)
   const groups = ["failures", "updates", "recovered", "checked", "unchecked"]
+  const counts = Object.fromEntries(
+    groups.map((group) => [
+      group,
+      sources.filter((item) => sourceGroup(item) === group).length,
+    ]),
+  )
   const needle = search.trim().toLocaleLowerCase()
   const matches = sources
     .map((item, index) => ({ item, key: sourceKey(item, index) }))
@@ -325,84 +414,189 @@ function SourceList({ sources }: { sources: CheckerSourceHealth[] }) {
         groups.indexOf(sourceGroup(a.item)) -
         groups.indexOf(sourceGroup(b.item)),
     )
+  const sharedMetadata = new Map<
+    string | null,
+    { manifest?: string; observedAt?: string }
+  >()
+  for (const { branch, source, observed_at } of sources) {
+    const key = branch ?? null
+    const shared = sharedMetadata.get(key)
+    if (!shared) {
+      sharedMetadata.set(key, {
+        manifest: source.manifest,
+        observedAt: observed_at,
+      })
+    } else {
+      if (shared.manifest !== source.manifest) {
+        shared.manifest = undefined
+      }
+      if (shared.observedAt !== observed_at) {
+        shared.observedAt = undefined
+      }
+    }
+  }
+  const branches = new Map<
+    string | null,
+    {
+      items: typeof matches
+      sharedManifest?: string
+      sharedObservedAt?: string
+    }
+  >()
+  for (const entry of matches.slice(0, limit)) {
+    const branch = entry.item.branch ?? null
+    let group = branches.get(branch)
+    if (!group) {
+      group = {
+        items: [],
+        sharedManifest: sharedMetadata.get(branch)?.manifest,
+        sharedObservedAt: sharedMetadata.get(branch)?.observedAt,
+      }
+      branches.set(branch, group)
+    }
+    group.items.push(entry)
+  }
+  const showFilters = sources.length > 10 || filtersExpanded
 
   return (
-    <div className="flex min-w-0 flex-col gap-3">
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h4 className="font-semibold">{t("sources")}</h4>
+    <div className="flex min-w-0 flex-col gap-4">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+        <h4 className="text-base font-semibold">{t("sources")}</h4>
         <p className="text-xs text-muted-foreground" role="status">
-          {t("source-count", {
-            shown: Math.min(limit, matches.length),
-            total: matches.length,
-          })}
+          {!search && filter === "all" && matches.length <= limit
+            ? t("source-total", { count: matches.length })
+            : t("source-count", {
+                shown: Math.min(limit, matches.length),
+                total: matches.length,
+              })}
         </p>
+        {sources.length <= 10 && (
+          <Button
+            variant="ghost"
+            className="min-h-11 px-0 sm:ms-auto"
+            aria-expanded={showFilters}
+            aria-controls={`${id}-filters`}
+            onClick={() => setFiltersExpanded((value) => !value)}
+          >
+            {t("search-filter")}
+            {(search || filter !== "all") && <span>{t("filters-active")}</span>}
+            <ChevronDown
+              data-icon="inline-end"
+              aria-hidden
+              className={cn(showFilters && "rotate-180")}
+            />
+          </Button>
+        )}
       </div>
-      {(sources.length > 3 || search || filter !== "all") && (
-        <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
-          <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor={`${id}-search`}
-              className="text-xs text-muted-foreground"
-            >
-              {t("find-source")}
-            </label>
-            <Input
-              id={`${id}-search`}
-              type="search"
-              value={search}
-              placeholder={t("search-placeholder")}
-              className="min-h-11"
-              onChange={(event) => {
-                setSearch(event.target.value)
-                setLimit(10)
-              }}
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label
-              htmlFor={`${id}-filter`}
-              className="text-xs text-muted-foreground"
-            >
-              {t("filter-status")}
-            </label>
-            <select
-              id={`${id}-filter`}
-              className="h-11 max-w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring"
-              value={filter}
-              onChange={(event) => {
-                setFilter(event.target.value)
-                setLimit(10)
-              }}
-            >
-              <option value="all">
-                {t("filter-all")} ({format.number(sources.length)})
-              </option>
-              {groups.map((group) => (
-                <option key={group} value={group}>
-                  {t(`filter-${group}`)} (
-                  {format.number(
-                    sources.filter((item) => sourceGroup(item) === group)
-                      .length,
-                  )}
-                  )
-                </option>
-              ))}
-            </select>
-          </div>
+      <div
+        id={`${id}-filters`}
+        hidden={!showFilters}
+        className={cn("gap-3 sm:grid-cols-[1fr_auto]", showFilters && "grid")}
+      >
+        <div className="flex flex-col gap-1.5">
+          <label
+            htmlFor={`${id}-search`}
+            className="text-xs text-muted-foreground"
+          >
+            {t("find-source")}
+          </label>
+          <Input
+            id={`${id}-search`}
+            type="search"
+            value={search}
+            placeholder={t("search-placeholder")}
+            className="min-h-11"
+            onChange={(event) => {
+              setSearch(event.target.value)
+              setLimit(10)
+            }}
+          />
         </div>
-      )}
+        <div className="flex flex-col gap-1.5">
+          <label
+            htmlFor={`${id}-filter`}
+            className="text-xs text-muted-foreground"
+          >
+            {t("filter-status")}
+          </label>
+          <select
+            id={`${id}-filter`}
+            className="h-11 max-w-full rounded-md border border-input bg-background px-3 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring"
+            value={filter}
+            onChange={(event) => {
+              setFilter(event.target.value)
+              setLimit(10)
+            }}
+          >
+            <option value="all">
+              {t("filter-all")} ({format.number(sources.length)})
+            </option>
+            {groups.map((group) => (
+              <option key={group} value={group}>
+                {t(`filter-${group}`)} ({format.number(counts[group])})
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
       {matches.length ? (
-        <ul>
-          {matches.slice(0, limit).map(({ item, key }, index) => (
-            <Source
-              key={key}
-              observation={item}
-              initiallyExpanded={
-                index === 0 && sourceGroup(item) === "failures"
-              }
-            />
+        <div className="flex min-w-0 flex-col gap-6">
+          {[...branches].map(([branch, group], index) => (
+            <section
+              key={JSON.stringify(branch)}
+              aria-labelledby={`${id}-branch-${index}`}
+              className="min-w-0"
+            >
+              <div className="mb-3 flex min-w-0 flex-col gap-1.5">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                  <h5
+                    id={`${id}-branch-${index}`}
+                    className="flex min-w-0 items-center gap-2 text-base font-semibold [overflow-wrap:anywhere]"
+                  >
+                    <GitBranch
+                      className="size-4 shrink-0 text-muted-foreground"
+                      aria-hidden
+                    />
+                    <span className="min-w-0">
+                      {branch ?? t("default-branch")}
+                    </span>
+                  </h5>
+                  {group.sharedObservedAt && (
+                    <time
+                      className="text-xs text-muted-foreground"
+                      dateTime={group.sharedObservedAt}
+                    >
+                      {t("observed-time", {
+                        date: date(group.sharedObservedAt),
+                      })}
+                    </time>
+                  )}
+                </div>
+                {group.sharedManifest && (
+                  <p
+                    className="text-xs leading-relaxed text-muted-foreground [overflow-wrap:anywhere]"
+                    dir="ltr"
+                  >
+                    {group.sharedManifest}
+                  </p>
+                )}
+              </div>
+              <ul className="overflow-hidden rounded-lg border border-border bg-card text-card-foreground">
+                {group.items.map(({ item, key }) => (
+                  <Source
+                    key={key}
+                    observation={item}
+                    sharedManifest={group.sharedManifest}
+                    sharedObservedAt={group.sharedObservedAt}
+                    initiallyExpanded={
+                      key === matches[0].key && sourceGroup(item) === "failures"
+                    }
+                  />
+                ))}
+              </ul>
+            </section>
           ))}
-        </ul>
+        </div>
       ) : (
         <div className="flex flex-col items-start gap-3 py-4">
           <p role="status">{t("no-matches")}</p>
@@ -433,7 +627,7 @@ function SourceList({ sources }: { sources: CheckerSourceHealth[] }) {
 function ReportDetails({ data }: { data: Health }) {
   const date = useCheckDate()
   return (
-    <div className="divide-y divide-border border-y border-border">
+    <div className="divide-y divide-border rounded-lg border border-border px-4 sm:px-5">
       {!!data.diagnostics?.length && (
         <details className={detailsClass}>
           <DisclosureTitle>
@@ -450,7 +644,7 @@ function ReportDetails({ data }: { data: Health }) {
               {data.diagnostics.map((item, index) => (
                 <li
                   key={index}
-                  className="flex flex-col gap-2 [overflow-wrap:anywhere]"
+                  className="flex flex-col gap-2 border-s-2 border-border ps-4 [overflow-wrap:anywhere]"
                 >
                   <p className="font-semibold">{item.error.type}</p>
                   <p className="max-w-prose">{item.error.message}</p>
@@ -568,11 +762,11 @@ export default function CheckerHealth({ appId }: { appId: string }) {
 
   return (
     <section
-      className="flex min-w-0 flex-col gap-5 border-t border-border py-6 text-sm"
+      className="flex min-w-0 flex-col gap-6 border-t border-border pt-7 text-sm"
       aria-label={t("title")}
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-base font-semibold">{t("title")}</h3>
+        <h3 className="text-xl font-semibold tracking-tight">{t("title")}</h3>
         {!query.isPending && !query.isError && latestRun && (
           <RunLink url={latestRun.run_url} prominent>
             {t("latest-run")}
@@ -618,7 +812,8 @@ export default function CheckerHealth({ appId }: { appId: string }) {
         </div>
       ) : (
         <>
-          <dl className="flex flex-wrap gap-x-10 gap-y-3 rounded-lg bg-muted px-4 py-3">
+          {!!data.sources?.length && <SourceSummary sources={data.sources} />}
+          <dl className="grid gap-4 sm:grid-cols-2">
             <div>
               <dt className="text-xs text-muted-foreground">
                 {t("last-report")}
@@ -644,9 +839,6 @@ export default function CheckerHealth({ appId }: { appId: string }) {
               </dd>
             </div>
           </dl>
-          <p className="max-w-prose text-xs text-muted-foreground">
-            {t("observation-note")}
-          </p>
           {data.sources?.length ? (
             <SourceList key={appId} sources={data.sources} />
           ) : (
