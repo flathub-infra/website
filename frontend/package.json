@@ -79,7 +79,7 @@
     "@chromatic-com/storybook": "^5.6.0",
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^10.6.0",
-    "@next/eslint-plugin-next": "^16.4.0",
+    "@next/eslint-plugin-next": "^16.4.5",
     "@storybook/addon-a11y": "^10.6.6",
     "@storybook/addon-docs": "^10.6.6",
     "@storybook/addon-links": "^10.6.6",
