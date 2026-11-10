@@ -85,6 +85,7 @@ class StatsResultApp(BaseModel):
     installs_per_distro: list[StatsResultAppDistro]
     installs_other_distros: int
     installs_unreported_distro: int
+    country_population: CountryPopulation | None = None
     installs_last_month: int
     installs_last_7_days: int
     id: str
@@ -166,18 +167,25 @@ async def get_stats_for_app(
     days: int = 180,
 ) -> StatsResultApp | None:
     if value := stats.get_installs_by_ids([app_id]).get(app_id, None):
-        value["installs_per_distro"], value["installs_other_distros"] = (
-            stats.format_distro_installs(value["installs_per_distro"])
+        per_distro, other_distros = stats.format_distro_installs(
+            value["installs_per_distro"]
         )
-
+        result = StatsResultApp.model_validate(
+            {
+                **value,
+                "installs_per_distro": per_distro,
+                "installs_other_distros": other_distros,
+                "country_population": get_country_population(utils.utcnow().year),
+            }
+        )
         if all:
-            return value
+            return result
 
-        if per_day := value.get("installs_per_day"):
+        if per_day := result.installs_per_day:
             requested_dates = list(per_day.keys())[-days:]
             requested_per_day = {date: per_day[date] for date in requested_dates}
-            value["installs_per_day"] = requested_per_day
-            return value
+            result.installs_per_day = requested_per_day
+            return result
 
     response.status_code = 404
     return None

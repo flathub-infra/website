@@ -50,6 +50,10 @@ class YearInReviewCountry(BaseModel):
     downloads: int
 
 
+class YearInReviewCountryPerCapita(YearInReviewCountry):
+    downloads_per_100000: float
+
+
 class YearInReviewCountryGrowth(BaseModel):
     country_code: str
     downloads: int
@@ -60,6 +64,9 @@ class YearInReviewCountryGrowth(BaseModel):
 
 class YearInReviewGeographicStats(BaseModel):
     top_countries: list[YearInReviewCountry] = []
+    top_countries_per_capita: list[YearInReviewCountryPerCapita] | None = None
+    population_year: int | None = None
+    population_revision: str | None = None
     total_countries: int = 0
     fastest_growing_regions: list[YearInReviewCountryGrowth] = []
 
