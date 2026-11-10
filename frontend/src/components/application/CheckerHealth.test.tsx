@@ -29,6 +29,97 @@ beforeEach(() => {
 })
 
 describe("checker health evidence", () => {
+  it.each([[null], ["branch/25.08", "branch/26.08"]])(
+    "groups sources and deduplicates shared manifests for %j",
+    (...branches) => {
+      query.data.data = {
+        last_report_at: "2026-11-08T17:45:00Z",
+        sources: branches.flatMap((branch) =>
+          ["node", "yarn"].map((module, index) => ({
+            branch,
+            source: checkerSource({
+              module,
+              manifest: "shared-manifest.yaml",
+              source_pointer: `/${index}`,
+            }),
+            observed_at: "2026-11-08T17:45:00Z",
+            run_url: "https://github.com/flathub/flathub/actions/runs/123",
+          })),
+        ),
+      }
+      const html = render()
+      expect(html.match(/shared-manifest.yaml/g)).toHaveLength(branches.length)
+      expect(html.match(/<h5 /g)).toHaveLength(branches.length)
+      expect(html).toContain(`${branches.length * 2} sources`)
+      expect(html).not.toContain(`of ${branches.length * 2} sources`)
+      expect(html).toContain('aria-expanded="false"')
+      expect(html).toContain("Observed Nov 8, 2026, 5:45 PM")
+      expect(html.match(/Observed Nov 8, 2026, 5:45 PM/g)).toHaveLength(
+        branches.length,
+      )
+    },
+  )
+
+  it("keeps individual manifest paths when a branch contains different manifests", () => {
+    query.data.data = {
+      last_report_at: "2026-11-08T17:45:00Z",
+      sources: ["first.yaml", "second.yaml"].map((manifest) => ({
+        branch: null,
+        source: checkerSource({ module: "node", manifest }),
+        observed_at: "2026-11-08T17:45:00Z",
+        run_url: "https://github.com/flathub/flathub/actions/runs/123",
+      })),
+    }
+    const html = render()
+    expect(html).toContain("first.yaml")
+    expect(html).toContain("second.yaml")
+    expect(html.match(/<h5 /g)).toHaveLength(1)
+  })
+
+  it("keeps per-source dates when a later page has an older observation", () => {
+    query.data.data = {
+      last_report_at: "2026-11-08T17:45:00Z",
+      sources: Array.from({ length: 11 }, (_, index) => ({
+        branch: null,
+        source: checkerSource({
+          module: `source-${index}`,
+          manifest: "app.yaml",
+          source_pointer: `/${index}`,
+        }),
+        observed_at:
+          index === 10 ? "2026-11-07T17:45:00Z" : "2026-11-08T17:45:00Z",
+        run_url: "https://github.com/flathub/flathub/actions/runs/123",
+      })),
+    }
+    const html = render()
+    expect(html.match(/Observed Nov 8, 2026, 5:45 PM/g)).toHaveLength(10)
+    expect(html).not.toContain(">source-10<")
+  })
+
+  it("keeps a later branch's failure visible ahead of paginated checked sources", () => {
+    query.data.data = {
+      last_report_at: "2026-11-08T17:45:00Z",
+      sources: Array.from({ length: 12 }, (_, index) => ({
+        branch: index === 11 ? "branch/26.08" : "branch/25.08",
+        source: checkerSource({
+          module: index === 11 ? "failed-source" : `checked-${index}`,
+          manifest: "app.yaml",
+          source_pointer: `/${index}`,
+          status: index === 11 ? "failed" : "checked",
+        }),
+        observed_at: "2026-11-08T17:45:00Z",
+        run_url: "https://github.com/flathub/flathub/actions/runs/123",
+      })),
+    }
+    const html = render()
+    expect(html.indexOf("branch/26.08")).toBeLessThan(
+      html.indexOf("branch/25.08"),
+    )
+    expect(html).toContain("failed-source")
+    expect(html).toContain("10 of 12 sources")
+    expect(html).not.toContain(">checked-9<")
+  })
+
   it("uses English admin copy without a translation catalog", () => {
     expect(render("de")).toContain("Update check health")
     expect(render("de")).toContain("No update check report")
@@ -70,6 +161,8 @@ describe("checker health evidence", () => {
     }
     const html = render()
     expect(html).toContain("Failed on 3 observed checks")
+    expect(html).toContain("1 source has an unresolved failure")
+    expect(html).not.toContain("No unresolved source failures")
     expect(html).toContain("branch/24.08")
     expect(html).toContain("app.yml<br/>/modules/0/sources/0")
     expect(html).toContain("&lt;script&gt;")
@@ -139,6 +232,8 @@ describe("checker health evidence", () => {
       ],
     }
     expect(render()).toContain(">Recovered<")
+    expect(render()).toContain("No unresolved source failures")
+    expect(render()).not.toContain("No source failures recorded")
     query.data.data.sources![0].source.status = "unchecked"
     expect(render()).not.toContain(">Recovered<")
   })
@@ -160,6 +255,8 @@ describe("checker health evidence", () => {
     }
     const html = render()
     expect(html).toContain("10 of 150 sources")
+    expect(html).toContain("No unresolved source failures")
+    expect(html).toContain("Missing or unchecked results remain unknown")
     expect(html).toContain("Find a source")
     expect(html).toContain("Show 20 more sources")
     expect(html).not.toContain(">dependency-10<")

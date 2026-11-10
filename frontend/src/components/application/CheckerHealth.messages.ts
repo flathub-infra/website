@@ -4,6 +4,9 @@ export const checkerHealthText = createTranslator({
   locale: "en",
   messages: {
     title: "Update check health",
+    "summary-failures":
+      "{count, plural, one {# source has an unresolved failure} other {# sources have unresolved failures}}",
+    "summary-no-failures": "No unresolved source failures",
     coverage:
       "Every four hours, reports cover one of six repository groups, plus extra-data apps. Imports also run every four hours. If a report is missing, the status is unknown. Report artifacts do not list every selected or skipped repository. Some branch reports explain why a runtime caused a repository to be skipped.",
     "unknown-location": "Source location unknown",
@@ -55,6 +58,9 @@ export const checkerHealthText = createTranslator({
     "latest-run": "View latest run",
     reload: "Reload reports",
     sources: "Source results",
+    "source-total": "{count, plural, one {# source} other {# sources}}",
+    "search-filter": "Search and filter",
+    "filters-active": "(active)",
     "source-count": "{shown, number} of {total, number} sources",
     "find-source": "Find a source",
     "search-placeholder": "Module, manifest or branch",
