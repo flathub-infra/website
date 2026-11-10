@@ -18,7 +18,7 @@ from .db_session import DBSession
 
 logger = logging.getLogger(__name__)
 API = "https://api.github.com/repos/flathub/flathub"
-ARTIFACT_NAME = re.compile(r"checker-health-(\d+)-(\d+)$")
+ARTIFACT_NAME = re.compile(r"checker-health-(\d+)-(\d+)(?:-\d+)?$")
 REPORT_NAME = re.compile(r"[A-Za-z0-9_-][A-Za-z0-9._-]*\.json$")
 MAX_ARCHIVE_SIZE = 64 * 1024 * 1024
 MAX_REPORT_SIZE = 16 * 1024 * 1024
@@ -167,25 +167,20 @@ def refresh_checker_health() -> None:
         artifacts = list(list_artifacts(client))
         with get_db("writer") as db:
             imported = {
-                (row.run_id, row.run_attempt)
+                row.artifact_id
                 for row in db.session.query(
-                    models.CheckerHealthArtifact.run_id,
-                    models.CheckerHealthArtifact.run_attempt,
+                    models.CheckerHealthArtifact.artifact_id,
                 ).all()
             }
         failed = 0
         for artifact in sorted(artifacts, key=lambda a: a["id"]):
-            run = (
-                artifact["workflow_run"]["id"],
-                int(artifact["name"].rsplit("-", 1)[1]),
-            )
-            if run in imported:
+            if artifact["id"] in imported:
                 continue
             try:
                 reports = parse_archive(download_archive(client, artifact["id"]))
                 with get_db("writer") as db:
                     store_artifact(db, artifact, reports)
-                imported.add(run)
+                imported.add(artifact["id"])
             except (httpx.HTTPError, ValueError, KeyError, zipfile.BadZipFile):
                 logger.exception("Could not ingest checker artifact %s", artifact["id"])
                 failed += 1

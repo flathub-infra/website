@@ -4549,11 +4549,6 @@ class Exceptions(Base):
 
 class CheckerHealthArtifact(Base):
     __tablename__ = "checkerhealthartifact"
-    __table_args__ = (
-        Index(
-            "ix_checkerhealthartifact_run_attempt", "run_id", "run_attempt", unique=True
-        ),
-    )
 
     artifact_id: Mapped[int] = mapped_column(
         BigInteger, primary_key=True, autoincrement=False

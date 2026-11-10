@@ -464,6 +464,35 @@ def test_artifacts_after_first_hundred_and_expired_are_handled():
     assert pages == [1, 2, 3]
 
 
+def test_sharded_and_unsharded_artifacts_are_discovered():
+    artifacts = [
+        {
+            "id": n,
+            "name": name,
+            "expired": False,
+            "workflow_run": {"id": 42, "head_repository_id": 88860262},
+        }
+        for n, name in enumerate(
+            [
+                "checker-health-42-1",
+                "checker-health-42-1-0",
+                "checker-health-42-1-5",
+                "checker-health-43-1-0",
+                "checker-health-42-1-invalid",
+                "checker-health-42-1-0-1",
+            ]
+        )
+    ]
+    with httpx.Client(
+        transport=httpx.MockTransport(
+            lambda request: httpx.Response(
+                200, json={"artifacts": artifacts, "total_count": len(artifacts)}
+            )
+        )
+    ) as client:
+        assert [a["id"] for a in list_artifacts(client)] == [0, 1, 2]
+
+
 def test_archive_redirect_does_not_forward_github_credentials():
     requests = []
 
@@ -541,7 +570,7 @@ def test_atomic_idempotent_storage_and_out_of_order_history(health_db):
     with health_db() as db:
         store_artifact(
             db,
-            {"id": 100, "name": "checker-health-1-1", "workflow_run": {"id": 1}},
+            {"id": 1, "name": "checker-health-1-1", "workflow_run": {"id": 1}},
             parse_archive(archive(observation(1, [source()]).report)),
         )
     with health_db() as db:
@@ -578,26 +607,109 @@ def test_run_attempt_links_and_counts(health_db):
     assert result.sources[0].last_failure_run_url.endswith("/42/attempts/2")
 
 
+@pytest.mark.parametrize("overlapping_app", [False, True])
+def test_sharded_artifact_migration_preserves_reports_on_downgrade(
+    health_db, overlapping_app
+):
+    from alembic.migration import MigrationContext
+    from alembic.operations import Operations
+    from alembic.script import ScriptDirectory
+    from sqlalchemy import inspect
+
+    scripts = ScriptDirectory(str(Path(__file__).parents[1] / "alembic"))
+    migration = scripts.get_revision("ce39a2b04871").module
+
+    def migrate(db, direction):
+        with Operations.context(MigrationContext.configure(db.session.connection())):
+            getattr(migration, direction)()
+
+    with health_db() as db:
+        migrate(db, "downgrade")
+        migrate(db, "upgrade")
+
+    expected = {}
+    for artifact_id, run_id, attempt, app_id in [
+        (1, 42, 1, "org.example.App"),
+        (2, 42, 1, "org.example.Other"),
+        (3, 42, 1, "org.example.App" if overlapping_app else "org.example.Third"),
+        (4, 42, 2, "org.example.App"),
+        (5, 43, 1, "org.example.App"),
+    ]:
+        raw = observation(artifact_id, [source()]).report
+        expected[run_id, attempt, app_id] = raw
+        with health_db() as db:
+            store_artifact(
+                db,
+                {
+                    "id": artifact_id,
+                    "name": f"checker-health-{run_id}-{attempt}-{artifact_id}",
+                    "workflow_run": {"id": run_id},
+                },
+                parse_archive(archive(raw, f"{app_id}.json")),
+            )
+
+    with health_db() as db:
+        migrate(db, "downgrade")
+
+    with health_db() as db:
+        assert {
+            (row.run_id, row.run_attempt, row.app_id): row.report
+            for row in db.session.query(models.CheckerHealthObservation).all()
+        } == expected
+        assert {
+            (row.run_id, row.run_attempt): row.artifact_id
+            for row in db.session.query(models.CheckerHealthArtifact).all()
+        } == {(42, 1): 1, (42, 2): 4, (43, 1): 5}
+        index = next(
+            index
+            for index in inspect(db.session.connection()).get_indexes(
+                "checkerhealthartifact"
+            )
+            if index["name"] == "ix_checkerhealthartifact_run_attempt"
+        )
+        assert index["unique"]
+        assert index["column_names"] == ["run_id", "run_attempt"]
+        migrate(db, "upgrade")
+        store_artifact(
+            db,
+            {"id": 6, "name": "checker-health-42-1-5", "workflow_run": {"id": 42}},
+            parse_archive(archive(observation(6).report, "org.example.New.json")),
+        )
+
+    with health_db() as db:
+        assert (
+            db.session.query(models.CheckerHealthObservation).count()
+            == len(expected) + 1
+        )
+
+
+@pytest.mark.parametrize("sharded", [False, True])
 def test_failed_artifact_retries_without_reimporting_successful_artifacts(
-    health_db, monkeypatch
+    health_db, monkeypatch, sharded
 ):
     broken = True
     downloads = []
+    artifact_ids = list(range(1, 7 if sharded else 3))
 
     def handler(request):
         if request.url.path.endswith("/artifacts"):
             return httpx.Response(
                 200,
                 json={
-                    "total_count": 2,
+                    "total_count": len(artifact_ids),
                     "artifacts": [
                         {
                             "id": n,
-                            "name": f"checker-health-{n}-1",
+                            "name": f"checker-health-42-2-{n - 1}"
+                            if sharded
+                            else f"checker-health-{n}-1",
                             "expired": False,
-                            "workflow_run": {"id": n, "head_repository_id": 88860262},
+                            "workflow_run": {
+                                "id": 42 if sharded else n,
+                                "head_repository_id": 88860262,
+                            },
                         }
-                        for n in (1, 2)
+                        for n in artifact_ids
                     ],
                 },
             )
@@ -606,7 +718,12 @@ def test_failed_artifact_retries_without_reimporting_successful_artifacts(
         content = (
             b"broken"
             if broken and artifact_id == 1
-            else archive(observation(artifact_id, [source()]).report)
+            else archive(
+                observation(artifact_id, [source()]).report,
+                f"org.example.App{artifact_id}.json"
+                if sharded
+                else "org.example.App.json",
+            )
         )
         return httpx.Response(200, content=content)
 
@@ -622,9 +739,21 @@ def test_failed_artifact_retries_without_reimporting_successful_artifacts(
         ingestion.refresh_checker_health()
     broken = False
     ingestion.refresh_checker_health()
-    assert downloads == [1, 2, 1]
+    ingestion.refresh_checker_health()
+    assert downloads == artifact_ids + [1]
     with health_db() as db:
-        assert db.session.query(models.CheckerHealthObservation).count() == 2
+        assert db.session.query(models.CheckerHealthArtifact).count() == len(
+            artifact_ids
+        )
+        assert db.session.query(models.CheckerHealthObservation).count() == len(
+            artifact_ids
+        )
+        if sharded:
+            rows = db.session.query(models.CheckerHealthObservation).all()
+            assert {row.app_id for row in rows} == {
+                f"org.example.App{n}" for n in artifact_ids
+            }
+            assert {(row.run_id, row.run_attempt) for row in rows} == {(42, 2)}
 
 
 @pytest.mark.parametrize(
