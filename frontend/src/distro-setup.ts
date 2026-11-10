@@ -66,7 +66,7 @@ const distros: {
   { name: "Salix", logo: "salix.svg" },
   { name: "Slackware", logo: "slackware.svg" },
   { name: "T2 SDE", logo: "t2sde.svg" },
-  { name: "Nura", logo: "postmarketOS.svg" },
+  { name: "Nura", logo: "postmarketos.svg" },
 ]
 
 export function getDistros(): DistroSetup[] {
