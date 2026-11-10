@@ -5,7 +5,7 @@ export const checkerHealthText = createTranslator({
   messages: {
     title: "Update check health",
     coverage:
-      "Reports cover one of six repository shards every four hours, plus extra-data apps. Reports are imported every four hours. Missing reports mean unknown. Artifacts do not list every selected or skipped repository. Some branch reports explain runtime-related skips.",
+      "Every four hours, reports cover one of six repository groups, plus extra-data apps. Imports also run every four hours. If a report is missing, the status is unknown. Report artifacts do not list every selected or skipped repository. Some branch reports explain why a runtime caused a repository to be skipped.",
     "unknown-location": "Source location unknown",
     "document-root": "Document root",
     "runtime-eol-skip": "Skipped because a parent runtime is end of life.",
@@ -21,7 +21,7 @@ export const checkerHealthText = createTranslator({
     "unknown-check": "Unknown",
     "default-branch": "Default branch",
     semantics:
-      "Each source shows its last observation, which may be older than the latest report. Checked means current according to the configured checker, not necessarily the newest upstream release. Only a successful source observation clears its failure history.",
+      'Each source shows its last observation, which may predate the latest report. "Checked" means the configured checker considers the source current. It does not guarantee the latest upstream release. Only a successful observation clears that source\'s failure history.',
     "status-checked": "Checked",
     "status-unchecked": "Unchecked",
     "status-failed": "Checker failure",
@@ -37,7 +37,7 @@ export const checkerHealthText = createTranslator({
     "source-details": "Source details",
     "observed-time": "Observed {date}",
     "unchecked-note":
-      "Generated dependencies without an update checker are not failures. Older rotating-URL and Snapcraft reports can say unchecked/no_candidate after unchanged checks; these remain unknown.",
+      'Generated dependencies without an update checker are not failures. Older rotating-URL and Snapcraft reports may show "unchecked/no_candidate" when a check found no changes. Their status remains unknown.',
     diagnostics: "Report-level errors",
     "diagnostics-note":
       "These are historical report errors, not an app failure verdict. Missing files may belong to intentionally uninitialized submodules, but these reports do not identify exclusions. Runtime branches can behave differently. Missing later errors alone do not prove recovery.",
