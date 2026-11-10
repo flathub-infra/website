@@ -99,6 +99,16 @@ export const getGetStatsForAppStatsAppIdGetResponseMock =
         installs_per_country: {
           [faker.string.alphanumeric(5)]: faker.number.int(),
         },
+        country_population: faker.helpers.arrayElement([
+          {
+            year: faker.number.int(),
+            revision: faker.string.alpha({ length: { min: 10, max: 20 } }),
+            populations: {
+              [faker.string.alphanumeric(5)]: faker.number.int(),
+            },
+          },
+          null,
+        ]),
         installs_last_month: faker.number.int(),
         installs_last_7_days: faker.number.int(),
         id: faker.string.alpha({ length: { min: 10, max: 20 } }),

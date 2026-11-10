@@ -1,5 +1,9 @@
 {
   "country-downloads": {
+    "summary": "Downloads, not individual users.",
+    "no-country-data": "Country statistics are not available yet.",
+    "population-source": "Population data for {year}",
+    "methodology": "These rates count downloads per 100,000 residents, not the percentage of people using Flathub. Countries without population data are not assigned a rate.",
     "description": "These totals count downloads, not individual users.",
     "country": "Country",
     "lower": "Fewer",
@@ -11,6 +15,14 @@
     "x-total": "{x} total",
     "population-unavailable": "Population data unavailable",
     "source": "We use {year} midyear population projections from <source>United Nations World Population Prospects {revision}</source>. The UN licenses the data under <license>CC BY 3.0 IGO</license>."
+  },
+  "country-installs": {
+    "title": "Installs by country",
+    "summary": "Installs, not individual users.",
+    "total-installs": "Total installs",
+    "description": "These totals count installs, not individual users. Rates are not the percentage of residents using the app.",
+    "per-capita-map-label": "Installs per 100,000 people in each country",
+    "x-per-100000": "{x} installs per 100,000 people"
   },
   "app-maintenance": {
     "title": "Maintenance",
@@ -176,7 +188,7 @@
   "count-verified-desktop-apps": "Verified desktop apps",
   "since": "Since",
   "since-x": "Since {date}",
-  "downloads-per-country": "Downloads per Country",
+  "downloads-per-country": "Downloads per country",
   "downloads-over-time": "Downloads over time",
   "home": "Home",
   "flathub-description": "Find and install hundreds of apps and games for Linux. Enjoy Firefox, Telegram, RetroArch, GIMP and many more!",
@@ -832,6 +844,7 @@
     "description": "Revisit the top apps and trends from the year"
   },
   "year-in-review": {
+    "per-capita-description": "Rates are not the percentage of residents using Flathub. Countries without population data are excluded from this ranking.",
     "title": "{year} Year in Review",
     "description": "Celebrating a year of growth and innovation on Flathub",
     "select-year": "Select Year",
@@ -853,10 +866,11 @@
     "newcomer-description": "The most popular app released this year",
     "most-improved": "Most Improved",
     "most-improved-description": "The app with the highest percentage growth rate compared to the previous year",
-    "geographic-insights": "Geographic Insights",
-    "countries-reached": "Countries Reached",
-    "fastest-growing-regions": "Fastest Growing Regions",
-    "top-countries": "Top Countries",
+    "geographic-insights": "Geographic insights",
+    "countries-reached": "Countries reached",
+    "fastest-growing-regions": "Fastest growing regions",
+    "annual-growth": "Annual growth",
+    "top-countries": "Top countries",
     "trending-categories": "Trending Categories",
     "trending-categories-description": "Categories with the most growth this year",
     "year-over-year-growth": "Year-over-year growth",

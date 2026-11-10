@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { getCountryDownloads } from "./country-downloads"
+import { getCountryDownloads, getCountryMapValues } from "./country-downloads"
 
 describe("country download metrics", () => {
   const countries = { US: 200, DE: 100, AX: 50, FR: 0 }
@@ -47,5 +47,51 @@ describe("country download metrics", () => {
         value: null,
       })),
     )
+  })
+})
+
+describe("country map values", () => {
+  const countries = Object.freeze([
+    { country: "us", downloads: 10, value: 1 },
+    { country: "AX", downloads: 5, value: null },
+  ])
+
+  it("adds zero rates only for unreported countries with valid populations", () => {
+    expect(
+      getCountryMapValues(
+        countries,
+        {
+          US: 1_000_000,
+          DE: 100_000,
+          FR: 0,
+          GB: -1,
+          CA: NaN,
+          JP: Infinity,
+        },
+        true,
+      ),
+    ).toEqual([
+      { country: "us", value: 1 },
+      { country: "AX", value: null },
+      { country: "DE", value: 0 },
+    ])
+  })
+
+  it("does not add population-only countries in absolute mode", () => {
+    expect(getCountryMapValues(countries, { DE: 100_000 }, false)).toEqual([
+      { country: "us", value: 1 },
+      { country: "AX", value: null },
+    ])
+  })
+
+  it("handles missing population metadata and leaves ranking rows unchanged", () => {
+    expect(getCountryMapValues(countries, undefined, true)).toEqual([
+      { country: "us", value: 1 },
+      { country: "AX", value: null },
+    ])
+    const population = Object.freeze({ US: 1_000_000, DE: 100_000 })
+    getCountryMapValues(countries, population, true)
+    expect(countries).toHaveLength(2)
+    expect(countries[0]).toEqual({ country: "us", downloads: 10, value: 1 })
   })
 })
