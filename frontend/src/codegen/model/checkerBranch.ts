@@ -5,7 +5,9 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { CheckerBranchBranch } from "./checkerBranchBranch"
+import type { CheckerBranchCheckout } from "./checkerBranchCheckout"
 import type { CheckerBranchDelivery } from "./checkerBranchDelivery"
+import type { CheckerBranchPullRequest } from "./checkerBranchPullRequest"
 import type { CheckerBranchRuntimeEol } from "./checkerBranchRuntimeEol"
 import type { CheckerBranchSkipReason } from "./checkerBranchSkipReason"
 import type { Error } from "./error"
@@ -13,6 +15,8 @@ import type { Source } from "./source"
 
 export interface CheckerBranch {
   branch?: CheckerBranchBranch
+  checkout?: CheckerBranchCheckout
+  pull_request?: CheckerBranchPullRequest
   status: string
   delivery?: CheckerBranchDelivery
   skip_reason?: CheckerBranchSkipReason

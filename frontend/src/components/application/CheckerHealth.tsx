@@ -9,18 +9,20 @@ import {
   ChevronDown,
   GitBranch,
   RefreshCw,
-  ScanSearch,
+  CircleAlert,
 } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
+import { ToggleGroup } from "radix-ui"
 import { cn } from "@/lib/utils"
 import { useGetCheckerHealthAppsAppIdCheckerHealthGet } from "src/codegen/checker-health/checker-health"
 import type {
   CheckerHealth as Health,
   CheckerSourceHealth,
+  Checkout,
 } from "src/codegen/model"
 
 const disclosureClass =
@@ -125,6 +127,7 @@ function Source({
   const unresolved = Boolean(observation.failures)
   const [expanded, setExpanded] = useState(initiallyExpanded)
   const [rawExpanded, setRawExpanded] = useState(false)
+  const rawId = useId()
   const errors = source.errors?.length
     ? source.errors
     : unresolved
@@ -138,10 +141,14 @@ function Source({
   const reasonKey = `reason-${source.reason}`
   const showManifest = source.module && source.manifest !== sharedManifest
   const showObservedAt = observation.observed_at !== sharedObservedAt
-  const compact = !showManifest && !showObservedAt
+  const currentVersion =
+    source.current.version ||
+    ("tag" in source.current
+      ? source.current.tag || source.current.commit?.slice(0, 12)
+      : null)
 
   return (
-    <li className="min-w-0 border-t border-border first:border-t-0">
+    <li className="min-w-0 border-t border-border/60 first:border-t-0">
       <details
         className={detailsClass}
         open={expanded}
@@ -150,18 +157,19 @@ function Source({
         <summary
           className={cn(
             disclosureClass,
-            "px-4 hover:bg-muted/60 focus-visible:-outline-offset-2",
-            !compact &&
-              "max-sm:grid max-sm:grid-cols-[minmax(0,1fr)_auto] max-sm:gap-y-2",
+            "gap-3 rounded-none px-3 py-3 hover:bg-muted/60 focus-visible:-outline-offset-2 sm:px-4",
+            expanded && "bg-muted/40",
           )}
         >
           <span className="flex min-w-0 flex-1 flex-col gap-1">
-            <span className="font-semibold [overflow-wrap:anywhere]">
+            <span
+              className="font-medium [overflow-wrap:anywhere]"
+              title={showManifest ? source.manifest : undefined}
+            >
               {source.module || source.manifest}
             </span>
-            {!compact && (
-              <span className="flex flex-col gap-x-3 gap-y-1 text-xs text-muted-foreground [overflow-wrap:anywhere] sm:flex-row sm:flex-wrap">
-                {showManifest && <span>{source.manifest}</span>}
+            {showObservedAt && (
+              <span className="text-xs text-muted-foreground">
                 {showObservedAt && (
                   <time dateTime={observation.observed_at}>
                     {t("observed-time", {
@@ -172,33 +180,40 @@ function Source({
               </span>
             )}
           </span>
-          <Badge
-            variant={
-              unresolved || source.status === "failed"
-                ? "destructive"
-                : "outline"
-            }
-            className={cn(
-              "max-w-[45%] shrink-0 gap-1.5 text-center",
-              !compact &&
-                "max-sm:row-start-2 max-sm:max-w-full max-sm:justify-self-start",
-            )}
-          >
-            {(status === "checked" || status === "recovered") && (
-              <CircleCheck className="size-3.5 shrink-0" aria-hidden />
-            )}
-            {status === "unchecked" && (
-              <CircleHelp className="size-3.5 shrink-0" aria-hidden />
-            )}
-            {t(`status-${status}`)}
-          </Badge>
+          {currentVersion && (
+            <span
+              className="hidden max-w-32 truncate text-xs tabular-nums text-muted-foreground sm:block"
+              title={currentVersion}
+            >
+              {currentVersion}
+            </span>
+          )}
+          {unresolved || source.status === "failed" ? (
+            <Badge
+              variant="destructive"
+              className="max-w-[45%] gap-1.5 text-start"
+            >
+              <CircleAlert className="size-3.5 shrink-0" aria-hidden />
+              {t(`status-${status}`)}
+            </Badge>
+          ) : (
+            <span className="flex max-w-[45%] items-center justify-end gap-1.5 text-end text-xs text-muted-foreground">
+              {(status === "checked" || status === "recovered") && (
+                <CircleCheck className="size-3.5 shrink-0" aria-hidden />
+              )}
+              {status === "unchecked" && (
+                <CircleHelp className="size-3.5 shrink-0" aria-hidden />
+              )}
+              {t(`status-${status}`)}
+            </span>
+          )}
           <ChevronDown
-            className="size-4 shrink-0 text-muted-foreground max-sm:col-start-2 max-sm:row-start-1"
+            className="size-4 shrink-0 text-muted-foreground"
             aria-hidden
           />
         </summary>
         {expanded && (
-          <div className="mx-4 mb-4 flex min-w-0 flex-col gap-2 rounded-md bg-muted p-4">
+          <div className="flex min-w-0 flex-col gap-3 px-3 pb-4 pt-1 sm:px-4">
             {unresolved && (
               <div className="flex flex-col gap-1">
                 <p className="font-medium">
@@ -235,7 +250,7 @@ function Source({
             {observation.recovered_at && (
               <p>{t("recovered", { date: date(observation.recovered_at) })}</p>
             )}
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <div className="order-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
               <RunLink
                 prominent={unresolved || source.status === "failed"}
                 url={
@@ -248,15 +263,11 @@ function Source({
                   ? t("failure-logs")
                   : t("run-logs")}
               </RunLink>
-              {unresolved && observation.last_failure_at ? (
+              {unresolved && observation.last_failure_at && (
                 <span className="text-xs text-muted-foreground sm:ms-auto">
                   {t("last-failure-time", {
                     date: date(observation.last_failure_at),
                   })}
-                </span>
-              ) : (
-                <span className="text-xs text-muted-foreground sm:ms-auto">
-                  {t("observed-time", { date: date(observation.observed_at) })}
                 </span>
               )}
               {unresolved &&
@@ -271,56 +282,70 @@ function Source({
                     {t("latest-source-logs")}
                   </a>
                 )}
+              <Button
+                variant="ghost"
+                className="min-h-11 gap-2 px-2 sm:ms-auto"
+                aria-expanded={rawExpanded}
+                aria-controls={rawId}
+                onClick={() => setRawExpanded((value) => !value)}
+              >
+                {t("source-evidence")}
+                <ChevronDown
+                  data-icon="inline-end"
+                  aria-hidden
+                  className={cn(rawExpanded && "rotate-180")}
+                />
+              </Button>
             </div>
-            <details
-              className={detailsClass}
-              onToggle={(event) => setRawExpanded(event.currentTarget.open)}
-            >
-              <DisclosureTitle>{t("source-details")}</DisclosureTitle>
-              <dl className="grid min-w-0 grid-cols-1 gap-3 pb-4 text-xs sm:grid-cols-2">
-                <div className="min-w-0">
-                  <dt className="text-muted-foreground">{t("location")}</dt>
-                  <dd className="mt-1 [overflow-wrap:anywhere]" dir="ltr">
-                    {source.manifest}
-                    <br />
-                    {source.source_pointer === null
-                      ? t("unknown-location")
-                      : source.source_pointer || t("document-root")}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">
-                    {t("observed-label")}
-                  </dt>
-                  <dd className="mt-1">
-                    <time dateTime={observation.observed_at}>
-                      {date(observation.observed_at)}
-                    </time>
-                  </dd>
-                </div>
+            <dl className="grid min-w-0 grid-cols-2 gap-x-5 gap-y-3 pt-2 text-xs sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,3fr)]">
+              <div>
+                <dt className="text-muted-foreground">
+                  {t("current-version")}
+                </dt>
+                <dd className="mt-1 [overflow-wrap:anywhere]">
+                  {currentVersion || t("version-unknown")}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-muted-foreground">{t("checker")}</dt>
+                <dd className="mt-1 [overflow-wrap:anywhere]">
+                  {source.checker_type || t("no-checker")}
+                </dd>
+              </div>
+              <div className="col-span-2 min-w-0 sm:col-span-1">
+                <dt className="text-muted-foreground">{t("location")}</dt>
+                <dd className="mt-1 [overflow-wrap:anywhere]" dir="ltr">
+                  {showManifest || !sharedManifest ? (
+                    <>
+                      {source.manifest}
+                      <br />
+                    </>
+                  ) : null}
+                  {source.source_pointer === null
+                    ? t("unknown-location")
+                    : source.source_pointer || t("document-root")}
+                </dd>
+              </div>
+              {unresolved && (
                 <div>
                   <dt className="text-muted-foreground">
                     {t("latest-result")}
                   </dt>
                   <dd className="mt-1">{t(`status-${source.status}`)}</dd>
                 </div>
-                {source.checker_type && (
-                  <div>
-                    <dt className="text-muted-foreground">{t("checker")}</dt>
-                    <dd className="mt-1">{source.checker_type}</dd>
-                  </div>
-                )}
-                {source.selected_version && (
-                  <div>
-                    <dt className="text-muted-foreground">
-                      {t("selected-version")}
-                    </dt>
-                    <dd className="mt-1 [overflow-wrap:anywhere]">
-                      {source.selected_version}
-                    </dd>
-                  </div>
-                )}
-              </dl>
+              )}
+              {source.selected_version && (
+                <div>
+                  <dt className="text-muted-foreground">
+                    {t("selected-version")}
+                  </dt>
+                  <dd className="mt-1 [overflow-wrap:anywhere]">
+                    {source.selected_version}
+                  </dd>
+                </div>
+              )}
+            </dl>
+            <div id={rawId} className="order-2" hidden={!rawExpanded}>
               {rawExpanded && (
                 <Textarea
                   readOnly
@@ -331,7 +356,7 @@ function Source({
                   value={JSON.stringify(source, null, 2)}
                 />
               )}
-            </details>
+            </div>
           </div>
         )}
       </details>
@@ -350,15 +375,30 @@ function SourceSummary({ sources }: { sources: CheckerSourceHealth[] }) {
   )
 
   return (
-    <div className="flex items-start gap-3 rounded-lg border-s-2 border-primary bg-card p-4 text-card-foreground sm:p-5">
-      <ScanSearch className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
+    <div className="flex items-start gap-3">
+      {counts.failures ? (
+        <CircleAlert
+          className="mt-0.5 size-5 shrink-0 text-foreground"
+          aria-hidden
+        />
+      ) : (
+        <CircleCheck
+          className="mt-0.5 size-5 shrink-0 text-primary"
+          aria-hidden
+        />
+      )}
       <div className="flex min-w-0 flex-col gap-2">
-        <p className="text-base font-semibold">
+        <p className="font-medium">
           {counts.failures
             ? t("summary-failures", { count: counts.failures })
             : t("summary-no-failures")}
         </p>
-        <dl className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+        <dl
+          className={cn(
+            "flex flex-wrap gap-x-5 gap-y-2 text-xs",
+            sources.length > 10 && "sm:hidden",
+          )}
+        >
           {groups
             .filter((group) => counts[group] > 0)
             .map((group) => (
@@ -380,7 +420,13 @@ function SourceSummary({ sources }: { sources: CheckerSourceHealth[] }) {
   )
 }
 
-function SourceList({ sources }: { sources: CheckerSourceHealth[] }) {
+function SourceList({
+  sources,
+  reportAt,
+}: {
+  sources: CheckerSourceHealth[]
+  reportAt: string
+}) {
   const format = useFormatter()
   const date = useCheckDate()
   const id = useId()
@@ -459,9 +505,9 @@ function SourceList({ sources }: { sources: CheckerSourceHealth[] }) {
   const showFilters = sources.length > 10 || filtersExpanded
 
   return (
-    <div className="flex min-w-0 flex-col gap-4">
+    <div className="flex min-w-0 flex-col gap-3">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-        <h4 className="text-base font-semibold">{t("sources")}</h4>
+        <h4 className="font-semibold">{t("sources")}</h4>
         <p className="text-xs text-muted-foreground" role="status">
           {!search && filter === "all" && matches.length <= limit
             ? t("source-total", { count: matches.length })
@@ -491,32 +537,27 @@ function SourceList({ sources }: { sources: CheckerSourceHealth[] }) {
       <div
         id={`${id}-filters`}
         hidden={!showFilters}
-        className={cn("gap-3 sm:grid-cols-[1fr_auto]", showFilters && "grid")}
+        className={cn("flex-wrap items-center gap-3", showFilters && "flex")}
       >
-        <div className="flex flex-col gap-1.5">
-          <label
-            htmlFor={`${id}-search`}
-            className="text-xs text-muted-foreground"
-          >
+        <div className="flex min-w-0 flex-1 basis-52 flex-col gap-1.5">
+          <label htmlFor={`${id}-search`} className="sr-only">
             {t("find-source")}
           </label>
           <Input
+            variant="surface"
             id={`${id}-search`}
             type="search"
             value={search}
             placeholder={t("search-placeholder")}
-            className="min-h-11"
+            className="h-11 rounded-lg"
             onChange={(event) => {
               setSearch(event.target.value)
               setLimit(10)
             }}
           />
         </div>
-        <div className="flex flex-col gap-1.5">
-          <label
-            htmlFor={`${id}-filter`}
-            className="text-xs text-muted-foreground"
-          >
+        <div className="flex w-full flex-col gap-1.5 sm:hidden">
+          <label htmlFor={`${id}-filter`} className="sr-only">
             {t("filter-status")}
           </label>
           <select
@@ -538,6 +579,40 @@ function SourceList({ sources }: { sources: CheckerSourceHealth[] }) {
             ))}
           </select>
         </div>
+        {showFilters && (
+          <ToggleGroup.Root
+            type="single"
+            value={filter}
+            onValueChange={(value) => {
+              if (value) {
+                setFilter(value)
+                setLimit(10)
+              }
+            }}
+            aria-label={t("filter-status")}
+            className="hidden flex-wrap gap-1 sm:flex"
+          >
+            {[
+              "all",
+              ...groups.filter(
+                (group) => counts[group] > 0 || filter === group,
+              ),
+            ].map((group) => (
+              <ToggleGroup.Item
+                key={group}
+                value={group}
+                className="inline-flex min-h-11 items-center gap-2 rounded-sm border-b-2 border-transparent px-3 text-sm text-muted-foreground hover:bg-muted data-[state=on]:border-primary data-[state=on]:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring"
+              >
+                {t(`filter-${group}`)}
+                <span className="tabular-nums">
+                  {format.number(
+                    group === "all" ? sources.length : counts[group],
+                  )}
+                </span>
+              </ToggleGroup.Item>
+            ))}
+          </ToggleGroup.Root>
+        )}
       </div>
       {matches.length ? (
         <div className="flex min-w-0 flex-col gap-6">
@@ -547,11 +622,11 @@ function SourceList({ sources }: { sources: CheckerSourceHealth[] }) {
               aria-labelledby={`${id}-branch-${index}`}
               className="min-w-0"
             >
-              <div className="mb-3 flex min-w-0 flex-col gap-1.5">
+              <div className="mb-2 flex min-w-0 flex-col gap-1.5">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
                   <h5
                     id={`${id}-branch-${index}`}
-                    className="flex min-w-0 items-center gap-2 text-base font-semibold [overflow-wrap:anywhere]"
+                    className="flex min-w-0 items-center gap-2 text-xs font-medium [overflow-wrap:anywhere]"
                   >
                     <GitBranch
                       className="size-4 shrink-0 text-muted-foreground"
@@ -561,16 +636,17 @@ function SourceList({ sources }: { sources: CheckerSourceHealth[] }) {
                       {branch ?? t("default-branch")}
                     </span>
                   </h5>
-                  {group.sharedObservedAt && (
-                    <time
-                      className="text-xs text-muted-foreground"
-                      dateTime={group.sharedObservedAt}
-                    >
-                      {t("observed-time", {
-                        date: date(group.sharedObservedAt),
-                      })}
-                    </time>
-                  )}
+                  {group.sharedObservedAt &&
+                    group.sharedObservedAt !== reportAt && (
+                      <time
+                        className="text-xs text-muted-foreground"
+                        dateTime={group.sharedObservedAt}
+                      >
+                        {t("observed-time", {
+                          date: date(group.sharedObservedAt),
+                        })}
+                      </time>
+                    )}
                 </div>
                 {group.sharedManifest && (
                   <p
@@ -624,10 +700,39 @@ function SourceList({ sources }: { sources: CheckerSourceHealth[] }) {
   )
 }
 
+function CheckoutDetails({ checkout }: { checkout?: Checkout | null }) {
+  if (!checkout) {
+    return null
+  }
+  return (
+    <details
+      className={cn(
+        detailsClass,
+        "mt-1 text-xs text-muted-foreground [overflow-wrap:anywhere]",
+      )}
+    >
+      <DisclosureTitle>{t("packaging-checkout")}</DisclosureTitle>
+      <div className="flex flex-col gap-1 pb-3">
+        {checkout.branch && <p dir="ltr">{checkout.branch}</p>}
+        <p dir="ltr">{checkout.commit ?? t("unknown-revision")}</p>
+        <p>
+          {t(
+            checkout.dirty === true
+              ? "checkout-dirty"
+              : checkout.dirty === false
+                ? "checkout-clean"
+                : "checkout-unknown",
+          )}
+        </p>
+      </div>
+    </details>
+  )
+}
+
 function ReportDetails({ data }: { data: Health }) {
   const date = useCheckDate()
   return (
-    <div className="divide-y divide-border rounded-lg border border-border px-4 sm:px-5">
+    <div className="divide-y divide-border border-t border-border">
       {!!data.diagnostics?.length && (
         <details className={detailsClass}>
           <DisclosureTitle>
@@ -680,20 +785,55 @@ function ReportDetails({ data }: { data: Health }) {
                 key={index}
                 className="grid gap-2 py-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
               >
-                <a
-                  className="inline-flex min-h-11 items-center self-start underline underline-offset-4"
-                  href={run.run_url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <time dateTime={run.observed_at}>
-                    {date(run.observed_at)}
-                  </time>
-                </a>
-                <div className="flex flex-col gap-2">
+                <div className="min-w-0">
+                  <a
+                    className="inline-flex min-h-11 items-center self-start underline underline-offset-4"
+                    href={run.run_url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <time dateTime={run.observed_at}>
+                      {date(run.observed_at)}
+                    </time>
+                  </a>
+                  {run.checker && (
+                    <details
+                      className={cn(
+                        detailsClass,
+                        "text-xs text-muted-foreground [overflow-wrap:anywhere]",
+                      )}
+                    >
+                      <DisclosureTitle>{t("checker-revision")}</DisclosureTitle>
+                      {run.checker.revision ? (
+                        <RunLink
+                          url={`https://github.com/flathub-infra/flatpak-external-data-checker/commit/${run.checker.revision}`}
+                        >
+                          <span title={run.checker.revision}>
+                            {run.checker.revision.slice(0, 12)}
+                          </span>
+                        </RunLink>
+                      ) : (
+                        <p>{t("unknown-revision")}</p>
+                      )}
+                      <p>{t(`checker-source-${run.checker.source}`)}</p>
+                      {run.checker.source === "git" && (
+                        <p>
+                          {t(
+                            run.checker.dirty
+                              ? "checkout-dirty"
+                              : "checkout-clean",
+                          )}
+                        </p>
+                      )}
+                    </details>
+                  )}
+                </div>
+                <div className="flex flex-col gap-4">
                   {run.branches.map((branch, index) => (
                     <div key={index} className="[overflow-wrap:anywhere]">
-                      <p>{branch.branch ?? t("default-branch")}</p>
+                      <p className="font-medium">
+                        {branch.branch ?? t("default-branch")}
+                      </p>
                       <p className="text-xs text-muted-foreground">
                         {t.has(`report-${branch.status}`)
                           ? t(`report-${branch.status}`)
@@ -708,11 +848,33 @@ function ReportDetails({ data }: { data: Health }) {
                           </>
                         )}
                       </p>
+                      {branch.pull_request && (
+                        <div className="flex flex-wrap items-center justify-between gap-x-3 text-xs">
+                          <p>{t(`pr-${branch.pull_request.outcome}`)}</p>
+                          {/^https?:\/\//i.test(branch.pull_request.url) && (
+                            <RunLink url={branch.pull_request.url}>
+                              {branch.pull_request.url.match(
+                                /\/pull\/(\d+)$/,
+                              )?.[1]
+                                ? t("pull-request-number", {
+                                    number:
+                                      branch.pull_request.url.match(
+                                        /\/pull\/(\d+)$/,
+                                      )![1],
+                                  })
+                                : t("view-pull-request")}
+                            </RunLink>
+                          )}
+                        </div>
+                      )}
+                      <CheckoutDetails checkout={branch.checkout} />
                       {branch.skip_reason && (
                         <p className="text-xs text-muted-foreground">
                           {branch.skip_reason === "runtime-end-of-life"
                             ? t("runtime-eol-skip")
-                            : branch.skip_reason}
+                            : branch.skip_reason === "end-of-life"
+                              ? t("eol-skip")
+                              : branch.skip_reason}
                         </p>
                       )}
                       {!!branch.runtime_eol?.length && (
@@ -813,34 +975,42 @@ export default function CheckerHealth({ appId }: { appId: string }) {
       ) : (
         <>
           {!!data.sources?.length && <SourceSummary sources={data.sources} />}
-          <dl className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <dt className="text-xs text-muted-foreground">
-                {t("last-report")}
+          <dl className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
+            <div className="flex flex-wrap gap-x-2 gap-y-1">
+              <dt>
+                {t(
+                  data.last_report_at === data.last_check_at
+                    ? "last-report-and-check"
+                    : "last-report",
+                )}
               </dt>
-              <dd className="mt-1 font-medium">
+              <dd>
                 <time dateTime={data.last_report_at}>
                   {date(data.last_report_at)}
                 </time>
               </dd>
             </div>
-            <div>
-              <dt className="text-xs text-muted-foreground">
-                {t("last-check")}
-              </dt>
-              <dd className="mt-1 font-medium">
-                {data.last_check_at ? (
-                  <time dateTime={data.last_check_at}>
-                    {date(data.last_check_at)}
-                  </time>
-                ) : (
-                  t("unknown-check")
-                )}
-              </dd>
-            </div>
+            {data.last_report_at !== data.last_check_at && (
+              <div className="flex flex-wrap gap-x-2 gap-y-1">
+                <dt>{t("last-check")}</dt>
+                <dd>
+                  {data.last_check_at ? (
+                    <time dateTime={data.last_check_at}>
+                      {date(data.last_check_at)}
+                    </time>
+                  ) : (
+                    t("unknown-check")
+                  )}
+                </dd>
+              </div>
+            )}
           </dl>
           {data.sources?.length ? (
-            <SourceList key={appId} sources={data.sources} />
+            <SourceList
+              key={appId}
+              sources={data.sources}
+              reportAt={data.last_report_at}
+            />
           ) : (
             <p>{t("no-sources")}</p>
           )}

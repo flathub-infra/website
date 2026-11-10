@@ -5,6 +5,8 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { CheckerBranch } from "./checkerBranch"
+import type { CheckerRunChecker } from "./checkerRunChecker"
+import type { CheckerRunCheckout } from "./checkerRunCheckout"
 import type { CheckerRunDelivery } from "./checkerRunDelivery"
 
 export interface CheckerRun {
@@ -12,5 +14,7 @@ export interface CheckerRun {
   run_url: string
   status: string
   delivery: CheckerRunDelivery
+  checker?: CheckerRunChecker
+  checkout?: CheckerRunCheckout
   branches: CheckerBranch[]
 }

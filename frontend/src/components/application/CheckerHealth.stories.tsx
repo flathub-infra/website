@@ -87,9 +87,37 @@ const evidence: Health = {
       observed_at: "2026-11-08T17:45:00Z",
       status: "completed",
       delivery: "pr_handled",
+      checker: {
+        source: "build",
+        revision: "bcf09566250d3f994bd3f36d61ba5ef4abdbb91d",
+        dirty: null,
+      },
       run_url: "https://github.com/flathub/flathub/actions/runs/123",
       branches: [
-        { branch: "branch/25.08", status: "completed", delivery: "pr_handled" },
+        {
+          branch: "branch/25.08",
+          status: "completed",
+          delivery: "pr_handled",
+          checkout: {
+            branch: "branch/25.08",
+            commit: "a".repeat(40),
+            dirty: false,
+          },
+          pull_request: {
+            url: "https://github.com/flathub/org.example.App/pull/123",
+            outcome: "existing_open",
+          },
+        },
+        {
+          branch: "branch/24.08",
+          status: "skipped",
+          skip_reason: "end-of-life",
+          checkout: {
+            branch: "branch/24.08",
+            commit: "b".repeat(40),
+            dirty: true,
+          },
+        },
       ],
     },
   ],
@@ -400,7 +428,7 @@ export const CheckedSourcesInMaintenancePanel: Story = {
           HttpResponse.json({
             ...evidence,
             diagnostics: [],
-            sources: Array.from({ length: 42 }, (_, index) => {
+            sources: Array.from({ length: 152 }, (_, index) => {
               const modules = [
                 "libopenmpt",
                 "libde265",
@@ -417,8 +445,30 @@ export const CheckedSourcesInMaintenancePanel: Story = {
                 branch: null,
                 source: checkerSource({
                   module: modules[index] ?? `dependency-${index}`,
-                  manifest: "tv.kodi.Kodi.yml",
+                  manifest:
+                    index < 5
+                      ? `addons/${modules[index]}/${modules[index]}.json`
+                      : "tv.kodi.Kodi.yml",
                   source_pointer: `/modules/${index}/sources/0`,
+                  status: index < 42 ? "checked" : "unchecked",
+                  checker_type: index < 42 ? "anitya" : null,
+                  checkers_run: index < 42 ? ["AnityaChecker"] : [],
+                  reason: index < 42 ? null : "no_update_checker",
+                  current: {
+                    ...checkerSource().current,
+                    version: [
+                      "0.8.3",
+                      "1.0.16",
+                      "1.20.2",
+                      "0.21.4",
+                      "20250818",
+                      "0.11.3",
+                      "1.5.1",
+                      "7.1.2",
+                      "1.4.0",
+                      "2.2.0",
+                    ][index % 10],
+                  },
                 }),
                 observed_at: evidence.last_check_at!,
                 run_url: evidence.history![0].run_url,
