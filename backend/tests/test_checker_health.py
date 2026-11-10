@@ -609,7 +609,7 @@ def test_run_attempt_links_and_counts(health_db):
 
 @pytest.mark.parametrize("overlapping_app", [False, True])
 def test_sharded_artifact_migration_preserves_reports_on_downgrade(
-    health_db, overlapping_app
+    health_db, overlapping_app, monkeypatch
 ):
     from alembic.migration import MigrationContext
     from alembic.operations import Operations
@@ -624,10 +624,17 @@ def test_sharded_artifact_migration_preserves_reports_on_downgrade(
             getattr(migration, direction)()
 
     with health_db() as db:
-        migrate(db, "downgrade")
+        Operations(MigrationContext.configure(db.session.connection())).create_index(
+            "ix_checkerhealthartifact_run_attempt",
+            "checkerhealthartifact",
+            ["run_id", "run_attempt"],
+            unique=True,
+        )
         migrate(db, "upgrade")
 
     expected = {}
+    artifacts = []
+    archives = {}
     for artifact_id, run_id, attempt, app_id in [
         (1, 42, 1, "org.example.App"),
         (2, 42, 1, "org.example.Other"),
@@ -637,15 +644,19 @@ def test_sharded_artifact_migration_preserves_reports_on_downgrade(
     ]:
         raw = observation(artifact_id, [source()]).report
         expected[run_id, attempt, app_id] = raw
+        artifact = {
+            "id": artifact_id,
+            "name": f"checker-health-{run_id}-{attempt}-{artifact_id}",
+            "expired": False,
+            "workflow_run": {"id": run_id, "head_repository_id": 88860262},
+        }
+        artifacts.append(artifact)
+        archives[artifact_id] = archive(raw, f"{app_id}.json")
         with health_db() as db:
             store_artifact(
                 db,
-                {
-                    "id": artifact_id,
-                    "name": f"checker-health-{run_id}-{attempt}-{artifact_id}",
-                    "workflow_run": {"id": run_id},
-                },
-                parse_archive(archive(raw, f"{app_id}.json")),
+                artifact,
+                parse_archive(archives[artifact_id]),
             )
 
     with health_db() as db:
@@ -670,12 +681,63 @@ def test_sharded_artifact_migration_preserves_reports_on_downgrade(
         assert index["unique"]
         assert index["column_names"] == ["run_id", "run_attempt"]
         migrate(db, "upgrade")
+
+    downloads = []
+
+    def handler(request):
+        if request.url.path.endswith("/artifacts"):
+            return httpx.Response(
+                200, json={"artifacts": artifacts, "total_count": len(artifacts)}
+            )
+        artifact_id = int(request.url.path.split("/")[-2])
+        downloads.append(artifact_id)
+        return httpx.Response(200, content=archives[artifact_id])
+
+    client_class = httpx.Client
+    monkeypatch.setattr(
+        ingestion.httpx,
+        "Client",
+        lambda **kwargs: client_class(transport=httpx.MockTransport(handler), **kwargs),
+    )
+    monkeypatch.setattr(ingestion, "get_db", health_db)
+    monkeypatch.setattr(ingestion.settings, "github_bot_token", "test-token")
+    ingestion.refresh_checker_health()
+    assert downloads == []
+
+    with health_db() as db:
+        assert {
+            row.artifact_id
+            for row in db.session.query(models.CheckerHealthArtifact).all()
+        } == {artifact["id"] for artifact in artifacts}
+        assert "imported_artifact_ids" not in {
+            column["name"]
+            for column in inspect(db.session.connection()).get_columns(
+                "checkerhealthartifact"
+            )
+        }
+        assert {
+            (row.run_id, row.run_attempt, row.app_id): row.report
+            for row in db.session.query(models.CheckerHealthObservation).all()
+        } == expected
+        assert db.session.query(models.CheckerHealthObservation).count() == len(
+            expected
+        )
         store_artifact(
             db,
             {"id": 6, "name": "checker-health-42-1-5", "workflow_run": {"id": 42}},
             parse_archive(archive(observation(6).report, "org.example.New.json")),
         )
 
+    with health_db() as db:
+        assert (
+            db.session.query(models.CheckerHealthObservation).count()
+            == len(expected) + 1
+        )
+        migrate(db, "downgrade")
+        migrate(db, "upgrade")
+
+    ingestion.refresh_checker_health()
+    assert downloads == []
     with health_db() as db:
         assert (
             db.session.query(models.CheckerHealthObservation).count()
