@@ -261,12 +261,67 @@ export const getGetCheckerHealthAppsAppIdCheckerHealthGetResponseMock = (
         faker.string.alpha({ length: { min: 10, max: 20 } }),
         null,
       ]),
+      checker: faker.helpers.arrayElement([
+        { revision: null, source: "unknown", dirty: null },
+        {
+          revision: faker.helpers.fromRegExp("^([0-9a-f]{40}|[0-9a-f]{64})$"),
+          source: "build",
+          dirty: null,
+        },
+        {
+          revision: faker.helpers.fromRegExp("^([0-9a-f]{40}|[0-9a-f]{64})$"),
+          source: "git",
+          dirty: faker.datatype.boolean(),
+        },
+        null,
+      ]),
+      checkout: faker.helpers.arrayElement([
+        {
+          commit: faker.helpers.arrayElement([
+            faker.helpers.fromRegExp("^(?:[0-9a-f]{40}|[0-9a-f]{64})$"),
+            null,
+          ]),
+          branch: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 1, max: 20 } }),
+            null,
+          ]),
+          dirty: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+        },
+        null,
+      ]),
       branches: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
         (_, i) => i + 1,
       ).map(() => ({
         branch: faker.helpers.arrayElement([
           faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        checkout: faker.helpers.arrayElement([
+          {
+            commit: faker.helpers.arrayElement([
+              faker.helpers.fromRegExp("^(?:[0-9a-f]{40}|[0-9a-f]{64})$"),
+              null,
+            ]),
+            branch: faker.helpers.arrayElement([
+              faker.string.alpha({ length: { min: 1, max: 20 } }),
+              null,
+            ]),
+            dirty: faker.helpers.arrayElement([faker.datatype.boolean(), null]),
+          },
+          null,
+        ]),
+        pull_request: faker.helpers.arrayElement([
+          {
+            url: faker.internet.url(),
+            outcome: faker.helpers.arrayElement([
+              "created",
+              "existing_open",
+              "existing_closed",
+              "existing_merged",
+              "merged",
+            ] as const),
+          },
           null,
         ]),
         status: faker.string.alpha({ length: { min: 10, max: 20 } }),

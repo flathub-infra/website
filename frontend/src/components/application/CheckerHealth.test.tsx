@@ -29,6 +29,84 @@ beforeEach(() => {
 })
 
 describe("checker health evidence", () => {
+  it.each([
+    ["created", "Pull request created in this run"],
+    ["existing_open", "Existing open pull request found"],
+    ["existing_closed", "Existing closed pull request found"],
+    ["existing_merged", "Previously merged pull request found"],
+    ["merged", "Pull request merged in this run"],
+  ] as const)(
+    "shows the confirmed %s outcome even after delivery fails",
+    (outcome, label) => {
+      query.data.data = {
+        last_report_at: "2026-11-08T17:45:00Z",
+        history: [
+          {
+            observed_at: "2026-11-08T17:45:00Z",
+            run_url: "https://github.com/flathub/flathub/actions/runs/123",
+            status: "failed",
+            delivery: "failed",
+            checker: { source: "build", revision: "a".repeat(40), dirty: null },
+            branches: [
+              {
+                status: "failed",
+                delivery: "failed",
+                checkout: {
+                  branch: "stable",
+                  commit: "b".repeat(40),
+                  dirty: true,
+                },
+                pull_request: {
+                  url: "https://github.com/flathub/org.example.App/pull/123",
+                  outcome,
+                },
+              },
+            ],
+          },
+        ],
+      }
+      const html = render()
+      expect(html).toContain(label)
+      expect(html).toContain("Delivery failed")
+      expect(html).toContain(">PR #123<")
+      expect(html).toContain(
+        'href="https://github.com/flathub/org.example.App/pull/123"',
+      )
+      expect(html).toContain(`commit/${"a".repeat(40)}`)
+      expect(html).toContain("Local changes present")
+      expect(html).toContain("b".repeat(40))
+    },
+  )
+
+  it("distinguishes unknown provenance and checkout state on an EOL skip", () => {
+    query.data.data = {
+      last_report_at: "2026-11-08T17:45:00Z",
+      history: [
+        {
+          observed_at: "2026-11-08T17:45:00Z",
+          run_url: "https://github.com/flathub/flathub/actions/runs/123",
+          status: "skipped",
+          delivery: "not_requested",
+          checker: { source: "unknown", revision: null, dirty: null },
+          branches: [
+            {
+              status: "skipped",
+              skip_reason: "end-of-life",
+              checkout: { branch: null, commit: null, dirty: null },
+            },
+          ],
+        },
+      ],
+    }
+    const html = render()
+    expect(html).toContain(
+      "Skipped because this checkout is marked end of life.",
+    )
+    expect(html).toContain("Checker provenance unknown")
+    expect(html).toContain("Local changes not measured")
+    expect(html).not.toContain("No local changes")
+  })
+
   it.each([[null], ["branch/25.08", "branch/26.08"]])(
     "groups sources and deduplicates shared manifests for %j",
     (...branches) => {
@@ -53,10 +131,8 @@ describe("checker health evidence", () => {
       expect(html).toContain(`${branches.length * 2} sources`)
       expect(html).not.toContain(`of ${branches.length * 2} sources`)
       expect(html).toContain('aria-expanded="false"')
-      expect(html).toContain("Observed Nov 8, 2026, 5:45 PM")
-      expect(html.match(/Observed Nov 8, 2026, 5:45 PM/g)).toHaveLength(
-        branches.length,
-      )
+      expect(html).toContain("Nov 8, 2026, 5:45 PM")
+      expect(html).not.toContain("Observed Nov 8, 2026, 5:45 PM")
     },
   )
 
@@ -164,7 +240,8 @@ describe("checker health evidence", () => {
     expect(html).toContain("1 source has an unresolved failure")
     expect(html).not.toContain("No unresolved source failures")
     expect(html).toContain("branch/24.08")
-    expect(html).toContain("app.yml<br/>/modules/0/sources/0")
+    expect(html).toContain("app.yml")
+    expect(html).toContain("/modules/0/sources/0")
     expect(html).toContain("&lt;script&gt;")
     expect(html).not.toContain("<script>")
     expect(html).toContain(
@@ -211,7 +288,7 @@ describe("checker health evidence", () => {
     expect(html).not.toContain(">Recovered<")
     expect(html).toContain("intentionally uninitialized submodules")
     expect(html).toContain("Seen in 2 reports")
-    expect(html).toContain("existing open or closed pull request")
+    expect(html).toContain("does not prove a new pull request was opened")
   })
 
   it("shows recovery only with a current positive result", () => {

@@ -53,7 +53,7 @@ export default function AppMaintenance({ appId, manifestUrl }: Props) {
 
   return (
     <div className="border-t border-border">
-      <section className="grid grid-cols-1 items-center gap-3 border-b border-border py-[18px] min-[641px]:grid-cols-[minmax(160px,0.6fr)_minmax(0,1fr)] min-[641px]:gap-x-6 min-[641px]:gap-y-4 min-[1101px]:grid-cols-[minmax(170px,0.65fr)_minmax(0,1fr)_minmax(210px,0.65fr)]">
+      <section className="flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-border py-4">
         <div className="flex items-center gap-3">
           <Boxes
             className="size-5 shrink-0 text-muted-foreground"
@@ -61,7 +61,7 @@ export default function AppMaintenance({ appId, manifestUrl }: Props) {
           />
           <h3 className="text-sm font-semibold">{t("runtime")}</h3>
         </div>
-        <div className="col-start-1 flex min-w-0 flex-col gap-3 min-[641px]:col-[2/-1]">
+        <div className="flex min-w-0 flex-col gap-3">
           {summary.isPending ? (
             <div role="status" aria-label={t("loading-runtime")}>
               <Skeleton className="h-5 w-64 max-w-full" />
@@ -88,63 +88,65 @@ export default function AppMaintenance({ appId, manifestUrl }: Props) {
           )}
         </div>
       </section>
-      <section className="grid grid-cols-1 items-center gap-3 border-b border-border py-[18px] min-[641px]:grid-cols-[minmax(160px,0.6fr)_minmax(0,1fr)] min-[641px]:gap-x-6 min-[641px]:gap-y-4 min-[1101px]:grid-cols-[minmax(170px,0.65fr)_minmax(0,1fr)_minmax(210px,0.65fr)]">
-        <div className="flex items-center gap-3">
-          <GitBranch
-            className="size-5 shrink-0 text-muted-foreground"
-            aria-hidden
-          />
-          <h3 className="text-sm font-semibold">{t("builds")}</h3>
-        </div>
-        <p className="text-sm leading-[1.55] text-muted-foreground min-[641px]:max-w-[38ch]">
-          {t("builds-description")}
-        </p>
-        <div className="col-start-1 flex max-w-[440px] flex-col items-start gap-2 min-[641px]:col-start-2 min-[1101px]:col-start-auto">
-          <Button
-            asChild
-            variant="outline"
-            className="h-auto min-h-9 max-w-full whitespace-normal text-start text-foreground"
-          >
-            <Link href={`/builds/apps/${appId}`}>{t("view-builds")}</Link>
-          </Button>
-        </div>
-      </section>
-      <section className="grid grid-cols-1 items-center gap-3 py-[18px] min-[641px]:grid-cols-[minmax(160px,0.6fr)_minmax(0,1fr)] min-[641px]:gap-x-6 min-[641px]:gap-y-4 min-[1101px]:grid-cols-[minmax(170px,0.65fr)_minmax(0,1fr)_minmax(210px,0.65fr)]">
-        <div className="flex items-center gap-3">
-          <RefreshCw
-            className="size-5 shrink-0 text-muted-foreground"
-            aria-hidden
-          />
-          <h3 className="text-sm font-semibold">{t("update-checker")}</h3>
-        </div>
-        <p className="text-sm leading-[1.55] text-muted-foreground min-[641px]:max-w-[38ch]">
-          {t("checker-description")}
-        </p>
-        <div className="col-start-1 flex max-w-[440px] flex-col items-start gap-2 min-[641px]:col-start-2 min-[1101px]:col-start-auto">
-          <Button
-            asChild
-            variant="outline"
-            className="h-auto min-h-9 max-w-full whitespace-normal text-start text-foreground"
-          >
-            <a href={packagingUrl} target="_blank" rel="noreferrer">
-              {t(manifestUrl != null ? "view-manifest" : "view-repository")}
-            </a>
-          </Button>
-          <Button
-            asChild
-            variant="link"
-            className="h-auto min-h-7 max-w-full whitespace-normal px-0 text-start text-xs text-foreground underline underline-offset-4"
-          >
-            <a
-              href="https://github.com/flathub-infra/flatpak-external-data-checker#readme"
-              target="_blank"
-              rel="noreferrer"
+      <div className="grid gap-5 py-5 sm:grid-cols-2 sm:gap-6">
+        <section className="flex min-w-0 flex-col items-start gap-2">
+          <div className="flex items-center gap-3">
+            <GitBranch
+              className="size-5 shrink-0 text-muted-foreground"
+              aria-hidden
+            />
+            <h3 className="text-sm font-semibold">{t("builds")}</h3>
+          </div>
+          <p className="max-w-prose text-xs leading-relaxed text-muted-foreground">
+            {t("builds-description")}
+          </p>
+          <div className="mt-auto flex max-w-full flex-wrap items-center gap-3">
+            <Button
+              asChild
+              variant="outline"
+              className="h-auto min-h-9 max-w-full whitespace-normal text-start text-foreground"
             >
-              {t("checker-docs")}
-            </a>
-          </Button>
-        </div>
-      </section>
+              <Link href={`/builds/apps/${appId}`}>{t("view-builds")}</Link>
+            </Button>
+          </div>
+        </section>
+        <section className="flex min-w-0 flex-col items-start gap-2 sm:border-s sm:border-border sm:ps-6">
+          <div className="flex items-center gap-3">
+            <RefreshCw
+              className="size-5 shrink-0 text-muted-foreground"
+              aria-hidden
+            />
+            <h3 className="text-sm font-semibold">{t("update-checker")}</h3>
+          </div>
+          <p className="max-w-prose text-xs leading-relaxed text-muted-foreground">
+            {t("checker-description")}
+          </p>
+          <div className="mt-auto flex max-w-full flex-wrap items-center gap-x-4 gap-y-1">
+            <Button
+              asChild
+              variant="outline"
+              className="h-auto min-h-9 max-w-full whitespace-normal text-start text-foreground"
+            >
+              <a href={packagingUrl} target="_blank" rel="noreferrer">
+                {t(manifestUrl != null ? "view-manifest" : "view-repository")}
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="link"
+              className="h-auto min-h-7 max-w-full whitespace-normal px-0 text-start text-xs text-foreground underline underline-offset-4"
+            >
+              <a
+                href="https://github.com/flathub-infra/flatpak-external-data-checker#readme"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t("checker-docs")}
+              </a>
+            </Button>
+          </div>
+        </section>
+      </div>
       {isAdmin && <CheckerHealth appId={appId} />}
     </div>
   )

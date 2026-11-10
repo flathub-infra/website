@@ -6,12 +6,16 @@
   "type": "object",
   "properties": {
     "schema_version": { "const": 1 },
+    "checker": { "$ref": "#/$defs/checker", "description": "Checker provenance. Absent in reports from older checker versions." },
     "manifest": { "type": "string", "description": "The absolute path to the input manifest." },
+    "checkout": { "$ref": "#/$defs/checkout" },
+    "skip_reason": { "const": "end-of-life" },
     "started_at": { "type": "string", "format": "date-time" },
     "finished_at": { "type": "string", "format": "date-time" },
     "mode": { "enum": [ "check", "lint" ] },
     "status": { "$ref": "#/$defs/status" },
     "delivery": { "$ref": "#/$defs/delivery" },
+    "pull_request": { "$ref": "#/$defs/pull_request" },
     "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
     "errors": { "type": "array", "items": { "$ref": "#/$defs/error" } },
     "outdated": { "type": "integer", "minimum": 0 },
@@ -20,6 +24,42 @@
   "required": [ "schema_version", "manifest", "started_at", "finished_at", "mode", "status", "delivery", "sources", "errors" ],
   "additionalProperties": false,
   "$defs": {
+    "checkout": {
+      "type": "object",
+      "description": "Packaging checkout before checks or edits. Null fields mean unknown. A detached ordinary checkout has no branch. Runtime worktrees use the discovered branch name. Dirty includes untracked files, excluding submodule contents; a dirty checkout is not fully identified by its commit.",
+      "properties": {
+        "commit": { "type": [ "string", "null" ], "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$" },
+        "branch": { "type": [ "string", "null" ], "minLength": 1 },
+        "dirty": { "type": [ "boolean", "null" ] }
+      },
+      "required": [ "commit", "branch", "dirty" ],
+      "additionalProperties": false
+    },
+    "checker": {
+      "type": "object",
+      "properties": {
+        "revision": { "type": [ "string", "null" ], "pattern": "^([0-9a-f]{40}|[0-9a-f]{64})$" },
+        "source": { "enum": [ "build", "git", "unknown" ] },
+        "dirty": { "type": [ "boolean", "null" ], "description": "Local Git working tree changes, including untracked files. null means not measured, including container builds." }
+      },
+      "required": [ "revision", "source", "dirty" ],
+      "additionalProperties": false,
+      "oneOf": [
+        { "properties": { "source": { "const": "unknown" }, "revision": { "type": "null" }, "dirty": { "type": "null" } } },
+        { "properties": { "source": { "const": "build" }, "revision": { "type": "string" }, "dirty": { "type": "null" } } },
+        { "properties": { "source": { "const": "git" }, "revision": { "type": "string" }, "dirty": { "type": "boolean" } } }
+      ]
+    },
+    "pull_request": {
+      "description": "Last confirmed PR outcome, retained if a later step fails. Omitted when no PR was found or created.",
+      "type": "object",
+      "properties": {
+        "url": { "type": "string", "format": "uri" },
+        "outcome": { "enum": [ "created", "existing_open", "existing_closed", "existing_merged", "merged" ], "description": "created and merged describe actions in this run; existing_* describes an observed state." }
+      },
+      "required": [ "url", "outcome" ],
+      "additionalProperties": false
+    },
     "status": { "enum": [ "completed", "failed", "skipped" ] },
     "delivery": {
       "enum": [ "not_requested", "no_changes", "edited", "committed", "pr_handled", "pending", "failed" ],
@@ -71,9 +111,11 @@
       "type": "object",
       "properties": {
         "branch": { "type": "string" },
+        "checkout": { "$ref": "#/$defs/checkout" },
         "status": { "$ref": "#/$defs/status" },
         "delivery": { "$ref": "#/$defs/delivery" },
-        "skip_reason": { "const": "runtime-end-of-life", "description": "Why the checker skipped this branch." },
+        "pull_request": { "$ref": "#/$defs/pull_request" },
+        "skip_reason": { "enum": [ "end-of-life", "runtime-end-of-life" ], "description": "Why the checker skipped this branch." },
         "runtime_eol": { "type": "array", "items": { "$ref": "#/$defs/runtime_eol" }, "description": "Parent runtime refs with EOL reasons or replacement refs." },
         "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
         "errors": { "type": "array", "items": { "$ref": "#/$defs/error" } },

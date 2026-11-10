@@ -1,7 +1,7 @@
 """Generate report models from the pinned checker artifact schemas.
 
 Upstream: https://github.com/flathub-infra/flatpak-external-data-checker
-Revision: 57312d316ba8a940294932e77a0922d84aa31c2d
+Revision: bcf09566250d3f994bd3f36d61ba5ef4abdbb91d
 Run: python schemas/checker-health/generate.py (from backend/).
 """
 
@@ -13,6 +13,21 @@ from tempfile import TemporaryDirectory
 directory = Path(__file__).resolve().parent
 backend = directory.parents[1]
 report = json.loads((directory / "report.v1.schema.json").read_text())
+# Name provenance variants by source rather than their position in the union.
+checker = report["$defs"]["checker"]
+variants = checker.pop("oneOf")
+checker_refs = []
+for variant in variants:
+    name = f"{variant['properties']['source']['const']}_checker"
+    report["$defs"][name] = {
+        **checker,
+        "properties": {
+            key: value | variant["properties"].get(key, {})
+            for key, value in checker["properties"].items()
+        },
+    }
+    checker_refs.append({"$ref": f"#/$defs/{name}"})
+report["$defs"]["checker"] = {"oneOf": checker_refs}
 state = json.loads((directory / "source-state.v1.schema.json").read_text())
 definitions = state.pop("$defs")
 report["$defs"].update(definitions["source-state"])

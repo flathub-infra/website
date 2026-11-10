@@ -122,6 +122,116 @@ def test_generated_models_accept_versioned_schema_examples(report_validator, kin
     report_validator.validate(parsed.model_dump(mode="json", exclude_unset=True))
 
 
+@pytest.mark.parametrize("runtime", [False, True])
+@pytest.mark.parametrize(
+    "outcome",
+    ["created", "existing_open", "existing_closed", "existing_merged", "merged"],
+)
+def test_checkout_and_pr_evidence_survives_failed_delivery(
+    report_validator, runtime, outcome
+):
+    checkout = {"commit": "a" * 40, "branch": "stable", "dirty": True}
+    pull_request = {
+        "url": "https://github.com/flathub/org.example.App/pull/123",
+        "outcome": outcome,
+    }
+    evidence = {
+        "checkout": checkout,
+        "pull_request": pull_request,
+        "delivery": "failed",
+        "status": "failed",
+        "sources": [source()],
+    }
+    row = observation(
+        1, **({"branches": [{"branch": "stable", **evidence}]} if runtime else evidence)
+    )
+    report_validator.validate(row.report)
+    parsed, raw = parse_archive(archive(row.report))["org.example.App"]
+    report_validator.validate(parsed.model_dump(mode="json", exclude_unset=True))
+    result = summarize([row])
+    branch = result.history[0].branches[0]
+    assert branch.checkout.model_dump() == checkout
+    assert branch.pull_request.model_dump(mode="json") == pull_request
+    assert branch.delivery == "failed"
+    assert len(result.sources) == 1
+    assert result.sources[0].failures == 1
+    assert raw == row.report
+
+
+@pytest.mark.parametrize(
+    "checker",
+    [
+        {"source": "unknown", "revision": None, "dirty": None},
+        {"source": "build", "revision": "b" * 40, "dirty": None},
+        {"source": "git", "revision": "c" * 64, "dirty": False},
+        {"source": "git", "revision": "c" * 40, "dirty": True},
+    ],
+)
+def test_checker_provenance_survives_history(report_validator, checker):
+    row = observation(1, checker=checker)
+    report_validator.validate(row.report)
+    assert summarize([row]).history[0].checker.model_dump() == checker
+
+
+@pytest.mark.parametrize(
+    "checker",
+    [
+        {"source": "unknown", "revision": "a" * 40, "dirty": None},
+        {"source": "build", "revision": None, "dirty": None},
+        {"source": "build", "revision": "a" * 40, "dirty": True},
+        {"source": "git", "revision": "a" * 40, "dirty": None},
+        {"source": "git", "revision": "invalid", "dirty": False},
+    ],
+)
+def test_named_checker_variants_preserve_schema_constraints(report_validator, checker):
+    report = observation(1, checker=checker).report
+    assert not report_validator.is_valid(report)
+    with pytest.raises(ValueError):
+        CheckerReport.model_validate(report)
+
+
+@pytest.mark.parametrize("runtime", [False, True])
+def test_end_of_life_skips_preserve_failures(report_validator, runtime):
+    evidence = {
+        "status": "skipped",
+        "skip_reason": "end-of-life",
+        "checkout": {"commit": None, "branch": None, "dirty": None},
+    }
+    row = observation(
+        2, **({"branches": [{"branch": "stable", **evidence}]} if runtime else evidence)
+    )
+    report_validator.validate(row.report)
+    parse_archive(archive(row.report))
+    result = summarize([observation(1, [source()]), row])
+    assert result.sources[0].failures == 1
+    assert result.last_check_at.day == 1
+    branch = result.history[0].branches[0]
+    assert branch.skip_reason == "end-of-life"
+    assert branch.checkout.dirty is None
+
+
+def test_branch_only_runtime_reports_match_legacy_aggregates(report_validator):
+    error = {"type": "ManifestError", "message": "Missing source", "branch": "stable"}
+    branch = {
+        "branch": "stable",
+        "status": "failed",
+        "sources": [source()],
+        "errors": [error],
+    }
+    current = observation(1, branches=[branch])
+    legacy = observation(
+        1, [source(branch="stable")], errors=[error], branches=[branch]
+    )
+    for row in (current, legacy):
+        report_validator.validate(row.report)
+        parse_archive(archive(row.report))
+    result = summarize([current])
+    assert result == summarize([legacy])
+    assert len(result.sources) == 1
+    assert len(result.diagnostics) == 1
+    assert result.diagnostics[0].observations == 1
+
+
 def test_runtime_eol_evidence_survives_report_history(report_validator):
     evidence = {
         "ref": "runtime/org.example.Platform/x86_64/1",

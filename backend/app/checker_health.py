@@ -7,7 +7,15 @@ from datetime import UTC, datetime
 
 from pydantic import BaseModel, Field
 
-from .checker_report import CheckerReport, RuntimeEol
+from .checker_report import (
+    BuildChecker,
+    CheckerReport,
+    Checkout,
+    GitChecker,
+    PullRequest,
+    RuntimeEol,
+    UnknownChecker,
+)
 from .checker_report import Error as CheckerError
 from .checker_report import Source as CheckerSource
 from .models import CheckerHealthObservation
@@ -15,6 +23,8 @@ from .models import CheckerHealthObservation
 
 class CheckerBranch(BaseModel):
     branch: str | None = None
+    checkout: Checkout | None = None
+    pull_request: PullRequest | None = None
     status: str
     delivery: str | None = None
     skip_reason: str | None = None
@@ -41,6 +51,8 @@ class CheckerRun(BaseModel):
     run_url: str
     status: str
     delivery: str | None
+    checker: UnknownChecker | BuildChecker | GitChecker | None = None
+    checkout: Checkout | None = None
     branches: list[CheckerBranch]
 
 
@@ -86,7 +98,7 @@ def source_identity(
 
 
 def report_branches(report: CheckerReport) -> list[CheckerBranch]:
-    # The aggregate's sources and errors repeat the per-branch evidence.
+    # Older aggregates repeat per-branch evidence at the top level.
     if report.branches:
         branches = [
             CheckerBranch.model_validate(b.model_dump()) for b in report.branches
@@ -128,6 +140,8 @@ def summarize(
                 run_url=run_url,
                 status=report.status,
                 delivery=report.delivery,
+                checker=report.checker,
+                checkout=report.checkout,
                 branches=[
                     branch.model_copy(update={"sources": []}) for branch in branches
                 ],

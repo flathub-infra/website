@@ -4,7 +4,29 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import AwareDatetime, BaseModel, ConfigDict, Field
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field
+
+
+class Checkout(BaseModel):
+    model_config = ConfigDict(
+        extra="ignore",
+    )
+    commit: str | None = Field(..., pattern="^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
+    branch: str | None = Field(..., min_length=1)
+    dirty: bool | None
+
+
+class PullRequest(BaseModel):
+    model_config = ConfigDict(
+        extra="ignore",
+    )
+    url: AnyUrl
+    outcome: Literal[
+        "created", "existing_open", "existing_closed", "existing_merged", "merged"
+    ] = Field(
+        ...,
+        description="created and merged describe actions in this run; existing_* describes an observed state.",
+    )
 
 
 class Error(BaseModel):
@@ -23,6 +45,42 @@ class RuntimeEol(BaseModel):
     ref: str
     end_of_life: str | None
     end_of_life_rebase: str | None
+
+
+class UnknownChecker(BaseModel):
+    model_config = ConfigDict(
+        extra="ignore",
+    )
+    revision: None
+    source: Literal["unknown"]
+    dirty: None = Field(
+        ...,
+        description="Local Git working tree changes, including untracked files. null means not measured, including container builds.",
+    )
+
+
+class BuildChecker(BaseModel):
+    model_config = ConfigDict(
+        extra="ignore",
+    )
+    revision: str = Field(..., pattern="^([0-9a-f]{40}|[0-9a-f]{64})$")
+    source: Literal["build"]
+    dirty: None = Field(
+        ...,
+        description="Local Git working tree changes, including untracked files. null means not measured, including container builds.",
+    )
+
+
+class GitChecker(BaseModel):
+    model_config = ConfigDict(
+        extra="ignore",
+    )
+    revision: str = Field(..., pattern="^([0-9a-f]{40}|[0-9a-f]{64})$")
+    source: Literal["git"]
+    dirty: bool = Field(
+        ...,
+        description="Local Git working tree changes, including untracked files. null means not measured, including container builds.",
+    )
 
 
 class Checksum(BaseModel):
@@ -117,6 +175,7 @@ class Branch(BaseModel):
         extra="ignore",
     )
     branch: str
+    checkout: Checkout | None = None
     status: Literal["completed", "failed", "skipped"]
     delivery: Literal[
         "not_requested",
@@ -130,7 +189,8 @@ class Branch(BaseModel):
         ...,
         description="The update outcome, separate from source checks. pr_handled covers new and existing PRs.",
     )
-    skip_reason: Literal["runtime-end-of-life"] | None = Field(
+    pull_request: PullRequest | None = None
+    skip_reason: Literal["end-of-life", "runtime-end-of-life"] | None = Field(
         None, description="Why the checker skipped this branch."
     )
     runtime_eol: list[RuntimeEol] | None = Field(
@@ -146,7 +206,13 @@ class CheckerReport(BaseModel):
         extra="ignore",
     )
     schema_version: Literal[1]
+    checker: UnknownChecker | BuildChecker | GitChecker | None = Field(
+        None,
+        description="Checker provenance. Absent in reports from older checker versions.",
+    )
     manifest: str = Field(..., description="The absolute path to the input manifest.")
+    checkout: Checkout | None = None
+    skip_reason: Literal["end-of-life"] | None = None
     started_at: AwareDatetime
     finished_at: AwareDatetime
     mode: Literal["check", "lint"]
@@ -163,6 +229,7 @@ class CheckerReport(BaseModel):
         ...,
         description="The update outcome, separate from source checks. pr_handled covers new and existing PRs.",
     )
+    pull_request: PullRequest | None = None
     sources: list[Source]
     errors: list[Error]
     outdated: int | None = Field(None, ge=0)
