@@ -66,6 +66,13 @@ def _verdict(
     )
 
 
+def _canonical(path: tuple[str, ...], item: str) -> str:
+    if path != ("Context", "filesystems"):
+        return item
+    name, _, mode = item.rpartition(":")
+    return name if name and mode == "rw" else item
+
+
 def _group_tokens(
     path: tuple[str, ...],
     left: list[str],
@@ -76,24 +83,27 @@ def _group_tokens(
 ) -> set[tuple[int, str]] | None:
     if rule.removed is None or rule.added is None:
         return None
-    if not set(rule.required or []) <= set(left) & set(right):
+    rule_removed = [_canonical(path, item) for item in rule.removed]
+    rule_added = [_canonical(path, item) for item in rule.added]
+    rule_required = [_canonical(path, item) for item in rule.required or []]
+    if not set(rule_required) <= set(left) & set(right):
         return None
-    if not set(rule.removed) <= removed or not set(rule.added) <= added:
+    if not set(rule_removed) <= removed or not set(rule_added) <= added:
         return None
     if path[0] == "Context":
         names = {
             permission_snapshot._context_entry_name(path[1], item)
-            for item in (*rule.removed, *rule.added)
+            for item in (*rule_removed, *rule_added)
         }
         if None in names or any(
             permission_snapshot._context_entry_name(path[1], item) in names
             and item not in endpoints
-            and item not in (rule.required or [])
-            for items, endpoints in ((left, rule.removed), (right, rule.added))
+            and item not in rule_required
+            for items, endpoints in ((left, rule_removed), (right, rule_added))
             for item in items
         ):
             return None
-    return {(0, item) for item in rule.removed} | {(1, item) for item in rule.added}
+    return {(0, item) for item in rule_removed} | {(1, item) for item in rule_added}
 
 
 def evaluate(
@@ -118,6 +128,8 @@ def evaluate(
             ):
                 complete = False
                 continue
+            left = [_canonical(path, item) for item in left]
+            right = [_canonical(path, item) for item in right]
             left_entries, right_entries = set(left), set(right)
             if len(left_entries) != len(left) or len(right_entries) != len(right):
                 complete = False
@@ -128,20 +140,26 @@ def evaluate(
             covered: set[tuple[int, str]] = set()
             grouped: set[tuple[int, str]] = set()
             for rule in candidates:
+                before_item = (
+                    None if rule.before is None else _canonical(path, rule.before)
+                )
+                value_item = (
+                    None if rule.value is None else _canonical(path, rule.value)
+                )
                 if rule.match_type == "grouped-delta":
                     tokens = _group_tokens(path, left, right, removed, added, rule)
                     if tokens is None:
                         continue
                 elif rule.match_type == "transition":
-                    if (rule.before is not None and rule.before not in removed) or (
-                        rule.value is not None and rule.value not in added
+                    if (before_item is not None and before_item not in removed) or (
+                        value_item is not None and value_item not in added
                     ):
                         continue
                     tokens = (
-                        {(0, rule.before)} if rule.before is not None else set()
-                    ) | ({(1, rule.value)} if rule.value is not None else set())
-                elif rule.match_type == "destination" and rule.value in added:
-                    tokens = {(1, rule.value)}
+                        {(0, before_item)} if before_item is not None else set()
+                    ) | ({(1, value_item)} if value_item is not None else set())
+                elif rule.match_type == "destination" and value_item in added:
+                    tokens = {(1, value_item)}
                 else:
                     continue
                 if rule.decision == "rejected":

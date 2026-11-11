@@ -93,6 +93,22 @@ class PermissionRuleInput(BaseModel):
             for endpoint in (self.before, self.value)
         ):
             raise ValueError("Bus policy endpoints need a none, see, talk or own value")
+        if (
+            self.permission_group == "Context"
+            and self.key == "filesystems"
+            and any(
+                entry.rpartition(":")[0] and entry.rpartition(":")[2] == "rw"
+                for entry in (
+                    *(e for e in (self.before, self.value) if e is not None),
+                    *(self.removed or []),
+                    *(self.added or []),
+                    *self.required,
+                )
+            )
+        ):
+            raise ValueError(
+                "Filesystem rules use the bare path; :rw is the default mode"
+            )
         return self
 
 

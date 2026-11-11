@@ -488,6 +488,7 @@ def rule_input(name, decision="approved", **changes):
         {"match_type": "transition", "before": "all"},
         {"match_type": "transition", "before": ""},
         {"match_type": "transition", "before": "talk", "value": ""},
+        {"permission_group": "Context", "key": "filesystems", "value": "foo:rw"},
     ],
 )
 def test_rule_input_validation(changes):

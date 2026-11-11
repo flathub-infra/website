@@ -195,6 +195,63 @@ def test_destination_rule_does_not_cover_replacement_removal():
 
 
 @pytest.mark.parametrize(
+    ("decision", "match_type", "source", "destination", "before", "after", "expected"),
+    [
+        (
+            "rejected",
+            "destination",
+            None,
+            "xdg-run/app/com.discordapp.Discord",
+            [],
+            ["xdg-run/app/com.discordapp.Discord:rw"],
+            "rejected",
+        ),
+        (
+            "approved",
+            "transition",
+            "xdg-run/pipewire-0",
+            "xdg-run/pipewire-0:ro",
+            ["xdg-run/pipewire-0:rw"],
+            ["xdg-run/pipewire-0:ro"],
+            "approved",
+        ),
+        ("approved", "destination", None, "home", ["home"], ["home:rw"], None),
+        ("approved", "destination", None, "home", [], ["home", "home:rw"], None),
+        (
+            "approved",
+            "destination",
+            None,
+            "xdg-run/pipewire-0:ro",
+            ["xdg-run/pipewire-0:rw"],
+            ["xdg-run/pipewire-0:ro"],
+            None,
+        ),
+        ("approved", "grouped-delta", ["x:rw"], ["x:ro"], ["x"], ["x:ro"], "approved"),
+    ],
+)
+def test_bare_and_rw_filesystem_entries_match_alike(
+    decision, match_type, source, destination, before, after, expected
+):
+    if match_type == "grouped-delta":
+        candidate = rule(
+            4, decision, "filesystems", None, group="Context", match_type=match_type
+        )
+        candidate.removed, candidate.added = source, destination
+    else:
+        candidate = rule(
+            4,
+            decision,
+            "filesystems",
+            destination,
+            group="Context",
+            match_type=match_type,
+            before=source,
+        )
+    verdict = evaluate([change(["Context", "filesystems"], before, after)], [candidate])
+    assert (verdict.decision if verdict else None) == expected
+
+
+@pytest.mark.parametrize(
     "before,after", [("own", "talk"), ("talk", None), (None, "talk")]
 )
 def test_exact_bus_transition_and_rejection_precedence(before, after):
