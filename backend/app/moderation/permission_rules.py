@@ -73,37 +73,49 @@ def _canonical(path: tuple[str, ...], item: str) -> str:
     return name if name and mode == "rw" else item
 
 
-def _group_tokens(
+def _endpoints(
+    path: tuple[str, ...], rule: models.PermissionRule
+) -> tuple[list[str], list[str], list[str]] | None:
+    if rule.match_type == "grouped-delta":
+        if rule.removed is None or rule.added is None:
+            return None
+        removed, added, required = rule.removed, rule.added, rule.required or []
+    elif rule.match_type == "transition":
+        removed = [] if rule.before is None else [rule.before]
+        added = [] if rule.value is None else [rule.value]
+        required = []
+    elif rule.match_type == "destination" and rule.value is not None:
+        removed, added, required = [], [rule.value], []
+    else:
+        return None
+    return (
+        [_canonical(path, item) for item in removed],
+        [_canonical(path, item) for item in added],
+        [_canonical(path, item) for item in required],
+    )
+
+
+def _unambiguous(
     path: tuple[str, ...],
     left: list[str],
     right: list[str],
-    removed: set[str],
-    added: set[str],
-    rule: models.PermissionRule,
-) -> set[tuple[int, str]] | None:
-    if rule.removed is None or rule.added is None:
-        return None
-    rule_removed = [_canonical(path, item) for item in rule.removed]
-    rule_added = [_canonical(path, item) for item in rule.added]
-    rule_required = [_canonical(path, item) for item in rule.required or []]
-    if not set(rule_required) <= set(left) & set(right):
-        return None
-    if not set(rule_removed) <= removed or not set(rule_added) <= added:
-        return None
-    if path[0] == "Context":
-        names = {
-            permission_snapshot._context_entry_name(path[1], item)
-            for item in (*rule_removed, *rule_added)
-        }
-        if None in names or any(
-            permission_snapshot._context_entry_name(path[1], item) in names
-            and item not in endpoints
-            and item not in rule_required
-            for items, endpoints in ((left, rule_removed), (right, rule_added))
-            for item in items
-        ):
-            return None
-    return {(0, item) for item in rule_removed} | {(1, item) for item in rule_added}
+    removed: list[str],
+    added: list[str],
+    required: list[str],
+) -> bool:
+    if path[0] != "Context":
+        return True
+    names = {
+        permission_snapshot._context_entry_name(path[1], item)
+        for item in (*removed, *added)
+    }
+    return None not in names and not any(
+        permission_snapshot._context_entry_name(path[1], item) in names
+        and item not in endpoints
+        and item not in required
+        for items, endpoints in ((left, removed), (right, added))
+        for item in items
+    )
 
 
 def evaluate(
@@ -140,35 +152,30 @@ def evaluate(
             covered: set[tuple[int, str]] = set()
             grouped: set[tuple[int, str]] = set()
             for rule in candidates:
-                before_item = (
-                    None if rule.before is None else _canonical(path, rule.before)
-                )
-                value_item = (
-                    None if rule.value is None else _canonical(path, rule.value)
-                )
-                if rule.match_type == "grouped-delta":
-                    tokens = _group_tokens(path, left, right, removed, added, rule)
-                    if tokens is None:
-                        continue
-                elif rule.match_type == "transition":
-                    if (before_item is not None and before_item not in removed) or (
-                        value_item is not None and value_item not in added
-                    ):
-                        continue
-                    tokens = (
-                        {(0, before_item)} if before_item is not None else set()
-                    ) | ({(1, value_item)} if value_item is not None else set())
-                elif rule.match_type == "destination" and value_item in added:
-                    tokens = {(1, value_item)}
-                else:
+                endpoints = _endpoints(path, rule)
+                if endpoints is None:
+                    continue
+                rule_removed, rule_added, rule_required = endpoints
+                grouped_rule = rule.match_type == "grouped-delta"
+                if (
+                    not set(rule_required) <= left_entries & right_entries
+                    or not set(rule_removed) <= removed
+                    or not set(rule_added) <= added
+                    or grouped_rule
+                    and not _unambiguous(
+                        path, left, right, rule_removed, rule_added, rule_required
+                    )
+                ):
                     continue
                 if rule.decision == "rejected":
                     rejecting.append(rule)
-                else:
-                    approving.append(rule)
-                    covered.update(tokens)
-                    if rule.match_type == "grouped-delta":
-                        grouped.update(tokens)
+                    continue
+                tokens = {(0, item) for item in rule_removed}
+                tokens |= {(1, item) for item in rule_added}
+                approving.append(rule)
+                covered |= tokens
+                if grouped_rule:
+                    grouped |= tokens
             for side, items in enumerate((left, right)):
                 remaining = [item for item in items if (side, item) not in grouped]
                 names = (

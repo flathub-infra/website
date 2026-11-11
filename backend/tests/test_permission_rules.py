@@ -1,5 +1,7 @@
+import json
 import os
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -8,6 +10,10 @@ sys.path.append(ROOT_DIR)
 
 from app import models
 from app.moderation.permission_rules import evaluate
+
+HISTORY = json.loads(
+    (Path(__file__).parent / "data" / "permission_rule_history.json").read_text()
+)
 
 SESSION = "Session Bus Policy"
 TRAY = "org.kde.StatusNotifierWatcher"
@@ -527,3 +533,34 @@ def test_device_delta_requires_dri_and_input_unchanged(before):
 )
 def test_reordering_does_not_block_covered_grants(differences):
     assert evaluate(differences, RULES).decision == "approved"
+
+
+def history_rule(fields, enabled=None):
+    return models.PermissionRule(
+        **{name: value for name, value in fields.items() if name != "enabled"},
+        rationale=f"rule {fields['id']}",
+        enabled=fields.get("enabled", True) if enabled is None else enabled,
+    )
+
+
+def outcome(verdict):
+    return (
+        None
+        if verdict is None
+        else [verdict.decision, [r["id"] for r in verdict.rules]]
+    )
+
+
+@pytest.mark.parametrize(
+    "case", HISTORY["cases"], ids=lambda case: str(case["assessment_id"])
+)
+def test_recorded_assessments_keep_their_verdicts(case):
+    differences = case["differences"]
+    rules = [history_rule(fields) for fields in HISTORY["rules"]]
+    assert outcome(evaluate(differences, rules)) == case["all_rules"]
+    single = {
+        str(fields["id"]): result
+        for fields in HISTORY["rules"]
+        if (result := outcome(evaluate(differences, [history_rule(fields, True)])))
+    }
+    assert single == case["single_rule"]
