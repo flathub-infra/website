@@ -10,6 +10,7 @@ import type { CheckerBranchDelivery } from "./checkerBranchDelivery"
 import type { CheckerBranchPullRequest } from "./checkerBranchPullRequest"
 import type { CheckerBranchRuntimeEol } from "./checkerBranchRuntimeEol"
 import type { CheckerBranchSkipReason } from "./checkerBranchSkipReason"
+import type { CheckerBranchSubmodules } from "./checkerBranchSubmodules"
 import type { Error } from "./error"
 import type { Source } from "./source"
 
@@ -22,5 +23,6 @@ export interface CheckerBranch {
   skip_reason?: CheckerBranchSkipReason
   runtime_eol?: CheckerBranchRuntimeEol
   sources?: Source[]
+  submodules?: CheckerBranchSubmodules
   errors?: Error[]
 }
