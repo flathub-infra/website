@@ -1,4 +1,3 @@
-import io
 import json
 import logging
 import re
@@ -11,6 +10,7 @@ from pydantic import JsonValue
 from sqlalchemy.dialects.postgresql import insert
 
 from . import models
+from .checker_archive import MAX_ARCHIVE_SIZE, open_checker_archive
 from .checker_health import CheckerReport, report_branches, source_identity, utc
 from .checker_selection import SELECTION_NAME, parse_selection
 from .config import settings
@@ -21,9 +21,6 @@ logger = logging.getLogger(__name__)
 API = "https://api.github.com/repos/flathub/flathub"
 ARTIFACT_NAME = re.compile(r"checker-health-(\d+)-(\d+)(?:-(\d+))?$")
 REPORT_NAME = re.compile(r"[A-Za-z0-9_-][A-Za-z0-9._-]*\.json$")
-MAX_ARCHIVE_SIZE = 64 * 1024 * 1024
-MAX_REPORT_SIZE = 16 * 1024 * 1024
-MAX_EXPANDED_SIZE = 256 * 1024 * 1024
 
 
 class ArtifactWorkflowRun(TypedDict):
@@ -86,23 +83,9 @@ def download_archive(client: httpx.Client, artifact_id: int) -> bytes:
 
 def parse_archive(content: bytes) -> ParsedReports:
     reports: ParsedReports = {}
-    if len(content) > MAX_ARCHIVE_SIZE:
-        raise ValueError("Checker artifact exceeds download limit")
-    with zipfile.ZipFile(io.BytesIO(content)) as archive:
-        entries = archive.infolist()
-        if (
-            len(entries) > 20000
-            or sum(entry.file_size for entry in entries) > MAX_EXPANDED_SIZE
-        ):
-            raise ValueError("Checker artifact exceeds expanded size limit")
-        for entry in entries:
-            if (
-                entry.is_dir()
-                or entry.flag_bits & 1
-                or entry.compress_type not in (zipfile.ZIP_STORED, zipfile.ZIP_DEFLATED)
-                or not REPORT_NAME.fullmatch(entry.filename)
-                or entry.file_size > MAX_REPORT_SIZE
-            ):
+    with open_checker_archive(content) as archive:
+        for entry in archive.infolist():
+            if entry.is_dir() or not REPORT_NAME.fullmatch(entry.filename):
                 raise ValueError("Invalid checker report entry")
             app_id = entry.filename.removesuffix(".json")
             if app_id in reports:

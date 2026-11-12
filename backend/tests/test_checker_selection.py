@@ -9,8 +9,8 @@ import pytest
 import test_checker_health as health_tests
 from test_checker_health import archive, observation
 
+from app import checker_archive, models
 from app import checker_health_ingestion as ingestion
-from app import models
 from app.checker_selection import load_selection, parse_selection, selection_coverage
 
 health_db = health_tests.health_db
@@ -310,7 +310,7 @@ def test_listing_digest_duplicates_and_file_count_limits(monkeypatch):
         z.writestr("listing.json", "[]")
     with pytest.raises(ValueError, match="Duplicate"):
         parse_selection(buf.getvalue(), "checker-selection-42-1-0")
-    monkeypatch.setattr(ingestion, "MAX_REPORT_SIZE", 1)
+    monkeypatch.setattr(checker_archive, "MAX_REPORT_SIZE", 1)
     with pytest.raises(ValueError):
         parse_selection(selection_archive(), "checker-selection-42-1-0")
 
@@ -367,6 +367,36 @@ def test_selection_archive_file_count_is_bounded():
             z.writestr(f"repositories/repo-app{index}.json", "")
     with pytest.raises(ValueError, match="expanded limits"):
         parse_selection(buf.getvalue(), "checker-selection-42-1-0")
+
+
+@pytest.mark.parametrize("kind", ["health", "selection"])
+@pytest.mark.parametrize(
+    "limit", ["MAX_ARCHIVE_SIZE", "MAX_EXPANDED_SIZE", "MAX_REPORT_SIZE"]
+)
+def test_both_artifact_formats_enforce_shared_size_limits(monkeypatch, kind, limit):
+    content = (
+        archive(observation(1).report) if kind == "health" else selection_archive()
+    )
+    monkeypatch.setattr(checker_archive, limit, 1)
+    with pytest.raises(ValueError):
+        if kind == "health":
+            ingestion.parse_archive(content)
+        else:
+            parse_selection(content, "checker-selection-42-1-0")
+
+
+@pytest.mark.parametrize("kind", ["health", "selection"])
+def test_both_artifact_formats_reject_unsupported_compression(kind):
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", compression=zipfile.ZIP_BZIP2) as z:
+        z.writestr(
+            "org.example.App.json" if kind == "health" else "inventory.json", "{}"
+        )
+    with pytest.raises(ValueError, match="Unsupported checker archive entry"):
+        if kind == "health":
+            ingestion.parse_archive(buf.getvalue())
+        else:
+            parse_selection(buf.getvalue(), "checker-selection-42-1-0")
 
 
 def test_health_shard_and_dirty_checkout_never_join_unrelated_reports():

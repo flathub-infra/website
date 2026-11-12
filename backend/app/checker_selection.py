@@ -1,15 +1,15 @@
 """Selection evidence is independent of checker source results."""
 
 import hashlib
-import io
 import json
 import re
-import zipfile
 from collections import Counter
 from datetime import UTC, datetime, timedelta
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, JsonValue
+
+from .checker_archive import open_checker_archive
 
 REPOSITORY = r"[A-Za-z0-9._-]+"
 SELECTION_NAME = re.compile(r"checker-selection-(\d+)-(\d+)-(\d+)$")
@@ -87,33 +87,15 @@ class Inventory(Evidence):
 def parse_selection(
     content: bytes, name: str
 ) -> tuple[dict[str, JsonValue], list[JsonValue], dict[str, JsonValue]]:
-    from .checker_health_ingestion import (
-        MAX_ARCHIVE_SIZE,
-        MAX_EXPANDED_SIZE,
-        MAX_REPORT_SIZE,
-    )
-
-    if len(content) > MAX_ARCHIVE_SIZE:
-        raise ValueError("Selection archive exceeds download limit")
-    with zipfile.ZipFile(io.BytesIO(content)) as archive:
+    with open_checker_archive(content) as archive:
         entries = archive.infolist()
-        if (
-            len(entries) > 20000
-            or sum(e.file_size for e in entries) > MAX_EXPANDED_SIZE
-        ):
-            raise ValueError("Selection archive exceeds expanded limits")
         names = [e.filename for e in entries]
         if len(names) != len(set(names)):
             raise ValueError("Duplicate selection archive entry")
         for entry in entries:
             if entry.filename == "repositories/" and entry.is_dir():
                 continue
-            if entry.flag_bits & 1 or entry.compress_type not in (
-                zipfile.ZIP_STORED,
-                zipfile.ZIP_DEFLATED,
-            ):
-                raise ValueError("Unsupported selection ZIP entry")
-            if entry.file_size > MAX_REPORT_SIZE or not (
+            if not (
                 entry.filename
                 in ("inventory.json", "listing.json", "inactive-repos.txt")
                 or re.fullmatch(
