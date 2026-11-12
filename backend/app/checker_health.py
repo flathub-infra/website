@@ -137,6 +137,16 @@ def summarize(
         )
     for row in observations:
         report = CheckerReport.model_validate(row.report)
+        identity = (
+            row.run_id,
+            row.run_attempt,
+            hashlib.sha256(
+                json.dumps(report.model_dump(mode="json"), sort_keys=True).encode()
+            ).digest(),
+        )
+        if identity in seen_reports:
+            continue
+        seen_reports.add(identity)
         at = utc(report.finished_at)
         run_url = f"https://github.com/flathub/flathub/actions/runs/{row.run_id}/attempts/{row.run_attempt}"
         branches = report_branches(report)
@@ -154,16 +164,6 @@ def summarize(
                 ],
             )
         )
-        identity = (
-            row.run_id,
-            row.run_attempt,
-            hashlib.sha256(
-                json.dumps(report.model_dump(mode="json"), sort_keys=True).encode()
-            ).digest(),
-        )
-        if identity in seen_reports:
-            continue
-        seen_reports.add(identity)
         seen = set()
         for branch_index, branch in enumerate(branches):
             for error in {

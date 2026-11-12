@@ -385,7 +385,31 @@ def test_duplicate_artifacts_do_not_inflate_source_failure_history():
     duplicate.artifact_id = 99
     result = summarize([first, duplicate])
     assert result.sources[0].failures == 1
+    assert len(result.history) == 1
+
+
+@pytest.mark.parametrize("ordered", [False, True])
+def test_duplicate_reports_do_not_evict_distinct_history(ordered):
+    rows = [observation(day, [source()]) for day in range(1, 22)]
+    for artifact_id in range(100, 125):
+        duplicate = observation(21, [source()])
+        duplicate.artifact_id = artifact_id
+        rows.append(duplicate)
+    result = summarize(rows, ordered=ordered)
+    assert len(result.history) == 20
+    assert {run.observed_at.day for run in result.history} == set(range(2, 22))
+    assert result.sources[0].failures == 21
+    assert result.last_report_at.day == 21
+
+
+def test_identical_report_in_another_attempt_is_kept():
+    first = observation(1, [source()])
+    retry = observation(1, [source()])
+    retry.artifact_id = 99
+    retry.run_attempt = first.run_attempt + 1
+    result = summarize([first, retry])
     assert len(result.history) == 2
+    assert result.sources[0].failures == 2
 
 
 @pytest.mark.parametrize(
