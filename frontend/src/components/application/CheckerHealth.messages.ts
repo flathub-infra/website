@@ -4,6 +4,83 @@ export const checkerHealthText = createTranslator({
   locale: "en",
   messages: {
     title: "Update check health",
+    "selection-title": "Repository selection",
+    "selection-open-run": "Selection run",
+    "selection-exit-report-note":
+      "Exit 0 describes the process, not the completeness of its checks.",
+    "selection-shard-progress": "{received}/{expected} shards",
+    "selection-complete": "Inventory complete",
+    "selection-incomplete": "Inventory incomplete",
+    "selection-unknown": "Inventory unknown",
+    "selection-stale": "Inventory older than two days",
+    "selection-decision": "Selection decision",
+    "selection-invocation": "Checker invocation",
+    "selection-report": "Health report",
+    "selection-no-decision":
+      "No unambiguous selection decision is available. Missing evidence does not mean it was excluded or healthy.",
+    "selection-selected": "Selected",
+    "selection-excluded": "Excluded",
+    "selection-error": "Selection error",
+    "selection-pending": "Pending",
+    "selection-no_checker_marker": "No checker marker found",
+    "selection-archived": "Archived repository",
+    "selection-checker_disabled": "Checker disabled by repository",
+    "selection-inactive": "Inactive repository",
+    "selection-end_of_life": "End of life",
+    "selection-manifest_not_found": "Manifest not found",
+    "selection-clone_failed": "Repository clone failed",
+    "selection-marker_scan_failed": "Checker marker scan failed",
+    "selection-invalid_flathub_json": "Invalid flathub.json",
+    "selection-succeeded": "Exited successfully",
+    "selection-outdated_only": "Outdated-only exit",
+    "selection-failed": "Nonzero failure exit",
+    "selection-selection_error": "Selection failed before invocation",
+    "selection-not_started": "Not started",
+    "selection-exit-code": "Exit code: {code}",
+    "selection-report-available": "Imported and checkout matched",
+    "selection-report-pending": "Awaiting completion or import",
+    "selection-report-not_expected": "Not expected",
+    "selection-report-missing": "Selected, but report missing",
+    "selection-report-invalid": "Checker produced invalid JSON",
+    "selection-report-invalid_or_unsupported": "Report invalid or unsupported",
+    "selection-report-artifact_unavailable":
+      "Expected report artifact not imported",
+    "selection-report-checkout_unverified":
+      "Report checkout could not be matched",
+    "selection-report-ambiguous": "Conflicting report evidence",
+    "selection-report-conflicting_inventory":
+      "Report conflicts with selection inventory",
+    "selection-report-incomplete": "Run ended before processing completed",
+    "selection-selection_unavailable":
+      "No selection inventory imported for this run.",
+    "selection-missing_shards": "Some selection shards are missing.",
+    "selection-duplicate_shards":
+      "Multiple artifacts claim the same selection shard.",
+    "selection-listing_drift":
+      "Repository listings differ. A shared denominator is unavailable.",
+    "selection-inconsistent_provenance":
+      "Selection shards have conflicting provenance.",
+    "selection-processing_incomplete":
+      "Repository listing or processing did not complete.",
+    "selection-run_in_progress": "Workflow completion has not been confirmed.",
+    "selection-duplicate_repositories":
+      "A repository appears in multiple selection shards.",
+    "selection-missing_decisions": "Some listed repositories have no decision.",
+    "selection-pending_decisions":
+      "Some selection decisions are still pending.",
+    "selection-inventory_error": "Selection exited with an error.",
+    "selection-invocation_incomplete":
+      "Some selected invocations have no final outcome.",
+    "selection-expired": "A selection artifact expired before import.",
+    "selection-invalid_or_unsupported":
+      "Selection artifact invalid or unsupported.",
+    "selection-inventory-details": "Inventory scope and provenance",
+    "selection-public_organization": "Public organization inventory",
+    "selection-target_request": "Targeted request, not organization-wide",
+    "selection-repositories": "Repositories in listing: {count}",
+    "selection-provenance": "Raw selection provenance",
+    coverage:
+      "Selection inventories describe repository decisions and invocation outcomes. Health reports describe checked sources. Missing evidence leaves coverage unknown.",
     "summary-failures":
       "{count, plural, one {# source has an unresolved failure} other {# sources have unresolved failures}}",
     "summary-no-failures": "No unresolved source failures",

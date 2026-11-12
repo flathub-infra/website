@@ -4,7 +4,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 import type { CheckerHealth as Health } from "src/codegen/model"
 import CheckerHealth from "./CheckerHealth"
 import { checkerSource, checkerSubmodule } from "./CheckerHealth.fixtures"
-import messages from "../../../public/locales/en/common.json"
 
 const query = vi.hoisted(() => ({
   isPending: false,
@@ -15,16 +14,9 @@ vi.mock("src/codegen/checker-health/checker-health", () => ({
   useGetCheckerHealthAppsAppIdCheckerHealthGet: () => query,
 }))
 
-function render(
-  locale = "en",
-  selectionMessages = messages["checker-selection"],
-) {
+function render(locale = "en") {
   return renderToStaticMarkup(
-    <NextIntlClientProvider
-      locale={locale}
-      messages={{ "checker-selection": selectionMessages }}
-      timeZone="UTC"
-    >
+    <NextIntlClientProvider locale={locale} messages={{}} timeZone="UTC">
       <CheckerHealth appId="org.example.App" />
     </NextIntlClientProvider>,
   )
@@ -77,15 +69,8 @@ describe("checker health evidence", () => {
       expect(render()).not.toContain("Submodule updates")
     },
   )
-  it("uses locale-provided selection messages", () => {
-    const html = render("de", {
-      ...messages["checker-selection"],
-      "selection-title": "Repository-Auswahl",
-      "selection-unknown": "Inventar unbekannt",
-    })
-    expect(html).toContain("Repository-Auswahl")
-    expect(html).toContain("Inventar unbekannt")
-    expect(html).not.toContain("Inventory unknown")
+  it("keeps internal selection copy available without translation messages", () => {
+    expect(render("de")).toContain("Inventory unknown")
   })
   it("keeps successful invocation separate from a failed health report", () => {
     query.data.data.selection = {
@@ -110,8 +95,14 @@ describe("checker health evidence", () => {
     }
     const html = render()
     expect(html).toContain("Exited successfully")
-    expect(html).toContain("Report failed")
+    expect(html).toContain("Failed")
     expect(html).toContain("Exit code: 0")
+    query.data.data.selection.report_state = "invalid_or_unsupported"
+    query.data.data.selection.report_status = null
+    const rejected = render()
+    expect(rejected).toContain("Report invalid or unsupported")
+    expect(rejected).toContain("Exited successfully")
+    expect(rejected).not.toContain("Imported and checkout matched")
   })
 
   it("shows selection errors without requiring a health report and escapes artifact text", () => {

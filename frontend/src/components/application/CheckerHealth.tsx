@@ -1,6 +1,6 @@
 "use client"
 
-import { useFormatter, useTranslations } from "next-intl"
+import { useFormatter } from "next-intl"
 import { checkerHealthText as t } from "./CheckerHealth.messages"
 import CheckerSelection from "./CheckerSelection"
 import { useId, useState, type ReactNode } from "react"
@@ -790,7 +790,6 @@ function SubmoduleUpdates({ updates }: { updates?: Submodule[] | null }) {
 }
 
 function ReportDetails({ data }: { data: Health }) {
-  const selectionText = useTranslations("checker-selection")
   const date = useCheckDate()
   return (
     <div className="divide-y divide-border border-t border-border">
@@ -969,7 +968,7 @@ function ReportDetails({ data }: { data: Health }) {
       <details className={detailsClass}>
         <DisclosureTitle>{t("about-reports")}</DisclosureTitle>
         <div className="flex max-w-prose flex-col gap-3 pb-5 text-muted-foreground">
-          <p>{selectionText("coverage")}</p>
+          <p>{t("coverage")}</p>
           <p>{t("semantics")}</p>
           <p>{t("unchecked-note")}</p>
         </div>

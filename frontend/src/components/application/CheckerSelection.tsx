@@ -1,6 +1,7 @@
 "use client"
 
-import { useFormatter, useTranslations } from "next-intl"
+import { useFormatter } from "next-intl"
+import { checkerHealthText as t } from "./CheckerHealth.messages"
 import {
   ArrowUpRight,
   ChevronDown,
@@ -26,7 +27,6 @@ export default function CheckerSelection({
 }: {
   data?: SelectionCoverage
 }) {
-  const t = useTranslations("checker-selection")
   const format = useFormatter()
   function label(value: string) {
     const key = `selection-${value}`
@@ -38,9 +38,13 @@ export default function CheckerSelection({
     data?.invocation_outcome === "selection_error"
   const reportFailed =
     data?.report_status === "failed" ||
-    ["missing", "invalid", "ambiguous", "conflicting_inventory"].includes(
-      data?.report_state ?? "",
-    )
+    [
+      "missing",
+      "invalid",
+      "invalid_or_unsupported",
+      "ambiguous",
+      "conflicting_inventory",
+    ].includes(data?.report_state ?? "")
   const SelectionIcon =
     decision?.selection === "error"
       ? CircleAlert
@@ -57,12 +61,14 @@ export default function CheckerSelection({
     : data?.report_state === "available"
       ? FileText
       : CircleHelp
-  const reportOutcomeKey = `selection-report-outcome-${data?.report_status}`
+  const reportOutcomeKey = `report-${data?.report_status}`
   const reportOutcome = data?.report_status
     ? t.has(reportOutcomeKey)
       ? t(reportOutcomeKey)
-      : t("selection-report-status", { status: data.report_status })
-    : label(`report-${data?.report_state ?? "unknown"}`)
+      : data.report_status
+    : data?.report_state === "unknown" || !data?.report_state
+      ? t("unknown-check")
+      : label(`report-${data.report_state}`)
   return (
     <section
       className="flex min-w-0 flex-col gap-3 [overflow-wrap:anywhere]"
@@ -79,7 +85,6 @@ export default function CheckerSelection({
             href={data.run_url}
             target="_blank"
             rel="noreferrer"
-            aria-label={t("selection-run")}
           >
             {t("selection-open-run")}
             <ArrowUpRight className="size-3.5" aria-hidden />
@@ -133,7 +138,7 @@ export default function CheckerSelection({
             <dd className="col-start-2 font-semibold">
               {data?.invocation_outcome && data.invocation_outcome !== "unknown"
                 ? label(data.invocation_outcome)
-                : t("selection-invocation-unknown")}
+                : t("unknown-check")}
             </dd>
             {decision.invocation.exit_code !== null && (
               <dd className="col-start-2 mt-1 text-xs tabular-nums text-muted-foreground">
@@ -204,18 +209,9 @@ export default function CheckerSelection({
           </span>
         </summary>
         <div className="flex flex-col gap-4 border-t border-border py-4 text-xs text-muted-foreground">
-          <p className="max-w-prose leading-relaxed">{t("selection-note")}</p>
           {data && (
             <>
-              <p>
-                {data.scope ? label(data.scope) : t("selection-scope-unknown")}
-              </p>
-              <p>
-                {t("selection-shards", {
-                  received: data.received_shards ?? 0,
-                  expected: data.expected_shards ?? "?",
-                })}
-              </p>
+              <p>{data.scope ? label(data.scope) : t("unknown-check")}</p>
               {data.repository_count != null && (
                 <p>
                   {t("selection-repositories", {
@@ -226,8 +222,8 @@ export default function CheckerSelection({
               {data.observed_at && (
                 <p>
                   <time dateTime={data.observed_at}>
-                    {t("selection-listing-time", {
-                      time: format.dateTime(new Date(data.observed_at), {
+                    {t("observed-time", {
+                      date: format.dateTime(new Date(data.observed_at), {
                         dateStyle: "medium",
                         timeStyle: "short",
                       }),
@@ -239,7 +235,7 @@ export default function CheckerSelection({
                 {!!Object.keys(data.counts ?? {}).length && (
                   <div>
                     <h5 className="mb-2 font-semibold text-foreground">
-                      {t("selection-decisions-heading")}
+                      {t("selection-decision")}
                     </h5>
                     <dl className="flex flex-col gap-2">
                       {Object.entries(data.counts ?? {}).map(
@@ -261,7 +257,7 @@ export default function CheckerSelection({
                 {!!Object.keys(data.invocation_counts ?? {}).length && (
                   <div>
                     <h5 className="mb-2 font-semibold text-foreground">
-                      {t("selection-invocations-heading")}
+                      {t("selection-invocation")}
                     </h5>
                     <dl className="flex flex-col gap-2">
                       {Object.entries(data.invocation_counts ?? {}).map(
@@ -272,7 +268,7 @@ export default function CheckerSelection({
                           >
                             <dt>
                               {outcome === "unknown"
-                                ? t("selection-invocation-unknown")
+                                ? t("unknown-check")
                                 : label(outcome)}
                             </dt>
                             <dd className="tabular-nums text-foreground">
@@ -285,18 +281,17 @@ export default function CheckerSelection({
                   </div>
                 )}
               </div>
-              <p>
-                {t("selection-artifacts", {
-                  ids: data.artifact_ids?.join(", ") ?? "",
-                })}
-              </p>
               <details>
                 <summary className="min-h-11 cursor-pointer rounded-sm py-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
                   {t("selection-provenance")}
                 </summary>
                 <pre className="rounded-md bg-muted/50 p-3 whitespace-pre-wrap [overflow-wrap:anywhere]">
                   {JSON.stringify(
-                    { inventory: data.provenance, decision },
+                    {
+                      artifact_ids: data.artifact_ids,
+                      inventory: data.provenance,
+                      decision,
+                    },
                     null,
                     2,
                   )}

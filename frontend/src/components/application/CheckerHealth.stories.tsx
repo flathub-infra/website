@@ -317,6 +317,14 @@ export const SelectionMissingReport = selectionStory(
   { ...selectionEvidence, report_state: "missing", report_status: null },
   false,
 )
+export const SelectionRejectedReport = selectionStory(
+  {
+    ...selectionEvidence,
+    report_state: "invalid_or_unsupported",
+    report_status: null,
+  },
+  false,
+)
 export const SelectionIncomplete = selectionStory({
   ...selectionEvidence,
   state: "incomplete",
