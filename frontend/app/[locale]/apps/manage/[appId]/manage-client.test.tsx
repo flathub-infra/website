@@ -5,7 +5,10 @@ import ManageClient from "./manage-client"
 
 const mocks = vi.hoisted(() => ({ guard: vi.fn() }))
 
-vi.mock("next-intl", () => ({ useTranslations: () => (key: string) => key }))
+vi.mock("next-intl", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("next-intl")>()),
+  useTranslations: () => (key: string) => key,
+}))
 vi.mock("src/i18n/navigation", () => ({ Link: () => null }))
 vi.mock("src/components/LogoImage", () => ({ default: () => null }))
 vi.mock("src/context/user-info", () => ({

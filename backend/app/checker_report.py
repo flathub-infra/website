@@ -7,13 +7,31 @@ from typing import Literal
 from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field
 
 
+class Submodule(BaseModel):
+    model_config = ConfigDict(
+        extra="ignore",
+    )
+    path: str
+    current: str = Field(..., pattern="^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
+    candidate: str = Field(..., pattern="^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
+    files: list[str]
+    status: Literal["update_available", "blocked"]
+
+
 class Checkout(BaseModel):
     model_config = ConfigDict(
         extra="ignore",
     )
     commit: str | None = Field(..., pattern="^(?:[0-9a-f]{40}|[0-9a-f]{64})$")
-    branch: str | None = Field(..., min_length=1)
-    dirty: bool | None
+    branch: str | None = Field(
+        ...,
+        description="The branch name, or null for a detached checkout. Runtime worktrees use the discovered runtime branch name.",
+        min_length=1,
+    )
+    dirty: bool | None = Field(
+        ...,
+        description="True if tracked or untracked files have local changes, excluding submodule contents. The commit does not identify those changes.",
+    )
 
 
 class PullRequest(BaseModel):
@@ -25,7 +43,7 @@ class PullRequest(BaseModel):
         "created", "existing_open", "existing_closed", "existing_merged", "merged"
     ] = Field(
         ...,
-        description="created and merged describe actions in this run; existing_* describes an observed state.",
+        description="created and merged mean the checker took that action during this run. Values starting with existing_ describe a pull request that already existed.",
     )
 
 
@@ -55,7 +73,7 @@ class UnknownChecker(BaseModel):
     source: Literal["unknown"]
     dirty: None = Field(
         ...,
-        description="Local Git working tree changes, including untracked files. null means not measured, including container builds.",
+        description="True if the checker repository has local changes, including untracked files. null means the checker did not check for local changes. Container builds use null.",
     )
 
 
@@ -67,7 +85,7 @@ class BuildChecker(BaseModel):
     source: Literal["build"]
     dirty: None = Field(
         ...,
-        description="Local Git working tree changes, including untracked files. null means not measured, including container builds.",
+        description="True if the checker repository has local changes, including untracked files. null means the checker did not check for local changes. Container builds use null.",
     )
 
 
@@ -79,7 +97,7 @@ class GitChecker(BaseModel):
     source: Literal["git"]
     dirty: bool = Field(
         ...,
-        description="Local Git working tree changes, including untracked files. null means not measured, including container builds.",
+        description="True if the checker repository has local changes, including untracked files. null means the checker did not check for local changes. Container builds use null.",
     )
 
 
@@ -132,7 +150,7 @@ class Source(BaseModel):
     )
     source_pointer: str | None = Field(
         ...,
-        description="The source's JSON Pointer. An empty string means the document root. null means not found.",
+        description="The JSON Pointer to this source. An empty string points to the document root. null means the checker could not find the source in the parsed manifest.",
     )
     module: str | None
     type: Literal["archive", "file", "extra-data", "git"]
@@ -153,7 +171,7 @@ class Source(BaseModel):
     )
     state: str | None = Field(
         ...,
-        description="The source's state flags, separated by | when more than one applies.",
+        description="The source's state flags. Multiple flags use | as the separator.",
     )
     current: File | Git = Field(
         ...,
@@ -166,7 +184,7 @@ class Source(BaseModel):
     errors: list[Error]
     branch: str | None = Field(
         None,
-        description="The runtime branch name, included only in top-level source entries.",
+        description="The runtime branch name. Only source entries in the top-level sources array include it.",
     )
 
 
@@ -187,16 +205,18 @@ class Branch(BaseModel):
         "failed",
     ] = Field(
         ...,
-        description="The update outcome, separate from source checks. pr_handled covers new and existing PRs.",
+        description="What happened to the updates, not whether source checks passed. pr_handled means the checker found or created a pull request.",
     )
     pull_request: PullRequest | None = None
     skip_reason: Literal["end-of-life", "runtime-end-of-life"] | None = Field(
         None, description="Why the checker skipped this branch."
     )
     runtime_eol: list[RuntimeEol] | None = Field(
-        None, description="Parent runtime refs with EOL reasons or replacement refs."
+        None,
+        description="The parent runtimes and their end-of-life reasons or replacements.",
     )
     sources: list[Source]
+    submodules: list[Submodule] | None = None
     errors: list[Error]
     outdated: int | None = Field(None, ge=0)
 
@@ -208,7 +228,7 @@ class CheckerReport(BaseModel):
     schema_version: Literal[1]
     checker: UnknownChecker | BuildChecker | GitChecker | None = Field(
         None,
-        description="Checker provenance. Absent in reports from older checker versions.",
+        description="The checker revision and how it was identified. Older reports omit this field.",
     )
     manifest: str = Field(..., description="The absolute path to the input manifest.")
     checkout: Checkout | None = None
@@ -227,10 +247,11 @@ class CheckerReport(BaseModel):
         "failed",
     ] = Field(
         ...,
-        description="The update outcome, separate from source checks. pr_handled covers new and existing PRs.",
+        description="What happened to the updates, not whether source checks passed. pr_handled means the checker found or created a pull request.",
     )
     pull_request: PullRequest | None = None
     sources: list[Source]
+    submodules: list[Submodule] | None = None
     errors: list[Error]
     outdated: int | None = Field(None, ge=0)
     branches: list[Branch] | None = None

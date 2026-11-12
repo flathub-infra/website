@@ -123,6 +123,45 @@ def test_generated_models_accept_versioned_schema_examples(report_validator, kin
 
 
 @pytest.mark.parametrize("runtime", [False, True])
+@pytest.mark.parametrize("status", ["update_available", "blocked"])
+def test_submodule_updates_survive_ingestion_and_history(
+    report_validator, runtime, status
+):
+    submodules = [
+        {
+            "path": "shared-modules",
+            "current": "a" * 40,
+            "candidate": "b" * 64,
+            "files": ["module.json", "fix.patch"],
+            "status": status,
+        }
+    ]
+    evidence = {"submodules": submodules, "status": "completed"}
+    row = observation(
+        1, **({"branches": [{"branch": "stable", **evidence}]} if runtime else evidence)
+    )
+    report_validator.validate(row.report)
+    parsed, raw = parse_archive(archive(row.report))["org.example.App"]
+    dumped = parsed.model_dump(mode="json", exclude_unset=True)
+    report_validator.validate(dumped)
+    assert (dumped["branches"][0] if runtime else dumped)["submodules"] == submodules
+    result = summarize([row]).model_dump(mode="json")
+    branch = result["history"][0]["branches"][0]
+    assert branch["submodules"] == submodules
+    assert branch["branch"] == ("stable" if runtime else None)
+    assert raw == row.report
+
+
+@pytest.mark.parametrize("submodules", [None, []])
+def test_reports_without_submodule_updates(report_validator, submodules):
+    row = observation(1, **({} if submodules is None else {"submodules": submodules}))
+    report_validator.validate(row.report)
+    parsed, _ = parse_archive(archive(row.report))["org.example.App"]
+    assert parsed.submodules == submodules
+    assert summarize([row]).history[0].branches[0].submodules == submodules
+
+
+@pytest.mark.parametrize("runtime", [False, True])
 @pytest.mark.parametrize(
     "outcome",
     ["created", "existing_open", "existing_closed", "existing_merged", "merged"],

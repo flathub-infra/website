@@ -2,11 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/flathub-infra/flatpak-external-data-checker/master/data/report.v1.schema.json",
   "title": "Flatpak External Data Checker report, version 1",
-  "description": "The --report-json output, including failed and skipped runs.",
+  "description": "Results and update outcomes from --report-json, even if the run fails or is skipped.",
   "type": "object",
   "properties": {
     "schema_version": { "const": 1 },
-    "checker": { "$ref": "#/$defs/checker", "description": "Checker provenance. Absent in reports from older checker versions." },
+    "checker": { "$ref": "#/$defs/checker", "description": "The checker revision and how it was identified. Older reports omit this field." },
     "manifest": { "type": "string", "description": "The absolute path to the input manifest." },
     "checkout": { "$ref": "#/$defs/checkout" },
     "skip_reason": { "const": "end-of-life" },
@@ -17,6 +17,7 @@
     "delivery": { "$ref": "#/$defs/delivery" },
     "pull_request": { "$ref": "#/$defs/pull_request" },
     "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
+    "submodules": { "type": "array", "items": { "$ref": "#/$defs/submodule" } },
     "errors": { "type": "array", "items": { "$ref": "#/$defs/error" } },
     "outdated": { "type": "integer", "minimum": 0 },
     "branches": { "type": "array", "items": { "$ref": "#/$defs/branch" } }
@@ -24,13 +25,26 @@
   "required": [ "schema_version", "manifest", "started_at", "finished_at", "mode", "status", "delivery", "sources", "errors" ],
   "additionalProperties": false,
   "$defs": {
+    "submodule": {
+      "description": "A submodule update that changes files the manifest uses. The report's errors array lists detection errors.",
+      "type": "object",
+      "properties": {
+        "path": { "type": "string" },
+        "current": { "type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$" },
+        "candidate": { "type": "string", "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$" },
+        "files": { "type": "array", "items": { "type": "string" } },
+        "status": { "enum": [ "update_available", "blocked" ] }
+      },
+      "required": [ "path", "current", "candidate", "files", "status" ],
+      "additionalProperties": false
+    },
     "checkout": {
       "type": "object",
-      "description": "Packaging checkout before checks or edits. Null fields mean unknown. A detached ordinary checkout has no branch. Runtime worktrees use the discovered branch name. Dirty includes untracked files, excluding submodule contents; a dirty checkout is not fully identified by its commit.",
+      "description": "The manifest repository's Git checkout before checks or edits. null fields mean the value is unknown.",
       "properties": {
         "commit": { "type": [ "string", "null" ], "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$" },
-        "branch": { "type": [ "string", "null" ], "minLength": 1 },
-        "dirty": { "type": [ "boolean", "null" ] }
+        "branch": { "type": [ "string", "null" ], "minLength": 1, "description": "The branch name, or null for a detached checkout. Runtime worktrees use the discovered runtime branch name." },
+        "dirty": { "type": [ "boolean", "null" ], "description": "True if tracked or untracked files have local changes, excluding submodule contents. The commit does not identify those changes." }
       },
       "required": [ "commit", "branch", "dirty" ],
       "additionalProperties": false
@@ -40,7 +54,7 @@
       "properties": {
         "revision": { "type": [ "string", "null" ], "pattern": "^([0-9a-f]{40}|[0-9a-f]{64})$" },
         "source": { "enum": [ "build", "git", "unknown" ] },
-        "dirty": { "type": [ "boolean", "null" ], "description": "Local Git working tree changes, including untracked files. null means not measured, including container builds." }
+        "dirty": { "type": [ "boolean", "null" ], "description": "True if the checker repository has local changes, including untracked files. null means the checker did not check for local changes. Container builds use null." }
       },
       "required": [ "revision", "source", "dirty" ],
       "additionalProperties": false,
@@ -51,11 +65,11 @@
       ]
     },
     "pull_request": {
-      "description": "Last confirmed PR outcome, retained if a later step fails. Omitted when no PR was found or created.",
+      "description": "The last pull request result confirmed by the checker. It remains in the report if a later step fails. The checker omits this field if it neither found nor created a pull request.",
       "type": "object",
       "properties": {
         "url": { "type": "string", "format": "uri" },
-        "outcome": { "enum": [ "created", "existing_open", "existing_closed", "existing_merged", "merged" ], "description": "created and merged describe actions in this run; existing_* describes an observed state." }
+        "outcome": { "enum": [ "created", "existing_open", "existing_closed", "existing_merged", "merged" ], "description": "created and merged mean the checker took that action during this run. Values starting with existing_ describe a pull request that already existed." }
       },
       "required": [ "url", "outcome" ],
       "additionalProperties": false
@@ -63,7 +77,7 @@
     "status": { "enum": [ "completed", "failed", "skipped" ] },
     "delivery": {
       "enum": [ "not_requested", "no_changes", "edited", "committed", "pr_handled", "pending", "failed" ],
-      "description": "The update outcome, separate from source checks. pr_handled covers new and existing PRs."
+      "description": "What happened to the updates, not whether source checks passed. pr_handled means the checker found or created a pull request."
     },
     "error": {
       "type": "object",
@@ -79,20 +93,20 @@
       "type": "object",
       "properties": {
         "manifest": { "type": "string", "description": "The source manifest's path relative to the root manifest directory." },
-        "source_pointer": { "type": [ "string", "null" ], "format": "json-pointer", "description": "The source's JSON Pointer. An empty string means the document root. null means not found." },
+        "source_pointer": { "type": [ "string", "null" ], "format": "json-pointer", "description": "The JSON Pointer to this source. An empty string points to the document root. null means the checker could not find the source in the parsed manifest." },
         "module": { "type": [ "string", "null" ] },
         "type": { "enum": [ "archive", "file", "extra-data", "git" ] },
         "checker_type": { "type": [ "string", "null" ] },
         "checkers_run": { "type": "array", "items": { "type": "string" } },
         "status": { "enum": [ "checked", "unchecked", "failed", "update_available", "blocked" ] },
         "reason": { "enum": [ null, "update_group", "update_policy", "broken_url", "filtered", "no_update_checker", "no_applicable_checker", "no_candidate" ] },
-        "state": { "type": [ "string", "null" ], "description": "The source's state flags, separated by | when more than one applies." },
+        "state": { "type": [ "string", "null" ], "description": "The source's state flags. Multiple flags use | as the separator." },
         "current": { "$ref": "source-state.v1.schema.json" },
         "candidate": { "oneOf": [ { "type": "null" }, { "$ref": "source-state.v1.schema.json" } ] },
         "selected_version": { "type": [ "string", "null" ] },
         "update_group": { "type": [ "string", "null" ] },
         "errors": { "type": "array", "items": { "$ref": "#/$defs/error" } },
-        "branch": { "type": "string", "description": "The runtime branch name, included only in top-level source entries." }
+        "branch": { "type": "string", "description": "The runtime branch name. Only source entries in the top-level sources array include it." }
       },
       "required": [ "manifest", "source_pointer", "module", "type", "checker_type", "checkers_run", "status", "reason", "state", "current", "candidate", "selected_version", "update_group", "errors" ],
       "additionalProperties": false
@@ -116,8 +130,9 @@
         "delivery": { "$ref": "#/$defs/delivery" },
         "pull_request": { "$ref": "#/$defs/pull_request" },
         "skip_reason": { "enum": [ "end-of-life", "runtime-end-of-life" ], "description": "Why the checker skipped this branch." },
-        "runtime_eol": { "type": "array", "items": { "$ref": "#/$defs/runtime_eol" }, "description": "Parent runtime refs with EOL reasons or replacement refs." },
+        "runtime_eol": { "type": "array", "items": { "$ref": "#/$defs/runtime_eol" }, "description": "The parent runtimes and their end-of-life reasons or replacements." },
         "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
+        "submodules": { "type": "array", "items": { "$ref": "#/$defs/submodule" } },
         "errors": { "type": "array", "items": { "$ref": "#/$defs/error" } },
         "outdated": { "type": "integer", "minimum": 0 }
       },

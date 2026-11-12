@@ -23,6 +23,7 @@ import type {
   CheckerHealth as Health,
   CheckerSourceHealth,
   Checkout,
+  Submodule,
 } from "src/codegen/model"
 
 const disclosureClass =
@@ -729,6 +730,64 @@ function CheckoutDetails({ checkout }: { checkout?: Checkout | null }) {
   )
 }
 
+function SubmoduleUpdates({ updates }: { updates?: Submodule[] | null }) {
+  if (!updates?.length) {
+    return null
+  }
+
+  return (
+    <div className="mt-4 flex min-w-0 flex-col gap-2">
+      <h4 className="text-sm font-medium">{t("submodule-updates")}</h4>
+      <ul className="divide-y divide-border border-s-2 border-border ps-3">
+        {updates.map((update) => (
+          <li key={update.path} className="min-w-0 py-3 first:pt-1 last:pb-0">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p
+                className="min-w-0 font-medium [overflow-wrap:anywhere]"
+                dir="ltr"
+              >
+                {update.path}
+              </p>
+              <Badge
+                variant={update.status === "blocked" ? "outline" : "secondary"}
+              >
+                {t(`status-${update.status}`)}
+              </Badge>
+            </div>
+            <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+              {(["current", "candidate"] as const).map((revision) => (
+                <div key={revision} className="min-w-0">
+                  <dt className="mb-1 text-muted-foreground">
+                    {t(`submodule-${revision}`)}
+                  </dt>
+                  <dd>
+                    <code dir="ltr" title={update[revision]}>
+                      <span aria-hidden>{update[revision].slice(0, 12)}</span>
+                      <span className="sr-only">{update[revision]}</span>
+                    </code>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <details className={cn(detailsClass, "mt-1 text-xs")}>
+              <DisclosureTitle>
+                {t("submodule-files", { count: update.files.length })}
+              </DisclosureTitle>
+              <ul className="flex flex-col gap-2 pb-2 text-muted-foreground">
+                {update.files.map((file) => (
+                  <li key={file} dir="ltr" className="[overflow-wrap:anywhere]">
+                    {file}
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
 function ReportDetails({ data }: { data: Health }) {
   const date = useCheckDate()
   return (
@@ -828,7 +887,7 @@ function ReportDetails({ data }: { data: Health }) {
                     </details>
                   )}
                 </div>
-                <div className="flex flex-col gap-4">
+                <div className="flex min-w-0 flex-col gap-4">
                   {run.branches.map((branch, index) => (
                     <div key={index} className="[overflow-wrap:anywhere]">
                       <p className="font-medium">
@@ -868,6 +927,7 @@ function ReportDetails({ data }: { data: Health }) {
                         </div>
                       )}
                       <CheckoutDetails checkout={branch.checkout} />
+                      <SubmoduleUpdates updates={branch.submodules} />
                       {branch.skip_reason && (
                         <p className="text-xs text-muted-foreground">
                           {branch.skip_reason === "runtime-end-of-life"

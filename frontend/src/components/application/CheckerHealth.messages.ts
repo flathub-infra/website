@@ -14,6 +14,11 @@ export const checkerHealthText = createTranslator({
     "runtime-eol-skip": "Skipped because a parent runtime is end of life.",
     "eol-skip": "Skipped because this checkout is marked end of life.",
     "packaging-checkout": "Packaging checkout before checks",
+    "submodule-updates": "Submodule updates",
+    "submodule-current": "Current commit",
+    "submodule-candidate": "Candidate commit",
+    "submodule-files":
+      "{count, plural, one {# changed file} other {# changed files}}",
     "unknown-revision": "Revision unknown",
     "checkout-dirty":
       "Local changes present; the commit alone does not identify the checked content.",

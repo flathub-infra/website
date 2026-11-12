@@ -1,7 +1,7 @@
 """Generate report models from the pinned checker artifact schemas.
 
 Upstream: https://github.com/flathub-infra/flatpak-external-data-checker
-Revision: bcf09566250d3f994bd3f36d61ba5ef4abdbb91d
+Revision: 3531052185551c5040ba06272ee129db091b90f3
 Run: python schemas/checker-health/generate.py (from backend/).
 """
 

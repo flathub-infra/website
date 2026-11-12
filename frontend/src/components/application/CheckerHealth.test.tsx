@@ -3,7 +3,7 @@ import { NextIntlClientProvider } from "next-intl"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import type { CheckerHealth as Health } from "src/codegen/model"
 import CheckerHealth from "./CheckerHealth"
-import { checkerSource } from "./CheckerHealth.fixtures"
+import { checkerSource, checkerSubmodule } from "./CheckerHealth.fixtures"
 
 const query = vi.hoisted(() => ({
   isPending: false,
@@ -29,6 +29,47 @@ beforeEach(() => {
 })
 
 describe("checker health evidence", () => {
+  it.each(["update_available", "blocked"] as const)(
+    "shows %s submodule evidence on its report branch",
+    (status) => {
+      const submodule = checkerSubmodule({ status })
+      query.data.data = {
+        last_report_at: "2026-11-08T17:45:00Z",
+        history: [
+          {
+            observed_at: "2026-11-08T17:45:00Z",
+            run_url: "https://github.com/flathub/flathub/actions/runs/123",
+            status: "completed",
+            delivery: "no_changes",
+            branches: [
+              {
+                branch: "branch/25.08",
+                status: "completed",
+                submodules: [submodule],
+              },
+            ],
+          },
+        ],
+      }
+      const html = render()
+      expect(html).toContain("Submodule updates")
+      expect(html).toContain("shared-modules")
+      expect(html).toContain(
+        status === "blocked" ? "Policy-blocked update" : "Update available",
+      )
+      expect(html).toContain("Current commit")
+      expect(html).toContain("Candidate commit")
+      expect(html).toContain(submodule.current.slice(0, 12))
+      expect(html).toContain(`title="${submodule.candidate}"`)
+      expect(html).toContain("2 changed files")
+      expect(html).toContain(submodule.files[1])
+      query.data.data.history![0].branches[0].submodules = []
+      expect(render()).not.toContain("Submodule updates")
+      delete query.data.data.history![0].branches[0].submodules
+      expect(render()).not.toContain("Submodule updates")
+    },
+  )
+
   it.each([
     ["created", "Pull request created in this run"],
     ["existing_open", "Existing open pull request found"],

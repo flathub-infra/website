@@ -1,4 +1,20 @@
-import type { Source } from "src/codegen/model"
+import type { Source, Submodule } from "src/codegen/model"
+
+export function checkerSubmodule(
+  overrides: Partial<Submodule> = {},
+): Submodule {
+  return {
+    path: "shared-modules",
+    current: "a12b34c56d78" + "a".repeat(28),
+    candidate: "e90f12a34b56" + "b".repeat(28),
+    files: [
+      "gtk2/gtk2.json",
+      "gtk2/patches/fix-build-with-modern-compilers.patch",
+    ],
+    status: "update_available",
+    ...overrides,
+  }
+}
 
 export function checkerSource(overrides: Partial<Source> = {}): Source {
   return {

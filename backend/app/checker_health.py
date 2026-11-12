@@ -14,6 +14,7 @@ from .checker_report import (
     GitChecker,
     PullRequest,
     RuntimeEol,
+    Submodule,
     UnknownChecker,
 )
 from .checker_report import Error as CheckerError
@@ -30,6 +31,7 @@ class CheckerBranch(BaseModel):
     skip_reason: str | None = None
     runtime_eol: list[RuntimeEol] | None = None
     sources: list[CheckerSource] = Field(default_factory=list)
+    submodules: list[Submodule] | None = None
     errors: list[CheckerError] = Field(default_factory=list)
 
 

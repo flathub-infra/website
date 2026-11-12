@@ -6,7 +6,7 @@ import { NextIntlClientProvider } from "next-intl"
 import messages from "../../../public/locales/en/common.json"
 import type { CheckerHealth as Health } from "src/codegen/model"
 import CheckerHealth from "./CheckerHealth"
-import { checkerSource } from "./CheckerHealth.fixtures"
+import { checkerSource, checkerSubmodule } from "./CheckerHealth.fixtures"
 import AppMaintenance from "./AppMaintenance"
 import { UserContext } from "src/context/user-info"
 import { Permission } from "src/codegen/model"
@@ -153,6 +153,48 @@ export const Observations: Story = {
       handlers: [
         http.get("*/apps/org.example.App/checker-health", () =>
           HttpResponse.json(evidence),
+        ),
+      ],
+    },
+  },
+}
+
+export const SubmoduleUpdates: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/apps/org.example.App/checker-health", () =>
+          HttpResponse.json({
+            ...evidence,
+            diagnostics: [],
+            sources: [evidence.sources![1]],
+            history: [
+              {
+                ...evidence.history![0],
+                branches: [
+                  {
+                    ...evidence.history![0].branches[0],
+                    submodules: [checkerSubmodule()],
+                  },
+                  {
+                    branch: "branch/24.08",
+                    status: "completed",
+                    delivery: "no_changes",
+                    submodules: [
+                      checkerSubmodule({
+                        path: "packaging/shared-modules/legacy-platform-dependencies",
+                        status: "blocked",
+                        files: [
+                          "legacy-platform/patches/compatibility/fix-build-with-newer-toolchains-and-system-headers.patch",
+                        ],
+                      }),
+                    ],
+                  },
+                ],
+              },
+              { ...evidence.history![0], observed_at: "2026-11-07T17:45:00Z" },
+            ],
+          } satisfies Health),
         ),
       ],
     },
