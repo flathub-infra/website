@@ -166,7 +166,6 @@ export const checkerHealthText = createTranslator({
     recovered: "Checker recovered on {date}",
     observed: "Observed {date}: view run logs",
     "source-evidence": "Raw source evidence",
-    "source-details": "Source details",
     "observed-time": "Observed {date}",
     "unchecked-note":
       'Generated dependencies without an update checker are not failures. Older rotating-URL and Snapcraft reports may show "unchecked/no_candidate" when a check found no changes. Their status remains unknown.',
@@ -206,7 +205,6 @@ export const checkerHealthText = createTranslator({
     "no-sources":
       "This report contains no source observations. Inspect the report-level errors or open the latest run.",
     location: "Source location",
-    "observed-label": "Last observed",
     "latest-result": "Latest source result",
     checker: "Checker",
     "selected-version": "Selected version",
