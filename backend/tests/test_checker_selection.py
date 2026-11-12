@@ -445,6 +445,60 @@ def test_selection_migration_preserves_existing_health(health_db):
         assert db.session.query(models.CheckerSelectionArtifact).count() == 0
 
 
+@pytest.mark.parametrize("invalid", [b'{"schema_version":2}', b"{", b"[]", b"\xff"])
+def test_mixed_health_archive_preserves_valid_reports_and_rejections(
+    health_db, invalid
+):
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as archive_file:
+        archive_file.writestr("org.example.App.json", json.dumps(report().report))
+        archive_file.writestr("org.example.Invalid.json", invalid)
+    parsed = ingestion.parse_archive(buf.getvalue())
+    assert parsed["org.example.App"] is not None
+    assert parsed["org.example.Invalid"] is None
+    metadata = {
+        "id": 200,
+        "name": "checker-health-42-1-0",
+        "expired": False,
+        "workflow_run": {"id": 42, "head_repository_id": 88860262},
+    }
+    with health_db() as db:
+        db.session.add(artifact(rows=[decision(), decision("org.example.Invalid")]))
+        ingestion.store_artifact(db, metadata, parsed)
+    with health_db() as db:
+        ingestion.store_artifact(db, metadata, parsed)
+        assert db.session.query(models.CheckerHealthObservation).count() == 1
+        assert db.session.get(models.CheckerHealthArtifact, 200).rejected_reports == [
+            "org.example.Invalid"
+        ]
+        assert load_selection(db, "org.example.App").report_state == "available"
+        rejected = load_selection(db, "org.example.Invalid")
+        assert rejected.report_state == "invalid_or_unsupported"
+        assert rejected.report_status is None
+        assert rejected.provenance["health_artifact_ids"] == [200]
+        assert rejected.invocation_outcome == "succeeded"
+
+
+def test_rejected_report_requires_matching_shard_and_attempt():
+    rejected = health(1)
+    rejected.rejected_reports = ["org.example.App"]
+    assert coverage([artifact()], [rejected]).report_state == "artifact_unavailable"
+    rejected.shard_index = 0
+    rejected.run_attempt = 2
+    assert coverage([artifact()], [rejected]).report_state == "unknown"
+    rejected.run_attempt = 1
+    assert coverage([artifact()], [rejected]).report_state == "invalid_or_unsupported"
+
+
+def test_duplicate_rejected_report_names_still_reject_archive():
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as archive_file:
+        archive_file.writestr("org.example.App.json", '{"schema_version":2}')
+        archive_file.writestr("org.example.App.json", json.dumps(report().report))
+    with pytest.raises(ValueError, match="Duplicate app report"):
+        ingestion.parse_archive(buf.getvalue())
+
+
 def test_latest_targeted_run_does_not_replace_other_apps_inventory(health_db):
     with health_db() as db:
         db.session.add(artifact())

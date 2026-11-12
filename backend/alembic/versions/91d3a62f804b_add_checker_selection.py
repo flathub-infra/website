@@ -16,6 +16,10 @@ depends_on = None
 
 def upgrade():
     op.add_column(
+        "checkerhealthartifact",
+        sa.Column("rejected_reports", postgresql.JSONB(), nullable=True),
+    )
+    op.add_column(
         "checkerhealthartifact", sa.Column("shard_index", sa.Integer(), nullable=True)
     )
     op.create_table(
@@ -38,5 +42,6 @@ def upgrade():
 
 
 def downgrade():
+    op.drop_column("checkerhealthartifact", "rejected_reports")
     op.drop_table("checkerselectionartifact")
     op.drop_column("checkerhealthartifact", "shard_index")

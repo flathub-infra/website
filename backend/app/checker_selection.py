@@ -398,6 +398,8 @@ def selection_coverage(app_id, artifacts, health_artifacts, observations, *, now
         else:
             result.report_state = "available"
             result.report_status = reports[0].report["status"]
+    elif any(app_id in (a.rejected_reports or []) for a in health):
+        result.report_state = "invalid_or_unsupported"
     elif decision.selection == "selected" and artifact.run_completed:
         if invocation.report == "invalid_json_object":
             result.report_state = "invalid"

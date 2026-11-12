@@ -4556,6 +4556,7 @@ class CheckerHealthArtifact(Base):
     run_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
     run_attempt: Mapped[int] = mapped_column(Integer, nullable=False)
     shard_index: Mapped[int | None] = mapped_column(Integer)
+    rejected_reports: Mapped[list[str] | None] = mapped_column(JSONB)
     imported_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )

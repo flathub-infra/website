@@ -43,7 +43,7 @@ class ArtifactPage(TypedDict):
     artifacts: list[CheckerArtifact]
 
 
-type ParsedReports = dict[str, tuple[CheckerReport, dict[str, JsonValue]]]
+type ParsedReports = dict[str, tuple[CheckerReport, dict[str, JsonValue]] | None]
 
 
 def list_artifacts(client: httpx.Client) -> Iterator[CheckerArtifact]:
@@ -107,19 +107,25 @@ def parse_archive(content: bytes) -> ParsedReports:
             app_id = entry.filename.removesuffix(".json")
             if app_id in reports:
                 raise ValueError("Duplicate app report")
-            raw: dict[str, JsonValue] = json.loads(archive.read(entry))
-            report = CheckerReport.model_validate(raw)
-            if utc(report.finished_at) < utc(report.started_at):
-                raise ValueError("Invalid checker report timestamps")
-            keys = [
-                source_identity(branch.branch, source)
-                for branch in report_branches(report)
-                for source in branch.sources
-                if source.source_pointer is not None
-            ]
-            if len(keys) != len(set(keys)):
-                raise ValueError("Duplicate checker source location")
-            reports[app_id] = (report, raw)
+            content = archive.read(entry)
+            try:
+                raw: dict[str, JsonValue] = json.loads(content)
+                report = CheckerReport.model_validate(raw)
+                if utc(report.finished_at) < utc(report.started_at):
+                    raise ValueError("Invalid checker report timestamps")
+                keys = [
+                    source_identity(branch.branch, source)
+                    for branch in report_branches(report)
+                    for source in branch.sources
+                    if source.source_pointer is not None
+                ]
+                if len(keys) != len(set(keys)):
+                    raise ValueError("Duplicate checker source location")
+            except ValueError:
+                logger.warning("Invalid or unsupported checker report: %s", app_id)
+                reports[app_id] = None
+            else:
+                reports[app_id] = (report, raw)
     if not reports:
         raise ValueError("Empty checker artifact")
     return reports
@@ -139,13 +145,19 @@ def store_artifact(
             run_id=artifact["workflow_run"]["id"],
             run_attempt=attempt,
             shard_index=int(match[3]) if match[3] is not None else None,
+            rejected_reports=[
+                app_id for app_id, report in reports.items() if report is None
+            ],
         )
         .on_conflict_do_nothing()
         .returning(models.CheckerHealthArtifact.artifact_id)
     ).scalar_one_or_none()
     if inserted is None:
         return
-    for app_id, (report, raw) in reports.items():
+    for app_id, parsed in reports.items():
+        if parsed is None:
+            continue
+        report, raw = parsed
         db.session.add(
             models.CheckerHealthObservation(
                 artifact_id=artifact["id"],

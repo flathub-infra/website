@@ -328,8 +328,7 @@ def test_known_source_pointers_can_recover(pointer, report_validator):
 def test_invalid_source_pointers_are_rejected(pointer, report_validator):
     row = observation(1, [source(source_pointer=pointer)])
     assert not report_validator.is_valid(row.report)
-    with pytest.raises(ValueError, match="Invalid checker source JSON Pointer"):
-        parse_archive(archive(row.report))
+    assert parse_archive(archive(row.report))["org.example.App"] is None
     with pytest.raises(ValueError, match="Invalid checker source JSON Pointer"):
         summarize([row])
 
@@ -498,8 +497,7 @@ def test_skipped_aggregate_cannot_recover_through_completed_nested_branch():
 def test_duplicate_sources_across_branch_entries_are_rejected():
     branch = {"branch": "stable", "status": "completed", "sources": [source()]}
     row = observation(1, branches=[branch, branch])
-    with pytest.raises(ValueError, match="Duplicate checker source location"):
-        parse_archive(archive(row.report))
+    assert parse_archive(archive(row.report))["org.example.App"] is None
     with pytest.raises(ValueError, match="Duplicate checker source location"):
         summarize([row])
 
@@ -614,8 +612,7 @@ def test_generated_dependencies_and_old_outcomes_are_unknown():
 )
 def test_invalid_reports_are_not_accepted(change):
     report = observation(1).report | change
-    with pytest.raises(ValueError):
-        parse_archive(archive(report))
+    assert parse_archive(archive(report))["org.example.App"] is None
 
 
 def test_archive_names_and_raw_evidence():
