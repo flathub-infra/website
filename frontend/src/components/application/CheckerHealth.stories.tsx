@@ -201,6 +201,135 @@ export const SubmoduleUpdates: Story = {
   },
 }
 
+const selectionEvidence: NonNullable<Health["selection"]> = {
+  state: "complete",
+  scope: "public_organization",
+  stale: false,
+  run_url: "https://github.com/flathub/flathub/actions/runs/42/attempts/1",
+  artifact_ids: [100, 101, 102, 103, 104, 105],
+  expected_shards: 6,
+  received_shards: 6,
+  repository_count: 8,
+  observed_at: "2026-11-12T01:01:00Z",
+  counts: {
+    selected: 1,
+    no_checker_marker: 1,
+    archived: 1,
+    checker_disabled: 1,
+    inactive: 1,
+    end_of_life: 1,
+    manifest_not_found: 1,
+    error: 1,
+  },
+  invocation_counts: { succeeded: 1 },
+  decision: {
+    repository: "org.example.App",
+    selection: "selected",
+    reason: "selected",
+    error: null,
+    branch: "master",
+    commit: "a".repeat(40),
+    checkout_unknown_reason: null,
+    invocation: { started: true, exit_code: 0, report: "valid_json_object" },
+  },
+  report_state: "available",
+  report_status: "failed",
+  invocation_outcome: "succeeded",
+}
+
+function selectionStory(
+  selection: NonNullable<Health["selection"]>,
+  withHealth = true,
+): Story {
+  return {
+    parameters: {
+      msw: {
+        handlers: [
+          http.get("*/apps/org.example.App/checker-health", () =>
+            HttpResponse.json({
+              ...(withHealth ? evidence : {}),
+              selection,
+            } satisfies Health),
+          ),
+        ],
+      },
+    },
+  }
+}
+
+export const SelectionWithCoverageFailure = selectionStory(selectionEvidence)
+export const SelectionCompleted: Story = {
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/apps/org.example.App/checker-health", () =>
+          HttpResponse.json({
+            ...evidence,
+            selection: { ...selectionEvidence, report_status: "completed" },
+            sources: evidence.sources?.filter(
+              (item) => item.source.status === "checked",
+            ),
+            diagnostics: [],
+            history: evidence.history?.map((run) => ({
+              ...run,
+              branches: run.branches.filter(
+                (branch) => branch.status === "completed",
+              ),
+            })),
+          } satisfies Health),
+        ),
+      ],
+    },
+  },
+}
+export const SelectionCloneError = selectionStory(
+  {
+    ...selectionEvidence,
+    decision: {
+      ...selectionEvidence.decision!,
+      selection: "error",
+      reason: null,
+      error: "clone_failed",
+      invocation: { started: false, exit_code: null, report: "not_expected" },
+    },
+    report_state: "not_expected",
+    report_status: null,
+    invocation_outcome: "selection_error",
+  },
+  false,
+)
+export const SelectionExcluded = selectionStory(
+  {
+    ...selectionEvidence,
+    decision: {
+      ...selectionEvidence.decision!,
+      selection: "excluded",
+      reason: "no_checker_marker",
+      invocation: { started: false, exit_code: null, report: "not_expected" },
+    },
+    report_state: "not_expected",
+    report_status: null,
+    invocation_outcome: "not_started",
+  },
+  false,
+)
+export const SelectionMissingReport = selectionStory(
+  { ...selectionEvidence, report_state: "missing", report_status: null },
+  false,
+)
+export const SelectionIncomplete = selectionStory({
+  ...selectionEvidence,
+  state: "incomplete",
+  received_shards: 5,
+  repository_count: null,
+  counts: {},
+  invocation_counts: {},
+  stale: true,
+  issues: ["missing_shards", "listing_drift"],
+  report_state: "artifact_unavailable",
+  report_status: null,
+})
+
 export const UnknownLocationsAndSkippedRuntime: Story = {
   parameters: {
     msw: {

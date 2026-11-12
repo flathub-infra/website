@@ -380,6 +380,43 @@ def test_recent_history_limit_does_not_truncate_failure_history():
     assert result.sources[0].first_failure_at.day == 1
 
 
+def test_duplicate_artifacts_do_not_inflate_source_failure_history():
+    first = observation(1, [source()])
+    duplicate = observation(1, [source()])
+    duplicate.artifact_id = 99
+    result = summarize([first, duplicate])
+    assert result.sources[0].failures == 1
+    assert len(result.history) == 2
+
+
+@pytest.mark.parametrize(
+    "first_status,second_status,failures",
+    [("checked", "failed", 1), ("failed", "checked", 0)],
+)
+def test_distinct_reports_in_one_attempt_preserve_sources_and_diagnostics(
+    first_status, second_status, failures
+):
+    first = observation(1, [source(first_status)])
+    later = observation(
+        1,
+        [
+            source(second_status),
+            source("failed", source_pointer="/modules/1/sources/0"),
+        ],
+        errors=[
+            {"type": "CoverageError", "message": "Included manifest was not checked"}
+        ],
+    )
+    later.artifact_id = 99
+    result = summarize([first, later])
+    by_pointer = {item.source.source_pointer: item for item in result.sources}
+    assert by_pointer["/modules/0/sources/0"].source.status == second_status
+    assert by_pointer["/modules/0/sources/0"].failures == failures
+    assert by_pointer["/modules/1/sources/0"].failures == 1
+    assert result.diagnostics[0].error.type == "CoverageError"
+    assert len(result.history) == 2
+
+
 def test_replaced_module_cannot_recover_a_different_source_at_the_same_location():
     result = summarize(
         [
@@ -682,6 +719,7 @@ def health_db():
         tables=[
             models.CheckerHealthArtifact.__table__,
             models.CheckerHealthObservation.__table__,
+            models.CheckerSelectionArtifact.__table__,
         ],
     )
 
@@ -1002,6 +1040,7 @@ def test_endpoint_authorization_and_private_caching(monkeypatch, role, status):
         db = MagicMock()
         db.session.merge.return_value = user
         db.session.query.return_value.filter_by.return_value.order_by.return_value.yield_per.return_value = []
+        db.session.query.return_value.filter.return_value.order_by.return_value.first.return_value = None
         yield db
 
     monkeypatch.setattr(login_info, "get_db", db)

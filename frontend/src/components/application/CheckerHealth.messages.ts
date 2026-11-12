@@ -7,8 +7,6 @@ export const checkerHealthText = createTranslator({
     "summary-failures":
       "{count, plural, one {# source has an unresolved failure} other {# sources have unresolved failures}}",
     "summary-no-failures": "No unresolved source failures",
-    coverage:
-      "Every four hours, reports cover one of six repository groups, plus extra-data apps. Imports also run every four hours. If a report is missing, the status is unknown. Report artifacts do not list every selected or skipped repository. Some branch reports explain why a runtime caused a repository to be skipped.",
     "unknown-location": "Source location unknown",
     "document-root": "Document root",
     "runtime-eol-skip": "Skipped because a parent runtime is end of life.",

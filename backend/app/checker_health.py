@@ -1,5 +1,7 @@
 """Stored checker observations, without inferring coverage from missing reports."""
 
+import hashlib
+import json
 import re
 from collections import deque
 from collections.abc import Iterable
@@ -19,6 +21,7 @@ from .checker_report import (
 )
 from .checker_report import Error as CheckerError
 from .checker_report import Source as CheckerSource
+from .checker_selection import SelectionCoverage
 from .models import CheckerHealthObservation
 
 
@@ -68,6 +71,7 @@ class CheckerDiagnostic(BaseModel):
 
 
 class CheckerHealth(BaseModel):
+    selection: SelectionCoverage = Field(default_factory=SelectionCoverage)
     last_report_at: datetime | None = None
     last_check_at: datetime | None = None
     sources: list[CheckerSourceHealth] = Field(default_factory=list)
@@ -126,6 +130,7 @@ def summarize(
     sources: dict[tuple[str | None, ...], CheckerSourceHealth] = {}
     diagnostics: dict[tuple[str | None, ...], CheckerDiagnostic] = {}
     history: deque[CheckerRun] = deque(maxlen=20)
+    seen_reports: set[tuple[int, int, bytes]] = set()
     if not ordered:
         observations = sorted(
             observations, key=lambda row: (row.observed_at, row.artifact_id)
@@ -149,6 +154,16 @@ def summarize(
                 ],
             )
         )
+        identity = (
+            row.run_id,
+            row.run_attempt,
+            hashlib.sha256(
+                json.dumps(report.model_dump(mode="json"), sort_keys=True).encode()
+            ).digest(),
+        )
+        if identity in seen_reports:
+            continue
+        seen_reports.add(identity)
         seen = set()
         for branch_index, branch in enumerate(branches):
             for error in {

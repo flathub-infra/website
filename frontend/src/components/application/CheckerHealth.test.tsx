@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest"
 import type { CheckerHealth as Health } from "src/codegen/model"
 import CheckerHealth from "./CheckerHealth"
 import { checkerSource, checkerSubmodule } from "./CheckerHealth.fixtures"
+import messages from "../../../public/locales/en/common.json"
 
 const query = vi.hoisted(() => ({
   isPending: false,
@@ -14,9 +15,16 @@ vi.mock("src/codegen/checker-health/checker-health", () => ({
   useGetCheckerHealthAppsAppIdCheckerHealthGet: () => query,
 }))
 
-function render(locale = "en") {
+function render(
+  locale = "en",
+  selectionMessages = messages["checker-selection"],
+) {
   return renderToStaticMarkup(
-    <NextIntlClientProvider locale={locale} messages={{}} timeZone="UTC">
+    <NextIntlClientProvider
+      locale={locale}
+      messages={{ "checker-selection": selectionMessages }}
+      timeZone="UTC"
+    >
       <CheckerHealth appId="org.example.App" />
     </NextIntlClientProvider>,
   )
@@ -69,6 +77,91 @@ describe("checker health evidence", () => {
       expect(render()).not.toContain("Submodule updates")
     },
   )
+  it("uses locale-provided selection messages", () => {
+    const html = render("de", {
+      ...messages["checker-selection"],
+      "selection-title": "Repository-Auswahl",
+      "selection-unknown": "Inventar unbekannt",
+    })
+    expect(html).toContain("Repository-Auswahl")
+    expect(html).toContain("Inventar unbekannt")
+    expect(html).not.toContain("Inventory unknown")
+  })
+  it("keeps successful invocation separate from a failed health report", () => {
+    query.data.data.selection = {
+      state: "complete",
+      report_state: "available",
+      report_status: "failed",
+      invocation_outcome: "succeeded",
+      decision: {
+        repository: "org.example.App",
+        selection: "selected",
+        reason: "selected",
+        error: null,
+        branch: "master",
+        commit: "a".repeat(40),
+        checkout_unknown_reason: null,
+        invocation: {
+          started: true,
+          exit_code: 0,
+          report: "valid_json_object",
+        },
+      },
+    }
+    const html = render()
+    expect(html).toContain("Exited successfully")
+    expect(html).toContain("Report failed")
+    expect(html).toContain("Exit code: 0")
+  })
+
+  it("shows selection errors without requiring a health report and escapes artifact text", () => {
+    query.data.data.selection = {
+      state: "incomplete",
+      report_state: "not_expected",
+      invocation_outcome: "selection_error",
+      decision: {
+        repository: "org.example.App",
+        selection: "error",
+        reason: null,
+        error: '<img src=x onerror="alert(1)">',
+        branch: null,
+        commit: null,
+        checkout_unknown_reason: "clone_failed",
+        invocation: { started: false, exit_code: null, report: "not_expected" },
+      },
+    }
+    const html = render()
+    expect(html).toContain("Selection failed before invocation")
+    expect(html).toContain("&lt;img")
+    expect(html).not.toContain("<img src=x")
+    expect(html).toContain("Its checker health is unknown")
+  })
+
+  it("shows unknown inventory for old responses and missing reports explicitly", () => {
+    expect(render()).toContain("Inventory unknown")
+    expect(render()).toContain(
+      "Missing evidence does not mean it was excluded or healthy",
+    )
+    query.data.data.selection = {
+      report_state: "missing",
+      invocation_outcome: "failed",
+      state: "incomplete",
+      issues: ["missing_shards", "listing_drift"],
+      decision: {
+        repository: "org.example.App",
+        selection: "selected",
+        reason: "selected",
+        error: null,
+        branch: null,
+        commit: null,
+        checkout_unknown_reason: null,
+        invocation: { started: true, exit_code: 1, report: "missing" },
+      },
+    }
+    const html = render()
+    expect(html).toContain("Selected, but report missing")
+    expect(html).toContain("A shared denominator is unavailable")
+  })
 
   it.each([
     ["created", "Pull request created in this run"],

@@ -4555,9 +4555,26 @@ class CheckerHealthArtifact(Base):
     )
     run_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
     run_attempt: Mapped[int] = mapped_column(Integer, nullable=False)
+    shard_index: Mapped[int | None] = mapped_column(Integer)
     imported_at: Mapped[datetime] = mapped_column(
         DateTime, nullable=False, server_default=func.now()
     )
+
+
+class CheckerSelectionArtifact(Base):
+    __tablename__ = "checkerselectionartifact"
+
+    artifact_id: Mapped[int] = mapped_column(
+        BigInteger, primary_key=True, autoincrement=False
+    )
+    run_id: Mapped[int] = mapped_column(BigInteger, nullable=False, index=True)
+    run_attempt: Mapped[int] = mapped_column(Integer, nullable=False)
+    shard_index: Mapped[int] = mapped_column(Integer, nullable=False)
+    state: Mapped[str] = mapped_column(String, nullable=False)
+    run_completed: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
+    inventory: Mapped[dict[str, JsonValue] | None] = mapped_column(JSONB)
+    listing: Mapped[list[JsonValue] | None] = mapped_column(JSONB)
+    decisions: Mapped[dict[str, JsonValue] | None] = mapped_column(JSONB)
 
 
 class CheckerHealthObservation(Base):

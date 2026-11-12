@@ -9,8 +9,10 @@ import type { CheckerHealthLastCheckAt } from "./checkerHealthLastCheckAt"
 import type { CheckerHealthLastReportAt } from "./checkerHealthLastReportAt"
 import type { CheckerRun } from "./checkerRun"
 import type { CheckerSourceHealth } from "./checkerSourceHealth"
+import type { SelectionCoverage } from "./selectionCoverage"
 
 export interface CheckerHealth {
+  selection?: SelectionCoverage
   last_report_at?: CheckerHealthLastReportAt
   last_check_at?: CheckerHealthLastCheckAt
   sources?: CheckerSourceHealth[]

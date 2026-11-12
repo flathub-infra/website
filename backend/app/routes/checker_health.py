@@ -2,6 +2,7 @@ from fastapi import APIRouter, FastAPI
 
 from .. import cache, models
 from ..checker_health import CheckerHealth, summarize
+from ..checker_selection import load_selection
 from ..database import get_db
 from ..login_info import ModifyUsersDep
 
@@ -25,4 +26,6 @@ def get_checker_health(app_id: str, login: ModifyUsersDep) -> CheckerHealth:
             )
             .yield_per(20)
         )
-        return summarize(rows, ordered=True)
+        result = summarize(rows, ordered=True)
+        result.selection = load_selection(db, app_id)
+        return result
