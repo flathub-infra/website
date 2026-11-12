@@ -29,6 +29,57 @@ beforeEach(() => {
 })
 
 describe("checker health evidence", () => {
+  it.each([
+    [
+      "selected",
+      "available",
+      "completed",
+      "Update check results are available",
+    ],
+    ["selected", "available", "failed", "The update check reported a problem"],
+    ["selected", "pending", null, "Waiting for update check results"],
+    ["selected", "missing", null, "No results are available for this check"],
+    [
+      "selected",
+      "checkout_unverified",
+      null,
+      "We can’t confirm this app’s latest check",
+    ],
+    ["excluded", "not_expected", null, "This app’s update check was skipped"],
+    ["error", "not_expected", null, "The update check couldn’t start"],
+  ] as const)(
+    "explains %s / %s / %s before the technical details",
+    (selection, report_state, report_status, heading) => {
+      query.data.data.selection = {
+        state: "complete",
+        report_state,
+        report_status,
+        decision: {
+          repository: "org.example.App",
+          selection,
+          reason: null,
+          error: null,
+          branch: null,
+          commit: null,
+          checkout_unknown_reason: null,
+          invocation: {
+            started: selection === "selected",
+            exit_code: null,
+            report: "pending",
+          },
+        },
+      }
+      const html = render()
+      expect(html).toContain(heading)
+      expect(html.indexOf(heading)).toBeLessThan(
+        html.indexOf("Technical details"),
+      )
+      expect(html.indexOf("Technical details")).toBeLessThan(
+        html.indexOf("Checker invocation"),
+      )
+      expect(html).not.toContain("This app may not have been included")
+    },
+  )
   it.each(["update_available", "blocked"] as const)(
     "shows %s submodule evidence on its report branch",
     (status) => {
@@ -103,6 +154,8 @@ describe("checker health evidence", () => {
     expect(rejected).toContain("Report invalid or unsupported")
     expect(rejected).toContain("Exited successfully")
     expect(rejected).not.toContain("Imported and checkout matched")
+    expect(rejected).toContain("We couldn’t read the update check results")
+    expect(rejected).not.toContain("This app may not have been included")
   })
 
   it("shows selection errors without requiring a health report and escapes artifact text", () => {
@@ -125,7 +178,8 @@ describe("checker health evidence", () => {
     expect(html).toContain("Selection failed before invocation")
     expect(html).toContain("&lt;img")
     expect(html).not.toContain("<img src=x")
-    expect(html).toContain("Its checker health is unknown")
+    expect(html).toContain("The update check couldn’t start")
+    expect(html).not.toContain("This app may not have been included")
   })
 
   it("shows unknown inventory for old responses and missing reports explicitly", () => {

@@ -4,15 +4,39 @@ export const checkerHealthText = createTranslator({
   locale: "en",
   messages: {
     title: "Update check health",
-    "selection-title": "Repository selection",
-    "selection-open-run": "Selection run",
+    "selection-title": "Latest update check",
+    "selection-open-run": "View check logs",
+    "selection-summary-results": "Update check results are available",
+    "selection-summary-results-note":
+      "See the source results below for updates or problems. A finished check does not mean every source is up to date.",
+    "selection-summary-problem": "The update check reported a problem",
+    "selection-summary-problem-note":
+      "Some checks may not have finished. Review the results below or open the check logs to find out what happened.",
+    "selection-summary-unreadable": "We couldn’t read the update check results",
+    "selection-summary-unreadable-note":
+      "The checker produced results that we can’t read. We can’t tell from them whether this app is up to date. Check the logs for more information.",
+    "selection-summary-no-results": "No results are available for this check",
+    "selection-summary-no-results-note":
+      "This app was chosen for checking, but we don’t have usable results from that run. Check the logs to see whether it finished.",
+    "selection-summary-waiting": "Waiting for update check results",
+    "selection-summary-waiting-note":
+      "This app was chosen for checking. The check may still be running, or its results may not have arrived yet.",
+    "selection-summary-skipped": "This app’s update check was skipped",
+    "selection-summary-skipped-note":
+      "This run skipped the check. Open the check logs to see why.",
+    "selection-summary-not-started": "The update check couldn’t start",
+    "selection-summary-not-started-note":
+      "A problem preparing this app prevented the check from starting. Open the check logs for details.",
+    "selection-summary-unknown": "We can’t confirm this app’s latest check",
+    "selection-summary-unknown-note":
+      "The available records don’t establish what happened. This doesn’t mean the app is up to date or was skipped.",
     "selection-exit-report-note":
       "Exit 0 describes the process, not the completeness of its checks.",
     "selection-shard-progress": "{received}/{expected} shards",
     "selection-complete": "Inventory complete",
     "selection-incomplete": "Inventory incomplete",
     "selection-unknown": "Inventory unknown",
-    "selection-stale": "Inventory older than two days",
+    "selection-stale": "This information is more than two days old.",
     "selection-decision": "Selection decision",
     "selection-invocation": "Checker invocation",
     "selection-report": "Health report",
@@ -22,13 +46,16 @@ export const checkerHealthText = createTranslator({
     "selection-excluded": "Excluded",
     "selection-error": "Selection error",
     "selection-pending": "Pending",
-    "selection-no_checker_marker": "No checker marker found",
+    "selection-no_checker_marker":
+      "No automatic update checks were found for this app.",
     "selection-archived": "Archived repository",
-    "selection-checker_disabled": "Checker disabled by repository",
+    "selection-checker_disabled":
+      "Automatic update checks are disabled for this app.",
     "selection-inactive": "Inactive repository",
     "selection-end_of_life": "End of life",
     "selection-manifest_not_found": "Manifest not found",
-    "selection-clone_failed": "Repository clone failed",
+    "selection-clone_failed":
+      "The checker couldn’t download this app’s packaging files. Open the check logs for details.",
     "selection-marker_scan_failed": "Checker marker scan failed",
     "selection-invalid_flathub_json": "Invalid flathub.json",
     "selection-succeeded": "Exited successfully",
@@ -74,7 +101,7 @@ export const checkerHealthText = createTranslator({
     "selection-expired": "A selection artifact expired before import.",
     "selection-invalid_or_unsupported":
       "Selection artifact invalid or unsupported.",
-    "selection-inventory-details": "Inventory scope and provenance",
+    "selection-inventory-details": "Technical details",
     "selection-public_organization": "Public organization inventory",
     "selection-target_request": "Targeted request, not organization-wide",
     "selection-repositories": "Repositories in listing: {count}",
