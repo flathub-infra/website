@@ -30,23 +30,13 @@ beforeEach(() => {
 
 describe("checker health evidence", () => {
   it.each([
-    [
-      "selected",
-      "available",
-      "completed",
-      "Update check results are available",
-    ],
-    ["selected", "available", "failed", "The update check reported a problem"],
-    ["selected", "pending", null, "Waiting for update check results"],
-    ["selected", "missing", null, "No results are available for this check"],
-    [
-      "selected",
-      "checkout_unverified",
-      null,
-      "We can’t confirm this app’s latest check",
-    ],
-    ["excluded", "not_expected", null, "This app’s update check was skipped"],
-    ["error", "not_expected", null, "The update check couldn’t start"],
+    ["selected", "available", "completed", "Results available"],
+    ["selected", "available", "failed", "Failed"],
+    ["selected", "pending", null, "Unknown"],
+    ["selected", "missing", null, "Unknown"],
+    ["selected", "checkout_unverified", null, "Unknown"],
+    ["excluded", "not_expected", null, "Skipped"],
+    ["error", "not_expected", null, "Failed"],
   ] as const)(
     "explains %s / %s / %s before the technical details",
     (selection, report_state, report_status, heading) => {
@@ -145,16 +135,16 @@ describe("checker health evidence", () => {
       },
     }
     const html = render()
-    expect(html).toContain("Exited successfully")
+    expect(html).toContain("succeeded")
     expect(html).toContain("Failed")
     expect(html).toContain("Exit code: 0")
     query.data.data.selection.report_state = "invalid_or_unsupported"
     query.data.data.selection.report_status = null
     const rejected = render()
-    expect(rejected).toContain("Report invalid or unsupported")
-    expect(rejected).toContain("Exited successfully")
-    expect(rejected).not.toContain("Imported and checkout matched")
-    expect(rejected).toContain("We couldn’t read the update check results")
+    expect(rejected).toContain("invalid_or_unsupported")
+    expect(rejected).toContain("succeeded")
+    expect(rejected).not.toContain("Results matched to this check")
+    expect(rejected).toContain("Results could not be read")
     expect(rejected).not.toContain("This app may not have been included")
   })
 
@@ -175,18 +165,16 @@ describe("checker health evidence", () => {
       },
     }
     const html = render()
-    expect(html).toContain("Selection failed before invocation")
+    expect(html).toContain("Check couldn’t start")
     expect(html).toContain("&lt;img")
     expect(html).not.toContain("<img src=x")
-    expect(html).toContain("The update check couldn’t start")
+    expect(html).toContain("Failed")
     expect(html).not.toContain("This app may not have been included")
   })
 
   it("shows unknown inventory for old responses and missing reports explicitly", () => {
     expect(render()).toContain("Inventory unknown")
-    expect(render()).toContain(
-      "Missing evidence does not mean it was excluded or healthy",
-    )
+    expect(render()).toContain("Unknown")
     query.data.data.selection = {
       report_state: "missing",
       invocation_outcome: "failed",
@@ -204,8 +192,8 @@ describe("checker health evidence", () => {
       },
     }
     const html = render()
-    expect(html).toContain("Selected, but report missing")
-    expect(html).toContain("A shared denominator is unavailable")
+    expect(html).toContain("Results missing")
+    expect(html).toContain("listing_drift")
   })
 
   it.each([

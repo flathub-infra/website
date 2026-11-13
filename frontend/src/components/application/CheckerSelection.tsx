@@ -29,8 +29,19 @@ export default function CheckerSelection({
 }) {
   const format = useFormatter()
   function label(value: string) {
-    const key = `selection-${value}`
-    return t.has(key) ? t(key) : value
+    const aliases: Record<string, string> = {
+      "report-invalid": "report-unreadable",
+      "report-invalid_or_unsupported": "report-unreadable",
+      "report-ambiguous": "report-unmatched",
+      "report-conflicting_inventory": "report-unmatched",
+      "report-checkout_unverified": "report-unmatched",
+      "report-artifact_unavailable": "report-missing",
+      "report-incomplete": "report-missing",
+    }
+    const key = `selection-${aliases[value] ?? value}`
+    return t.has(key)
+      ? t(key)
+      : value.replace(/^report-/, "").replaceAll("_", " ")
   }
   const decision = data?.decision
   const invocationFailed =
@@ -72,46 +83,40 @@ export default function CheckerSelection({
   const summary =
     data?.report_state === "available"
       ? data.report_status === "failed"
-        ? "problem"
+        ? "report-failed"
         : data.report_status === "skipped"
-          ? "skipped"
-          : "results"
-      : ["invalid", "invalid_or_unsupported"].includes(data?.report_state ?? "")
-        ? "unreadable"
-        : [
-              "ambiguous",
-              "conflicting_inventory",
-              "checkout_unverified",
-            ].includes(data?.report_state ?? "")
-          ? "unknown"
-          : decision?.selection === "excluded"
-            ? "skipped"
-            : decision?.selection === "error"
-              ? "not-started"
-              : data?.report_state === "pending" &&
-                  decision?.selection === "selected"
-                ? "waiting"
-                : decision?.selection === "selected"
-                  ? "no-results"
-                  : "unknown"
+          ? "report-skipped"
+          : "selection-results"
+      : data?.report_state === "not_expected" &&
+          decision?.selection === "excluded"
+        ? "report-skipped"
+        : decision?.selection === "error"
+          ? "report-failed"
+          : "unknown-check"
   const explanation =
-    summary === "skipped" && decision?.reason && decision.reason !== "selected"
+    summary === "report-skipped" &&
+    decision?.reason &&
+    decision.reason !== "selected"
       ? label(decision.reason)
-      : summary === "not-started" && decision?.error
-        ? label(decision.error)
-        : t(`selection-summary-${summary}-note`)
+      : decision?.selection === "error"
+        ? label(decision.error ?? "selection_error")
+        : summary === "unknown-check" &&
+            data?.report_state &&
+            data.report_state !== "unknown"
+          ? label(`report-${data.report_state}`)
+          : null
   return (
     <section
       className="flex min-w-0 flex-col gap-3 [overflow-wrap:anywhere]"
       aria-label={t("selection-title")}
     >
       <div className="flex flex-col items-start gap-2">
-        <h4 className="text-base font-semibold">
-          {t(`selection-summary-${summary}`)}
-        </h4>
-        <p className="max-w-prose text-sm leading-relaxed text-muted-foreground">
-          {explanation}
-        </p>
+        <h4 className="text-base font-semibold">{t(summary)}</h4>
+        {explanation && (
+          <p className="max-w-prose text-sm leading-relaxed text-muted-foreground">
+            {explanation}
+          </p>
+        )}
         {data?.run_url && (
           <a
             className="inline-flex min-h-11 shrink-0 items-center gap-1 rounded-sm text-sm underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
@@ -217,23 +222,24 @@ export default function CheckerSelection({
                     {label(`report-${data?.report_state ?? "unknown"}`)}
                   </dd>
                 )}
+                {data?.report_state && (
+                  <dd className="col-start-2 mt-1 text-xs text-muted-foreground">
+                    <code>{data.report_state}</code>
+                  </dd>
+                )}
               </div>
             </dl>
           ) : (
             <p className="max-w-prose text-muted-foreground">
-              {t("selection-no-decision")}
+              {t("unknown-check")}
             </p>
           )}
-          {data?.report_status === "failed" &&
-            data.invocation_outcome === "succeeded" && (
-              <p className="max-w-prose text-xs leading-relaxed text-muted-foreground">
-                {t("selection-exit-report-note")}
-              </p>
-            )}
           {!!data?.issues?.length && (
             <ul className="flex flex-col gap-1 border-s-2 border-border ps-3 text-xs leading-relaxed text-muted-foreground">
               {data.issues.map((issue) => (
-                <li key={issue}>{label(issue)}</li>
+                <li key={issue}>
+                  <code>{issue}</code>
+                </li>
               ))}
             </ul>
           )}
