@@ -1,7 +1,7 @@
 import { formatDistanceToNow } from "date-fns"
 import { useLocale, useTranslations } from "next-intl"
-import { FunctionComponent, useState, useRef, useEffect } from "react"
-import { getIntlLocale } from "../../localize"
+import { FunctionComponent, useState, useRef, useEffect, useId } from "react"
+import { getDateFnsLocale } from "../../localize"
 
 import clsx from "clsx"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
@@ -37,13 +37,13 @@ const ReleaseLink = ({
 
   return (
     <a
-      className="flex items-center gap-2 font-normal text-flathub-celestial-blue no-underline hover:underline"
+      className="flex min-h-11 w-fit max-w-full items-center gap-2 rounded-sm py-2 font-normal text-flathub-celestial-blue no-underline hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flathub-celestial-blue"
       href={url}
       target="_blank"
       rel="noreferrer"
     >
       {t(noChangeLogProvided ? "release-link-no-changelog" : "release-link")}
-      <div className="self-center justify-self-end text-flathub-black opacity-60 dark:text-flathub-gainsborow">
+      <div className="shrink-0 self-center justify-self-end text-flathub-black opacity-60 dark:text-flathub-gainsborow">
         <ExternalLinkIcon className="rtl:-rotate-90 h-5" />
       </div>
     </a>
@@ -61,21 +61,24 @@ const Releases: FunctionComponent<Props> = ({
   const [showCollapseButton, setShowCollapseButton] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
   const [collapsedHeight, setCollapsedHeight] = useState<number>(0)
-  const [fullHeight, setFullHeight] = useState<number>(0)
+  const contentId = useId()
 
   useEffect(() => {
-    // Check if content is overflowing after render
-    if (contentRef.current) {
-      const lineHeight = parseFloat(
-        getComputedStyle(contentRef.current).lineHeight,
-      )
+    const content = contentRef.current
+    if (!content) {
+      return
+    }
+
+    const observer = new ResizeObserver(() => {
+      const lineHeight = parseFloat(getComputedStyle(content).lineHeight)
       const maxLines = 3
       const maxHeight = lineHeight * maxLines
       setCollapsedHeight(maxHeight)
-      setFullHeight(contentRef.current.scrollHeight)
-      setShowCollapseButton(contentRef.current.scrollHeight > maxHeight)
-    }
-  }, [latestRelease.description])
+      setShowCollapseButton(content.scrollHeight > maxHeight)
+    })
+    observer.observe(content)
+    return () => observer.disconnect()
+  }, [latestRelease.description, latestRelease.url, locale])
 
   const latestReleaseTimestamp =
     !latestRelease.timestamp ||
@@ -90,16 +93,16 @@ const Releases: FunctionComponent<Props> = ({
   return (
     <>
       {latestRelease && (
-        <div className="rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic dark:shadow-none">
+        <div className="min-w-0 rounded-xl bg-flathub-white shadow-sm dark:bg-flathub-arsenic dark:shadow-none">
           <div>
             <div
               className={clsx(
-                "flex flex-col gap-2 px-4 pt-4",
-                (!showCollapseButton || isExpanded) && "pb-4",
+                "flex flex-col gap-4 px-5 pt-5 sm:px-6 sm:pt-6",
+                (!showCollapseButton || isExpanded) && "pb-5 sm:pb-6",
               )}
             >
-              <header className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <h3 className="my-0 text-lg font-semibold">
+              <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+                <h3 className="my-0 min-w-0 text-lg leading-snug font-semibold [overflow-wrap:anywhere]">
                   {t("changes-in-version", {
                     version_number: latestRelease.version,
                   })}
@@ -109,11 +112,19 @@ const Releases: FunctionComponent<Props> = ({
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <div className="text-xs rounded-full bg-flathub-gainsborow px-2.5 py-0.5 text-flathub-granite-gray dark:bg-flathub-dark-gunmetal dark:text-flathub-spanish-gray">
-                            {formatDistanceToNow(latestReleaseTimestamp, {
-                              addSuffix: true,
-                            })}
-                          </div>
+                          <button
+                            type="button"
+                            className="min-h-11 rounded-md text-sm text-flathub-granite-gray focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flathub-celestial-blue dark:text-flathub-gainsborow"
+                          >
+                            <time
+                              dateTime={latestReleaseTimestamp.toISOString()}
+                            >
+                              {formatDistanceToNow(latestReleaseTimestamp, {
+                                addSuffix: true,
+                                locale: getDateFnsLocale(locale),
+                              })}
+                            </time>
+                          </button>
                         </TooltipTrigger>
                         <TooltipContent>
                           <div>
@@ -124,7 +135,10 @@ const Releases: FunctionComponent<Props> = ({
                               {t("build-x", {
                                 build_ago: formatDistanceToNow(
                                   new UTCDate(summary.timestamp * 1000),
-                                  { addSuffix: true },
+                                  {
+                                    addSuffix: true,
+                                    locale: getDateFnsLocale(locale),
+                                  },
                                 ),
                               })}
                             </div>
@@ -137,33 +151,32 @@ const Releases: FunctionComponent<Props> = ({
               </header>
               {descriptionSanitized ? (
                 <div
-                  ref={contentRef}
+                  id={contentId}
+                  onFocusCapture={() => setIsExpanded(true)}
                   className={clsx(
-                    "prose prose-p:my-0 prose-ul:my-0 relative overflow-hidden transition-all duration-300 ease-in-out dark:prose-invert dark:prose-p:text-flathub-lotion",
+                    "prose prose-p:my-0 prose-ul:my-0 relative max-w-prose overflow-hidden [overflow-wrap:anywhere] dark:prose-invert dark:prose-p:text-flathub-lotion",
                     !isExpanded &&
                       showCollapseButton &&
-                      "before:from-flathub-white before:absolute before:bottom-0 before:start-0 before:h-1/2 before:w-full before:bg-linear-to-t before:content-[''] dark:before:from-flathub-arsenic",
+                      "before:from-flathub-white before:pointer-events-none before:absolute before:bottom-0 before:start-0 before:h-1/2 before:w-full before:bg-linear-to-t before:content-[''] dark:before:from-flathub-arsenic",
                   )}
                   style={{
                     maxHeight:
                       isExpanded || !showCollapseButton
-                        ? fullHeight
-                          ? `${fullHeight}px`
-                          : "none"
+                        ? "none"
                         : collapsedHeight
                           ? `${collapsedHeight}px`
                           : "none",
                   }}
                 >
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: descriptionSanitized,
-                    }}
-                  />
-                  <ReleaseLink url={latestRelease.url} />
+                  <div ref={contentRef} className="flow-root">
+                    <div
+                      dangerouslySetInnerHTML={{ __html: descriptionSanitized }}
+                    />
+                    <ReleaseLink url={latestRelease.url} />
+                  </div>
                 </div>
               ) : (
-                <div className="prose prose-p:my-0 dark:prose-invert">
+                <div className="prose prose-p:my-0 min-w-0 [overflow-wrap:anywhere] dark:prose-invert">
                   {latestRelease.url ? (
                     <ReleaseLink url={latestRelease.url} noChangeLogProvided />
                   ) : (
@@ -176,7 +189,10 @@ const Releases: FunctionComponent<Props> = ({
             </div>
             {showCollapseButton && (
               <button
-                className="w-full rounded-bl-xl rounded-br-xl rounded-tl-none rounded-tr-none border-t border-flathub-gainsborow dark:border-flathub-granite-gray px-0 py-3 font-semibold transition hover:cursor-pointer hover:bg-black/5 dark:hover:bg-white/5"
+                type="button"
+                aria-expanded={isExpanded}
+                aria-controls={contentId}
+                className="min-h-11 w-full rounded-b-xl border-t border-flathub-gainsborow px-5 py-3 font-semibold transition-colors hover:cursor-pointer hover:bg-black/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flathub-celestial-blue dark:border-flathub-granite-gray dark:hover:bg-white/5"
                 onClick={() => setIsExpanded(!isExpanded)}
               >
                 {isExpanded ? (
