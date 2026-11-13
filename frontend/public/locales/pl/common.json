@@ -1020,5 +1020,18 @@
   "moderation-approved": "Zatwierdzono",
   "moderation-rejected": "Odrzucono",
   "moderation-approved-on": "Zatwierdzono w dniu {handledAt} ({handledAtRel})",
-  "moderation-rejected-on": "Odrzucono w dniu {handledAt} ({handledAtRel})"
+  "moderation-rejected-on": "Odrzucono w dniu {handledAt} ({handledAtRel})",
+  "country-downloads": {
+    "country": "Kraj",
+    "description": "W tych danych uwzględniono liczbę pobrań, a nie liczbę poszczególnych użytkowników.",
+    "lower": "Mniej",
+    "higher": "Więcej",
+    "total-downloads": "Łączna liczba pobrań",
+    "per-100000": "Na 100 000 osób",
+    "per-capita-map-label": "Liczba pobrań na 100 000 osób w każdym kraju",
+    "x-per-100000": "{x} pobrań na 100 000 osób",
+    "x-total": "{x} ogółem",
+    "population-unavailable": "Brak danych dotyczących ludności",
+    "source": "Korzystamy z prognoz liczby ludności na połowę roku {year} z <source>United Nations World Population Prospects {revision}</source>. ONZ udostępnia te dane na licencji <license>CC BY 3.0 IGO</license>."
+  }
 }

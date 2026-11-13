@@ -982,6 +982,28 @@
   "developer-login-title": "Connexion développeurs",
   "email-login-email-address": "Adresse e-mail",
   "app-management": {
-    "payments": "Paiements"
-  }
+    "payments": "Paiements",
+    "manage-app": "Gestion app",
+    "payment-account-status": "Configuration de compte requise",
+    "payments-description": "Connectez un compte Stripe Express pour recevoir les paiements pour votre app. Une fois votre compte prêt, vous pouvez configurer les contributions suggérées et la tarification ici.",
+    "set-up-payments": "Configurer paiements",
+    "verification-description": "Montrer aux utilisateurs que cette app est approuvée par son développeur. Choisissez une méthode ci-dessous pour prouver que vous contrôlez son domaine ou son compte d’hébergement source. Lire le <doclink>guide de vérification</doclink> pour plus de détails.",
+    "sections": "Sections gestion d'app",
+    "no-pending-reviews": "Aucun changement en attente de révision"
+  },
+  "country-downloads": {
+    "description": "Ces totaux comptent les téléchargements, pas les utilisateurs individuels.",
+    "country": "Pays",
+    "total-downloads": "Téléchargements au total",
+    "source": "Nous utilisons les projections démographiques de {year} à la mi-année à partir de <source>Perspectives de la population mondiale selon les Nations unies{revision}</source>. L’ONU autorise les données sous <license>CC BY 3.0 IGO</license>."
+  },
+  "app-maintenance": {
+    "runtime-unavailable": "Les informations d’exécution ne sont pas disponibles.",
+    "update-checker": "Vérificateur de mise à jour",
+    "checker-docs": "Guide de configuration"
+  },
+  "moderation-approved": "Approuvé(e)",
+  "moderation-rejected": "Rejeté(e)",
+  "moderation-approved-on": "Approuvé(e) sur {handledAt} ({handledAtRel})",
+  "moderation-rejected-on": "Rejeté(e) sur {handledAt} ({handledAtRel})"
 }

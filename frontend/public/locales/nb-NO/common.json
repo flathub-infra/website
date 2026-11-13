@@ -42,7 +42,7 @@
   "loading-user-apps": "Laster inn apper…",
   "authored-apps": "Selvutviklede apper",
   "app-logo": "{app_name} Logo",
-  "count-downloads": "Nedlastinger",
+  "count-downloads": "Totalt antall nedlastinger",
   "since": "Siden",
   "downloads-per-country": "Nedlastinger globalt",
   "downloads-over-time": "Nedlastinger over tid",
@@ -1020,5 +1020,18 @@
   "dns-verification-main-instruction": "Verifiser retten din til å bruke app-ID-en <bold>{id}</bold> ved å publisere en DNS TXT-oppføring for <bold>{domain}</bold>.",
   "moderation-permissions-changed-count": "{count, plural, one {# endret en tillatelse} other {# endret tillatelser}}",
   "moderation-permissions-pull-request-review": "Gjennomgang av tillatelser for pull requests",
-  "moderation-permissions-pull-request": "Pull request"
+  "moderation-permissions-pull-request": "Pull request",
+  "country-downloads": {
+    "lower": "Færre",
+    "higher": "Flere",
+    "description": "Her telles det totale antallet nedlastinger og ikke antallet enkeltbrukere.",
+    "country": "Land",
+    "total-downloads": "Totalt antall nedlastinger",
+    "per-100000": "Per 100 000",
+    "per-capita-map-label": "Antall nedlastinger per 100 000 innbyggere i hvert land",
+    "x-per-100000": "{x} nedlastinger per 100 000",
+    "x-total": "{x} totalt",
+    "population-unavailable": "Innbyggertall utilgjengelig",
+    "source": "Vi bruker befolkningsprognoser fra midten av {year} fra <source>FNs World Population Prospects {revision}</source>. FN gir ut dataene under <license>CC BY 3.0 IGO</license>-lisensen."
+  }
 }
