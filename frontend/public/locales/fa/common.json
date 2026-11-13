@@ -1020,5 +1020,18 @@
   "moderation-approved-on": "تأیید شده روی {handledAt} ({handledAtRel})",
   "moderation-rejected-on": "رد شده روی {handledAt} ({handledAtRel})",
   "moderation-rejected": "رد شده",
-  "moderation-approved": "تأیید شده"
+  "moderation-approved": "تأیید شده",
+  "country-downloads": {
+    "x-total": "در مجموع {x}",
+    "population-unavailable": "داده‌های جمعیتی در دسترس نیست",
+    "source": "از نگاشت‌های جمعیتی میان‌سال {year}‏ <source>چشم انداز جمعیت جهان سازمان ملل متحد {revision}</source> استفاده می‌کنیم. سازمان ملل داده‌ها را با پروانهٔ <license>CC BY 3.0 IGO</license> منتشر می‌کند.",
+    "description": "مجموع بارگیری‌ها شمرده می‌شود؛ نه کاربران.",
+    "country": "کشور",
+    "lower": "کم‌تر",
+    "higher": "بیش‌تر",
+    "total-downloads": "مجموع بارگیری‌ها",
+    "per-100000": "بر ۱۰۰٬۰۰۰ نفر",
+    "per-capita-map-label": "بارگیری به ازای هر ۱۰۰٬۰۰۰ نفر در هر کشور",
+    "x-per-100000": "{x} بارگیری به ازای هر ۱۰۰٬۰۰۰ نفر"
+  }
 }

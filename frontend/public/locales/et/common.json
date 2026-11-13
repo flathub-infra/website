@@ -1006,6 +1006,32 @@
     "no-pending-description": "Kõik on tehtud. Varasemat muudatuste vaatamiseks lülita nende kuvamine sisse.",
     "view-listing": "Vaata rakenduse avaldamise teavet",
     "manage-app": "Halda rakendust",
-    "payments": "Maksed"
-  }
+    "payments": "Maksed",
+    "uploads": "Laadi tunnusload üles",
+    "payment-account-status": "Vajalik on kasutajakonto seadistamine",
+    "switch-upload-method": "Vaheta üleslaadimise meetodit",
+    "no-active-tokens": "Aktiivseid üleslaadimise tunnuslube pole.",
+    "set-up-payments": "Seadista maksed",
+    "payments-description": "Ühenda Stripe Expressi konto, et saada oma rakenduse eest makseid. Kui konto on seadistatud, saad siin määratleda soovituslikud annetussummad ja hinnad.",
+    "uploads-description": "Loo üleslaadimise tunnusload, et avaldada kompileeritud versioone oma arendustööriistadest või pideva lõimingu (CI) liidestusest. Siin saad olemasolevaid tunnuslube hallata ja tühistada.",
+    "archive-description": "Tühista kõik üleslaadimise tunnusload ja märgi see rakendus kasutuselt kõrvaldatuks. Saad lisada sõnumi ja soovitada olemasolevatele kasutajatele asendusrakendust.",
+    "verification-description": "Näita kasutajatele, et see rakendus on arendaja poolt heaks kiidetud. Vali allpool üks meetod, et tõendada, et sa kontrollid seda domeeni või lähtekoodi halduskontot. Täpsema teabe saamiseks loe <doclink>tuvastusjuhendit</doclink>."
+  },
+  "country-downloads": {
+    "description": "Need üldnumbrid märgivad allalaadimiste, mitte kasutajate arvu.",
+    "country": "Riik",
+    "lower": "Vähem",
+    "higher": "Rohkem",
+    "total-downloads": "Allalaadimisi kokku",
+    "per-100000": "100000 elaniku kohta",
+    "per-capita-map-label": "Allalaadimisi igas riigis 100000 elaniku kohta",
+    "x-per-100000": "{x} allalaadimist 100000 elaniku kohta",
+    "x-total": "Kokku {x}",
+    "population-unavailable": "Rahvastikuandmeid pole saadaval",
+    "source": "Me kasutame {year}. aasta keskpunkti rahvastikuprognoose, mis pärinevad <source>ÜRO maailma rahvastikuprognoosidest {revision}</source>. ÜRO on litsentseerinud neid andmeid <license>CC BY 3.0 IGO</license> litsentsi alusel."
+  },
+  "moderation-approved": "Kinnitatud",
+  "moderation-rejected": "Tagasilükatud",
+  "moderation-approved-on": "Kinnitatud {handledAt} ({handledAtRel})",
+  "moderation-rejected-on": "Tagasilükatud {handledAt} ({handledAtRel})"
 }

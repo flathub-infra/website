@@ -655,7 +655,12 @@
   "download": {
     "install-x": "Pasang “{x}”",
     "fallback-instructions": "<opening>Membuka “{name}” di pengelola perangkat lunak Anda…</opening><support>Jika tidak terjadi apa-apa, mungkin sistem Anda tidak mendukung <i>flatpak+https</i> urls.</support><listPrefix>Dalam hal ini anda dapat:</listPrefix><ol><li>Mengunduh melalui <link>.flatpakref file</link></li><li>Kemudian jalankan dari pengelola berkas Anda</li></ol><setupLine><linkSetup>Petunjuk untuk memasang Flatpak</linkSetup></setupLine>",
-    "download-file": "Unduh .flatpakref"
+    "download-file": "Unduh .flatpakref",
+    "open-instructions": "Pengelola perangkat lunak adalah toko aplikasi Linux Anda. Izinkan peramban membukanya, lalu pilih Instal.",
+    "open-again": "Buka di pengelola perangkat lunak",
+    "file-description": "Buka berkas dari folder unduhan menggunakan pengelola perangkat lunak, lalu pilih Instal.",
+    "open-file": "Berkas .flatpakref mengarah ke aplikasi. Mengunduhnya tidak berarti menginstal aplikasi tersebut.",
+    "terminal-instructions": "Setelah penyiapan selesai, tempelkan ini ke terminal di komputer Linux Anda dan tekan Enter."
   },
   "count": "Jumlah",
   "country-statistics": "Statistik Negara",
@@ -717,7 +722,8 @@
     "downloads-vs-previous-year": "Unduhan vs {year}",
     "hidden-gems": "Permata Tersembunyi",
     "hidden-gems-description": "Aplikasi dengan daya tarik yang meningkat",
-    "platform-downloads": "Unduhan platform"
+    "platform-downloads": "Unduhan platform",
+    "x-growth-formatted": "Pertumbuhan {percentage}"
   },
   "app-information": "Informasi aplikasi",
   "sub-header": {
@@ -974,5 +980,58 @@
   "copy-failed": "Tidak dapat menyalin otomatis. Pilih teks dan salin secara manual.",
   "copy-success": "Disalin ke papan klip",
   "moderation-discussion-opened-by": "Diskusi dibuka oleh {openedBy}",
-  "no-network-access-description": "Aplikasi ini tidak memiliki akses ke jaringan."
+  "no-network-access-description": "Aplikasi ini tidak memiliki akses ke jaringan.",
+  "country-downloads": {
+    "description": "Total ini menghitung jumlah unduhan, bukan jumlah pengguna individu.",
+    "country": "Negara",
+    "lower": "Lebih sedikit",
+    "higher": "Lebih banyak",
+    "total-downloads": "Total unduhan",
+    "per-100000": "Per 100.000 penduduk",
+    "per-capita-map-label": "Unduhan per 100.000 penduduk di setiap negara",
+    "x-per-100000": "{x} unduhan per 100.000 penduduk",
+    "x-total": "Total {x}",
+    "population-unavailable": "Data populasi tidak tersedia",
+    "source": "Kami menggunakan proyeksi populasi pertengahan tahun {year} dari <source>United Nations World Population Prospects {revision}</source>. PBB melisensikan data tersebut berdasarkan <license>CC BY 3.0 IGO</license>."
+  },
+  "app-maintenance": {
+    "title": "Pemeliharaan",
+    "runtime": "Runtime yang dipublikasikan",
+    "loading-runtime": "Memuat informasi runtime",
+    "runtime-unavailable": "Informasi runtime tidak tersedia.",
+    "runtime-eol": "Runtime ini telah mencapai akhir masa dukungan",
+    "runtime-eol-description": "Beralihlah ke runtime yang masih didukung dan publikasikan build baru.",
+    "builds": "Build",
+    "view-builds": "Lihat hasil build",
+    "update-checker": "Pemeriksa pembaruan",
+    "view-manifest": "Lihat manifes pengemasan",
+    "manifest-unavailable": "Tidak ada tautan manifes pengemasan yang tersedia.",
+    "checker-docs": "Panduan konfigurasi",
+    "view-repository": "Repositori pengemasan",
+    "builds-description": "Pantau build, periksa log, dan lihat hasil publikasi.",
+    "checker-description": "Konfigurasikan pembaruan sumber otomatis dalam manifes pengemasan Anda."
+  },
+  "app-management": {
+    "manage-app": "Kelola aplikasi",
+    "payments": "Pembayaran",
+    "uploads": "Token unggah",
+    "payment-account-status": "Penyiapan akun diperlukan",
+    "switch-upload-method": "Ganti metode unggah",
+    "no-active-tokens": "Tidak ada token unggah yang aktif.",
+    "payments-description": "Hubungkan akun Stripe Express untuk menerima pembayaran bagi aplikasi Anda. Setelah akun siap, Anda dapat mengatur kontribusi yang disarankan dan harga di sini.",
+    "set-up-payments": "Siapkan pembayaran",
+    "uploads-description": "Buat token unggah untuk memublikasikan build dari alat pengembangan atau CI Anda. Kelola dan cabut token yang ada di sini.",
+    "archive-description": "Cabut semua token unggah dan tandai aplikasi ini telah mencapai akhir masa dukungan. Anda dapat memberikan pesan dan aplikasi pengganti bagi pengguna yang sudah ada.",
+    "verification-description": "Tunjukkan kepada pengguna bahwa aplikasi ini disetujui oleh pengembangnya. Pilih metode di bawah untuk membuktikan bahwa Anda mengendalikan domain atau akun hosting kode sumbernya. Baca <doclink>panduan verifikasi</doclink> untuk informasi selengkapnya.",
+    "sections": "Bagian pengelolaan aplikasi",
+    "reviews": "Peninjauan",
+    "view-listing": "Lihat halaman aplikasi",
+    "review-history": "Sertakan peninjauan sebelumnya",
+    "no-pending-reviews": "Tidak ada perubahan yang menunggu peninjauan",
+    "no-pending-description": "Semua perubahan telah ditinjau. Aktifkan peninjauan sebelumnya untuk melihat kembali perubahan terdahulu."
+  },
+  "moderation-approved": "Disetujui",
+  "moderation-rejected": "Ditolak",
+  "moderation-approved-on": "Disetujui pada {handledAt} ({handledAtRel})",
+  "moderation-rejected-on": "Ditolak pada {handledAt} ({handledAtRel})"
 }

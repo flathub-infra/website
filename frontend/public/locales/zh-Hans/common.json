@@ -1020,5 +1020,18 @@
   "moderation-approved-on": "批准于 {handledAt} ({handledAtRel})",
   "moderation-rejected-on": "拒绝于 {handledAt} ({handledAtRel})",
   "moderation-rejected": "被拒绝",
-  "moderation-approved": "已批准"
+  "moderation-approved": "已批准",
+  "country-downloads": {
+    "description": "这些总数统计下载量，不是单独用户数。",
+    "country": "地区",
+    "lower": "较少",
+    "higher": "较多",
+    "total-downloads": "总下载量",
+    "per-100000": "每 10 万人",
+    "per-capita-map-label": "每个地区每 10 万人的下载量",
+    "x-per-100000": "每 10 万人 {x} 次下载",
+    "x-total": "共计 {x} 下载",
+    "population-unavailable": "人口数据不可用",
+    "source": "我们使用<source> 联合国世界人口展望 {revision}</source> 的 {year} 年中人口预测。联合国根据 <license>CC BY 3.0 IGO</license> 对该数据进行许可。"
+  }
 }
