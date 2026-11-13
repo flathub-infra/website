@@ -328,8 +328,7 @@ def test_known_source_pointers_can_recover(pointer, report_validator):
 def test_invalid_source_pointers_are_rejected(pointer, report_validator):
     row = observation(1, [source(source_pointer=pointer)])
     assert not report_validator.is_valid(row.report)
-    with pytest.raises(ValueError, match="Invalid checker source JSON Pointer"):
-        parse_archive(archive(row.report))
+    assert parse_archive(archive(row.report))["org.example.App"] is None
     with pytest.raises(ValueError, match="Invalid checker source JSON Pointer"):
         summarize([row])
 
@@ -378,6 +377,67 @@ def test_recent_history_limit_does_not_truncate_failure_history():
     assert len(result.history) == 20
     assert result.sources[0].failures == 25
     assert result.sources[0].first_failure_at.day == 1
+
+
+def test_duplicate_artifacts_do_not_inflate_source_failure_history():
+    first = observation(1, [source()])
+    duplicate = observation(1, [source()])
+    duplicate.artifact_id = 99
+    result = summarize([first, duplicate])
+    assert result.sources[0].failures == 1
+    assert len(result.history) == 1
+
+
+@pytest.mark.parametrize("ordered", [False, True])
+def test_duplicate_reports_do_not_evict_distinct_history(ordered):
+    rows = [observation(day, [source()]) for day in range(1, 22)]
+    for artifact_id in range(100, 125):
+        duplicate = observation(21, [source()])
+        duplicate.artifact_id = artifact_id
+        rows.append(duplicate)
+    result = summarize(rows, ordered=ordered)
+    assert len(result.history) == 20
+    assert {run.observed_at.day for run in result.history} == set(range(2, 22))
+    assert result.sources[0].failures == 21
+    assert result.last_report_at.day == 21
+
+
+def test_identical_report_in_another_attempt_is_kept():
+    first = observation(1, [source()])
+    retry = observation(1, [source()])
+    retry.artifact_id = 99
+    retry.run_attempt = first.run_attempt + 1
+    result = summarize([first, retry])
+    assert len(result.history) == 2
+    assert result.sources[0].failures == 2
+
+
+@pytest.mark.parametrize(
+    "first_status,second_status,failures",
+    [("checked", "failed", 1), ("failed", "checked", 0)],
+)
+def test_distinct_reports_in_one_attempt_preserve_sources_and_diagnostics(
+    first_status, second_status, failures
+):
+    first = observation(1, [source(first_status)])
+    later = observation(
+        1,
+        [
+            source(second_status),
+            source("failed", source_pointer="/modules/1/sources/0"),
+        ],
+        errors=[
+            {"type": "CoverageError", "message": "Included manifest was not checked"}
+        ],
+    )
+    later.artifact_id = 99
+    result = summarize([first, later])
+    by_pointer = {item.source.source_pointer: item for item in result.sources}
+    assert by_pointer["/modules/0/sources/0"].source.status == second_status
+    assert by_pointer["/modules/0/sources/0"].failures == failures
+    assert by_pointer["/modules/1/sources/0"].failures == 1
+    assert result.diagnostics[0].error.type == "CoverageError"
+    assert len(result.history) == 2
 
 
 def test_replaced_module_cannot_recover_a_different_source_at_the_same_location():
@@ -461,8 +521,7 @@ def test_skipped_aggregate_cannot_recover_through_completed_nested_branch():
 def test_duplicate_sources_across_branch_entries_are_rejected():
     branch = {"branch": "stable", "status": "completed", "sources": [source()]}
     row = observation(1, branches=[branch, branch])
-    with pytest.raises(ValueError, match="Duplicate checker source location"):
-        parse_archive(archive(row.report))
+    assert parse_archive(archive(row.report))["org.example.App"] is None
     with pytest.raises(ValueError, match="Duplicate checker source location"):
         summarize([row])
 
@@ -577,8 +636,7 @@ def test_generated_dependencies_and_old_outcomes_are_unknown():
 )
 def test_invalid_reports_are_not_accepted(change):
     report = observation(1).report | change
-    with pytest.raises(ValueError):
-        parse_archive(archive(report))
+    assert parse_archive(archive(report))["org.example.App"] is None
 
 
 def test_archive_names_and_raw_evidence():
@@ -682,6 +740,7 @@ def health_db():
         tables=[
             models.CheckerHealthArtifact.__table__,
             models.CheckerHealthObservation.__table__,
+            models.CheckerSelectionArtifact.__table__,
         ],
     )
 
@@ -1002,6 +1061,7 @@ def test_endpoint_authorization_and_private_caching(monkeypatch, role, status):
         db = MagicMock()
         db.session.merge.return_value = user
         db.session.query.return_value.filter_by.return_value.order_by.return_value.yield_per.return_value = []
+        db.session.query.return_value.filter.return_value.order_by.return_value.first.return_value = None
         yield db
 
     monkeypatch.setattr(login_info, "get_db", db)

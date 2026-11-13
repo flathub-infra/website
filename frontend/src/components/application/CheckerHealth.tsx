@@ -2,6 +2,7 @@
 
 import { useFormatter } from "next-intl"
 import { checkerHealthText as t } from "./CheckerHealth.messages"
+import CheckerSelection from "./CheckerSelection"
 import { useId, useState, type ReactNode } from "react"
 import {
   CircleCheck,
@@ -995,6 +996,9 @@ export default function CheckerHealth({ appId }: { appId: string }) {
           </RunLink>
         )}
       </div>
+      {!query.isPending && !query.isError && (
+        <CheckerSelection data={data?.selection} />
+      )}
       {query.isPending ? (
         <div
           role="status"
@@ -1020,18 +1024,20 @@ export default function CheckerHealth({ appId }: { appId: string }) {
           </Button>
         </div>
       ) : !data?.last_report_at ? (
-        <div className="flex max-w-prose flex-col gap-3">
-          <p role="status">{t("unknown")}</p>
-          <p className="text-muted-foreground">{t("unknown-next-step")}</p>
-          <a
-            className="inline-flex min-h-11 items-center self-start underline underline-offset-4"
-            href="https://github.com/flathub/flathub/actions"
-            target="_blank"
-            rel="noreferrer"
-          >
-            {t("browse-runs")}
-          </a>
-        </div>
+        !data?.selection?.decision && (
+          <div className="flex max-w-prose flex-col gap-3">
+            <p role="status">{t("unknown")}</p>
+            <p className="text-muted-foreground">{t("unknown-next-step")}</p>
+            <a
+              className="inline-flex min-h-11 items-center self-start underline underline-offset-4"
+              href="https://github.com/flathub/flathub/actions"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t("browse-runs")}
+            </a>
+          </div>
+        )
       ) : (
         <>
           {!!data.sources?.length && <SourceSummary sources={data.sources} />}

@@ -29,6 +29,47 @@ beforeEach(() => {
 })
 
 describe("checker health evidence", () => {
+  it.each([
+    ["selected", "available", "completed", "Results available"],
+    ["selected", "available", "failed", "Failed"],
+    ["selected", "pending", null, "Unknown"],
+    ["selected", "missing", null, "Unknown"],
+    ["selected", "checkout_unverified", null, "Unknown"],
+    ["excluded", "not_expected", null, "Skipped"],
+    ["error", "not_expected", null, "Failed"],
+  ] as const)(
+    "explains %s / %s / %s before the technical details",
+    (selection, report_state, report_status, heading) => {
+      query.data.data.selection = {
+        state: "complete",
+        report_state,
+        report_status,
+        decision: {
+          repository: "org.example.App",
+          selection,
+          reason: null,
+          error: null,
+          branch: null,
+          commit: null,
+          checkout_unknown_reason: null,
+          invocation: {
+            started: selection === "selected",
+            exit_code: null,
+            report: "pending",
+          },
+        },
+      }
+      const html = render()
+      expect(html).toContain(heading)
+      expect(html.indexOf(heading)).toBeLessThan(
+        html.indexOf("Technical details"),
+      )
+      expect(html.indexOf("Technical details")).toBeLessThan(
+        html.indexOf("Checker invocation"),
+      )
+      expect(html).not.toContain("This app may not have been included")
+    },
+  )
   it.each(["update_available", "blocked"] as const)(
     "shows %s submodule evidence on its report branch",
     (status) => {
@@ -69,6 +110,91 @@ describe("checker health evidence", () => {
       expect(render()).not.toContain("Submodule updates")
     },
   )
+  it("keeps internal selection copy available without translation messages", () => {
+    expect(render("de")).toContain("Inventory unknown")
+  })
+  it("keeps successful invocation separate from a failed health report", () => {
+    query.data.data.selection = {
+      state: "complete",
+      report_state: "available",
+      report_status: "failed",
+      invocation_outcome: "succeeded",
+      decision: {
+        repository: "org.example.App",
+        selection: "selected",
+        reason: "selected",
+        error: null,
+        branch: "master",
+        commit: "a".repeat(40),
+        checkout_unknown_reason: null,
+        invocation: {
+          started: true,
+          exit_code: 0,
+          report: "valid_json_object",
+        },
+      },
+    }
+    const html = render()
+    expect(html).toContain("succeeded")
+    expect(html).toContain("Failed")
+    expect(html).toContain("Exit code: 0")
+    query.data.data.selection.report_state = "invalid_or_unsupported"
+    query.data.data.selection.report_status = null
+    const rejected = render()
+    expect(rejected).toContain("invalid_or_unsupported")
+    expect(rejected).toContain("succeeded")
+    expect(rejected).not.toContain("Results matched to this check")
+    expect(rejected).toContain("Results could not be read")
+    expect(rejected).not.toContain("This app may not have been included")
+  })
+
+  it("shows selection errors without requiring a health report and escapes artifact text", () => {
+    query.data.data.selection = {
+      state: "incomplete",
+      report_state: "not_expected",
+      invocation_outcome: "selection_error",
+      decision: {
+        repository: "org.example.App",
+        selection: "error",
+        reason: null,
+        error: '<img src=x onerror="alert(1)">',
+        branch: null,
+        commit: null,
+        checkout_unknown_reason: "clone_failed",
+        invocation: { started: false, exit_code: null, report: "not_expected" },
+      },
+    }
+    const html = render()
+    expect(html).toContain("Check couldn’t start")
+    expect(html).toContain("&lt;img")
+    expect(html).not.toContain("<img src=x")
+    expect(html).toContain("Failed")
+    expect(html).not.toContain("This app may not have been included")
+  })
+
+  it("shows unknown inventory for old responses and missing reports explicitly", () => {
+    expect(render()).toContain("Inventory unknown")
+    expect(render()).toContain("Unknown")
+    query.data.data.selection = {
+      report_state: "missing",
+      invocation_outcome: "failed",
+      state: "incomplete",
+      issues: ["missing_shards", "listing_drift"],
+      decision: {
+        repository: "org.example.App",
+        selection: "selected",
+        reason: "selected",
+        error: null,
+        branch: null,
+        commit: null,
+        checkout_unknown_reason: null,
+        invocation: { started: true, exit_code: 1, report: "missing" },
+      },
+    }
+    const html = render()
+    expect(html).toContain("Results missing")
+    expect(html).toContain("listing_drift")
+  })
 
   it.each([
     ["created", "Pull request created in this run"],
