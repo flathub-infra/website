@@ -3,7 +3,6 @@
 import { useFormatter } from "next-intl"
 import { checkerHealthText as t } from "./CheckerHealth.messages"
 import {
-  ArrowUpRight,
   ChevronDown,
   CircleAlert,
   CircleCheck,
@@ -119,13 +118,12 @@ export default function CheckerSelection({
         )}
         {data?.run_url && (
           <a
-            className="inline-flex min-h-11 shrink-0 items-center gap-1 rounded-sm text-sm underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="inline-flex min-h-11 items-center rounded-sm text-sm underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
             href={data.run_url}
             target="_blank"
             rel="noreferrer"
           >
             {t("selection-open-run")}
-            <ArrowUpRight className="size-3.5" aria-hidden />
           </a>
         )}
       </div>
