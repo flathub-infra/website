@@ -21,8 +21,8 @@ importers:
         specifier: ^1.6.3
         version: 1.6.3(hono@4.13.17)(zod@4.6.7)
       '@react-email/render':
-        specifier: 2.2.0
-        version: 2.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: 2.3.0
+        version: 2.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@react-email/tailwind':
         specifier: ^2.0.7
         version: 2.0.7(@react-email/body@0.3.0(react@19.3.1))(@react-email/button@0.2.1(react@19.3.1))(@react-email/code-block@0.2.1(react@19.3.1))(@react-email/code-inline@0.0.6(react@19.3.1))(@react-email/container@0.0.16(react@19.3.1))(@react-email/heading@0.0.16(react@19.3.1))(@react-email/hr@0.0.12(react@19.3.1))(@react-email/img@0.0.12(react@19.3.1))(@react-email/link@0.0.13(react@19.3.1))(@react-email/preview@0.0.14(react@19.3.1))(@react-email/text@0.1.6(react@19.3.1))(react@19.3.1)
@@ -45,15 +45,15 @@ importers:
         specifier: 19.3.1
         version: 19.3.1(react@19.3.1)
       react-email:
-        specifier: 6.11.8
-        version: 6.11.8(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: 6.11.10
+        version: 6.11.10(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       zod:
         specifier: ^4.6.7
         version: 4.6.7
     devDependencies:
       '@react-email/ui':
-        specifier: 6.11.8
-        version: 6.11.8(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: 6.11.10
+        version: 6.11.10(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@types/html-to-text':
         specifier: ^9.0.4
         version: 9.0.4
@@ -690,8 +690,8 @@ packages:
     peerDependencies:
       react: ^18.0 || ^19.0 || ^19.0.0-rc
 
-  '@react-email/render@2.2.0':
-    resolution: {integrity: sha512-WCtHV8ww0OYajz+idpx1jQNlO3RrvcjTihlEWozgLQZlM/1QveLU5ZdVyLTmm6WWY0wohGV0cIx9CB0HpfLJcw==}
+  '@react-email/render@2.3.0':
+    resolution: {integrity: sha512-JmvK+X/VIh0EpruB/iYB5nmnlY6AniMUDPhEOvKP5llEHweOfo/cIy24gdrh6RnpMjJfoGv7xNpMs8+lC3gIwA==}
     engines: {node: '>=20.19.0'}
     peerDependencies:
       react: ^18.0 || ^19.0 || ^19.0.0-rc
@@ -743,8 +743,8 @@ packages:
     peerDependencies:
       react: ^18.0 || ^19.0 || ^19.0.0-rc
 
-  '@react-email/ui@6.11.8':
-    resolution: {integrity: sha512-orE3x9EKUE6GO84UXMcJmhaaFzfusPYc+QZ/k1rJOtk7Bywk6YXx8uoaQCt4zUsQ673n7Vpj8DzxadlAb/CPyQ==}
+  '@react-email/ui@6.11.10':
+    resolution: {integrity: sha512-I+YFOf/YAJmNKDsUQMKQ04S59EpruJ79vlE0zt2dNVmIDqm+vZiy8S4cild75KWxXNiWywnrFZbHuRhO00ijQg==}
 
   '@selderee/plugin-htmlparser2@0.12.0':
     resolution: {integrity: sha512-oELmoyA6ML9jDRMV3kgcMQFKxUfBU0yFVn6yTctVaLT5ygXnxH52I3TZEgV9EhXJC68/uFvE5Daj1/25c0Xa/A==}
@@ -1444,8 +1444,8 @@ packages:
     peerDependencies:
       react: ^19.3.1
 
-  react-email@6.11.8:
-    resolution: {integrity: sha512-dkVwUHe4hSjgydSkVs1cm8w6KK6AnXrhJ9QnAQVDW1wkaoGbqevqJ5lj4yf6WqAlaHWtJVjHcXKsz9/GTKObEQ==}
+  react-email@6.11.10:
+    resolution: {integrity: sha512-v10bjJRibHZrzyB4vVvreGMBcUb/fMIfCrMW7TgY4A7prbdbJ5G0eFRgBWdZDks2Jd6fyJCKQ0aAMcfMeVeDcA==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -2062,7 +2062,7 @@ snapshots:
       react: 19.3.1
     optional: true
 
-  '@react-email/render@2.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@react-email/render@2.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       entities: 4.5.0
       html-to-text: 10.0.1
@@ -2092,7 +2092,7 @@ snapshots:
     dependencies:
       react: 19.3.1
 
-  '@react-email/ui@6.11.8(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@react-email/ui@6.11.10(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       esbuild: 0.28.2
       jiti: 2.6.1
@@ -2747,11 +2747,11 @@ snapshots:
       react: 19.3.1
       scheduler: 0.28.0
 
-  react-email@6.11.8(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
+  react-email@6.11.10(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
     dependencies:
       '@babel/parser': 7.29.2
       '@babel/traverse': 7.29.0
-      '@react-email/render': 2.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@react-email/render': 2.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       chokidar: 5.0.0
       commander: 13.1.0
       conf: 15.1.0
