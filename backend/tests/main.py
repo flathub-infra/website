@@ -1029,9 +1029,12 @@ def test_stats_backfills_missing_version_fields(client, monkeypatch):
 
 
 def test_app_stats_by_id(client):
+    from app.country_population import get_country_population
+
     response = client.get("/stats/org.sugarlabs.Maze")
 
     today = datetime.datetime.now(datetime.UTC).date()
+    population = get_country_population(today.year)
     day_before_yesterday = today - datetime.timedelta(days=2)
     three_days_ago = today - datetime.timedelta(days=3)
     two_weeks_ago = today - datetime.timedelta(days=14)
@@ -1058,6 +1061,7 @@ def test_app_stats_by_id(client):
         "installs_per_distro": [],
         "installs_other_distros": 0,
         "installs_unreported_distro": 509,
+        "country_population": population.model_dump() if population else None,
     }
 
     assert response.status_code == 200

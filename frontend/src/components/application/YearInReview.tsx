@@ -18,6 +18,9 @@ import type {
 } from "../../codegen"
 import { MainCategory } from "../../codegen"
 import { categoryToName, stringToCategory } from "../../types/Category"
+import PopulationSource from "src/components/charts/PopulationSource"
+import PopulationToggle from "src/components/charts/PopulationToggle"
+import ReactCountryFlag from "react-country-flag"
 
 const categoryOrder: MainCategory[] = [
   MainCategory.office,
@@ -557,14 +560,23 @@ export function GeographicInsightsSection({
     () => new Intl.DisplayNames([locale || "en"], { type: "region" }),
     [locale],
   )
+  const [normalizePopulation, setNormalizePopulation] = useState(false)
+  const hasPopulation =
+    geographicStats?.top_countries_per_capita != null &&
+    geographicStats.population_year != null &&
+    geographicStats.population_revision != null
+  const perCapita = normalizePopulation && hasPopulation
+  const topCountries = perCapita
+    ? geographicStats.top_countries_per_capita!
+    : (geographicStats?.top_countries ?? [])
 
   if (!geographicStats) {
     return null
   }
 
   return (
-    <Card className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl">
-      <CardHeader className="pb-4 px-3 sm:px-6">
+    <Card className="gap-3 bg-background shadow-md">
+      <CardHeader className="px-4 sm:px-6">
         <CardTitle className="text-xl font-black flex items-center gap-2">
           <h2 className="flex items-center gap-2">
             <span aria-hidden="true" className="text-2xl">
@@ -574,29 +586,41 @@ export function GeographicInsightsSection({
           </h2>
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-0 px-3 sm:px-6">
-        <div className="grid sm:grid-cols-2 gap-3 mb-4">
-          <div className="p-3 rounded-lg bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30">
-            <div className="text-xs font-bold text-flathub-celestial-blue uppercase tracking-wide mb-0.5">
-              {t("year-in-review.countries-reached")}
-            </div>
-            <div className="text-2xl font-black text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+      <CardContent className="pt-0 px-4 sm:px-6">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-baseline gap-2 text-sm text-foreground/70">
+            <span className="text-2xl font-bold tabular-nums text-foreground">
               {new Intl.NumberFormat(locale).format(
                 geographicStats.total_countries,
               )}
-            </div>
+            </span>
+            <span>{t("year-in-review.countries-reached")}</span>
           </div>
+          <PopulationToggle
+            checked={perCapita}
+            onCheckedChange={setNormalizePopulation}
+            disabled={!hasPopulation}
+          />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6">
+        <div className="grid gap-7 lg:grid-cols-2 lg:gap-10">
           {/* Fastest Growing Regions */}
           {geographicStats.fastest_growing_regions &&
             geographicStats.fastest_growing_regions.length > 0 && (
-              <div>
-                <h3 className="text-xs font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow mb-2 uppercase tracking-wider">
+              <div className="order-2 min-w-0">
+                <h3 className="mb-3 text-sm font-semibold">
                   {t("year-in-review.fastest-growing-regions")}
                 </h3>
-                <div className="grid gap-1.5">
+                <div className="flex items-center justify-between gap-4 border-b border-border/60 pb-2 text-xs text-foreground/70">
+                  <span>{t("country-downloads.country")}</span>
+                  <span className="text-end">
+                    {t("year-in-review.annual-growth")}
+                  </span>
+                </div>
+                <div
+                  role="list"
+                  aria-label={t("year-in-review.fastest-growing-regions")}
+                >
                   {geographicStats.fastest_growing_regions.map(
                     (region, idx) => {
                       const countryName =
@@ -605,19 +629,23 @@ export function GeographicInsightsSection({
                       return (
                         <div
                           key={region.country_code}
-                          className="flex items-center gap-2 p-2 rounded-lg bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30"
+                          role="listitem"
+                          className={clsx(
+                            "flex items-center gap-3 border-b border-border/50 py-3.5 last:border-0",
+                            perCapita && "lg:min-h-[71px]",
+                          )}
                         >
-                          <RankBadge
-                            rank={idx + 1}
-                            size="sm"
-                            variant="inline"
+                          <span className="w-3 text-xs tabular-nums text-foreground/70">
+                            {idx + 1}.
+                          </span>
+                          <ReactCountryFlag
+                            countryCode={region.country_code}
+                            aria-hidden="true"
                           />
                           <div className="flex-1 min-w-0">
-                            <div className="font-semibold text-xs truncate">
-                              {countryName}
-                            </div>
+                            <div className="text-sm">{countryName}</div>
                           </div>
-                          <div className="text-xs font-bold text-flathub-status-green dark:text-flathub-status-green-dark">
+                          <div className="text-sm font-semibold tabular-nums text-[color-mix(in_oklab,oklch(var(--flathub-status-green)),oklch(var(--foreground))_45%)]">
                             {new Intl.NumberFormat(locale, {
                               style: "percent",
                               signDisplay: "always",
@@ -633,39 +661,88 @@ export function GeographicInsightsSection({
 
           {/* Top Countries */}
           {geographicStats.top_countries && (
-            <div>
-              <h3 className="text-xs font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow mb-2 uppercase tracking-wider">
+            <div className="order-1 min-w-0">
+              <h3 className="mb-3 text-sm font-semibold">
                 {t("year-in-review.top-countries")}
               </h3>
-              <div className="grid gap-1.5">
-                {geographicStats.top_countries
-                  .slice(0, 5)
-                  .map((country, idx) => {
-                    const countryName =
-                      regionDisplay.of(country.country_code) ||
-                      country.country_code
-                    return (
-                      <div
-                        key={country.country_code}
-                        className="flex items-center gap-2 p-2 rounded-lg bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30"
-                      >
-                        <RankBadge rank={idx + 1} size="sm" variant="inline" />
-                        <div className="flex-1 min-w-0">
-                          <div className="font-semibold text-xs truncate">
-                            {countryName}
-                          </div>
-                        </div>
-                        <div className="text-xs font-bold text-flathub-celestial-blue">
-                          {new Intl.NumberFormat(locale, {
+              <div className="flex items-center justify-between gap-4 border-b border-border/60 pb-2 text-xs text-foreground/70">
+                <span>{t("country-downloads.country")}</span>
+                <span className="text-end">
+                  {t(
+                    perCapita
+                      ? "country-downloads.per-100000"
+                      : "country-downloads.total-downloads",
+                  )}
+                </span>
+              </div>
+              <div role="list" aria-label={t("year-in-review.top-countries")}>
+                {topCountries.slice(0, 5).map((country, idx) => {
+                  const countryName =
+                    regionDisplay.of(country.country_code) ||
+                    country.country_code
+                  return (
+                    <div
+                      key={country.country_code}
+                      role="listitem"
+                      className="grid grid-cols-[1rem_minmax(0,1fr)_auto] items-center gap-2 border-b border-border/50 py-3.5 last:border-0"
+                    >
+                      <span className="text-xs tabular-nums text-foreground/70">
+                        {idx + 1}.
+                      </span>
+                      <div className="flex min-w-0 items-center gap-2">
+                        <ReactCountryFlag
+                          countryCode={country.country_code}
+                          aria-hidden="true"
+                        />
+                        <div className="min-w-0 text-sm">{countryName}</div>
+                      </div>
+                      <div className="text-end text-base font-semibold tabular-nums">
+                        {perCapita &&
+                        "downloads_per_100000" in country &&
+                        typeof country.downloads_per_100000 === "number" ? (
+                          <>
+                            <div>
+                              {new Intl.NumberFormat(locale, {
+                                maximumFractionDigits: 2,
+                              }).format(country.downloads_per_100000)}
+                              <span className="sr-only">
+                                {" "}
+                                {t("country-downloads.per-100000")}
+                              </span>
+                            </div>
+                            <div className="mt-0.5 text-xs font-normal text-foreground/70">
+                              {t("country-downloads.x-total", {
+                                x: new Intl.NumberFormat(locale).format(
+                                  country.downloads,
+                                ),
+                              })}
+                            </div>
+                          </>
+                        ) : (
+                          new Intl.NumberFormat(locale, {
                             notation: "compact",
                             maximumFractionDigits: 1,
-                          }).format(country.downloads)}
-                        </div>
+                          }).format(country.downloads)
+                        )}
                       </div>
-                    )
-                  })}
+                    </div>
+                  )
+                })}
               </div>
             </div>
+          )}
+        </div>
+        <div className="mt-5 flex flex-wrap items-start justify-between gap-x-6 gap-y-2 border-t border-border/60 pt-3">
+          <p className="m-0 text-xs text-foreground/70">
+            {t("country-downloads.summary")}
+          </p>
+          {perCapita && (
+            <PopulationSource
+              year={geographicStats.population_year!}
+              revision={geographicStats.population_revision!}
+            >
+              <p>{t("year-in-review.per-capita-description")}</p>
+            </PopulationSource>
           )}
         </div>
       </CardContent>

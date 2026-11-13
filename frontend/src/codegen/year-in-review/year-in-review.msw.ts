@@ -126,6 +126,22 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
         country_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
         downloads: faker.number.int(),
       })),
+      top_countries_per_capita: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => ({
+          country_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          downloads: faker.number.int(),
+          downloads_per_100000: faker.number.float({ fractionDigits: 2 }),
+        })),
+        null,
+      ]),
+      population_year: faker.helpers.arrayElement([faker.number.int(), null]),
+      population_revision: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       total_countries: faker.number.int(),
       fastest_growing_regions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },

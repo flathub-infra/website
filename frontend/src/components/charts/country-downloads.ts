@@ -34,3 +34,22 @@ export function getCountryDownloads(
       return b.value - a.value
     })
 }
+
+export function getCountryMapValues(
+  countries: readonly CountryDownload[],
+  populations: Record<string, number> | undefined,
+  perCapita: boolean,
+): Pick<CountryDownload, "country" | "value">[] {
+  const values = countries.map(({ country, value }) => ({ country, value }))
+  if (perCapita && populations) {
+    const reported = new Set(
+      countries.map(({ country }) => country.toUpperCase()),
+    )
+    for (const [country, count] of Object.entries(populations)) {
+      if (!reported.has(country) && Number.isFinite(count) && count > 0) {
+        values.push({ country, value: 0 })
+      }
+    }
+  }
+  return values
+}

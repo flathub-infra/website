@@ -15,6 +15,7 @@ from sqlalchemy import text
 from app import utils
 
 from . import config, database, models, schemas, search, stats_db
+from .country_population import get_country_population
 from .database import get_db as stats_get_db
 from .trending import calculate_trending_score as _calculate_trending_score
 from .types import JSONValue, is_json_object
@@ -1364,4 +1365,36 @@ async def get_year_stats(year: int, locale: str = "en"):
     if base_data is None:
         return None
 
-    return await _add_translations_to_year_in_review(base_data, locale)
+    result = await _add_translations_to_year_in_review(base_data, locale)
+    population = get_country_population(year)
+    geographic_stats = result.get("geographic_stats")
+    if population is not None and is_json_object(geographic_stats):
+        try:
+            countries = await asyncio.to_thread(_get_country_downloads_for_year, year)
+        except _IncompleteYearStats:
+            logger.warning(
+                "Incomplete country stats for year-in-review %s; skipping population ranking",
+                year,
+            )
+            return result
+        ranked: list[dict[str, JSONValue]] = [
+            {
+                "country_code": country,
+                "downloads": downloads,
+                "downloads_per_100000": downloads / count * 100_000,
+            }
+            for country, downloads in countries.items()
+            if downloads > 0
+            and (count := population.populations.get(country.upper(), 0)) > 0
+        ]
+        ranked.sort(
+            key=lambda country: cast("float", country["downloads_per_100000"]),
+            reverse=True,
+        )
+        result["geographic_stats"] = {
+            **geographic_stats,
+            "top_countries_per_capita": cast("list[JSONValue]", ranked[:5]),
+            "population_year": population.year,
+            "population_revision": population.revision,
+        }
+    return result

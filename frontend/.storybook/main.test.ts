@@ -33,7 +33,7 @@ it("loads locale JSON without public asset warnings", async () => {
     `http://127.0.0.1:${address.port}/public/locales/en/common.json?import`,
   )
   expect(response.status).toBe(200)
-  expect(await response.text()).toContain("Downloads per Country")
+  expect(await response.text()).toContain("Downloads per country")
   expect(warn).not.toHaveBeenCalled()
   expect(storybook.staticDirs).toContain("../public")
 })

@@ -2,7 +2,7 @@
 
 import { useMemo, useRef, type PointerEvent } from "react"
 import { scaleSequential } from "d3-scale"
-import { geoMercator } from "d3-geo"
+import { geoMercator, geoNaturalEarth1 } from "d3-geo"
 import { useLocale, useTranslations } from "next-intl"
 import { Chart } from "@tanstack/charts/react"
 import { defineChart, type ChartRenderContext } from "@tanstack/charts"
@@ -50,7 +50,10 @@ interface CountryMapProps {
   ariaLabel?: string
   onCountrySelect?: (countryCode: string) => void
   showTooltip?: boolean
-  metric?: "downloads" | "installs" | "downloads-per-capita"
+  metric?:
+    "downloads" | "installs" | "downloads-per-capita" | "installs-per-capita"
+  totals?: Record<string, number>
+  compact?: boolean
 }
 
 export default function CountryMap({
@@ -59,6 +62,8 @@ export default function CountryMap({
   onCountrySelect,
   showTooltip = true,
   metric = "downloads",
+  totals,
+  compact = false,
 }: CountryMapProps) {
   const locale = useLocale()
   const t = useTranslations()
@@ -93,13 +98,19 @@ export default function CountryMap({
     const valuesByCountry = new Map(
       data.map(({ country, value }) => [country.toUpperCase(), value]),
     )
+    const totalsByCountry = new Map(
+      Object.entries(totals ?? {}).map(([country, value]) => [
+        country.toUpperCase(),
+        value,
+      ]),
+    )
     const rows = countryFeatures.map((country) => ({
       ...country,
       properties: {
         ...country.properties,
         value: valuesByCountry.has(country.properties.countryCode)
           ? valuesByCountry.get(country.properties.countryCode)!
-          : metric === "downloads-per-capita"
+          : metric.endsWith("-per-capita")
             ? null
             : 0,
       },
@@ -117,6 +128,15 @@ export default function CountryMap({
         geoShape(rows, {
           key: (country) => country.properties.countryCode,
           projection: ({ chart }) => {
+            if (compact) {
+              return geoNaturalEarth1().fitExtent(
+                [
+                  [8, 8],
+                  [chart.width - 8, chart.height - 8],
+                ],
+                { type: "FeatureCollection", features: rows },
+              )
+            }
             // Preserve the previous map's 960px-wide Mercator frame and
             // its 240px vertical offset from D3's default translation.
             const projectionScale = geoMercator().scale()
@@ -166,27 +186,34 @@ export default function CountryMap({
                 regionNames.of(countryCode) ??
                 fallbackRegionNames.of(countryCode) ??
                 t("unknown")
+              const total = totals
+                ? ` (${t("country-downloads.x-total", {
+                    x: (totalsByCountry.get(countryCode) ?? 0).toLocaleString(
+                      locale,
+                    ),
+                  })})`
+                : ""
               if (value === null) {
-                return `${countryName}: ${t("country-downloads.population-unavailable")}`
+                return `${countryName}: ${t("country-downloads.population-unavailable")}${total}`
               }
               const formattedValue = value.toLocaleString(locale, {
-                minimumFractionDigits:
-                  metric === "downloads-per-capita" ? 2 : 0,
-                maximumFractionDigits:
-                  metric === "downloads-per-capita" ? 2 : 0,
+                minimumFractionDigits: metric.endsWith("-per-capita") ? 2 : 0,
+                maximumFractionDigits: metric.endsWith("-per-capita") ? 2 : 0,
               })
               const valueText =
                 metric === "downloads-per-capita"
                   ? t("country-downloads.x-per-100000", { x: formattedValue })
-                  : metric === "downloads"
-                    ? t("x-downloads", { x: formattedValue, count: value })
-                    : t("x-installs", { x: formattedValue, count: value })
-              return `${countryName}: ${valueText}`
+                  : metric === "installs-per-capita"
+                    ? t("country-installs.x-per-100000", { x: formattedValue })
+                    : metric === "downloads"
+                      ? t("x-downloads", { x: formattedValue, count: value })
+                      : t("x-installs", { x: formattedValue, count: value })
+              return `${countryName}: ${valueText}${total}`
             },
           }
         : undefined,
     })
-  }, [data, locale, metric, showTooltip, t])
+  }, [data, locale, metric, showTooltip, t, totals, compact])
 
   return (
     <div
@@ -204,13 +231,15 @@ export default function CountryMap({
     >
       <Chart
         definition={definition}
-        aspectRatio={4 / 3}
+        aspectRatio={compact ? 2 : 4 / 3}
         initialWidth={600}
         ariaLabel={
           ariaLabel ??
           (metric === "downloads-per-capita"
             ? t("country-downloads.per-capita-map-label")
-            : t("downloads-per-country"))
+            : metric === "installs-per-capita"
+              ? t("country-installs.per-capita-map-label")
+              : t("downloads-per-country"))
         }
         onRender={(context) => {
           renderContextRef.current = context

@@ -11,6 +11,7 @@ type TestCountry = { properties: { countryCode: string; value: number | null } }
 const { chart, shape } = vi.hoisted(() => ({
   chart: vi.fn<
     (props: {
+      aspectRatio: number
       definition: {
         color: { scale: () => ScaleSequential<string> }
         tooltip: { format: (point: { datum: TestCountry }) => string }
@@ -42,7 +43,8 @@ vi.mock("@tanstack/charts/geo", async (importOriginal) => {
 })
 vi.mock("next-intl", () => ({
   useLocale: () => "en",
-  useTranslations: () => (key: string) => key,
+  useTranslations: () => (key: string, values?: Record<string, unknown>) =>
+    values ? `${key}:${JSON.stringify(values)}` : key,
 }))
 
 function getColorScale(data: CountryMapValue[]) {
@@ -70,6 +72,18 @@ describe("country map colors", () => {
     expect(getPercentage(color(0))).toBe(0)
     expect(getPercentage(color(1))).toBeGreaterThanOrEqual(20)
     expect(getPercentage(color(5000))).toBe(100)
+  })
+
+  it("offers a compact world map without removing countries", () => {
+    renderToStaticMarkup(<CountryMap compact data={[]} />)
+    expect(chart.mock.lastCall![0].aspectRatio).toBe(2)
+    const [rows] = shape.mock.lastCall!
+    expect(
+      rows.some((country) => country.properties.countryCode === "AQ"),
+    ).toBe(true)
+    expect(
+      rows.some((country) => country.properties.countryCode === "US"),
+    ).toBe(true)
   })
 
   it("preserves differences between small positive counts without rounding", () => {
@@ -123,5 +137,37 @@ describe("country map colors", () => {
     expect(format({ datum: country("US") })).toContain(
       "country-downloads.x-per-100000",
     )
+  })
+
+  it("labels app rates as installs and retains raw totals, including missing populations", () => {
+    renderToStaticMarkup(
+      <CountryMap
+        metric="installs-per-capita"
+        totals={{ US: 100, NF: 50 }}
+        data={[
+          { country: "US", value: 12.5 },
+          { country: "NF", value: null },
+        ]}
+      />,
+    )
+    const [rows] = shape.mock.lastCall!
+    const format = chart.mock.lastCall![0].definition.tooltip.format
+    const country = (code: string) =>
+      rows.find((row) => row.properties.countryCode === code)!
+    expect(format({ datum: country("US") })).toContain(
+      "country-installs.x-per-100000",
+    )
+    expect(format({ datum: country("US") })).toContain(
+      "country-downloads.x-total",
+    )
+    expect(format({ datum: country("US") })).toContain('"x":"100"')
+    expect(format({ datum: country("NF") })).toContain(
+      "country-downloads.population-unavailable",
+    )
+    expect(format({ datum: country("NF") })).toContain(
+      "country-downloads.x-total",
+    )
+    expect(format({ datum: country("NF") })).toContain('"x":"50"')
+    expect(country("GL").properties.value).toBeNull()
   })
 })

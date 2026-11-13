@@ -107,6 +107,30 @@
         "downloads": 70
       }
     ],
+    "top_countries_per_capita": [
+      {
+        "country_code": "FI",
+        "downloads": 1312,
+        "downloads_per_100000": 23.3563752045018
+      },
+      {
+        "country_code": "NL",
+        "downloads": 70,
+        "downloads_per_100000": 0.3840089458724031
+      },
+      {
+        "country_code": "DE",
+        "downloads": 246,
+        "downloads_per_100000": 0.2909443844197532
+      },
+      {
+        "country_code": "US",
+        "downloads": 485,
+        "downloads_per_100000": 0.14040610674388448
+      }
+    ],
+    "population_year": 2024,
+    "population_revision": "2024 (revision 1)",
     "total_countries": 4,
     "fastest_growing_regions": []
   },
