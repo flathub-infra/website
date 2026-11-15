@@ -48,10 +48,10 @@ def _timeout(url, **kwargs):
 @pytest.mark.parametrize(
     ("scores", "approved"),
     [
-        pytest.param({"benign": 0.8}, True, id="benign-at-threshold"),
-        pytest.param({"same_app": 0.8}, True, id="same-app-at-threshold"),
-        pytest.param({"benign": 0.79}, False, id="benign-below-threshold"),
-        pytest.param({"same_app": 0.79}, False, id="same-app-below-threshold"),
+        pytest.param({"benign": 0.9}, True, id="benign-at-threshold"),
+        pytest.param({"same_app": 0.9}, True, id="same-app-at-threshold"),
+        pytest.param({"benign": 0.89}, False, id="benign-below-threshold"),
+        pytest.param({"same_app": 0.89}, False, id="same-app-below-threshold"),
         *(
             pytest.param({risk: 0.3}, False, id=f"{risk}-at-threshold")
             for risk in DECISION_RISKS

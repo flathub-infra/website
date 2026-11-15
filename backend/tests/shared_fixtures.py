@@ -47,7 +47,7 @@ class SourceRepo:
 def decision_reply(choice="benign_rewrite", benign=0.95, **scores):
     nouls = {"same_app": 0.95, **dict.fromkeys(DECISION_RISKS, 0.05), **scores}
     return {
-        "model": "jev-1.13.0",
+        "model": "mammoth-1",
         "answers": {
             "disposition": {
                 "type": "choice",
@@ -78,5 +78,5 @@ def enable_decisions(monkeypatch, post):
         config.settings, "decisions_api", "https://decisions.example/v1/systemone"
     )
     monkeypatch.setattr(config.settings, "decisions_api_key", "test-decisions-key")
-    monkeypatch.setattr(config.settings, "decisions_model", "jev-1.13.0")
+    monkeypatch.setattr(config.settings, "decisions_model", "mammoth-1")
     monkeypatch.setattr(http_client, "post", post)

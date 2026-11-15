@@ -103,8 +103,8 @@ def _evaluate(payload: object) -> tuple[str, JSONValue, bool]:
 
     approve = (
         choice == "benign_rewrite"
-        and categories["benign_rewrite"] >= 0.8
-        and scores["same_app"] >= 0.8
+        and categories["benign_rewrite"] >= 0.9
+        and scores["same_app"] >= 0.9
         and all(scores[name] < 0.3 for name in _RISKS)
     )
     return model, answers, approve

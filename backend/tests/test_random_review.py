@@ -1613,7 +1613,7 @@ def test_approved_summary_rewrite_needs_no_review(monkeypatch):
         harness.build_id,
         True,
     )
-    assert decision.model == "jev-1.13.0"
+    assert decision.model == "mammoth-1"
     assert (decision.old_summary, decision.new_summary) == (_OLD_SUMMARY, _NEW_SUMMARY)
 
 
