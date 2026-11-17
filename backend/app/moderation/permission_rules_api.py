@@ -88,6 +88,8 @@ class PermissionRuleInput(BaseModel):
                     raise ValueError("Destination rules need only a non-null value")
             elif self.before == self.value:
                 raise ValueError("Transition rules need distinct endpoints")
+        if self.permission_group in BUS_GROUPS and "=" in self.key:
+            raise ValueError("Bus rule keys need the bare bus name, without a value")
         if self.permission_group in BUS_GROUPS and any(
             endpoint is not None and endpoint not in ("none", "see", "talk", "own")
             for endpoint in (self.before, self.value)

@@ -481,6 +481,7 @@ def rule_input(name, decision="approved", **changes):
         {"value": "all"},
         {"rationale": "  "},
         {"key": ""},
+        {"key": "org.gtk.vfs.*=talk"},
         {"value": None},
         {"before": "see"},
         {"match_type": "transition", "before": None, "value": None},
