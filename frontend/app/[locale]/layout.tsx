@@ -91,13 +91,13 @@ export default async function LocaleLayout({
           rel="alternate"
           type="application/rss+xml"
           title="Flathub – New Apps"
-          href="/feed/new"
+          href={`${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/new`}
         />
         <link
           rel="alternate"
           type="application/rss+xml"
           title="Flathub – Recently Updated Apps"
-          href="/feed/recently-updated"
+          href={`${process.env.NEXT_PUBLIC_API_BASE_URI}/feed/recently-updated`}
         />
       </head>
       <body className={inter.className}>
