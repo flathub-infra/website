@@ -35,6 +35,7 @@ function getStatusIcon(status: PipelineStatus) {
     case "failed":
       return <XCircle className={cn(iconClass, "text-red-500")} />
     case "cancelled":
+    case "expired":
       return <Ban className={cn(iconClass, "text-gray-500")} />
     case "running":
       return <Clock className={cn(iconClass, "text-blue-500 animate-pulse")} />

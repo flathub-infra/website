@@ -34,6 +34,7 @@ function getStatusIcon(status: PipelineStatus, size = "h-4 w-4") {
     case "failed":
       return <XCircle className={cn(size, "text-red-500")} />
     case "cancelled":
+    case "expired":
       return <Ban className={cn(size, "text-gray-500")} />
     case "running":
     case "succeeded":

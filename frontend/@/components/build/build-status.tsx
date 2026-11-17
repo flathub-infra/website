@@ -100,6 +100,7 @@ function StatusIcon({ status }: { status: PipelineStatus }) {
         </div>
       )
     case "cancelled":
+    case "expired":
       return (
         <div className="p-2 rounded-full bg-gray-100 dark:bg-gray-900/30">
           <Ban className={cn(iconClass, "text-gray-600 dark:text-gray-400")} />
@@ -171,6 +172,8 @@ export function getStatusLabel(status: PipelineStatus): string {
       return "Cancelled"
     case "superseded":
       return "Superseded"
+    case "expired":
+      return "Expired"
     default:
       return status
   }
@@ -196,6 +199,8 @@ export function getStatusDescription(status: PipelineStatus): string {
       return "Build was manually cancelled before completion"
     case "superseded":
       return "This build was replaced by a newer version"
+    case "expired":
+      return "This build has expired"
     default:
       return "Status information unavailable"
   }
@@ -211,6 +216,7 @@ const DASHBOARD_STATUS_LABELS: Record<PipelineStatus, string> = {
   failed: "Failed",
   cancelled: "Cancelled",
   superseded: "Superseded",
+  expired: "Expired",
 }
 
 export function getDashboardStatusLabel(status: PipelineStatus): string {

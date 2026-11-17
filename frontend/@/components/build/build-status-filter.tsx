@@ -27,6 +27,7 @@ export const statuses: PipelineStatusWithAll[] = [
   "failed",
   "cancelled",
   "superseded",
+  "expired",
 ]
 
 const statusLabels: Record<PipelineStatusWithAll, string> = {
@@ -40,6 +41,7 @@ const statusLabels: Record<PipelineStatusWithAll, string> = {
   failed: "Failed",
   cancelled: "Cancelled",
   superseded: "Superseded",
+  expired: "Expired",
 }
 
 export function isPipelineStatusWithAll(
