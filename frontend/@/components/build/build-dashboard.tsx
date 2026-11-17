@@ -162,9 +162,14 @@ export function BuildDashboard(filters: DashboardFilters) {
   const showCompleted =
     (filters.statusFilter === "committed" && filters.repoFilter === "test") ||
     (filters.statusFilter !== "all" &&
-      ["published", "failed", "cancelled", "superseded", "succeeded"].includes(
-        filters.statusFilter,
-      ))
+      [
+        "published",
+        "failed",
+        "cancelled",
+        "superseded",
+        "succeeded",
+        "expired",
+      ].includes(filters.statusFilter))
   return (
     <div className="flex min-w-0 flex-col gap-8">
       <div className="flex justify-end">
