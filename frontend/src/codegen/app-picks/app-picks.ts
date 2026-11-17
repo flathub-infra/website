@@ -132,6 +132,7 @@ export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryResult = NonNullable<
 export type GetAppOfTheDayAppPicksAppOfTheDayDateGetQueryError =
   AxiosError<void>
 
+/** @summary Get App Of The Day */
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
   TError = AxiosError<void>,
@@ -159,6 +160,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get App Of The Day */
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
   TError = AxiosError<void>,
@@ -186,6 +188,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get App Of The Day */
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
   TError = AxiosError<void>,
@@ -205,10 +208,7 @@ export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get App Of The Day
- */
-
+/** @summary Get App Of The Day */
 export function useGetAppOfTheDayAppPicksAppOfTheDayDateGet<
   TData = Awaited<ReturnType<typeof getAppOfTheDayAppPicksAppOfTheDayDateGet>>,
   TError = AxiosError<void>,
@@ -326,6 +326,10 @@ export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryResult =
 export type GetAppOfTheWeekAppPicksAppsOfTheWeekDateGetQueryError =
   AxiosError<void>
 
+/**
+ * Returns apps of the week
+ * @summary Get App Of The Week
+ */
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
@@ -359,6 +363,10 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Returns apps of the week
+ * @summary Get App Of The Week
+ */
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
@@ -392,6 +400,10 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Returns apps of the week
+ * @summary Get App Of The Week
+ */
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
@@ -414,9 +426,9 @@ export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Returns apps of the week
  * @summary Get App Of The Week
  */
-
 export function useGetAppOfTheWeekAppPicksAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAppPicksAppsOfTheWeekDateGet>
@@ -552,6 +564,7 @@ export type GetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetQueryResul
 export type GetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetQueryError =
   AxiosError<void>
 
+/** @summary Get Curated App Selections */
 export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
   TData = Awaited<
     ReturnType<
@@ -595,6 +608,7 @@ export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Curated App Selections */
 export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
   TData = Awaited<
     ReturnType<
@@ -638,6 +652,7 @@ export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Curated App Selections */
 export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
   TData = Awaited<
     ReturnType<
@@ -665,10 +680,7 @@ export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Curated App Selections
- */
-
+/** @summary Get Curated App Selections */
 export function useGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGet<
   TData = Awaited<
     ReturnType<
@@ -806,6 +818,10 @@ export type GetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetQueryResult =
 export type GetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetQueryError =
   AxiosError<void>
 
+/**
+ * Returns the app of the day for the admin page, bypassing shared caches
+ * @summary Get App Of The Day Admin
+ */
 export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
@@ -845,6 +861,10 @@ export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Returns the app of the day for the admin page, bypassing shared caches
+ * @summary Get App Of The Day Admin
+ */
 export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
@@ -884,6 +904,10 @@ export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Returns the app of the day for the admin page, bypassing shared caches
+ * @summary Get App Of The Day Admin
+ */
 export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
@@ -908,9 +932,9 @@ export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Returns the app of the day for the admin page, bypassing shared caches
  * @summary Get App Of The Day Admin
  */
-
 export function useGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGet>
@@ -1043,6 +1067,10 @@ export type GetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetQueryResult =
 export type GetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetQueryError =
   AxiosError<void>
 
+/**
+ * Returns apps of the week for the admin page, bypassing CDN cache
+ * @summary Get App Of The Week Admin
+ */
 export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
@@ -1084,6 +1112,10 @@ export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Returns apps of the week for the admin page, bypassing CDN cache
+ * @summary Get App Of The Week Admin
+ */
 export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
@@ -1125,6 +1157,10 @@ export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Returns apps of the week for the admin page, bypassing CDN cache
+ * @summary Get App Of The Week Admin
+ */
 export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
@@ -1151,9 +1187,9 @@ export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Returns apps of the week for the admin page, bypassing CDN cache
  * @summary Get App Of The Week Admin
  */
-
 export function useGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet<
   TData = Awaited<
     ReturnType<typeof getAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGet>
@@ -1283,6 +1319,7 @@ export type GetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThe
 export type GetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGetQueryError =
   AxiosError<void>
 
+/** @summary Get Curated App Selection Themes Admin */
 export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet<
   TData = Awaited<
     ReturnType<
@@ -1325,6 +1362,7 @@ export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelec
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Curated App Selection Themes Admin */
 export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet<
   TData = Awaited<
     ReturnType<
@@ -1367,6 +1405,7 @@ export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelec
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Curated App Selection Themes Admin */
 export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet<
   TData = Awaited<
     ReturnType<
@@ -1393,10 +1432,7 @@ export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelec
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Curated App Selection Themes Admin
- */
-
+/** @summary Get Curated App Selection Themes Admin */
 export function useGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectionThemesGet<
   TData = Awaited<
     ReturnType<
@@ -1529,6 +1565,7 @@ export type GetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetQuer
 export type GetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGetQueryError =
   AxiosError<void>
 
+/** @summary Get Curated App Selections Admin */
 export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet<
   TData = Awaited<
     ReturnType<
@@ -1571,6 +1608,7 @@ export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelections
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Curated App Selections Admin */
 export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet<
   TData = Awaited<
     ReturnType<
@@ -1613,6 +1651,7 @@ export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelections
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Curated App Selections Admin */
 export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet<
   TData = Awaited<
     ReturnType<
@@ -1639,10 +1678,7 @@ export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelections
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Curated App Selections Admin
- */
-
+/** @summary Get Curated App Selections Admin */
 export function useGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet<
   TData = Awaited<
     ReturnType<
@@ -1786,9 +1822,7 @@ export type CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostM
 export type CreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPostMutationVariables =
   { data: ScheduledSelectionInput }
 
-/**
- * @summary Create Curated App Selection Admin
- */
+/** @summary Create Curated App Selection Admin */
 export const useCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsPost =
   <TError = AxiosError<void>, TContext = unknown>(
     options?: {
@@ -1928,9 +1962,7 @@ export type UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelec
 export type UpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPutMutationVariables =
   { selectionId: number; data: ScheduledSelectionInput }
 
-/**
- * @summary Update Curated App Selection Admin
- */
+/** @summary Update Curated App Selection Admin */
 export const useUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdPut =
   <TError = AxiosError<void>, TContext = unknown>(
     options?: {
@@ -2066,9 +2098,7 @@ export type DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelec
 export type DeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDeleteMutationVariables =
   { selectionId: number }
 
-/**
- * @summary Delete Curated App Selection Admin
- */
+/** @summary Delete Curated App Selection Admin */
 export const useDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsSelectionIdDelete =
   <TError = AxiosError<void>, TContext = unknown>(
     options?: {
@@ -2181,6 +2211,7 @@ export type SetAppOfTheWeekAppPicksAppOfTheWeekPostMutationVariables = {
 }
 
 /**
+ * Sets an app of the week
  * @summary Set App Of The Week
  */
 export const useSetAppOfTheWeekAppPicksAppOfTheWeekPost = <
@@ -2286,6 +2317,7 @@ export type SetAppOfTheDayAppPicksAppOfTheDayPostMutationVariables = {
 }
 
 /**
+ * Sets an app of the day
  * @summary Set App Of The Day
  */
 export const useSetAppOfTheDayAppPicksAppOfTheDayPost = <

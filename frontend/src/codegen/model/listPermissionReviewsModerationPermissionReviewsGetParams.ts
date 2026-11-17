@@ -15,8 +15,6 @@ export type ListPermissionReviewsModerationPermissionReviewsGetParams = {
    * @maximum 200
    */
   limit?: number
-  /**
-   * @minimum 0
-   */
+  /** @minimum 0 */
   offset?: number
 }

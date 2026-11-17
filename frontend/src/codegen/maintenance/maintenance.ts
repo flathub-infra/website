@@ -135,6 +135,7 @@ export type GetMaintenanceDashboardAdminMaintenanceGetQueryResult = NonNullable<
 export type GetMaintenanceDashboardAdminMaintenanceGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Get Maintenance Dashboard */
 export function useGetMaintenanceDashboardAdminMaintenanceGet<
   TData = Awaited<
     ReturnType<typeof getMaintenanceDashboardAdminMaintenanceGet>
@@ -166,6 +167,7 @@ export function useGetMaintenanceDashboardAdminMaintenanceGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Maintenance Dashboard */
 export function useGetMaintenanceDashboardAdminMaintenanceGet<
   TData = Awaited<
     ReturnType<typeof getMaintenanceDashboardAdminMaintenanceGet>
@@ -197,6 +199,7 @@ export function useGetMaintenanceDashboardAdminMaintenanceGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Maintenance Dashboard */
 export function useGetMaintenanceDashboardAdminMaintenanceGet<
   TData = Awaited<
     ReturnType<typeof getMaintenanceDashboardAdminMaintenanceGet>
@@ -218,10 +221,7 @@ export function useGetMaintenanceDashboardAdminMaintenanceGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Maintenance Dashboard
- */
-
+/** @summary Get Maintenance Dashboard */
 export function useGetMaintenanceDashboardAdminMaintenanceGet<
   TData = Awaited<
     ReturnType<typeof getMaintenanceDashboardAdminMaintenanceGet>
@@ -346,6 +346,7 @@ export type GetMaintenanceCaseAdminMaintenanceAppIdGetQueryResult = NonNullable<
 export type GetMaintenanceCaseAdminMaintenanceAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Get Maintenance Case */
 export function useGetMaintenanceCaseAdminMaintenanceAppIdGet<
   TData = Awaited<
     ReturnType<typeof getMaintenanceCaseAdminMaintenanceAppIdGet>
@@ -378,6 +379,7 @@ export function useGetMaintenanceCaseAdminMaintenanceAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Maintenance Case */
 export function useGetMaintenanceCaseAdminMaintenanceAppIdGet<
   TData = Awaited<
     ReturnType<typeof getMaintenanceCaseAdminMaintenanceAppIdGet>
@@ -410,6 +412,7 @@ export function useGetMaintenanceCaseAdminMaintenanceAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Maintenance Case */
 export function useGetMaintenanceCaseAdminMaintenanceAppIdGet<
   TData = Awaited<
     ReturnType<typeof getMaintenanceCaseAdminMaintenanceAppIdGet>
@@ -432,10 +435,7 @@ export function useGetMaintenanceCaseAdminMaintenanceAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Maintenance Case
- */
-
+/** @summary Get Maintenance Case */
 export function useGetMaintenanceCaseAdminMaintenanceAppIdGet<
   TData = Awaited<
     ReturnType<typeof getMaintenanceCaseAdminMaintenanceAppIdGet>
@@ -562,9 +562,7 @@ export type UpdateMaintenanceCaseAdminMaintenanceAppIdPostMutationVariables = {
   data: MaintenanceAction
 }
 
-/**
- * @summary Update Maintenance Case
- */
+/** @summary Update Maintenance Case */
 export const useUpdateMaintenanceCaseAdminMaintenanceAppIdPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,

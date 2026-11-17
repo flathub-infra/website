@@ -6,6 +6,6 @@
  */
 
 /**
- * The source's JSON Pointer. An empty string means the document root. null means not found.
+ * The JSON Pointer to this source. An empty string points to the document root. null means the checker could not find the source in the parsed manifest.
  */
 export type SourceSourcePointer = string | null

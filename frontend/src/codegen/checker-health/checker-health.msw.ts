@@ -7,13 +7,123 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
 import type { CheckerHealth } from "../model"
 
 export const getGetCheckerHealthAppsAppIdCheckerHealthGetResponseMock = (
   overrideResponse: Partial<Extract<CheckerHealth, object>> = {},
 ): CheckerHealth => ({
+  selection: faker.helpers.arrayElement([
+    {
+      state: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      issues: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+        undefined,
+      ]),
+      run_url: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      artifact_ids: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => faker.number.int()),
+        undefined,
+      ]),
+      scope: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      observed_at: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      stale: faker.datatype.boolean(),
+      expected_shards: faker.helpers.arrayElement([faker.number.int(), null]),
+      received_shards: faker.number.int(),
+      repository_count: faker.helpers.arrayElement([faker.number.int(), null]),
+      counts: faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: faker.number.int(),
+        },
+        undefined,
+      ]),
+      invocation_counts: faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: faker.number.int(),
+        },
+        undefined,
+      ]),
+      decision: faker.helpers.arrayElement([
+        {
+          repository: faker.helpers.fromRegExp("^[A-Za-z0-9._-]+$"),
+          selection: faker.helpers.arrayElement([
+            "selected",
+            "excluded",
+            "error",
+            "pending",
+          ] as const),
+          reason: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
+          error: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
+          branch: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
+          commit: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
+          checkout_unknown_reason: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
+          invocation: {
+            started: faker.datatype.boolean(),
+            exit_code: faker.helpers.arrayElement([
+              faker.number.int({ min: 0, max: 255 }),
+              null,
+            ]),
+            report: faker.helpers.arrayElement([
+              "not_expected",
+              "pending",
+              "missing",
+              "invalid_json_object",
+              "valid_json_object",
+            ] as const),
+          },
+          manifest: faker.helpers.arrayElement([
+            faker.string.alpha({ length: { min: 10, max: 20 } }),
+            null,
+          ]),
+        },
+        null,
+      ]),
+      report_state: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      report_status: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
+      invocation_outcome: faker.string.alpha({ length: { min: 10, max: 20 } }),
+      provenance: faker.helpers.arrayElement([
+        {
+          [faker.string.alphanumeric(5)]: {},
+        },
+        undefined,
+      ]),
+    },
+    undefined,
+  ]),
   last_report_at: faker.helpers.arrayElement([
     faker.date.past().toISOString().slice(0, 19) + "Z",
     null,
@@ -538,6 +648,29 @@ export const getGetCheckerHealthAppsAppIdCheckerHealthGetResponseMock = (
           })),
           undefined,
         ]),
+        submodules: faker.helpers.arrayElement([
+          Array.from(
+            { length: faker.number.int({ min: 1, max: 10 }) },
+            (_, i) => i + 1,
+          ).map(() => ({
+            path: faker.string.alpha({ length: { min: 10, max: 20 } }),
+            current: faker.helpers.fromRegExp(
+              "^(?:[0-9a-f]{40}|[0-9a-f]{64})$",
+            ),
+            candidate: faker.helpers.fromRegExp(
+              "^(?:[0-9a-f]{40}|[0-9a-f]{64})$",
+            ),
+            files: Array.from(
+              { length: faker.number.int({ min: 1, max: 10 }) },
+              (_, i) => i + 1,
+            ).map(() => faker.string.alpha({ length: { min: 10, max: 20 } })),
+            status: faker.helpers.arrayElement([
+              "update_available",
+              "blocked",
+            ] as const),
+          })),
+          null,
+        ]),
         errors: faker.helpers.arrayElement([
           Array.from(
             { length: faker.number.int({ min: 1, max: 10 }) },
@@ -587,13 +720,13 @@ export const getGetCheckerHealthAppsAppIdCheckerHealthGetMockHandler = (
   overrideResponse?:
     | CheckerHealth
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<CheckerHealth> | CheckerHealth),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/apps/:appId/checker-health",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"

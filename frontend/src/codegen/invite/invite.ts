@@ -123,6 +123,7 @@ export type GetInviteStatusInvitesAppIdGetQueryResult = NonNullable<
 >
 export type GetInviteStatusInvitesAppIdGetQueryError = AxiosError<void>
 
+/** @summary Get Invite Status */
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
   TError = AxiosError<void>,
@@ -150,6 +151,7 @@ export function useGetInviteStatusInvitesAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Invite Status */
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
   TError = AxiosError<void>,
@@ -177,6 +179,7 @@ export function useGetInviteStatusInvitesAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Invite Status */
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
   TError = AxiosError<void>,
@@ -196,10 +199,7 @@ export function useGetInviteStatusInvitesAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Invite Status
- */
-
+/** @summary Get Invite Status */
 export function useGetInviteStatusInvitesAppIdGet<
   TData = Awaited<ReturnType<typeof getInviteStatusInvitesAppIdGet>>,
   TError = AxiosError<void>,
@@ -318,9 +318,7 @@ export type InviteDeveloperInvitesAppIdInvitePostMutationVariables = {
   params: InviteDeveloperInvitesAppIdInvitePostParams
 }
 
-/**
- * @summary Invite Developer
- */
+/** @summary Invite Developer */
 export const useInviteDeveloperInvitesAppIdInvitePost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -421,9 +419,7 @@ export type AcceptInviteInvitesAppIdAcceptPostMutationVariables = {
   appId: string
 }
 
-/**
- * @summary Accept Invite
- */
+/** @summary Accept Invite */
 export const useAcceptInviteInvitesAppIdAcceptPost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -524,9 +520,7 @@ export type DeclineInviteInvitesAppIdDeclinePostMutationVariables = {
   appId: string
 }
 
-/**
- * @summary Decline Invite
- */
+/** @summary Decline Invite */
 export const useDeclineInviteInvitesAppIdDeclinePost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -625,9 +619,7 @@ export type LeaveTeamInvitesAppIdLeavePostMutationResult = NonNullable<
 export type LeaveTeamInvitesAppIdLeavePostMutationError = AxiosError<void>
 export type LeaveTeamInvitesAppIdLeavePostMutationVariables = { appId: string }
 
-/**
- * @summary Leave Team
- */
+/** @summary Leave Team */
 export const useLeaveTeamInvitesAppIdLeavePost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -734,6 +726,7 @@ export type GetAppDevelopersInvitesAppIdDevelopersGetQueryResult = NonNullable<
 export type GetAppDevelopersInvitesAppIdDevelopersGetQueryError =
   AxiosError<void>
 
+/** @summary Get App Developers */
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<void>,
@@ -761,6 +754,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get App Developers */
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<void>,
@@ -788,6 +782,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get App Developers */
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<void>,
@@ -807,10 +802,7 @@ export function useGetAppDevelopersInvitesAppIdDevelopersGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get App Developers
- */
-
+/** @summary Get App Developers */
 export function useGetAppDevelopersInvitesAppIdDevelopersGet<
   TData = Awaited<ReturnType<typeof getAppDevelopersInvitesAppIdDevelopersGet>>,
   TError = AxiosError<void>,
@@ -940,9 +932,7 @@ export type RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteMutationVariables =
     params: RemoveDeveloperInvitesAppIdRemoveDeveloperDeleteParams
   }
 
-/**
- * @summary Remove Developer
- */
+/** @summary Remove Developer */
 export const useRemoveDeveloperInvitesAppIdRemoveDeveloperDelete = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -1055,9 +1045,7 @@ export type RevokeInviteInvitesAppIdRevokeDeleteMutationVariables = {
   params: RevokeInviteInvitesAppIdRevokeDeleteParams
 }
 
-/**
- * @summary Revoke Invite
- */
+/** @summary Revoke Invite */
 export const useRevokeInviteInvitesAppIdRevokeDelete = <
   TError = AxiosError<void>,
   TContext = unknown,

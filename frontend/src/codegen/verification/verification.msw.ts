@@ -7,7 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
 import {
   AvailableLoginMethodStatus,
@@ -16,6 +16,7 @@ import {
   LoginProvider,
 } from "../model"
 import type {
+  ArchiveRequest,
   AvailableMethods,
   DnsVerificationResult,
   DnsVerificationToken,
@@ -271,15 +272,15 @@ export const getGetVerificationStatusVerificationAppIdStatusGetMockHandler = (
   overrideResponse?:
     | GetVerificationStatusVerificationAppIdStatusGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) =>
         | Promise<GetVerificationStatusVerificationAppIdStatusGet200>
         | GetVerificationStatusVerificationAppIdStatusGet200),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/verification/:appId/status",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -298,13 +299,13 @@ export const getGetAvailableMethodsVerificationAppIdAvailableMethodsGetMockHandl
     overrideResponse?:
       | AvailableMethods
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<AvailableMethods> | AvailableMethods),
     options?: RequestHandlerOptions,
   ) => {
-    return http.get(
+    return http.get<{ appId: string }>(
       "*/verification/:appId/available-methods",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -323,15 +324,15 @@ export const getVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostM
     overrideResponse?:
       | VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) =>
           | Promise<VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200>
           | VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost200),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }>(
       "*/verification/:appId/verify-by-login-provider",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -350,13 +351,13 @@ export const getRequestOrganizationAccessGithubVerificationRequestOrganizationAc
     overrideResponse?:
       | LinkResponse
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) => Promise<LinkResponse> | LinkResponse),
     options?: RequestHandlerOptions,
   ) => {
     return http.get(
       "*/verification/request-organization-access/github",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -375,13 +376,13 @@ export const getSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificatio
     overrideResponse?:
       | WebsiteVerificationToken
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<WebsiteVerificationToken> | WebsiteVerificationToken),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }>(
       "*/verification/:appId/setup-website-verification",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -400,13 +401,13 @@ export const getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerific
     overrideResponse?:
       | WebsiteVerificationResult
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<WebsiteVerificationResult> | WebsiteVerificationResult),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }>(
       "*/verification/:appId/confirm-website-verification",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -425,13 +426,13 @@ export const getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMoc
     overrideResponse?:
       | DnsVerificationToken
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<DnsVerificationToken> | DnsVerificationToken),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }>(
       "*/verification/:appId/setup-dns-verification",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -450,13 +451,13 @@ export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPos
     overrideResponse?:
       | DnsVerificationResult
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<DnsVerificationResult> | DnsVerificationResult),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }>(
       "*/verification/:appId/confirm-dns-verification",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -474,13 +475,13 @@ export const getUnverifyVerificationAppIdUnverifyPostMockHandler = (
   overrideResponse?:
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<void> | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }>(
     "*/verification/:appId/unverify",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -496,13 +497,13 @@ export const getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMoc
     overrideResponse?:
       | void
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<void> | void),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }>(
       "*/verification/:appId/switch_to_direct_upload",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -517,13 +518,19 @@ export const getArchiveVerificationAppIdArchivePostMockHandler = (
   overrideResponse?:
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ appId: string }, ArchiveRequest>
+        >[0],
       ) => Promise<void> | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }, ArchiveRequest>(
     "*/verification/:appId/archive",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ appId: string }, ArchiveRequest>
+      >[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -539,13 +546,13 @@ export const getManualVerificationVerificationAppIdManualVerificationPostMockHan
     overrideResponse?:
       | VerificationStatusManual
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<VerificationStatusManual> | VerificationStatusManual),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }>(
       "*/verification/:appId/manual-verification",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"

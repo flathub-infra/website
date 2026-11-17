@@ -101,6 +101,7 @@ export type HealthcheckStatusGetQueryResult = NonNullable<
 >
 export type HealthcheckStatusGetQueryError = AxiosError<unknown>
 
+/** @summary Healthcheck */
 export function useHealthcheckStatusGet<
   TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
   TError = AxiosError<unknown>,
@@ -127,6 +128,7 @@ export function useHealthcheckStatusGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Healthcheck */
 export function useHealthcheckStatusGet<
   TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
   TError = AxiosError<unknown>,
@@ -153,6 +155,7 @@ export function useHealthcheckStatusGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Healthcheck */
 export function useHealthcheckStatusGet<
   TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
   TError = AxiosError<unknown>,
@@ -171,10 +174,7 @@ export function useHealthcheckStatusGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Healthcheck
- */
-
+/** @summary Healthcheck */
 export function useHealthcheckStatusGet<
   TData = Awaited<ReturnType<typeof healthcheckStatusGet>>,
   TError = AxiosError<unknown>,

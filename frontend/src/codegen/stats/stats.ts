@@ -106,6 +106,7 @@ export type GetStatsStatsGetQueryResult = NonNullable<
 >
 export type GetStatsStatsGetQueryError = AxiosError<void>
 
+/** @summary Get Stats */
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
   TError = AxiosError<void>,
@@ -132,6 +133,7 @@ export function useGetStatsStatsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Stats */
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
   TError = AxiosError<void>,
@@ -158,6 +160,7 @@ export function useGetStatsStatsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Stats */
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
   TError = AxiosError<void>,
@@ -176,10 +179,7 @@ export function useGetStatsStatsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Stats
- */
-
+/** @summary Get Stats */
 export function useGetStatsStatsGet<
   TData = Awaited<ReturnType<typeof getStatsStatsGet>>,
   TError = AxiosError<void>,
@@ -286,6 +286,7 @@ export type GetPermissionStatsStatsPermissionsGetQueryResult = NonNullable<
 export type GetPermissionStatsStatsPermissionsGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Get Permission Stats */
 export function useGetPermissionStatsStatsPermissionsGet<
   TData = Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -313,6 +314,7 @@ export function useGetPermissionStatsStatsPermissionsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Permission Stats */
 export function useGetPermissionStatsStatsPermissionsGet<
   TData = Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -340,6 +342,7 @@ export function useGetPermissionStatsStatsPermissionsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Permission Stats */
 export function useGetPermissionStatsStatsPermissionsGet<
   TData = Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -359,10 +362,7 @@ export function useGetPermissionStatsStatsPermissionsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Permission Stats
- */
-
+/** @summary Get Permission Stats */
 export function useGetPermissionStatsStatsPermissionsGet<
   TData = Awaited<ReturnType<typeof getPermissionStatsStatsPermissionsGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -482,6 +482,7 @@ export type GetStatsForAppStatsAppIdGetQueryResult = NonNullable<
 export type GetStatsForAppStatsAppIdGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/** @summary Get Stats For App */
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -510,6 +511,7 @@ export function useGetStatsForAppStatsAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Stats For App */
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -538,6 +540,7 @@ export function useGetStatsForAppStatsAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Stats For App */
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -558,10 +561,7 @@ export function useGetStatsForAppStatsAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Stats For App
- */
-
+/** @summary Get Stats For App */
 export function useGetStatsForAppStatsAppIdGet<
   TData = Awaited<ReturnType<typeof getStatsForAppStatsAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,

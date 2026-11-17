@@ -6,6 +6,6 @@
  */
 
 /**
- * The source's state flags, separated by | when more than one applies.
+ * The source's state flags. Multiple flags use | as the separator.
  */
 export type SourceState = string | null

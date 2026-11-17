@@ -116,6 +116,7 @@ export type GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryResult =
 export type GetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGetQueryError =
   AxiosError<unknown>
 
+/** @summary Get Recently Updated Apps Feed */
 export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
@@ -150,6 +151,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Recently Updated Apps Feed */
 export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
@@ -184,6 +186,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Recently Updated Apps Feed */
 export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
@@ -206,10 +209,7 @@ export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Recently Updated Apps Feed
- */
-
+/** @summary Get Recently Updated Apps Feed */
 export function useGetRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedAppsFeedFeedRecentlyUpdatedGet>
@@ -305,6 +305,7 @@ export type GetNewAppsFeedFeedNewGetQueryResult = NonNullable<
 >
 export type GetNewAppsFeedFeedNewGetQueryError = AxiosError<unknown>
 
+/** @summary Get New Apps Feed */
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
   TError = AxiosError<unknown>,
@@ -331,6 +332,7 @@ export function useGetNewAppsFeedFeedNewGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get New Apps Feed */
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
   TError = AxiosError<unknown>,
@@ -357,6 +359,7 @@ export function useGetNewAppsFeedFeedNewGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get New Apps Feed */
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
   TError = AxiosError<unknown>,
@@ -375,10 +378,7 @@ export function useGetNewAppsFeedFeedNewGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get New Apps Feed
- */
-
+/** @summary Get New Apps Feed */
 export function useGetNewAppsFeedFeedNewGet<
   TData = Awaited<ReturnType<typeof getNewAppsFeedFeedNewGet>>,
   TError = AxiosError<unknown>,

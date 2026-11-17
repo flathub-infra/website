@@ -31,6 +31,23 @@ export const mergeCallbackApiMergeMergeIdCallbackPost = (
   )
 }
 
+export const getMergeCallbackApiMergeMergeIdCallbackPostUrl = (
+  mergeId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/api/merge/${mergeId}/callback`,
+      baseURL: "",
+    })
+}
+
+export const getMergeCallbackApiMergeMergeIdCallbackPostMutationKey = () =>
+  ["mergeCallbackApiMergeMergeIdCallbackPost"] as const
+
 export const getMergeCallbackApiMergeMergeIdCallbackPostMutationOptions = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -38,17 +55,17 @@ export const getMergeCallbackApiMergeMergeIdCallbackPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof mergeCallbackApiMergeMergeIdCallbackPost>>,
     TError,
-    { mergeId: string },
+    MergeCallbackApiMergeMergeIdCallbackPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof mergeCallbackApiMergeMergeIdCallbackPost>>,
   TError,
-  { mergeId: string },
+  MergeCallbackApiMergeMergeIdCallbackPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["mergeCallbackApiMergeMergeIdCallbackPost"]
+  const mutationKey = getMergeCallbackApiMergeMergeIdCallbackPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -59,7 +76,7 @@ export const getMergeCallbackApiMergeMergeIdCallbackPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof mergeCallbackApiMergeMergeIdCallbackPost>>,
-    { mergeId: string }
+    MergeCallbackApiMergeMergeIdCallbackPostMutationVariables
   > = (props) => {
     const { mergeId } = props ?? {}
 
@@ -76,10 +93,11 @@ export type MergeCallbackApiMergeMergeIdCallbackPostMutationResult =
 
 export type MergeCallbackApiMergeMergeIdCallbackPostMutationError =
   AxiosError<HTTPValidationError>
+export type MergeCallbackApiMergeMergeIdCallbackPostMutationVariables = {
+  mergeId: string
+}
 
-/**
- * @summary Merge Callback
- */
+/** @summary Merge Callback */
 export const useMergeCallbackApiMergeMergeIdCallbackPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -88,7 +106,7 @@ export const useMergeCallbackApiMergeMergeIdCallbackPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof mergeCallbackApiMergeMergeIdCallbackPost>>,
       TError,
-      { mergeId: string },
+      MergeCallbackApiMergeMergeIdCallbackPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -97,7 +115,7 @@ export const useMergeCallbackApiMergeMergeIdCallbackPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof mergeCallbackApiMergeMergeIdCallbackPost>>,
   TError,
-  { mergeId: string },
+  MergeCallbackApiMergeMergeIdCallbackPostMutationVariables,
   TContext
 > => {
   return useMutation(

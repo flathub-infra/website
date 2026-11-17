@@ -123,6 +123,7 @@ export type GetCheckerHealthAppsAppIdCheckerHealthGetQueryResult = NonNullable<
 export type GetCheckerHealthAppsAppIdCheckerHealthGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Get Checker Health */
 export function useGetCheckerHealthAppsAppIdCheckerHealthGet<
   TData = Awaited<ReturnType<typeof getCheckerHealthAppsAppIdCheckerHealthGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -150,6 +151,7 @@ export function useGetCheckerHealthAppsAppIdCheckerHealthGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Checker Health */
 export function useGetCheckerHealthAppsAppIdCheckerHealthGet<
   TData = Awaited<ReturnType<typeof getCheckerHealthAppsAppIdCheckerHealthGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -177,6 +179,7 @@ export function useGetCheckerHealthAppsAppIdCheckerHealthGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Checker Health */
 export function useGetCheckerHealthAppsAppIdCheckerHealthGet<
   TData = Awaited<ReturnType<typeof getCheckerHealthAppsAppIdCheckerHealthGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -196,10 +199,7 @@ export function useGetCheckerHealthAppsAppIdCheckerHealthGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Checker Health
- */
-
+/** @summary Get Checker Health */
 export function useGetCheckerHealthAppsAppIdCheckerHealthGet<
   TData = Awaited<ReturnType<typeof getCheckerHealthAppsAppIdCheckerHealthGet>>,
   TError = AxiosError<HTTPValidationError>,

@@ -21,7 +21,7 @@ import type { SourceUpdateGroup } from "./sourceUpdateGroup"
 export interface Source {
   /** The source manifest's path relative to the root manifest directory. */
   manifest: string
-  /** The source's JSON Pointer. An empty string means the document root. null means not found. */
+  /** The JSON Pointer to this source. An empty string points to the document root. null means the checker could not find the source in the parsed manifest. */
   source_pointer: SourceSourcePointer
   module: SourceModule
   type: SourceType
@@ -29,7 +29,7 @@ export interface Source {
   checkers_run: string[]
   status: SourceStatus
   reason: SourceReason
-  /** The source's state flags, separated by | when more than one applies. */
+  /** The source's state flags. Multiple flags use | as the separator. */
   state: SourceState
   /** Current or new source data, not the enclosing parent object. */
   current: SourceCurrent
@@ -37,6 +37,6 @@ export interface Source {
   selected_version: SourceSelectedVersion
   update_group: SourceUpdateGroup
   errors: Error[]
-  /** The runtime branch name, included only in top-level source entries. */
+  /** The runtime branch name. Only source entries in the top-level sources array include it. */
   branch?: SourceBranch
 }

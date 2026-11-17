@@ -5,19 +5,19 @@
  * OpenAPI spec version: 0.1.0
  */
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
 export const getUpdateUpdatePostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
     "*/update",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -32,13 +32,13 @@ export const getUpdateStatsUpdateStatsPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
     "*/update/stats",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -53,13 +53,13 @@ export const getProcessTransfersUpdateProcessPendingTransfersPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
     "*/update/process-pending-transfers",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -74,13 +74,13 @@ export const getUpdateAppPicksUpdateAppPicksPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
     "*/update/app-picks",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }

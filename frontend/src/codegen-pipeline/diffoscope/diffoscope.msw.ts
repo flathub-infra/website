@@ -5,19 +5,21 @@
  * OpenAPI spec version: 0.1.0
  */
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
 export const getViewDiffoscopeDiffoscopePipelineIdGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ pipelineId: string }>(
     "*/diffoscope/:pipelineId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -32,13 +34,15 @@ export const getDiffoscopeCssDiffoscopePipelineIdCommonCssGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ pipelineId: string }>(
     "*/diffoscope/:pipelineId/common.css",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -53,13 +57,15 @@ export const getDiffoscopeIconDiffoscopePipelineIdIconPngGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ pipelineId: string }>(
     "*/diffoscope/:pipelineId/icon.png",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }

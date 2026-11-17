@@ -7,7 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
 import type {
   AppPickRecommendationsResponse,
@@ -18,6 +18,7 @@ import type {
   QualityModerationResponse,
   QualityModerationStatus,
   SimpleQualityModerationResponse,
+  UpsertQualityModeration,
 } from "../model"
 
 export const getGetQualityModerationStatusQualityModerationStatusGetResponseMock =
@@ -385,7 +386,7 @@ export const getGetQualityModerationStatusQualityModerationStatusGetMockHandler 
     overrideResponse?:
       | QualityModerationDashboardResponse
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) =>
           | Promise<QualityModerationDashboardResponse>
           | QualityModerationDashboardResponse),
@@ -393,7 +394,7 @@ export const getGetQualityModerationStatusQualityModerationStatusGetMockHandler 
   ) => {
     return http.get(
       "*/quality-moderation/status",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -412,7 +413,7 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetMockHandler 
     overrideResponse?:
       | SimpleQualityModerationResponse
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) =>
           | Promise<SimpleQualityModerationResponse>
           | SimpleQualityModerationResponse),
@@ -420,7 +421,7 @@ export const getGetPassingQualityAppsQualityModerationPassingAppsGetMockHandler 
   ) => {
     return http.get(
       "*/quality-moderation/passing-apps",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -439,7 +440,7 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
     overrideResponse?:
       | AppPickRecommendationsResponse
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) =>
           | Promise<AppPickRecommendationsResponse>
           | AppPickRecommendationsResponse),
@@ -447,7 +448,7 @@ export const getGetAppPickRecommendationsQualityModerationAppPickRecommendations
   ) => {
     return http.get(
       "*/quality-moderation/app-pick-recommendations",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -466,13 +467,13 @@ export const getGetQualityModerationStatsQualityModerationFailedByGuidelineGetMo
     overrideResponse?:
       | FailedByGuideline[]
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) => Promise<FailedByGuideline[]> | FailedByGuideline[]),
     options?: RequestHandlerOptions,
   ) => {
     return http.get(
       "*/quality-moderation/failed-by-guideline",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -491,13 +492,13 @@ export const getGetQualityModerationStatsByCategoryQualityModerationStatsByCateg
     overrideResponse?:
       | GuidelineStatsByCategory[]
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) => Promise<GuidelineStatsByCategory[]> | GuidelineStatsByCategory[]),
     options?: RequestHandlerOptions,
   ) => {
     return http.get(
       "*/quality-moderation/stats-by-category",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -516,13 +517,13 @@ export const getGetQualityModerationForAppQualityModerationAppIdGetMockHandler =
     overrideResponse?:
       | QualityModerationResponse
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<QualityModerationResponse> | QualityModerationResponse),
     options?: RequestHandlerOptions,
   ) => {
-    return http.get(
+    return http.get<{ appId: string }>(
       "*/quality-moderation/:appId",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -541,15 +542,21 @@ export const getSetQualityModerationForAppQualityModerationAppIdPostMockHandler 
     overrideResponse?:
       | QualityModerationModeratorResponse
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<{ appId: string }, UpsertQualityModeration>
+          >[0],
         ) =>
           | Promise<QualityModerationModeratorResponse>
           | QualityModerationModeratorResponse),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }, UpsertQualityModeration>(
       "*/quality-moderation/:appId",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<{ appId: string }, UpsertQualityModeration>
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -568,15 +575,15 @@ export const getGetQualityModerationForAppAsModeratorQualityModerationAppIdModer
     overrideResponse?:
       | QualityModerationModeratorResponse
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) =>
           | Promise<QualityModerationModeratorResponse>
           | QualityModerationModeratorResponse),
     options?: RequestHandlerOptions,
   ) => {
-    return http.get(
+    return http.get<{ appId: string }>(
       "*/quality-moderation/:appId/moderator",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -595,13 +602,13 @@ export const getGetQualityModerationStatusForAppQualityModerationAppIdStatusGetM
     overrideResponse?:
       | QualityModerationStatus
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<QualityModerationStatus> | QualityModerationStatus),
     options?: RequestHandlerOptions,
   ) => {
-    return http.get(
+    return http.get<{ appId: string }>(
       "*/quality-moderation/:appId/status",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -620,13 +627,13 @@ export const getRequestReviewForAppQualityModerationAppIdRequestReviewPostMockHa
     overrideResponse?:
       | unknown
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<unknown> | unknown),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }>(
       "*/quality-moderation/:appId/request-review",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -643,16 +650,16 @@ export const getDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDele
       | QualityModerationModeratorResponse
       | void
       | ((
-          info: Parameters<Parameters<typeof http.delete>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) =>
           | Promise<QualityModerationModeratorResponse | void>
           | QualityModerationModeratorResponse
           | void),
     options?: RequestHandlerOptions,
   ) => {
-    return http.delete(
+    return http.delete<{ appId: string }>(
       "*/quality-moderation/:appId/request-review",
-      async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         const resolvedBody =
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -672,15 +679,15 @@ export const getSetFullscreenAppQualityModerationAppIdFullscreenPostMockHandler 
     overrideResponse?:
       | QualityModerationModeratorResponse
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) =>
           | Promise<QualityModerationModeratorResponse>
           | QualityModerationModeratorResponse),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }>(
       "*/quality-moderation/:appId/fullscreen",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"

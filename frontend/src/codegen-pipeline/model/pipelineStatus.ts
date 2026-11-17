@@ -18,4 +18,5 @@ export const PipelineStatus = {
   committed: "committed",
   publishing: "publishing",
   superseded: "superseded",
+  expired: "expired",
 } as const

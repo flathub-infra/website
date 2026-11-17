@@ -15,8 +15,132 @@ import type {
 import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
-import type { HTTPValidationError } from "../model"
+import type {
+  HTTPValidationError,
+  PermissionDecisionNotification,
+} from "../model"
 
+/**
+ * @summary Permission Decision
+ */
+export const permissionDecisionApiWebhooksPermissionDecisionsPost = (
+  permissionDecisionNotification: PermissionDecisionNotification,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<void>> => {
+  return axios.post(
+    `https://builds.flathub.org/api/webhooks/permission-decisions`,
+    permissionDecisionNotification,
+    options,
+  )
+}
+
+export const getPermissionDecisionApiWebhooksPermissionDecisionsPostUrl =
+  () => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `https://builds.flathub.org/api/webhooks/permission-decisions`,
+        baseURL: "",
+      })
+  }
+
+export const getPermissionDecisionApiWebhooksPermissionDecisionsPostMutationKey =
+  () => ["permissionDecisionApiWebhooksPermissionDecisionsPost"] as const
+
+export const getPermissionDecisionApiWebhooksPermissionDecisionsPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof permissionDecisionApiWebhooksPermissionDecisionsPost>
+      >,
+      TError,
+      PermissionDecisionApiWebhooksPermissionDecisionsPostMutationVariables,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<
+      ReturnType<typeof permissionDecisionApiWebhooksPermissionDecisionsPost>
+    >,
+    TError,
+    PermissionDecisionApiWebhooksPermissionDecisionsPostMutationVariables,
+    TContext
+  > => {
+    const mutationKey =
+      getPermissionDecisionApiWebhooksPermissionDecisionsPostMutationKey()
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<typeof permissionDecisionApiWebhooksPermissionDecisionsPost>
+      >,
+      PermissionDecisionApiWebhooksPermissionDecisionsPostMutationVariables
+    > = (props) => {
+      const { data } = props ?? {}
+
+      return permissionDecisionApiWebhooksPermissionDecisionsPost(
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type PermissionDecisionApiWebhooksPermissionDecisionsPostMutationResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof permissionDecisionApiWebhooksPermissionDecisionsPost>
+    >
+  >
+export type PermissionDecisionApiWebhooksPermissionDecisionsPostMutationBody =
+  PermissionDecisionNotification
+export type PermissionDecisionApiWebhooksPermissionDecisionsPostMutationError =
+  AxiosError<HTTPValidationError>
+export type PermissionDecisionApiWebhooksPermissionDecisionsPostMutationVariables =
+  { data: PermissionDecisionNotification }
+
+/** @summary Permission Decision */
+export const usePermissionDecisionApiWebhooksPermissionDecisionsPost = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof permissionDecisionApiWebhooksPermissionDecisionsPost>
+      >,
+      TError,
+      PermissionDecisionApiWebhooksPermissionDecisionsPostMutationVariables,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<
+    ReturnType<typeof permissionDecisionApiWebhooksPermissionDecisionsPost>
+  >,
+  TError,
+  PermissionDecisionApiWebhooksPermissionDecisionsPostMutationVariables,
+  TContext
+> => {
+  return useMutation(
+    getPermissionDecisionApiWebhooksPermissionDecisionsPostMutationOptions(
+      options,
+    ),
+    queryClient,
+  )
+}
 /**
  * @summary Receive Github Webhook
  */
@@ -29,6 +153,21 @@ export const receiveGithubWebhookApiWebhooksGithubPost = (
     options,
   )
 }
+
+export const getReceiveGithubWebhookApiWebhooksGithubPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/api/webhooks/github`,
+      baseURL: "",
+    })
+}
+
+export const getReceiveGithubWebhookApiWebhooksGithubPostMutationKey = () =>
+  ["receiveGithubWebhookApiWebhooksGithubPost"] as const
 
 export const getReceiveGithubWebhookApiWebhooksGithubPostMutationOptions = <
   TError = AxiosError<HTTPValidationError>,
@@ -47,7 +186,7 @@ export const getReceiveGithubWebhookApiWebhooksGithubPostMutationOptions = <
   void,
   TContext
 > => {
-  const mutationKey = ["receiveGithubWebhookApiWebhooksGithubPost"]
+  const mutationKey = getReceiveGithubWebhookApiWebhooksGithubPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -74,9 +213,7 @@ export type ReceiveGithubWebhookApiWebhooksGithubPostMutationResult =
 export type ReceiveGithubWebhookApiWebhooksGithubPostMutationError =
   AxiosError<HTTPValidationError>
 
-/**
- * @summary Receive Github Webhook
- */
+/** @summary Receive Github Webhook */
 export const useReceiveGithubWebhookApiWebhooksGithubPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,

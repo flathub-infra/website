@@ -102,9 +102,7 @@ export type BuildNotificationEmailsBuildNotificationPostMutationVariables = {
   data: BuildNotificationRequest
 }
 
-/**
- * @summary Build Notification
- */
+/** @summary Build Notification */
 export const useBuildNotificationEmailsBuildNotificationPost = <
   TError = AxiosError<void>,
   TContext = unknown,

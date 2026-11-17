@@ -53,6 +53,20 @@ export const viewDiffoscopeDiffoscopePipelineIdGet = (
   )
 }
 
+export const getViewDiffoscopeDiffoscopePipelineIdGetUrl = (
+  pipelineId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/diffoscope/${pipelineId}`,
+      baseURL: "",
+    })
+}
+
 export const getViewDiffoscopeDiffoscopePipelineIdGetQueryKey = (
   pipelineId: string,
 ) => {
@@ -107,6 +121,7 @@ export type ViewDiffoscopeDiffoscopePipelineIdGetQueryResult = NonNullable<
 export type ViewDiffoscopeDiffoscopePipelineIdGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary View Diffoscope */
 export function useViewDiffoscopeDiffoscopePipelineIdGet<
   TData = Awaited<ReturnType<typeof viewDiffoscopeDiffoscopePipelineIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -134,6 +149,7 @@ export function useViewDiffoscopeDiffoscopePipelineIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary View Diffoscope */
 export function useViewDiffoscopeDiffoscopePipelineIdGet<
   TData = Awaited<ReturnType<typeof viewDiffoscopeDiffoscopePipelineIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -161,6 +177,7 @@ export function useViewDiffoscopeDiffoscopePipelineIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary View Diffoscope */
 export function useViewDiffoscopeDiffoscopePipelineIdGet<
   TData = Awaited<ReturnType<typeof viewDiffoscopeDiffoscopePipelineIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -180,10 +197,7 @@ export function useViewDiffoscopeDiffoscopePipelineIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary View Diffoscope
- */
-
+/** @summary View Diffoscope */
 export function useViewDiffoscopeDiffoscopePipelineIdGet<
   TData = Awaited<ReturnType<typeof viewDiffoscopeDiffoscopePipelineIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -227,6 +241,20 @@ export const diffoscopeCssDiffoscopePipelineIdCommonCssGet = (
     `https://builds.flathub.org/diffoscope/${pipelineId}/common.css`,
     options,
   )
+}
+
+export const getDiffoscopeCssDiffoscopePipelineIdCommonCssGetUrl = (
+  pipelineId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/diffoscope/${pipelineId}/common.css`,
+      baseURL: "",
+    })
 }
 
 export const getDiffoscopeCssDiffoscopePipelineIdCommonCssGetQueryKey = (
@@ -290,6 +318,7 @@ export type DiffoscopeCssDiffoscopePipelineIdCommonCssGetQueryResult =
 export type DiffoscopeCssDiffoscopePipelineIdCommonCssGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Diffoscope Css */
 export function useDiffoscopeCssDiffoscopePipelineIdCommonCssGet<
   TData = Awaited<
     ReturnType<typeof diffoscopeCssDiffoscopePipelineIdCommonCssGet>
@@ -325,6 +354,7 @@ export function useDiffoscopeCssDiffoscopePipelineIdCommonCssGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Diffoscope Css */
 export function useDiffoscopeCssDiffoscopePipelineIdCommonCssGet<
   TData = Awaited<
     ReturnType<typeof diffoscopeCssDiffoscopePipelineIdCommonCssGet>
@@ -360,6 +390,7 @@ export function useDiffoscopeCssDiffoscopePipelineIdCommonCssGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Diffoscope Css */
 export function useDiffoscopeCssDiffoscopePipelineIdCommonCssGet<
   TData = Awaited<
     ReturnType<typeof diffoscopeCssDiffoscopePipelineIdCommonCssGet>
@@ -383,10 +414,7 @@ export function useDiffoscopeCssDiffoscopePipelineIdCommonCssGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Diffoscope Css
- */
-
+/** @summary Diffoscope Css */
 export function useDiffoscopeCssDiffoscopePipelineIdCommonCssGet<
   TData = Awaited<
     ReturnType<typeof diffoscopeCssDiffoscopePipelineIdCommonCssGet>
@@ -435,6 +463,20 @@ export const diffoscopeIconDiffoscopePipelineIdIconPngGet = (
     `https://builds.flathub.org/diffoscope/${pipelineId}/icon.png`,
     options,
   )
+}
+
+export const getDiffoscopeIconDiffoscopePipelineIdIconPngGetUrl = (
+  pipelineId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/diffoscope/${pipelineId}/icon.png`,
+      baseURL: "",
+    })
 }
 
 export const getDiffoscopeIconDiffoscopePipelineIdIconPngGetQueryKey = (
@@ -498,6 +540,7 @@ export type DiffoscopeIconDiffoscopePipelineIdIconPngGetQueryResult =
 export type DiffoscopeIconDiffoscopePipelineIdIconPngGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Diffoscope Icon */
 export function useDiffoscopeIconDiffoscopePipelineIdIconPngGet<
   TData = Awaited<
     ReturnType<typeof diffoscopeIconDiffoscopePipelineIdIconPngGet>
@@ -533,6 +576,7 @@ export function useDiffoscopeIconDiffoscopePipelineIdIconPngGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Diffoscope Icon */
 export function useDiffoscopeIconDiffoscopePipelineIdIconPngGet<
   TData = Awaited<
     ReturnType<typeof diffoscopeIconDiffoscopePipelineIdIconPngGet>
@@ -568,6 +612,7 @@ export function useDiffoscopeIconDiffoscopePipelineIdIconPngGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Diffoscope Icon */
 export function useDiffoscopeIconDiffoscopePipelineIdIconPngGet<
   TData = Awaited<
     ReturnType<typeof diffoscopeIconDiffoscopePipelineIdIconPngGet>
@@ -591,10 +636,7 @@ export function useDiffoscopeIconDiffoscopePipelineIdIconPngGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Diffoscope Icon
- */
-
+/** @summary Diffoscope Icon */
 export function useDiffoscopeIconDiffoscopePipelineIdIconPngGet<
   TData = Awaited<
     ReturnType<typeof diffoscopeIconDiffoscopePipelineIdIconPngGet>

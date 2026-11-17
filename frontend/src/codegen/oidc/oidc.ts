@@ -131,6 +131,7 @@ export type OpenidConfigurationWellKnownOpenidConfigurationGetQueryResult =
 export type OpenidConfigurationWellKnownOpenidConfigurationGetQueryError =
   AxiosError<void>
 
+/** @summary Openid Configuration */
 export function useOpenidConfigurationWellKnownOpenidConfigurationGet<
   TData = Awaited<
     ReturnType<typeof openidConfigurationWellKnownOpenidConfigurationGet>
@@ -169,6 +170,7 @@ export function useOpenidConfigurationWellKnownOpenidConfigurationGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Openid Configuration */
 export function useOpenidConfigurationWellKnownOpenidConfigurationGet<
   TData = Awaited<
     ReturnType<typeof openidConfigurationWellKnownOpenidConfigurationGet>
@@ -207,6 +209,7 @@ export function useOpenidConfigurationWellKnownOpenidConfigurationGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Openid Configuration */
 export function useOpenidConfigurationWellKnownOpenidConfigurationGet<
   TData = Awaited<
     ReturnType<typeof openidConfigurationWellKnownOpenidConfigurationGet>
@@ -229,10 +232,7 @@ export function useOpenidConfigurationWellKnownOpenidConfigurationGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Openid Configuration
- */
-
+/** @summary Openid Configuration */
 export function useOpenidConfigurationWellKnownOpenidConfigurationGet<
   TData = Awaited<
     ReturnType<typeof openidConfigurationWellKnownOpenidConfigurationGet>
@@ -327,6 +327,7 @@ export type JwksOidcJwksJsonGetQueryResult = NonNullable<
 >
 export type JwksOidcJwksJsonGetQueryError = AxiosError<void>
 
+/** @summary Jwks */
 export function useJwksOidcJwksJsonGet<
   TData = Awaited<ReturnType<typeof jwksOidcJwksJsonGet>>,
   TError = AxiosError<void>,
@@ -353,6 +354,7 @@ export function useJwksOidcJwksJsonGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Jwks */
 export function useJwksOidcJwksJsonGet<
   TData = Awaited<ReturnType<typeof jwksOidcJwksJsonGet>>,
   TError = AxiosError<void>,
@@ -379,6 +381,7 @@ export function useJwksOidcJwksJsonGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Jwks */
 export function useJwksOidcJwksJsonGet<
   TData = Awaited<ReturnType<typeof jwksOidcJwksJsonGet>>,
   TError = AxiosError<void>,
@@ -397,10 +400,7 @@ export function useJwksOidcJwksJsonGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Jwks
- */
-
+/** @summary Jwks */
 export function useJwksOidcJwksJsonGet<
   TData = Awaited<ReturnType<typeof jwksOidcJwksJsonGet>>,
   TError = AxiosError<void>,
@@ -506,6 +506,7 @@ export type AuthorizeOidcAuthorizeGetQueryResult = NonNullable<
 export type AuthorizeOidcAuthorizeGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/** @summary Authorize */
 export function useAuthorizeOidcAuthorizeGet<
   TData = Awaited<ReturnType<typeof authorizeOidcAuthorizeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -533,6 +534,7 @@ export function useAuthorizeOidcAuthorizeGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Authorize */
 export function useAuthorizeOidcAuthorizeGet<
   TData = Awaited<ReturnType<typeof authorizeOidcAuthorizeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -560,6 +562,7 @@ export function useAuthorizeOidcAuthorizeGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Authorize */
 export function useAuthorizeOidcAuthorizeGet<
   TData = Awaited<ReturnType<typeof authorizeOidcAuthorizeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -579,10 +582,7 @@ export function useAuthorizeOidcAuthorizeGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Authorize
- */
-
+/** @summary Authorize */
 export function useAuthorizeOidcAuthorizeGet<
   TData = Awaited<ReturnType<typeof authorizeOidcAuthorizeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -619,46 +619,67 @@ export const tokenOidcTokenPost = (
   bodyTokenOidcTokenPost?: BodyTokenOidcTokenPost,
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
-  const formUrlEncoded = new URLSearchParams()
-  if (bodyTokenOidcTokenPost?.grant_type !== undefined) {
-    formUrlEncoded.append(`grant_type`, bodyTokenOidcTokenPost.grant_type)
-  }
-  if (bodyTokenOidcTokenPost?.code !== undefined) {
-    formUrlEncoded.append(`code`, bodyTokenOidcTokenPost.code)
-  }
-  if (bodyTokenOidcTokenPost?.redirect_uri !== undefined) {
-    formUrlEncoded.append(`redirect_uri`, bodyTokenOidcTokenPost.redirect_uri)
-  }
-  if (
-    bodyTokenOidcTokenPost?.client_id !== undefined &&
-    bodyTokenOidcTokenPost.client_id !== null
-  ) {
-    formUrlEncoded.append(`client_id`, bodyTokenOidcTokenPost.client_id)
-  }
-  if (
-    bodyTokenOidcTokenPost?.client_secret !== undefined &&
-    bodyTokenOidcTokenPost.client_secret !== null
-  ) {
-    formUrlEncoded.append(`client_secret`, bodyTokenOidcTokenPost.client_secret)
-  }
-  if (
-    bodyTokenOidcTokenPost?.refresh_token !== undefined &&
-    bodyTokenOidcTokenPost.refresh_token !== null
-  ) {
-    formUrlEncoded.append(`refresh_token`, bodyTokenOidcTokenPost.refresh_token)
-  }
-  if (
-    bodyTokenOidcTokenPost?.scope !== undefined &&
-    bodyTokenOidcTokenPost.scope !== null
-  ) {
-    formUrlEncoded.append(`scope`, bodyTokenOidcTokenPost.scope)
-  }
-  if (
-    bodyTokenOidcTokenPost?.code_verifier !== undefined &&
-    bodyTokenOidcTokenPost.code_verifier !== null
-  ) {
-    formUrlEncoded.append(`code_verifier`, bodyTokenOidcTokenPost.code_verifier)
-  }
+  const formUrlEncoded =
+    bodyTokenOidcTokenPost === undefined
+      ? undefined
+      : (() => {
+          const formUrlEncoded = new URLSearchParams()
+          if (bodyTokenOidcTokenPost?.grant_type !== undefined) {
+            formUrlEncoded.append(
+              `grant_type`,
+              bodyTokenOidcTokenPost.grant_type,
+            )
+          }
+          if (bodyTokenOidcTokenPost?.code !== undefined) {
+            formUrlEncoded.append(`code`, bodyTokenOidcTokenPost.code)
+          }
+          if (bodyTokenOidcTokenPost?.redirect_uri !== undefined) {
+            formUrlEncoded.append(
+              `redirect_uri`,
+              bodyTokenOidcTokenPost.redirect_uri,
+            )
+          }
+          if (
+            bodyTokenOidcTokenPost?.client_id !== undefined &&
+            bodyTokenOidcTokenPost.client_id !== null
+          ) {
+            formUrlEncoded.append(`client_id`, bodyTokenOidcTokenPost.client_id)
+          }
+          if (
+            bodyTokenOidcTokenPost?.client_secret !== undefined &&
+            bodyTokenOidcTokenPost.client_secret !== null
+          ) {
+            formUrlEncoded.append(
+              `client_secret`,
+              bodyTokenOidcTokenPost.client_secret,
+            )
+          }
+          if (
+            bodyTokenOidcTokenPost?.refresh_token !== undefined &&
+            bodyTokenOidcTokenPost.refresh_token !== null
+          ) {
+            formUrlEncoded.append(
+              `refresh_token`,
+              bodyTokenOidcTokenPost.refresh_token,
+            )
+          }
+          if (
+            bodyTokenOidcTokenPost?.scope !== undefined &&
+            bodyTokenOidcTokenPost.scope !== null
+          ) {
+            formUrlEncoded.append(`scope`, bodyTokenOidcTokenPost.scope)
+          }
+          if (
+            bodyTokenOidcTokenPost?.code_verifier !== undefined &&
+            bodyTokenOidcTokenPost.code_verifier !== null
+          ) {
+            formUrlEncoded.append(
+              `code_verifier`,
+              bodyTokenOidcTokenPost.code_verifier,
+            )
+          }
+          return formUrlEncoded
+        })()
 
   return axios.post(`/oidc/token`, formUrlEncoded, options)
 }
@@ -729,9 +750,7 @@ export type TokenOidcTokenPostMutationVariables = {
   data?: BodyTokenOidcTokenPost
 }
 
-/**
- * @summary Token
- */
+/** @summary Token */
 export const useTokenOidcTokenPost = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -816,6 +835,7 @@ export type UserinfoOidcUserinfoGetQueryResult = NonNullable<
 >
 export type UserinfoOidcUserinfoGetQueryError = AxiosError<void>
 
+/** @summary Userinfo */
 export function useUserinfoOidcUserinfoGet<
   TData = Awaited<ReturnType<typeof userinfoOidcUserinfoGet>>,
   TError = AxiosError<void>,
@@ -842,6 +862,7 @@ export function useUserinfoOidcUserinfoGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Userinfo */
 export function useUserinfoOidcUserinfoGet<
   TData = Awaited<ReturnType<typeof userinfoOidcUserinfoGet>>,
   TError = AxiosError<void>,
@@ -868,6 +889,7 @@ export function useUserinfoOidcUserinfoGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Userinfo */
 export function useUserinfoOidcUserinfoGet<
   TData = Awaited<ReturnType<typeof userinfoOidcUserinfoGet>>,
   TError = AxiosError<void>,
@@ -886,10 +908,7 @@ export function useUserinfoOidcUserinfoGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Userinfo
- */
-
+/** @summary Userinfo */
 export function useUserinfoOidcUserinfoGet<
   TData = Awaited<ReturnType<typeof userinfoOidcUserinfoGet>>,
   TError = AxiosError<void>,

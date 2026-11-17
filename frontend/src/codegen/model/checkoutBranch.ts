@@ -5,4 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
+/**
+ * The branch name, or null for a detached checkout. Runtime worktrees use the discovered runtime branch name.
+ */
 export type CheckoutBranch = string | null

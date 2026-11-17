@@ -7,12 +7,28 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
-
-import { PipelineStatus, PipelineTrigger, PipelineType } from "../model"
 import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
+
+import {
+  BuildDiagnosisStatus,
+  PipelineStatus,
+  PipelineTrigger,
+  PipelineType,
+} from "../model"
+import type {
+  BuildDiagnosisResponse,
+  PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody,
+  PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody,
+  PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody,
+  PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody,
   PipelineResponse,
+  PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody,
   PipelineSummary,
+  PipelineTriggerRequest,
   TriggerPipelineApiPipelinesPost201,
 } from "../model"
 
@@ -30,104 +46,62 @@ export const getListPipelinesApiPipelinesGetResponseMock =
       type: faker.helpers.arrayElement(Object.values(PipelineType)),
       status: faker.helpers.arrayElement(Object.values(PipelineStatus)),
       repo: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       triggered_by: faker.helpers.arrayElement(Object.values(PipelineTrigger)),
-      build_id: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.number.int(), null]),
-        undefined,
-      ]),
-      commit_job_id: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.number.int(), null]),
-        undefined,
-      ]),
-      publish_job_id: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.number.int(), null]),
-        undefined,
-      ]),
+      build_id: faker.helpers.arrayElement([faker.number.int(), null]),
+      commit_job_id: faker.helpers.arrayElement([faker.number.int(), null]),
+      publish_job_id: faker.helpers.arrayElement([faker.number.int(), null]),
       update_repo_job_id: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.number.int(), null]),
-        undefined,
+        faker.number.int(),
+        null,
       ]),
       repro_pipeline_id: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.uuid(), null]),
-        undefined,
+        faker.string.uuid(),
+        null,
       ]),
       source_repo: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       sha: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       pr_number: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       log_url: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       failure_issue_url: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       reprocheck_status_code: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       reprocheck_result_url: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.string.alpha({ length: { min: 10, max: 20 } }),
-          null,
-        ]),
-        undefined,
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
       ]),
       review_required: faker.datatype.boolean(),
       created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
       started_at: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.date.past().toISOString().slice(0, 19) + "Z",
-          null,
-        ]),
-        undefined,
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
       ]),
       finished_at: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.date.past().toISOString().slice(0, 19) + "Z",
-          null,
-        ]),
-        undefined,
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
       ]),
       published_at: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.date.past().toISOString().slice(0, 19) + "Z",
-          null,
-        ]),
-        undefined,
+        faker.date.past().toISOString().slice(0, 19) + "Z",
+        null,
       ]),
     }))
 
@@ -138,93 +112,96 @@ export const getGetPipelineApiPipelinesPipelineIdGetResponseMock = (
   app_id: faker.string.alpha({ length: { min: 10, max: 20 } }),
   status: faker.helpers.arrayElement(Object.values(PipelineStatus)),
   repo: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
   ]),
   params: {},
   triggered_by: faker.helpers.arrayElement(Object.values(PipelineTrigger)),
   log_url: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
   ]),
   failure_issue_url: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.string.alpha({ length: { min: 10, max: 20 } }),
-      null,
-    ]),
-    undefined,
+    faker.string.alpha({ length: { min: 10, max: 20 } }),
+    null,
   ]),
-  build_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.number.int(), null]),
-    undefined,
-  ]),
-  commit_job_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.number.int(), null]),
-    undefined,
-  ]),
-  publish_job_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.number.int(), null]),
-    undefined,
-  ]),
-  update_repo_job_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.number.int(), null]),
-    undefined,
-  ]),
-  repro_pipeline_id: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([faker.string.uuid(), null]),
-    undefined,
-  ]),
+  build_id: faker.helpers.arrayElement([faker.number.int(), null]),
+  commit_job_id: faker.helpers.arrayElement([faker.number.int(), null]),
+  publish_job_id: faker.helpers.arrayElement([faker.number.int(), null]),
+  update_repo_job_id: faker.helpers.arrayElement([faker.number.int(), null]),
+  repro_pipeline_id: faker.helpers.arrayElement([faker.string.uuid(), null]),
   total_cost: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.number.float({ fractionDigits: 2 }),
-      null,
-    ]),
-    undefined,
+    faker.number.float({ fractionDigits: 2 }),
+    null,
   ]),
   created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
   started_at: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.date.past().toISOString().slice(0, 19) + "Z",
-      null,
-    ]),
-    undefined,
+    faker.date.past().toISOString().slice(0, 19) + "Z",
+    null,
   ]),
   finished_at: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.date.past().toISOString().slice(0, 19) + "Z",
-      null,
-    ]),
-    undefined,
+    faker.date.past().toISOString().slice(0, 19) + "Z",
+    null,
   ]),
   published_at: faker.helpers.arrayElement([
-    faker.helpers.arrayElement([
-      faker.date.past().toISOString().slice(0, 19) + "Z",
-      null,
-    ]),
-    undefined,
+    faker.date.past().toISOString().slice(0, 19) + "Z",
+    null,
   ]),
   ...overrideResponse,
 })
+
+export const getGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetResponseMock =
+  (
+    overrideResponse: Partial<Extract<BuildDiagnosisResponse, object>> = {},
+  ): BuildDiagnosisResponse => ({
+    pipeline_id: faker.string.uuid(),
+    status: faker.helpers.arrayElement(Object.values(BuildDiagnosisStatus)),
+    result: faker.helpers.arrayElement([null]),
+    model: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    prompt_version: faker.helpers.arrayElement([
+      faker.string.alpha({ length: { min: 10, max: 20 } }),
+      null,
+    ]),
+    input_tokens: faker.helpers.arrayElement([faker.number.int(), null]),
+    output_tokens: faker.helpers.arrayElement([faker.number.int(), null]),
+    duration_seconds: faker.helpers.arrayElement([
+      faker.number.float({ fractionDigits: 2 }),
+      null,
+    ]),
+    comment_posted_at: faker.helpers.arrayElement([
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
+    ]),
+    created_at: faker.date.past().toISOString().slice(0, 19) + "Z",
+    completed_at: faker.helpers.arrayElement([
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
+    ]),
+    ...overrideResponse,
+  })
 
 export const getTriggerPipelineApiPipelinesPostMockHandler = (
   overrideResponse?:
     | TriggerPipelineApiPipelinesPost201
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, PipelineTriggerRequest>
+        >[0],
       ) =>
         | Promise<TriggerPipelineApiPipelinesPost201>
         | TriggerPipelineApiPipelinesPost201),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, PipelineTriggerRequest>(
     "*/api/pipelines",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<PathParams, PipelineTriggerRequest>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -242,13 +219,13 @@ export const getListPipelinesApiPipelinesGetMockHandler = (
   overrideResponse?:
     | PipelineSummary[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<PipelineSummary[]> | PipelineSummary[]),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/api/pipelines",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -266,13 +243,15 @@ export const getGetPipelineApiPipelinesPipelineIdGetMockHandler = (
   overrideResponse?:
     | PipelineResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
       ) => Promise<PipelineResponse> | PipelineResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ pipelineId: string }>(
     "*/api/pipelines/:pipelineId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -286,18 +265,60 @@ export const getGetPipelineApiPipelinesPipelineIdGetMockHandler = (
   )
 }
 
+export const getGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetMockHandler =
+  (
+    overrideResponse?:
+      | BuildDiagnosisResponse
+      | ((
+          info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
+        ) => Promise<BuildDiagnosisResponse> | BuildDiagnosisResponse),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get<{ pipelineId: string }>(
+      "*/api/pipelines/:pipelineId/diagnosis",
+      async (
+        info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
+      ) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
 export const getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMockHandler =
   (
     overrideResponse?:
       | unknown
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              { pipelineId: string },
+              PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
+            >
+          >[0],
         ) => Promise<unknown> | unknown),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<
+      { pipelineId: string },
+      PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
+    >(
       "*/api/pipelines/:pipelineId/callback/metadata",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<
+            { pipelineId: string },
+            PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
+          >
+        >[0],
+      ) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -313,13 +334,28 @@ export const getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMo
     overrideResponse?:
       | unknown
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              { pipelineId: string },
+              PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
+            >
+          >[0],
         ) => Promise<unknown> | unknown),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<
+      { pipelineId: string },
+      PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
+    >(
       "*/api/pipelines/:pipelineId/callback/log_url",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<
+            { pipelineId: string },
+            PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
+          >
+        >[0],
+      ) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -335,13 +371,28 @@ export const getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMo
     overrideResponse?:
       | unknown
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              { pipelineId: string },
+              PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
+            >
+          >[0],
         ) => Promise<unknown> | unknown),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<
+      { pipelineId: string },
+      PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
+    >(
       "*/api/pipelines/:pipelineId/callback/status",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<
+            { pipelineId: string },
+            PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
+          >
+        >[0],
+      ) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -357,13 +408,28 @@ export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReproche
     overrideResponse?:
       | unknown
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              { pipelineId: string },
+              PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
+            >
+          >[0],
         ) => Promise<unknown> | unknown),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<
+      { pipelineId: string },
+      PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
+    >(
       "*/api/pipelines/:pipelineId/callback/reprocheck",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<
+            { pipelineId: string },
+            PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
+          >
+        >[0],
+      ) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -379,13 +445,28 @@ export const getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMockHa
     overrideResponse?:
       | unknown
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              { pipelineId: string },
+              PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
+            >
+          >[0],
         ) => Promise<unknown> | unknown),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<
+      { pipelineId: string },
+      PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
+    >(
       "*/api/pipelines/:pipelineId/callback/cost",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<
+            { pipelineId: string },
+            PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
+          >
+        >[0],
+      ) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -400,13 +481,15 @@ export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ pipelineId: string }>(
     "*/api/pipelines/:pipelineId/log_url",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<{ pipelineId: string }>>[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -420,6 +503,7 @@ export const getPipelinesMock = () => [
   getTriggerPipelineApiPipelinesPostMockHandler(),
   getListPipelinesApiPipelinesGetMockHandler(),
   getGetPipelineApiPipelinesPipelineIdGetMockHandler(),
+  getGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetMockHandler(),
   getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMockHandler(),
   getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMockHandler(),
   getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMockHandler(),

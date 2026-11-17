@@ -47,6 +47,18 @@ export const inactiveRepositoriesApiInactiveReposTxtGet = (
   return axios.get(`https://builds.flathub.org/api/inactive-repos.txt`, options)
 }
 
+export const getInactiveRepositoriesApiInactiveReposTxtGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/api/inactive-repos.txt`,
+      baseURL: "",
+    })
+}
+
 export const getInactiveRepositoriesApiInactiveReposTxtGetQueryKey = () => {
   return [`https://builds.flathub.org/api/inactive-repos.txt`] as const
 }
@@ -90,6 +102,7 @@ export type InactiveRepositoriesApiInactiveReposTxtGetQueryResult = NonNullable<
 export type InactiveRepositoriesApiInactiveReposTxtGetQueryError =
   AxiosError<unknown>
 
+/** @summary Inactive Repositories */
 export function useInactiveRepositoriesApiInactiveReposTxtGet<
   TData = Awaited<
     ReturnType<typeof inactiveRepositoriesApiInactiveReposTxtGet>
@@ -120,6 +133,7 @@ export function useInactiveRepositoriesApiInactiveReposTxtGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Inactive Repositories */
 export function useInactiveRepositoriesApiInactiveReposTxtGet<
   TData = Awaited<
     ReturnType<typeof inactiveRepositoriesApiInactiveReposTxtGet>
@@ -150,6 +164,7 @@ export function useInactiveRepositoriesApiInactiveReposTxtGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Inactive Repositories */
 export function useInactiveRepositoriesApiInactiveReposTxtGet<
   TData = Awaited<
     ReturnType<typeof inactiveRepositoriesApiInactiveReposTxtGet>
@@ -170,10 +185,7 @@ export function useInactiveRepositoriesApiInactiveReposTxtGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Inactive Repositories
- */
-
+/** @summary Inactive Repositories */
 export function useInactiveRepositoriesApiInactiveReposTxtGet<
   TData = Awaited<
     ReturnType<typeof inactiveRepositoriesApiInactiveReposTxtGet>

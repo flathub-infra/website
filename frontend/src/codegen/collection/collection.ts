@@ -125,6 +125,10 @@ export type GetCategoriesCollectionCategoryGetQueryResult = NonNullable<
 >
 export type GetCategoriesCollectionCategoryGetQueryError = AxiosError<unknown>
 
+/**
+ * Get a list of all available main categories for filtering applications.
+ * @summary Get Categories
+ */
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
   TError = AxiosError<unknown>,
@@ -151,6 +155,10 @@ export function useGetCategoriesCollectionCategoryGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of all available main categories for filtering applications.
+ * @summary Get Categories
+ */
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
   TError = AxiosError<unknown>,
@@ -177,6 +185,10 @@ export function useGetCategoriesCollectionCategoryGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of all available main categories for filtering applications.
+ * @summary Get Categories
+ */
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
   TError = AxiosError<unknown>,
@@ -196,9 +208,9 @@ export function useGetCategoriesCollectionCategoryGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get a list of all available main categories for filtering applications.
  * @summary Get Categories
  */
-
 export function useGetCategoriesCollectionCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoriesCollectionCategoryGet>>,
   TError = AxiosError<unknown>,
@@ -324,6 +336,12 @@ export type GetCategoryCollectionCategoryCategoryGetQueryResult = NonNullable<
 export type GetCategoryCollectionCategoryCategoryGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get applications in a specific main category.
+ *
+ * Supports pagination, subcategory exclusion, and custom sorting.
+ * @summary Get Category
+ */
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -352,6 +370,12 @@ export function useGetCategoryCollectionCategoryCategoryGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications in a specific main category.
+ *
+ * Supports pagination, subcategory exclusion, and custom sorting.
+ * @summary Get Category
+ */
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -380,6 +404,12 @@ export function useGetCategoryCollectionCategoryCategoryGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications in a specific main category.
+ *
+ * Supports pagination, subcategory exclusion, and custom sorting.
+ * @summary Get Category
+ */
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -401,9 +431,11 @@ export function useGetCategoryCollectionCategoryCategoryGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get applications in a specific main category.
+ *
+ * Supports pagination, subcategory exclusion, and custom sorting.
  * @summary Get Category
  */
-
 export function useGetCategoryCollectionCategoryCategoryGet<
   TData = Awaited<ReturnType<typeof getCategoryCollectionCategoryCategoryGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -562,6 +594,13 @@ export type GetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryResult 
 export type GetSubcategoryCollectionCategoryCategorySubcategoriesGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get applications in specific subcategories within a main category.
+ *
+ * Filters by one or more subcategories (e.g., "ActionGame", "ArcadeGame")
+ * with optional exclusions and sorting.
+ * @summary Get Subcategory
+ */
 export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
@@ -604,6 +643,13 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications in specific subcategories within a main category.
+ *
+ * Filters by one or more subcategories (e.g., "ActionGame", "ArcadeGame")
+ * with optional exclusions and sorting.
+ * @summary Get Subcategory
+ */
 export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
@@ -646,6 +692,13 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications in specific subcategories within a main category.
+ *
+ * Filters by one or more subcategories (e.g., "ActionGame", "ArcadeGame")
+ * with optional exclusions and sorting.
+ * @summary Get Subcategory
+ */
 export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
@@ -673,9 +726,12 @@ export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get applications in specific subcategories within a main category.
+ *
+ * Filters by one or more subcategories (e.g., "ActionGame", "ArcadeGame")
+ * with optional exclusions and sorting.
  * @summary Get Subcategory
  */
-
 export function useGetSubcategoryCollectionCategoryCategorySubcategoriesGet<
   TData = Awaited<
     ReturnType<typeof getSubcategoryCollectionCategoryCategorySubcategoriesGet>
@@ -795,6 +851,7 @@ export type GetKeywordsCollectionKeywordsGetQueryResult = NonNullable<
 export type GetKeywordsCollectionKeywordsGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/** @summary Get Keywords */
 export function useGetKeywordsCollectionKeywordsGet<
   TData = Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -822,6 +879,7 @@ export function useGetKeywordsCollectionKeywordsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Keywords */
 export function useGetKeywordsCollectionKeywordsGet<
   TData = Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -849,6 +907,7 @@ export function useGetKeywordsCollectionKeywordsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Keywords */
 export function useGetKeywordsCollectionKeywordsGet<
   TData = Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -868,10 +927,7 @@ export function useGetKeywordsCollectionKeywordsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Keywords
- */
-
+/** @summary Get Keywords */
 export function useGetKeywordsCollectionKeywordsGet<
   TData = Awaited<ReturnType<typeof getKeywordsCollectionKeywordsGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -984,6 +1040,12 @@ export type GetKeywordCollectionKeywordGetQueryResult = NonNullable<
 export type GetKeywordCollectionKeywordGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Search for applications by keyword.
+ *
+ * Returns apps that have the specified keyword in their metadata.
+ * @summary Get Keyword
+ */
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1011,6 +1073,12 @@ export function useGetKeywordCollectionKeywordGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Search for applications by keyword.
+ *
+ * Returns apps that have the specified keyword in their metadata.
+ * @summary Get Keyword
+ */
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1038,6 +1106,12 @@ export function useGetKeywordCollectionKeywordGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Search for applications by keyword.
+ *
+ * Returns apps that have the specified keyword in their metadata.
+ * @summary Get Keyword
+ */
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1058,9 +1132,11 @@ export function useGetKeywordCollectionKeywordGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Search for applications by keyword.
+ *
+ * Returns apps that have the specified keyword in their metadata.
  * @summary Get Keyword
  */
-
 export function useGetKeywordCollectionKeywordGet<
   TData = Awaited<ReturnType<typeof getKeywordCollectionKeywordGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1174,6 +1250,12 @@ export type GetDevelopersCollectionDeveloperGetQueryResult = NonNullable<
 export type GetDevelopersCollectionDeveloperGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get a paginated list of all developers/publishers on Flathub.
+ *
+ * Returns developer names that can be used to filter applications.
+ * @summary Get Developers
+ */
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1201,6 +1283,12 @@ export function useGetDevelopersCollectionDeveloperGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a paginated list of all developers/publishers on Flathub.
+ *
+ * Returns developer names that can be used to filter applications.
+ * @summary Get Developers
+ */
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1228,6 +1316,12 @@ export function useGetDevelopersCollectionDeveloperGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a paginated list of all developers/publishers on Flathub.
+ *
+ * Returns developer names that can be used to filter applications.
+ * @summary Get Developers
+ */
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1248,9 +1342,11 @@ export function useGetDevelopersCollectionDeveloperGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get a paginated list of all developers/publishers on Flathub.
+ *
+ * Returns developer names that can be used to filter applications.
  * @summary Get Developers
  */
-
 export function useGetDevelopersCollectionDeveloperGet<
   TData = Awaited<ReturnType<typeof getDevelopersCollectionDeveloperGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1382,6 +1478,12 @@ export type GetDeveloperCollectionDeveloperDeveloperGetQueryResult =
 export type GetDeveloperCollectionDeveloperDeveloperGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get all applications published by a specific developer.
+ *
+ * The developer parameter should match the developer_name field from appstream data.
+ * @summary Get Developer
+ */
 export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
@@ -1416,6 +1518,12 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get all applications published by a specific developer.
+ *
+ * The developer parameter should match the developer_name field from appstream data.
+ * @summary Get Developer
+ */
 export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
@@ -1450,6 +1558,12 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get all applications published by a specific developer.
+ *
+ * The developer parameter should match the developer_name field from appstream data.
+ * @summary Get Developer
+ */
 export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
@@ -1473,9 +1587,11 @@ export function useGetDeveloperCollectionDeveloperDeveloperGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get all applications published by a specific developer.
+ *
+ * The developer parameter should match the developer_name field from appstream data.
  * @summary Get Developer
  */
-
 export function useGetDeveloperCollectionDeveloperDeveloperGet<
   TData = Awaited<
     ReturnType<typeof getDeveloperCollectionDeveloperDeveloperGet>
@@ -1602,6 +1718,12 @@ export type GetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryResult =
 export type GetRecentlyUpdatedCollectionRecentlyUpdatedGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get applications that have been recently updated.
+ *
+ * Sorted by the most recent release timestamp.
+ * @summary Get Recently Updated
+ */
 export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
@@ -1637,6 +1759,12 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications that have been recently updated.
+ *
+ * Sorted by the most recent release timestamp.
+ * @summary Get Recently Updated
+ */
 export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
@@ -1672,6 +1800,12 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications that have been recently updated.
+ *
+ * Sorted by the most recent release timestamp.
+ * @summary Get Recently Updated
+ */
 export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
@@ -1696,9 +1830,11 @@ export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get applications that have been recently updated.
+ *
+ * Sorted by the most recent release timestamp.
  * @summary Get Recently Updated
  */
-
 export function useGetRecentlyUpdatedCollectionRecentlyUpdatedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyUpdatedCollectionRecentlyUpdatedGet>
@@ -1822,6 +1958,12 @@ export type GetRecentlyAddedCollectionRecentlyAddedGetQueryResult = NonNullable<
 export type GetRecentlyAddedCollectionRecentlyAddedGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get applications that have been recently added to Flathub.
+ *
+ * Sorted by the date the app was first published.
+ * @summary Get Recently Added
+ */
 export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
@@ -1853,6 +1995,12 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications that have been recently added to Flathub.
+ *
+ * Sorted by the date the app was first published.
+ * @summary Get Recently Added
+ */
 export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
@@ -1884,6 +2032,12 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications that have been recently added to Flathub.
+ *
+ * Sorted by the date the app was first published.
+ * @summary Get Recently Added
+ */
 export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
@@ -1906,9 +2060,11 @@ export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get applications that have been recently added to Flathub.
+ *
+ * Sorted by the date the app was first published.
  * @summary Get Recently Added
  */
-
 export function useGetRecentlyAddedCollectionRecentlyAddedGet<
   TData = Awaited<
     ReturnType<typeof getRecentlyAddedCollectionRecentlyAddedGet>
@@ -2023,6 +2179,13 @@ export type GetVerifiedCollectionVerifiedGetQueryResult = NonNullable<
 export type GetVerifiedCollectionVerifiedGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get applications that have been verified by Flathub.
+ *
+ * Verified apps have proven ownership/authenticity through one of the
+ * verification methods (website, GitHub org, GitLab group, etc.).
+ * @summary Get Verified
+ */
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2050,6 +2213,13 @@ export function useGetVerifiedCollectionVerifiedGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications that have been verified by Flathub.
+ *
+ * Verified apps have proven ownership/authenticity through one of the
+ * verification methods (website, GitHub org, GitLab group, etc.).
+ * @summary Get Verified
+ */
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2077,6 +2247,13 @@ export function useGetVerifiedCollectionVerifiedGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications that have been verified by Flathub.
+ *
+ * Verified apps have proven ownership/authenticity through one of the
+ * verification methods (website, GitHub org, GitLab group, etc.).
+ * @summary Get Verified
+ */
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2097,9 +2274,12 @@ export function useGetVerifiedCollectionVerifiedGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get applications that have been verified by Flathub.
+ *
+ * Verified apps have proven ownership/authenticity through one of the
+ * verification methods (website, GitHub org, GitLab group, etc.).
  * @summary Get Verified
  */
-
 export function useGetVerifiedCollectionVerifiedGet<
   TData = Awaited<ReturnType<typeof getVerifiedCollectionVerifiedGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2213,6 +2393,13 @@ export type GetMobileCollectionMobileGetQueryResult = NonNullable<
 export type GetMobileCollectionMobileGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get applications that are mobile-friendly.
+ *
+ * These apps are designed to work well on mobile devices and
+ * have the isMobileFriendly flag set in their metadata.
+ * @summary Get Mobile
+ */
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2240,6 +2427,13 @@ export function useGetMobileCollectionMobileGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications that are mobile-friendly.
+ *
+ * These apps are designed to work well on mobile devices and
+ * have the isMobileFriendly flag set in their metadata.
+ * @summary Get Mobile
+ */
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2267,6 +2461,13 @@ export function useGetMobileCollectionMobileGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications that are mobile-friendly.
+ *
+ * These apps are designed to work well on mobile devices and
+ * have the isMobileFriendly flag set in their metadata.
+ * @summary Get Mobile
+ */
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2287,9 +2488,12 @@ export function useGetMobileCollectionMobileGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get applications that are mobile-friendly.
+ *
+ * These apps are designed to work well on mobile devices and
+ * have the isMobileFriendly flag set in their metadata.
  * @summary Get Mobile
  */
-
 export function useGetMobileCollectionMobileGet<
   TData = Awaited<ReturnType<typeof getMobileCollectionMobileGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2403,6 +2607,12 @@ export type GetPopularLastMonthCollectionPopularGetQueryResult = NonNullable<
 export type GetPopularLastMonthCollectionPopularGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get the most popular applications based on installs in the last month.
+ *
+ * Sorted by the number of installations in the previous 30 days.
+ * @summary Get Popular Last Month
+ */
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2430,6 +2640,12 @@ export function useGetPopularLastMonthCollectionPopularGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get the most popular applications based on installs in the last month.
+ *
+ * Sorted by the number of installations in the previous 30 days.
+ * @summary Get Popular Last Month
+ */
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2457,6 +2673,12 @@ export function useGetPopularLastMonthCollectionPopularGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get the most popular applications based on installs in the last month.
+ *
+ * Sorted by the number of installations in the previous 30 days.
+ * @summary Get Popular Last Month
+ */
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2477,9 +2699,11 @@ export function useGetPopularLastMonthCollectionPopularGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get the most popular applications based on installs in the last month.
+ *
+ * Sorted by the number of installations in the previous 30 days.
  * @summary Get Popular Last Month
  */
-
 export function useGetPopularLastMonthCollectionPopularGet<
   TData = Awaited<ReturnType<typeof getPopularLastMonthCollectionPopularGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2602,6 +2826,13 @@ export type GetTrendingLastTwoWeeksCollectionTrendingGetQueryResult =
 export type GetTrendingLastTwoWeeksCollectionTrendingGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get trending applications based on recent growth in installs.
+ *
+ * Uses a trending score calculated from install growth over the last two weeks,
+ * highlighting apps that are gaining popularity.
+ * @summary Get Trending Last Two Weeks
+ */
 export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
@@ -2637,6 +2868,13 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get trending applications based on recent growth in installs.
+ *
+ * Uses a trending score calculated from install growth over the last two weeks,
+ * highlighting apps that are gaining popularity.
+ * @summary Get Trending Last Two Weeks
+ */
 export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
@@ -2672,6 +2910,13 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get trending applications based on recent growth in installs.
+ *
+ * Uses a trending score calculated from install growth over the last two weeks,
+ * highlighting apps that are gaining popularity.
+ * @summary Get Trending Last Two Weeks
+ */
 export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
@@ -2696,9 +2941,12 @@ export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get trending applications based on recent growth in installs.
+ *
+ * Uses a trending score calculated from install growth over the last two weeks,
+ * highlighting apps that are gaining popularity.
  * @summary Get Trending Last Two Weeks
  */
-
 export function useGetTrendingLastTwoWeeksCollectionTrendingGet<
   TData = Awaited<
     ReturnType<typeof getTrendingLastTwoWeeksCollectionTrendingGet>
@@ -2815,6 +3063,13 @@ export type GetMostFavoritedCollectionFavoritesGetQueryResult = NonNullable<
 export type GetMostFavoritedCollectionFavoritesGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get applications sorted by the number of times they have been favorited.
+ *
+ * Returns apps ordered by their favorites count in descending order,
+ * showing the most popular apps among users.
+ * @summary Get Most Favorited
+ */
 export function useGetMostFavoritedCollectionFavoritesGet<
   TData = Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2842,6 +3097,13 @@ export function useGetMostFavoritedCollectionFavoritesGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications sorted by the number of times they have been favorited.
+ *
+ * Returns apps ordered by their favorites count in descending order,
+ * showing the most popular apps among users.
+ * @summary Get Most Favorited
+ */
 export function useGetMostFavoritedCollectionFavoritesGet<
   TData = Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2869,6 +3131,13 @@ export function useGetMostFavoritedCollectionFavoritesGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get applications sorted by the number of times they have been favorited.
+ *
+ * Returns apps ordered by their favorites count in descending order,
+ * showing the most popular apps among users.
+ * @summary Get Most Favorited
+ */
 export function useGetMostFavoritedCollectionFavoritesGet<
   TData = Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -2889,9 +3158,12 @@ export function useGetMostFavoritedCollectionFavoritesGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get applications sorted by the number of times they have been favorited.
+ *
+ * Returns apps ordered by their favorites count in descending order,
+ * showing the most popular apps among users.
  * @summary Get Most Favorited
  */
-
 export function useGetMostFavoritedCollectionFavoritesGet<
   TData = Awaited<ReturnType<typeof getMostFavoritedCollectionFavoritesGet>>,
   TError = AxiosError<void | HTTPValidationError>,

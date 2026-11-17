@@ -5,19 +5,31 @@
  * OpenAPI spec version: 0.1.0
  */
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
+
+import type { BuildNotificationRequest } from "../model"
 
 export const getBuildNotificationEmailsBuildNotificationPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, BuildNotificationRequest>
+        >[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, BuildNotificationRequest>(
     "*/emails/build-notification",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<PathParams, BuildNotificationRequest>
+      >[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }

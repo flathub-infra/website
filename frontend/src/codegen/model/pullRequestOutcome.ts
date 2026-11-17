@@ -6,7 +6,7 @@
  */
 
 /**
- * created and merged describe actions in this run; existing_* describes an observed state.
+ * created and merged mean the checker took that action during this run. Values starting with existing_ describe a pull request that already existed.
  */
 export type PullRequestOutcome =
   (typeof PullRequestOutcome)[keyof typeof PullRequestOutcome]

@@ -136,6 +136,7 @@ export type GetYearInReviewYearInReviewYearGetQueryResult = NonNullable<
 export type GetYearInReviewYearInReviewYearGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/** @summary Get Year In Review */
 export function useGetYearInReviewYearInReviewYearGet<
   TData = Awaited<ReturnType<typeof getYearInReviewYearInReviewYearGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -164,6 +165,7 @@ export function useGetYearInReviewYearInReviewYearGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Year In Review */
 export function useGetYearInReviewYearInReviewYearGet<
   TData = Awaited<ReturnType<typeof getYearInReviewYearInReviewYearGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -192,6 +194,7 @@ export function useGetYearInReviewYearInReviewYearGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Year In Review */
 export function useGetYearInReviewYearInReviewYearGet<
   TData = Awaited<ReturnType<typeof getYearInReviewYearInReviewYearGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -212,10 +215,7 @@ export function useGetYearInReviewYearInReviewYearGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Year In Review
- */
-
+/** @summary Get Year In Review */
 export function useGetYearInReviewYearInReviewYearGet<
   TData = Awaited<ReturnType<typeof getYearInReviewYearInReviewYearGet>>,
   TError = AxiosError<void | HTTPValidationError>,

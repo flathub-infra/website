@@ -7,10 +7,15 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
 import { LoginProvider } from "../model"
 import type {
+  BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost,
   CheckPurchasesResponseSuccess,
   GenerateUpdateTokenResponse,
   GetDownloadTokenResponse,
@@ -178,13 +183,13 @@ export const getGetStorefrontInfoPurchasesStorefrontInfoGetMockHandler = (
   overrideResponse?:
     | StorefrontInfo
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<StorefrontInfo> | StorefrontInfo),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/purchases/storefront-info",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -203,13 +208,13 @@ export const getGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetMockHan
     overrideResponse?:
       | boolean
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) => Promise<boolean> | boolean),
     options?: RequestHandlerOptions,
   ) => {
     return http.get(
       "*/purchases/storefront-info/is-free-software",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -227,13 +232,13 @@ export const getGetUpdateTokenPurchasesGenerateUpdateTokenPostMockHandler = (
   overrideResponse?:
     | GenerateUpdateTokenResponse
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<GenerateUpdateTokenResponse> | GenerateUpdateTokenResponse),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
     "*/purchases/generate-update-token",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -251,14 +256,14 @@ export const getCheckPurchasesPurchasesCheckPurchasesPostMockHandler = (
   overrideResponse?:
     | CheckPurchasesResponseSuccess
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<PathParams, string[]>>[0],
       ) =>
         Promise<CheckPurchasesResponseSuccess> | CheckPurchasesResponseSuccess),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, string[]>(
     "*/purchases/check-purchases",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<PathParams, string[]>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -277,13 +282,28 @@ export const getGetDownloadTokenPurchasesGenerateDownloadTokenPostMockHandler =
     overrideResponse?:
       | GetDownloadTokenResponse
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              PathParams,
+              BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost
+            >
+          >[0],
         ) => Promise<GetDownloadTokenResponse> | GetDownloadTokenResponse),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<
+      PathParams,
+      BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost
+    >(
       "*/purchases/generate-download-token",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<
+            PathParams,
+            BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost
+          >
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"

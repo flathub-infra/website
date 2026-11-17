@@ -7,7 +7,11 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
 import { CuratedAppSelectionLayout } from "../model"
 import type {
@@ -15,8 +19,10 @@ import type {
   AppsOfTheWeek,
   CuratedAppSelections,
   ScheduledSelectionAdmin,
+  ScheduledSelectionInput,
   SelectionTheme,
   SetAppOfTheDayAppPicksAppOfTheDayPost200,
+  UpsertAppOfTheWeek,
 } from "../model"
 
 export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetResponseMock = (
@@ -195,13 +201,13 @@ export const getGetAppOfTheDayAppPicksAppOfTheDayDateGetMockHandler = (
   overrideResponse?:
     | AppOfTheDay
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ date: string }>>[0],
       ) => Promise<AppOfTheDay> | AppOfTheDay),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ date: string }>(
     "*/app-picks/app-of-the-day/:date",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ date: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -219,13 +225,13 @@ export const getGetAppOfTheWeekAppPicksAppsOfTheWeekDateGetMockHandler = (
   overrideResponse?:
     | AppsOfTheWeek
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ date: string }>>[0],
       ) => Promise<AppsOfTheWeek> | AppsOfTheWeek),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ date: string }>(
     "*/app-picks/apps-of-the-week/:date",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ date: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -244,13 +250,13 @@ export const getGetCuratedAppSelectionsAppPicksCuratedAppSelectionsDateGetMockHa
     overrideResponse?:
       | CuratedAppSelections
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ date: string }>>[0],
         ) => Promise<CuratedAppSelections> | CuratedAppSelections),
     options?: RequestHandlerOptions,
   ) => {
-    return http.get(
+    return http.get<{ date: string }>(
       "*/app-picks/curated-app-selections/:date",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ date: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -269,13 +275,13 @@ export const getGetAppOfTheDayAdminAppPicksAdminAppOfTheDayDateGetMockHandler =
     overrideResponse?:
       | AppOfTheDay
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ date: string }>>[0],
         ) => Promise<AppOfTheDay> | AppOfTheDay),
     options?: RequestHandlerOptions,
   ) => {
-    return http.get(
+    return http.get<{ date: string }>(
       "*/app-picks/admin/app-of-the-day/:date",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ date: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -294,13 +300,13 @@ export const getGetAppOfTheWeekAdminAppPicksAdminAppsOfTheWeekDateGetMockHandler
     overrideResponse?:
       | AppsOfTheWeek
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ date: string }>>[0],
         ) => Promise<AppsOfTheWeek> | AppsOfTheWeek),
     options?: RequestHandlerOptions,
   ) => {
-    return http.get(
+    return http.get<{ date: string }>(
       "*/app-picks/admin/apps-of-the-week/:date",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ date: string }>>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -319,13 +325,13 @@ export const getGetCuratedAppSelectionThemesAdminAppPicksAdminCuratedAppSelectio
     overrideResponse?:
       | SelectionTheme[]
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) => Promise<SelectionTheme[]> | SelectionTheme[]),
     options?: RequestHandlerOptions,
   ) => {
     return http.get(
       "*/app-picks/admin/curated-app-selection-themes",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -344,13 +350,13 @@ export const getGetCuratedAppSelectionsAdminAppPicksAdminCuratedAppSelectionsGet
     overrideResponse?:
       | ScheduledSelectionAdmin[]
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) => Promise<ScheduledSelectionAdmin[]> | ScheduledSelectionAdmin[]),
     options?: RequestHandlerOptions,
   ) => {
     return http.get(
       "*/app-picks/admin/curated-app-selections",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -369,13 +375,19 @@ export const getCreateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsP
     overrideResponse?:
       | ScheduledSelectionAdmin
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<PathParams, ScheduledSelectionInput>
+          >[0],
         ) => Promise<ScheduledSelectionAdmin> | ScheduledSelectionAdmin),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<PathParams, ScheduledSelectionInput>(
       "*/app-picks/admin/curated-app-selections",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<PathParams, ScheduledSelectionInput>
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -394,13 +406,22 @@ export const getUpdateCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
     overrideResponse?:
       | ScheduledSelectionAdmin
       | ((
-          info: Parameters<Parameters<typeof http.put>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              { selectionId: string },
+              ScheduledSelectionInput
+            >
+          >[0],
         ) => Promise<ScheduledSelectionAdmin> | ScheduledSelectionAdmin),
     options?: RequestHandlerOptions,
   ) => {
-    return http.put(
+    return http.put<{ selectionId: string }, ScheduledSelectionInput>(
       "*/app-picks/admin/curated-app-selections/:selectionId",
-      async (info: Parameters<Parameters<typeof http.put>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<{ selectionId: string }, ScheduledSelectionInput>
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -419,13 +440,15 @@ export const getDeleteCuratedAppSelectionAdminAppPicksAdminCuratedAppSelectionsS
     overrideResponse?:
       | void
       | ((
-          info: Parameters<Parameters<typeof http.delete>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ selectionId: string }>>[0],
         ) => Promise<void> | void),
     options?: RequestHandlerOptions,
   ) => {
-    return http.delete(
+    return http.delete<{ selectionId: string }>(
       "*/app-picks/admin/curated-app-selections/:selectionId",
-      async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+      async (
+        info: Parameters<HttpResponseResolver<{ selectionId: string }>>[0],
+      ) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -440,13 +463,17 @@ export const getSetAppOfTheWeekAppPicksAppOfTheWeekPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, UpsertAppOfTheWeek>
+        >[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, UpsertAppOfTheWeek>(
     "*/app-picks/app-of-the-week",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<PathParams, UpsertAppOfTheWeek>>[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -461,15 +488,17 @@ export const getSetAppOfTheDayAppPicksAppOfTheDayPostMockHandler = (
   overrideResponse?:
     | SetAppOfTheDayAppPicksAppOfTheDayPost200
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<PathParams, AppOfTheDay>>[0],
       ) =>
         | Promise<SetAppOfTheDayAppPicksAppOfTheDayPost200>
         | SetAppOfTheDayAppPicksAppOfTheDayPost200),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, AppOfTheDay>(
     "*/app-picks/app-of-the-day",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<PathParams, AppOfTheDay>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"

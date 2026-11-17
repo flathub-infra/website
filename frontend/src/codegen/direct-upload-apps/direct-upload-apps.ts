@@ -117,6 +117,10 @@ export type ListDirectUploadAppsDirectUploadAppsGetQueryResult = NonNullable<
 >
 export type ListDirectUploadAppsDirectUploadAppsGetQueryError = AxiosError<void>
 
+/**
+ * List all direct-upload apps.
+ * @summary List Direct Upload Apps
+ */
 export function useListDirectUploadAppsDirectUploadAppsGet<
   TData = Awaited<ReturnType<typeof listDirectUploadAppsDirectUploadAppsGet>>,
   TError = AxiosError<void>,
@@ -143,6 +147,10 @@ export function useListDirectUploadAppsDirectUploadAppsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * List all direct-upload apps.
+ * @summary List Direct Upload Apps
+ */
 export function useListDirectUploadAppsDirectUploadAppsGet<
   TData = Awaited<ReturnType<typeof listDirectUploadAppsDirectUploadAppsGet>>,
   TError = AxiosError<void>,
@@ -169,6 +177,10 @@ export function useListDirectUploadAppsDirectUploadAppsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * List all direct-upload apps.
+ * @summary List Direct Upload Apps
+ */
 export function useListDirectUploadAppsDirectUploadAppsGet<
   TData = Awaited<ReturnType<typeof listDirectUploadAppsDirectUploadAppsGet>>,
   TError = AxiosError<void>,
@@ -188,9 +200,9 @@ export function useListDirectUploadAppsDirectUploadAppsGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * List all direct-upload apps.
  * @summary List Direct Upload Apps
  */
-
 export function useListDirectUploadAppsDirectUploadAppsGet<
   TData = Awaited<ReturnType<typeof listDirectUploadAppsDirectUploadAppsGet>>,
   TError = AxiosError<void>,
@@ -300,6 +312,7 @@ export type SwitchToDirectUploadDirectUploadAppsPostMutationVariables = {
 }
 
 /**
+ * Switch an app to direct upload, optionally with a runtime scope.
  * @summary Switch To Direct Upload
  */
 export const useSwitchToDirectUploadDirectUploadAppsPost = <
@@ -410,6 +423,7 @@ export type GetDirectUploadAppDirectUploadAppsAppIdGetQueryResult = NonNullable<
 export type GetDirectUploadAppDirectUploadAppsAppIdGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/** @summary Get Direct Upload App */
 export function useGetDirectUploadAppDirectUploadAppsAppIdGet<
   TData = Awaited<
     ReturnType<typeof getDirectUploadAppDirectUploadAppsAppIdGet>
@@ -441,6 +455,7 @@ export function useGetDirectUploadAppDirectUploadAppsAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Direct Upload App */
 export function useGetDirectUploadAppDirectUploadAppsAppIdGet<
   TData = Awaited<
     ReturnType<typeof getDirectUploadAppDirectUploadAppsAppIdGet>
@@ -472,6 +487,7 @@ export function useGetDirectUploadAppDirectUploadAppsAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Direct Upload App */
 export function useGetDirectUploadAppDirectUploadAppsAppIdGet<
   TData = Awaited<
     ReturnType<typeof getDirectUploadAppDirectUploadAppsAppIdGet>
@@ -493,10 +509,7 @@ export function useGetDirectUploadAppDirectUploadAppsAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Direct Upload App
- */
-
+/** @summary Get Direct Upload App */
 export function useGetDirectUploadAppDirectUploadAppsAppIdGet<
   TData = Awaited<
     ReturnType<typeof getDirectUploadAppDirectUploadAppsAppIdGet>
@@ -620,6 +633,7 @@ export type SwitchOffDirectUploadDirectUploadAppsAppIdDeleteMutationVariables =
   { appId: string }
 
 /**
+ * Hard-delete a direct-upload app and revoke all its tokens.
  * @summary Switch Off Direct Upload
  */
 export const useSwitchOffDirectUploadDirectUploadAppsAppIdDelete = <
@@ -749,6 +763,7 @@ export type UpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMutationVariables =
   { appId: string; data: UpdateScopeRequest }
 
 /**
+ * Update the prefixes and extra_ids of a runtime scope.
  * @summary Update Runtime Scope
  */
 export const useUpdateRuntimeScopeDirectUploadAppsAppIdScopePatch = <
@@ -887,6 +902,10 @@ export type ArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMutationVariab
   { appId: string; data: ArchiveRequest }
 
 /**
+ * Archive a direct-upload app: revoke tokens, mark archived, republish as EOL.
+ *
+ * Unlike the app-author archive flow in verification.py, this admin endpoint works
+ * for runtimes too and never touches GitHub (every entry here is a DirectUploadApp).
  * @summary Archive Direct Upload App
  */
 export const useArchiveDirectUploadAppDirectUploadAppsAppIdArchivePost = <
@@ -1026,6 +1045,7 @@ export type UnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMutationVa
   { appId: string }
 
 /**
+ * Unarchive a direct-upload app: clear the archived flag and republish to lift EOL.
  * @summary Unarchive Direct Upload App
  */
 export const useUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePost = <
@@ -1160,6 +1180,7 @@ export type RevokeTokensDirectUploadAppsAppIdRevokeTokensPostMutationVariables =
   { appId: string }
 
 /**
+ * Revoke all upload tokens for a direct-upload app without deleting it.
  * @summary Revoke Tokens
  */
 export const useRevokeTokensDirectUploadAppsAppIdRevokeTokensPost = <
@@ -1289,9 +1310,7 @@ export type AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationError =
 export type AddMaintainerDirectUploadAppsAppIdMaintainersPostMutationVariables =
   { appId: string; data: AddMaintainerRequest }
 
-/**
- * @summary Add Maintainer
- */
+/** @summary Add Maintainer */
 export const useAddMaintainerDirectUploadAppsAppIdMaintainersPost = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -1425,9 +1444,7 @@ export type RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutation
 export type RemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMutationVariables =
   { appId: string; userId: number }
 
-/**
- * @summary Remove Maintainer
- */
+/** @summary Remove Maintainer */
 export const useRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDelete = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -1571,9 +1588,7 @@ export type SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimary
 export type SetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPostMutationVariables =
   { appId: string; userId: number }
 
-/**
- * @summary Set Primary Maintainer
- */
+/** @summary Set Primary Maintainer */
 export const useSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPrimaryPost =
   <TError = AxiosError<void | HTTPValidationError>, TContext = unknown>(
     options?: {

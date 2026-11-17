@@ -7,12 +7,19 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
 import type {
+  NascentTransaction,
+  PaymentCardInfo,
   PostTransactionResponse,
   StripeKeys,
   Transaction,
+  TransactionSaveCard,
   TransactionStripeData,
   TransactionSummary,
   WalletInfo,
@@ -157,13 +164,13 @@ export const getGetWalletinfoWalletWalletinfoGetMockHandler = (
   overrideResponse?:
     | WalletInfo
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<WalletInfo> | WalletInfo),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/wallet/walletinfo",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -182,13 +189,15 @@ export const getPostRemovecardWalletRemovecardPostMockHandler = (
     | unknown
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<PathParams, PaymentCardInfo>>[0],
       ) => Promise<unknown | void> | unknown | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, PaymentCardInfo>(
     "*/wallet/removecard",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<PathParams, PaymentCardInfo>>[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -203,13 +212,13 @@ export const getGetTransactionsWalletTransactionsGetMockHandler = (
   overrideResponse?:
     | TransactionSummary[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<TransactionSummary[]> | TransactionSummary[]),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/wallet/transactions",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -227,13 +236,17 @@ export const getCreateTransactionWalletTransactionsPostMockHandler = (
   overrideResponse?:
     | PostTransactionResponse
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, NascentTransaction>
+        >[0],
       ) => Promise<PostTransactionResponse> | PostTransactionResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, NascentTransaction>(
     "*/wallet/transactions",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<PathParams, NascentTransaction>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -251,13 +264,13 @@ export const getGetTransactionByIdWalletTransactionsTxnGetMockHandler = (
   overrideResponse?:
     | Transaction
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ txn: string }>>[0],
       ) => Promise<Transaction> | Transaction),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ txn: string }>(
     "*/wallet/transactions/:txn",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ txn: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -276,13 +289,19 @@ export const getSetTransactionCardWalletTransactionsTxnSetcardPostMockHandler =
     overrideResponse?:
       | unknown
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<{ txn: string }, PaymentCardInfo>
+          >[0],
         ) => Promise<unknown> | unknown),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ txn: string }, PaymentCardInfo>(
       "*/wallet/transactions/:txn/setcard",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<{ txn: string }, PaymentCardInfo>
+        >[0],
+      ) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -298,13 +317,13 @@ export const getCancelTransactionWalletTransactionsTxnCancelPostMockHandler = (
     | unknown
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ txn: string }>>[0],
       ) => Promise<unknown | void> | unknown | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ txn: string }>(
     "*/wallet/transactions/:txn/cancel",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ txn: string }>>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -319,13 +338,13 @@ export const getGetStripedataWalletStripedataGetMockHandler = (
   overrideResponse?:
     | StripeKeys
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<StripeKeys> | StripeKeys),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/wallet/stripedata",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -343,13 +362,13 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetMockHandler = (
   overrideResponse?:
     | TransactionStripeData
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ txn: string }>>[0],
       ) => Promise<TransactionStripeData> | TransactionStripeData),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ txn: string }>(
     "*/wallet/transactions/:txn/stripe",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ txn: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -368,13 +387,19 @@ export const getSetSavecardWalletTransactionsTxnSavecardPostMockHandler = (
     | unknown
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ txn: string }, TransactionSaveCard>
+        >[0],
       ) => Promise<unknown | void> | unknown | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ txn: string }, TransactionSaveCard>(
     "*/wallet/transactions/:txn/savecard",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ txn: string }, TransactionSaveCard>
+      >[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -390,13 +415,13 @@ export const getSetPendingWalletTransactionsTxnSetpendingPostMockHandler = (
     | unknown
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ txn: string }>>[0],
       ) => Promise<unknown | void> | unknown | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ txn: string }>(
     "*/wallet/transactions/:txn/setpending",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ txn: string }>>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -411,13 +436,13 @@ export const getWebhookWalletWebhookStripePostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
     "*/wallet/webhook/stripe",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }

@@ -7,7 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
 import {
   ConnectedAccountProvider,
@@ -1516,13 +1516,13 @@ export const getGetCategoriesCollectionCategoryGetMockHandler = (
   overrideResponse?:
     | string[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<string[]> | string[]),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/category",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1540,14 +1540,14 @@ export const getGetCategoryCollectionCategoryCategoryGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ category: string }>>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ category: string }>(
     "*/collection/category/:category",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ category: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1566,14 +1566,16 @@ export const getGetSubcategoryCollectionCategoryCategorySubcategoriesGetMockHand
     overrideResponse?:
       | MeilisearchResponseAppsIndex
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ category: string }>>[0],
         ) =>
           Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
     options?: RequestHandlerOptions,
   ) => {
-    return http.get(
+    return http.get<{ category: string }>(
       "*/collection/category/:category/subcategories",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (
+        info: Parameters<HttpResponseResolver<{ category: string }>>[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -1591,13 +1593,13 @@ export const getGetKeywordsCollectionKeywordsGetMockHandler = (
   overrideResponse?:
     | KeywordsResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<KeywordsResponse> | KeywordsResponse),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/keywords",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1615,14 +1617,14 @@ export const getGetKeywordCollectionKeywordGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/keyword",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1640,13 +1642,13 @@ export const getGetDevelopersCollectionDeveloperGetMockHandler = (
   overrideResponse?:
     | AppSearchDevelopersResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<AppSearchDevelopersResponse> | AppSearchDevelopersResponse),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/developer",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1664,14 +1666,16 @@ export const getGetDeveloperCollectionDeveloperDeveloperGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ developer: string }>>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ developer: string }>(
     "*/collection/developer/:developer",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<{ developer: string }>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1689,14 +1693,14 @@ export const getGetRecentlyUpdatedCollectionRecentlyUpdatedGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/recently-updated",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1714,14 +1718,14 @@ export const getGetRecentlyAddedCollectionRecentlyAddedGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/recently-added",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1739,14 +1743,14 @@ export const getGetVerifiedCollectionVerifiedGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/verified",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1764,14 +1768,14 @@ export const getGetMobileCollectionMobileGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/mobile",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1789,14 +1793,14 @@ export const getGetPopularLastMonthCollectionPopularGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/popular",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1814,14 +1818,14 @@ export const getGetTrendingLastTwoWeeksCollectionTrendingGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/trending",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1839,14 +1843,14 @@ export const getGetMostFavoritedCollectionFavoritesGetMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/collection/favorites",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"

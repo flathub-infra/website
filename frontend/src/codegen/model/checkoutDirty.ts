@@ -5,4 +5,7 @@
  * OpenAPI spec version: 0.1.0
  */
 
+/**
+ * True if tracked or untracked files have local changes, excluding submodule contents. The commit does not identify those changes.
+ */
 export type CheckoutDirty = boolean | null

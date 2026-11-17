@@ -60,6 +60,21 @@ export const reproducibleApiApiReproducibleGet = (
   })
 }
 
+export const getReproducibleApiApiReproducibleGetUrl = (
+  params?: ReproducibleApiApiReproducibleGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/api/reproducible`,
+      baseURL: "",
+      params,
+    })
+}
+
 export const getReproducibleApiApiReproducibleGetQueryKey = (
   params?: ReproducibleApiApiReproducibleGetParams,
 ) => {
@@ -109,6 +124,7 @@ export type ReproducibleApiApiReproducibleGetQueryResult = NonNullable<
 export type ReproducibleApiApiReproducibleGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Reproducible Api */
 export function useReproducibleApiApiReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -136,6 +152,7 @@ export function useReproducibleApiApiReproducibleGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Reproducible Api */
 export function useReproducibleApiApiReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -163,6 +180,7 @@ export function useReproducibleApiApiReproducibleGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Reproducible Api */
 export function useReproducibleApiApiReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -182,10 +200,7 @@ export function useReproducibleApiApiReproducibleGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Reproducible Api
- */
-
+/** @summary Reproducible Api */
 export function useReproducibleApiApiReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleApiApiReproducibleGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -227,6 +242,18 @@ export const statusBannerApiApiStatusBannerGet = (
   return axios.get(`https://builds.flathub.org/api/status-banner`, options)
 }
 
+export const getStatusBannerApiApiStatusBannerGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/api/status-banner`,
+      baseURL: "",
+    })
+}
+
 export const getStatusBannerApiApiStatusBannerGetQueryKey = () => {
   return [`https://builds.flathub.org/api/status-banner`] as const
 }
@@ -266,6 +293,7 @@ export type StatusBannerApiApiStatusBannerGetQueryResult = NonNullable<
 >
 export type StatusBannerApiApiStatusBannerGetQueryError = AxiosError<unknown>
 
+/** @summary Status Banner Api */
 export function useStatusBannerApiApiStatusBannerGet<
   TData = Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
   TError = AxiosError<unknown>,
@@ -292,6 +320,7 @@ export function useStatusBannerApiApiStatusBannerGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Status Banner Api */
 export function useStatusBannerApiApiStatusBannerGet<
   TData = Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
   TError = AxiosError<unknown>,
@@ -318,6 +347,7 @@ export function useStatusBannerApiApiStatusBannerGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Status Banner Api */
 export function useStatusBannerApiApiStatusBannerGet<
   TData = Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
   TError = AxiosError<unknown>,
@@ -336,10 +366,7 @@ export function useStatusBannerApiApiStatusBannerGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Status Banner Api
- */
-
+/** @summary Status Banner Api */
 export function useStatusBannerApiApiStatusBannerGet<
   TData = Awaited<ReturnType<typeof statusBannerApiApiStatusBannerGet>>,
   TError = AxiosError<unknown>,
@@ -381,6 +408,19 @@ export const dashboardGet = (
   })
 }
 
+export const getDashboardGetUrl = (params?: DashboardGetParams) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/`,
+      baseURL: "",
+      params,
+    })
+}
+
 export const getDashboardGetQueryKey = (params?: DashboardGetParams) => {
   return [`https://builds.flathub.org/`, ...(params ? [params] : [])] as const
 }
@@ -417,6 +457,7 @@ export type DashboardGetQueryResult = NonNullable<
 >
 export type DashboardGetQueryError = AxiosError<void | HTTPValidationError>
 
+/** @summary Dashboard */
 export function useDashboardGet<
   TData = Awaited<ReturnType<typeof dashboardGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -440,6 +481,7 @@ export function useDashboardGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Dashboard */
 export function useDashboardGet<
   TData = Awaited<ReturnType<typeof dashboardGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -463,6 +505,7 @@ export function useDashboardGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Dashboard */
 export function useDashboardGet<
   TData = Awaited<ReturnType<typeof dashboardGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -478,10 +521,7 @@ export function useDashboardGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Dashboard
- */
-
+/** @summary Dashboard */
 export function useDashboardGet<
   TData = Awaited<ReturnType<typeof dashboardGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -515,6 +555,18 @@ export const appStatusStatusAppIdGet = (
   options?: AxiosRequestConfig,
 ): Promise<AxiosResponse<unknown>> => {
   return axios.get(`https://builds.flathub.org/status/${appId}`, options)
+}
+
+export const getAppStatusStatusAppIdGetUrl = (appId: string) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/status/${appId}`,
+      baseURL: "",
+    })
 }
 
 export const getAppStatusStatusAppIdGetQueryKey = (appId: string) => {
@@ -565,6 +617,7 @@ export type AppStatusStatusAppIdGetQueryResult = NonNullable<
 export type AppStatusStatusAppIdGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/** @summary App Status */
 export function useAppStatusStatusAppIdGet<
   TData = Awaited<ReturnType<typeof appStatusStatusAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -592,6 +645,7 @@ export function useAppStatusStatusAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary App Status */
 export function useAppStatusStatusAppIdGet<
   TData = Awaited<ReturnType<typeof appStatusStatusAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -619,6 +673,7 @@ export function useAppStatusStatusAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary App Status */
 export function useAppStatusStatusAppIdGet<
   TData = Awaited<ReturnType<typeof appStatusStatusAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -638,10 +693,7 @@ export function useAppStatusStatusAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary App Status
- */
-
+/** @summary App Status */
 export function useAppStatusStatusAppIdGet<
   TData = Awaited<ReturnType<typeof appStatusStatusAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -682,6 +734,21 @@ export const reproducibleStatusReproducibleGet = (
     ...options,
     params: { ...params, ...options?.params },
   })
+}
+
+export const getReproducibleStatusReproducibleGetUrl = (
+  params?: ReproducibleStatusReproducibleGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/reproducible`,
+      baseURL: "",
+      params,
+    })
 }
 
 export const getReproducibleStatusReproducibleGetQueryKey = (
@@ -733,6 +800,7 @@ export type ReproducibleStatusReproducibleGetQueryResult = NonNullable<
 export type ReproducibleStatusReproducibleGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/** @summary Reproducible Status */
 export function useReproducibleStatusReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleStatusReproducibleGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -760,6 +828,7 @@ export function useReproducibleStatusReproducibleGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Reproducible Status */
 export function useReproducibleStatusReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleStatusReproducibleGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -787,6 +856,7 @@ export function useReproducibleStatusReproducibleGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Reproducible Status */
 export function useReproducibleStatusReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleStatusReproducibleGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -806,10 +876,7 @@ export function useReproducibleStatusReproducibleGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Reproducible Status
- */
-
+/** @summary Reproducible Status */
 export function useReproducibleStatusReproducibleGet<
   TData = Awaited<ReturnType<typeof reproducibleStatusReproducibleGet>>,
   TError = AxiosError<void | HTTPValidationError>,
