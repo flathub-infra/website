@@ -7,9 +7,19 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
-import type { ManagedAppResponse } from "../model"
+import type {
+  AddMaintainerRequest,
+  ArchiveRequest,
+  ManagedAppResponse,
+  SwitchToDirectUploadRequest,
+  UpdateScopeRequest,
+} from "../model"
 
 export const getListDirectUploadAppsDirectUploadAppsGetResponseMock =
   (): ManagedAppResponse[] =>
@@ -248,13 +258,13 @@ export const getListDirectUploadAppsDirectUploadAppsGetMockHandler = (
   overrideResponse?:
     | ManagedAppResponse[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<ManagedAppResponse[]> | ManagedAppResponse[]),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/direct-upload-apps",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -272,13 +282,19 @@ export const getSwitchToDirectUploadDirectUploadAppsPostMockHandler = (
   overrideResponse?:
     | ManagedAppResponse
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, SwitchToDirectUploadRequest>
+        >[0],
       ) => Promise<ManagedAppResponse> | ManagedAppResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, SwitchToDirectUploadRequest>(
     "*/direct-upload-apps",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<PathParams, SwitchToDirectUploadRequest>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -296,13 +312,13 @@ export const getGetDirectUploadAppDirectUploadAppsAppIdGetMockHandler = (
   overrideResponse?:
     | ManagedAppResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<ManagedAppResponse> | ManagedAppResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/direct-upload-apps/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -320,13 +336,13 @@ export const getSwitchOffDirectUploadDirectUploadAppsAppIdDeleteMockHandler = (
   overrideResponse?:
     | void
     | ((
-        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<void> | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.delete(
+  return http.delete<{ appId: string }>(
     "*/direct-upload-apps/:appId",
-    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -341,13 +357,19 @@ export const getUpdateRuntimeScopeDirectUploadAppsAppIdScopePatchMockHandler = (
   overrideResponse?:
     | ManagedAppResponse
     | ((
-        info: Parameters<Parameters<typeof http.patch>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ appId: string }, UpdateScopeRequest>
+        >[0],
       ) => Promise<ManagedAppResponse> | ManagedAppResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.patch(
+  return http.patch<{ appId: string }, UpdateScopeRequest>(
     "*/direct-upload-apps/:appId/scope",
-    async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ appId: string }, UpdateScopeRequest>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -366,13 +388,19 @@ export const getArchiveDirectUploadAppDirectUploadAppsAppIdArchivePostMockHandle
     overrideResponse?:
       | void
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<{ appId: string }, ArchiveRequest>
+          >[0],
         ) => Promise<void> | void),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }, ArchiveRequest>(
       "*/direct-upload-apps/:appId/archive",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<{ appId: string }, ArchiveRequest>
+        >[0],
+      ) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -388,13 +416,13 @@ export const getUnarchiveDirectUploadAppDirectUploadAppsAppIdUnarchivePostMockHa
     overrideResponse?:
       | void
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
         ) => Promise<void> | void),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string }>(
       "*/direct-upload-apps/:appId/unarchive",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -409,13 +437,13 @@ export const getRevokeTokensDirectUploadAppsAppIdRevokeTokensPostMockHandler = (
   overrideResponse?:
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<void> | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }>(
     "*/direct-upload-apps/:appId/revoke-tokens",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -430,13 +458,19 @@ export const getAddMaintainerDirectUploadAppsAppIdMaintainersPostMockHandler = (
   overrideResponse?:
     | ManagedAppResponse
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ appId: string }, AddMaintainerRequest>
+        >[0],
       ) => Promise<ManagedAppResponse> | ManagedAppResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }, AddMaintainerRequest>(
     "*/direct-upload-apps/:appId/maintainers",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ appId: string }, AddMaintainerRequest>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -455,13 +489,19 @@ export const getRemoveMaintainerDirectUploadAppsAppIdMaintainersUserIdDeleteMock
     overrideResponse?:
       | void
       | ((
-          info: Parameters<Parameters<typeof http.delete>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<{ appId: string; userId: string }>
+          >[0],
         ) => Promise<void> | void),
     options?: RequestHandlerOptions,
   ) => {
-    return http.delete(
+    return http.delete<{ appId: string; userId: string }>(
       "*/direct-upload-apps/:appId/maintainers/:userId",
-      async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<{ appId: string; userId: string }>
+        >[0],
+      ) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -477,13 +517,19 @@ export const getSetPrimaryMaintainerDirectUploadAppsAppIdMaintainersUserIdSetPri
     overrideResponse?:
       | ManagedAppResponse
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<{ appId: string; userId: string }>
+          >[0],
         ) => Promise<ManagedAppResponse> | ManagedAppResponse),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ appId: string; userId: string }>(
       "*/direct-upload-apps/:appId/maintainers/:userId/set-primary",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<{ appId: string; userId: string }>
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"

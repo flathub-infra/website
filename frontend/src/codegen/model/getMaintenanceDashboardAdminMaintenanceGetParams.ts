@@ -8,9 +8,7 @@ import type { GetMaintenanceDashboardAdminMaintenanceGetQueue } from "./getMaint
 
 export type GetMaintenanceDashboardAdminMaintenanceGetParams = {
   queue?: GetMaintenanceDashboardAdminMaintenanceGetQueue
-  /**
-   * @maxLength 200
-   */
+  /** @maxLength 200 */
   search?: string
   runtime?: string | null
   /**
@@ -18,9 +16,7 @@ export type GetMaintenanceDashboardAdminMaintenanceGetParams = {
    * @maximum 3650
    */
   stale_days?: number
-  /**
-   * @minimum 1
-   */
+  /** @minimum 1 */
   page?: number
   /**
    * @minimum 1

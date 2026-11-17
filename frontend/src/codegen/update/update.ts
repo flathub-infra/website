@@ -86,9 +86,7 @@ export type UpdateUpdatePostMutationResult = NonNullable<
 
 export type UpdateUpdatePostMutationError = AxiosError<void>
 
-/**
- * @summary Update
- */
+/** @summary Update */
 export const useUpdateUpdatePost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -180,9 +178,7 @@ export type UpdateStatsUpdateStatsPostMutationResult = NonNullable<
 
 export type UpdateStatsUpdateStatsPostMutationError = AxiosError<void>
 
-/**
- * @summary Update Stats
- */
+/** @summary Update Stats */
 export const useUpdateStatsUpdateStatsPost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -288,6 +284,7 @@ export type ProcessTransfersUpdateProcessPendingTransfersPostMutationError =
   AxiosError<void>
 
 /**
+ * Process any pending transfers which may be in the system
  * @summary Process Transfers
  */
 export const useProcessTransfersUpdateProcessPendingTransfersPost = <
@@ -388,9 +385,7 @@ export type UpdateAppPicksUpdateAppPicksPostMutationResult = NonNullable<
 
 export type UpdateAppPicksUpdateAppPicksPostMutationError = AxiosError<void>
 
-/**
- * @summary Update App Picks
- */
+/** @summary Update App Picks */
 export const useUpdateAppPicksUpdateAppPicksPost = <
   TError = AxiosError<void>,
   TContext = unknown,

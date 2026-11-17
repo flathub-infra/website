@@ -1,3 +1,4 @@
+export * from "./appstream/appstream"
 export * from "./dashboard/dashboard"
 export * from "./diffoscope/diffoscope"
 export * from "./inactive-repos/inactive-repos"

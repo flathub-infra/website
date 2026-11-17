@@ -7,7 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
 import { ConnectedAccountProvider } from "../model"
 import type { FlathubUsersResult, UserResult } from "../model"
@@ -2681,13 +2681,13 @@ export const getMeUsersMeGetMockHandler = (
   overrideResponse?:
     | UserResult
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<UserResult> | UserResult),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/users/me",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -2705,13 +2705,13 @@ export const getUsersUsersGetMockHandler = (
   overrideResponse?:
     | FlathubUsersResult
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<FlathubUsersResult> | FlathubUsersResult),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/users",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -2729,13 +2729,13 @@ export const getRolesUsersRolesGetMockHandler = (
   overrideResponse?:
     | string[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<string[]> | string[]),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/users/roles",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -2753,13 +2753,13 @@ export const getUserUsersUserIdGetMockHandler = (
   overrideResponse?:
     | UserResult
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ userId: string }>>[0],
       ) => Promise<UserResult> | UserResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ userId: string }>(
     "*/users/:userId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ userId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -2777,13 +2777,13 @@ export const getBanUserUsersUserIdBanPostMockHandler = (
   overrideResponse?:
     | UserResult
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ userId: string }>>[0],
       ) => Promise<UserResult> | UserResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ userId: string }>(
     "*/users/:userId/ban",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ userId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -2801,13 +2801,13 @@ export const getUnbanUserUsersUserIdBanDeleteMockHandler = (
   overrideResponse?:
     | UserResult
     | ((
-        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ userId: string }>>[0],
       ) => Promise<UserResult> | UserResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.delete(
+  return http.delete<{ userId: string }>(
     "*/users/:userId/ban",
-    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ userId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -2825,13 +2825,13 @@ export const getAddUserRoleUsersUserIdRolePostMockHandler = (
   overrideResponse?:
     | UserResult
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ userId: string }>>[0],
       ) => Promise<UserResult> | UserResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ userId: string }>(
     "*/users/:userId/role",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ userId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -2849,13 +2849,13 @@ export const getDeleteUserRoleUsersUserIdRoleDeleteMockHandler = (
   overrideResponse?:
     | UserResult
     | ((
-        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ userId: string }>>[0],
       ) => Promise<UserResult> | UserResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.delete(
+  return http.delete<{ userId: string }>(
     "*/users/:userId/role",
-    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ userId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -2873,13 +2873,13 @@ export const getRoleUsersUsersRolesRoleNameGetMockHandler = (
   overrideResponse?:
     | UserResult[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ roleName: string }>>[0],
       ) => Promise<UserResult[]> | UserResult[]),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ roleName: string }>(
     "*/users/roles/:roleName",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ roleName: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"

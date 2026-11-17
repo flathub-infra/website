@@ -121,6 +121,7 @@ export type ListPasskeysAuthPasskeysGetQueryResult = NonNullable<
 >
 export type ListPasskeysAuthPasskeysGetQueryError = AxiosError<unknown>
 
+/** @summary List Passkeys */
 export function useListPasskeysAuthPasskeysGet<
   TData = Awaited<ReturnType<typeof listPasskeysAuthPasskeysGet>>,
   TError = AxiosError<unknown>,
@@ -147,6 +148,7 @@ export function useListPasskeysAuthPasskeysGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary List Passkeys */
 export function useListPasskeysAuthPasskeysGet<
   TData = Awaited<ReturnType<typeof listPasskeysAuthPasskeysGet>>,
   TError = AxiosError<unknown>,
@@ -173,6 +175,7 @@ export function useListPasskeysAuthPasskeysGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary List Passkeys */
 export function useListPasskeysAuthPasskeysGet<
   TData = Awaited<ReturnType<typeof listPasskeysAuthPasskeysGet>>,
   TError = AxiosError<unknown>,
@@ -191,10 +194,7 @@ export function useListPasskeysAuthPasskeysGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary List Passkeys
- */
-
+/** @summary List Passkeys */
 export function useListPasskeysAuthPasskeysGet<
   TData = Awaited<ReturnType<typeof listPasskeysAuthPasskeysGet>>,
   TError = AxiosError<unknown>,
@@ -324,9 +324,7 @@ export type PasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutatio
 export type PasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMutationVariables =
   { data: PasskeyRegistrationOptionsRequest }
 
-/**
- * @summary Passkey Registration Options
- */
+/** @summary Passkey Registration Options */
 export const usePasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {
@@ -460,9 +458,7 @@ export type PasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationE
 export type PasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMutationVariables =
   { data: PasskeyRegistrationVerifyRequest }
 
-/**
- * @summary Passkey Registration Verify
- */
+/** @summary Passkey Registration Verify */
 export const usePasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -602,9 +598,7 @@ export type PasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMut
 export type PasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPostMutationVariables =
   { data: PasskeyAuthenticationOptionsRequest }
 
-/**
- * @summary Passkey Authentication Options
- */
+/** @summary Passkey Authentication Options */
 export const usePasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {
@@ -739,9 +733,7 @@ export type PasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutat
 export type PasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostMutationVariables =
   { data: PasskeyAuthenticationVerifyRequest }
 
-/**
- * @summary Passkey Authentication Verify
- */
+/** @summary Passkey Authentication Verify */
 export const usePasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {
@@ -879,9 +871,7 @@ export type PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPos
 export type PasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPostMutationVariables =
   { data: PasskeyReauthenticationOptionsRequest }
 
-/**
- * @summary Passkey Reauthentication Options
- */
+/** @summary Passkey Reauthentication Options */
 export const usePasskeyReauthenticationOptionsAuthPasskeysReauthenticationOptionsPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {
@@ -1019,9 +1009,7 @@ export type PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostM
 export type PasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPostMutationVariables =
   { data: PasskeyReauthenticationVerifyRequest }
 
-/**
- * @summary Passkey Reauthentication Verify
- */
+/** @summary Passkey Reauthentication Verify */
 export const usePasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {
@@ -1144,9 +1132,7 @@ export type RenamePasskeyAuthPasskeysPasskeyIdPatchMutationVariables = {
   data: PasskeyRenameRequest
 }
 
-/**
- * @summary Rename Passkey
- */
+/** @summary Rename Passkey */
 export const useRenamePasskeyAuthPasskeysPasskeyIdPatch = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -1251,9 +1237,7 @@ export type DeletePasskeyAuthPasskeysPasskeyIdDeleteMutationVariables = {
   passkeyId: number
 }
 
-/**
- * @summary Delete Passkey
- */
+/** @summary Delete Passkey */
 export const useDeletePasskeyAuthPasskeysPasskeyIdDelete = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,

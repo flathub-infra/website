@@ -5,19 +5,53 @@
  * OpenAPI spec version: 0.1.0
  */
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
+
+import type { PermissionDecisionNotification } from "../model"
+
+export const getPermissionDecisionApiWebhooksPermissionDecisionsPostMockHandler =
+  (
+    overrideResponse?:
+      | void
+      | ((
+          info: Parameters<
+            HttpResponseResolver<PathParams, PermissionDecisionNotification>
+          >[0],
+        ) => Promise<void> | void),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.post<PathParams, PermissionDecisionNotification>(
+      "*/api/webhooks/permission-decisions",
+      async (
+        info: Parameters<
+          HttpResponseResolver<PathParams, PermissionDecisionNotification>
+        >[0],
+      ) => {
+        if (typeof overrideResponse === "function") {
+          await overrideResponse(info)
+        }
+
+        return new HttpResponse(null, { status: 204 })
+      },
+      options,
+    )
+  }
 
 export const getReceiveGithubWebhookApiWebhooksGithubPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
     "*/api/webhooks/github",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -28,5 +62,6 @@ export const getReceiveGithubWebhookApiWebhooksGithubPostMockHandler = (
   )
 }
 export const getWebhooksMock = () => [
+  getPermissionDecisionApiWebhooksPermissionDecisionsPostMockHandler(),
   getReceiveGithubWebhookApiWebhooksGithubPostMockHandler(),
 ]

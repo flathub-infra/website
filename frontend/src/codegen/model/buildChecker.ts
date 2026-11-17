@@ -10,7 +10,7 @@ export interface BuildChecker {
   revision: string
   source: "build"
   /**
-   * Local Git working tree changes, including untracked files. null means not measured, including container builds.
+   * True if the checker repository has local changes, including untracked files. null means the checker did not check for local changes. Container builds use null.
    * @nullable
    */
   dirty: null

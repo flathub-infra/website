@@ -7,9 +7,18 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
-import type { OidcClientCreated, OidcClientResult } from "../model"
+import type {
+  OidcClientCreate,
+  OidcClientCreated,
+  OidcClientPatch,
+  OidcClientResult,
+} from "../model"
 
 export const getListOidcClientsAdminOidcClientsGetResponseMock =
   (): OidcClientResult[] =>
@@ -224,13 +233,13 @@ export const getListOidcClientsAdminOidcClientsGetMockHandler = (
   overrideResponse?:
     | OidcClientResult[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<OidcClientResult[]> | OidcClientResult[]),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/admin/oidc-clients",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -248,13 +257,15 @@ export const getCreateOidcClientAdminOidcClientsPostMockHandler = (
   overrideResponse?:
     | OidcClientCreated
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<PathParams, OidcClientCreate>>[0],
       ) => Promise<OidcClientCreated> | OidcClientCreated),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, OidcClientCreate>(
     "*/admin/oidc-clients",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<PathParams, OidcClientCreate>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -272,13 +283,13 @@ export const getGetOidcClientAdminOidcClientsClientIdGetMockHandler = (
   overrideResponse?:
     | OidcClientResult
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ clientId: string }>>[0],
       ) => Promise<OidcClientResult> | OidcClientResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ clientId: string }>(
     "*/admin/oidc-clients/:clientId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ clientId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -296,13 +307,19 @@ export const getUpdateOidcClientAdminOidcClientsClientIdPatchMockHandler = (
   overrideResponse?:
     | OidcClientResult
     | ((
-        info: Parameters<Parameters<typeof http.patch>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ clientId: string }, OidcClientPatch>
+        >[0],
       ) => Promise<OidcClientResult> | OidcClientResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.patch(
+  return http.patch<{ clientId: string }, OidcClientPatch>(
     "*/admin/oidc-clients/:clientId",
-    async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ clientId: string }, OidcClientPatch>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -320,13 +337,13 @@ export const getDisableOidcClientAdminOidcClientsClientIdDeleteMockHandler = (
   overrideResponse?:
     | OidcClientResult
     | ((
-        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ clientId: string }>>[0],
       ) => Promise<OidcClientResult> | OidcClientResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.delete(
+  return http.delete<{ clientId: string }>(
     "*/admin/oidc-clients/:clientId",
-    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ clientId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -345,13 +362,15 @@ export const getRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMo
     overrideResponse?:
       | OidcClientCreated
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ clientId: string }>>[0],
         ) => Promise<OidcClientCreated> | OidcClientCreated),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ clientId: string }>(
       "*/admin/oidc-clients/:clientId/rotate-secret",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<HttpResponseResolver<{ clientId: string }>>[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"

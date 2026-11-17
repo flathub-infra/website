@@ -140,6 +140,11 @@ export type GetStorefrontInfoPurchasesStorefrontInfoGetQueryResult =
 export type GetStorefrontInfoPurchasesStorefrontInfoGetQueryError =
   AxiosError<HTTPValidationError>
 
+/**
+ * This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream
+ * file and commit metadata.
+ * @summary Get Storefront Info
+ */
 export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
@@ -173,6 +178,11 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream
+ * file and commit metadata.
+ * @summary Get Storefront Info
+ */
 export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
@@ -206,6 +216,11 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream
+ * file and commit metadata.
+ * @summary Get Storefront Info
+ */
 export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
@@ -228,9 +243,10 @@ export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream
+ * file and commit metadata.
  * @summary Get Storefront Info
  */
-
 export function useGetStorefrontInfoPurchasesStorefrontInfoGet<
   TData = Awaited<
     ReturnType<typeof getStorefrontInfoPurchasesStorefrontInfoGet>
@@ -374,6 +390,11 @@ export type GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryResult
 export type GetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGetQueryError =
   AxiosError<HTTPValidationError>
 
+/**
+ * Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream
+ * database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
+ * @summary Get Is Free Software
+ */
 export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
@@ -415,6 +436,11 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream
+ * database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
+ * @summary Get Is Free Software
+ */
 export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
@@ -456,6 +482,11 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream
+ * database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
+ * @summary Get Is Free Software
+ */
 export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
@@ -482,9 +513,10 @@ export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Gets whether the app is Free Software based on the app ID and license, even if the app is not in the appstream
+ * database yet. This is needed in flat-manager-hooks to run validations the first time an app is uploaded.
  * @summary Get Is Free Software
  */
-
 export function useGetIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet<
   TData = Awaited<
     ReturnType<typeof getIsFreeSoftwarePurchasesStorefrontInfoIsFreeSoftwareGet>
@@ -602,6 +634,9 @@ export type GetUpdateTokenPurchasesGenerateUpdateTokenPostMutationError =
   AxiosError<void>
 
 /**
+ * Generates an update token for a user account. This token allows the user to generate download tokens for apps they
+ * already own, but does not grant permission to do anything else. By storing this token, flathub-authenticator is
+ * able to update apps without user interaction.
  * @summary Get Update Token
  */
 export const useGetUpdateTokenPurchasesGenerateUpdateTokenPost = <
@@ -717,6 +752,10 @@ export type CheckPurchasesPurchasesCheckPurchasesPostMutationVariables = {
 }
 
 /**
+ * Checks whether the logged in user is able to download all of the given app refs.
+ *
+ * App IDs can be in the form of full refs, e.g. "app/org.gnome.Maps/x86_64/stable", or just the app ID, e.g.
+ * "org.gnome.Maps".
  * @summary Check Purchases
  */
 export const useCheckPurchasesPurchasesCheckPurchasesPost = <
@@ -841,6 +880,8 @@ export type GetDownloadTokenPurchasesGenerateDownloadTokenPostMutationVariables 
   { data: BodyGetDownloadTokenPurchasesGenerateDownloadTokenPost }
 
 /**
+ * Generates a download token for the given app IDs. App IDs should be in the form of full refs, e.g.
+ * "app/org.gnome.Maps/x86_64/stable".
  * @summary Get Download Token
  */
 export const useGetDownloadTokenPurchasesGenerateDownloadTokenPost = <

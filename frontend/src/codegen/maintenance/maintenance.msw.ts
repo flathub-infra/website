@@ -7,9 +7,13 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
-import type { MaintenanceCase, MaintenanceDashboard } from "../model"
+import type {
+  MaintenanceAction,
+  MaintenanceCase,
+  MaintenanceDashboard,
+} from "../model"
 
 export const getGetMaintenanceDashboardAdminMaintenanceGetResponseMock = (
   overrideResponse: Partial<Extract<MaintenanceDashboard, object>> = {},
@@ -292,13 +296,13 @@ export const getGetMaintenanceDashboardAdminMaintenanceGetMockHandler = (
   overrideResponse?:
     | MaintenanceDashboard
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<MaintenanceDashboard> | MaintenanceDashboard),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/admin/maintenance",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -316,13 +320,13 @@ export const getGetMaintenanceCaseAdminMaintenanceAppIdGetMockHandler = (
   overrideResponse?:
     | MaintenanceCase
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<MaintenanceCase> | MaintenanceCase),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/admin/maintenance/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -340,13 +344,19 @@ export const getUpdateMaintenanceCaseAdminMaintenanceAppIdPostMockHandler = (
   overrideResponse?:
     | MaintenanceCase
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ appId: string }, MaintenanceAction>
+        >[0],
       ) => Promise<MaintenanceCase> | MaintenanceCase),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }, MaintenanceAction>(
     "*/admin/maintenance/:appId",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ appId: string }, MaintenanceAction>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"

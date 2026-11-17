@@ -154,6 +154,7 @@ export type GetQualityModerationStatusQualityModerationStatusGetQueryResult =
 export type GetQualityModerationStatusQualityModerationStatusGetQueryError =
   AxiosError<void>
 
+/** @summary Get Quality Moderation Status */
 export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
@@ -196,6 +197,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation Status */
 export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
@@ -237,6 +239,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation Status */
 export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
@@ -262,10 +265,7 @@ export function useGetQualityModerationStatusQualityModerationStatusGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Quality Moderation Status
- */
-
+/** @summary Get Quality Moderation Status */
 export function useGetQualityModerationStatusQualityModerationStatusGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationStatusQualityModerationStatusGet>
@@ -403,6 +403,7 @@ export type GetPassingQualityAppsQualityModerationPassingAppsGetQueryResult =
 export type GetPassingQualityAppsQualityModerationPassingAppsGetQueryError =
   AxiosError<void>
 
+/** @summary Get Passing Quality Apps */
 export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
@@ -445,6 +446,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Passing Quality Apps */
 export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
@@ -486,6 +488,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Passing Quality Apps */
 export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
@@ -511,10 +514,7 @@ export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Passing Quality Apps
- */
-
+/** @summary Get Passing Quality Apps */
 export function useGetPassingQualityAppsQualityModerationPassingAppsGet<
   TData = Awaited<
     ReturnType<typeof getPassingQualityAppsQualityModerationPassingAppsGet>
@@ -665,6 +665,7 @@ export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQ
 export type GetAppPickRecommendationsQualityModerationAppPickRecommendationsGetQueryError =
   AxiosError<void>
 
+/** @summary Get App Pick Recommendations */
 export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
   TData = Awaited<
     ReturnType<
@@ -710,6 +711,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get App Pick Recommendations */
 export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
   TData = Awaited<
     ReturnType<
@@ -753,6 +755,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get App Pick Recommendations */
 export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
   TData = Awaited<
     ReturnType<
@@ -780,10 +783,7 @@ export function useGetAppPickRecommendationsQualityModerationAppPickRecommendati
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get App Pick Recommendations
- */
-
+/** @summary Get App Pick Recommendations */
 export function useGetAppPickRecommendationsQualityModerationAppPickRecommendationsGet<
   TData = Awaited<
     ReturnType<
@@ -917,6 +917,7 @@ export type GetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryR
 export type GetQualityModerationStatsQualityModerationFailedByGuidelineGetQueryError =
   AxiosError<void>
 
+/** @summary Get Quality Moderation Stats */
 export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGet<
   TData = Awaited<
     ReturnType<
@@ -959,6 +960,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation Stats */
 export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGet<
   TData = Awaited<
     ReturnType<
@@ -1001,6 +1003,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation Stats */
 export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGet<
   TData = Awaited<
     ReturnType<
@@ -1027,10 +1030,7 @@ export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGe
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Quality Moderation Stats
- */
-
+/** @summary Get Quality Moderation Stats */
 export function useGetQualityModerationStatsQualityModerationFailedByGuidelineGet<
   TData = Awaited<
     ReturnType<
@@ -1163,6 +1163,7 @@ export type GetQualityModerationStatsByCategoryQualityModerationStatsByCategoryG
 export type GetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGetQueryError =
   AxiosError<void>
 
+/** @summary Get Quality Moderation Stats By Category */
 export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet<
   TData = Awaited<
     ReturnType<
@@ -1205,6 +1206,7 @@ export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCa
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation Stats By Category */
 export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet<
   TData = Awaited<
     ReturnType<
@@ -1247,6 +1249,7 @@ export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCa
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation Stats By Category */
 export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet<
   TData = Awaited<
     ReturnType<
@@ -1273,10 +1276,7 @@ export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCa
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Quality Moderation Stats By Category
- */
-
+/** @summary Get Quality Moderation Stats By Category */
 export function useGetQualityModerationStatsByCategoryQualityModerationStatsByCategoryGet<
   TData = Awaited<
     ReturnType<
@@ -1411,6 +1411,7 @@ export type GetQualityModerationForAppQualityModerationAppIdGetQueryResult =
 export type GetQualityModerationForAppQualityModerationAppIdGetQueryError =
   AxiosError<void>
 
+/** @summary Get Quality Moderation For App */
 export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
@@ -1450,6 +1451,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation For App */
 export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
@@ -1489,6 +1491,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation For App */
 export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
@@ -1512,10 +1515,7 @@ export function useGetQualityModerationForAppQualityModerationAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Quality Moderation For App
- */
-
+/** @summary Get Quality Moderation For App */
 export function useGetQualityModerationForAppQualityModerationAppIdGet<
   TData = Awaited<
     ReturnType<typeof getQualityModerationForAppQualityModerationAppIdGet>
@@ -1648,9 +1648,7 @@ export type SetQualityModerationForAppQualityModerationAppIdPostMutationError =
 export type SetQualityModerationForAppQualityModerationAppIdPostMutationVariables =
   { appId: string; data: UpsertQualityModeration }
 
-/**
- * @summary Set Quality Moderation For App
- */
+/** @summary Set Quality Moderation For App */
 export const useSetQualityModerationForAppQualityModerationAppIdPost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -1786,6 +1784,7 @@ export type GetQualityModerationForAppAsModeratorQualityModerationAppIdModerator
 export type GetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGetQueryError =
   AxiosError<void>
 
+/** @summary Get Quality Moderation For App As Moderator */
 export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet<
   TData = Awaited<
     ReturnType<
@@ -1829,6 +1828,7 @@ export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdMo
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation For App As Moderator */
 export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet<
   TData = Awaited<
     ReturnType<
@@ -1872,6 +1872,7 @@ export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdMo
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation For App As Moderator */
 export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet<
   TData = Awaited<
     ReturnType<
@@ -1899,10 +1900,7 @@ export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdMo
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Quality Moderation For App As Moderator
- */
-
+/** @summary Get Quality Moderation For App As Moderator */
 export function useGetQualityModerationForAppAsModeratorQualityModerationAppIdModeratorGet<
   TData = Awaited<
     ReturnType<
@@ -2047,6 +2045,7 @@ export type GetQualityModerationStatusForAppQualityModerationAppIdStatusGetQuery
 export type GetQualityModerationStatusForAppQualityModerationAppIdStatusGetQueryError =
   AxiosError<void>
 
+/** @summary Get Quality Moderation Status For App */
 export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet<
   TData = Awaited<
     ReturnType<
@@ -2090,6 +2089,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation Status For App */
 export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet<
   TData = Awaited<
     ReturnType<
@@ -2133,6 +2133,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Quality Moderation Status For App */
 export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet<
   TData = Awaited<
     ReturnType<
@@ -2160,10 +2161,7 @@ export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusG
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Quality Moderation Status For App
- */
-
+/** @summary Get Quality Moderation Status For App */
 export function useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet<
   TData = Awaited<
     ReturnType<
@@ -2304,9 +2302,7 @@ export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationEr
 export type RequestReviewForAppQualityModerationAppIdRequestReviewPostMutationVariables =
   { appId: string }
 
-/**
- * @summary Request Review For App
- */
+/** @summary Request Review For App */
 export const useRequestReviewForAppQualityModerationAppIdRequestReviewPost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -2441,9 +2437,7 @@ export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMu
 export type DeleteReviewRequestForAppQualityModerationAppIdRequestReviewDeleteMutationVariables =
   { appId: string }
 
-/**
- * @summary Delete Review Request For App
- */
+/** @summary Delete Review Request For App */
 export const useDeleteReviewRequestForAppQualityModerationAppIdRequestReviewDelete =
   <TError = AxiosError<void>, TContext = unknown>(
     options?: {
@@ -2576,9 +2570,7 @@ export type SetFullscreenAppQualityModerationAppIdFullscreenPostMutationVariable
     params: SetFullscreenAppQualityModerationAppIdFullscreenPostParams
   }
 
-/**
- * @summary Set Fullscreen App
- */
+/** @summary Set Fullscreen App */
 export const useSetFullscreenAppQualityModerationAppIdFullscreenPost = <
   TError = AxiosError<void>,
   TContext = unknown,

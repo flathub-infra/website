@@ -7,18 +7,29 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
 import { ModerationRequestType } from "../model"
 import type {
+  CandidateAssessmentRequest,
   CandidateAssessmentResponse,
+  Discussion,
   ListPermissionReviewsModerationPermissionReviewsGet200,
   ModerationApp,
   ModerationAppsResponse,
+  PermissionDecisionRequest,
   PermissionReviewDetail,
   PermissionRuleEntry,
+  PermissionRuleInput,
   PermissionRuleMatch,
   PermissionRulePreview,
+  PreviewPermissionRulesModerationPermissionRulesPreviewPostBody,
+  Review,
+  ReviewRequest,
   ReviewRequestResponse,
   ReviewResponse,
 } from "../model"
@@ -994,13 +1005,13 @@ export const getGetModerationAppsModerationAppsGetMockHandler = (
   overrideResponse?:
     | ModerationAppsResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<ModerationAppsResponse> | ModerationAppsResponse),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/moderation/apps",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1018,13 +1029,13 @@ export const getGetModerationAppModerationAppsAppIdGetMockHandler = (
   overrideResponse?:
     | ModerationApp
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<ModerationApp> | ModerationApp),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/moderation/apps/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1043,13 +1054,15 @@ export const getSubmitReviewRequestModerationSubmitReviewRequestPostMockHandler 
     overrideResponse?:
       | ReviewRequestResponse
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<PathParams, ReviewRequest>>[0],
         ) => Promise<ReviewRequestResponse> | ReviewRequestResponse),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<PathParams, ReviewRequest>(
       "*/moderation/submit_review_request",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<HttpResponseResolver<PathParams, ReviewRequest>>[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -1067,13 +1080,15 @@ export const getSubmitReviewModerationRequestsIdReviewPostMockHandler = (
   overrideResponse?:
     | ReviewResponse
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ id: string }, Review>>[0],
       ) => Promise<ReviewResponse> | ReviewResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ id: string }, Review>(
     "*/moderation/requests/:id/review",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<{ id: string }, Review>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1092,13 +1107,15 @@ export const getSubmitDiscussionModerationRequestsIdDiscussionPostMockHandler =
     overrideResponse?:
       | ReviewResponse
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ id: string }, Discussion>>[0],
         ) => Promise<ReviewResponse> | ReviewResponse),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ id: string }, Discussion>(
       "*/moderation/requests/:id/discussion",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<HttpResponseResolver<{ id: string }, Discussion>>[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -1116,13 +1133,19 @@ export const getPostAssessmentModerationPermissionsAssessPostMockHandler = (
   overrideResponse?:
     | CandidateAssessmentResponse
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, CandidateAssessmentRequest>
+        >[0],
       ) => Promise<CandidateAssessmentResponse> | CandidateAssessmentResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, CandidateAssessmentRequest>(
     "*/moderation/permissions/assess",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<PathParams, CandidateAssessmentRequest>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1141,14 +1164,16 @@ export const getReadAssessmentModerationPermissionsAssessmentIdGetMockHandler =
     overrideResponse?:
       | CandidateAssessmentResponse
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ assessmentId: string }>>[0],
         ) =>
           Promise<CandidateAssessmentResponse> | CandidateAssessmentResponse),
     options?: RequestHandlerOptions,
   ) => {
-    return http.get(
+    return http.get<{ assessmentId: string }>(
       "*/moderation/permissions/:assessmentId",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (
+        info: Parameters<HttpResponseResolver<{ assessmentId: string }>>[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -1167,7 +1192,7 @@ export const getListPermissionReviewsModerationPermissionReviewsGetMockHandler =
     overrideResponse?:
       | ListPermissionReviewsModerationPermissionReviewsGet200
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) =>
           | Promise<ListPermissionReviewsModerationPermissionReviewsGet200>
           | ListPermissionReviewsModerationPermissionReviewsGet200),
@@ -1175,7 +1200,7 @@ export const getListPermissionReviewsModerationPermissionReviewsGetMockHandler =
   ) => {
     return http.get(
       "*/moderation/permission-reviews",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -1194,13 +1219,15 @@ export const getReadPermissionReviewModerationPermissionReviewsAssessmentIdGetMo
     overrideResponse?:
       | PermissionReviewDetail
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver<{ assessmentId: string }>>[0],
         ) => Promise<PermissionReviewDetail> | PermissionReviewDetail),
     options?: RequestHandlerOptions,
   ) => {
-    return http.get(
+    return http.get<{ assessmentId: string }>(
       "*/moderation/permission-reviews/:assessmentId",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (
+        info: Parameters<HttpResponseResolver<{ assessmentId: string }>>[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -1219,13 +1246,25 @@ export const getDecidePermissionReviewModerationPermissionReviewsAssessmentIdDec
     overrideResponse?:
       | PermissionReviewDetail
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              { assessmentId: string },
+              PermissionDecisionRequest
+            >
+          >[0],
         ) => Promise<PermissionReviewDetail> | PermissionReviewDetail),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<{ assessmentId: string }, PermissionDecisionRequest>(
       "*/moderation/permission-reviews/:assessmentId/decision",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<
+            { assessmentId: string },
+            PermissionDecisionRequest
+          >
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -1243,13 +1282,13 @@ export const getListPermissionRulesModerationPermissionRulesGetMockHandler = (
   overrideResponse?:
     | PermissionRuleEntry[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<PermissionRuleEntry[]> | PermissionRuleEntry[]),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/moderation/permission-rules",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1267,13 +1306,19 @@ export const getCreatePermissionRuleModerationPermissionRulesPostMockHandler = (
   overrideResponse?:
     | PermissionRuleEntry
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, PermissionRuleInput>
+        >[0],
       ) => Promise<PermissionRuleEntry> | PermissionRuleEntry),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, PermissionRuleInput>(
     "*/moderation/permission-rules",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<PathParams, PermissionRuleInput>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1292,13 +1337,19 @@ export const getUpdatePermissionRuleModerationPermissionRulesRuleIdPutMockHandle
     overrideResponse?:
       | PermissionRuleEntry
       | ((
-          info: Parameters<Parameters<typeof http.put>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<{ ruleId: string }, PermissionRuleInput>
+          >[0],
         ) => Promise<PermissionRuleEntry> | PermissionRuleEntry),
     options?: RequestHandlerOptions,
   ) => {
-    return http.put(
+    return http.put<{ ruleId: string }, PermissionRuleInput>(
       "*/moderation/permission-rules/:ruleId",
-      async (info: Parameters<Parameters<typeof http.put>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<{ ruleId: string }, PermissionRuleInput>
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -1317,13 +1368,28 @@ export const getPreviewPermissionRulesModerationPermissionRulesPreviewPostMockHa
     overrideResponse?:
       | PermissionRulePreview
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              PathParams,
+              PreviewPermissionRulesModerationPermissionRulesPreviewPostBody
+            >
+          >[0],
         ) => Promise<PermissionRulePreview> | PermissionRulePreview),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<
+      PathParams,
+      PreviewPermissionRulesModerationPermissionRulesPreviewPostBody
+    >(
       "*/moderation/permission-rules/preview",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<
+            PathParams,
+            PreviewPermissionRulesModerationPermissionRulesPreviewPostBody
+          >
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -1342,13 +1408,13 @@ export const getApplyPermissionRulesModerationPermissionRulesApplyPostMockHandle
     overrideResponse?:
       | PermissionRuleMatch[]
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) => Promise<PermissionRuleMatch[]> | PermissionRuleMatch[]),
     options?: RequestHandlerOptions,
   ) => {
     return http.post(
       "*/moderation/permission-rules/apply",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"

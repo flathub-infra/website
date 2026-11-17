@@ -6,6 +6,6 @@
  */
 
 /**
- * The runtime branch name, included only in top-level source entries.
+ * The runtime branch name. Only source entries in the top-level sources array include it.
  */
 export type SourceBranch = string | null

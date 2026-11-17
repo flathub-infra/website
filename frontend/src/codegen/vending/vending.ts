@@ -125,6 +125,13 @@ export type StatusVendingStatusGetQueryResult = NonNullable<
 >
 export type StatusVendingStatusGetQueryError = AxiosError<void>
 
+/**
+ * Retrieve the vending status of the logged in user.
+ *
+ * This will return `201` if the logged in user has never begun the onboarding
+ * flow to be a vendor on Flathub.
+ * @summary Status
+ */
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
   TError = AxiosError<void>,
@@ -151,6 +158,13 @@ export function useStatusVendingStatusGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the vending status of the logged in user.
+ *
+ * This will return `201` if the logged in user has never begun the onboarding
+ * flow to be a vendor on Flathub.
+ * @summary Status
+ */
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
   TError = AxiosError<void>,
@@ -177,6 +191,13 @@ export function useStatusVendingStatusGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the vending status of the logged in user.
+ *
+ * This will return `201` if the logged in user has never begun the onboarding
+ * flow to be a vendor on Flathub.
+ * @summary Status
+ */
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
   TError = AxiosError<void>,
@@ -196,9 +217,12 @@ export function useStatusVendingStatusGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Retrieve the vending status of the logged in user.
+ *
+ * This will return `201` if the logged in user has never begun the onboarding
+ * flow to be a vendor on Flathub.
  * @summary Status
  */
-
 export function useStatusVendingStatusGet<
   TData = Awaited<ReturnType<typeof statusVendingStatusGet>>,
   TError = AxiosError<void>,
@@ -311,6 +335,7 @@ export type StartOnboardingVendingStatusOnboardingPostMutationVariables = {
 }
 
 /**
+ * Start or continue the onboarding process.
  * @summary Start Onboarding
  */
 export const useStartOnboardingVendingStatusOnboardingPost = <
@@ -409,6 +434,12 @@ export type GetDashboardLinkVendingStatusDashboardlinkGetQueryResult =
 export type GetDashboardLinkVendingStatusDashboardlinkGetQueryError =
   AxiosError<void>
 
+/**
+ * Retrieve a link to the logged in user's Stripe express dashboard.
+ *
+ * The user must be logged in and must have onboarded.
+ * @summary Get Dashboard Link
+ */
 export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
@@ -443,6 +474,12 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve a link to the logged in user's Stripe express dashboard.
+ *
+ * The user must be logged in and must have onboarded.
+ * @summary Get Dashboard Link
+ */
 export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
@@ -477,6 +514,12 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve a link to the logged in user's Stripe express dashboard.
+ *
+ * The user must be logged in and must have onboarded.
+ * @summary Get Dashboard Link
+ */
 export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
@@ -500,9 +543,11 @@ export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Retrieve a link to the logged in user's Stripe express dashboard.
+ *
+ * The user must be logged in and must have onboarded.
  * @summary Get Dashboard Link
  */
-
 export function useGetDashboardLinkVendingStatusDashboardlinkGet<
   TData = Awaited<
     ReturnType<typeof getDashboardLinkVendingStatusDashboardlinkGet>
@@ -606,6 +651,15 @@ export type GetGlobalVendingConfigVendingConfigGetQueryResult = NonNullable<
 >
 export type GetGlobalVendingConfigVendingConfigGetQueryError = AxiosError<void>
 
+/**
+ * Retrieve the configuration values needed to calculate application
+ * vending splits client-side.
+ *
+ * Configuration includes:
+ * - Fee values
+ * - Platform values
+ * @summary Get Global Vending Config
+ */
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
   TError = AxiosError<void>,
@@ -632,6 +686,15 @@ export function useGetGlobalVendingConfigVendingConfigGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the configuration values needed to calculate application
+ * vending splits client-side.
+ *
+ * Configuration includes:
+ * - Fee values
+ * - Platform values
+ * @summary Get Global Vending Config
+ */
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
   TError = AxiosError<void>,
@@ -658,6 +721,15 @@ export function useGetGlobalVendingConfigVendingConfigGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the configuration values needed to calculate application
+ * vending splits client-side.
+ *
+ * Configuration includes:
+ * - Fee values
+ * - Platform values
+ * @summary Get Global Vending Config
+ */
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
   TError = AxiosError<void>,
@@ -677,9 +749,14 @@ export function useGetGlobalVendingConfigVendingConfigGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Retrieve the configuration values needed to calculate application
+ * vending splits client-side.
+ *
+ * Configuration includes:
+ * - Fee values
+ * - Platform values
  * @summary Get Global Vending Config
  */
-
 export function useGetGlobalVendingConfigVendingConfigGet<
   TData = Awaited<ReturnType<typeof getGlobalVendingConfigVendingConfigGet>>,
   TError = AxiosError<void>,
@@ -791,6 +868,10 @@ export type GetAppVendingSetupVendingappAppIdSetupGetQueryResult = NonNullable<
 export type GetAppVendingSetupVendingappAppIdSetupGetQueryError =
   AxiosError<void>
 
+/**
+ * Retrieve the vending status for a given application.
+ * @summary Get App Vending Setup
+ */
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
   TError = AxiosError<void>,
@@ -818,6 +899,10 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the vending status for a given application.
+ * @summary Get App Vending Setup
+ */
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
   TError = AxiosError<void>,
@@ -845,6 +930,10 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the vending status for a given application.
+ * @summary Get App Vending Setup
+ */
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
   TError = AxiosError<void>,
@@ -865,9 +954,9 @@ export function useGetAppVendingSetupVendingappAppIdSetupGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Retrieve the vending status for a given application.
  * @summary Get App Vending Setup
  */
-
 export function useGetAppVendingSetupVendingappAppIdSetupGet<
   TData = Awaited<ReturnType<typeof getAppVendingSetupVendingappAppIdSetupGet>>,
   TError = AxiosError<void>,
@@ -997,6 +1086,15 @@ export type PostAppVendingSetupVendingappAppIdSetupPostMutationVariables = {
 }
 
 /**
+ * Create/update the vending status for a given application.  Returns an error
+ * if the appid is not known, or if it's already set up for vending with a
+ * user other than the one calling this API.
+ *
+ * If you do not have the right to set the vending status for this application
+ * then you will also be refused.
+ *
+ * In addition, if any of the currency or amount values constraints are violated
+ * then you will get an error
  * @summary Post App Vending Setup
  */
 export const usePostAppVendingSetupVendingappAppIdSetupPost = <
@@ -1112,6 +1210,12 @@ export type PostAppVendingStatusVendingappAppIdPostMutationVariables = {
 }
 
 /**
+ * Construct a transaction for the given application with the proposed payment.
+ * If the proposed payment is unacceptable then an error will be returned.
+ * If the user is not logged in, then an error will be returned.
+ *
+ * Otherwise a transaction will be created and the information about it will be
+ * returned in the output of the call.
  * @summary Post App Vending Status
  */
 export const usePostAppVendingStatusVendingappAppIdPost = <
@@ -1237,6 +1341,14 @@ export type GetRedeemableTokensVendingappAppIdTokensGetQueryResult =
 export type GetRedeemableTokensVendingappAppIdTokensGetQueryError =
   AxiosError<void>
 
+/**
+ * Retrieve the redeemable tokens for the given application.
+ *
+ * The caller must have control of the app at some level
+ *
+ * Tokens are paginated with default page_size of 10
+ * @summary Get Redeemable Tokens
+ */
 export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
@@ -1271,6 +1383,14 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the redeemable tokens for the given application.
+ *
+ * The caller must have control of the app at some level
+ *
+ * Tokens are paginated with default page_size of 10
+ * @summary Get Redeemable Tokens
+ */
 export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
@@ -1305,6 +1425,14 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the redeemable tokens for the given application.
+ *
+ * The caller must have control of the app at some level
+ *
+ * Tokens are paginated with default page_size of 10
+ * @summary Get Redeemable Tokens
+ */
 export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
@@ -1328,9 +1456,13 @@ export function useGetRedeemableTokensVendingappAppIdTokensGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Retrieve the redeemable tokens for the given application.
+ *
+ * The caller must have control of the app at some level
+ *
+ * Tokens are paginated with default page_size of 10
  * @summary Get Redeemable Tokens
  */
-
 export function useGetRedeemableTokensVendingappAppIdTokensGet<
   TData = Awaited<
     ReturnType<typeof getRedeemableTokensVendingappAppIdTokensGet>
@@ -1454,6 +1586,9 @@ export type CreateTokensVendingappAppIdTokensPostMutationVariables = {
 }
 
 /**
+ * Create some tokens for the given appid.
+ *
+ * The calling user must own the vending config for this application
  * @summary Create Tokens
  */
 export const useCreateTokensVendingappAppIdTokensPost = <
@@ -1573,6 +1708,7 @@ export type CancelTokensVendingappAppIdTokensCancelPostMutationVariables = {
 }
 
 /**
+ * Cancel a set of tokens
  * @summary Cancel Tokens
  */
 export const useCancelTokensVendingappAppIdTokensCancelPost = <
@@ -1697,6 +1833,9 @@ export type RedeemTokenVendingappAppIdTokensRedeemTokenPostMutationVariables = {
 }
 
 /**
+ * This redeems the given token for the logged in user.
+ *
+ * If the logged in user already owns the app then the token will not be redeemed
  * @summary Redeem Token
  */
 export const useRedeemTokenVendingappAppIdTokensRedeemTokenPost = <
@@ -1799,6 +1938,10 @@ export type AppInfoVendingappAppIdInfoGetQueryResult = NonNullable<
 >
 export type AppInfoVendingappAppIdInfoGetQueryError = AxiosError<void>
 
+/**
+ * This determines the vending info for the app and returns it
+ * @summary App Info
+ */
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
   TError = AxiosError<void>,
@@ -1826,6 +1969,10 @@ export function useAppInfoVendingappAppIdInfoGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * This determines the vending info for the app and returns it
+ * @summary App Info
+ */
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
   TError = AxiosError<void>,
@@ -1853,6 +2000,10 @@ export function useAppInfoVendingappAppIdInfoGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * This determines the vending info for the app and returns it
+ * @summary App Info
+ */
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
   TError = AxiosError<void>,
@@ -1873,9 +2024,9 @@ export function useAppInfoVendingappAppIdInfoGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * This determines the vending info for the app and returns it
  * @summary App Info
  */
-
 export function useAppInfoVendingappAppIdInfoGet<
   TData = Awaited<ReturnType<typeof appInfoVendingappAppIdInfoGet>>,
   TError = AxiosError<void>,

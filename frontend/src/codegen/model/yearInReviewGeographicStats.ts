@@ -6,9 +6,15 @@
  */
 import type { YearInReviewCountry } from "./yearInReviewCountry"
 import type { YearInReviewCountryGrowth } from "./yearInReviewCountryGrowth"
+import type { YearInReviewGeographicStatsPopulationRevision } from "./yearInReviewGeographicStatsPopulationRevision"
+import type { YearInReviewGeographicStatsPopulationYear } from "./yearInReviewGeographicStatsPopulationYear"
+import type { YearInReviewGeographicStatsTopCountriesPerCapita } from "./yearInReviewGeographicStatsTopCountriesPerCapita"
 
 export interface YearInReviewGeographicStats {
   top_countries?: YearInReviewCountry[]
+  top_countries_per_capita?: YearInReviewGeographicStatsTopCountriesPerCapita
+  population_year?: YearInReviewGeographicStatsPopulationYear
+  population_revision?: YearInReviewGeographicStatsPopulationRevision
   total_countries?: number
   fastest_growing_regions?: YearInReviewCountryGrowth[]
 }

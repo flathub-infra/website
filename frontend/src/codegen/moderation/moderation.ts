@@ -145,6 +145,10 @@ export type GetModerationAppsModerationAppsGetQueryResult = NonNullable<
 >
 export type GetModerationAppsModerationAppsGetQueryError = AxiosError<void>
 
+/**
+ * Get a list of apps with unhandled moderation requests.
+ * @summary Get Moderation Apps
+ */
 export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
   TError = AxiosError<void>,
@@ -172,6 +176,10 @@ export function useGetModerationAppsModerationAppsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of apps with unhandled moderation requests.
+ * @summary Get Moderation Apps
+ */
 export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
   TError = AxiosError<void>,
@@ -199,6 +207,10 @@ export function useGetModerationAppsModerationAppsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of apps with unhandled moderation requests.
+ * @summary Get Moderation Apps
+ */
 export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
   TError = AxiosError<void>,
@@ -219,9 +231,9 @@ export function useGetModerationAppsModerationAppsGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get a list of apps with unhandled moderation requests.
  * @summary Get Moderation Apps
  */
-
 export function useGetModerationAppsModerationAppsGet<
   TData = Awaited<ReturnType<typeof getModerationAppsModerationAppsGet>>,
   TError = AxiosError<void>,
@@ -344,6 +356,10 @@ export type GetModerationAppModerationAppsAppIdGetQueryResult = NonNullable<
 >
 export type GetModerationAppModerationAppsAppIdGetQueryError = AxiosError<void>
 
+/**
+ * Get a list of moderation requests for an app.
+ * @summary Get Moderation App
+ */
 export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
   TError = AxiosError<void>,
@@ -372,6 +388,10 @@ export function useGetModerationAppModerationAppsAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of moderation requests for an app.
+ * @summary Get Moderation App
+ */
 export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
   TError = AxiosError<void>,
@@ -400,6 +420,10 @@ export function useGetModerationAppModerationAppsAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of moderation requests for an app.
+ * @summary Get Moderation App
+ */
 export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
   TError = AxiosError<void>,
@@ -421,9 +445,9 @@ export function useGetModerationAppModerationAppsAppIdGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get a list of moderation requests for an app.
  * @summary Get Moderation App
  */
-
 export function useGetModerationAppModerationAppsAppIdGet<
   TData = Awaited<ReturnType<typeof getModerationAppModerationAppsAppIdGet>>,
   TError = AxiosError<void>,
@@ -546,9 +570,7 @@ export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationError =
 export type SubmitReviewRequestModerationSubmitReviewRequestPostMutationVariables =
   { data: ReviewRequest }
 
-/**
- * @summary Submit Review Request
- */
+/** @summary Submit Review Request */
 export const useSubmitReviewRequestModerationSubmitReviewRequestPost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -661,9 +683,7 @@ export type SubmitReviewModerationRequestsIdReviewPostMutationVariables = {
   data: Review
 }
 
-/**
- * @summary Submit Review
- */
+/** @summary Submit Review */
 export const useSubmitReviewModerationRequestsIdReviewPost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -784,9 +804,7 @@ export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationError =
 export type SubmitDiscussionModerationRequestsIdDiscussionPostMutationVariables =
   { id: number; data: Discussion }
 
-/**
- * @summary Submit Discussion
- */
+/** @summary Submit Discussion */
 export const useSubmitDiscussionModerationRequestsIdDiscussionPost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -901,9 +919,7 @@ export type PostAssessmentModerationPermissionsAssessPostMutationVariables = {
   data: CandidateAssessmentRequest
 }
 
-/**
- * @summary Post Assessment
- */
+/** @summary Post Assessment */
 export const usePostAssessmentModerationPermissionsAssessPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -1026,6 +1042,7 @@ export type ReadAssessmentModerationPermissionsAssessmentIdGetQueryResult =
 export type ReadAssessmentModerationPermissionsAssessmentIdGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Read Assessment */
 export function useReadAssessmentModerationPermissionsAssessmentIdGet<
   TData = Awaited<
     ReturnType<typeof readAssessmentModerationPermissionsAssessmentIdGet>
@@ -1065,6 +1082,7 @@ export function useReadAssessmentModerationPermissionsAssessmentIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Read Assessment */
 export function useReadAssessmentModerationPermissionsAssessmentIdGet<
   TData = Awaited<
     ReturnType<typeof readAssessmentModerationPermissionsAssessmentIdGet>
@@ -1104,6 +1122,7 @@ export function useReadAssessmentModerationPermissionsAssessmentIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Read Assessment */
 export function useReadAssessmentModerationPermissionsAssessmentIdGet<
   TData = Awaited<
     ReturnType<typeof readAssessmentModerationPermissionsAssessmentIdGet>
@@ -1127,10 +1146,7 @@ export function useReadAssessmentModerationPermissionsAssessmentIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Read Assessment
- */
-
+/** @summary Read Assessment */
 export function useReadAssessmentModerationPermissionsAssessmentIdGet<
   TData = Awaited<
     ReturnType<typeof readAssessmentModerationPermissionsAssessmentIdGet>
@@ -1268,6 +1284,7 @@ export type ListPermissionReviewsModerationPermissionReviewsGetQueryResult =
 export type ListPermissionReviewsModerationPermissionReviewsGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary List Permission Reviews */
 export function useListPermissionReviewsModerationPermissionReviewsGet<
   TData = Awaited<
     ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
@@ -1307,6 +1324,7 @@ export function useListPermissionReviewsModerationPermissionReviewsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary List Permission Reviews */
 export function useListPermissionReviewsModerationPermissionReviewsGet<
   TData = Awaited<
     ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
@@ -1346,6 +1364,7 @@ export function useListPermissionReviewsModerationPermissionReviewsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary List Permission Reviews */
 export function useListPermissionReviewsModerationPermissionReviewsGet<
   TData = Awaited<
     ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
@@ -1369,10 +1388,7 @@ export function useListPermissionReviewsModerationPermissionReviewsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary List Permission Reviews
- */
-
+/** @summary List Permission Reviews */
 export function useListPermissionReviewsModerationPermissionReviewsGet<
   TData = Awaited<
     ReturnType<typeof listPermissionReviewsModerationPermissionReviewsGet>
@@ -1513,6 +1529,7 @@ export type ReadPermissionReviewModerationPermissionReviewsAssessmentIdGetQueryR
 export type ReadPermissionReviewModerationPermissionReviewsAssessmentIdGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Read Permission Review */
 export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet<
   TData = Awaited<
     ReturnType<
@@ -1556,6 +1573,7 @@ export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGe
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Read Permission Review */
 export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet<
   TData = Awaited<
     ReturnType<
@@ -1599,6 +1617,7 @@ export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGe
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Read Permission Review */
 export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet<
   TData = Awaited<
     ReturnType<
@@ -1626,10 +1645,7 @@ export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGe
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Read Permission Review
- */
-
+/** @summary Read Permission Review */
 export function useReadPermissionReviewModerationPermissionReviewsAssessmentIdGet<
   TData = Awaited<
     ReturnType<
@@ -1777,9 +1793,7 @@ export type DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisio
 export type DecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPostMutationVariables =
   { assessmentId: number; data: PermissionDecisionRequest }
 
-/**
- * @summary Decide Permission Review
- */
+/** @summary Decide Permission Review */
 export const useDecidePermissionReviewModerationPermissionReviewsAssessmentIdDecisionPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {
@@ -1884,6 +1898,7 @@ export type ListPermissionRulesModerationPermissionRulesGetQueryResult =
 export type ListPermissionRulesModerationPermissionRulesGetQueryError =
   AxiosError<unknown>
 
+/** @summary List Permission Rules */
 export function useListPermissionRulesModerationPermissionRulesGet<
   TData = Awaited<
     ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
@@ -1918,6 +1933,7 @@ export function useListPermissionRulesModerationPermissionRulesGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary List Permission Rules */
 export function useListPermissionRulesModerationPermissionRulesGet<
   TData = Awaited<
     ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
@@ -1952,6 +1968,7 @@ export function useListPermissionRulesModerationPermissionRulesGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary List Permission Rules */
 export function useListPermissionRulesModerationPermissionRulesGet<
   TData = Awaited<
     ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
@@ -1974,10 +1991,7 @@ export function useListPermissionRulesModerationPermissionRulesGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary List Permission Rules
- */
-
+/** @summary List Permission Rules */
 export function useListPermissionRulesModerationPermissionRulesGet<
   TData = Awaited<
     ReturnType<typeof listPermissionRulesModerationPermissionRulesGet>
@@ -2102,9 +2116,7 @@ export type CreatePermissionRuleModerationPermissionRulesPostMutationError =
 export type CreatePermissionRuleModerationPermissionRulesPostMutationVariables =
   { data: PermissionRuleInput }
 
-/**
- * @summary Create Permission Rule
- */
+/** @summary Create Permission Rule */
 export const useCreatePermissionRuleModerationPermissionRulesPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -2233,9 +2245,7 @@ export type UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationError 
 export type UpdatePermissionRuleModerationPermissionRulesRuleIdPutMutationVariables =
   { ruleId: number; data: PermissionRuleInput }
 
-/**
- * @summary Update Permission Rule
- */
+/** @summary Update Permission Rule */
 export const useUpdatePermissionRuleModerationPermissionRulesRuleIdPut = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -2369,9 +2379,7 @@ export type PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationEr
 export type PreviewPermissionRulesModerationPermissionRulesPreviewPostMutationVariables =
   { data?: PreviewPermissionRulesModerationPermissionRulesPreviewPostBody }
 
-/**
- * @summary Preview Permission Rules
- */
+/** @summary Preview Permission Rules */
 export const usePreviewPermissionRulesModerationPermissionRulesPreviewPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -2492,9 +2500,7 @@ export type ApplyPermissionRulesModerationPermissionRulesApplyPostMutationResult
 export type ApplyPermissionRulesModerationPermissionRulesApplyPostMutationError =
   AxiosError<unknown>
 
-/**
- * @summary Apply Permission Rules
- */
+/** @summary Apply Permission Rules */
 export const useApplyPermissionRulesModerationPermissionRulesApplyPost = <
   TError = AxiosError<unknown>,
   TContext = unknown,

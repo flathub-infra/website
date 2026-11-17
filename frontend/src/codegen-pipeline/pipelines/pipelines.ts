@@ -24,6 +24,7 @@ import axios from "axios"
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 
 import type {
+  BuildDiagnosisResponse,
   HTTPValidationError,
   ListPipelinesApiPipelinesGetParams,
   PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody,
@@ -69,6 +70,21 @@ export const triggerPipelineApiPipelinesPost = (
   )
 }
 
+export const getTriggerPipelineApiPipelinesPostUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/api/pipelines`,
+      baseURL: "",
+    })
+}
+
+export const getTriggerPipelineApiPipelinesPostMutationKey = () =>
+  ["triggerPipelineApiPipelinesPost"] as const
+
 export const getTriggerPipelineApiPipelinesPostMutationOptions = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -76,17 +92,17 @@ export const getTriggerPipelineApiPipelinesPostMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof triggerPipelineApiPipelinesPost>>,
     TError,
-    { data: PipelineTriggerRequest },
+    TriggerPipelineApiPipelinesPostMutationVariables,
     TContext
   >
   axios?: AxiosRequestConfig
 }): UseMutationOptions<
   Awaited<ReturnType<typeof triggerPipelineApiPipelinesPost>>,
   TError,
-  { data: PipelineTriggerRequest },
+  TriggerPipelineApiPipelinesPostMutationVariables,
   TContext
 > => {
-  const mutationKey = ["triggerPipelineApiPipelinesPost"]
+  const mutationKey = getTriggerPipelineApiPipelinesPostMutationKey()
   const { mutation: mutationOptions, axios: axiosOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -97,7 +113,7 @@ export const getTriggerPipelineApiPipelinesPostMutationOptions = <
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof triggerPipelineApiPipelinesPost>>,
-    { data: PipelineTriggerRequest }
+    TriggerPipelineApiPipelinesPostMutationVariables
   > = (props) => {
     const { data } = props ?? {}
 
@@ -113,10 +129,11 @@ export type TriggerPipelineApiPipelinesPostMutationResult = NonNullable<
 export type TriggerPipelineApiPipelinesPostMutationBody = PipelineTriggerRequest
 export type TriggerPipelineApiPipelinesPostMutationError =
   AxiosError<HTTPValidationError>
+export type TriggerPipelineApiPipelinesPostMutationVariables = {
+  data: PipelineTriggerRequest
+}
 
-/**
- * @summary Trigger Pipeline
- */
+/** @summary Trigger Pipeline */
 export const useTriggerPipelineApiPipelinesPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -125,7 +142,7 @@ export const useTriggerPipelineApiPipelinesPost = <
     mutation?: UseMutationOptions<
       Awaited<ReturnType<typeof triggerPipelineApiPipelinesPost>>,
       TError,
-      { data: PipelineTriggerRequest },
+      TriggerPipelineApiPipelinesPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -134,7 +151,7 @@ export const useTriggerPipelineApiPipelinesPost = <
 ): UseMutationResult<
   Awaited<ReturnType<typeof triggerPipelineApiPipelinesPost>>,
   TError,
-  { data: PipelineTriggerRequest },
+  TriggerPipelineApiPipelinesPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -153,6 +170,21 @@ export const listPipelinesApiPipelinesGet = (
     ...options,
     params: { ...params, ...options?.params },
   })
+}
+
+export const getListPipelinesApiPipelinesGetUrl = (
+  params?: ListPipelinesApiPipelinesGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/api/pipelines`,
+      baseURL: "",
+      params,
+    })
 }
 
 export const getListPipelinesApiPipelinesGetQueryKey = (
@@ -203,6 +235,7 @@ export type ListPipelinesApiPipelinesGetQueryResult = NonNullable<
 export type ListPipelinesApiPipelinesGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary List Pipelines */
 export function useListPipelinesApiPipelinesGet<
   TData = Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -230,6 +263,7 @@ export function useListPipelinesApiPipelinesGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary List Pipelines */
 export function useListPipelinesApiPipelinesGet<
   TData = Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -257,6 +291,7 @@ export function useListPipelinesApiPipelinesGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary List Pipelines */
 export function useListPipelinesApiPipelinesGet<
   TData = Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -276,10 +311,7 @@ export function useListPipelinesApiPipelinesGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary List Pipelines
- */
-
+/** @summary List Pipelines */
 export function useListPipelinesApiPipelinesGet<
   TData = Awaited<ReturnType<typeof listPipelinesApiPipelinesGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -323,6 +355,20 @@ export const getPipelineApiPipelinesPipelineIdGet = (
     `https://builds.flathub.org/api/pipelines/${pipelineId}`,
     options,
   )
+}
+
+export const getGetPipelineApiPipelinesPipelineIdGetUrl = (
+  pipelineId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/api/pipelines/${pipelineId}`,
+      baseURL: "",
+    })
 }
 
 export const getGetPipelineApiPipelinesPipelineIdGetQueryKey = (
@@ -379,6 +425,7 @@ export type GetPipelineApiPipelinesPipelineIdGetQueryResult = NonNullable<
 export type GetPipelineApiPipelinesPipelineIdGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Get Pipeline */
 export function useGetPipelineApiPipelinesPipelineIdGet<
   TData = Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -406,6 +453,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Pipeline */
 export function useGetPipelineApiPipelinesPipelineIdGet<
   TData = Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -433,6 +481,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Pipeline */
 export function useGetPipelineApiPipelinesPipelineIdGet<
   TData = Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -452,10 +501,7 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Pipeline
- */
-
+/** @summary Get Pipeline */
 export function useGetPipelineApiPipelinesPipelineIdGet<
   TData = Awaited<ReturnType<typeof getPipelineApiPipelinesPipelineIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -489,6 +535,258 @@ export function useGetPipelineApiPipelinesPipelineIdGet<
 }
 
 /**
+ * @summary Get Pipeline Diagnosis
+ */
+export const getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet = (
+  pipelineId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<BuildDiagnosisResponse>> => {
+  return axios.get(
+    `https://builds.flathub.org/api/pipelines/${pipelineId}/diagnosis`,
+    options,
+  )
+}
+
+export const getGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetUrl = (
+  pipelineId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/api/pipelines/${pipelineId}/diagnosis`,
+      baseURL: "",
+    })
+}
+
+export const getGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetQueryKey =
+  (pipelineId: string) => {
+    return [
+      `https://builds.flathub.org/api/pipelines/${pipelineId}/diagnosis`,
+    ] as const
+  }
+
+export const getGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet>
+    >,
+    TError = AxiosError<HTTPValidationError>,
+  >(
+    pipelineId: string,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetQueryKey(
+        pipelineId,
+      )
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+        >
+      >
+    > = ({ signal }) =>
+      getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet(pipelineId, {
+        signal,
+        ...axiosOptions,
+      })
+
+    return {
+      queryKey,
+      queryFn,
+      enabled: pipelineId !== null && pipelineId !== undefined,
+      ...queryOptions,
+    } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet>
+    >
+  >
+export type GetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetQueryError =
+  AxiosError<HTTPValidationError>
+
+/** @summary Get Pipeline Diagnosis */
+export function useGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet<
+  TData = Awaited<
+    ReturnType<typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  pipelineId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Pipeline Diagnosis */
+export function useGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet<
+  TData = Awaited<
+    ReturnType<typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  pipelineId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Pipeline Diagnosis */
+export function useGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet<
+  TData = Awaited<
+    ReturnType<typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  pipelineId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Pipeline Diagnosis */
+export function useGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet<
+  TData = Awaited<
+    ReturnType<typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  pipelineId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetPipelineDiagnosisApiPipelinesPipelineIdDiagnosisGetQueryOptions(
+      pipelineId,
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
  * @summary Pipeline Metadata Callback
  */
 export const pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost =
@@ -504,6 +802,25 @@ export const pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost 
     )
   }
 
+export const getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostUrl =
+  (pipelineId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `https://builds.flathub.org/api/pipelines/${pipelineId}/callback/metadata`,
+        baseURL: "",
+      })
+  }
+
+export const getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationKey =
+  () =>
+    [
+      "pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost",
+    ] as const
+
 export const getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -513,10 +830,7 @@ export const getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPo
         >
       >,
       TError,
-      {
-        pipelineId: string
-        data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
-      },
+      PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -527,15 +841,11 @@ export const getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPo
       >
     >,
     TError,
-    {
-      pipelineId: string
-      data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
-    },
+    PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost",
-    ]
+    const mutationKey =
+      getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -550,10 +860,7 @@ export const getPipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPo
           typeof pipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost
         >
       >,
-      {
-        pipelineId: string
-        data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
-      }
+      PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationVariables
     > = (props) => {
       const { pipelineId, data } = props ?? {}
 
@@ -579,10 +886,13 @@ export type PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMu
   PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
 export type PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationError =
   AxiosError<HTTPValidationError>
+export type PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationVariables =
+  {
+    pipelineId: string
+    data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
+  }
 
-/**
- * @summary Pipeline Metadata Callback
- */
+/** @summary Pipeline Metadata Callback */
 export const usePipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {
@@ -593,10 +903,7 @@ export const usePipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPo
           >
         >,
         TError,
-        {
-          pipelineId: string
-          data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
-        },
+        PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -609,10 +916,7 @@ export const usePipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPo
       >
     >,
     TError,
-    {
-      pipelineId: string
-      data: PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostBody
-    },
+    PipelineMetadataCallbackApiPipelinesPipelineIdCallbackMetadataPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -637,6 +941,23 @@ export const pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost = (
   )
 }
 
+export const getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostUrl =
+  (pipelineId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `https://builds.flathub.org/api/pipelines/${pipelineId}/callback/log_url`,
+        baseURL: "",
+      })
+  }
+
+export const getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationKey =
+  () =>
+    ["pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost"] as const
+
 export const getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -646,10 +967,7 @@ export const getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMu
         >
       >,
       TError,
-      {
-        pipelineId: string
-        data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
-      },
+      PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -660,15 +978,11 @@ export const getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMu
       >
     >,
     TError,
-    {
-      pipelineId: string
-      data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
-    },
+    PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost",
-    ]
+    const mutationKey =
+      getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -683,10 +997,7 @@ export const getPipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMu
           typeof pipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost
         >
       >,
-      {
-        pipelineId: string
-        data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
-      }
+      PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationVariables
     > = (props) => {
       const { pipelineId, data } = props ?? {}
 
@@ -712,10 +1023,13 @@ export type PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutati
   PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
 export type PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationError =
   AxiosError<HTTPValidationError>
+export type PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationVariables =
+  {
+    pipelineId: string
+    data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
+  }
 
-/**
- * @summary Pipeline Log Url Callback
- */
+/** @summary Pipeline Log Url Callback */
 export const usePipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {
@@ -726,10 +1040,7 @@ export const usePipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost =
           >
         >,
         TError,
-        {
-          pipelineId: string
-          data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
-        },
+        PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -742,10 +1053,7 @@ export const usePipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPost =
       >
     >,
     TError,
-    {
-      pipelineId: string
-      data: PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostBody
-    },
+    PipelineLogUrlCallbackApiPipelinesPipelineIdCallbackLogUrlPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -770,6 +1078,23 @@ export const pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost = (
   )
 }
 
+export const getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostUrl =
+  (pipelineId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `https://builds.flathub.org/api/pipelines/${pipelineId}/callback/status`,
+        baseURL: "",
+      })
+  }
+
+export const getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationKey =
+  () =>
+    ["pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost"] as const
+
 export const getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -779,10 +1104,7 @@ export const getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMu
         >
       >,
       TError,
-      {
-        pipelineId: string
-        data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
-      },
+      PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -793,15 +1115,11 @@ export const getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMu
       >
     >,
     TError,
-    {
-      pipelineId: string
-      data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
-    },
+    PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost",
-    ]
+    const mutationKey =
+      getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -816,10 +1134,7 @@ export const getPipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMu
           typeof pipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost
         >
       >,
-      {
-        pipelineId: string
-        data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
-      }
+      PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationVariables
     > = (props) => {
       const { pipelineId, data } = props ?? {}
 
@@ -845,10 +1160,13 @@ export type PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutati
   PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
 export type PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationError =
   AxiosError<HTTPValidationError>
+export type PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationVariables =
+  {
+    pipelineId: string
+    data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
+  }
 
-/**
- * @summary Pipeline Status Callback
- */
+/** @summary Pipeline Status Callback */
 export const usePipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {
@@ -859,10 +1177,7 @@ export const usePipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost =
           >
         >,
         TError,
-        {
-          pipelineId: string
-          data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
-        },
+        PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -875,10 +1190,7 @@ export const usePipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPost =
       >
     >,
     TError,
-    {
-      pipelineId: string
-      data: PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostBody
-    },
+    PipelineStatusCallbackApiPipelinesPipelineIdCallbackStatusPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -904,6 +1216,25 @@ export const pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckP
     )
   }
 
+export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostUrl =
+  (pipelineId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `https://builds.flathub.org/api/pipelines/${pipelineId}/callback/reprocheck`,
+        baseURL: "",
+      })
+  }
+
+export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationKey =
+  () =>
+    [
+      "pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost",
+    ] as const
+
 export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -913,10 +1244,7 @@ export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReproche
         >
       >,
       TError,
-      {
-        pipelineId: string
-        data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
-      },
+      PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -927,15 +1255,11 @@ export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReproche
       >
     >,
     TError,
-    {
-      pipelineId: string
-      data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
-    },
+    PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost",
-    ]
+    const mutationKey =
+      getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -950,10 +1274,7 @@ export const getPipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReproche
           typeof pipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost
         >
       >,
-      {
-        pipelineId: string
-        data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
-      }
+      PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationVariables
     > = (props) => {
       const { pipelineId, data } = props ?? {}
 
@@ -979,10 +1300,13 @@ export type PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPo
   PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
 export type PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationError =
   AxiosError<HTTPValidationError>
+export type PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationVariables =
+  {
+    pipelineId: string
+    data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
+  }
 
-/**
- * @summary Pipeline Reprocheck Callback
- */
+/** @summary Pipeline Reprocheck Callback */
 export const usePipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {
@@ -993,10 +1317,7 @@ export const usePipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReproche
           >
         >,
         TError,
-        {
-          pipelineId: string
-          data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
-        },
+        PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationVariables,
         TContext
       >
       axios?: AxiosRequestConfig
@@ -1009,10 +1330,7 @@ export const usePipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReproche
       >
     >,
     TError,
-    {
-      pipelineId: string
-      data: PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostBody
-    },
+    PipelineReprocheckCallbackApiPipelinesPipelineIdCallbackReprocheckPostMutationVariables,
     TContext
   > => {
     return useMutation(
@@ -1037,6 +1355,22 @@ export const pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost = (
   )
 }
 
+export const getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostUrl =
+  (pipelineId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `https://builds.flathub.org/api/pipelines/${pipelineId}/callback/cost`,
+        baseURL: "",
+      })
+  }
+
+export const getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationKey =
+  () => ["pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost"] as const
+
 export const getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationOptions =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
@@ -1046,10 +1380,7 @@ export const getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutati
         >
       >,
       TError,
-      {
-        pipelineId: string
-        data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
-      },
+      PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1060,15 +1391,11 @@ export const getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutati
       >
     >,
     TError,
-    {
-      pipelineId: string
-      data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
-    },
+    PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationVariables,
     TContext
   > => {
-    const mutationKey = [
-      "pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost",
-    ]
+    const mutationKey =
+      getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationKey()
     const { mutation: mutationOptions, axios: axiosOptions } = options
       ? options.mutation &&
         "mutationKey" in options.mutation &&
@@ -1083,10 +1410,7 @@ export const getPipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutati
           typeof pipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost
         >
       >,
-      {
-        pipelineId: string
-        data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
-      }
+      PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationVariables
     > = (props) => {
       const { pipelineId, data } = props ?? {}
 
@@ -1112,10 +1436,13 @@ export type PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationBo
   PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
 export type PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationError =
   AxiosError<HTTPValidationError>
+export type PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationVariables =
+  {
+    pipelineId: string
+    data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
+  }
 
-/**
- * @summary Pipeline Cost Callback
- */
+/** @summary Pipeline Cost Callback */
 export const usePipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -1128,10 +1455,7 @@ export const usePipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost = <
         >
       >,
       TError,
-      {
-        pipelineId: string
-        data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
-      },
+      PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationVariables,
       TContext
     >
     axios?: AxiosRequestConfig
@@ -1144,10 +1468,7 @@ export const usePipelineCostCallbackApiPipelinesPipelineIdCallbackCostPost = <
     >
   >,
   TError,
-  {
-    pipelineId: string
-    data: PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostBody
-  },
+  PipelineCostCallbackApiPipelinesPipelineIdCallbackCostPostMutationVariables,
   TContext
 > => {
   return useMutation(
@@ -1168,6 +1489,20 @@ export const redirectToLogUrlApiPipelinesPipelineIdLogUrlGet = (
     `https://builds.flathub.org/api/pipelines/${pipelineId}/log_url`,
     options,
   )
+}
+
+export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetUrl = (
+  pipelineId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `https://builds.flathub.org/api/pipelines/${pipelineId}/log_url`,
+      baseURL: "",
+    })
 }
 
 export const getRedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryKey = (
@@ -1231,6 +1566,7 @@ export type RedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryResult =
 export type RedirectToLogUrlApiPipelinesPipelineIdLogUrlGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Redirect To Log Url */
 export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
   TData = Awaited<
     ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>
@@ -1266,6 +1602,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Redirect To Log Url */
 export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
   TData = Awaited<
     ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>
@@ -1301,6 +1638,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Redirect To Log Url */
 export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
   TData = Awaited<
     ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>
@@ -1324,10 +1662,7 @@ export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Redirect To Log Url
- */
-
+/** @summary Redirect To Log Url */
 export function useRedirectToLogUrlApiPipelinesPipelineIdLogUrlGet<
   TData = Awaited<
     ReturnType<typeof redirectToLogUrlApiPipelinesPipelineIdLogUrlGet>

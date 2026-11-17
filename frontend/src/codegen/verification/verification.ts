@@ -152,6 +152,10 @@ export type GetVerificationStatusVerificationAppIdStatusGetQueryResult =
 export type GetVerificationStatusVerificationAppIdStatusGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Gets the verification status of the given app.
+ * @summary Get Verification Status
+ */
 export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
@@ -187,6 +191,10 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Gets the verification status of the given app.
+ * @summary Get Verification Status
+ */
 export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
@@ -222,6 +230,10 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Gets the verification status of the given app.
+ * @summary Get Verification Status
+ */
 export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
@@ -246,9 +258,9 @@ export function useGetVerificationStatusVerificationAppIdStatusGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Gets the verification status of the given app.
  * @summary Get Verification Status
  */
-
 export function useGetVerificationStatusVerificationAppIdStatusGet<
   TData = Awaited<
     ReturnType<typeof getVerificationStatusVerificationAppIdStatusGet>
@@ -402,6 +414,10 @@ export type GetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryResult =
 export type GetAvailableMethodsVerificationAppIdAvailableMethodsGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Gets the ways an app may be verified.
+ * @summary Get Available Methods
+ */
 export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
@@ -445,6 +461,10 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Gets the ways an app may be verified.
+ * @summary Get Available Methods
+ */
 export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
@@ -487,6 +507,10 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Gets the ways an app may be verified.
+ * @summary Get Available Methods
+ */
 export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
@@ -514,9 +538,9 @@ export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Gets the ways an app may be verified.
  * @summary Get Available Methods
  */
-
 export function useGetAvailableMethodsVerificationAppIdAvailableMethodsGet<
   TData = Awaited<
     ReturnType<typeof getAvailableMethodsVerificationAppIdAvailableMethodsGet>
@@ -676,6 +700,8 @@ export type VerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPostMutat
   }
 
 /**
+ * If the current account is eligible to verify the given account via SSO, and the app is not already verified by
+ * someone else, marks the app as verified.
  * @summary Verify By Login Provider
  */
 export const useVerifyByLoginProviderVerificationAppIdVerifyByLoginProviderPost =
@@ -805,6 +831,10 @@ export type RequestOrganizationAccessGithubVerificationRequestOrganizationAccess
 export type RequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGetQueryError =
   AxiosError<void>
 
+/**
+ * Returns the URL to request access to the organization so we can verify the user's membership.
+ * @summary Request Organization Access Github
+ */
 export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
   TData = Awaited<
     ReturnType<
@@ -847,6 +877,10 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Returns the URL to request access to the organization so we can verify the user's membership.
+ * @summary Request Organization Access Github
+ */
 export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
   TData = Awaited<
     ReturnType<
@@ -889,6 +923,10 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Returns the URL to request access to the organization so we can verify the user's membership.
+ * @summary Request Organization Access Github
+ */
 export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
   TData = Awaited<
     ReturnType<
@@ -916,9 +954,9 @@ export function useRequestOrganizationAccessGithubVerificationRequestOrganizatio
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Returns the URL to request access to the organization so we can verify the user's membership.
  * @summary Request Organization Access Github
  */
-
 export function useRequestOrganizationAccessGithubVerificationRequestOrganizationAccessGithubGet<
   TData = Awaited<
     ReturnType<
@@ -1076,6 +1114,7 @@ export type SetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPos
   }
 
 /**
+ * Creates a token for the user to verify the app via website.
  * @summary Setup Website Verification
  */
 export const useSetupWebsiteVerificationVerificationAppIdSetupWebsiteVerificationPost =
@@ -1229,6 +1268,7 @@ export type ConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificatio
   }
 
 /**
+ * Checks website verification, and if it succeeds, marks the app as verified for the current account.
  * @summary Confirm Website Verification
  */
 export const useConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPost =
@@ -1379,6 +1419,7 @@ export type SetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMutatio
   }
 
 /**
+ * Creates a token for the user to verify the app via DNS.
  * @summary Setup Dns Verification
  */
 export const useSetupDnsVerificationVerificationAppIdSetupDnsVerificationPost =
@@ -1532,6 +1573,7 @@ export type ConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMut
   }
 
 /**
+ * Checks DNS verification, and marks the app as verified on success.
  * @summary Confirm Dns Verification
  */
 export const useConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPost =
@@ -1645,6 +1687,7 @@ export type UnverifyVerificationAppIdUnverifyPostMutationVariables = {
 }
 
 /**
+ * If the current account has verified the given app, mark it as no longer verified.
  * @summary Unverify
  */
 export const useUnverifyVerificationAppIdUnverifyPost = <
@@ -1772,9 +1815,7 @@ export type SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutatio
 export type SwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMutationVariables =
   { appId: string }
 
-/**
- * @summary Switch To Direct Upload
- */
+/** @summary Switch To Direct Upload */
 export const useSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPost =
   <TError = AxiosError<void>, TContext = unknown>(
     options?: {
@@ -1885,9 +1926,7 @@ export type ArchiveVerificationAppIdArchivePostMutationVariables = {
   data: ArchiveRequest
 }
 
-/**
- * @summary Archive
- */
+/** @summary Archive */
 export const useArchiveVerificationAppIdArchivePost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -2013,9 +2052,7 @@ export type ManualVerificationVerificationAppIdManualVerificationPostMutationErr
 export type ManualVerificationVerificationAppIdManualVerificationPostMutationVariables =
   { appId: string }
 
-/**
- * @summary Manual Verification
- */
+/** @summary Manual Verification */
 export const useManualVerificationVerificationAppIdManualVerificationPost = <
   TError = AxiosError<void>,
   TContext = unknown,

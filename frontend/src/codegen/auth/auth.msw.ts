@@ -7,18 +7,31 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
 import { ConnectedAccountProvider, Permission } from "../model"
 import type {
+  ContinueGithubFlowAuthLoginGithubPostBody,
+  ContinueGitlabFlowAuthLoginGitlabPostBody,
+  ContinueGnomeFlowAuthLoginGnomePostBody,
+  ContinueGoogleFlowAuthLoginGooglePostBody,
+  ContinueKdeFlowAuthLoginKdePostBody,
   DeleteUserResult,
+  DisplayNameRequest,
+  EmailConfirmRequest,
   EmailConfirmResult,
   EmailLinkAccepted,
+  EmailLinkRequest,
   EmailLoginConfig,
   GetDeleteUserResult,
   GetUserinfoAuthUserinfoGet200,
   LoginMethod,
   RefreshDevFlatpaksReturn,
+  UserDeleteRequest,
 } from "../model"
 
 export const getGetEmailLoginConfigAuthEmailConfigGetResponseMock = (
@@ -231,13 +244,13 @@ export const getGetEmailLoginConfigAuthEmailConfigGetMockHandler = (
   overrideResponse?:
     | EmailLoginConfig
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<EmailLoginConfig> | EmailLoginConfig),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/auth/email/config",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -255,13 +268,15 @@ export const getRequestEmailLoginAuthEmailRequestPostMockHandler = (
   overrideResponse?:
     | EmailLinkAccepted
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<PathParams, EmailLinkRequest>>[0],
       ) => Promise<EmailLinkAccepted> | EmailLinkAccepted),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, EmailLinkRequest>(
     "*/auth/email/request",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<PathParams, EmailLinkRequest>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -279,13 +294,19 @@ export const getConfirmEmailLoginAuthEmailConfirmPostMockHandler = (
   overrideResponse?:
     | EmailConfirmResult
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, EmailConfirmRequest>
+        >[0],
       ) => Promise<EmailConfirmResult> | EmailConfirmResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, EmailConfirmRequest>(
     "*/auth/email/confirm",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<PathParams, EmailConfirmRequest>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -303,13 +324,13 @@ export const getGetLoginMethodsAuthLoginGetMockHandler = (
   overrideResponse?:
     | LoginMethod[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<LoginMethod[]> | LoginMethod[]),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/auth/login",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -327,13 +348,13 @@ export const getStartGithubFlowAuthLoginGithubGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/auth/login/github",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -348,13 +369,25 @@ export const getContinueGithubFlowAuthLoginGithubPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<
+            PathParams,
+            ContinueGithubFlowAuthLoginGithubPostBody
+          >
+        >[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, ContinueGithubFlowAuthLoginGithubPostBody>(
     "*/auth/login/github",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<
+          PathParams,
+          ContinueGithubFlowAuthLoginGithubPostBody
+        >
+      >[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -369,13 +402,13 @@ export const getStartGitlabFlowAuthLoginGitlabGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/auth/login/gitlab",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -390,13 +423,25 @@ export const getContinueGitlabFlowAuthLoginGitlabPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<
+            PathParams,
+            ContinueGitlabFlowAuthLoginGitlabPostBody
+          >
+        >[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, ContinueGitlabFlowAuthLoginGitlabPostBody>(
     "*/auth/login/gitlab",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<
+          PathParams,
+          ContinueGitlabFlowAuthLoginGitlabPostBody
+        >
+      >[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -411,13 +456,13 @@ export const getStartGnomeFlowAuthLoginGnomeGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/auth/login/gnome",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -432,13 +477,25 @@ export const getContinueGnomeFlowAuthLoginGnomePostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<
+            PathParams,
+            ContinueGnomeFlowAuthLoginGnomePostBody
+          >
+        >[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, ContinueGnomeFlowAuthLoginGnomePostBody>(
     "*/auth/login/gnome",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<
+          PathParams,
+          ContinueGnomeFlowAuthLoginGnomePostBody
+        >
+      >[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -453,13 +510,13 @@ export const getStartKdeFlowAuthLoginKdeGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/auth/login/kde",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -474,13 +531,19 @@ export const getContinueKdeFlowAuthLoginKdePostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, ContinueKdeFlowAuthLoginKdePostBody>
+        >[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, ContinueKdeFlowAuthLoginKdePostBody>(
     "*/auth/login/kde",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<PathParams, ContinueKdeFlowAuthLoginKdePostBody>
+      >[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -495,13 +558,25 @@ export const getContinueGoogleFlowAuthLoginGooglePostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<
+            PathParams,
+            ContinueGoogleFlowAuthLoginGooglePostBody
+          >
+        >[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, ContinueGoogleFlowAuthLoginGooglePostBody>(
     "*/auth/login/google",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<
+          PathParams,
+          ContinueGoogleFlowAuthLoginGooglePostBody
+        >
+      >[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -517,7 +592,7 @@ export const getGetUserinfoAuthUserinfoGetMockHandler = (
     | GetUserinfoAuthUserinfoGet200
     | void
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         | Promise<GetUserinfoAuthUserinfoGet200 | void>
         | GetUserinfoAuthUserinfoGet200
@@ -526,7 +601,7 @@ export const getGetUserinfoAuthUserinfoGetMockHandler = (
 ) => {
   return http.get(
     "*/auth/userinfo",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       const resolvedBody =
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -545,13 +620,13 @@ export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMockHandler = (
   overrideResponse?:
     | RefreshDevFlatpaksReturn
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<RefreshDevFlatpaksReturn> | RefreshDevFlatpaksReturn),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
     "*/auth/refresh-dev-flatpaks",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -569,13 +644,13 @@ export const getDoLogoutAuthLogoutPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.post(
     "*/auth/logout",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -590,13 +665,13 @@ export const getGetDeleteuserAuthDeleteuserGetMockHandler = (
   overrideResponse?:
     | GetDeleteUserResult
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<GetDeleteUserResult> | GetDeleteUserResult),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/auth/deleteuser",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -614,13 +689,17 @@ export const getDoDeleteuserAuthDeleteuserDeleteMockHandler = (
   overrideResponse?:
     | DeleteUserResult
     | ((
-        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, UserDeleteRequest>
+        >[0],
       ) => Promise<DeleteUserResult> | DeleteUserResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.delete(
+  return http.delete<PathParams, UserDeleteRequest>(
     "*/auth/deleteuser",
-    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<PathParams, UserDeleteRequest>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -639,13 +718,13 @@ export const getDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMockH
     overrideResponse?:
       | unknown
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) => Promise<unknown> | unknown),
     options?: RequestHandlerOptions,
   ) => {
     return http.post(
       "*/auth/accept-publisher-agreement",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -660,14 +739,12 @@ export const getDoChangeDefaultAccountAuthChangeDefaultAccountPostMockHandler =
   (
     overrideResponse?:
       | void
-      | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
-        ) => Promise<void> | void),
+      | ((info: Parameters<HttpResponseResolver>[0]) => Promise<void> | void),
     options?: RequestHandlerOptions,
   ) => {
     return http.post(
       "*/auth/change-default-account",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -682,13 +759,17 @@ export const getDoChangeDisplayNameAuthDisplayNamePostMockHandler = (
   overrideResponse?:
     | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, DisplayNameRequest>
+        >[0],
       ) => Promise<void> | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, DisplayNameRequest>(
     "*/auth/display-name",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<PathParams, DisplayNameRequest>>[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }

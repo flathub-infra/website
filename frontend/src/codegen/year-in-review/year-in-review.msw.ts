@@ -7,7 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
 import type { YearInReviewResult } from "../model"
 
@@ -126,6 +126,22 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
         country_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
         downloads: faker.number.int(),
       })),
+      top_countries_per_capita: faker.helpers.arrayElement([
+        Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => ({
+          country_code: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          downloads: faker.number.int(),
+          downloads_per_100000: faker.number.float({ fractionDigits: 2 }),
+        })),
+        null,
+      ]),
+      population_year: faker.helpers.arrayElement([faker.number.int(), null]),
+      population_revision: faker.helpers.arrayElement([
+        faker.string.alpha({ length: { min: 10, max: 20 } }),
+        null,
+      ]),
       total_countries: faker.number.int(),
       fastest_growing_regions: Array.from(
         { length: faker.number.int({ min: 1, max: 10 }) },
@@ -175,13 +191,13 @@ export const getGetYearInReviewYearInReviewYearGetMockHandler = (
   overrideResponse?:
     | YearInReviewResult
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ year: string }>>[0],
       ) => Promise<YearInReviewResult> | YearInReviewResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ year: string }>(
     "*/year-in-review/:year",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ year: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"

@@ -7,9 +7,13 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
-import type { NewTokenResponse, TokensResponse } from "../model"
+import type {
+  NewTokenResponse,
+  TokensResponse,
+  UploadTokenRequest,
+} from "../model"
 
 export const getGetUploadTokensUploadTokensAppIdGetResponseMock = (
   overrideResponse: Partial<Extract<TokensResponse, object>> = {},
@@ -76,13 +80,13 @@ export const getGetUploadTokensUploadTokensAppIdGetMockHandler = (
   overrideResponse?:
     | TokensResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<TokensResponse> | TokensResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/upload-tokens/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -100,13 +104,19 @@ export const getCreateUploadTokenUploadTokensAppIdPostMockHandler = (
   overrideResponse?:
     | NewTokenResponse
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ appId: string }, UploadTokenRequest>
+        >[0],
       ) => Promise<NewTokenResponse> | NewTokenResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }, UploadTokenRequest>(
     "*/upload-tokens/:appId",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ appId: string }, UploadTokenRequest>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -124,13 +134,13 @@ export const getRevokeUploadTokenUploadTokensTokenIdRevokeDeleteMockHandler = (
   overrideResponse?:
     | void
     | ((
-        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ tokenId: string }>>[0],
       ) => Promise<void> | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.delete(
+  return http.delete<{ tokenId: string }>(
     "*/upload-tokens/:tokenId/revoke",
-    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ tokenId: string }>>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }

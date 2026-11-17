@@ -122,6 +122,12 @@ export type GetWalletinfoWalletWalletinfoGetQueryResult = NonNullable<
 >
 export type GetWalletinfoWalletWalletinfoGetQueryError = AxiosError<void>
 
+/**
+ * Retrieve the wallet for the currently logged in user.
+ *
+ * This will return a list of cards which the user has saved to their account.
+ * @summary Get Walletinfo
+ */
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<void>,
@@ -148,6 +154,12 @@ export function useGetWalletinfoWalletWalletinfoGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the wallet for the currently logged in user.
+ *
+ * This will return a list of cards which the user has saved to their account.
+ * @summary Get Walletinfo
+ */
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<void>,
@@ -174,6 +186,12 @@ export function useGetWalletinfoWalletWalletinfoGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the wallet for the currently logged in user.
+ *
+ * This will return a list of cards which the user has saved to their account.
+ * @summary Get Walletinfo
+ */
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<void>,
@@ -193,9 +211,11 @@ export function useGetWalletinfoWalletWalletinfoGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Retrieve the wallet for the currently logged in user.
+ *
+ * This will return a list of cards which the user has saved to their account.
  * @summary Get Walletinfo
  */
-
 export function useGetWalletinfoWalletWalletinfoGet<
   TData = Awaited<ReturnType<typeof getWalletinfoWalletWalletinfoGet>>,
   TError = AxiosError<void>,
@@ -304,6 +324,10 @@ export type PostRemovecardWalletRemovecardPostMutationVariables = {
 }
 
 /**
+ * Remove a card from a user's wallet.
+ *
+ * The provided information must exactly match a card as would be returned from the
+ * wallet info endpoint.
  * @summary Post Removecard
  */
 export const usePostRemovecardWalletRemovecardPost = <
@@ -412,6 +436,13 @@ export type GetTransactionsWalletTransactionsGetQueryResult = NonNullable<
 >
 export type GetTransactionsWalletTransactionsGetQueryError = AxiosError<void>
 
+/**
+ * Return a list of transactions associated with this user.
+ *
+ * If anything goes wrong, an error will be returned, otherwise a list of transaction
+ * summaries will be returned.
+ * @summary Get Transactions
+ */
 export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
   TError = AxiosError<void>,
@@ -439,6 +470,13 @@ export function useGetTransactionsWalletTransactionsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return a list of transactions associated with this user.
+ *
+ * If anything goes wrong, an error will be returned, otherwise a list of transaction
+ * summaries will be returned.
+ * @summary Get Transactions
+ */
 export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
   TError = AxiosError<void>,
@@ -466,6 +504,13 @@ export function useGetTransactionsWalletTransactionsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return a list of transactions associated with this user.
+ *
+ * If anything goes wrong, an error will be returned, otherwise a list of transaction
+ * summaries will be returned.
+ * @summary Get Transactions
+ */
 export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
   TError = AxiosError<void>,
@@ -486,9 +531,12 @@ export function useGetTransactionsWalletTransactionsGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Return a list of transactions associated with this user.
+ *
+ * If anything goes wrong, an error will be returned, otherwise a list of transaction
+ * summaries will be returned.
  * @summary Get Transactions
  */
-
 export function useGetTransactionsWalletTransactionsGet<
   TData = Awaited<ReturnType<typeof getTransactionsWalletTransactionsGet>>,
   TError = AxiosError<void>,
@@ -603,6 +651,10 @@ export type CreateTransactionWalletTransactionsPostMutationVariables = {
 }
 
 /**
+ * Create a new transaction, return the ID.
+ *
+ * If the passed in nascent transaction is valid, this will create a transaction and
+ * return the ID of the newly created wallet, otherwise it'll return an error
  * @summary Create Transaction
  */
 export const useCreateTransactionWalletTransactionsPost = <
@@ -715,6 +767,14 @@ export type GetTransactionByIdWalletTransactionsTxnGetQueryResult = NonNullable<
 export type GetTransactionByIdWalletTransactionsTxnGetQueryError =
   AxiosError<void>
 
+/**
+ * Retrieve a transaction by its ID
+ *
+ * If the transaction ID is valid, and owned by the calling user, then this will
+ * retrieve the whole transaction, including card details and disbursement information
+ * if available.
+ * @summary Get Transaction By Id
+ */
 export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
@@ -746,6 +806,14 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve a transaction by its ID
+ *
+ * If the transaction ID is valid, and owned by the calling user, then this will
+ * retrieve the whole transaction, including card details and disbursement information
+ * if available.
+ * @summary Get Transaction By Id
+ */
 export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
@@ -777,6 +845,14 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve a transaction by its ID
+ *
+ * If the transaction ID is valid, and owned by the calling user, then this will
+ * retrieve the whole transaction, including card details and disbursement information
+ * if available.
+ * @summary Get Transaction By Id
+ */
 export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
@@ -799,9 +875,13 @@ export function useGetTransactionByIdWalletTransactionsTxnGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Retrieve a transaction by its ID
+ *
+ * If the transaction ID is valid, and owned by the calling user, then this will
+ * retrieve the whole transaction, including card details and disbursement information
+ * if available.
  * @summary Get Transaction By Id
  */
-
 export function useGetTransactionByIdWalletTransactionsTxnGet<
   TData = Awaited<
     ReturnType<typeof getTransactionByIdWalletTransactionsTxnGet>
@@ -934,6 +1014,10 @@ export type SetTransactionCardWalletTransactionsTxnSetcardPostMutationVariables 
   { txn: string; data: PaymentCardInfo }
 
 /**
+ * Set the card associated with a transaction.
+ *
+ * The posted card must exactly match one of the cards returned by the wallet
+ * info endpoint or else the update may not succeed
  * @summary Set Transaction Card
  */
 export const useSetTransactionCardWalletTransactionsTxnSetcardPost = <
@@ -1056,6 +1140,11 @@ export type CancelTransactionWalletTransactionsTxnCancelPostMutationVariables =
   { txn: string }
 
 /**
+ * Cancel a transaction in the `new` or `retry` states.
+ *
+ * Note that this may actually not cancel if a webhook fires asynchronously
+ * and updates the transaction.  This API will not attempt to prevent stripe
+ * payments from completing.
  * @summary Cancel Transaction
  */
 export const useCancelTransactionWalletTransactionsTxnCancelPost = <
@@ -1150,6 +1239,11 @@ export type GetStripedataWalletStripedataGetQueryResult = NonNullable<
 >
 export type GetStripedataWalletStripedataGetQueryError = AxiosError<void>
 
+/**
+ * Return the stripe public key to use in the frontend.  Since this is not
+ * considered secret, we don't need a login or anything for this
+ * @summary Get Stripedata
+ */
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<void>,
@@ -1176,6 +1270,11 @@ export function useGetStripedataWalletStripedataGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return the stripe public key to use in the frontend.  Since this is not
+ * considered secret, we don't need a login or anything for this
+ * @summary Get Stripedata
+ */
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<void>,
@@ -1202,6 +1301,11 @@ export function useGetStripedataWalletStripedataGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return the stripe public key to use in the frontend.  Since this is not
+ * considered secret, we don't need a login or anything for this
+ * @summary Get Stripedata
+ */
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<void>,
@@ -1221,9 +1325,10 @@ export function useGetStripedataWalletStripedataGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Return the stripe public key to use in the frontend.  Since this is not
+ * considered secret, we don't need a login or anything for this
  * @summary Get Stripedata
  */
-
 export function useGetStripedataWalletStripedataGet<
   TData = Awaited<ReturnType<typeof getStripedataWalletStripedataGet>>,
   TError = AxiosError<void>,
@@ -1342,6 +1447,13 @@ export type GetTxnStripedataWalletTransactionsTxnStripeGetQueryResult =
 export type GetTxnStripedataWalletTransactionsTxnStripeGetQueryError =
   AxiosError<void>
 
+/**
+ * Return the Stripe data associated with the given transaction.
+ *
+ * This is only applicable to transactions in the `new` or `retry` state and
+ * will only work for transactions which *are* Stripe transactions.
+ * @summary Get Txn Stripedata
+ */
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
@@ -1377,6 +1489,13 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return the Stripe data associated with the given transaction.
+ *
+ * This is only applicable to transactions in the `new` or `retry` state and
+ * will only work for transactions which *are* Stripe transactions.
+ * @summary Get Txn Stripedata
+ */
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
@@ -1412,6 +1531,13 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return the Stripe data associated with the given transaction.
+ *
+ * This is only applicable to transactions in the `new` or `retry` state and
+ * will only work for transactions which *are* Stripe transactions.
+ * @summary Get Txn Stripedata
+ */
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
@@ -1436,9 +1562,12 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Return the Stripe data associated with the given transaction.
+ *
+ * This is only applicable to transactions in the `new` or `retry` state and
+ * will only work for transactions which *are* Stripe transactions.
  * @summary Get Txn Stripedata
  */
-
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
   TData = Awaited<
     ReturnType<typeof getTxnStripedataWalletTransactionsTxnStripeGet>
@@ -1570,6 +1699,15 @@ export type SetSavecardWalletTransactionsTxnSavecardPostMutationVariables = {
 }
 
 /**
+ * Set the save-card status.
+ *
+ * This is only applicable to transactions in the `new` or `retry` state
+ * and will only work for transactions which are backed by stripe or similar.
+ *
+ * If the `save_card` parameter is null, then the card will not be saved,
+ * otherwise it will be saved.  If it's set to `off_session` then an attempt
+ * will be made to create a saved method which can be used without the user
+ * re-authenticating
  * @summary Set Savecard
  */
 export const useSetSavecardWalletTransactionsTxnSavecardPost = <
@@ -1684,6 +1822,8 @@ export type SetPendingWalletTransactionsTxnSetpendingPostMutationVariables = {
 }
 
 /**
+ * Set the transaction as 'pending' so that we can recover if Stripe
+ * flows don't quite work (e.g. webhook goes missing)
  * @summary Set Pending
  */
 export const useSetPendingWalletTransactionsTxnSetpendingPost = <
@@ -1787,6 +1927,12 @@ export type WebhookWalletWebhookStripePostMutationResult = NonNullable<
 export type WebhookWalletWebhookStripePostMutationError = AxiosError<void>
 
 /**
+ * This endpoint is intended to deal with webhooks coming back from payment
+ * mechanisms etc.  It exists only for the deployed wallet, so its name
+ * will vary with the deployed wallet kind.
+ *
+ * The exact form of the content posted to the webhook will vary from wallet
+ * kind to wallet kind.
  * @summary Webhook
  */
 export const useWebhookWalletWebhookStripePost = <

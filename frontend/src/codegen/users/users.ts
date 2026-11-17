@@ -109,6 +109,7 @@ export type MeUsersMeGetQueryResult = NonNullable<
 >
 export type MeUsersMeGetQueryError = AxiosError<void>
 
+/** @summary Me */
 export function useMeUsersMeGet<
   TData = Awaited<ReturnType<typeof meUsersMeGet>>,
   TError = AxiosError<void>,
@@ -131,6 +132,7 @@ export function useMeUsersMeGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Me */
 export function useMeUsersMeGet<
   TData = Awaited<ReturnType<typeof meUsersMeGet>>,
   TError = AxiosError<void>,
@@ -153,6 +155,7 @@ export function useMeUsersMeGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Me */
 export function useMeUsersMeGet<
   TData = Awaited<ReturnType<typeof meUsersMeGet>>,
   TError = AxiosError<void>,
@@ -167,10 +170,7 @@ export function useMeUsersMeGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Me
- */
-
+/** @summary Me */
 export function useMeUsersMeGet<
   TData = Awaited<ReturnType<typeof meUsersMeGet>>,
   TError = AxiosError<void>,
@@ -262,6 +262,10 @@ export type UsersUsersGetQueryResult = NonNullable<
 >
 export type UsersUsersGetQueryError = AxiosError<void>
 
+/**
+ * Return a list of all known users
+ * @summary Users
+ */
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
   TError = AxiosError<void>,
@@ -285,6 +289,10 @@ export function useUsersUsersGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return a list of all known users
+ * @summary Users
+ */
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
   TError = AxiosError<void>,
@@ -308,6 +316,10 @@ export function useUsersUsersGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return a list of all known users
+ * @summary Users
+ */
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
   TError = AxiosError<void>,
@@ -324,9 +336,9 @@ export function useUsersUsersGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Return a list of all known users
  * @summary Users
  */
-
 export function useUsersUsersGet<
   TData = Awaited<ReturnType<typeof usersUsersGet>>,
   TError = AxiosError<void>,
@@ -414,6 +426,10 @@ export type RolesUsersRolesGetQueryResult = NonNullable<
 >
 export type RolesUsersRolesGetQueryError = AxiosError<void>
 
+/**
+ * Return a list of all known role names
+ * @summary Roles
+ */
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
   TError = AxiosError<void>,
@@ -440,6 +456,10 @@ export function useRolesUsersRolesGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return a list of all known role names
+ * @summary Roles
+ */
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
   TError = AxiosError<void>,
@@ -466,6 +486,10 @@ export function useRolesUsersRolesGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return a list of all known role names
+ * @summary Roles
+ */
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
   TError = AxiosError<void>,
@@ -485,9 +509,9 @@ export function useRolesUsersRolesGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Return a list of all known role names
  * @summary Roles
  */
-
 export function useRolesUsersRolesGet<
   TData = Awaited<ReturnType<typeof rolesUsersRolesGet>>,
   TError = AxiosError<void>,
@@ -588,6 +612,10 @@ export type UserUsersUserIdGetQueryResult = NonNullable<
 >
 export type UserUsersUserIdGetQueryError = AxiosError<void>
 
+/**
+ * Return the current user
+ * @summary User
+ */
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
   TError = AxiosError<void>,
@@ -615,6 +643,10 @@ export function useUserUsersUserIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return the current user
+ * @summary User
+ */
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
   TError = AxiosError<void>,
@@ -642,6 +674,10 @@ export function useUserUsersUserIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return the current user
+ * @summary User
+ */
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
   TError = AxiosError<void>,
@@ -662,9 +698,9 @@ export function useUserUsersUserIdGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Return the current user
  * @summary User
  */
-
 export function useUserUsersUserIdGet<
   TData = Awaited<ReturnType<typeof userUsersUserIdGet>>,
   TError = AxiosError<void>,
@@ -767,9 +803,7 @@ export type BanUserUsersUserIdBanPostMutationResult = NonNullable<
 export type BanUserUsersUserIdBanPostMutationError = AxiosError<void>
 export type BanUserUsersUserIdBanPostMutationVariables = { userId: number }
 
-/**
- * @summary Ban User
- */
+/** @summary Ban User */
 export const useBanUserUsersUserIdBanPost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -868,9 +902,7 @@ export type UnbanUserUsersUserIdBanDeleteMutationResult = NonNullable<
 export type UnbanUserUsersUserIdBanDeleteMutationError = AxiosError<void>
 export type UnbanUserUsersUserIdBanDeleteMutationVariables = { userId: number }
 
-/**
- * @summary Unban User
- */
+/** @summary Unban User */
 export const useUnbanUserUsersUserIdBanDelete = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -983,6 +1015,7 @@ export type AddUserRoleUsersUserIdRolePostMutationVariables = {
 }
 
 /**
+ * Add a role to a user
  * @summary Add User Role
  */
 export const useAddUserRoleUsersUserIdRolePost = <
@@ -1097,6 +1130,7 @@ export type DeleteUserRoleUsersUserIdRoleDeleteMutationVariables = {
 }
 
 /**
+ * Remove a role from a user
  * @summary Delete User Role
  */
 export const useDeleteUserRoleUsersUserIdRoleDelete = <
@@ -1200,6 +1234,10 @@ export type RoleUsersUsersRolesRoleNameGetQueryResult = NonNullable<
 >
 export type RoleUsersUsersRolesRoleNameGetQueryError = AxiosError<void>
 
+/**
+ * Return all users with a specific role
+ * @summary Role Users
+ */
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
   TError = AxiosError<void>,
@@ -1227,6 +1265,10 @@ export function useRoleUsersUsersRolesRoleNameGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return all users with a specific role
+ * @summary Role Users
+ */
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
   TError = AxiosError<void>,
@@ -1254,6 +1296,10 @@ export function useRoleUsersUsersRolesRoleNameGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return all users with a specific role
+ * @summary Role Users
+ */
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
   TError = AxiosError<void>,
@@ -1274,9 +1320,9 @@ export function useRoleUsersUsersRolesRoleNameGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Return all users with a specific role
  * @summary Role Users
  */
-
 export function useRoleUsersUsersRolesRoleNameGet<
   TData = Awaited<ReturnType<typeof roleUsersUsersRolesRoleNameGet>>,
   TError = AxiosError<void>,

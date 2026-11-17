@@ -7,7 +7,11 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
 import {
   ConnectedAccountProvider,
@@ -30,6 +34,7 @@ import type {
   LocalizationAppstream,
   MeilisearchResponseAppsIndex,
   RuntimeAppstream,
+  SearchQuery,
   SummaryResponse,
 } from "../model"
 
@@ -1581,13 +1586,13 @@ export const getGetEolRebaseEolRebaseGetMockHandler = (
   overrideResponse?:
     | GetEolRebaseEolRebaseGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<GetEolRebaseEolRebaseGet200> | GetEolRebaseEolRebaseGet200),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/eol/rebase",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1605,15 +1610,15 @@ export const getGetEolRebaseAppidEolRebaseAppIdGetMockHandler = (
   overrideResponse?:
     | GetEolRebaseAppidEolRebaseAppIdGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) =>
         | Promise<GetEolRebaseAppidEolRebaseAppIdGet200>
         | GetEolRebaseAppidEolRebaseAppIdGet200),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/eol/rebase/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1631,14 +1636,14 @@ export const getGetEolMessageEolMessageGetMockHandler = (
   overrideResponse?:
     | GetEolMessageEolMessageGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         Promise<GetEolMessageEolMessageGet200> | GetEolMessageEolMessageGet200),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/eol/message",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1656,15 +1661,15 @@ export const getGetEolMessageAppidEolMessageAppIdGetMockHandler = (
   overrideResponse?:
     | GetEolMessageAppidEolMessageAppIdGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) =>
         | Promise<GetEolMessageAppidEolMessageAppIdGet200>
         | GetEolMessageAppidEolMessageAppIdGet200),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/eol/message/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1682,13 +1687,13 @@ export const getListAppstreamAppstreamGetMockHandler = (
   overrideResponse?:
     | string[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<string[]> | string[]),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/appstream",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1706,15 +1711,15 @@ export const getGetAppstreamAppstreamAppIdGetMockHandler = (
   overrideResponse?:
     | GetAppstreamAppstreamAppIdGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) =>
         | Promise<GetAppstreamAppstreamAppIdGet200>
         | GetAppstreamAppstreamAppIdGet200),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/appstream/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1732,13 +1737,13 @@ export const getGetIsFullscreenAppIsFullscreenAppAppIdGetMockHandler = (
   overrideResponse?:
     | boolean
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<boolean> | boolean),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/is-fullscreen-app/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1756,14 +1761,16 @@ export const getPostSearchSearchPostMockHandler = (
   overrideResponse?:
     | MeilisearchResponseAppsIndex
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<PathParams, SearchQuery>>[0],
       ) =>
         Promise<MeilisearchResponseAppsIndex> | MeilisearchResponseAppsIndex),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, SearchQuery>(
     "*/search",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<PathParams, SearchQuery>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1781,14 +1788,14 @@ export const getGetRuntimeListRuntimesGetMockHandler = (
   overrideResponse?:
     | GetRuntimeListRuntimesGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) =>
         Promise<GetRuntimeListRuntimesGet200> | GetRuntimeListRuntimesGet200),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/runtimes",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1806,13 +1813,13 @@ export const getGetSummarySummaryAppIdGetMockHandler = (
   overrideResponse?:
     | SummaryResponse
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<SummaryResponse> | SummaryResponse),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/summary/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1830,13 +1837,13 @@ export const getGetPlatformsPlatformsGetMockHandler = (
   overrideResponse?:
     | GetPlatformsPlatformsGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<GetPlatformsPlatformsGet200> | GetPlatformsPlatformsGet200),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/platforms",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1854,13 +1861,13 @@ export const getGetAddonsAddonAppIdGetMockHandler = (
   overrideResponse?:
     | string[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<string[]> | string[]),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/addon/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1878,13 +1885,13 @@ export const getGetExceptionsExceptionsGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/exceptions/",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -1899,13 +1906,13 @@ export const getGetExceptionsForAppExceptionsAppIdGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/exceptions/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -1920,13 +1927,13 @@ export const getAddToFavoritesFavoritesAppIdAddPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }>(
     "*/favorites/:appId/add",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -1941,13 +1948,13 @@ export const getRemoveFromFavoritesFavoritesAppIdRemoveDeleteMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.delete(
+  return http.delete<{ appId: string }>(
     "*/favorites/:appId/remove",
-    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -1962,13 +1969,13 @@ export const getGetFavoritesFavoritesGetMockHandler = (
   overrideResponse?:
     | FavoriteApp[]
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<FavoriteApp[]> | FavoriteApp[]),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/favorites",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -1986,13 +1993,13 @@ export const getIsFavoritedFavoritesAppIdGetMockHandler = (
   overrideResponse?:
     | boolean
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<boolean> | boolean),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/favorites/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -2010,15 +2017,15 @@ export const getGetAppFavoritesCountFavoritesAppIdCountGetMockHandler = (
   overrideResponse?:
     | GetAppFavoritesCountFavoritesAppIdCountGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) =>
         | Promise<GetAppFavoritesCountFavoritesAppIdCountGet200>
         | GetAppFavoritesCountFavoritesAppIdCountGet200),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/favorites/:appId/count",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"

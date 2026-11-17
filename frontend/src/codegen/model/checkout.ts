@@ -10,6 +10,8 @@ import type { CheckoutDirty } from "./checkoutDirty"
 
 export interface Checkout {
   commit: CheckoutCommit
+  /** The branch name, or null for a detached checkout. Runtime worktrees use the discovered runtime branch name. */
   branch: CheckoutBranch
+  /** True if tracked or untracked files have local changes, excluding submodule contents. The commit does not identify those changes. */
   dirty: CheckoutDirty
 }

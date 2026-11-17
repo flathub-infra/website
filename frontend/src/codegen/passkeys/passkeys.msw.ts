@@ -7,12 +7,23 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
 import type {
+  PasskeyAuthenticationOptionsRequest,
+  PasskeyAuthenticationVerifyRequest,
   PasskeyList,
   PasskeyLoginResult,
   PasskeyOptions,
+  PasskeyReauthenticationOptionsRequest,
+  PasskeyReauthenticationVerifyRequest,
+  PasskeyRegistrationOptionsRequest,
+  PasskeyRegistrationVerifyRequest,
+  PasskeyRenameRequest,
   PasskeySummary,
   ReauthenticationResult,
 } from "../model"
@@ -137,13 +148,13 @@ export const getListPasskeysAuthPasskeysGetMockHandler = (
   overrideResponse?:
     | PasskeyList
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<PasskeyList> | PasskeyList),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/auth/passkeys",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -162,13 +173,19 @@ export const getPasskeyRegistrationOptionsAuthPasskeysRegistrationOptionsPostMoc
     overrideResponse?:
       | PasskeyOptions
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<PathParams, PasskeyRegistrationOptionsRequest>
+          >[0],
         ) => Promise<PasskeyOptions> | PasskeyOptions),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<PathParams, PasskeyRegistrationOptionsRequest>(
       "*/auth/passkeys/registration/options",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<PathParams, PasskeyRegistrationOptionsRequest>
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -187,13 +204,19 @@ export const getPasskeyRegistrationVerifyAuthPasskeysRegistrationVerifyPostMockH
     overrideResponse?:
       | PasskeySummary
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<PathParams, PasskeyRegistrationVerifyRequest>
+          >[0],
         ) => Promise<PasskeySummary> | PasskeySummary),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<PathParams, PasskeyRegistrationVerifyRequest>(
       "*/auth/passkeys/registration/verify",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<PathParams, PasskeyRegistrationVerifyRequest>
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -212,13 +235,22 @@ export const getPasskeyAuthenticationOptionsAuthPasskeysAuthenticationOptionsPos
     overrideResponse?:
       | PasskeyOptions
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              PathParams,
+              PasskeyAuthenticationOptionsRequest
+            >
+          >[0],
         ) => Promise<PasskeyOptions> | PasskeyOptions),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<PathParams, PasskeyAuthenticationOptionsRequest>(
       "*/auth/passkeys/authentication/options",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<PathParams, PasskeyAuthenticationOptionsRequest>
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -237,13 +269,19 @@ export const getPasskeyAuthenticationVerifyAuthPasskeysAuthenticationVerifyPostM
     overrideResponse?:
       | PasskeyLoginResult
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<PathParams, PasskeyAuthenticationVerifyRequest>
+          >[0],
         ) => Promise<PasskeyLoginResult> | PasskeyLoginResult),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<PathParams, PasskeyAuthenticationVerifyRequest>(
       "*/auth/passkeys/authentication/verify",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<PathParams, PasskeyAuthenticationVerifyRequest>
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -262,13 +300,25 @@ export const getPasskeyReauthenticationOptionsAuthPasskeysReauthenticationOption
     overrideResponse?:
       | PasskeyOptions
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              PathParams,
+              PasskeyReauthenticationOptionsRequest
+            >
+          >[0],
         ) => Promise<PasskeyOptions> | PasskeyOptions),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<PathParams, PasskeyReauthenticationOptionsRequest>(
       "*/auth/passkeys/reauthentication/options",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<
+            PathParams,
+            PasskeyReauthenticationOptionsRequest
+          >
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -287,13 +337,22 @@ export const getPasskeyReauthenticationVerifyAuthPasskeysReauthenticationVerifyP
     overrideResponse?:
       | ReauthenticationResult
       | ((
-          info: Parameters<Parameters<typeof http.post>[1]>[0],
+          info: Parameters<
+            HttpResponseResolver<
+              PathParams,
+              PasskeyReauthenticationVerifyRequest
+            >
+          >[0],
         ) => Promise<ReauthenticationResult> | ReauthenticationResult),
     options?: RequestHandlerOptions,
   ) => {
-    return http.post(
+    return http.post<PathParams, PasskeyReauthenticationVerifyRequest>(
       "*/auth/passkeys/reauthentication/verify",
-      async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+      async (
+        info: Parameters<
+          HttpResponseResolver<PathParams, PasskeyReauthenticationVerifyRequest>
+        >[0],
+      ) => {
         return HttpResponse.json(
           overrideResponse !== undefined
             ? typeof overrideResponse === "function"
@@ -311,13 +370,19 @@ export const getRenamePasskeyAuthPasskeysPasskeyIdPatchMockHandler = (
   overrideResponse?:
     | PasskeySummary
     | ((
-        info: Parameters<Parameters<typeof http.patch>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ passkeyId: string }, PasskeyRenameRequest>
+        >[0],
       ) => Promise<PasskeySummary> | PasskeySummary),
   options?: RequestHandlerOptions,
 ) => {
-  return http.patch(
+  return http.patch<{ passkeyId: string }, PasskeyRenameRequest>(
     "*/auth/passkeys/:passkeyId",
-    async (info: Parameters<Parameters<typeof http.patch>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ passkeyId: string }, PasskeyRenameRequest>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -335,13 +400,15 @@ export const getDeletePasskeyAuthPasskeysPasskeyIdDeleteMockHandler = (
   overrideResponse?:
     | void
     | ((
-        info: Parameters<Parameters<typeof http.delete>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ passkeyId: string }>>[0],
       ) => Promise<void> | void),
   options?: RequestHandlerOptions,
 ) => {
-  return http.delete(
+  return http.delete<{ passkeyId: string }>(
     "*/auth/passkeys/:passkeyId",
-    async (info: Parameters<Parameters<typeof http.delete>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<{ passkeyId: string }>>[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }

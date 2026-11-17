@@ -142,6 +142,10 @@ export type GetUploadTokensUploadTokensAppIdGetQueryResult = NonNullable<
 export type GetUploadTokensUploadTokensAppIdGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get all upload tokens for the given app
+ * @summary Get Upload Tokens
+ */
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -170,6 +174,10 @@ export function useGetUploadTokensUploadTokensAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get all upload tokens for the given app
+ * @summary Get Upload Tokens
+ */
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -198,6 +206,10 @@ export function useGetUploadTokensUploadTokensAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get all upload tokens for the given app
+ * @summary Get Upload Tokens
+ */
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -219,9 +231,9 @@ export function useGetUploadTokensUploadTokensAppIdGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get all upload tokens for the given app
  * @summary Get Upload Tokens
  */
-
 export function useGetUploadTokensUploadTokensAppIdGet<
   TData = Awaited<ReturnType<typeof getUploadTokensUploadTokensAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -335,9 +347,7 @@ export type CreateUploadTokenUploadTokensAppIdPostMutationVariables = {
   data: UploadTokenRequest
 }
 
-/**
- * @summary Create Upload Token
- */
+/** @summary Create Upload Token */
 export const useCreateUploadTokenUploadTokensAppIdPost = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -452,9 +462,7 @@ export type RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationError =
 export type RevokeUploadTokenUploadTokensTokenIdRevokeDeleteMutationVariables =
   { tokenId: number }
 
-/**
- * @summary Revoke Upload Token
- */
+/** @summary Revoke Upload Token */
 export const useRevokeUploadTokenUploadTokensTokenIdRevokeDelete = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,

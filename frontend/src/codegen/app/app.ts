@@ -127,6 +127,7 @@ export type GetEolRebaseEolRebaseGetQueryResult = NonNullable<
 >
 export type GetEolRebaseEolRebaseGetQueryError = AxiosError<unknown>
 
+/** @summary Get Eol Rebase */
 export function useGetEolRebaseEolRebaseGet<
   TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
   TError = AxiosError<unknown>,
@@ -153,6 +154,7 @@ export function useGetEolRebaseEolRebaseGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Eol Rebase */
 export function useGetEolRebaseEolRebaseGet<
   TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
   TError = AxiosError<unknown>,
@@ -179,6 +181,7 @@ export function useGetEolRebaseEolRebaseGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Eol Rebase */
 export function useGetEolRebaseEolRebaseGet<
   TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
   TError = AxiosError<unknown>,
@@ -197,10 +200,7 @@ export function useGetEolRebaseEolRebaseGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Eol Rebase
- */
-
+/** @summary Get Eol Rebase */
 export function useGetEolRebaseEolRebaseGet<
   TData = Awaited<ReturnType<typeof getEolRebaseEolRebaseGet>>,
   TError = AxiosError<unknown>,
@@ -319,6 +319,7 @@ export type GetEolRebaseAppidEolRebaseAppIdGetQueryResult = NonNullable<
 export type GetEolRebaseAppidEolRebaseAppIdGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/** @summary Get Eol Rebase Appid */
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -347,6 +348,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Eol Rebase Appid */
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -375,6 +377,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Eol Rebase Appid */
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -395,10 +398,7 @@ export function useGetEolRebaseAppidEolRebaseAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Eol Rebase Appid
- */
-
+/** @summary Get Eol Rebase Appid */
 export function useGetEolRebaseAppidEolRebaseAppIdGet<
   TData = Awaited<ReturnType<typeof getEolRebaseAppidEolRebaseAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -495,6 +495,7 @@ export type GetEolMessageEolMessageGetQueryResult = NonNullable<
 >
 export type GetEolMessageEolMessageGetQueryError = AxiosError<unknown>
 
+/** @summary Get Eol Message */
 export function useGetEolMessageEolMessageGet<
   TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
   TError = AxiosError<unknown>,
@@ -521,6 +522,7 @@ export function useGetEolMessageEolMessageGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Eol Message */
 export function useGetEolMessageEolMessageGet<
   TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
   TError = AxiosError<unknown>,
@@ -547,6 +549,7 @@ export function useGetEolMessageEolMessageGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Eol Message */
 export function useGetEolMessageEolMessageGet<
   TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
   TError = AxiosError<unknown>,
@@ -565,10 +568,7 @@ export function useGetEolMessageEolMessageGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Eol Message
- */
-
+/** @summary Get Eol Message */
 export function useGetEolMessageEolMessageGet<
   TData = Awaited<ReturnType<typeof getEolMessageEolMessageGet>>,
   TError = AxiosError<unknown>,
@@ -687,6 +687,7 @@ export type GetEolMessageAppidEolMessageAppIdGetQueryResult = NonNullable<
 export type GetEolMessageAppidEolMessageAppIdGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/** @summary Get Eol Message Appid */
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -715,6 +716,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Eol Message Appid */
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -743,6 +745,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Eol Message Appid */
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -763,10 +766,7 @@ export function useGetEolMessageAppidEolMessageAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Eol Message Appid
- */
-
+/** @summary Get Eol Message Appid */
 export function useGetEolMessageAppidEolMessageAppIdGet<
   TData = Awaited<ReturnType<typeof getEolMessageAppidEolMessageAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -885,6 +885,16 @@ export type ListAppstreamAppstreamGetQueryResult = NonNullable<
 export type ListAppstreamAppstreamGetQueryError =
   AxiosError<HTTPValidationError>
 
+/**
+ * Get a list of all application IDs in the repository.
+ *
+ * - **filter**: Filter by app type (default: apps)
+ * - **sort**: Sort order (default: alphabetical)
+ *   - `alphabetical`: Sort by app ID alphabetically
+ *   - `created-at`: Sort by creation date (newest first)
+ *   - `last-updated-at`: Sort by last update date (newest first)
+ * @summary List Appstream
+ */
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -912,6 +922,16 @@ export function useListAppstreamAppstreamGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of all application IDs in the repository.
+ *
+ * - **filter**: Filter by app type (default: apps)
+ * - **sort**: Sort order (default: alphabetical)
+ *   - `alphabetical`: Sort by app ID alphabetically
+ *   - `created-at`: Sort by creation date (newest first)
+ *   - `last-updated-at`: Sort by last update date (newest first)
+ * @summary List Appstream
+ */
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -939,6 +959,16 @@ export function useListAppstreamAppstreamGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of all application IDs in the repository.
+ *
+ * - **filter**: Filter by app type (default: apps)
+ * - **sort**: Sort order (default: alphabetical)
+ *   - `alphabetical`: Sort by app ID alphabetically
+ *   - `created-at`: Sort by creation date (newest first)
+ *   - `last-updated-at`: Sort by last update date (newest first)
+ * @summary List Appstream
+ */
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -959,9 +989,15 @@ export function useListAppstreamAppstreamGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get a list of all application IDs in the repository.
+ *
+ * - **filter**: Filter by app type (default: apps)
+ * - **sort**: Sort order (default: alphabetical)
+ *   - `alphabetical`: Sort by app ID alphabetically
+ *   - `created-at`: Sort by creation date (newest first)
+ *   - `last-updated-at`: Sort by last update date (newest first)
  * @summary List Appstream
  */
-
 export function useListAppstreamAppstreamGet<
   TData = Awaited<ReturnType<typeof listAppstreamAppstreamGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1083,6 +1119,14 @@ export type GetAppstreamAppstreamAppIdGetQueryResult = NonNullable<
 export type GetAppstreamAppstreamAppIdGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get the AppStream metadata for a specific application.
+ *
+ * Returns the full appstream data including name, description, screenshots,
+ * releases, and other metadata. The response is localized based on the
+ * locale parameter.
+ * @summary Get Appstream
+ */
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1111,6 +1155,14 @@ export function useGetAppstreamAppstreamAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get the AppStream metadata for a specific application.
+ *
+ * Returns the full appstream data including name, description, screenshots,
+ * releases, and other metadata. The response is localized based on the
+ * locale parameter.
+ * @summary Get Appstream
+ */
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1139,6 +1191,14 @@ export function useGetAppstreamAppstreamAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get the AppStream metadata for a specific application.
+ *
+ * Returns the full appstream data including name, description, screenshots,
+ * releases, and other metadata. The response is localized based on the
+ * locale parameter.
+ * @summary Get Appstream
+ */
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1160,9 +1220,13 @@ export function useGetAppstreamAppstreamAppIdGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get the AppStream metadata for a specific application.
+ *
+ * Returns the full appstream data including name, description, screenshots,
+ * releases, and other metadata. The response is localized based on the
+ * locale parameter.
  * @summary Get Appstream
  */
-
 export function useGetAppstreamAppstreamAppIdGet<
   TData = Awaited<ReturnType<typeof getAppstreamAppstreamAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1279,6 +1343,10 @@ export type GetIsFullscreenAppIsFullscreenAppAppIdGetQueryResult = NonNullable<
 export type GetIsFullscreenAppIsFullscreenAppAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
+/**
+ * Check if an application is configured to run in fullscreen mode.
+ * @summary Get Isfullscreenapp
+ */
 export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
   TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1306,6 +1374,10 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Check if an application is configured to run in fullscreen mode.
+ * @summary Get Isfullscreenapp
+ */
 export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
   TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1333,6 +1405,10 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Check if an application is configured to run in fullscreen mode.
+ * @summary Get Isfullscreenapp
+ */
 export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
   TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1353,9 +1429,9 @@ export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Check if an application is configured to run in fullscreen mode.
  * @summary Get Isfullscreenapp
  */
-
 export function useGetIsFullscreenAppIsFullscreenAppAppIdGet<
   TData = Awaited<ReturnType<typeof getIsFullscreenAppIsFullscreenAppAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -1478,6 +1554,10 @@ export type PostSearchSearchPostMutationVariables = {
 }
 
 /**
+ * Search for applications using Meilisearch.
+ *
+ * Accepts a search query with filters and returns matching applications
+ * with facets and pagination information.
  * @summary Post Search
  */
 export const usePostSearchSearchPost = <
@@ -1570,6 +1650,12 @@ export type GetRuntimeListRuntimesGetQueryResult = NonNullable<
 >
 export type GetRuntimeListRuntimesGetQueryError = AxiosError<unknown>
 
+/**
+ * Get a list of available Flatpak runtimes with usage counts.
+ *
+ * Returns a mapping of runtime names to the number of apps using each runtime.
+ * @summary Get Runtime List
+ */
 export function useGetRuntimeListRuntimesGet<
   TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
   TError = AxiosError<unknown>,
@@ -1596,6 +1682,12 @@ export function useGetRuntimeListRuntimesGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of available Flatpak runtimes with usage counts.
+ *
+ * Returns a mapping of runtime names to the number of apps using each runtime.
+ * @summary Get Runtime List
+ */
 export function useGetRuntimeListRuntimesGet<
   TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
   TError = AxiosError<unknown>,
@@ -1622,6 +1714,12 @@ export function useGetRuntimeListRuntimesGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of available Flatpak runtimes with usage counts.
+ *
+ * Returns a mapping of runtime names to the number of apps using each runtime.
+ * @summary Get Runtime List
+ */
 export function useGetRuntimeListRuntimesGet<
   TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
   TError = AxiosError<unknown>,
@@ -1641,9 +1739,11 @@ export function useGetRuntimeListRuntimesGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get a list of available Flatpak runtimes with usage counts.
+ *
+ * Returns a mapping of runtime names to the number of apps using each runtime.
  * @summary Get Runtime List
  */
-
 export function useGetRuntimeListRuntimesGet<
   TData = Awaited<ReturnType<typeof getRuntimeListRuntimesGet>>,
   TError = AxiosError<unknown>,
@@ -1763,6 +1863,13 @@ export type GetSummarySummaryAppIdGetQueryResult = NonNullable<
 export type GetSummarySummaryAppIdGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Get summary information for a specific application.
+ *
+ * Returns information about the app's size, architectures, runtime metadata,
+ * and flatpak-specific configuration.
+ * @summary Get Summary
+ */
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1791,6 +1898,13 @@ export function useGetSummarySummaryAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get summary information for a specific application.
+ *
+ * Returns information about the app's size, architectures, runtime metadata,
+ * and flatpak-specific configuration.
+ * @summary Get Summary
+ */
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1819,6 +1933,13 @@ export function useGetSummarySummaryAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get summary information for a specific application.
+ *
+ * Returns information about the app's size, architectures, runtime metadata,
+ * and flatpak-specific configuration.
+ * @summary Get Summary
+ */
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1840,9 +1961,12 @@ export function useGetSummarySummaryAppIdGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get summary information for a specific application.
+ *
+ * Returns information about the app's size, architectures, runtime metadata,
+ * and flatpak-specific configuration.
  * @summary Get Summary
  */
-
 export function useGetSummarySummaryAppIdGet<
   TData = Awaited<ReturnType<typeof getSummarySummaryAppIdGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1942,6 +2066,12 @@ export type GetPlatformsPlatformsGetQueryResult = NonNullable<
 >
 export type GetPlatformsPlatformsGetQueryError = AxiosError<unknown>
 
+/**
+ * Return a mapping from org-name to platform aliases and dependencies which are
+ * recognised by the backend.  These are used by things such as the transactions
+ * and donations APIs to address amounts to the platforms.
+ * @summary Get Platforms
+ */
 export function useGetPlatformsPlatformsGet<
   TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
   TError = AxiosError<unknown>,
@@ -1968,6 +2098,12 @@ export function useGetPlatformsPlatformsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return a mapping from org-name to platform aliases and dependencies which are
+ * recognised by the backend.  These are used by things such as the transactions
+ * and donations APIs to address amounts to the platforms.
+ * @summary Get Platforms
+ */
 export function useGetPlatformsPlatformsGet<
   TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
   TError = AxiosError<unknown>,
@@ -1994,6 +2130,12 @@ export function useGetPlatformsPlatformsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Return a mapping from org-name to platform aliases and dependencies which are
+ * recognised by the backend.  These are used by things such as the transactions
+ * and donations APIs to address amounts to the platforms.
+ * @summary Get Platforms
+ */
 export function useGetPlatformsPlatformsGet<
   TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
   TError = AxiosError<unknown>,
@@ -2013,9 +2155,11 @@ export function useGetPlatformsPlatformsGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Return a mapping from org-name to platform aliases and dependencies which are
+ * recognised by the backend.  These are used by things such as the transactions
+ * and donations APIs to address amounts to the platforms.
  * @summary Get Platforms
  */
-
 export function useGetPlatformsPlatformsGet<
   TData = Awaited<ReturnType<typeof getPlatformsPlatformsGet>>,
   TError = AxiosError<unknown>,
@@ -2118,6 +2262,12 @@ export type GetAddonsAddonAppIdGetQueryResult = NonNullable<
 >
 export type GetAddonsAddonAppIdGetQueryError = AxiosError<HTTPValidationError>
 
+/**
+ * Get a list of addon IDs that are compatible with the specified application.
+ *
+ * Addons extend the functionality of base applications (e.g., codecs, themes).
+ * @summary Get Addons
+ */
 export function useGetAddonsAddonAppIdGet<
   TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -2145,6 +2295,12 @@ export function useGetAddonsAddonAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of addon IDs that are compatible with the specified application.
+ *
+ * Addons extend the functionality of base applications (e.g., codecs, themes).
+ * @summary Get Addons
+ */
 export function useGetAddonsAddonAppIdGet<
   TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -2172,6 +2328,12 @@ export function useGetAddonsAddonAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of addon IDs that are compatible with the specified application.
+ *
+ * Addons extend the functionality of base applications (e.g., codecs, themes).
+ * @summary Get Addons
+ */
 export function useGetAddonsAddonAppIdGet<
   TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -2192,9 +2354,11 @@ export function useGetAddonsAddonAppIdGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get a list of addon IDs that are compatible with the specified application.
+ *
+ * Addons extend the functionality of base applications (e.g., codecs, themes).
  * @summary Get Addons
  */
-
 export function useGetAddonsAddonAppIdGet<
   TData = Awaited<ReturnType<typeof getAddonsAddonAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -2286,6 +2450,7 @@ export type GetExceptionsExceptionsGetQueryResult = NonNullable<
 >
 export type GetExceptionsExceptionsGetQueryError = AxiosError<void>
 
+/** @summary Get Exceptions */
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
   TError = AxiosError<void>,
@@ -2312,6 +2477,7 @@ export function useGetExceptionsExceptionsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Exceptions */
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
   TError = AxiosError<void>,
@@ -2338,6 +2504,7 @@ export function useGetExceptionsExceptionsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Exceptions */
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
   TError = AxiosError<void>,
@@ -2356,10 +2523,7 @@ export function useGetExceptionsExceptionsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Exceptions
- */
-
+/** @summary Get Exceptions */
 export function useGetExceptionsExceptionsGet<
   TData = Awaited<ReturnType<typeof getExceptionsExceptionsGet>>,
   TError = AxiosError<void>,
@@ -2463,6 +2627,7 @@ export type GetExceptionsForAppExceptionsAppIdGetQueryResult = NonNullable<
 >
 export type GetExceptionsForAppExceptionsAppIdGetQueryError = AxiosError<void>
 
+/** @summary Get Exceptions For App */
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
   TError = AxiosError<void>,
@@ -2490,6 +2655,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Exceptions For App */
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
   TError = AxiosError<void>,
@@ -2517,6 +2683,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Exceptions For App */
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
   TError = AxiosError<void>,
@@ -2536,10 +2703,7 @@ export function useGetExceptionsForAppExceptionsAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Exceptions For App
- */
-
+/** @summary Get Exceptions For App */
 export function useGetExceptionsForAppExceptionsAppIdGet<
   TData = Awaited<ReturnType<typeof getExceptionsForAppExceptionsAppIdGet>>,
   TError = AxiosError<void>,
@@ -2650,6 +2814,7 @@ export type AddToFavoritesFavoritesAppIdAddPostMutationVariables = {
 }
 
 /**
+ * Add an app to a users favorites. The appid is the ID of the app to add.
  * @summary Add To Favorites
  */
 export const useAddToFavoritesFavoritesAppIdAddPost = <
@@ -2759,6 +2924,7 @@ export type RemoveFromFavoritesFavoritesAppIdRemoveDeleteMutationVariables = {
 }
 
 /**
+ * Remove an app from a users favorites. The appid is the ID of the app to remove.
  * @summary Remove From Favorites
  */
 export const useRemoveFromFavoritesFavoritesAppIdRemoveDelete = <
@@ -2849,6 +3015,10 @@ export type GetFavoritesFavoritesGetQueryResult = NonNullable<
 >
 export type GetFavoritesFavoritesGetQueryError = AxiosError<unknown>
 
+/**
+ * Get a list of the users favorite apps.
+ * @summary Get Favorites
+ */
 export function useGetFavoritesFavoritesGet<
   TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
   TError = AxiosError<unknown>,
@@ -2875,6 +3045,10 @@ export function useGetFavoritesFavoritesGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of the users favorite apps.
+ * @summary Get Favorites
+ */
 export function useGetFavoritesFavoritesGet<
   TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
   TError = AxiosError<unknown>,
@@ -2901,6 +3075,10 @@ export function useGetFavoritesFavoritesGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get a list of the users favorite apps.
+ * @summary Get Favorites
+ */
 export function useGetFavoritesFavoritesGet<
   TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
   TError = AxiosError<unknown>,
@@ -2920,9 +3098,9 @@ export function useGetFavoritesFavoritesGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get a list of the users favorite apps.
  * @summary Get Favorites
  */
-
 export function useGetFavoritesFavoritesGet<
   TData = Awaited<ReturnType<typeof getFavoritesFavoritesGet>>,
   TError = AxiosError<unknown>,
@@ -3024,6 +3202,7 @@ export type IsFavoritedFavoritesAppIdGetQueryResult = NonNullable<
 export type IsFavoritedFavoritesAppIdGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Is Favorited */
 export function useIsFavoritedFavoritesAppIdGet<
   TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -3051,6 +3230,7 @@ export function useIsFavoritedFavoritesAppIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Is Favorited */
 export function useIsFavoritedFavoritesAppIdGet<
   TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -3078,6 +3258,7 @@ export function useIsFavoritedFavoritesAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Is Favorited */
 export function useIsFavoritedFavoritesAppIdGet<
   TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -3097,10 +3278,7 @@ export function useIsFavoritedFavoritesAppIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Is Favorited
- */
-
+/** @summary Is Favorited */
 export function useIsFavoritedFavoritesAppIdGet<
   TData = Awaited<ReturnType<typeof isFavoritedFavoritesAppIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -3217,6 +3395,10 @@ export type GetAppFavoritesCountFavoritesAppIdCountGetQueryResult = NonNullable<
 export type GetAppFavoritesCountFavoritesAppIdCountGetQueryError =
   AxiosError<HTTPValidationError>
 
+/**
+ * Get the total number of users who have favorited a specific app.
+ * @summary Get App Favorites Count
+ */
 export function useGetAppFavoritesCountFavoritesAppIdCountGet<
   TData = Awaited<
     ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>
@@ -3248,6 +3430,10 @@ export function useGetAppFavoritesCountFavoritesAppIdCountGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get the total number of users who have favorited a specific app.
+ * @summary Get App Favorites Count
+ */
 export function useGetAppFavoritesCountFavoritesAppIdCountGet<
   TData = Awaited<
     ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>
@@ -3279,6 +3465,10 @@ export function useGetAppFavoritesCountFavoritesAppIdCountGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Get the total number of users who have favorited a specific app.
+ * @summary Get App Favorites Count
+ */
 export function useGetAppFavoritesCountFavoritesAppIdCountGet<
   TData = Awaited<
     ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>
@@ -3301,9 +3491,9 @@ export function useGetAppFavoritesCountFavoritesAppIdCountGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Get the total number of users who have favorited a specific app.
  * @summary Get App Favorites Count
  */
-
 export function useGetAppFavoritesCountFavoritesAppIdCountGet<
   TData = Awaited<
     ReturnType<typeof getAppFavoritesCountFavoritesAppIdCountGet>

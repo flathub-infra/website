@@ -7,7 +7,7 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
 import type {
   GetStatsForAppStatsAppIdGet200,
@@ -99,6 +99,26 @@ export const getGetStatsForAppStatsAppIdGetResponseMock =
         installs_per_country: {
           [faker.string.alphanumeric(5)]: faker.number.int(),
         },
+        installs_per_distro: Array.from(
+          { length: faker.number.int({ min: 1, max: 10 }) },
+          (_, i) => i + 1,
+        ).map(() => ({
+          id: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          name: faker.string.alpha({ length: { min: 10, max: 20 } }),
+          installs: faker.number.int(),
+        })),
+        installs_other_distros: faker.number.int(),
+        installs_unreported_distro: faker.number.int(),
+        country_population: faker.helpers.arrayElement([
+          {
+            year: faker.number.int(),
+            revision: faker.string.alpha({ length: { min: 10, max: 20 } }),
+            populations: {
+              [faker.string.alphanumeric(5)]: faker.number.int(),
+            },
+          },
+          null,
+        ]),
         installs_last_month: faker.number.int(),
         installs_last_7_days: faker.number.int(),
         id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -110,13 +130,13 @@ export const getGetStatsStatsGetMockHandler = (
   overrideResponse?:
     | GetStatsStatsGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<GetStatsStatsGet200> | GetStatsStatsGet200),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/stats/",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -134,13 +154,13 @@ export const getGetPermissionStatsStatsPermissionsGetMockHandler = (
   overrideResponse?:
     | PermissionStatsWindowResult
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<PermissionStatsWindowResult> | PermissionStatsWindowResult),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/stats/permissions",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -158,15 +178,15 @@ export const getGetStatsForAppStatsAppIdGetMockHandler = (
   overrideResponse?:
     | GetStatsForAppStatsAppIdGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) =>
         | Promise<GetStatsForAppStatsAppIdGet200>
         | GetStatsForAppStatsAppIdGet200),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/stats/:appId",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"

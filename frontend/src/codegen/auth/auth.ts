@@ -133,6 +133,7 @@ export type GetEmailLoginConfigAuthEmailConfigGetQueryResult = NonNullable<
 export type GetEmailLoginConfigAuthEmailConfigGetQueryError =
   AxiosError<unknown>
 
+/** @summary Get Email Login Config */
 export function useGetEmailLoginConfigAuthEmailConfigGet<
   TData = Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
   TError = AxiosError<unknown>,
@@ -159,6 +160,7 @@ export function useGetEmailLoginConfigAuthEmailConfigGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Email Login Config */
 export function useGetEmailLoginConfigAuthEmailConfigGet<
   TData = Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
   TError = AxiosError<unknown>,
@@ -185,6 +187,7 @@ export function useGetEmailLoginConfigAuthEmailConfigGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Email Login Config */
 export function useGetEmailLoginConfigAuthEmailConfigGet<
   TData = Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
   TError = AxiosError<unknown>,
@@ -203,10 +206,7 @@ export function useGetEmailLoginConfigAuthEmailConfigGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Email Login Config
- */
-
+/** @summary Get Email Login Config */
 export function useGetEmailLoginConfigAuthEmailConfigGet<
   TData = Awaited<ReturnType<typeof getEmailLoginConfigAuthEmailConfigGet>>,
   TError = AxiosError<unknown>,
@@ -312,9 +312,7 @@ export type RequestEmailLoginAuthEmailRequestPostMutationVariables = {
   data: EmailLinkRequest
 }
 
-/**
- * @summary Request Email Login
- */
+/** @summary Request Email Login */
 export const useRequestEmailLoginAuthEmailRequestPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -417,9 +415,7 @@ export type ConfirmEmailLoginAuthEmailConfirmPostMutationVariables = {
   data: EmailConfirmRequest
 }
 
-/**
- * @summary Confirm Email Login
- */
+/** @summary Confirm Email Login */
 export const useConfirmEmailLoginAuthEmailConfirmPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -515,6 +511,17 @@ export type GetLoginMethodsAuthLoginGetQueryResult = NonNullable<
 >
 export type GetLoginMethodsAuthLoginGetQueryError = AxiosError<unknown>
 
+/**
+ * Retrieve the login methods available from the backend.
+ *
+ * For each method returned, flow starts with a `GET` to the endpoint
+ * `.../login/{method}` and upon completion from the user-agent, with a `POST`
+ * to that same endpoint name.
+ *
+ * Each method is also given a button icon and some text to use, though
+ * frontends with localisation may choose to render other text instead.
+ * @summary Get Login Methods
+ */
 export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
   TError = AxiosError<unknown>,
@@ -541,6 +548,17 @@ export function useGetLoginMethodsAuthLoginGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the login methods available from the backend.
+ *
+ * For each method returned, flow starts with a `GET` to the endpoint
+ * `.../login/{method}` and upon completion from the user-agent, with a `POST`
+ * to that same endpoint name.
+ *
+ * Each method is also given a button icon and some text to use, though
+ * frontends with localisation may choose to render other text instead.
+ * @summary Get Login Methods
+ */
 export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
   TError = AxiosError<unknown>,
@@ -567,6 +585,17 @@ export function useGetLoginMethodsAuthLoginGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the login methods available from the backend.
+ *
+ * For each method returned, flow starts with a `GET` to the endpoint
+ * `.../login/{method}` and upon completion from the user-agent, with a `POST`
+ * to that same endpoint name.
+ *
+ * Each method is also given a button icon and some text to use, though
+ * frontends with localisation may choose to render other text instead.
+ * @summary Get Login Methods
+ */
 export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
   TError = AxiosError<unknown>,
@@ -586,9 +615,16 @@ export function useGetLoginMethodsAuthLoginGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Retrieve the login methods available from the backend.
+ *
+ * For each method returned, flow starts with a `GET` to the endpoint
+ * `.../login/{method}` and upon completion from the user-agent, with a `POST`
+ * to that same endpoint name.
+ *
+ * Each method is also given a button icon and some text to use, though
+ * frontends with localisation may choose to render other text instead.
  * @summary Get Login Methods
  */
-
 export function useGetLoginMethodsAuthLoginGet<
   TData = Awaited<ReturnType<typeof getLoginMethodsAuthLoginGet>>,
   TError = AxiosError<unknown>,
@@ -704,6 +740,18 @@ export type StartGithubFlowAuthLoginGithubGetQueryResult = NonNullable<
 export type StartGithubFlowAuthLoginGithubGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Starts a github login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to Github
+ *
+ * Upon return from Github to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from Github
+ *
+ * If the user is already logged in, and has a valid github token stored,
+ * then this will return an error instead.
+ * @summary Start Github Flow
+ */
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -731,6 +779,18 @@ export function useStartGithubFlowAuthLoginGithubGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Starts a github login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to Github
+ *
+ * Upon return from Github to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from Github
+ *
+ * If the user is already logged in, and has a valid github token stored,
+ * then this will return an error instead.
+ * @summary Start Github Flow
+ */
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -758,6 +818,18 @@ export function useStartGithubFlowAuthLoginGithubGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Starts a github login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to Github
+ *
+ * Upon return from Github to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from Github
+ *
+ * If the user is already logged in, and has a valid github token stored,
+ * then this will return an error instead.
+ * @summary Start Github Flow
+ */
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -778,9 +850,17 @@ export function useStartGithubFlowAuthLoginGithubGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Starts a github login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to Github
+ *
+ * Upon return from Github to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from Github
+ *
+ * If the user is already logged in, and has a valid github token stored,
+ * then this will return an error instead.
  * @summary Start Github Flow
  */
-
 export function useStartGithubFlowAuthLoginGithubGet<
   TData = Awaited<ReturnType<typeof startGithubFlowAuthLoginGithubGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -919,6 +999,30 @@ export type ContinueGithubFlowAuthLoginGithubPostMutationVariables = {
 }
 
 /**
+ * Process the result of the Github oauth flow
+ *
+ * This expects to have some JSON posted to it which (on success) contains:
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "code": "the github oauth code",
+ * }
+ * ```
+ *
+ * On failure, the frontend should pass through the state and error so that
+ * the backend can clear the stored flow state
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "error": "the error code returned from github",
+ * }
+ * ```
+ *
+ * This endpoint will either return an error, if something was wrong in the
+ * backend state machines; or it will return a success code with an indication
+ * of whether or not the login sequence completed OK.
  * @summary Continue Github Flow
  */
 export const useContinueGithubFlowAuthLoginGithubPost = <
@@ -1033,6 +1137,18 @@ export type StartGitlabFlowAuthLoginGitlabGetQueryResult = NonNullable<
 export type StartGitlabFlowAuthLoginGitlabGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Starts a gitlab login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to Gitlab
+ *
+ * Upon return from Gitlab to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from Gitlab
+ *
+ * If the user is already logged in, and has a valid gitlab token stored,
+ * then this will return an error instead.
+ * @summary Start Gitlab Flow
+ */
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1060,6 +1176,18 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Starts a gitlab login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to Gitlab
+ *
+ * Upon return from Gitlab to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from Gitlab
+ *
+ * If the user is already logged in, and has a valid gitlab token stored,
+ * then this will return an error instead.
+ * @summary Start Gitlab Flow
+ */
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1087,6 +1215,18 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Starts a gitlab login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to Gitlab
+ *
+ * Upon return from Gitlab to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from Gitlab
+ *
+ * If the user is already logged in, and has a valid gitlab token stored,
+ * then this will return an error instead.
+ * @summary Start Gitlab Flow
+ */
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1107,9 +1247,17 @@ export function useStartGitlabFlowAuthLoginGitlabGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Starts a gitlab login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to Gitlab
+ *
+ * Upon return from Gitlab to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from Gitlab
+ *
+ * If the user is already logged in, and has a valid gitlab token stored,
+ * then this will return an error instead.
  * @summary Start Gitlab Flow
  */
-
 export function useStartGitlabFlowAuthLoginGitlabGet<
   TData = Awaited<ReturnType<typeof startGitlabFlowAuthLoginGitlabGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1248,6 +1396,30 @@ export type ContinueGitlabFlowAuthLoginGitlabPostMutationVariables = {
 }
 
 /**
+ * Process the result of the Gitlab oauth flow
+ *
+ * This expects to have some JSON posted to it which (on success) contains:
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "code": "the gitlab oauth code",
+ * }
+ * ```
+ *
+ * On failure, the frontend should pass through the state and error so that
+ * the backend can clear the stored flow state
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "error": "the error code returned from gitlab",
+ * }
+ * ```
+ *
+ * This endpoint will either return an error, if something was wrong in the
+ * backend state machines; or it will return a success code with an indication
+ * of whether or not the login sequence completed OK.
  * @summary Continue Gitlab Flow
  */
 export const useContinueGitlabFlowAuthLoginGitlabPost = <
@@ -1361,6 +1533,18 @@ export type StartGnomeFlowAuthLoginGnomeGetQueryResult = NonNullable<
 export type StartGnomeFlowAuthLoginGnomeGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/**
+ * Starts a GNOME login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to GNOME Gitlab
+ *
+ * Upon return from GNOME to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from GNOME Gitlab
+ *
+ * If the user is already logged in, and has a valid GNOME Gitlab token stored,
+ * then this will return an error instead.
+ * @summary Start Gnome Flow
+ */
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1388,6 +1572,18 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Starts a GNOME login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to GNOME Gitlab
+ *
+ * Upon return from GNOME to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from GNOME Gitlab
+ *
+ * If the user is already logged in, and has a valid GNOME Gitlab token stored,
+ * then this will return an error instead.
+ * @summary Start Gnome Flow
+ */
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1415,6 +1611,18 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Starts a GNOME login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to GNOME Gitlab
+ *
+ * Upon return from GNOME to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from GNOME Gitlab
+ *
+ * If the user is already logged in, and has a valid GNOME Gitlab token stored,
+ * then this will return an error instead.
+ * @summary Start Gnome Flow
+ */
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1435,9 +1643,17 @@ export function useStartGnomeFlowAuthLoginGnomeGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Starts a GNOME login flow.  This will set session cookie values and
+ * will return a redirect.  The frontend is expected to save the cookie
+ * for use later, and follow the redirect to GNOME Gitlab
+ *
+ * Upon return from GNOME to the frontend, the frontend should POST to this
+ * endpoint with the relevant data from GNOME Gitlab
+ *
+ * If the user is already logged in, and has a valid GNOME Gitlab token stored,
+ * then this will return an error instead.
  * @summary Start Gnome Flow
  */
-
 export function useStartGnomeFlowAuthLoginGnomeGet<
   TData = Awaited<ReturnType<typeof startGnomeFlowAuthLoginGnomeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1576,6 +1792,30 @@ export type ContinueGnomeFlowAuthLoginGnomePostMutationVariables = {
 }
 
 /**
+ * Process the result of the GNOME oauth flow
+ *
+ * This expects to have some JSON posted to it which (on success) contains:
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "code": "the gitlab oauth code",
+ * }
+ * ```
+ *
+ * On failure, the frontend should pass through the state and error so that
+ * the backend can clear the stored flow state
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "error": "the error code returned from GNOME gitlab",
+ * }
+ * ```
+ *
+ * This endpoint will either return an error, if something was wrong in the
+ * backend state machines; or it will return a success code with an indication
+ * of whether or not the login sequence completed OK.
  * @summary Continue Gnome Flow
  */
 export const useContinueGnomeFlowAuthLoginGnomePost = <
@@ -1680,6 +1920,7 @@ export type StartKdeFlowAuthLoginKdeGetQueryResult = NonNullable<
 export type StartKdeFlowAuthLoginKdeGetQueryError =
   AxiosError<void | HTTPValidationError>
 
+/** @summary Start Kde Flow */
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1707,6 +1948,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Start Kde Flow */
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1734,6 +1976,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Start Kde Flow */
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1753,10 +1996,7 @@ export function useStartKdeFlowAuthLoginKdeGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Start Kde Flow
- */
-
+/** @summary Start Kde Flow */
 export function useStartKdeFlowAuthLoginKdeGet<
   TData = Awaited<ReturnType<typeof startKdeFlowAuthLoginKdeGet>>,
   TError = AxiosError<void | HTTPValidationError>,
@@ -1870,9 +2110,7 @@ export type ContinueKdeFlowAuthLoginKdePostMutationVariables = {
   data: ContinueKdeFlowAuthLoginKdePostBody
 }
 
-/**
- * @summary Continue Kde Flow
- */
+/** @summary Continue Kde Flow */
 export const useContinueKdeFlowAuthLoginKdePost = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,
@@ -2004,6 +2242,30 @@ export type ContinueGoogleFlowAuthLoginGooglePostMutationVariables = {
 }
 
 /**
+ * Process the result of the Google oauth flow
+ *
+ * This expects to have some JSON posted to it which (on success) contains:
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "code": "the google oauth code",
+ * }
+ * ```
+ *
+ * On failure, the frontend should pass through the state and error so that
+ * the backend can clear the stored flow state
+ *
+ * ```
+ * {
+ *     "state": "the state code",
+ *     "error": "the error code returned from google",
+ * }
+ * ```
+ *
+ * This endpoint will either return an error, if something was wrong in the
+ * backend state machines; or it will return a success code with an indication
+ * of whether or not the login sequence completed OK.
  * @summary Continue Google Flow
  */
 export const useContinueGoogleFlowAuthLoginGooglePost = <
@@ -2111,6 +2373,27 @@ export type GetUserinfoAuthUserinfoGetQueryResult = NonNullable<
 >
 export type GetUserinfoAuthUserinfoGetQueryError = AxiosError<unknown>
 
+/**
+ * Retrieve the current login's user information.  If the user is not logged in
+ * you will get a `204` return.  Otherwise you will receive JSON describing the
+ * currently logged in user, for example:
+ *
+ * ```
+ * {
+ *     "displayname": "Mx Human Person",
+ *     "dev_flatpaks": [ "org.people.human.Appname" ],
+ *     "owned_flatpaks": [ "org.foo.bar.Appname" ],
+ *     "accepted_publisher-agreement_at": "2023-06-23T20:38:28.553028"
+ * }
+ * ```
+ *
+ * If the user has an active github login, you'll also get their github login
+ * name, and avatar.  If they have some other login, details for that login
+ * will be provided.
+ *
+ * dev_flatpaks is filtered against IDs available in AppStream
+ * @summary Get Userinfo
+ */
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
   TError = AxiosError<unknown>,
@@ -2137,6 +2420,27 @@ export function useGetUserinfoAuthUserinfoGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the current login's user information.  If the user is not logged in
+ * you will get a `204` return.  Otherwise you will receive JSON describing the
+ * currently logged in user, for example:
+ *
+ * ```
+ * {
+ *     "displayname": "Mx Human Person",
+ *     "dev_flatpaks": [ "org.people.human.Appname" ],
+ *     "owned_flatpaks": [ "org.foo.bar.Appname" ],
+ *     "accepted_publisher-agreement_at": "2023-06-23T20:38:28.553028"
+ * }
+ * ```
+ *
+ * If the user has an active github login, you'll also get their github login
+ * name, and avatar.  If they have some other login, details for that login
+ * will be provided.
+ *
+ * dev_flatpaks is filtered against IDs available in AppStream
+ * @summary Get Userinfo
+ */
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
   TError = AxiosError<unknown>,
@@ -2163,6 +2467,27 @@ export function useGetUserinfoAuthUserinfoGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Retrieve the current login's user information.  If the user is not logged in
+ * you will get a `204` return.  Otherwise you will receive JSON describing the
+ * currently logged in user, for example:
+ *
+ * ```
+ * {
+ *     "displayname": "Mx Human Person",
+ *     "dev_flatpaks": [ "org.people.human.Appname" ],
+ *     "owned_flatpaks": [ "org.foo.bar.Appname" ],
+ *     "accepted_publisher-agreement_at": "2023-06-23T20:38:28.553028"
+ * }
+ * ```
+ *
+ * If the user has an active github login, you'll also get their github login
+ * name, and avatar.  If they have some other login, details for that login
+ * will be provided.
+ *
+ * dev_flatpaks is filtered against IDs available in AppStream
+ * @summary Get Userinfo
+ */
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
   TError = AxiosError<unknown>,
@@ -2182,9 +2507,26 @@ export function useGetUserinfoAuthUserinfoGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Retrieve the current login's user information.  If the user is not logged in
+ * you will get a `204` return.  Otherwise you will receive JSON describing the
+ * currently logged in user, for example:
+ *
+ * ```
+ * {
+ *     "displayname": "Mx Human Person",
+ *     "dev_flatpaks": [ "org.people.human.Appname" ],
+ *     "owned_flatpaks": [ "org.foo.bar.Appname" ],
+ *     "accepted_publisher-agreement_at": "2023-06-23T20:38:28.553028"
+ * }
+ * ```
+ *
+ * If the user has an active github login, you'll also get their github login
+ * name, and avatar.  If they have some other login, details for that login
+ * will be provided.
+ *
+ * dev_flatpaks is filtered against IDs available in AppStream
  * @summary Get Userinfo
  */
-
 export function useGetUserinfoAuthUserinfoGet<
   TData = Awaited<ReturnType<typeof getUserinfoAuthUserinfoGet>>,
   TError = AxiosError<unknown>,
@@ -2287,9 +2629,7 @@ export type DoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationResult =
 export type DoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMutationError =
   AxiosError<void>
 
-/**
- * @summary Do Refresh Dev Flatpaks
- */
+/** @summary Do Refresh Dev Flatpaks */
 export const useDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -2389,6 +2729,8 @@ export type DoLogoutAuthLogoutPostMutationResult = NonNullable<
 export type DoLogoutAuthLogoutPostMutationError = AxiosError<void>
 
 /**
+ * Clear the login state. This will discard tokens which access socials,
+ * and will clear the session cookie so that the user is not logged in.
  * @summary Do Logout
  */
 export const useDoLogoutAuthLogoutPost = <
@@ -2483,6 +2825,13 @@ export type GetDeleteuserAuthDeleteuserGetQueryResult = NonNullable<
 >
 export type GetDeleteuserAuthDeleteuserGetQueryError = AxiosError<void>
 
+/**
+ * Delete a user's login information.
+ * If they're not logged in, they'll get a `403` return.
+ * Otherwise they will get an option to delete their account
+ * and data.
+ * @summary Get Deleteuser
+ */
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
   TError = AxiosError<void>,
@@ -2509,6 +2858,13 @@ export function useGetDeleteuserAuthDeleteuserGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Delete a user's login information.
+ * If they're not logged in, they'll get a `403` return.
+ * Otherwise they will get an option to delete their account
+ * and data.
+ * @summary Get Deleteuser
+ */
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
   TError = AxiosError<void>,
@@ -2535,6 +2891,13 @@ export function useGetDeleteuserAuthDeleteuserGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/**
+ * Delete a user's login information.
+ * If they're not logged in, they'll get a `403` return.
+ * Otherwise they will get an option to delete their account
+ * and data.
+ * @summary Get Deleteuser
+ */
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
   TError = AxiosError<void>,
@@ -2554,9 +2917,12 @@ export function useGetDeleteuserAuthDeleteuserGet<
   queryKey: DataTag<QueryKey, TData, TError>
 }
 /**
+ * Delete a user's login information.
+ * If they're not logged in, they'll get a `403` return.
+ * Otherwise they will get an option to delete their account
+ * and data.
  * @summary Get Deleteuser
  */
-
 export function useGetDeleteuserAuthDeleteuserGet<
   TData = Awaited<ReturnType<typeof getDeleteuserAuthDeleteuserGet>>,
   TError = AxiosError<void>,
@@ -2675,6 +3041,16 @@ export type DoDeleteuserAuthDeleteuserDeleteMutationVariables = {
 }
 
 /**
+ * Clear the login state. This will then delete the user's account
+ * and associated data. Unless there is an error.
+ *
+ * The input to this should be of the form:
+ *
+ * ```json
+ * {
+ *     "token": "...",
+ * }
+ * ```
  * @summary Do Deleteuser
  */
 export const useDoDeleteuserAuthDeleteuserDelete = <
@@ -2791,9 +3167,7 @@ export type DoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationR
 export type DoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPostMutationError =
   AxiosError<void>
 
-/**
- * @summary Do Agree To Publisher Agreement
- */
+/** @summary Do Agree To Publisher Agreement */
 export const useDoAgreeToPublisherAgreementAuthAcceptPublisherAgreementPost = <
   TError = AxiosError<void>,
   TContext = unknown,
@@ -2927,6 +3301,7 @@ export type DoChangeDefaultAccountAuthChangeDefaultAccountPostMutationVariables 
   { params: DoChangeDefaultAccountAuthChangeDefaultAccountPostParams }
 
 /**
+ * Changes the user's default account, which determines which display name and email we use.
  * @summary Do Change Default Account
  */
 export const useDoChangeDefaultAccountAuthChangeDefaultAccountPost = <
@@ -3037,9 +3412,7 @@ export type DoChangeDisplayNameAuthDisplayNamePostMutationVariables = {
   data: DisplayNameRequest
 }
 
-/**
- * @summary Do Change Display Name
- */
+/** @summary Do Change Display Name */
 export const useDoChangeDisplayNameAuthDisplayNamePost = <
   TError = AxiosError<void | HTTPValidationError>,
   TContext = unknown,

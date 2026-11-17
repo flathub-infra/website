@@ -7,9 +7,13 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
-import type { JwksOidcJwksJsonGet200 } from "../model"
+import type { BodyTokenOidcTokenPost, JwksOidcJwksJsonGet200 } from "../model"
 
 export const getJwksOidcJwksJsonGetResponseMock =
   (): JwksOidcJwksJsonGet200 => ({
@@ -32,13 +36,13 @@ export const getOpenidConfigurationWellKnownOpenidConfigurationGetMockHandler =
     overrideResponse?:
       | unknown
       | ((
-          info: Parameters<Parameters<typeof http.get>[1]>[0],
+          info: Parameters<HttpResponseResolver>[0],
         ) => Promise<unknown> | unknown),
     options?: RequestHandlerOptions,
   ) => {
     return http.get(
       "*/.well-known/openid-configuration",
-      async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+      async (info: Parameters<HttpResponseResolver>[0]) => {
         if (typeof overrideResponse === "function") {
           await overrideResponse(info)
         }
@@ -53,13 +57,13 @@ export const getJwksOidcJwksJsonGetMockHandler = (
   overrideResponse?:
     | JwksOidcJwksJsonGet200
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<JwksOidcJwksJsonGet200> | JwksOidcJwksJsonGet200),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/oidc/jwks.json",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -77,13 +81,13 @@ export const getAuthorizeOidcAuthorizeGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/oidc/authorize",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -98,13 +102,19 @@ export const getTokenOidcTokenPostMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, BodyTokenOidcTokenPost>
+        >[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, BodyTokenOidcTokenPost>(
     "*/oidc/token",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<PathParams, BodyTokenOidcTokenPost>
+      >[0],
+    ) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }
@@ -119,13 +129,13 @@ export const getUserinfoOidcUserinfoGetMockHandler = (
   overrideResponse?:
     | unknown
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<unknown> | unknown),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/oidc/userinfo",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       if (typeof overrideResponse === "function") {
         await overrideResponse(info)
       }

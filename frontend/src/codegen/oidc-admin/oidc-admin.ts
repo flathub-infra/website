@@ -114,6 +114,7 @@ export type ListOidcClientsAdminOidcClientsGetQueryResult = NonNullable<
 >
 export type ListOidcClientsAdminOidcClientsGetQueryError = AxiosError<unknown>
 
+/** @summary List Oidc Clients */
 export function useListOidcClientsAdminOidcClientsGet<
   TData = Awaited<ReturnType<typeof listOidcClientsAdminOidcClientsGet>>,
   TError = AxiosError<unknown>,
@@ -140,6 +141,7 @@ export function useListOidcClientsAdminOidcClientsGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary List Oidc Clients */
 export function useListOidcClientsAdminOidcClientsGet<
   TData = Awaited<ReturnType<typeof listOidcClientsAdminOidcClientsGet>>,
   TError = AxiosError<unknown>,
@@ -166,6 +168,7 @@ export function useListOidcClientsAdminOidcClientsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary List Oidc Clients */
 export function useListOidcClientsAdminOidcClientsGet<
   TData = Awaited<ReturnType<typeof listOidcClientsAdminOidcClientsGet>>,
   TError = AxiosError<unknown>,
@@ -184,10 +187,7 @@ export function useListOidcClientsAdminOidcClientsGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary List Oidc Clients
- */
-
+/** @summary List Oidc Clients */
 export function useListOidcClientsAdminOidcClientsGet<
   TData = Awaited<ReturnType<typeof listOidcClientsAdminOidcClientsGet>>,
   TError = AxiosError<unknown>,
@@ -293,9 +293,7 @@ export type CreateOidcClientAdminOidcClientsPostMutationVariables = {
   data: OidcClientCreate
 }
 
-/**
- * @summary Create Oidc Client
- */
+/** @summary Create Oidc Client */
 export const useCreateOidcClientAdminOidcClientsPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -402,6 +400,7 @@ export type GetOidcClientAdminOidcClientsClientIdGetQueryResult = NonNullable<
 export type GetOidcClientAdminOidcClientsClientIdGetQueryError =
   AxiosError<HTTPValidationError>
 
+/** @summary Get Oidc Client */
 export function useGetOidcClientAdminOidcClientsClientIdGet<
   TData = Awaited<ReturnType<typeof getOidcClientAdminOidcClientsClientIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -429,6 +428,7 @@ export function useGetOidcClientAdminOidcClientsClientIdGet<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Oidc Client */
 export function useGetOidcClientAdminOidcClientsClientIdGet<
   TData = Awaited<ReturnType<typeof getOidcClientAdminOidcClientsClientIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -456,6 +456,7 @@ export function useGetOidcClientAdminOidcClientsClientIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
+/** @summary Get Oidc Client */
 export function useGetOidcClientAdminOidcClientsClientIdGet<
   TData = Awaited<ReturnType<typeof getOidcClientAdminOidcClientsClientIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -475,10 +476,7 @@ export function useGetOidcClientAdminOidcClientsClientIdGet<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>
 }
-/**
- * @summary Get Oidc Client
- */
-
+/** @summary Get Oidc Client */
 export function useGetOidcClientAdminOidcClientsClientIdGet<
   TData = Awaited<ReturnType<typeof getOidcClientAdminOidcClientsClientIdGet>>,
   TError = AxiosError<HTTPValidationError>,
@@ -602,9 +600,7 @@ export type UpdateOidcClientAdminOidcClientsClientIdPatchMutationVariables = {
   data: OidcClientPatch
 }
 
-/**
- * @summary Update Oidc Client
- */
+/** @summary Update Oidc Client */
 export const useUpdateOidcClientAdminOidcClientsClientIdPatch = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -715,9 +711,7 @@ export type DisableOidcClientAdminOidcClientsClientIdDeleteMutationVariables = {
   clientId: string
 }
 
-/**
- * @summary Disable Oidc Client
- */
+/** @summary Disable Oidc Client */
 export const useDisableOidcClientAdminOidcClientsClientIdDelete = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown,
@@ -845,9 +839,7 @@ export type RotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutati
 export type RotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPostMutationVariables =
   { clientId: string }
 
-/**
- * @summary Rotate Oidc Client Secret
- */
+/** @summary Rotate Oidc Client Secret */
 export const useRotateOidcClientSecretAdminOidcClientsClientIdRotateSecretPost =
   <TError = AxiosError<HTTPValidationError>, TContext = unknown>(
     options?: {

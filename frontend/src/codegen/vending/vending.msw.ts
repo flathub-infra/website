@@ -7,18 +7,25 @@
 import { faker } from "@faker-js/faker"
 
 import { HttpResponse, http } from "msw"
-import type { RequestHandlerOptions } from "msw"
+import type {
+  HttpResponseResolver,
+  PathParams,
+  RequestHandlerOptions,
+} from "msw"
 
 import type {
+  ProposedPayment,
   RedemptionResult,
   TokenCancellation,
   TokenList,
   TokenModel,
   VendingApplicationInformation,
   VendingConfig,
+  VendingOnboardingRequest,
   VendingOutput,
   VendingRedirect,
   VendingSetup,
+  VendingSetupRequest,
   VendingStatus,
 } from "../model"
 
@@ -201,13 +208,13 @@ export const getStatusVendingStatusGetMockHandler = (
     | VendingStatus
     | void
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<VendingStatus | void> | VendingStatus | void),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/vending/status",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       const resolvedBody =
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -226,13 +233,19 @@ export const getStartOnboardingVendingStatusOnboardingPostMockHandler = (
   overrideResponse?:
     | VendingRedirect
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<PathParams, VendingOnboardingRequest>
+        >[0],
       ) => Promise<VendingRedirect> | VendingRedirect),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<PathParams, VendingOnboardingRequest>(
     "*/vending/status/onboarding",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<PathParams, VendingOnboardingRequest>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -250,13 +263,13 @@ export const getGetDashboardLinkVendingStatusDashboardlinkGetMockHandler = (
   overrideResponse?:
     | VendingRedirect
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<VendingRedirect> | VendingRedirect),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/vending/status/dashboardlink",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -274,13 +287,13 @@ export const getGetGlobalVendingConfigVendingConfigGetMockHandler = (
   overrideResponse?:
     | VendingConfig
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver>[0],
       ) => Promise<VendingConfig> | VendingConfig),
   options?: RequestHandlerOptions,
 ) => {
   return http.get(
     "*/vending/config",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -298,13 +311,13 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetMockHandler = (
   overrideResponse?:
     | VendingSetup
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<VendingSetup> | VendingSetup),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/vendingapp/:appId/setup",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -322,13 +335,19 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostMockHandler = (
   overrideResponse?:
     | VendingSetup
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ appId: string }, VendingSetupRequest>
+        >[0],
       ) => Promise<VendingSetup> | VendingSetup),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }, VendingSetupRequest>(
     "*/vendingapp/:appId/setup",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ appId: string }, VendingSetupRequest>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -346,13 +365,19 @@ export const getPostAppVendingStatusVendingappAppIdPostMockHandler = (
   overrideResponse?:
     | VendingOutput
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ appId: string }, ProposedPayment>
+        >[0],
       ) => Promise<VendingOutput> | VendingOutput),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }, ProposedPayment>(
     "*/vendingapp/:appId",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ appId: string }, ProposedPayment>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -370,13 +395,13 @@ export const getGetRedeemableTokensVendingappAppIdTokensGetMockHandler = (
   overrideResponse?:
     | TokenList
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) => Promise<TokenList> | TokenList),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/vendingapp/:appId/tokens",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -394,13 +419,15 @@ export const getCreateTokensVendingappAppIdTokensPostMockHandler = (
   overrideResponse?:
     | TokenModel[]
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }, string[]>>[0],
       ) => Promise<TokenModel[]> | TokenModel[]),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }, string[]>(
     "*/vendingapp/:appId/tokens",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<{ appId: string }, string[]>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -418,13 +445,15 @@ export const getCancelTokensVendingappAppIdTokensCancelPostMockHandler = (
   overrideResponse?:
     | TokenCancellation[]
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }, string[]>>[0],
       ) => Promise<TokenCancellation[]> | TokenCancellation[]),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string }, string[]>(
     "*/vendingapp/:appId/tokens/cancel",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<HttpResponseResolver<{ appId: string }, string[]>>[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -442,13 +471,19 @@ export const getRedeemTokenVendingappAppIdTokensRedeemTokenPostMockHandler = (
   overrideResponse?:
     | RedemptionResult
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0],
+        info: Parameters<
+          HttpResponseResolver<{ appId: string; token: string }>
+        >[0],
       ) => Promise<RedemptionResult> | RedemptionResult),
   options?: RequestHandlerOptions,
 ) => {
-  return http.post(
+  return http.post<{ appId: string; token: string }>(
     "*/vendingapp/:appId/tokens/redeem/:token",
-    async (info: Parameters<Parameters<typeof http.post>[1]>[0]) => {
+    async (
+      info: Parameters<
+        HttpResponseResolver<{ appId: string; token: string }>
+      >[0],
+    ) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
@@ -466,14 +501,14 @@ export const getAppInfoVendingappAppIdInfoGetMockHandler = (
   overrideResponse?:
     | VendingApplicationInformation
     | ((
-        info: Parameters<Parameters<typeof http.get>[1]>[0],
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
       ) =>
         Promise<VendingApplicationInformation> | VendingApplicationInformation),
   options?: RequestHandlerOptions,
 ) => {
-  return http.get(
+  return http.get<{ appId: string }>(
     "*/vendingapp/:appId/info",
-    async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
       return HttpResponse.json(
         overrideResponse !== undefined
           ? typeof overrideResponse === "function"
