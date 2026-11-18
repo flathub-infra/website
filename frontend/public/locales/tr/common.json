@@ -927,6 +927,7 @@
     "touchscreens": "dokunmatik ekranlar",
     "gamepad-support": "Oyun kumandası desteği",
     "gamepads": "oyun kumandaları",
-    "control-recommended": "{device} önerilir"
+    "control-recommended": "{device} önerilir",
+    "adaptive": "Adaptif"
   }
 }

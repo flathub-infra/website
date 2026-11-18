@@ -1020,5 +1020,18 @@
   "moderation-approved-on": "Ceadaithe ar {handledAt} ({handledAtRel})",
   "moderation-rejected-on": "Diúltaithe ar {handledAt} ({handledAtRel})",
   "moderation-rejected": "Diúltaithe",
-  "moderation-approved": "Ceadaithe"
+  "moderation-approved": "Ceadaithe",
+  "country-downloads": {
+    "description": "Áiríonn na suimeanna seo íoslódálacha, ní úsáideoirí aonair.",
+    "country": "Tír",
+    "lower": "Níos lú",
+    "higher": "Tuilleadh",
+    "total-downloads": "Íoslódálacha iomlána",
+    "per-100000": "In aghaidh gach 100,000 duine",
+    "per-capita-map-label": "Íoslódálacha in aghaidh gach 100,000 duine i ngach tír",
+    "x-per-100000": "{x} íoslódáil in aghaidh gach 100,000 duine",
+    "x-total": "{x} san iomlán",
+    "population-unavailable": "Sonraí daonra gan a bheith ar fáil",
+    "source": "Bainimid úsáid as réamh-mheastacháin daonra lár na bliana {year} ó <source>United Nations World Population Prospects {revision}</source>. Ceadúnaíonn na Náisiúin Aontaithe na sonraí faoin gceadúnas <license>CC BY 3.0 IGO</license>."
+  }
 }

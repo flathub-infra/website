@@ -769,5 +769,11 @@
     "winter-comforts": {
       "description": "Apps for relaxing and taking your mind off things"
     }
+  },
+  "country-downloads": {
+    "description": "These totals count downloads, not individual users.",
+    "country": "Country",
+    "lower": "Fewer",
+    "higher": "More"
   }
 }

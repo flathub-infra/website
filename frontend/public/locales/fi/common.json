@@ -647,7 +647,10 @@
   "since-x": "Alkaen {date}",
   "download": {
     "install-x": "Asenna ”{x}”",
-    "fallback-instructions": "<opening>Avataan ”{name}” ohjelmistonhallinnassa…</opening><support>Jos mitään ei tapahdu, voi olla, ettei järjestelmäsi tue <i>flatpak+https</i>-osoitteita.</support><listPrefix>Siinä tapauksessa:</listPrefix><ol><li>Lataa <link>.flatpakref-tiedosto</link></li><li>Suorita se tiedostonhallinnasta</li></ol><setupLine><linkSetup>Ohjeet Flatpakin asennukseen</linkSetup></setupLine>"
+    "fallback-instructions": "<opening>Avataan ”{name}” ohjelmistonhallinnassa…</opening><support>Jos mitään ei tapahdu, voi olla, ettei järjestelmäsi tue <i>flatpak+https</i>-osoitteita.</support><listPrefix>Siinä tapauksessa:</listPrefix><ol><li>Lataa <link>.flatpakref-tiedosto</link></li><li>Suorita se tiedostonhallinnasta</li></ol><setupLine><linkSetup>Ohjeet Flatpakin asennukseen</linkSetup></setupLine>",
+    "download-file": "Lataa .flatpakref",
+    "open-file": "Tiedosto .flatpakref osoittaa sovellukseen. Tiedoston lataaminen ei asenna sovellusta.",
+    "terminal-instructions": "Määrityksen jälkeen liitä tämä Linux-tietokoneen päätteeseen ja paina Enter."
   },
   "count": "Lukumäärä",
   "developed-by": "kehittänyt {developer}",
@@ -705,7 +708,10 @@
     "downloads-vs-previous-year": "Latauksia vrt. {year}",
     "hidden-gems": "Piilotetut aarteet",
     "hidden-gems-description": "Kasvavaa vetoa keräävät sovellukset",
-    "platform-downloads": "Alustakohtaiset lataukset"
+    "platform-downloads": "Alustakohtaiset lataukset",
+    "per-capita-description": "Maat vailla väestötietoa ohitetaan.",
+    "annual-growth": "Vuosittainen kasvu",
+    "x-growth-formatted": "{percentage} kasvu"
   },
   "app-information": "Sovelluksen tiedot",
   "sub-header": {
@@ -928,5 +934,47 @@
   "reauth-method-email": "Lähetä kirjautumislinkki sähköpostitse",
   "reauth-sign-out": "Kirjaudu ulos ja takaisin sisään",
   "passkey-remove-prompt": "Poistetaanko pääsyavain “{name}”?",
-  "passkey-remove-description": "Et voi enää kirjautua käyttäen tätä pääsyavainta. Istunnot, jotka on muodostettu tällä pääsyavaimella, lopetetaan."
+  "passkey-remove-description": "Et voi enää kirjautua käyttäen tätä pääsyavainta. Istunnot, jotka on muodostettu tällä pääsyavaimella, lopetetaan.",
+  "country-downloads": {
+    "summary": "Asennuksia, ei käyttäjiä.",
+    "no-country-data": "Ei maakohtaisia tietoja vielä.",
+    "population-source": "Vuoden {year} väestötieto",
+    "methodology": "Asteet ilmaisevat latauksia, ei käyttäjiä. Asteita ei ole ilman väestötietoa.",
+    "description": "Latauksia, ei käyttäjiä.",
+    "country": "Maa",
+    "lower": "Vähemmän",
+    "higher": "Enemmän",
+    "total-downloads": "Latauksia yhteensä",
+    "per-100000": "100 000 asukasta kohden",
+    "per-capita-map-label": "Latauksia 100 000 asukasta kohden maittain",
+    "x-per-100000": "{x} latausta 100 000 asukasta kohden",
+    "x-total": "{x} yhteensä",
+    "population-unavailable": "Väestötietoa ei ole saatavilla"
+  },
+  "country-installs": {
+    "title": "Asennukset maittain",
+    "total-installs": "Asennuksia yhteensä",
+    "description": "Asteet laskevat asennuksia, ei käyttäjiä.",
+    "per-capita-map-label": "Asennukset 100 000 asukasta kohden maittain",
+    "x-per-100000": "{x} asennusta 100 000 asukasta kohden"
+  },
+  "app-management": {
+    "manage-app": "Hallinnoi sovellusta",
+    "payments": "Maksut",
+    "uploads": "Lähetyspoletit",
+    "payment-account-status": "Tilin määritys vaaditaan",
+    "switch-upload-method": "Vaihda lähetysmenetelmää",
+    "no-active-tokens": "Ei aktiivisia lähetyspoletteja.",
+    "set-up-payments": "Määritä maksut"
+  },
+  "copy-success": "Kopioitu leikepöydälle",
+  "copy-failed": "Ei voitu kopioida automaattisesti. Valitse teksti ja kopioi se manuaalisesti.",
+  "moderation-approved": "Hyväksytty",
+  "moderation-rejected": "Hylätty",
+  "no-network-access-description": "Tällä sovelluksella ei ole pääsyä verkkoon.",
+  "danger-zone-confirmation": {
+    "switch": {
+      "warning-title": "Tätä muutosta ei voi perua"
+    }
+  }
 }

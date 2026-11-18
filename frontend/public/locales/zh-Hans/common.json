@@ -719,7 +719,9 @@
     "top-game-stores": "热门游戏商店",
     "top-game-utilities": "热门游戏工具",
     "top-emulators": "热门模拟器",
-    "x-growth-formatted": "{percentage} 增速"
+    "x-growth-formatted": "{percentage} 增速",
+    "per-capita-description": "排除了没有人口数据的地区。",
+    "annual-growth": "年增长率"
   },
   "year-in-review-banner": {
     "description": "重温年度热门应用和趋势",
@@ -1020,5 +1022,29 @@
   "moderation-approved-on": "批准于 {handledAt} ({handledAtRel})",
   "moderation-rejected-on": "拒绝于 {handledAt} ({handledAtRel})",
   "moderation-rejected": "被拒绝",
-  "moderation-approved": "已批准"
+  "moderation-approved": "已批准",
+  "country-downloads": {
+    "description": "下载量，不是用户数。",
+    "country": "地区",
+    "lower": "较少",
+    "higher": "较多",
+    "total-downloads": "总下载量",
+    "per-100000": "每 10 万人",
+    "per-capita-map-label": "每个地区每 10 万人的下载量",
+    "x-per-100000": "每 10 万人 {x} 次下载",
+    "x-total": "共计 {x} 下载",
+    "population-unavailable": "人口数据不可用",
+    "source": "{year} 年中预测，来自 <source>联合国世界人口展望 {revision}</source>，数据按 <license>CC BY 3.0 IGO</license> 进行许可。",
+    "summary": "下载量，非用户数。",
+    "no-country-data": "还没有地区数据。",
+    "population-source": "{year} 人口数据",
+    "methodology": "比率统计下载量，不是用户数。没有人口数据，就没有比率。"
+  },
+  "country-installs": {
+    "title": "不同地区的安装量",
+    "total-installs": "总安装量",
+    "description": "比率统计安装量，非用户数。",
+    "per-capita-map-label": "每个地区每 10 万人的安装量",
+    "x-per-100000": "每 10 万人 {x} 次安装"
+  }
 }

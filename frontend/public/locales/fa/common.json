@@ -719,7 +719,9 @@
     "top-emulators": "برترین شبیه‌سازها",
     "top-game-stores": "برترین فروشگاه‌های بازی",
     "top-game-utilities": "برترین ابزارهای بازی",
-    "x-growth-formatted": "{percentage} رشد"
+    "x-growth-formatted": "{percentage} رشد",
+    "annual-growth": "رشد سالانه",
+    "per-capita-description": "کشورهای بدون داده‌ّای جمعیتی کنار گذاشته شده‌اند."
   },
   "year-in-review-banner": {
     "title": "بازبینی سال {year} فلت‌هاب",
@@ -1020,5 +1022,27 @@
   "moderation-approved-on": "تأیید شده روی {handledAt} ({handledAtRel})",
   "moderation-rejected-on": "رد شده روی {handledAt} ({handledAtRel})",
   "moderation-rejected": "رد شده",
-  "moderation-approved": "تأیید شده"
+  "moderation-approved": "تأیید شده",
+  "country-downloads": {
+    "x-total": "در مجموع {x}",
+    "population-unavailable": "داده‌های جمعیتی در دسترس نیست",
+    "source": "نگاشت‌های میان‌سال {year}‏ <source>چشم انداز جمعیت جهان ملل متّحد {revision}</source> با پروانهٔ <license>CC BY 3.0 IGO</license>.",
+    "description": "بارگیری، نه کاربر.",
+    "country": "کشور",
+    "lower": "کم‌تر",
+    "higher": "بیش‌تر",
+    "total-downloads": "مجموع بارگیری‌ها",
+    "per-100000": "بر ۱۰۰٬۰۰۰ نفر",
+    "per-capita-map-label": "بارگیری به ازای هر ۱۰۰٬۰۰۰ نفر در هر کشور",
+    "x-per-100000": "{x} بارگیری به ازای هر ۱۰۰٬۰۰۰ نفر",
+    "summary": "بارگیری، نه کاربر.",
+    "no-country-data": "هنوز داده‌های کشور وجود ندارند.",
+    "population-source": "داده‌های جمعیتی {year}"
+  },
+  "country-installs": {
+    "total-installs": "مجموع نصب‌ها",
+    "title": "نصب‌ها به ازای کشور",
+    "x-per-100000": "{x} نصب به ازای هر ۱۰۰٬۰۰۰ نفر",
+    "per-capita-map-label": "نصب به ازای هر ۱۰۰٬۰۰۰ نفر در هر کشور"
+  }
 }
