@@ -153,15 +153,39 @@ def test_missing_comparison_data_prevents_publication(annual_stats):
     assert asyncio.run(stats.get_year_stats(2019)) is None
 
 
-def test_known_historical_gap_preserves_daily_alignment(stats_database):
-    fetched = datetime.datetime(2018, 6, 22, tzinfo=datetime.UTC)
-    stats_db.save_day(datetime.date(2018, 6, 18), {"updates": 7, "refs": {}}, fetched)
-    stats_db.save_day(datetime.date(2018, 6, 20), {"updates": 11, "refs": {}}, fetched)
+@pytest.mark.parametrize(
+    ("start", "end"),
+    [
+        (datetime.date(2018, 6, 18), datetime.date(2018, 6, 20)),
+        (datetime.date(2018, 11, 19), datetime.date(2018, 11, 28)),
+        (datetime.date(2018, 12, 8), datetime.date(2018, 12, 11)),
+    ],
+)
+def test_annual_updates_include_both_sides_of_known_gap(stats_database, start, end):
+    fetched = datetime.datetime(2019, 1, 1, tzinfo=datetime.UTC)
+    stats_db.save_day(start, {"updates": 7, "refs": {}}, fetched)
+    stats_db.save_day(end, {"updates": 11, "refs": {}}, fetched)
 
-    assert (
-        stats._annual_data(datetime.date(2018, 6, 18), datetime.date(2018, 6, 20))[3]
-        == 18
-    )
+    assert stats._annual_data(start, end)[3] == 18
+
+
+def test_2018_and_2019_reports_use_available_data_across_december_gap(
+    annual_stats, monkeypatch
+):
+    clock, put, _, _ = annual_stats
+    clock.now = datetime.datetime(2019, 1, 3, tzinfo=datetime.UTC)
+    monkeypatch.setattr(stats, "FIRST_STATS_DATE", datetime.date(2018, 12, 8))
+    put(datetime.date(2018, 12, 8), {"refs": {"app": {"x86_64": [5, 0]}}})
+    # December 9 and 10 are missing; the fixture already covers December 29-31.
+    for day in range(11, 29):
+        put(datetime.date(2018, 12, day))
+    put(datetime.date(2019, 1, 1), {"refs": {"app": {"x86_64": [9, 0]}}})
+
+    review_2018 = asyncio.run(stats.get_year_stats(2018))
+    review_2019 = asyncio.run(stats.get_year_stats(2019))
+    assert review_2018["total_downloads"] == 5
+    assert review_2019["total_downloads"] == 9
+    assert review_2019["total_downloads_change"] == 4
 
 
 def test_known_historical_gap_uses_data_when_available(stats_database):

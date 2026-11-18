@@ -39,6 +39,13 @@ class StatsFromServer(TypedDict):
 
 
 FIRST_STATS_DATE = datetime.date(2018, 4, 29)
+# Daily files absent from the stable download statistics archive.
+KNOWN_STATS_GAPS = {
+    datetime.date(2018, 6, 19),
+    *(datetime.date(2018, 11, day) for day in range(20, 28)),
+    datetime.date(2018, 12, 9),
+    datetime.date(2018, 12, 10),
+}
 
 
 # Download thresholds for filtering meaningful statistics
@@ -640,7 +647,7 @@ def _require_complete_year(sdate: datetime.date, edate: datetime.date) -> None:
     known = stats_db.known_dates(sdate, edate)
     for offset in range((edate - sdate).days + 1):
         date = sdate + datetime.timedelta(days=offset)
-        if date not in known and date != datetime.date(2018, 6, 19):
+        if date not in known and date not in KNOWN_STATS_GAPS:
             raise _IncompleteYearStats(f"Missing year-in-review daily stats for {date}")
     with stats_get_db("writer") as sqldb:
         stale = sqldb.execute(
