@@ -82,6 +82,7 @@ const Header = () => {
       href: "/admin",
       condition: (user: GetUserinfoAuthUserinfoGet200) =>
         user?.permissions.some((a) => a === Permission.moderation) ||
+        user?.permissions.some((a) => a === Permission["manage-apps"]) ||
         user?.permissions.some((a) => a === Permission["quality-moderation"]),
     },
     { name: t("settings"), href: "/settings" },
