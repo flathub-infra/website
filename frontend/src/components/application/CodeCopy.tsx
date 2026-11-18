@@ -46,7 +46,7 @@ const CodeCopy: FunctionComponent<Props> = ({
     >
       <code
         dir="ltr"
-        className="block whitespace-pre-wrap [overflow-wrap:anywhere]"
+        className="block whitespace-pre-wrap [overflow-wrap:anywhere] before:content-none after:content-none"
       >
         {text}
       </code>

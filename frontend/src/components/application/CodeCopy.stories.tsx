@@ -42,6 +42,23 @@ export const GeneratedWithMultipleLines2 = () => {
   )
 }
 
+export const InsideProse: StoryObj<typeof CodeCopy> = {
+  args: { text: "sudo apt install flatpak" },
+  decorators: [
+    (Story) => (
+      <div className="prose dark:prose-invert">
+        <Story />
+      </div>
+    ),
+  ],
+  play: async ({ canvasElement, args }) => {
+    const command = within(canvasElement).getByText(args.text)
+    for (const pseudo of ["::before", "::after"]) {
+      await expect(getComputedStyle(command, pseudo).content).toBe("none")
+    }
+  },
+}
+
 export const KeyboardCopy: StoryObj<typeof CodeCopy> = {
   args: { text: "flatpak install flathub org.gimp.GIMP", onCopy: fn() },
   play: async ({ canvasElement, args }) => {
