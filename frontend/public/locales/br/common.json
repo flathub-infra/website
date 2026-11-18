@@ -301,5 +301,11 @@
   "app-management": {
     "payments": "Paemantoù",
     "manage-app": "Merañ an arload"
+  },
+  "country-downloads": {
+    "country": "Bro",
+    "lower": "Nebeutoc'h",
+    "higher": "Muioc'h",
+    "total-downloads": "Niver hollek a bellgargadurioù"
   }
 }

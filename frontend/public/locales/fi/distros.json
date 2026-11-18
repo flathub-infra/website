@@ -12,6 +12,10 @@
     "step-4": {
       "name": "Käynnistä uudelleen",
       "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Asenna Bazaar",
+      "text": "<text>Kun Flathub on käytössä, asenna Bazaar suoraan Flathubista komennolla:</text> <code></code> <text>Sen jälkeen käynnistä se työpöydältä asentaaksesi Flatpak-sovelluksia graafisen käyttöliittymän kautta.</text>"
     }
   },
   "fedora": {
@@ -119,6 +123,10 @@
     "step-4": {
       "name": "Käynnistä uudelleen",
       "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Asenna Bazaar",
+      "text": "<text>Kun Flathub on käytössä, asenna Bazaar suoraan Flathubista komennolla:</text> <code></code> <text>Sen jälkeen käynnistä se työpöydältä asentaaksesi Flatpak-sovelluksia graafisen käyttöliittymän kautta.</text>"
     }
   },
   "rocky_linux": {
@@ -163,7 +171,7 @@
     "distroName": "Kubuntu",
     "step-1": {
       "name": "Asenna Flatpak",
-      "text": "<text>Asentaaksesi Flatpak-tuen Kubuntuun, avaa Discover-kauppa, mene asetuksiin, asenna Flatpak-taustaosa ja uudelleenkäynnistä Discover-kauppa.</text>"
+      "text": "<text>Asenna Flatpak Kubuntuun avaamalla Pääte-sovellus ja suorittamalla komento:</text> <code></code>"
     },
     "step-3": {
       "name": "Lisää Flathub-ohjelmistolähde",
@@ -172,6 +180,10 @@
     "step-4": {
       "name": "Käynnistä uudelleen",
       "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Asenna Bazaar",
+      "text": "<text>Kun Flathub on käytössä, asenna Bazaar suoraan Flathubista komennolla:</text> <code></code> <text>Sen jälkeen käynnistä se työpöydältä asentaaksesi Flatpak-sovelluksia graafisen käyttöliittymän kautta.</text>"
     }
   },
   "solus": {
@@ -186,7 +198,11 @@
     "step-3": {
       "name": "Käynnistä uudelleen"
     },
-    "introduction": "<text>Flatpak-tuki on sisällytetty Solus 4.7 ja sitä uudempiin julkaisuihin—mitään asennuksia ei tarvita! Flatpak-sovelluksia voidaan asentaa käyttäen GNOME Software -kauppaa ja/tai KDE Discover -kauppaa.</text> <text>Mikäli Flatpak ei ole asennettuna, seuraa allaolevia ohjeita.</text>"
+    "introduction": "<text>Flatpak-tuki on sisällytetty Solus 4.7 ja sitä uudempiin julkaisuihin—mitään asennuksia ei tarvita! Flatpak-sovelluksia voidaan asentaa käyttäen GNOME Software -kauppaa ja/tai KDE Discover -kauppaa.</text> <text>Mikäli Flatpak ei ole asennettuna, seuraa allaolevia ohjeita.</text>",
+    "install-bazaar": {
+      "name": "Asenna Bazaar",
+      "text": "<text>Kun Flathub on käytössä, asenna Bazaar suoraan Flathubista komennolla:</text> <code></code> <text>Sen jälkeen käynnistä se työpöydältä asentaaksesi Flatpak-sovelluksia graafisen käyttöliittymän kautta.</text>"
+    }
   },
   "alpine": {
     "distroName": "Alpine",
@@ -199,6 +215,10 @@
     },
     "step-3": {
       "name": "Lisää Flathub-ohjelmistolähde"
+    },
+    "install-bazaar": {
+      "name": "Asenna Bazaar",
+      "text": "<text>Kun Flathub on käytössä, asenna Bazaar suoraan Flathubista komennolla:</text> <code></code> <text>Sen jälkeen käynnistä se työpöydältä asentaaksesi Flatpak-sovelluksia graafisen käyttöliittymän kautta.</text>"
     }
   },
   "mageia": {
@@ -305,6 +325,10 @@
     "step-4": {
       "name": "Käynnistä uudelleen",
       "text": "<text>Viimeistele asennus käynnistämällä järjestelmä uudelleen. Sen jälkeen voit <link>asentaa sovelluksia</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Asenna Bazaar",
+      "text": "<text>Kun Flathub on käytössä, asenna Bazaar suoraan Flathubista komennolla:</text> <code></code> <text>Sen jälkeen käynnistä se työpöydältä asentaaksesi Flatpak-sovelluksia graafisen käyttöliittymän kautta.</text>"
     }
   },
   "mx_linux": {
@@ -381,5 +405,17 @@
   },
   "salix": {
     "distroName": "Salix"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Asenna Flatpak"
+    },
+    "step-3": {
+      "name": "Käynnistä uudelleen"
+    }
+  },
+  "nura": {
+    "distroName": "Nura"
   }
 }

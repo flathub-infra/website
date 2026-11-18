@@ -644,7 +644,9 @@
     "hidden-gems": "Skryté perly",
     "hidden-gems-description": "Aplikácie s rastúcou popularitou",
     "platform-downloads": "Platformové stiahnutia",
-    "x-growth-formatted": "{percentage} rast"
+    "x-growth-formatted": "{percentage} rast",
+    "per-capita-description": "Krajiny bez údajov o populácii sú vylúčené.",
+    "annual-growth": "Ročný rast"
   },
   "quality": {
     "missing-brand-colors": "Chýbajú farby značky",
@@ -1016,5 +1018,33 @@
     "uploads-description": "Vytvorte tokeny na nahrávanie, aby ste mohli publikovať zostavenia z vašich vývojárskych nástrojov alebo CI. Tu môžete spravovať a rušiť existujúce tokeny.",
     "archive-description": "Zrušte všetky tokeny na nahrávanie a označte túto aplikáciu ako na konci životnosti. Pre existujúcich používateľov môžete poskytnúť správu a náhradnú aplikáciu.",
     "verification-description": "Ukážte používateľom, že táto aplikácia je schválená jej vývojárom. Vyberte si nižšie metódu, ktorou dokážete, že ovládate jej doménu alebo hostingový účet zdrojového kódu. Podrobnosti nájdete v <doclink>príručke na overenie</doclink>."
+  },
+  "country-downloads": {
+    "country": "Krajina",
+    "lower": "Menej",
+    "higher": "Viac",
+    "total-downloads": "Celkový počet stiahnutí",
+    "per-100000": "Na 100 000 obyvateľov",
+    "per-capita-map-label": "Stiahnutia na 100 000 obyvateľov v každej krajine",
+    "x-per-100000": "{x} stiahnutí na 100 000 obyvateľov",
+    "x-total": "Celkom {x}",
+    "population-unavailable": "Údaje o populácii nie sú k dispozícii",
+    "summary": "Stiahnutia, nie používatelia.",
+    "no-country-data": "Zatiaľ nie sú k dispozícii žiadne údaje o krajinách.",
+    "population-source": "Údaje o populácii z roku {year}",
+    "methodology": "Sadzby počítajú stiahnutia, nie používateľov. Žiadna sadzba bez údajov o populácii.",
+    "description": "Stiahnutia, nie používatelia.",
+    "source": "Projekcie polovice roka {year} z <source>UN World Population Prospects {revision}</source>, licencované pod <license>CC BY 3.0 IGO</license>."
+  },
+  "moderation-approved": "Schválené",
+  "moderation-rejected": "Zamietnuté",
+  "moderation-approved-on": "Schválené dňa {handledAt} ({handledAtRel})",
+  "moderation-rejected-on": "Zamietnuté dňa {handledAt} ({handledAtRel})",
+  "country-installs": {
+    "title": "Inštalácie podľa krajín",
+    "total-installs": "Celkový počet inštalácií",
+    "description": "Sadzby počítajú inštalácie, nie používateľov.",
+    "per-capita-map-label": "Inštalácie na 100 000 obyvateľov v každej krajine",
+    "x-per-100000": "{x} inštalácií na 100 000 obyvateľov"
   }
 }

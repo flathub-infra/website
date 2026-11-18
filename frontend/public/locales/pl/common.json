@@ -723,7 +723,9 @@
     "hidden-gems-description": "Aplikacje zyskujące na popularności",
     "hidden-gems": "Ukryte perełki",
     "platform-downloads": "Pobrania według platformy",
-    "x-growth-formatted": "Wzrost o {percentage}"
+    "x-growth-formatted": "Wzrost o {percentage}",
+    "per-capita-description": "Kraje bez danych o ludności zostały pominięte.",
+    "annual-growth": "Wzrost roczny"
   },
   "quality-moderation-excluded": "Ta aplikacja nie podlega kontroli jakości",
   "app-information": "Informacje o aplikacji",
@@ -1020,5 +1022,29 @@
   "moderation-approved": "Zatwierdzono",
   "moderation-rejected": "Odrzucono",
   "moderation-approved-on": "Zatwierdzono w dniu {handledAt} ({handledAtRel})",
-  "moderation-rejected-on": "Odrzucono w dniu {handledAt} ({handledAtRel})"
+  "moderation-rejected-on": "Odrzucono w dniu {handledAt} ({handledAtRel})",
+  "country-downloads": {
+    "country": "Kraj",
+    "description": "Pobrania, nie użytkownicy.",
+    "lower": "Mniej",
+    "higher": "Więcej",
+    "total-downloads": "Łączna liczba pobrań",
+    "per-100000": "Na 100 000 osób",
+    "per-capita-map-label": "Liczba pobrań na 100 000 osób w każdym kraju",
+    "x-per-100000": "{x} pobrań na 100 000 osób",
+    "x-total": "{x} ogółem",
+    "population-unavailable": "Brak danych dotyczących ludności",
+    "source": "Prognozy na połowę roku {year} z <source>UN World Population Prospects {revision}</source>, na licencji <license>CC BY 3.0 IGO</license>.",
+    "summary": "Pobrania, nie użytkownicy.",
+    "no-country-data": "Brak jeszcze danych o krajach.",
+    "population-source": "Dane o ludności za rok {year}",
+    "methodology": "Wskaźniki uwzględniają pobrania, nie użytkowników. Bez danych o ludności wskaźnik nie jest wyliczany."
+  },
+  "country-installs": {
+    "title": "Instalacje według kraju",
+    "total-installs": "Łączna liczba instalacji",
+    "description": "Wskaźniki uwzględniają instalacje, nie użytkowników.",
+    "per-capita-map-label": "Liczba instalacji na 100 000 osób w każdym kraju",
+    "x-per-100000": "{x} instalacji na 100 000 osób"
+  }
 }

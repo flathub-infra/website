@@ -708,10 +708,10 @@
     "newcomer-description": "Sel aastal avaldatud populaarseimad rakendused",
     "most-improved": "Suurim kasvuprotsent",
     "most-improved-description": "Rakendused, mille allalaadimiste arvu protsentuaalne kasv eelmise aastaga võrreldes oli suurim",
-    "geographic-insights": "Jagunemine üle maailma",
+    "geographic-insights": "Geograafiline analüüs",
     "countries-reached": "Maade arv",
     "fastest-growing-regions": "Kiiremini kasvavad piirkonnad",
-    "top-countries": "Suurimad kasutajad",
+    "top-countries": "Aktiivsemad riigid",
     "trending-categories": "Populaarsust koguvad kategooriad",
     "trending-categories-description": "Kategooriad, kus oli suurim kasv sel aastal",
     "year-over-year-growth": "Aastane kasv",
@@ -719,7 +719,9 @@
     "hidden-gems": "Peidetud pärlid",
     "hidden-gems-description": "Kasvava populaarsusega rakendused",
     "platform-downloads": "Allalaadimise platvormide kaupa",
-    "x-growth-formatted": "{percentage} kasv"
+    "x-growth-formatted": "{percentage} kasv",
+    "per-capita-description": "Rahvaarvuta riigid on jäänud välja.",
+    "annual-growth": "Aastane kasv"
   },
   "year-in-review-banner": {
     "title": "Flathubi {year}. aasta kokkuvõte",
@@ -1006,6 +1008,43 @@
     "no-pending-description": "Kõik on tehtud. Varasemat muudatuste vaatamiseks lülita nende kuvamine sisse.",
     "view-listing": "Vaata rakenduse avaldamise teavet",
     "manage-app": "Halda rakendust",
-    "payments": "Maksed"
+    "payments": "Maksed",
+    "uploads": "Laadi tunnusload üles",
+    "payment-account-status": "Vajalik on kasutajakonto seadistamine",
+    "switch-upload-method": "Vaheta üleslaadimise meetodit",
+    "no-active-tokens": "Aktiivseid üleslaadimise tunnuslube pole.",
+    "set-up-payments": "Seadista maksed",
+    "payments-description": "Ühenda Stripe Expressi konto, et saada oma rakenduse eest makseid. Kui konto on seadistatud, saad siin määratleda soovituslikud annetussummad ja hinnad.",
+    "uploads-description": "Loo üleslaadimise tunnusload, et avaldada kompileeritud versioone oma arendustööriistadest või pideva lõimingu (CI) liidestusest. Siin saad olemasolevaid tunnuslube hallata ja tühistada.",
+    "archive-description": "Tühista kõik üleslaadimise tunnusload ja märgi see rakendus kasutuselt kõrvaldatuks. Saad lisada sõnumi ja soovitada olemasolevatele kasutajatele asendusrakendust.",
+    "verification-description": "Näita kasutajatele, et see rakendus on arendaja poolt heaks kiidetud. Vali allpool üks meetod, et tõendada, et sa kontrollid seda domeeni või lähtekoodi halduskontot. Täpsema teabe saamiseks loe <doclink>tuvastusjuhendit</doclink>."
+  },
+  "country-downloads": {
+    "description": "Allalaadimiste, mitte kasutajate arv.",
+    "country": "Riik",
+    "lower": "Vähem",
+    "higher": "Rohkem",
+    "total-downloads": "Allalaadimisi kokku",
+    "per-100000": "100000 elaniku kohta",
+    "per-capita-map-label": "Allalaadimisi igas riigis 100000 elaniku kohta",
+    "x-per-100000": "{x} allalaadimist 100000 elaniku kohta",
+    "x-total": "Kokku {x}",
+    "population-unavailable": "Rahvastikuandmeid pole saadaval",
+    "source": "{year}. aasta keskpunkti rahvastikuprognoose, mis pärinevad <source>ÜRO maailma rahvastikuprognoosidest {revision}</source>, mis on litsentseeritud <license>CC BY 3.0 IGO</license> litsentsi alusel.",
+    "summary": "Allalaadimised, mitte kasutajad.",
+    "no-country-data": "Riigiandmeid veel pole.",
+    "population-source": "{year}. aasta rahvastikuandmed",
+    "methodology": "Suhtarvud märgivad allalaadimiste, mitte kasutajate arvu. Kui rahvastikuandmed on puudu, siis suhtarvu pole."
+  },
+  "moderation-approved": "Kinnitatud",
+  "moderation-rejected": "Tagasilükatud",
+  "moderation-approved-on": "Kinnitatud {handledAt} ({handledAtRel})",
+  "moderation-rejected-on": "Tagasilükatud {handledAt} ({handledAtRel})",
+  "country-installs": {
+    "title": "Paigaldusi riikide kaupa",
+    "total-installs": "Paigaldusi kokku",
+    "description": "Suhtarvud arvestavad paigalduste, mitte kasutajate arvu.",
+    "per-capita-map-label": "Paigaldusi riikide kaupa 100000 elaniku kohta",
+    "x-per-100000": "{x} paigaldust 100000 elaniku kohta"
   }
 }
