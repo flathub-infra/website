@@ -10,6 +10,7 @@ export default function AdminPageClient() {
         info.permissions.some((a) => a === Permission.moderation) ||
         info.permissions.some((a) => a === Permission["view-users"]) ||
         info.permissions.some((a) => a === Permission["modify-users"]) ||
+        info.permissions.some((a) => a === Permission["manage-apps"]) ||
         info.permissions.some((a) => a === Permission["quality-moderation"])
       }
     >

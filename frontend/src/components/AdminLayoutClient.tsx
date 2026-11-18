@@ -83,6 +83,12 @@ const AdminLayoutClient = ({
               (a) => a === Permission["quality-moderation"],
             ),
         },
+        {
+          name: "App translations",
+          href: "/app-translations",
+          condition: (user: GetUserinfoAuthUserinfoGet200) =>
+            user?.permissions.some((a) => a === Permission["manage-apps"]),
+        },
       ],
     },
     {
@@ -127,7 +133,12 @@ const AdminLayoutClient = ({
 
   useEffect(() => {
     if (adminNavigation.length > 0 && pathname.endsWith("/admin")) {
-      router.push(adminNavigation[0].href)
+      const firstAdminPage =
+        adminNavigation.find((item) => item.href.startsWith("/admin/")) ??
+        adminNavigation[0]
+      if (firstAdminPage) {
+        router.push(firstAdminPage.href)
+      }
     }
   }, [adminNavigation, pathname, router])
 
