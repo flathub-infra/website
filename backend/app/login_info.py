@@ -236,6 +236,16 @@ def can_manage_app(db, user: models.FlathubUser, app_id: str) -> bool:
     )
 
 
+def manage_apps_only(login: LoggedInDep):
+    with get_db("writer") as db:
+        user = require_active_user(db, login.user.id)
+        if models.MANAGE_APPS_PERMISSION not in user.permissions():
+            raise HTTPException(status_code=403, detail="no_permission_to_manage_apps")
+        db.session.expunge(user)
+        login.user = user
+        return login
+
+
 def moderator_or_app_author_only(app_id: str, login: LoggedInDep):
     with get_db("writer") as db:
         user = require_active_user(db, login.user.id)
@@ -275,6 +285,7 @@ def quality_moderator_or_app_author_only(app_id: str, login: LoggedInDep):
 QualityModeratorDep = Annotated[LoggedInInformation, Depends(quality_moderator_only)]
 ViewUsersDep = Annotated[LoggedInInformation, Depends(view_users_only)]
 ModifyUsersDep = Annotated[LoggedInInformation, Depends(modify_users_only)]
+ManageAppsDep = Annotated[LoggedInInformation, Depends(manage_apps_only)]
 ManageOidcClientsDep = Annotated[LoggedInInformation, Depends(manage_oidc_clients_only)]
 ModeratorDep = Annotated[LoggedInInformation, Depends(moderator_only)]
 ModeratorOrAppAuthorDep = Annotated[

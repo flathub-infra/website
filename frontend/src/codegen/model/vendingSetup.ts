@@ -11,6 +11,7 @@ import type { VendingSetupStatus } from "./vendingSetupStatus"
  */
 export interface VendingSetup {
   status: VendingSetupStatus
+  is_owner?: boolean
   currency: string
   appshare: number
   recommended_donation: number

@@ -38,6 +38,7 @@ from .routes import (
     feed,
     invites,
     maintenance,
+    metadata_translations,
     oidc,
     oidc_admin,
     purchases,
@@ -109,6 +110,7 @@ invites.register_to_app(router)
 
 app_picks.register_to_app(router)
 maintenance.register_to_app(router)
+metadata_translations.register_to_app(router)
 checker_health.register_to_app(router)
 collection.register_to_app(router)
 feed.register_to_app(router)

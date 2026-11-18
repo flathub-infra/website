@@ -27,6 +27,8 @@ import qs from "qs"
 
 import type {
   GetRedeemableTokensVendingappAppIdTokensGetParams,
+  HTTPValidationError,
+  ManagementSetupAccessError,
   ProposedPayment,
   RedemptionResult,
   TokenCancellation,
@@ -1122,6 +1124,267 @@ export const usePostAppVendingSetupVendingappAppIdSetupPost = <
     queryClient,
   )
 }
+/**
+ * @summary Get Management Vending Setup
+ */
+export const getManagementVendingSetupVendingappAppIdManagementSetupGet = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<VendingSetup>> => {
+  return axios.get(`/vendingapp/${appId}/management-setup`, options)
+}
+
+export const getGetManagementVendingSetupVendingappAppIdManagementSetupGetUrl =
+  (appId: string) => {
+    return axios
+      .create({
+        baseURL: "",
+        params: null,
+      })
+      .getUri({
+        url: `/vendingapp/${appId}/management-setup`,
+        baseURL: "",
+
+        paramsSerializer: (params) =>
+          qs.stringify(params, { arrayFormat: "repeat" }),
+      })
+  }
+
+export const getGetManagementVendingSetupVendingappAppIdManagementSetupGetQueryKey =
+  (appId: string) => {
+    return [`/vendingapp/${appId}/management-setup`] as const
+  }
+
+export const getGetManagementVendingSetupVendingappAppIdManagementSetupGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<
+        typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+      >
+    >,
+    TError = AxiosError<ManagementSetupAccessError | HTTPValidationError>,
+  >(
+    appId: string,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetManagementVendingSetupVendingappAppIdManagementSetupGetQueryKey(
+        appId,
+      )
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+        >
+      >
+    > = ({ signal }) =>
+      getManagementVendingSetupVendingappAppIdManagementSetupGet(appId, {
+        signal,
+        ...axiosOptions,
+      })
+
+    return {
+      queryKey,
+      queryFn,
+      enabled: appId !== null && appId !== undefined,
+      ...queryOptions,
+    } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetManagementVendingSetupVendingappAppIdManagementSetupGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<
+        typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+      >
+    >
+  >
+export type GetManagementVendingSetupVendingappAppIdManagementSetupGetQueryError =
+  AxiosError<ManagementSetupAccessError | HTTPValidationError>
+
+/** @summary Get Management Vending Setup */
+export function useGetManagementVendingSetupVendingappAppIdManagementSetupGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+    >
+  >,
+  TError = AxiosError<ManagementSetupAccessError | HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Management Vending Setup */
+export function useGetManagementVendingSetupVendingappAppIdManagementSetupGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+    >
+  >,
+  TError = AxiosError<ManagementSetupAccessError | HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Management Vending Setup */
+export function useGetManagementVendingSetupVendingappAppIdManagementSetupGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+    >
+  >,
+  TError = AxiosError<ManagementSetupAccessError | HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Management Vending Setup */
+export function useGetManagementVendingSetupVendingappAppIdManagementSetupGet<
+  TData = Awaited<
+    ReturnType<
+      typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+    >
+  >,
+  TError = AxiosError<ManagementSetupAccessError | HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getManagementVendingSetupVendingappAppIdManagementSetupGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetManagementVendingSetupVendingappAppIdManagementSetupGetQueryOptions(
+      appId,
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
 /**
  * Construct a transaction for the given application with the proposed payment.
  * If the proposed payment is unacceptable then an error will be returned.
