@@ -1,10 +1,20 @@
 "use client"
 
-import { useFormatter, useLocale, useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { Link } from "src/i18n/navigation"
-import { useEffect, useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback } from "react"
+import { formatDownloadChange } from "src/formatDownloadChange"
+import { yearInReviewSpiral } from "src/yearInReviewSpiral"
+import {
+  Download,
+  Layers,
+  Percent,
+  RefreshCw,
+  Sprout,
+  TrendingUp,
+  Trophy,
+} from "lucide-react"
 import clsx from "clsx"
-import { cva } from "class-variance-authority"
 import LogoImage from "../LogoImage"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import type {
@@ -74,243 +84,68 @@ interface CategoryAppWinner {
   awards: Award[]
 }
 
-function AnimatedCounter({
-  value,
-  duration = 2000,
-}: {
-  value: number
-  duration?: number
-}) {
-  const [count, setCount] = useState(value)
-  const format = useFormatter()
-
-  useEffect(() => {
-    const motionPreference = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    )
-    let startTime: number | null = null
-    let animationFrameId: number | null = null
-
-    const stopAnimation = () => {
-      if (animationFrameId !== null) {
-        cancelAnimationFrame(animationFrameId)
-        animationFrameId = null
-      }
-    }
-
-    const handleMotionChange = () => {
-      if (motionPreference.matches) {
-        stopAnimation()
-        setCount(value)
-      }
-    }
-
-    const animate = (currentTime: number) => {
-      if (startTime === null) {
-        startTime = currentTime
-      }
-      const progress = Math.min((currentTime - startTime) / duration, 1)
-
-      setCount(Math.floor(progress * value))
-
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(animate)
-      }
-    }
-
-    if (motionPreference.matches || duration <= 0) {
-      setCount(value)
-    } else {
-      animationFrameId = requestAnimationFrame(animate)
-    }
-    motionPreference.addEventListener("change", handleMotionChange)
-
-    return () => {
-      stopAnimation()
-      motionPreference.removeEventListener("change", handleMotionChange)
-    }
-  }, [value, duration])
-
-  return (
-    <>
-      <span aria-hidden="true">{format.number(count)}</span>
-      <span className="sr-only">{format.number(value)}</span>
-    </>
-  )
-}
-
-const rankBadgeVariants = cva(
-  "flex items-center justify-center rounded-full font-black text-white shadow-md",
-  {
-    variants: {
-      size: {
-        sm: "size-5 text-[10px]",
-        md: "xl:size-8 size-12 xl:text-sm text-lg",
-        lg: "size-12 text-lg",
-      },
-      color: {
-        "celestial-blue": "bg-flathub-celestial-blue",
-      },
-      variant: {
-        absolute: "",
-        inline: "",
-      },
-    },
-    compoundVariants: [
-      {
-        variant: "absolute",
-        size: "sm",
-        className: "absolute -start-1 -top-1",
-      },
-      {
-        variant: "absolute",
-        size: "md",
-        className: "absolute xl:-start-2 xl:-top-2 -start-3 -top-3",
-      },
-      {
-        variant: "absolute",
-        size: "lg",
-        className: "absolute -start-3 -top-3",
-      },
-    ],
-    defaultVariants: {
-      size: "md",
-      color: "celestial-blue",
-      variant: "absolute",
-    },
-  },
-)
-
-function RankBadge({
-  rank,
-  size = "md",
-  color = "celestial-blue",
-  variant = "absolute",
-}: {
-  rank: number
-  size?: "sm" | "md" | "lg"
-  color?: "celestial-blue"
-  variant?: "absolute" | "inline"
-}) {
-  const format = useFormatter()
-  return (
-    <div className={rankBadgeVariants({ size, color, variant })}>
-      {format.number(rank)}
-    </div>
-  )
-}
-
 export function YearStatsGrid({
   year,
   totalDownloads,
-  newAppsCount,
+  change,
+  delta,
+  hasPreviousYear,
   totalApps,
   updatesCount,
-  totalDownloadsChange,
-  totalDownloadsChangePercentage,
-  hasPreviousYear = true,
 }: {
   year: number
   totalDownloads: number
-  newAppsCount: number
+  change: number
+  delta: number
+  hasPreviousYear: boolean
   totalApps: number
   updatesCount: number
-  totalDownloadsChange: number
-  totalDownloadsChangePercentage: number
-  hasPreviousYear?: boolean
 }) {
   const t = useTranslations()
   const locale = useLocale()
-
+  const comparison = formatDownloadChange(locale, delta, change)
+  const compact = new Intl.NumberFormat(locale, {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  })
+  const metrics = [
+    ["total-downloads", compact.format(totalDownloads), Download],
+    ["total-apps", totalApps.toLocaleString(locale), Layers],
+    ["app-updates", compact.format(updatesCount), RefreshCw],
+  ] as const
   return (
-    <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 mb-6">
-        <div className="text-center p-4 lg:p-6 rounded-xl bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/30 dark:border-flathub-arsenic shadow-lg">
-          <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-flathub-celestial-blue mb-2 lg:mb-3">
-            {new Intl.NumberFormat(locale, {
-              notation: "compact",
-              maximumFractionDigits: 1,
-            }).format(totalDownloads)}
-          </div>
-          <div className="text-xs sm:text-sm font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow uppercase tracking-wide">
-            {t("year-in-review.total-downloads")}
-          </div>
-        </div>
-        <div className="text-center p-4 lg:p-6 rounded-xl bg-gradient-to-br from-flathub-vivid-crimson/5 to-flathub-sunset-pink/10 dark:from-flathub-vivid-crimson/10 dark:to-flathub-sunset-pink/20 border-0 lg:border border-flathub-vivid-crimson/20 dark:border-flathub-sunset-pink/30 shadow-lg">
-          <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-flathub-vivid-crimson to-flathub-sunset-pink mb-2 lg:mb-3">
-            <AnimatedCounter value={newAppsCount} duration={1500} />
-          </div>
-          <div className="text-xs sm:text-sm font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow uppercase tracking-wide">
-            {t("year-in-review.new-apps")}
-          </div>
-        </div>
-        <div className="text-center p-4 lg:p-6 rounded-xl bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/30 dark:border-flathub-arsenic shadow-lg">
-          <div className="text-3xl sm:text-4xl lg:text-5xl font-black text-flathub-celestial-blue mb-2 lg:mb-3">
-            <AnimatedCounter value={totalApps} duration={1500} />
-          </div>
-          <div className="text-xs sm:text-sm font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow uppercase tracking-wide">
-            {t("year-in-review.total-apps")}
-          </div>
-        </div>
-        <div className="text-center p-4 lg:p-6 rounded-xl bg-gradient-to-br from-emerald-50 to-green-100/50 dark:from-emerald-950/30 dark:to-green-900/20 border-0 lg:border border-emerald-200/50 dark:border-emerald-800/30 shadow-lg">
-          <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-flathub-status-green dark:text-flathub-status-green-dark mb-2 lg:mb-3">
-            {new Intl.NumberFormat(locale, {
-              notation: "compact",
-              maximumFractionDigits: 1,
-            }).format(updatesCount)}
-          </div>
-          <div className="text-xs sm:text-sm font-bold text-flathub-dark-gunmetal/80 dark:text-flathub-gainsborow uppercase tracking-wide">
-            {t("year-in-review.app-updates")}
-          </div>
-        </div>
-      </div>
-
-      {/* Year over year growth banner */}
-      {hasPreviousYear &&
-        totalDownloadsChange > 0 &&
-        totalDownloadsChangePercentage > 0 && (
-          <div className="relative overflow-hidden p-5 lg:p-6 rounded-xl bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 dark:from-blue-500/20 dark:via-purple-500/20 dark:to-pink-500/20 border-0 lg:border border-blue-300/30 dark:border-blue-500/30 shadow-lg mb-10">
-            <div className="absolute inset-0 bg-gradient-to-r from-flathub-celestial-blue/5 via-purple-500/5 to-flathub-vivid-crimson/5 dark:from-flathub-celestial-blue/10 dark:via-purple-500/10 dark:to-flathub-vivid-crimson/10" />
-            <div className="relative flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div
-                  aria-hidden="true"
-                  className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-flathub-celestial-blue to-purple-500 flex items-center justify-center text-2xl sm:text-3xl shadow-lg"
-                >
-                  📈
-                </div>
-                <div className="text-center sm:text-start">
-                  <div className="text-sm sm:text-base font-black text-flathub-dark-gunmetal dark:text-flathub-gainsborow uppercase tracking-wide">
-                    {t("year-in-review.year-over-year-growth")}
-                  </div>
-                  <div className="text-xs sm:text-sm text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70">
+    <div className="overflow-hidden rounded-b-[18px] border border-t-0 border-[var(--line)] bg-[var(--paper)]">
+      <dl className="grid grid-cols-3 divide-x divide-[var(--line)] py-[26px] max-sm:py-4">
+        {metrics.map(([key, value, Icon]) => (
+          <div
+            key={key}
+            className="min-w-0 px-[clamp(12px,2.5vw,40px)] wrap-anywhere"
+          >
+            <dt className="flex items-center gap-2 text-sm font-semibold text-[var(--subtle)] max-sm:block max-sm:text-[13px] max-sm:hyphens-auto">
+              <Icon
+                className="shrink-0 max-sm:mb-1"
+                size={17}
+                aria-hidden="true"
+              />
+              {t(`year-in-review.${key}`)}
+            </dt>
+            <dd className="mt-2 text-[clamp(36px,3.5vw,56px)] leading-[1.1] font-[760] tracking-[-.055em] max-sm:text-[clamp(21px,5vw,32px)]">
+              {value}
+              {key === "total-downloads" &&
+                hasPreviousYear &&
+                comparison !== null && (
+                  <small className="mt-1.5 block text-[13px] leading-snug font-medium tracking-normal text-[var(--subtle)]">
                     {t("year-in-review.downloads-vs-previous-year", {
                       year: year - 1,
                     })}
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-baseline gap-2">
-                <div
-                  className={clsx(
-                    "text-4xl sm:text-5xl lg:text-6xl font-black",
-                    totalDownloadsChange >= 0
-                      ? "text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-500 dark:from-emerald-400 dark:to-green-300"
-                      : "text-transparent bg-clip-text bg-gradient-to-r from-flathub-sunset-pink to-flathub-vivid-crimson",
-                  )}
-                >
-                  {new Intl.NumberFormat(locale, {
-                    style: "percent",
-                    signDisplay: "always",
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  }).format(totalDownloadsChangePercentage / 100)}
-                </div>
-              </div>
-            </div>
+                    : {comparison}
+                  </small>
+                )}
+            </dd>
           </div>
-        )}
-    </>
+        ))}
+      </dl>
+    </div>
   )
 }
 
@@ -330,221 +165,100 @@ export function TopAppsSection({
   const t = useTranslations()
   const locale = useLocale()
 
+  const groups = [
+    [
+      [topApps, "top-apps"],
+      [topGames, "top-games"],
+    ],
+    [
+      [topEmulators, "top-emulators"],
+      [topGameStores, "top-game-stores"],
+      [topGameUtilities, "top-game-utilities"],
+    ],
+  ] as const
   return (
     <>
-      <div className="grid lg:grid-cols-2 gap-6">
-        {/* Top Apps */}
-        {topApps && topApps.length > 0 && (
-          <Card className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl">
-            <CardHeader className="pb-4 px-3 sm:px-6">
-              <CardTitle className="text-xl font-black flex items-center gap-2">
-                <h2 className="flex items-center gap-2">
-                  <span aria-hidden="true" className="text-2xl">
-                    🏆
-                  </span>
-                  <span>{t("year-in-review.top-apps")}</span>
-                </h2>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0 px-3 sm:px-6">
-              <div className="space-y-4">
-                {topApps.slice(0, 5).map((app, index) => (
-                  <Link
-                    key={app.app_id}
-                    href={`/apps/${app.app_id}`}
-                    className="block group"
-                  >
-                    <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-colors">
-                      <RankBadge rank={index + 1} size="lg" />
-                      <div className="flex items-start gap-4 ms-6">
-                        <div className="w-16 h-16 flex-shrink-0">
-                          {app.icon && (
-                            <LogoImage
-                              iconUrl={app.icon}
-                              appName={app.name}
-                              size={64}
-                            />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-lg font-bold text-flathub-dark-gunmetal dark:text-flathub-gainsborow group-hover:text-flathub-celestial-blue transition-colors">
-                            {app.name}
-                          </div>
-                          <div className="text-sm mt-1 text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70 line-clamp-2 min-h-[2.5rem]">
-                            {app.summary}
-                          </div>
-                          <div className="flex items-center gap-2 mt-2">
-                            <div className="text-sm font-semibold text-flathub-celestial-blue dark:text-flathub-celestial-blue">
-                              {new Intl.NumberFormat(locale, {
-                                notation: "compact",
-                                maximumFractionDigits: 1,
-                              }).format(app.downloads)}
-                            </div>
-                            <div className="text-xs text-flathub-dark-gunmetal/60 dark:text-flathub-gainsborow/80">
-                              {t("downloads")}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Top Games */}
-        {topGames && topGames.length > 0 && (
-          <Card className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl">
-            <CardHeader className="pb-4 px-3 sm:px-6">
-              <CardTitle className="text-xl font-black flex items-center gap-2">
-                <h2 className="flex items-center gap-2">
-                  <span aria-hidden="true" className="text-2xl">
-                    🎮
-                  </span>
-                  <span>{t("year-in-review.top-games")}</span>
-                </h2>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pt-0 px-3 sm:px-6">
-              <div className="space-y-4">
-                {topGames.slice(0, 5).map((game, index) => (
-                  <Link
-                    key={game.app_id}
-                    href={`/apps/${game.app_id}`}
-                    className="block group"
-                  >
-                    <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-colors">
-                      <RankBadge rank={index + 1} size="lg" />
-                      <div className="flex items-start gap-4 ms-6">
-                        <div className="w-16 h-16 flex-shrink-0">
-                          {game.icon && (
-                            <LogoImage
-                              iconUrl={game.icon}
-                              appName={game.name}
-                              size={64}
-                            />
-                          )}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-lg font-bold text-flathub-dark-gunmetal dark:text-flathub-gainsborow group-hover:text-flathub-celestial-blue dark:group-hover:text-flathub-celestial-blue transition-colors">
-                            {game.name}
-                          </div>
-                          <div className="text-sm mt-1 text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70 line-clamp-2 min-h-[2.5rem]">
-                            {game.summary}
-                          </div>
-                          <div className="flex items-center gap-2 mt-2">
-                            <div className="text-sm font-semibold text-flathub-celestial-blue dark:text-flathub-celestial-blue">
-                              {new Intl.NumberFormat(locale, {
-                                notation: "compact",
-                                maximumFractionDigits: 1,
-                              }).format(game.downloads)}
-                            </div>
-                            <div className="text-xs text-flathub-dark-gunmetal/60 dark:text-flathub-gainsborow/80">
-                              {t("downloads")}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      </div>
-
-      {(topEmulators?.length > 0 ||
-        topGameStores?.length > 0 ||
-        topGameUtilities?.length > 0) && (
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6 pt-6">
-          {[
-            {
-              data: topEmulators,
-              title: t("year-in-review.top-emulators"),
-              icon: "🕹️",
-              color: "celestial-blue",
-            },
-            {
-              data: topGameStores,
-              title: t("year-in-review.top-game-stores"),
-              icon: "🏪",
-              color: "celestial-blue",
-            },
-            {
-              data: topGameUtilities,
-              title: t("year-in-review.top-game-utilities"),
-              icon: "🔧",
-              color: "celestial-blue",
-            },
-          ]
-            .filter((section) => section.data && section.data.length > 0)
-            .map((section, sidx) => (
-              <Card
-                key={sidx}
-                className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl"
-              >
-                <CardHeader className="pb-3 px-3 sm:px-6">
-                  <CardTitle className="lg:text-base text-xl font-bold flex items-center gap-2">
-                    <h2 className="flex items-center gap-2">
-                      <span aria-hidden="true" className="text-2xl lg:text-xl">
-                        {section.icon}
-                      </span>
-                      <span>{section.title}</span>
-                    </h2>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-0 px-3 sm:px-6">
-                  <div className="space-y-3">
-                    {section.data.slice(0, 3).map((app, index) => (
-                      <Link
-                        key={app.app_id}
-                        href={`/apps/${app.app_id}`}
-                        className="block group"
+      {groups.map((group, groupIndex) => {
+        const limit = groupIndex === 0 ? 5 : 3
+        return (
+          group.some((entry) => entry[0]?.length) && (
+            <div
+              key={groupIndex}
+              className={
+                groupIndex === 0
+                  ? "grid gap-7 md:grid-cols-2"
+                  : "mt-6 grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-5"
+              }
+            >
+              {group.map(
+                ([apps, key]) =>
+                  apps?.length > 0 && (
+                    <section
+                      key={key}
+                      className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--paper)]"
+                    >
+                      <h2
+                        className={clsx(
+                          "border-b border-[var(--line)] px-[22px] py-[18px] font-[750] tracking-[-.045em] dark:bg-muted/30 print:bg-white",
+                          groupIndex === 0 ? "text-[26px]" : "text-[21px]",
+                        )}
                       >
-                        <div className="relative p-4 rounded-xl bg-flathub-gainsborow/30 dark:bg-flathub-dark-gunmetal/30 hover:bg-flathub-gainsborow/50 dark:hover:bg-flathub-dark-gunmetal/50 transition-colors">
-                          <RankBadge rank={index + 1} size="md" />
-                          <div className="flex items-start gap-4 ms-6">
-                            <div className="w-16 h-16 flex-shrink-0">
-                              {app.icon && (
-                                <LogoImage
-                                  iconUrl={app.icon}
-                                  appName={app.name}
-                                  size={64}
-                                />
+                        {t(`year-in-review.${key}`)}
+                      </h2>
+                      <ol className="divide-y divide-[var(--line)]">
+                        {apps.slice(0, limit).map((app, index) => (
+                          <li key={app.app_id}>
+                            <Link
+                              className={clsx(
+                                "grid items-center text-inherit hover:bg-accent",
+                                groupIndex === 0
+                                  ? "grid-cols-[24px_44px_minmax(0,1fr)_auto] gap-3 px-5 py-4 max-sm:grid-cols-[21px_36px_minmax(0,1fr)_auto] max-sm:gap-2 max-sm:px-3"
+                                  : "grid-cols-[20px_34px_minmax(0,1fr)_auto] gap-2 p-3",
                               )}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="text-lg font-bold text-flathub-dark-gunmetal dark:text-flathub-gainsborow group-hover:text-flathub-celestial-blue dark:group-hover:text-flathub-celestial-blue transition-colors">
-                                {app.name}
+                              href={`/apps/${app.app_id}`}
+                            >
+                              <span className="text-sm font-semibold text-[var(--subtle)]">
+                                {(index + 1).toLocaleString(locale, {
+                                  minimumIntegerDigits: 2,
+                                })}
+                              </span>
+                              <div>
+                                {app.icon && (
+                                  <LogoImage
+                                    iconUrl={app.icon}
+                                    appName={app.name}
+                                    size={64}
+                                  />
+                                )}
                               </div>
-                              <div className="text-sm mt-1 text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70 line-clamp-2 min-h-[2.5rem]">
-                                {app.summary}
+                              <div>
+                                <strong className="text-[17px] wrap-anywhere">
+                                  {app.name}
+                                </strong>
+                                <small className="block truncate text-[13px] text-[var(--subtle)]">
+                                  {app.summary}
+                                </small>
                               </div>
-                              <div className="flex items-center gap-2 mt-2">
-                                <div className="text-sm font-semibold text-flathub-celestial-blue dark:text-flathub-celestial-blue">
-                                  {new Intl.NumberFormat(locale, {
-                                    notation: "compact",
-                                    maximumFractionDigits: 1,
-                                  }).format(app.downloads)}
-                                </div>
-                                <div className="text-xs text-flathub-dark-gunmetal/60 dark:text-flathub-gainsborow/80">
+                              <div className="text-end font-semibold">
+                                {new Intl.NumberFormat(locale, {
+                                  notation: "compact",
+                                  maximumFractionDigits: 1,
+                                }).format(app.downloads)}
+                                <small className="block text-[11px] font-normal text-[var(--subtle)]">
                                   {t("downloads")}
-                                </div>
+                                </small>
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-        </div>
-      )}
+                            </Link>
+                          </li>
+                        ))}
+                      </ol>
+                    </section>
+                  ),
+              )}
+            </div>
+          )
+        )
+      })}
     </>
   )
 }
@@ -575,13 +289,10 @@ export function GeographicInsightsSection({
   }
 
   return (
-    <Card className="gap-3 bg-background shadow-md">
+    <Card className="gap-3 rounded-2xl border border-[var(--line)] bg-[var(--paper)] shadow-none">
       <CardHeader className="px-4 sm:px-6">
         <CardTitle className="text-xl font-black flex items-center gap-2">
           <h2 className="flex items-center gap-2">
-            <span aria-hidden="true" className="text-2xl">
-              🌍
-            </span>
             <span>{t("year-in-review.geographic-insights")}</span>
           </h2>
         </CardTitle>
@@ -762,255 +473,226 @@ export function CategoryHighlightsSection({
   const t = useTranslations()
   const locale = useLocale()
 
+  const [picked, setPicked] = useState("")
   if (!categoriesData || categoriesData.length === 0) {
     return null
   }
 
+  const labels = {
+    popular: "most-popular",
+    growth: "biggest-growth",
+    newcomer: "newcomer-of-year",
+    improved: "most-improved",
+  } as const
+  const active =
+    picked === "all"
+      ? "all"
+      : (
+          categoriesData.find((cat) => cat.category === picked) ??
+          categoriesData[0]
+        ).category
+  const awardIcons = {
+    popular: Trophy,
+    growth: TrendingUp,
+    improved: Percent,
+    newcomer: Sprout,
+  }
+  const definitions = [
+    ["popular", "most-popular-description"],
+    ["growth", "biggest-growth-description"],
+    ["newcomer", "newcomer-description"],
+    ["improved", "most-improved-description"],
+  ] as const
+  const compact = new Intl.NumberFormat(locale, {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  })
+  const percent = new Intl.NumberFormat(locale, {
+    style: "percent",
+    signDisplay: "always",
+  })
+  const pickerButton =
+    "cursor-pointer rounded-md px-3 py-[7px] text-start hover:underline aria-pressed:bg-secondary aria-pressed:text-secondary-foreground aria-pressed:font-semibold"
+  const awardLabel =
+    "flex items-center gap-1.5 [&_svg]:shrink-0 [&_svg]:text-[var(--chart-1)]"
   return (
-    <div className="space-y-10">
-      <div className="text-center space-y-6 mb-12">
-        <h2 className="text-2xl sm:text-3xl font-black text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
+    <section className="min-w-0 rounded-2xl bg-[linear-gradient(120deg,color-mix(in_oklab,var(--paper)_80%,var(--chart-1)),color-mix(in_oklab,var(--paper)_86%,var(--chart-4))_72%,color-mix(in_oklab,var(--paper)_88%,var(--chart-7)))] p-[clamp(16px,2.5vw,32px)] [--divider:color-mix(in_srgb,currentColor_22%,transparent)] print:bg-none">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[var(--divider)] pb-[18px]">
+        <h2 className="text-[clamp(28px,3vw,42px)] font-[750] tracking-[-.045em]">
           {t("year-in-review.category-highlights")}
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
-          <div className="p-5 rounded-xl bg-gradient-to-br from-blue-50 to-blue-100/70 dark:from-blue-900/30 dark:to-blue-800/20 border lg:border-2 border-blue-200/80 dark:border-blue-700/50 shadow-lg">
-            <div className="flex items-start gap-3">
-              <span aria-hidden="true" className="text-3xl">
-                🏆
-              </span>
-              <div className="flex-1">
-                <div className="font-black text-sm text-blue-900 dark:text-blue-200 mb-1.5">
-                  {t("year-in-review.most-popular")}
-                </div>
-                <div className="text-xs text-blue-800/70 dark:text-blue-300/70 leading-relaxed">
-                  {t("year-in-review.most-popular-description")}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="p-5 rounded-xl bg-gradient-to-br from-purple-50 to-purple-100/70 dark:from-purple-900/30 dark:to-purple-800/20 border lg:border-2 border-purple-200/80 dark:border-purple-700/50 shadow-lg">
-            <div className="flex items-start gap-3">
-              <span aria-hidden="true" className="text-3xl">
-                📈
-              </span>
-              <div className="flex-1">
-                <div className="font-black text-sm text-purple-900 dark:text-purple-200 mb-1.5">
-                  {t("year-in-review.biggest-growth")}
-                </div>
-                <div className="text-xs text-purple-800/70 dark:text-purple-300/70 leading-relaxed">
-                  {t("year-in-review.biggest-growth-description")}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="p-5 rounded-xl bg-gradient-to-br from-amber-50 to-amber-100/70 dark:from-amber-900/30 dark:to-amber-800/20 border lg:border-2 border-amber-200/80 dark:border-amber-700/50 shadow-lg">
-            <div className="flex items-start gap-3">
-              <span aria-hidden="true" className="text-3xl">
-                ✨
-              </span>
-              <div className="flex-1">
-                <div className="font-black text-sm text-amber-900 dark:text-amber-200 mb-1.5">
-                  {t("year-in-review.newcomer-of-year")}
-                </div>
-                <div className="text-xs text-amber-800/70 dark:text-amber-300/70 leading-relaxed">
-                  {t("year-in-review.newcomer-description")}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="p-5 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100/70 dark:from-emerald-900/30 dark:to-emerald-800/20 border lg:border-2 border-emerald-200/80 dark:border-emerald-700/50 shadow-lg">
-            <div className="flex items-start gap-3">
-              <span aria-hidden="true" className="text-3xl">
-                🏅
-              </span>
-              <div className="flex-1">
-                <div className="font-black text-sm text-emerald-900 dark:text-emerald-200 mb-1.5">
-                  {t("year-in-review.most-improved")}
-                </div>
-                <div className="text-xs text-emerald-800/70 dark:text-emerald-300/70 leading-relaxed">
-                  {t("year-in-review.most-improved-description")}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <select
+          className="max-w-full rounded-md bg-[var(--paper)] px-3 py-2 font-semibold md:hidden print:hidden"
+          aria-label={t("year-in-review.category-highlights")}
+          value={active}
+          onChange={(event) => setPicked(event.target.value)}
+        >
+          {categoriesData.map((cat) => (
+            <option key={cat.category} value={cat.category}>
+              {cat.category_name}
+            </option>
+          ))}
+          <option value="all">{t("year-in-review.all-categories")}</option>
+        </select>
       </div>
-      <div className="space-y-10">
-        {categoriesData.map((cat) => (
-          <div
-            key={cat.category}
-            className="p-4 sm:p-8 rounded-2xl bg-white dark:bg-flathub-arsenic border lg:border-2 border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl"
+      <div className="md:grid md:grid-cols-[minmax(180px,1fr)_minmax(0,4fr)] md:gap-6 print:block">
+        <div
+          className="hidden flex-col gap-0.5 border-e border-[var(--divider)] py-3.5 pe-4 md:flex print:hidden"
+          role="group"
+          aria-label={t("year-in-review.category-highlights")}
+        >
+          {categoriesData.map((cat) => (
+            <button
+              className={pickerButton}
+              type="button"
+              key={cat.category}
+              aria-pressed={cat.category === active}
+              onClick={() => setPicked(cat.category)}
+            >
+              {cat.category_name}
+            </button>
+          ))}
+          <button
+            className={clsx(
+              pickerButton,
+              "mt-2 rounded-t-none border-t border-[var(--divider)]",
+            )}
+            type="button"
+            aria-pressed={active === "all"}
+            onClick={() => setPicked("all")}
           >
-            <div>
-              <h3 className="text-xl lg:text-2xl font-black mb-8 text-flathub-dark-gunmetal dark:text-flathub-gainsborow pb-4 ps-4 relative border-b lg:border-b-2 border-transparent">
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-0 bottom-0 h-1 rounded-full bg-gradient-to-r from-flathub-celestial-blue via-purple-500 to-flathub-sunset-pink rtl:bg-gradient-to-l shadow-[0_0_10px_rgba(33,150,243,0.3)]"
-                />
-                {cat.category_name}
-              </h3>
-              <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-                {cat.winners.map((winner) => (
-                  <Link
-                    key={winner.app_id}
-                    href={`/apps/${winner.app_id}`}
-                    className="group block"
-                  >
-                    <div className="p-5 rounded-xl bg-gradient-to-br from-white/90 to-flathub-lotion/60 dark:from-flathub-dark-gunmetal/70 dark:to-flathub-dark-gunmetal/50 hover:from-white dark:hover:from-flathub-dark-gunmetal/90 dark:hover:to-flathub-dark-gunmetal/70 border lg:border-2 border-flathub-gainsborow/60 dark:border-flathub-arsenic/50 transition-[border-color,box-shadow,scale] duration-300 motion-reduce:transition-none motion-safe:hover:scale-[1.02] hover:shadow-2xl h-full flex flex-col backdrop-blur-sm hover:border-flathub-celestial-blue/50 dark:hover:border-flathub-celestial-blue/40">
-                      {/* Award badges */}
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {winner.awards.map((award, aidx) => {
-                          const types = {
-                            popular: {
-                              label: t("year-in-review.most-popular"),
-                              icon: "🏆",
-                              bgColor: "bg-blue-100 dark:bg-blue-900/40",
-                              textColor: "text-blue-800 dark:text-blue-200",
-                            },
-                            growth: {
-                              label: t("year-in-review.biggest-growth"),
-                              icon: "📈",
-                              bgColor: "bg-purple-100 dark:bg-purple-900/40",
-                              textColor: "text-purple-800 dark:text-purple-200",
-                            },
-                            newcomer: {
-                              label: t("year-in-review.newcomer-of-year"),
-                              icon: "✨",
-                              bgColor: "bg-amber-100 dark:bg-amber-900/40",
-                              textColor: "text-amber-800 dark:text-amber-200",
-                            },
-                            improved: {
-                              label: t("year-in-review.most-improved"),
-                              icon: "🏅",
-                              bgColor: "bg-emerald-100 dark:bg-emerald-900/40",
-                              textColor:
-                                "text-emerald-800 dark:text-emerald-200",
-                            },
-                          }
-                          const config = types[award.type]
-                          return (
-                            <div
-                              key={aidx}
-                              className={clsx(
-                                "text-[9px] font-black uppercase tracking-wide px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm",
-                                config.bgColor,
-                                config.textColor,
-                              )}
-                            >
-                              <span aria-hidden="true">{config.icon}</span>{" "}
-                              {config.label}
-                            </div>
-                          )
-                        })}
-                      </div>
-
-                      {/* App info */}
-                      <div className="flex items-start gap-3 mb-4">
-                        {winner.icon && (
+            {t("year-in-review.all-categories")}
+          </button>
+        </div>
+        <div>
+          {categoriesData.map((cat) => {
+            const headliner = cat.winners.find((app) =>
+              app.awards.some((award) => award.type === "popular"),
+            )
+            const lineup = headliner
+              ? [headliner, ...cat.winners.filter((app) => app !== headliner)]
+              : cat.winners
+            return (
+              <section
+                key={cat.category}
+                className="py-[clamp(16px,2.5vw,32px)] data-[inactive=true]:hidden print:data-[inactive=true]:block"
+                data-inactive={active !== "all" && active !== cat.category}
+              >
+                <h3
+                  className={clsx(
+                    "text-[22px] font-bold wrap-anywhere print:break-after-avoid",
+                    active !== "all" && "hidden print:block",
+                  )}
+                >
+                  {cat.category_name}
+                </h3>
+                <ul className="grid gap-5 md:grid-cols-[1.15fr_1fr] max-md:gap-0">
+                  {lineup.map((app) => (
+                    <li
+                      key={app.app_id}
+                      className={
+                        app === headliner
+                          ? "md:row-span-3 print:break-inside-avoid"
+                          : "print:break-inside-avoid"
+                      }
+                    >
+                      <Link
+                        className={clsx(
+                          "group flex text-inherit",
+                          app === headliner
+                            ? "items-center gap-[clamp(14px,2vw,28px)] py-[clamp(16px,2.4vw,32px)] max-md:pt-1 [&_img]:w-[clamp(64px,8vw,120px)]"
+                            : "items-start gap-[18px] border-t border-[var(--divider)] py-3.5 [&_img]:w-[52px] max-md:[&_img]:w-10",
+                        )}
+                        href={`/apps/${app.app_id}`}
+                      >
+                        {app.icon && (
                           <LogoImage
-                            iconUrl={winner.icon}
-                            appName={winner.name}
-                            size={64}
+                            iconUrl={app.icon}
+                            appName={app.name}
+                            size={app === headliner ? 128 : 64}
                           />
                         )}
-                        <div className="flex-1 min-w-0">
-                          <div className="font-black text-base text-flathub-dark-gunmetal dark:text-flathub-gainsborow group-hover:text-flathub-celestial-blue dark:group-hover:text-flathub-celestial-blue transition-colors line-clamp-2 mb-1.5">
-                            {winner.name}
-                          </div>
-                          <div className="text-xs text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70 line-clamp-2 leading-relaxed">
-                            {winner.summary}
-                          </div>
+                        <div className="min-w-0 flex-1 wrap-anywhere">
+                          <bdi
+                            className={clsx(
+                              "font-bold group-hover:underline",
+                              app === headliner
+                                ? "mb-1.5 block text-[clamp(22px,2.5vw,38px)] leading-[1.12] tracking-[-.035em]"
+                                : "text-[19px]",
+                            )}
+                          >
+                            {app.name}
+                          </bdi>
+                          <small className="block text-sm text-[var(--subtle)]">
+                            {app.summary}
+                          </small>
+                          <dl className="mt-2.5 flex flex-wrap gap-x-[26px] gap-y-2">
+                            {app.awards.map((award) => {
+                              const data = award.data
+                              const Icon = awardIcons[award.type]
+                              const value =
+                                award.type === "growth" && "growth" in data
+                                  ? t("year-in-review.more-downloads", {
+                                      count: data.growth,
+                                    })
+                                  : "growth_percentage" in data
+                                    ? t("year-in-review.x-growth-formatted", {
+                                        percentage: percent.format(
+                                          data.growth_percentage / 100,
+                                        ),
+                                      })
+                                    : t("x-downloads", {
+                                        x: compact.format(data.downloads),
+                                        count: compact.format(data.downloads),
+                                      })
+                              return (
+                                <div key={award.type}>
+                                  <dt
+                                    className={clsx(
+                                      awardLabel,
+                                      "text-[13px] font-medium text-[var(--subtle)]",
+                                    )}
+                                  >
+                                    <Icon size={16} aria-hidden="true" />
+                                    {t(`year-in-review.${labels[award.type]}`)}
+                                  </dt>
+                                  <dd className="font-semibold tabular-nums">
+                                    {value}
+                                  </dd>
+                                </div>
+                              )
+                            })}
+                          </dl>
                         </div>
-                      </div>
-
-                      {/* Stats */}
-                      <div className="mt-auto flex flex-wrap gap-2">
-                        {winner.awards.map((award, aidx) => {
-                          let text = ""
-                          let bgColor = ""
-                          let textColor = ""
-
-                          if (award.type === "popular") {
-                            const downloadsCount = new Intl.NumberFormat(
-                              locale,
-                              {
-                                notation: "compact",
-                                maximumFractionDigits: 1,
-                              },
-                            ).format(
-                              (award.data as YearInReviewCategoryApp).downloads,
-                            )
-                            text = t("x-downloads", {
-                              x: downloadsCount,
-                              count: downloadsCount,
-                            })
-                            bgColor = "bg-blue-100/80 dark:bg-blue-900/40"
-                            textColor = "text-blue-800 dark:text-blue-200"
-                          } else if (award.type === "growth") {
-                            text = t("year-in-review.x-growth-formatted", {
-                              percentage: new Intl.NumberFormat(locale, {
-                                style: "percent",
-                                signDisplay: "always",
-                              }).format(
-                                (award.data as YearInReviewCategoryGrowthApp)
-                                  .growth_percentage / 100,
-                              ),
-                            })
-                            bgColor = "bg-purple-100/80 dark:bg-purple-900/40"
-                            textColor = "text-purple-800 dark:text-purple-200"
-                          } else if (award.type === "newcomer") {
-                            const downloadsCount = new Intl.NumberFormat(
-                              locale,
-                              {
-                                notation: "compact",
-                                maximumFractionDigits: 1,
-                              },
-                            ).format(
-                              (award.data as YearInReviewCategoryApp).downloads,
-                            )
-                            text = t("x-downloads", {
-                              x: downloadsCount,
-                              count: downloadsCount,
-                            })
-                            bgColor = "bg-amber-100/80 dark:bg-amber-900/40"
-                            textColor = "text-amber-800 dark:text-amber-200"
-                          } else {
-                            text = t("year-in-review.x-growth-formatted", {
-                              percentage: new Intl.NumberFormat(locale, {
-                                style: "percent",
-                                signDisplay: "always",
-                              }).format(
-                                (award.data as YearInReviewCategoryGrowthApp)
-                                  .growth_percentage / 100,
-                              ),
-                            })
-                            bgColor = "bg-emerald-100/80 dark:bg-emerald-900/40"
-                            textColor = "text-emerald-800 dark:text-emerald-200"
-                          }
-
-                          return (
-                            <div
-                              key={aidx}
-                              className={clsx(
-                                "text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm",
-                                bgColor,
-                                textColor,
-                              )}
-                            >
-                              {text}
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          })}
+        </div>
       </div>
-    </div>
+      <section className="border-t border-[var(--divider)] pt-[18px] text-[var(--subtle)]">
+        <h3 className="font-semibold text-card-foreground print:text-black">
+          {t("year-in-review.award-guide")}
+        </h3>
+        <dl className="my-[18px] grid grid-cols-2 gap-[18px] max-md:text-sm md:grid-cols-[repeat(auto-fit,minmax(min(100%,210px),1fr))]">
+          {definitions.map(([type, description]) => {
+            const Icon = awardIcons[type]
+            return (
+              <div key={type}>
+                <dt className={clsx(awardLabel, "font-semibold")}>
+                  <Icon size={16} aria-hidden="true" />
+                  {t(`year-in-review.${labels[type]}`)}
+                </dt>
+                <dd>{t(`year-in-review.${description}`)}</dd>
+              </div>
+            )
+          })}
+        </dl>
+      </section>
+    </section>
   )
 }
 
@@ -1023,55 +705,55 @@ export function HiddenGemsSection({ hiddenGems }: { hiddenGems: HiddenGem[] }) {
   }
 
   return (
-    <Card className="bg-gradient-to-br from-purple-50/50 to-pink-50/50 dark:from-purple-950/20 dark:to-pink-950/20 border-0 lg:border border-purple-200/50 dark:border-purple-800/30 shadow-xl h-full">
-      <CardHeader className="pb-4 px-3 sm:px-6">
-        <CardTitle className="text-xl font-black flex items-center gap-2">
-          <h2 className="flex items-center gap-2">
-            <span aria-hidden="true" className="text-2xl">
-              💎
-            </span>
-            <span>{t("year-in-review.hidden-gems")}</span>
-          </h2>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="pt-0 px-3 sm:px-6">
-        <p className="text-xs text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70 mb-4 font-medium">
-          {t("year-in-review.hidden-gems-description")}
-        </p>
-        <div className="grid gap-3">
-          {hiddenGems.map((gem, idx) => (
+    <section className="rounded-[18px] bg-[#e7eddf] p-[clamp(20px,3vw,40px)] text-[#213e34] dark:bg-[#2d3930] dark:text-[#e3f0df] print:bg-white print:text-black">
+      <h2 className="text-[clamp(32px,3.5vw,49px)] leading-[1.15] font-[750] tracking-[-.045em]">
+        {t("year-in-review.hidden-gems")}
+      </h2>
+      <p className="mt-2 mb-6 max-w-[60ch]">
+        {t("year-in-review.hidden-gems-description")}
+      </p>
+      <ul className="grid gap-5 md:grid-cols-[repeat(auto-fit,minmax(min(100%,160px),1fr))] max-md:gap-0">
+        {hiddenGems.map((app) => (
+          <li className="min-w-0" key={app.app_id}>
             <Link
-              key={gem.app_id}
-              href={`/apps/${gem.app_id}`}
-              className="flex items-center gap-3 p-3.5 rounded-xl bg-white/70 dark:bg-flathub-dark-gunmetal/40 hover:bg-white dark:hover:bg-flathub-dark-gunmetal/60 transition-[background-color,box-shadow,scale] motion-reduce:transition-none group border lg:border-2 border-purple-200/60 dark:border-purple-800/30 hover:shadow-lg motion-safe:hover:scale-[1.01]"
+              href={`/apps/${app.app_id}`}
+              className="group flex h-full flex-col items-start gap-2.5 text-inherit max-md:grid max-md:grid-cols-[54px_1fr] max-md:items-center max-md:gap-x-4 max-md:gap-y-0.5 max-md:border-t max-md:border-current/20 max-md:py-3 max-md:data-[has-icon=false]:grid-cols-1 max-md:data-[has-icon=true]:[&>:first-child]:row-span-2 [&_img]:size-[76px] max-md:[&_img]:size-[54px]"
+              data-has-icon={Boolean(app.icon)}
             >
-              {gem.icon && (
-                <LogoImage iconUrl={gem.icon} appName={gem.name} size={64} />
+              {app.icon && (
+                <LogoImage iconUrl={app.icon} appName={app.name} size={96} />
               )}
-              <div className="flex-1 min-w-0">
-                <div className="font-black text-sm text-flathub-dark-gunmetal dark:text-flathub-gainsborow truncate group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 dark:group-hover:from-purple-400 dark:group-hover:to-pink-400 transition-colors">
-                  {gem.name}
-                </div>
-                <div className="text-[11px] text-flathub-dark-gunmetal/60 dark:text-flathub-gainsborow/60 line-clamp-1 mb-1.5">
-                  {gem.summary}
-                </div>
-                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-200 shadow-sm">
-                  {t("x-downloads", {
-                    x: new Intl.NumberFormat(locale, {
-                      notation: "compact",
-                      maximumFractionDigits: 1,
-                    }).format(gem.downloads),
-                  })}
-                </span>
+              <div>
+                <bdi className="text-xl font-bold tracking-tight group-hover:underline max-md:text-lg">
+                  {app.name}
+                </bdi>
+                <small className="block text-sm">{app.summary}</small>
               </div>
+              <small
+                className={clsx(
+                  "mt-auto block text-xs",
+                  app.icon && "max-md:col-start-2",
+                )}
+              >
+                {t("x-downloads", {
+                  x: new Intl.NumberFormat(locale, {
+                    notation: "compact",
+                    maximumFractionDigits: 1,
+                  }).format(app.downloads),
+                })}
+              </small>
             </Link>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
 
+const reportPanel =
+  "min-w-0 rounded-2xl border border-[var(--line)] bg-[var(--paper)] p-[clamp(16px,2.5vw,32px)]"
+const meterStyle =
+  "h-3.5 w-full accent-[var(--chart-1)] [&::-webkit-meter-optimum-value]:bg-[var(--chart-1)] dark:[&::-webkit-meter-bar]:border-0 dark:[&::-webkit-meter-bar]:bg-muted"
 export function PlatformDiversitySection({
   platformStats,
 }: {
@@ -1085,48 +767,45 @@ export function PlatformDiversitySection({
   }
 
   return (
-    <Card className="bg-white dark:bg-flathub-arsenic border-0 lg:border border-flathub-gainsborow/40 dark:border-flathub-dark-gunmetal shadow-xl">
-      <CardHeader className="pb-4 px-3 sm:px-6">
-        <CardTitle className="text-xl font-black flex items-center gap-2">
-          <h2 className="flex items-center gap-2">
-            <span aria-hidden="true" className="text-2xl">
-              💻
-            </span>
-            <span>{t("year-in-review.platform-downloads")}</span>
-          </h2>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="pt-0 px-3 sm:px-6">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {platformStats.map((plat) => (
-            <div
-              key={plat.architecture}
-              className="relative p-4 rounded-xl bg-gradient-to-br from-flathub-gainsborow/20 to-flathub-gainsborow/40 dark:from-flathub-dark-gunmetal/20 dark:to-flathub-dark-gunmetal/40 border-0 lg:border border-flathub-gainsborow/50 dark:border-flathub-dark-gunmetal/50 hover:shadow-lg transition-shadow"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-flathub-celestial-blue/5 via-purple-500/5 to-transparent pointer-events-none rounded-xl" />
-              <div className="relative z-10">
-                <div className="text-xs font-bold text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70 mb-2 uppercase tracking-wider">
-                  {plat.architecture.toUpperCase()}
-                </div>
-                <div className="text-3xl lg:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-flathub-celestial-blue via-purple-500 to-flathub-sunset-pink mb-1">
-                  {new Intl.NumberFormat(locale, {
-                    style: "percent",
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
-                  }).format(plat.percentage / 100)}
-                </div>
-                <div className="text-xs font-bold text-flathub-dark-gunmetal/60 dark:text-flathub-gainsborow/60">
-                  {new Intl.NumberFormat(locale, {
-                    notation: "compact",
-                    maximumFractionDigits: 1,
-                  }).format(plat.downloads)}
-                </div>
-              </div>
+    <section className={reportPanel}>
+      <h2 className="text-[clamp(22px,2.5vw,30px)] font-[720] tracking-[-.03em]">
+        {t("year-in-review.platform-downloads")}
+      </h2>
+      <ul>
+        {platformStats.map((platform) => (
+          <li
+            key={platform.architecture}
+            className="border-t border-[var(--line)] py-3"
+          >
+            <div className="flex items-center justify-between gap-3">
+              <bdi>{platform.architecture}</bdi>
+              <strong>
+                {new Intl.NumberFormat(locale, {
+                  style: "percent",
+                  minimumFractionDigits: 1,
+                  maximumFractionDigits: 1,
+                }).format(platform.percentage / 100)}
+              </strong>
             </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+            <meter
+              className={meterStyle}
+              min={0}
+              max={100}
+              value={platform.percentage}
+              aria-label={platform.architecture}
+            />
+            <small className="text-sm text-[var(--subtle)]">
+              {t("x-downloads", {
+                x: new Intl.NumberFormat(locale, {
+                  notation: "compact",
+                  maximumFractionDigits: 1,
+                }).format(platform.downloads),
+              })}
+            </small>
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
 
@@ -1146,98 +825,63 @@ export function TrendingCategoriesSection({
     return null
   }
 
+  const compact = new Intl.NumberFormat(locale, {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  })
+  const percent = new Intl.NumberFormat(locale, {
+    style: "percent",
+    signDisplay: "always",
+    maximumFractionDigits: 0,
+  })
   return (
-    <Card className="bg-gradient-to-br from-blue-50/50 to-cyan-50/50 dark:from-blue-950/20 dark:to-cyan-950/20 border-0 lg:border border-blue-200/50 dark:border-blue-800/30 shadow-xl">
-      <CardHeader className="pb-4 px-3 sm:px-6">
-        <CardTitle className="text-xl font-black flex items-center gap-2">
-          <h2 className="flex items-center gap-2">
-            <span aria-hidden="true" className="text-2xl">
-              🚀
-            </span>
-            <span>{t("year-in-review.trending-categories")}</span>
-          </h2>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="pt-0 px-3 sm:px-6">
-        <p className="text-xs text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70 mb-4 font-medium">
-          {t("year-in-review.trending-categories-description")}
-        </p>
-        <div className="space-y-4">
-          {trendingCategories.map((cat) => {
-            const maxValue = Math.max(
-              cat.current_year_downloads,
-              cat.previous_year_downloads,
-            )
-            const currentWidth = (cat.current_year_downloads / maxValue) * 100
-            const previousWidth = (cat.previous_year_downloads / maxValue) * 100
-
-            return (
+    <section className={reportPanel}>
+      <h2 className="text-[clamp(22px,2.5vw,30px)] font-[720] tracking-[-.03em]">
+        {t("year-in-review.trending-categories")}
+      </h2>
+      <p className="mt-1 mb-4 max-w-[55ch] text-sm text-[var(--subtle)]">
+        {t("year-in-review.trending-categories-description")}
+      </p>
+      <ul>
+        {trendingCategories.map((cat) => (
+          <li key={cat.category} className="border-t border-[var(--line)] py-3">
+            <div className="flex items-center justify-between gap-3">
+              <h3>{getCategoryDisplayName(cat.category)}</h3>
+              <strong>{percent.format(cat.growth_percentage / 100)}</strong>
+            </div>
+            {(
+              [
+                [year, cat.current_year_downloads],
+                [year - 1, cat.previous_year_downloads],
+              ] as const
+            ).map(([label, value]) => (
               <div
-                key={cat.category}
-                className="p-5 rounded-xl bg-white/60 dark:bg-flathub-dark-gunmetal/30 border lg:border-2 border-blue-200/60 dark:border-blue-800/30 hover:shadow-lg transition-shadow"
+                key={label}
+                className="mt-1.5 grid grid-cols-[4ch_minmax(0,1fr)_7ch] items-center gap-3 text-sm text-[var(--subtle)] [&>span:last-child]:text-end"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-black text-base text-flathub-dark-gunmetal dark:text-flathub-gainsborow">
-                    {getCategoryDisplayName(cat.category)}
-                  </h3>
-                  <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-green-500 dark:from-emerald-400 dark:to-green-300">
-                    {new Intl.NumberFormat(locale, {
-                      style: "percent",
-                      signDisplay: "always",
-                      maximumFractionDigits: 0,
-                    }).format(cat.growth_percentage / 100)}
-                  </div>
-                </div>
-
-                <div className="space-y-2.5">
-                  {/* Current year bar */}
-                  <div>
-                    <div className="flex items-center justify-between text-xs mb-1.5">
-                      <span className="font-bold text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70">
-                        {year}
-                      </span>
-                      <span className="font-black text-flathub-celestial-blue dark:text-flathub-celestial-blue">
-                        {new Intl.NumberFormat(locale, {
-                          notation: "compact",
-                          maximumFractionDigits: 1,
-                        }).format(cat.current_year_downloads)}
-                      </span>
-                    </div>
-                    <div className="h-3 bg-flathub-gainsborow/40 dark:bg-black/40 rounded-full overflow-hidden shadow-inner">
-                      <div
-                        className="h-full bg-gradient-to-r from-flathub-celestial-blue to-blue-400 dark:from-flathub-celestial-blue dark:to-blue-500 rounded-full transition-[width] duration-500 motion-reduce:transition-none shadow-[0_0_8px_rgba(33,150,243,0.4)]"
-                        style={{ width: `${currentWidth}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Previous year bar */}
-                  <div>
-                    <div className="flex items-center justify-between text-xs mb-1.5">
-                      <span className="font-bold text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70">
-                        {year - 1}
-                      </span>
-                      <span className="font-black text-flathub-dark-gunmetal/50 dark:text-flathub-gainsborow/50">
-                        {new Intl.NumberFormat(locale, {
-                          notation: "compact",
-                          maximumFractionDigits: 1,
-                        }).format(cat.previous_year_downloads)}
-                      </span>
-                    </div>
-                    <div className="h-3 bg-flathub-gainsborow/40 dark:bg-black/40 rounded-full overflow-hidden shadow-inner">
-                      <div
-                        className="h-full bg-flathub-dark-gunmetal/40 dark:bg-flathub-gainsborow/25 rounded-full transition-[width] duration-500 motion-reduce:transition-none"
-                        style={{ width: `${previousWidth}%` }}
-                      />
-                    </div>
-                  </div>
-                </div>
+                <span>{label}</span>
+                <meter
+                  className={clsx(
+                    meterStyle,
+                    label !== year &&
+                      "dark:[&::-webkit-meter-optimum-value]:bg-muted-foreground dark:[&::-moz-meter-bar]:bg-muted-foreground",
+                  )}
+                  aria-label={String(label)}
+                  min={0}
+                  max={Math.max(
+                    1,
+                    cat.current_year_downloads,
+                    cat.previous_year_downloads,
+                  )}
+                  value={value}
+                />
+                <span>{compact.format(value)}</span>
               </div>
-            )
-          })}
-        </div>
-      </CardContent>
-    </Card>
+            ))}
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }
 
@@ -1267,6 +911,7 @@ export function YearInReview({
 }: YearInReviewProps) {
   const t = useTranslations()
 
+  const seeds = useMemo(() => yearInReviewSpiral(newAppsCount), [newAppsCount])
   const getCategoryDisplayName = useCallback(
     (category: string): string => {
       const mainCategory = stringToCategory(category)
@@ -1355,43 +1000,29 @@ export function YearInReview({
   ])
 
   return (
-    <div
-      className={clsx(
-        "rounded-3xl overflow-hidden shadow-2xl backdrop-blur-lg border lg:border-2 border-white/30 dark:border-white/10 relative",
-        "bg-gradient-to-br from-slate-50/95 via-blue-50/40 to-purple-50/40",
-        "dark:from-slate-900/95 dark:via-blue-950/60 dark:to-purple-950/60",
-      )}
-    >
-      <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-flathub-celestial-blue via-purple-500 to-flathub-vivid-crimson" />
-
-      <div className="p-4 sm:p-8 lg:p-16">
-        {/* Header Section */}
-        <header className="text-center mb-16 relative">
-          <Link
-            href={`/year-in-review/${year}`}
-            className="inline-block group relative"
-          >
-            <h1 className="text-5xl lg:text-7xl font-black mb-4 tracking-tighter bg-gradient-to-r from-flathub-celestial-blue via-flathub-vivid-crimson to-flathub-celestial-blue bg-clip-text text-transparent bg-[length:200%_auto] motion-safe:animate-gradient motion-safe:group-hover:scale-105 transition-transform duration-500 motion-reduce:transition-none">
+    <div className="text-card-foreground [--paper:oklch(var(--card))] [--line:oklch(var(--border))] [--subtle:oklch(var(--muted-foreground))] dark:[--paper:color-mix(in_oklab,oklch(var(--card))_74%,oklch(var(--muted)))] dark:[--line:color-mix(in_oklab,var(--paper)_65%,oklch(var(--border)))] dark:[--subtle:color-mix(in_oklab,oklch(var(--muted-foreground))_70%,oklch(var(--card-foreground)))] dark:scheme-dark print:scheme-light print:[--paper:white] print:[--subtle:#444] print:[--line:#bbb] print:text-black [&_:is(a,button,select,summary):focus-visible]:outline-2 [&_:is(a,button,select,summary):focus-visible]:outline-ring [&_:is(a,button,select,summary):focus-visible]:-outline-offset-3">
+      <div>
+        <header className="rounded-t-[22px] border border-[#d9d7e7] bg-[linear-gradient(115deg,#d9eff4,#e3e2fa_58%,#f6deee)] p-[clamp(26px,4vw,60px)] text-[#28223e] dark:border-[#49445b] dark:bg-[linear-gradient(115deg,#173c48,#302f52_58%,#492d48)] dark:text-[#f2effa] print:bg-none print:text-black">
+          <div className="min-w-0">
+            <h1 className="text-balance text-[clamp(2rem,4vw,3.5rem)] leading-[1.12] font-[750]">
               {t("year-in-review.title", { year })}
             </h1>
-            <div className="h-1 w-0 group-hover:w-full bg-gradient-to-r from-flathub-celestial-blue to-flathub-sunset-pink transition-[width] duration-500 motion-reduce:transition-none mx-auto rounded-full shadow-[0_0_15px_rgba(33,150,243,0.5)]" />
-          </Link>
-          <p className="text-lg lg:text-xl font-medium text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70 max-w-3xl mx-auto mt-6 leading-relaxed">
-            {t("year-in-review.description")}
-          </p>
+            <div className="mt-[18px] max-w-[60ch] text-pretty text-base leading-[1.45]">
+              {t("year-in-review.description")}
+            </div>
+          </div>
         </header>
-
-        {/* Global Overview Section */}
-        <section className="mb-20">
+        <section className="mb-10">
           <YearStatsGrid
             year={year}
             totalDownloads={totalDownloads}
-            newAppsCount={newAppsCount}
+            delta={totalDownloadsChange}
+            change={totalDownloadsChangePercentage}
+            hasPreviousYear={
+              hasPreviousYear && totalDownloads - totalDownloadsChange > 0
+            }
             totalApps={totalApps}
             updatesCount={updatesCount}
-            totalDownloadsChange={totalDownloadsChange}
-            totalDownloadsChangePercentage={totalDownloadsChangePercentage}
-            hasPreviousYear={hasPreviousYear}
           />
         </section>
 
@@ -1406,44 +1037,69 @@ export function YearInReview({
           />
         </section>
 
-        {/* Geographic Section */}
-        {hasGeographicData && geographicStats && (
-          <section className="mb-24">
-            <GeographicInsightsSection geographicStats={geographicStats} />
-          </section>
-        )}
-
-        {/* Hidden Gems & Trending Categories - Side by side on desktop, stacked on mobile */}
-        {((hiddenGems && hiddenGems.length > 0) ||
-          (trendingCategories && trendingCategories.length > 0)) && (
-          <section className="mb-24">
-            <div className="grid gap-8 lg:grid-cols-2">
-              {hiddenGems && hiddenGems.length > 0 && (
-                <div>
-                  <HiddenGemsSection hiddenGems={hiddenGems} />
-                </div>
-              )}
-              {trendingCategories && trendingCategories.length > 0 && (
-                <div>
-                  <TrendingCategoriesSection
-                    trendingCategories={trendingCategories}
-                    getCategoryDisplayName={getCategoryDisplayName}
-                    year={year}
+        <div className="grid gap-[clamp(24px,3vw,44px)]">
+          <section className="grid grid-cols-[minmax(90px,145px)_minmax(0,1fr)] items-center gap-[clamp(16px,3vw,42px)] rounded-2xl border border-[var(--line)] bg-[var(--paper)] px-[clamp(18px,3vw,40px)] py-5 max-md:grid-cols-[90px_minmax(0,1fr)] max-md:gap-4">
+            <h2 className="text-start text-[clamp(18px,2vw,25px)] leading-tight font-semibold only:col-span-full">
+              {t("year-in-review.arrivals", { count: newAppsCount, year })}
+            </h2>
+            {newAppsCount > 0 && (
+              <svg
+                className="col-start-1 row-start-1 max-h-[255px] w-full max-sm:max-h-[172px]"
+                aria-hidden="true"
+                viewBox="-102 -99 204 207"
+              >
+                <defs>
+                  <linearGradient
+                    id={`review-spectrum-${year}`}
+                    gradientUnits="userSpaceOnUse"
+                    x1="-70"
+                    y1="-70"
+                    x2="70"
+                    y2="70"
+                  >
+                    <stop className="[stop-color:#3176b6] dark:[stop-color:#78b4f1]" />
+                    <stop
+                      offset=".5"
+                      className="[stop-color:#8151aa] dark:[stop-color:#c497ed]"
+                    />
+                    <stop
+                      offset="1"
+                      className="[stop-color:#b34279] dark:[stop-color:#f09ac5]"
+                    />
+                  </linearGradient>
+                </defs>
+                {seeds.map((seed, i) => (
+                  <circle
+                    key={i}
+                    cx={seed.x}
+                    cy={seed.y}
+                    r={Math.min(9, 72 / Math.sqrt(newAppsCount))}
+                    fill={`url(#review-spectrum-${year})`}
                   />
-                </div>
-              )}
-            </div>
+                ))}
+              </svg>
+            )}
           </section>
-        )}
-
-        {/* Category Brackets Section */}
-        {categoriesData.length > 0 && (
-          <section className="mb-24">
+          {!!hiddenGems?.length && (
+            <HiddenGemsSection hiddenGems={hiddenGems} />
+          )}
+          {!!categoriesData.length && (
             <CategoryHighlightsSection categoriesData={categoriesData} />
-          </section>
-        )}
-
-        <PlatformDiversitySection platformStats={filteredPlatformStats} />
+          )}
+          {hasGeographicData && geographicStats && (
+            <GeographicInsightsSection geographicStats={geographicStats} />
+          )}
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,350px),1fr))] gap-[clamp(24px,5vw,76px)]">
+            {!!trendingCategories?.length && (
+              <TrendingCategoriesSection
+                trendingCategories={trendingCategories}
+                getCategoryDisplayName={getCategoryDisplayName}
+                year={year}
+              />
+            )}
+            <PlatformDiversitySection platformStats={filteredPlatformStats} />
+          </div>
+        </div>
       </div>
     </div>
   )

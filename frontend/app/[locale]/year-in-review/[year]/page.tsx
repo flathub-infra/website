@@ -8,7 +8,7 @@ import {
 } from "../../../../src/codegen"
 import { YearInReview } from "../../../../src/components/application/YearInReview"
 import { Link } from "src/i18n/navigation"
-import clsx from "clsx"
+import { buttonVariants } from "@/components/ui/button"
 
 const MIN_YEAR = 2018
 
@@ -43,7 +43,7 @@ export async function generateMetadata({
       url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/year-in-review/${year}`,
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/yearInReviewOgImage/${year}?locale=${locale}`,
+          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/yearInReviewOgImage/${year}?locale=${locale}&v=2`,
           width: 1200,
           height: 630,
           alt: `Flathub ${t("year-in-review.title", { year })}`,
@@ -55,7 +55,7 @@ export async function generateMetadata({
       title: `${t("year-in-review.title", { year })} - Flathub`,
       description: t("year-in-review.description"),
       images: [
-        `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/yearInReviewOgImage/${year}?locale=${locale}`,
+        `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/yearInReviewOgImage/${year}?locale=${locale}&v=2`,
       ],
     },
   }
@@ -116,28 +116,26 @@ export default async function YearInReviewPage({
   }
 
   return (
-    <div className="max-w-11/12 mx-auto my-0 w-11/12 2xl:w-[1400px] 2xl:max-w-[1400px]">
-      <div className="space-y-8 py-8">
+    <div className="mx-auto w-11/12 max-w-[1240px]">
+      <div className="space-y-4 py-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <nav
             aria-label={t("year-in-review.select-year")}
-            className="flex flex-wrap items-center gap-2 ms-auto"
+            className="flex items-center gap-2 overflow-x-auto py-1"
           >
-            <span className="text-sm font-medium text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70">
+            <span className="shrink-0 text-sm font-medium text-flathub-dark-gunmetal/70 dark:text-flathub-gainsborow/70">
               {t("year-in-review.select-year")}:
             </span>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex gap-2">
               {availableYears.slice(0, 8).map((y) => (
                 <Link
                   key={y}
                   href={`/year-in-review/${y}`}
                   aria-current={y === year ? "page" : undefined}
-                  className={clsx(
-                    "rounded-lg px-3 py-1.5 text-sm font-medium transition-colors duration-200 motion-reduce:transition-none",
-                    y === year
-                      ? "bg-flathub-celestial-blue text-white shadow-md"
-                      : "bg-flathub-gainsborow/30 text-flathub-dark-gunmetal hover:bg-flathub-celestial-blue/20 dark:bg-flathub-arsenic/30 dark:text-flathub-gainsborow dark:hover:bg-flathub-celestial-blue/30",
-                  )}
+                  className={buttonVariants({
+                    variant: y === year ? "selected" : "ghost",
+                    size: "sm",
+                  })}
                 >
                   {y}
                 </Link>

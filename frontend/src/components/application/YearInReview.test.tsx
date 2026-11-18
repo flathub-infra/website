@@ -1,12 +1,13 @@
 import { readFileSync } from "node:fs"
 import deepmerge from "deepmerge"
 import { renderToStaticMarkup } from "react-dom/server"
-import { NextIntlClientProvider } from "next-intl"
+import { createTranslator, NextIntlClientProvider } from "next-intl"
 import { expect, test, vi } from "vitest"
 import {
   CategoryHighlightsSection,
   PlatformDiversitySection,
   YearStatsGrid,
+  YearInReview,
 } from "./YearInReview"
 import common from "../../../public/locales/en/common.json"
 
@@ -38,13 +39,13 @@ test.each(["en", "de", "tr", "ar", "ja"])(
         timeZone="UTC"
       >
         <YearStatsGrid
-          year={2025}
-          totalDownloads={1234567}
-          newAppsCount={1000}
           totalApps={3000}
           updatesCount={12345}
-          totalDownloadsChange={1234}
-          totalDownloadsChangePercentage={12.3}
+          year={2025}
+          totalDownloads={1234567}
+          change={12.3}
+          delta={135218}
+          hasPreviousYear
         />
         <PlatformDiversitySection
           platformStats={[
@@ -75,6 +76,18 @@ test.each(["en", "de", "tr", "ar", "ja"])(
                         growth_percentage: 1234,
                       },
                     },
+                    {
+                      type: "improved",
+                      data: {
+                        app_id: "test.App",
+                        name: "Test",
+                        icon: null,
+                        summary: null,
+                        category: "utility",
+                        growth: 1234,
+                        growth_percentage: 1234,
+                      },
+                    },
                   ],
                 },
               ],
@@ -83,11 +96,9 @@ test.each(["en", "de", "tr", "ar", "ja"])(
         />
       </NextIntlClientProvider>,
     )
-    for (const value of [1000, 3000]) {
-      const formatted = new Intl.NumberFormat(locale).format(value)
-      expect(html).toContain(`<span aria-hidden="true">${formatted}</span>`)
-      expect(html).toContain(`<span class="sr-only">${formatted}</span>`)
-    }
+    expect(html).toContain(
+      `>${new Intl.NumberFormat(locale).format(3000)}</dd>`,
+    )
     expect(html).toContain(
       new Intl.NumberFormat(locale, {
         notation: "compact",
@@ -117,6 +128,11 @@ test.each(["en", "de", "tr", "ar", "ja"])(
       }).format(12.34),
     )
     expect(html).toContain(growthMessage)
+    expect(html).toContain(
+      createTranslator({ locale, messages })("year-in-review.more-downloads", {
+        count: 1234,
+      }),
+    )
   },
 )
 
@@ -124,4 +140,27 @@ test("the English growth message accepts a fully formatted percentage", () => {
   const message = common["year-in-review"]["x-growth-formatted"]
   expect(message).toContain("{percentage}")
   expect(message).not.toMatch(/[+%٪]/)
+})
+
+test("a year without arrivals reports zero without drawing an empty spiral", () => {
+  const html = renderToStaticMarkup(
+    <NextIntlClientProvider locale="en" messages={common} timeZone="UTC">
+      <YearInReview
+        year={2025}
+        totalDownloads={200}
+        newAppsCount={0}
+        totalApps={4}
+        updatesCount={8}
+        totalDownloadsChange={20}
+        totalDownloadsChangePercentage={11.1}
+        topApps={[]}
+        topGames={[]}
+        topEmulators={[]}
+        topGameStores={[]}
+        topGameUtilities={[]}
+      />
+    </NextIntlClientProvider>,
+  )
+  expect(html).toContain("0 apps joined Flathub in 2025.")
+  expect(html).not.toContain("review-spectrum-")
 })
