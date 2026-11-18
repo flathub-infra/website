@@ -11,6 +11,7 @@ from fastapi import HTTPException
 from pydantic import BaseModel, JsonValue
 from sqlalchemy import (
     DDL,
+    JSON,
     BigInteger,
     Boolean,
     CheckConstraint,
@@ -73,6 +74,54 @@ class QualityModerationStatus(BaseModel):
 
 class Base(DeclarativeBase):
     pass
+
+
+class TranslationListing(Base):
+    __tablename__ = "translationlisting"
+
+    app_id: Mapped[str] = mapped_column(
+        ForeignKey("apps.app_id", ondelete="CASCADE"), primary_key=True
+    )
+    checked_at: Mapped[datetime] = mapped_column(DateTime)
+    sha: Mapped[str | None] = mapped_column(String(40))
+    missing: Mapped[dict[str, int] | None] = mapped_column(JSONB)
+
+
+class MetadataTranslationBatch(Base):
+    __tablename__ = "metadatatranslationbatch"
+    missing_texts: Mapped[int | None] = mapped_column(Integer)
+
+    next_review_check: Mapped[datetime | None] = mapped_column(DateTime)
+    publishing_since: Mapped[datetime | None] = mapped_column(DateTime)
+    publication_attempt: Mapped[dict[str, Any]] = mapped_column(
+        JSON().with_variant(JSONB, "postgresql"), default=dict, server_default="{}"
+    )
+    publication_base: Mapped[dict[str, str]] = mapped_column(
+        JSON().with_variant(JSONB, "postgresql"), default=dict, server_default="{}"
+    )
+    field_edits: Mapped[dict[str, Any]] = mapped_column(
+        JSON().with_variant(JSONB, "postgresql"), default=dict, server_default="{}"
+    )
+    app_id: Mapped[str] = mapped_column(String(255), primary_key=True)
+    locale: Mapped[str] = mapped_column(String(40), primary_key=True)
+    revision: Mapped[str] = mapped_column(String(40))
+    source_sha: Mapped[str] = mapped_column(String(40))
+    path: Mapped[str] = mapped_column(String)
+    source_content: Mapped[bytes | None] = mapped_column(LargeBinary)
+    content: Mapped[bytes | None] = mapped_column(LargeBinary)
+    changes: Mapped[dict[str, str]] = mapped_column(
+        JSON().with_variant(JSONB, "postgresql")
+    )
+    previous_translations: Mapped[list[dict[str, Any]]] = mapped_column(
+        JSON().with_variant(JSONB, "postgresql"), default=list, server_default="[]"
+    )
+    published_ids: Mapped[list[str]] = mapped_column(
+        JSON().with_variant(JSONB, "postgresql"), default=list, server_default="[]"
+    )
+    generation: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    state: Mapped[str] = mapped_column(String(20))
+    error: Mapped[str | None] = mapped_column(String)
+    url: Mapped[str | None] = mapped_column(String)
 
 
 ConnectedAccountResult = Union[

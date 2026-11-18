@@ -6,6 +6,7 @@ from .notify_permission_decision import notify_permission_decision
 from .prune_audit_logs import prune_audit_logs
 from .prune_email_login_challenges import prune_email_login_challenges
 from .prune_oidc_tokens import prune_oidc_tokens
+from .publish_metadata_translations import publish_metadata_translations
 from .refresh_cache import refresh_cache
 from .refresh_github_repo_list import refresh_github_repo_list
 from .republish_app import republish_app, review_check
@@ -28,6 +29,7 @@ __all__ = [
     "prune_audit_logs",
     "prune_email_login_challenges",
     "prune_oidc_tokens",
+    "publish_metadata_translations",
     "reconcile_hybrid_index",
     "refresh_cache",
     "refresh_github_repo_list",

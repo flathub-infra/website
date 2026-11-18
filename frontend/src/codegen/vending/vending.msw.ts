@@ -86,6 +86,7 @@ export const getGetAppVendingSetupVendingappAppIdSetupGetResponseMock = (
   overrideResponse: Partial<Extract<VendingSetup, object>> = {},
 ): VendingSetup => ({
   status: faker.helpers.arrayElement(["ok", "no-config"] as const),
+  is_owner: faker.datatype.boolean(),
   currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
   appshare: faker.number.int(),
   recommended_donation: faker.number.int(),
@@ -97,12 +98,26 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostResponseMock = (
   overrideResponse: Partial<Extract<VendingSetup, object>> = {},
 ): VendingSetup => ({
   status: faker.helpers.arrayElement(["ok", "no-config"] as const),
+  is_owner: faker.datatype.boolean(),
   currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
   appshare: faker.number.int(),
   recommended_donation: faker.number.int(),
   minimum_payment: faker.number.int(),
   ...overrideResponse,
 })
+
+export const getGetManagementVendingSetupVendingappAppIdManagementSetupGetResponseMock =
+  (
+    overrideResponse: Partial<Extract<VendingSetup, object>> = {},
+  ): VendingSetup => ({
+    status: faker.helpers.arrayElement(["ok", "no-config"] as const),
+    is_owner: faker.datatype.boolean(),
+    currency: faker.string.alpha({ length: { min: 10, max: 20 } }),
+    appshare: faker.number.int(),
+    recommended_donation: faker.number.int(),
+    minimum_payment: faker.number.int(),
+    ...overrideResponse,
+  })
 
 export const getPostAppVendingStatusVendingappAppIdPostResponseMock = (
   overrideResponse: Partial<Extract<VendingOutput, object>> = {},
@@ -361,6 +376,31 @@ export const getPostAppVendingSetupVendingappAppIdSetupPostMockHandler = (
   )
 }
 
+export const getGetManagementVendingSetupVendingappAppIdManagementSetupGetMockHandler =
+  (
+    overrideResponse?:
+      | VendingSetup
+      | ((
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
+        ) => Promise<VendingSetup> | VendingSetup),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get<{ appId: string }>(
+      "*/vendingapp/:appId/management-setup",
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetManagementVendingSetupVendingappAppIdManagementSetupGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
+
 export const getPostAppVendingStatusVendingappAppIdPostMockHandler = (
   overrideResponse?:
     | VendingOutput
@@ -528,6 +568,7 @@ export const getVendingMock = () => [
   getGetGlobalVendingConfigVendingConfigGetMockHandler(),
   getGetAppVendingSetupVendingappAppIdSetupGetMockHandler(),
   getPostAppVendingSetupVendingappAppIdSetupPostMockHandler(),
+  getGetManagementVendingSetupVendingappAppIdManagementSetupGetMockHandler(),
   getPostAppVendingStatusVendingappAppIdPostMockHandler(),
   getGetRedeemableTokensVendingappAppIdTokensGetMockHandler(),
   getCreateTokensVendingappAppIdTokensPostMockHandler(),
