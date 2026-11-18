@@ -845,6 +845,10 @@
   "year-in-review": {
     "per-capita-description": "Countries without population data are excluded.",
     "title": "{year} Year in Review",
+    "all-categories": "Show all categories",
+    "award-guide": "How we choose the winners",
+    "more-downloads": "{count, number} more downloads",
+    "arrivals": "{count, number} apps joined Flathub in {year}.",
     "description": "Celebrating a year of growth and innovation on Flathub",
     "select-year": "Select Year",
     "category-highlights": "Category Highlights",
@@ -875,7 +879,7 @@
     "year-over-year-growth": "Year-over-year growth",
     "downloads-vs-previous-year": "Downloads vs {year}",
     "hidden-gems": "Hidden Gems",
-    "hidden-gems-description": "Apps with growing traction",
+    "hidden-gems-description": "A few apps you might have missed this year.",
     "platform-downloads": "Platform downloads",
     "x-growth-formatted": "{percentage} growth"
   },
