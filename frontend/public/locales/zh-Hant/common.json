@@ -717,9 +717,15 @@
     "year-over-year-growth": "年增率",
     "downloads-vs-previous-year": "下載次數 vs {year}",
     "hidden-gems": "口袋名單",
-    "hidden-gems-description": "日益受到歡迎的應用程式",
+    "hidden-gems-description": "今年你可能錯過的幾款應用程式。",
     "platform-downloads": "平台下載",
-    "x-growth-formatted": "增長 {percentage}"
+    "x-growth-formatted": "增長 {percentage}",
+    "per-capita-description": "未提供人口資料的國家已從中排除。",
+    "all-categories": "顯示所有分類",
+    "award-guide": "我們如何選出贏家",
+    "more-downloads": "還有 {count, number} 次下載",
+    "arrivals": "在 {year} 年，共有 {count, number} 個應用程式加入 Flathub。",
+    "annual-growth": "年度增長"
   },
   "year-in-review-banner": {
     "title": "Flathub {year} 年度回顧",
@@ -982,7 +988,7 @@
   "moderation-permissions-changed-count": "{count, plural, one {# 個變更的權限} other {# 個變更的權限}}",
   "no-network-access-description": "此應用程式無權存取網路。",
   "country-downloads": {
-    "description": "這些總數統計的是下載次數，而非個別使用者人數。",
+    "description": "下載次數，並非使用者人數。",
     "country": "國家",
     "lower": "較少",
     "higher": "更多",
@@ -992,7 +998,11 @@
     "x-per-100000": "每 10 萬人中有 {x} 次下載",
     "x-total": "總計 {x}",
     "population-unavailable": "無法取得人口資料",
-    "source": "我們採用來自<source>聯合國 World Population Prospects {revision}</source> 的 {year} 年年中人口預測資料。聯合國依據 <license>CC BY 3.0 IGO</license> 授權此資料。"
+    "source": "來自 <source>《聯合國世界人口展望》的 {year} 年年中預測 {revision}</source>，依據 <license>CC BY 3.0 IGO</license> 授權。",
+    "summary": "下載次數，並非使用者人數。",
+    "no-country-data": "尚無國家資料。",
+    "population-source": "{year} 年的人口資料",
+    "methodology": "使用率以下載次數為計算基準，而非使用者人數。若無人口資料，則無法計算使用率。"
   },
   "app-maintenance": {
     "title": "維護",
@@ -1033,5 +1043,12 @@
   "moderation-approved": "已核准",
   "moderation-rejected": "已拒絕",
   "moderation-approved-on": "核准於 {handledAt} ({handledAtRel})",
-  "moderation-rejected-on": "拒絕於 {handledAt} ({handledAtRel})"
+  "moderation-rejected-on": "拒絕於 {handledAt} ({handledAtRel})",
+  "country-installs": {
+    "title": "各國安裝量",
+    "total-installs": "總安裝量",
+    "description": "統計數字以安裝次數為單位，而非使用者人數。",
+    "per-capita-map-label": "各國每 10 萬人的安裝量",
+    "x-per-100000": "每 100,000 人中有 {x} 個安裝"
+  }
 }

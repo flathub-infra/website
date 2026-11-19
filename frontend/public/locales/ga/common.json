@@ -712,18 +712,24 @@
     "newcomer-description": "An aip is mó tóir a eisíodh i mbliana",
     "most-improved": "An Feabhsú is Mó",
     "most-improved-description": "An aip leis an ráta fáis céatadáin is airde i gcomparáid leis an mbliain roimhe sin",
-    "geographic-insights": "Léargais Gheografacha",
-    "countries-reached": "Tíortha a Shroicheadh",
-    "fastest-growing-regions": "Réigiúin is Mó Fás",
-    "top-countries": "Príomh thíortha",
+    "geographic-insights": "Léargais gheografacha",
+    "countries-reached": "Tíortha a sroicheadh",
+    "fastest-growing-regions": "Na réigiúin is tapúla fás",
+    "top-countries": "Na tíortha is fearr",
     "trending-categories": "Catagóirí Treochta",
     "trending-categories-description": "Na catagóirí leis an bhfás is mó i mbliana",
     "year-over-year-growth": "Fás bliain ar bhliain",
     "downloads-vs-previous-year": "Íoslódálacha i gcomparáid le {year}",
     "hidden-gems": "Seoda Folaithe",
-    "hidden-gems-description": "Aipeanna a bhfuil tarraingt mhéadaitheach acu",
+    "hidden-gems-description": "Cúpla aip a d’fhéadfadh a bheith caillte agat i mbliana.",
     "platform-downloads": "Íoslódálacha ardáin",
-    "x-growth-formatted": "fás {percentage}"
+    "x-growth-formatted": "fás {percentage}",
+    "per-capita-description": "Eisítear tíortha nach bhfuil sonraí daonra ar fáil ina leith.",
+    "all-categories": "Taispeáin gach catagóir",
+    "award-guide": "An chaoi a roghnaímid na buaiteoirí",
+    "more-downloads": "{count, number} íoslódáil eile",
+    "arrivals": "Tháinig {count, number} aip isteach i Flathub sa bhliain {year}.",
+    "annual-growth": "Fás bliantúil"
   },
   "app-information": "Faisnéis faoin aip",
   "sub-header": {
@@ -1022,7 +1028,7 @@
   "moderation-rejected": "Diúltaithe",
   "moderation-approved": "Ceadaithe",
   "country-downloads": {
-    "description": "Áiríonn na suimeanna seo íoslódálacha, ní úsáideoirí aonair.",
+    "description": "Íoslódálacha, ní úsáideoirí.",
     "country": "Tír",
     "lower": "Níos lú",
     "higher": "Tuilleadh",
@@ -1032,6 +1038,17 @@
     "x-per-100000": "{x} íoslódáil in aghaidh gach 100,000 duine",
     "x-total": "{x} san iomlán",
     "population-unavailable": "Sonraí daonra gan a bheith ar fáil",
-    "source": "Bainimid úsáid as réamh-mheastacháin daonra lár na bliana {year} ó <source>United Nations World Population Prospects {revision}</source>. Ceadúnaíonn na Náisiúin Aontaithe na sonraí faoin gceadúnas <license>CC BY 3.0 IGO</license>."
+    "source": "Réamh-mheastacháin lár na bliana {year} ón bhfoinse <source>UN World Population Prospects {revision}</source>, faoin gceadúnas <license>CC BY 3.0 IGO</license>.",
+    "summary": "Íoslódálacha, ní úsáideoirí.",
+    "no-country-data": "Níl sonraí tíre ar fáil go fóill.",
+    "population-source": "Sonraí daonra na bliana {year}",
+    "methodology": "Áirítear íoslódálacha sna rátaí, ní úsáideoirí. Ní féidir ráta a bheith ann gan sonraí daonra."
+  },
+  "country-installs": {
+    "title": "Suiteálacha de réir tíre",
+    "total-installs": "Líon iomlán na suiteálacha",
+    "description": "Áiríonn rátaí suiteálacha, ní úsáideoirí.",
+    "per-capita-map-label": "Suiteálacha in aghaidh gach 100,000 duine i ngach tír",
+    "x-per-100000": "{x} suiteáil in aghaidh gach 100,000 duine"
   }
 }

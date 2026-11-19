@@ -714,14 +714,18 @@
     "year-over-year-growth": "رشد سال به سال",
     "downloads-vs-previous-year": "بارگیری‌ها در مقایسه با {year}",
     "hidden-gems": "گوهرهای پنهان",
-    "hidden-gems-description": "کاره‌هایی با جذابیت رو به رشد",
+    "hidden-gems-description": "چند کاره‌ای که ممکن است امسال از دستشان داده باشید.",
     "platform-downloads": "بارگیری‌های بن‌سازه",
     "top-emulators": "برترین شبیه‌سازها",
     "top-game-stores": "برترین فروشگاه‌های بازی",
     "top-game-utilities": "برترین ابزارهای بازی",
     "x-growth-formatted": "{percentage} رشد",
     "annual-growth": "رشد سالانه",
-    "per-capita-description": "کشورهای بدون داده‌ّای جمعیتی کنار گذاشته شده‌اند."
+    "per-capita-description": "کشورهای بدون داده‌ّای جمعیتی کنار گذاشته شده‌اند.",
+    "all-categories": "نمایش همهٔ دسته‌ها",
+    "award-guide": "چگونگی گزینش برندگان",
+    "more-downloads": "{count, number} بارگیری بیش‌تر",
+    "arrivals": "‫‏{count, number} کاره در {year} به فلت‌هاب پیوسته‌اند."
   },
   "year-in-review-banner": {
     "title": "بازبینی سال {year} فلت‌هاب",
@@ -1037,12 +1041,14 @@
     "x-per-100000": "{x} بارگیری به ازای هر ۱۰۰٬۰۰۰ نفر",
     "summary": "بارگیری، نه کاربر.",
     "no-country-data": "هنوز داده‌های کشور وجود ندارند.",
-    "population-source": "داده‌های جمعیتی {year}"
+    "population-source": "داده‌های جمعیتی {year}",
+    "methodology": "رتبه‌ها بارگیری‌ها را می‌شمارند؛ نه کاربران را! بدون داده‌ّای حمعیتی رتبه‌ای وجود ندارد."
   },
   "country-installs": {
     "total-installs": "مجموع نصب‌ها",
     "title": "نصب‌ها به ازای کشور",
     "x-per-100000": "{x} نصب به ازای هر ۱۰۰٬۰۰۰ نفر",
-    "per-capita-map-label": "نصب به ازای هر ۱۰۰٬۰۰۰ نفر در هر کشور"
+    "per-capita-map-label": "نصب به ازای هر ۱۰۰٬۰۰۰ نفر در هر کشور",
+    "description": "رتبه‌ها نصب‌ها را می‌شمارند؛ نه کاربران را."
   }
 }
