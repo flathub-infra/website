@@ -2033,6 +2033,28 @@ class StripePendingTransfer(Base):
         )
 
 
+class StripeTransferDelivery(Base):
+    __tablename__ = "stripetransferdelivery"
+
+    id = mapped_column(Integer, primary_key=True, autoincrement=False)
+    stripe_transaction = mapped_column(
+        Integer, ForeignKey(StripeTransaction.id), nullable=False
+    )
+    recipient = mapped_column(String, nullable=False)
+    currency = mapped_column(String, nullable=False)
+    amount = mapped_column(Integer, nullable=False)
+    claimed_at = mapped_column(DateTime, nullable=False)
+    outcome = mapped_column(String, nullable=False)
+    attempts = mapped_column(Integer, nullable=False)
+    stripe_transfer_id = mapped_column(String, unique=True)
+
+
+class StripeFailedPaymentEvent(Base):
+    __tablename__ = "stripefailedpaymentevent"
+
+    event_id = mapped_column(String, primary_key=True)
+
+
 class UserOwnedApp(Base):
     __tablename__ = "userownedapp"
 
