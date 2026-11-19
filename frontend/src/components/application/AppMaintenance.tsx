@@ -10,6 +10,7 @@ import { Link } from "src/i18n/navigation"
 import { useUserContext } from "src/context/user-info"
 import { Permission } from "src/codegen/model"
 import CheckerHealth from "./CheckerHealth"
+import { packagingLink } from "./appstream-url"
 
 interface Props {
   appId: string
@@ -49,7 +50,7 @@ export default function AppMaintenance({ appId, manifestUrl }: Props) {
   // An absent runtime record also produces false in the summary API.
   // Only an explicit true establishes EOL; false does not establish support.
   const isEol = !!runtime && metadata?.runtimeIsEol === true
-  const packagingUrl = manifestUrl ?? `https://github.com/flathub/${appId}`
+  const packaging = packagingLink(appId, manifestUrl)
 
   return (
     <div className="border-t border-border">
@@ -127,8 +128,8 @@ export default function AppMaintenance({ appId, manifestUrl }: Props) {
               variant="outline"
               className="h-auto min-h-9 max-w-full whitespace-normal text-start text-foreground"
             >
-              <a href={packagingUrl} target="_blank" rel="noreferrer">
-                {t(manifestUrl != null ? "view-manifest" : "view-repository")}
+              <a href={packaging.href} target="_blank" rel="noreferrer">
+                {t(packaging.isManifest ? "view-manifest" : "view-repository")}
               </a>
             </Button>
             <Button

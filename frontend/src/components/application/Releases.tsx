@@ -5,6 +5,7 @@ import { getIntlLocale } from "../../localize"
 
 import clsx from "clsx"
 import { sanitizeAppstreamDescription } from "@/lib/helpers"
+import { appstreamUrl } from "./appstream-url"
 import { Summary } from "src/types/Summary"
 import { UTCDate } from "@date-fns/utc"
 import { ExternalLinkIcon } from "lucide-react"
@@ -86,6 +87,7 @@ const Releases: FunctionComponent<Props> = ({
   const descriptionSanitized = sanitizeAppstreamDescription(
     latestRelease.description,
   )
+  const releaseUrl = appstreamUrl(latestRelease.url)
 
   return (
     <>
@@ -160,12 +162,12 @@ const Releases: FunctionComponent<Props> = ({
                       __html: descriptionSanitized,
                     }}
                   />
-                  <ReleaseLink url={latestRelease.url} />
+                  {releaseUrl && <ReleaseLink url={releaseUrl} />}
                 </div>
               ) : (
                 <div className="prose prose-p:my-0 dark:prose-invert">
-                  {latestRelease.url ? (
-                    <ReleaseLink url={latestRelease.url} noChangeLogProvided />
+                  {releaseUrl ? (
+                    <ReleaseLink url={releaseUrl} noChangeLogProvided />
                   ) : (
                     <ul className="list-disc ps-10">
                       <li>{t("no-changelog-provided")}</li>

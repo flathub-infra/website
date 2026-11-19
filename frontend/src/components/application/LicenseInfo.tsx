@@ -13,6 +13,7 @@ import {
   Users2Icon,
 } from "lucide-react"
 import { GetAppstreamAppstreamAppIdGet200 } from "src/codegen"
+import { appstreamUrl } from "./appstream-url"
 
 const licenseRefProprietaryRegex = /LicenseRef-proprietary=(.*)/i
 const licenseRefRegex = /LicenseRef-scancode-(.*)=(.*)/i
@@ -140,17 +141,15 @@ const LicenseLink = ({
     return t("you-may-or-may-not-be-able-to-contribute")
   }
 
+  const href =
+    licenseType === "floss"
+      ? (appstreamUrl(app.urls?.contribute) ?? appstreamUrl(app.urls?.homepage))
+      : licenseProprietaryIsLink && appstreamUrl(license)
   return (
-    ((licenseType === "proprietary" && licenseProprietaryIsLink) ||
-      (licenseType === "floss" &&
-        (app.urls?.homepage || app.urls?.contribute))) && (
+    href && (
       <a
         className="flex gap-1 items-center"
-        href={
-          licenseProprietaryIsLink
-            ? license
-            : (app.urls?.contribute ?? app.urls?.homepage)
-        }
+        href={href}
         target="_blank"
         rel="noreferrer"
         onClick={linkClicked}
