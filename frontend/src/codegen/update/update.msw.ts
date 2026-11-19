@@ -49,27 +49,6 @@ export const getUpdateStatsUpdateStatsPostMockHandler = (
   )
 }
 
-export const getProcessTransfersUpdateProcessPendingTransfersPostMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<HttpResponseResolver>[0],
-      ) => Promise<unknown> | unknown),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    "*/update/process-pending-transfers",
-    async (info: Parameters<HttpResponseResolver>[0]) => {
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-
-      return new HttpResponse(null, { status: 200 })
-    },
-    options,
-  )
-}
-
 export const getUpdateAppPicksUpdateAppPicksPostMockHandler = (
   overrideResponse?:
     | unknown
@@ -93,6 +72,5 @@ export const getUpdateAppPicksUpdateAppPicksPostMockHandler = (
 export const getUpdateMock = () => [
   getUpdateUpdatePostMockHandler(),
   getUpdateStatsUpdateStatsPostMockHandler(),
-  getProcessTransfersUpdateProcessPendingTransfersPostMockHandler(),
   getUpdateAppPicksUpdateAppPicksPostMockHandler(),
 ]

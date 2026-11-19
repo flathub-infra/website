@@ -4,6 +4,8 @@ Implementation details for a Stripe based wallet for Flathub
 This will be used if the app starts with Stripe credentials available
 """
 
+import logging
+from datetime import timedelta
 from itertools import dropwhile
 from typing import NotRequired, TypedDict
 
@@ -33,6 +35,7 @@ from .walletbase import (
 )
 
 GROUP_PREFIX = "flathub-txn-"
+logger = logging.getLogger(__name__)
 
 
 def _get_transaction_recipients(
@@ -652,52 +655,74 @@ class StripeWallet(WalletBase):
             db.session.commit()
 
     def perform_pending_transfers(self):
-        sentinel = {}
-        pending_transfers = []
-        try:
-            xfers = []
+        while True:
             with get_db("writer") as db:
-                for transfer in models.StripePendingTransfer.all_due(db):
-                    xfer = {
-                        "stripe_transaction": transfer.stripe_transaction,
-                        "currency": transfer.currency,
-                        "amount": transfer.amount,
-                        "recipient": transfer.recipient,
-                    }
-                    xfers.append(xfer)
-                    db.session.delete(transfer)
-                db.session.commit()
+                transfer = (
+                    models.StripePendingTransfer.all_due(db)
+                    .order_by(models.StripePendingTransfer.id)
+                    .with_for_update(of=models.StripePendingTransfer, skip_locked=True)
+                    .first()
+                )
+                if transfer is not None:
+                    delivery = models.StripeTransferDelivery(
+                        id=transfer.id,
+                        stripe_transaction=transfer.stripe_transaction,
+                        recipient=transfer.recipient,
+                        currency=transfer.currency,
+                        amount=transfer.amount,
+                        attempts=0,
+                    )
+                    db.add(delivery)
+                    db.delete(transfer)
+                else:
+                    delivery = (
+                        db.query(models.StripeTransferDelivery)
+                        .filter(
+                            models.StripeTransferDelivery.outcome == "retry",
+                            models.StripeTransferDelivery.claimed_at
+                            < utcnow() - timedelta(hours=1),
+                        )
+                        .order_by(models.StripeTransferDelivery.id)
+                        .with_for_update(skip_locked=True)
+                        .first()
+                    )
+                    if delivery is None:
+                        return
+                delivery.claimed_at = utcnow()
+                delivery.outcome = "unconfirmed"
+                delivery.attempts += 1
+                transfer_id, attempt = delivery.id, delivery.attempts
+                amount, currency, destination = (
+                    delivery.amount,
+                    delivery.currency,
+                    delivery.recipient,
+                )
 
-            pending_xfers = xfers
-            pending_xfers.append(sentinel)
-            while pending_xfers[0] is not sentinel:
-                xfer = pending_xfers.pop(0)
-                try:
-                    print(
-                        f"Setting up transfer of {xfer['amount'] / 100} "
-                        + f"({xfer['currency']}) to {xfer['recipient']}"
-                    )
-                    stripe.Transfer.create(
-                        amount=xfer["amount"],
-                        currency=xfer["currency"],
-                        destination=xfer["recipient"],
-                    )
-                except stripe.error.StripeError as s_e:
-                    print(f"Failed, will retry later: {s_e}")
-                    pending_xfers.append(xfer)
-        finally:
-            if pending_transfers:
-                with get_db("writer") as db:
-                    for transfer in pending_transfers:
-                        if transfer is not sentinel:
-                            xfer = models.StripePendingTransfer(
-                                stripe_transaction=transfer["stripe_transaction"],
-                                currency=transfer["currency"],
-                                amount=transfer["amount"],
-                                recipient=transfer["recipient"],
-                            )
-                            db.session.add(xfer)
-                    db.session.commit()
+            provider_id = None
+            try:
+                result = stripe.Transfer.create(
+                    amount=amount,
+                    currency=currency,
+                    destination=destination,
+                    metadata={"flathub_transfer_id": str(transfer_id)},
+                    idempotency_key=f"flathub-transfer-{transfer_id}-{attempt}",
+                )
+                provider_id, outcome = result.id, "confirmed"
+            except stripe.InvalidRequestError as error:
+                outcome = (
+                    "retry" if error.code == "balance_insufficient" else "rejected"
+                )
+            except (stripe.StripeError, OSError):
+                outcome = "unconfirmed"
+            if outcome != "confirmed":
+                logger.error(
+                    "Transfer %s attempt %s: %s", transfer_id, attempt, outcome
+                )
+            with get_db("writer") as db:
+                delivery = db.session.get(models.StripeTransferDelivery, transfer_id)
+                if delivery is None:
+                    raise RuntimeError(f"Missing claimed transfer {transfer_id}")
+                delivery.outcome, delivery.stripe_transfer_id = outcome, provider_id
 
 
 # Refuse to load if stripe configuration unavailable
