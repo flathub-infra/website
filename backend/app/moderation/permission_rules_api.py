@@ -181,15 +181,7 @@ def _pending(session) -> list[models.PermissionAssessmentObservation]:
 def list_permission_rules(_moderator: ModeratorDep) -> list[PermissionRuleEntry]:
     rule = models.PermissionRule
     with get_db("replica") as db:
-        rules = db.session.scalars(
-            select(rule).order_by(
-                rule.permission_group,
-                rule.key,
-                rule.match_type,
-                rule.before.nullsfirst(),
-                rule.value.nullsfirst(),
-            )
-        )
+        rules = db.session.scalars(select(rule).order_by(rule.id.desc()))
         return [_entry(db.session, item) for item in rules]
 
 
