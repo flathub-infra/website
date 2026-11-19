@@ -20,7 +20,9 @@ workspace = None
 
 
 vcr = vcr.VCR(
-    cassette_library_dir="tests/cassettes", ignore_hosts=["localhost", "testserver"]
+    cassette_library_dir="tests/cassettes",
+    ignore_hosts=["localhost", "testserver"],
+    filter_headers=["authorization", "cookie"],
 )
 
 
@@ -1742,7 +1744,7 @@ def test_fakewallet(client):
 
 
 @pytest.mark.xfail
-@vcr.use_cassette(record_mode="once")
+@vcr.use_cassette(record_mode="none")
 def test_stripewallet(client):
     from app import config
 

@@ -1,6 +1,6 @@
 interactions:
 - request:
-    body: client_id=71dbddbdb4288fe96a58&client_secret=4e4be6b815c4c42261a27ad3dba91a8c8d8a2ac5&code=7dcfd37f6ea1f0d87216
+    body: client_id=71dbddbdb4288fe96a58&client_secret=REDACTED&code=7dcfd37f6ea1f0d87216
     headers:
       Accept:
       - application/json
@@ -19,9 +19,7 @@ interactions:
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA6tWSkxOTi0uji/Jz07NU7JSSs/Ij/cPSjHPz3P3yQ5OMvJxrkoOyjEvinAMyyuI
-        9CoICzUJikx3jVTSUQJriS+pLEgF6ktKTSxKLQKKFifngwWKUhNTrPKL0nXAjNJioGQtAFTsxlZu
-        AAAA
+        H4sIAAAAAAAA/6tWSkxOTi0uji/Jz07NU7JSUErLrCgpLUpV0lFQKk7OL0gFiYE4YAXxJZUQkaTUxKLUIqVaAGxrr1pAAAAA
     headers:
       Cache-Control:
       - max-age=0, private, must-revalidate
@@ -84,8 +82,6 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Authorization:
-      - token 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
       Connection:
       - keep-alive
       User-Agent:
@@ -174,8 +170,6 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Authorization:
-      - token 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
       Connection:
       - keep-alive
       User-Agent:
@@ -275,8 +269,6 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Authorization:
-      - Bearer sk_test_1234
       Connection:
       - keep-alive
       Content-Length:
@@ -350,8 +342,6 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Authorization:
-      - Bearer sk_test_1234
       Connection:
       - keep-alive
       Content-Length:
@@ -381,7 +371,7 @@ interactions:
         \"automatic\",\n  \"charges\": {\n    \"object\": \"list\",\n    \"data\":
         [\n\n    ],\n    \"has_more\": false,\n    \"total_count\": 0,\n    \"url\":
         \"/v1/charges?payment_intent=pi_3Ko2RGIjBBIl8Etr1KrUXa0O\"\n  },\n  \"client_secret\":
-        \"pi_3Ko2RGIjBBIl8Etr1KrUXa0O_secret_k4UmC3VurADwVNinur3DxkOpS\",\n  \"confirmation_method\":
+        \"REDACTED\",\n  \"confirmation_method\":
         \"automatic\",\n  \"created\": 1649841878,\n  \"currency\": \"usd\",\n  \"customer\":
         \"cus_LV2WcG6UrxhUJj\",\n  \"description\": null,\n  \"invoice\": null,\n
         \ \"last_payment_error\": null,\n  \"livemode\": false,\n  \"metadata\": {\n
@@ -439,8 +429,6 @@ interactions:
       - '*/*'
       Accept-Encoding:
       - gzip, deflate
-      Authorization:
-      - Bearer sk_test_1234
       Connection:
       - keep-alive
       User-Agent:
@@ -464,7 +452,7 @@ interactions:
         \"automatic\",\n  \"charges\": {\n    \"object\": \"list\",\n    \"data\":
         [\n\n    ],\n    \"has_more\": false,\n    \"total_count\": 0,\n    \"url\":
         \"/v1/charges?payment_intent=pi_3Ko2RGIjBBIl8Etr1KrUXa0O\"\n  },\n  \"client_secret\":
-        \"pi_3Ko2RGIjBBIl8Etr1KrUXa0O_secret_k4UmC3VurADwVNinur3DxkOpS\",\n  \"confirmation_method\":
+        \"REDACTED\",\n  \"confirmation_method\":
         \"automatic\",\n  \"created\": 1649841878,\n  \"currency\": \"usd\",\n  \"customer\":
         \"cus_LV2WcG6UrxhUJj\",\n  \"description\": null,\n  \"invoice\": null,\n
         \ \"last_payment_error\": null,\n  \"livemode\": false,\n  \"metadata\": {\n
