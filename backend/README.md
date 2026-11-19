@@ -43,8 +43,20 @@ If you perform any transactions which need funds transferring to vendors
 then you should:
 
 ```bash
-curl -X POST localhost:8000/update/process-pending-transfers
+docker compose exec backend python -m utils.process_pending_transfers
 ```
+
+Stop the previous payout job before upgrading, apply the database migrations,
+then run this command from a private scheduler. Claims move atomically from the
+pending queue to `stripetransferdelivery`, so an older worker cannot resend them.
+`confirmed` records contain the provider transfer ID. `retry` means Stripe
+rejected the payment for insufficient funds; the worker retries after one hour.
+For `rejected`, correct the cause and mark the delivery `retry` only after
+confirming non-delivery. Monitor `unconfirmed` records: a crash or timeout can
+leave this state even after payment. Reconcile against `flathub_transfer_id`
+provider metadata before recording confirmation or scheduling another attempt.
+Stop all workers and reconcile and archive delivery history before downgrading
+the schema. Never copy confirmed or unresolved deliveries into the pending queue.
 
 If you change any files, the server should restart and you should be able to see the changes.
 
