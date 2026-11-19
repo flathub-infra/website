@@ -13,6 +13,7 @@ const CONTENT_SECURITY_POLICY = `
   base-uri 'self' ${process.env.NEXT_PUBLIC_SITE_BASE_URI};
   object-src 'none';
   form-action 'none';
+  script-src-attr 'none';
   style-src 'self' 'unsafe-inline' https://dl.flathub.org;
   font-src 'self' https://dl.flathub.org;
   connect-src 'self' https://flathub.org https://builds.flathub.org/api/ https://webstats.gnome.org https://api.github.com https://api.stripe.com https://maps.googleapis.com https://o467221.ingest.sentry.io/api/6610580/;
@@ -326,11 +327,8 @@ const nextConfig: (phase: string) => NextConfig = (phase) => ({
                * For testing adjustments use https://addons.mozilla.org/en-GB/firefox/addon/laboratory-by-mozilla/
                * (which allows you to overwrite the Content Security Policy of a particular website).
                *
-               * Do not add `unsafe-inline` to `script-src`, as we are using dangerouslySetInnerHTML in a few places,
-               * which makes us vulnerable to arbitrary code execution if we receive unsanitized data from the APIs.
-               *
-               * For the development environment we either need to maintain a separate CSP or disable it altogether.
-               * This is because it makes use of `eval` and other features that we don't want to allow in the production environment.
+               * Inline event handlers are blocked. Script elements, including the inline
+               * scripts Next.js emits for hydration, are not restricted by this policy.
                */
               phase === PHASE_PRODUCTION_BUILD ? CONTENT_SECURITY_POLICY : "",
           },
