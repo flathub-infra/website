@@ -2293,6 +2293,7 @@ class RedeemableAppToken(Base):
             db.session.query(RedeemableAppToken)
             .filter(RedeemableAppToken.appid == app_id)
             .filter(RedeemableAppToken.token == token)
+            .with_for_update()
             .first()
         )
 
@@ -2305,11 +2306,16 @@ class RedeemableAppToken(Base):
         if self.state != RedeemableAppTokenState.UNREDEEMED:
             raise ValueError("Token is not available for redemption")
 
-        if UserOwnedApp.user_owns_app(db, user.id, self.appid):
+        added = db.session.execute(
+            pg_insert(UserOwnedApp)
+            .values(account=user.id, app_id=self.appid, created=utils.utcnow())
+            .on_conflict_do_nothing(
+                index_elements=[UserOwnedApp.account, UserOwnedApp.app_id]
+            )
+            .returning(UserOwnedApp.id)
+        ).scalar_one_or_none()
+        if added is None:
             return False
-
-        app = UserOwnedApp(app_id=self.appid, account=user.id, created=utils.utcnow())
-        db.session.add(app)
 
         self.token = None
         self.state = RedeemableAppTokenState.REDEEMED
