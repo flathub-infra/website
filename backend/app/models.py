@@ -1860,14 +1860,16 @@ class Transaction(Base):
 
     @classmethod
     def by_user_and_id(
-        cls, db, user: FlathubUser, txnid: str
+        cls, db, user: FlathubUser, txnid: str, *, lock: bool = False
     ) -> Optional["Transaction"]:
-        return (
+        query = (
             db.session.query(Transaction)
             .filter(Transaction.user_id == user.id)
             .filter(Transaction.id == int(txnid))
-            .first()
         )
+        if lock:
+            query = query.with_for_update(key_share=True)
+        return query.first()
 
     def rows(self, db):
         return (
