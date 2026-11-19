@@ -5,6 +5,7 @@ import clsx from "clsx"
 import React from "react"
 import { useMatomo } from "@mitresthen/matomo-tracker-react"
 import { ProjectUrl } from "src/types/ProjectUrl"
+import { appstreamUrl, packagingLink } from "./appstream-url"
 import {
   Code2Icon,
   CodeIcon,
@@ -41,7 +42,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
   if (app.urls?.homepage) {
     links.push({
       content: {
-        text: app.urls.homepage,
+        text: appstreamUrl(app.urls.homepage),
         trackAsEvent: "Homepage",
       },
       icon: <GlobeIcon />,
@@ -52,7 +53,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
   if (app.urls?.contact) {
     links.push({
       content: {
-        text: app.urls.contact,
+        text: appstreamUrl(app.urls.contact, true),
         trackAsEvent: "Contact",
       },
       icon: <InboxIcon />,
@@ -63,7 +64,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
   if (app.urls?.help) {
     links.push({
       content: {
-        text: app.urls.help,
+        text: appstreamUrl(app.urls.help),
         trackAsEvent: "Help",
       },
       icon: <LifeBuoyIcon />,
@@ -74,7 +75,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
   if (app.urls?.faq) {
     links.push({
       content: {
-        text: app.urls.faq,
+        text: appstreamUrl(app.urls.faq),
         trackAsEvent: "Faq",
       },
       icon: <MessagesSquareIcon />,
@@ -85,7 +86,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
   if (app.urls?.translate) {
     links.push({
       content: {
-        text: app.urls.translate,
+        text: appstreamUrl(app.urls.translate),
         trackAsEvent: "Translate",
       },
       icon: <LanguagesIcon />,
@@ -96,10 +97,9 @@ const Links: FunctionComponent<Props> = ({ app }) => {
   links.push({
     content: {
       text:
-        app.metadata?.["flathub::verification::verified"] &&
-        app.urls?.bugtracker
-          ? app.urls.bugtracker
-          : `https://github.com/flathub/${app.id}/issues`,
+        (app.metadata?.["flathub::verification::verified"]
+          ? appstreamUrl(app.urls?.bugtracker)
+          : undefined) ?? `https://github.com/flathub/${app.id}/issues`,
       trackAsEvent: "Bugtracker",
     },
     icon: <FlagIcon />,
@@ -109,7 +109,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
   if (app.urls?.vcs_browser) {
     links.push({
       content: {
-        text: app.urls.vcs_browser,
+        text: appstreamUrl(app.urls.vcs_browser),
         trackAsEvent: "VCS_Browser",
       },
       icon: <Code2Icon />,
@@ -120,7 +120,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
   if (app.urls?.contribute) {
     links.push({
       content: {
-        text: app.urls.contribute,
+        text: appstreamUrl(app.urls.contribute),
         trackAsEvent: "Contribute",
       },
       icon: <WrenchIcon />,
@@ -130,9 +130,7 @@ const Links: FunctionComponent<Props> = ({ app }) => {
 
   links.push({
     content: {
-      text:
-        app.metadata?.["flathub::manifest"] ??
-        `https://github.com/flathub/${app.id}`,
+      text: packagingLink(app.id, app.metadata?.["flathub::manifest"]).href,
       trackAsEvent: "Manifest",
     },
     icon: <CodeIcon />,
@@ -145,6 +143,9 @@ const Links: FunctionComponent<Props> = ({ app }) => {
         <>
           <div className="flex flex-col divide-y divide-flathub-gainsborow dark:divide-flathub-granite-gray">
             {links.map((link) => {
+              if (!link.content.text) {
+                return null
+              }
               const linkClicked = () => {
                 trackEvent({
                   category: "App",

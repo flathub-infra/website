@@ -15,7 +15,8 @@ import {
 } from "src/codegen"
 import { Button } from "@/components/ui/button"
 import { Bookmark, BookmarkCheck, Loader2 } from "lucide-react"
-import { Link, useRouter } from "src/i18n/navigation"
+import { Link } from "src/i18n/navigation"
+import { appstreamUrl } from "./appstream-url"
 
 const FavoriteButton = ({ appId }: { appId: string }) => {
   const t = useTranslations()
@@ -103,17 +104,11 @@ export function AppHeader({
   const t = useTranslations()
   const user = useUserContext()
   const { trackEvent } = useMatomo()
-  const { push } = useRouter()
+  const donationUrl = appstreamUrl(app.urls?.donation)
   const isOwned = user.info?.owned_flatpaks?.includes(app.id) ?? false
 
-  const donateClicked = (e) => {
-    if (!app.urls?.donation) {
-      return
-    }
-
-    e.preventDefault()
+  const donateClicked = () => {
     trackEvent({ category: "App", action: "Donate", name: app.id })
-    push(app.urls.donation)
   }
 
   return (
@@ -166,7 +161,7 @@ export function AppHeader({
       <div className="flex w-full flex-wrap items-center justify-center gap-3 sm:ms-auto sm:w-auto sm:max-w-full">
         <FavoriteButton appId={app.id} />
         <InstallButton appId={app.id} />
-        {app.urls?.donation && (
+        {donationUrl && (
           <Button
             onClick={donateClicked}
             asChild
@@ -174,7 +169,7 @@ export function AppHeader({
             variant="secondary"
             size="xl"
           >
-            <a target="_blank" rel="noreferrer" href={app.urls.donation}>
+            <a target="_blank" rel="noreferrer" href={donationUrl}>
               {t("donate")}
             </a>
           </Button>

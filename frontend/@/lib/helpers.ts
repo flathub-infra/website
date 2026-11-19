@@ -16,10 +16,14 @@ export const isValidAppId = (appId: string) => {
   return appIdPattern.test(appId)
 }
 
+export const appstreamDescriptionTags = ["p", "ul", "li", "ol", "em", "code"]
+
 export const sanitizeAppstreamDescription = (str: string) => {
   return sanitize(str, {
-    ALLOWED_TAGS: ["p", "ul", "li", "ol", "em", "code"],
+    ALLOWED_TAGS: appstreamDescriptionTags,
     ALLOWED_ATTR: [],
+    ALLOW_DATA_ATTR: false,
+    ALLOW_ARIA_ATTR: false,
   })
 }
 

@@ -59,21 +59,16 @@ describe("maintainer evidence", () => {
     user.info = undefined
   })
 
-  it.each([null, undefined])(
+  it.each([null, undefined, "", "/relative/manifest", "ftp://example.org"])(
     "uses the app detail fallback when manifest metadata is %s",
     (manifest) => {
-      expect(render(manifest)).toContain(
+      const html = render(manifest)
+      expect(html).toContain(
         'href="https://github.com/flathub/org.example.App"',
       )
+      expect(html).toContain("Packaging repository")
     },
   )
-
-  it("preserves empty manifest metadata like the app detail page", () => {
-    expect(render("")).toContain('href=""')
-    expect(render("")).not.toContain(
-      'href="https://github.com/flathub/org.example.App"',
-    )
-  })
 
   it("prefers an explicit packaging location over the default repository", () => {
     expect(render("https://example.org/manifest.json")).toContain(

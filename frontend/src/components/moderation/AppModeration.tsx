@@ -10,6 +10,7 @@ import PermissionDiffTable from "./PermissionDiffTable"
 import ReviewCard from "./ReviewCard"
 import { useQuery } from "@tanstack/react-query"
 import { useTranslations } from "next-intl"
+import { packagingLink } from "../application/appstream-url"
 import Breadcrumbs from "../Breadcrumbs"
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react"
 import {
@@ -223,8 +224,10 @@ const AppModeration: FunctionComponent<Props> = ({ appId }) => {
               className="inline-flex items-center gap-1.5 text-flathub-celestial-blue hover:underline dark:text-flathub-celestial-blue"
               target="_blank"
               href={
-                appInfoQuery.data[0].metadata?.["flathub::manifest"] ??
-                `https://github.com/flathub/${appInfoQuery.data[0].id}`
+                packagingLink(
+                  appInfoQuery.data[0].id,
+                  appInfoQuery.data[0].metadata?.["flathub::manifest"],
+                ).href
               }
               rel="noreferrer"
             >

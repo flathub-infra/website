@@ -1,8 +1,7 @@
 import clsx from "clsx"
 import { useMemo, useState, useRef, useEffect } from "react"
 import { useTranslations } from "next-intl"
-import { sanitizeAppstreamDescription } from "@/lib/helpers"
-import linkifyHtml from "linkify-html"
+import { formatDescription } from "./format-description"
 import { DesktopAppstream } from "src/codegen"
 import { UnverifiedAppDisclaimer } from "./UnverifiedAppDisclaimer"
 
@@ -21,22 +20,7 @@ export const Description = ({
   const collapsedHeight = 1000
 
   const description = useMemo(
-    () =>
-      app.description
-        ? linkifyHtml(
-            sanitizeAppstreamDescription(app.description).replace(
-              /(<p\b[^>]*>)\s*\*\*([\s\S]*?)\*\*\s*(<\/p>)/gi,
-              "$1<b>$2</b>$3",
-            ),
-            {
-              rel: "noopener noreferrer",
-              target: "_blank",
-              validate: {
-                url: (value) => /^https:\/\//.test(value),
-              },
-            },
-          )
-        : "",
+    () => (app.description ? formatDescription(app.description) : ""),
     [app.description],
   )
 
