@@ -1,10 +1,12 @@
 import base64
+import logging
 import os
 
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+logger = logging.getLogger(__name__)
 
 
 class Settings(BaseSettings):
@@ -132,6 +134,25 @@ class Settings(BaseSettings):
 
     force_recompute_stats: bool = False
     audit_log_retention_days: int = 90
+
+    def warn_if_signing_keys_invalid(self):
+        if self.env in {"development", "test"}:
+            return
+        try:
+            keys = [
+                self.session_secret_key.encode(),
+                base64.b64decode(self.update_token_secret, validate=True),
+                base64.b64decode(self.flat_manager_secret, validate=True),
+            ]
+        except ValueError:
+            logger.warning(
+                "Update-token and repository signing keys must be valid Base64"
+            )
+            return
+        if any(len(key) < 32 for key in keys) or len(set(keys)) != len(keys):
+            logger.warning(
+                "Configure distinct session, update-token and repository signing keys of at least 32 bytes"
+            )
 
 
 settings = Settings()

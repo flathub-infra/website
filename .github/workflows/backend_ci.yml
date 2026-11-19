@@ -50,6 +50,7 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     env:
+      ENV: test
       DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
       DATABASE_REPLICA_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
       MAINTENANCE_TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
