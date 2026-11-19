@@ -850,15 +850,13 @@ def redeem_token(
     if not login["state"].logged_in():
         return RedemptionResult(status="failure", reason="not-logged-in")
 
-    with get_db("replica") as db:
+    with get_db("writer") as db:
         dbtoken = RedeemableAppToken.by_appid_and_token(db, app_id, token)
         if dbtoken is not None and dbtoken.state == RedeemableAppTokenState.UNREDEEMED:
-            with get_db("writer") as db:
-                if dbtoken.redeem(db, login["user"]):
-                    db.commit()
-                    return RedemptionResult(status="success", reason="redeemed")
-                else:
-                    return RedemptionResult(status="failure", reason="already-owned")
+            if dbtoken.redeem(db, login["user"]):
+                db.commit()
+                return RedemptionResult(status="success", reason="redeemed")
+            return RedemptionResult(status="failure", reason="already-owned")
 
     return RedemptionResult(status="failure", reason="invalid")
 

@@ -513,3 +513,43 @@ def test_history_reconciliation_in_opposite_orders(
         for txn in db.query(models.Transaction):
             assert txn.status == "success"
             assert txn.updated > original
+
+
+@pytest.mark.parametrize("same_token", [True, False])
+def test_concurrent_vending_redemption(payment_db, same_token):
+    from app import models
+    from app.utils import utcnow
+
+    writer, _ = payment_db
+    tokens = ["first"] if same_token else ["first", "second"]
+    with writer("writer") as db:
+        for token in tokens:
+            db.add(
+                models.RedeemableAppToken(
+                    appid="org.example.App",
+                    token=token,
+                    state="unredeemed",
+                    name="test",
+                    created=utcnow(),
+                    changed=utcnow(),
+                )
+            )
+    barrier = Barrier(2)
+
+    def redeem(index):
+        with writer("writer") as db:
+            barrier.wait(timeout=5)
+            token = models.RedeemableAppToken.by_appid_and_token(
+                db, "org.example.App", tokens[index % len(tokens)]
+            )
+            return token is not None and token.redeem(
+                db, SimpleNamespace(id=index + 1 if same_token else 1)
+            )
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        assert sorted(pool.map(redeem, range(2))) == [False, True]
+    with writer("writer") as db:
+        assert db.query(models.UserOwnedApp).count() == 1
+        assert (
+            db.query(models.RedeemableAppToken).filter_by(state="redeemed").count() == 1
+        )
