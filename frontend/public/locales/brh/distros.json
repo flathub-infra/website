@@ -2,6 +2,280 @@
   "chrome_os": {
     "step-5": {
       "name": "پدا ملتہ"
+    },
+    "distroName": "ChromeOS",
+    "step-1": {
+      "name": "Linux نا کمک اے لائخ کبو"
+    },
+    "step-3": {
+      "name": "Flatpak انسٹال کبو"
     }
+  },
+  "ubuntu": {
+    "distroName": "Ubuntu",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "install-bazaar": {
+      "name": "Bazaar انسٹال کبو"
+    },
+    "step-4": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "fedora": {
+    "distroName": "Fedora"
+  },
+  "manjaro": {
+    "distroName": "Manjaro",
+    "step-2": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "endless_os": {
+    "distroName": "Endless OS"
+  },
+  "alt_linux": {
+    "distroName": "ALT Linux",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "linux_mint": {
+    "distroName": "Linux Mint"
+  },
+  "opensuse": {
+    "distroName": "openSUSE",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "arch": {
+    "distroName": "Arch",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-2": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "debian": {
+    "distroName": "Debian",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "install-bazaar": {
+      "name": "Bazaar انسٹال کبو"
+    },
+    "step-4": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "rocky_linux": {
+    "distroName": "Rocky Linux",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "centos": {
+    "distroName": "CentOS Stream"
+  },
+  "almalinux": {
+    "distroName": "AlmaLinux"
+  },
+  "gentoo": {
+    "distroName": "Gentoo",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "kubuntu": {
+    "distroName": "Kubuntu",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "install-bazaar": {
+      "name": "Bazaar انسٹال کبو"
+    },
+    "step-4": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "solus": {
+    "distroName": "Solus",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "install-bazaar": {
+      "name": "Bazaar انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "alpine": {
+    "distroName": "Alpine",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "install-bazaar": {
+      "name": "Bazaar انسٹال کبو"
+    },
+    "step-4": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "mageia": {
+    "distroName": "Mageia",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "openmandriva_lx": {
+    "distroName": "OpenMandriva Lx"
+  },
+  "pop_os": {
+    "distroName": "Pop!_OS"
+  },
+  "elementary_os": {
+    "distroName": "elementary OS",
+    "step-1": {
+      "name": "ایپ اک انسٹال کبو"
+    }
+  },
+  "raspberry_pi_os": {
+    "distroName": "Raspberry Pi OS",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "void_linux": {
+    "distroName": "Void Linux",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "nixos": {
+    "distroName": "NixOS",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "pureos": {
+    "distroName": "PureOS"
+  },
+  "zorin_os": {
+    "distroName": "Zorin OS"
+  },
+  "deepin": {
+    "distroName": "Deepin",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-4": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "pardus": {
+    "distroName": "Pardus",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "install-bazaar": {
+      "name": "Bazaar انسٹال کبو"
+    },
+    "step-4": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "mx_linux": {
+    "distroName": "MX Linux",
+    "step-2": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "pisi_gnulinux": {
+    "distroName": "Pisi GNU/Linux",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "endeavouros": {
+    "distroName": "EndeavourOS",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "kde_neon": {
+    "distroName": "KDE neon"
+  },
+  "gnu_guix": {
+    "distroName": "GNU Guix",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "crystal_linux": {
+    "distroName": "Crystal Linux",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "vanilla_os": {
+    "distroName": "Vanilla OS"
+  },
+  "salix": {
+    "distroName": "Salix"
+  },
+  "slackware": {
+    "distroName": "Slackware",
+    "step-1": {
+      "name": "Flatpak انسٹال کبو"
+    },
+    "step-3": {
+      "name": "پدا ملتہ"
+    }
+  },
+  "t2_sde": {
+    "distroName": "T2 SDE"
+  },
+  "nura": {
+    "distroName": "Nura"
   }
 }

@@ -720,12 +720,16 @@
     "trending-categories-description": "Kategorie, które odnotowały największy wzrost w tym roku",
     "year-over-year-growth": "Wzrost rok do roku",
     "downloads-vs-previous-year": "Pobrania w porównaniu z {year}",
-    "hidden-gems-description": "Aplikacje zyskujące na popularności",
+    "hidden-gems-description": "Kilka aplikacji, które mogły umknąć Twojej uwadze w tym roku.",
     "hidden-gems": "Ukryte perełki",
     "platform-downloads": "Pobrania według platformy",
     "x-growth-formatted": "Wzrost o {percentage}",
     "per-capita-description": "Kraje bez danych o ludności zostały pominięte.",
-    "annual-growth": "Wzrost roczny"
+    "annual-growth": "Wzrost roczny",
+    "all-categories": "Pokaż wszystkie kategorie",
+    "award-guide": "Jak wybieramy zwycięzców",
+    "more-downloads": "{count, number} więcej pobrań",
+    "arrivals": "{count, number} aplikacji pojawiło się na Flathubie w {year}."
   },
   "quality-moderation-excluded": "Ta aplikacja nie podlega kontroli jakości",
   "app-information": "Informacje o aplikacji",

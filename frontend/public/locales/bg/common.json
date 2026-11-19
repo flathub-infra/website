@@ -710,7 +710,7 @@
     "app-updates": "Общо обновявания",
     "description": "Честване на година растеж и иновации във „Flathub“",
     "hidden-gems": "Скрити съкровища",
-    "hidden-gems-description": "Приложения с растяща популярност",
+    "hidden-gems-description": "Няколко приложения, които може да сте пропуснали тази година.",
     "trending-categories-description": "Категории с най-голям растеж тази година",
     "newcomer-description": "Най-популярното ново приложение тази година",
     "most-improved-description": "Приложението с най-висок процентен растеж в сравнение с предходната година",
@@ -721,7 +721,11 @@
     "top-emulators": "Водещи емулатори",
     "x-growth-formatted": "{percentage} растеж",
     "per-capita-description": "Държави без данни за населението са изключени.",
-    "annual-growth": "Годишен растеж"
+    "annual-growth": "Годишен растеж",
+    "all-categories": "Показване на всички категории",
+    "more-downloads": "{count, number} повече изтегляния",
+    "arrivals": "{count, number} приложения се присъединиха във „Flathub“ през {year} година.",
+    "award-guide": "Как избираме победителите"
   },
   "year-in-review-banner": {
     "title": "Равносметка на „Flathub“ за {year} година",

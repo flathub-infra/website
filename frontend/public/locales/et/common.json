@@ -717,11 +717,15 @@
     "year-over-year-growth": "Aastane kasv",
     "downloads-vs-previous-year": "Allalaadimisi võrreldes {year}. aastaga",
     "hidden-gems": "Peidetud pärlid",
-    "hidden-gems-description": "Kasvava populaarsusega rakendused",
+    "hidden-gems-description": "Mõned rakendused, mis sul võisid märkamata jääda.",
     "platform-downloads": "Allalaadimise platvormide kaupa",
     "x-growth-formatted": "{percentage} kasv",
     "per-capita-description": "Rahvaarvuta riigid on jäänud välja.",
-    "annual-growth": "Aastane kasv"
+    "annual-growth": "Aastane kasv",
+    "all-categories": "Näita kõiki kategooriaid",
+    "award-guide": "Kuidad me valime välja võitjad",
+    "arrivals": "Flathubiga liitus {year}. aastal {count, number} rakendust.",
+    "more-downloads": "{count, number} täiendavat allalaadimist"
   },
   "year-in-review-banner": {
     "title": "Flathubi {year}. aasta kokkuvõte",
@@ -1030,7 +1034,7 @@
     "x-per-100000": "{x} allalaadimist 100000 elaniku kohta",
     "x-total": "Kokku {x}",
     "population-unavailable": "Rahvastikuandmeid pole saadaval",
-    "source": "{year}. aasta keskpunkti rahvastikuprognoose, mis pärinevad <source>ÜRO maailma rahvastikuprognoosidest {revision}</source>, mis on litsentseeritud <license>CC BY 3.0 IGO</license> litsentsi alusel.",
+    "source": "Aluseks on {year}. aasta keskpunkti rahvastikuprognoosid, mis pärinevad <source>ÜRO maailma rahvastikuprognoosidest {revision}</source>, mis on avaldatud <license>CC BY 3.0 IGO</license> litsentsi alusel.",
     "summary": "Allalaadimised, mitte kasutajad.",
     "no-country-data": "Riigiandmeid veel pole.",
     "population-source": "{year}. aasta rahvastikuandmed",

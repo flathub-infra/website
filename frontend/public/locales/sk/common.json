@@ -642,11 +642,15 @@
     "year-over-year-growth": "Medziročný rast",
     "downloads-vs-previous-year": "Stiahnutia vs {year}",
     "hidden-gems": "Skryté perly",
-    "hidden-gems-description": "Aplikácie s rastúcou popularitou",
     "platform-downloads": "Platformové stiahnutia",
     "x-growth-formatted": "{percentage} rast",
     "per-capita-description": "Krajiny bez údajov o populácii sú vylúčené.",
-    "annual-growth": "Ročný rast"
+    "annual-growth": "Ročný rast",
+    "all-categories": "Zobraziť všetky kategórie",
+    "award-guide": "Ako vyberáme víťazov",
+    "more-downloads": "o {count, number} viac stiahnutí",
+    "arrivals": "V roku {year} pribudlo na Flathub {count, number} aplikácií.",
+    "hidden-gems-description": "Niekoľko aplikácií, ktoré vám tento rok mohli uniknúť."
   },
   "quality": {
     "missing-brand-colors": "Chýbajú farby značky",
