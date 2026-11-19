@@ -1,8 +1,7 @@
 FROM quay.io/hummingbird/nodejs:24-builder AS base
 
 USER root
-RUN npm install -g corepack && corepack enable pnpm && \
-  dnf install -y jemalloc && dnf clean all
+RUN npm install -g corepack && corepack enable pnpm
 
 FROM base AS dev
 
@@ -37,8 +36,6 @@ ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_OPTIONS=--max-old-space-size=2048
 ENV PORT=3000
 EXPOSE 3000
-
-COPY --from=base /usr/lib64/libjemalloc.so.2 /usr/lib64/
 
 USER root
 WORKDIR /app
