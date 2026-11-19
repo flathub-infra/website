@@ -5,9 +5,8 @@ This will be used if the app starts with Stripe credentials available
 """
 
 import logging
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 from itertools import dropwhile
-from typing import NotRequired, TypedDict
 
 import stripe
 from fastapi import Request, Response
@@ -16,7 +15,6 @@ from stripe import PaymentMethod as StripePaymentMethod
 from .. import models
 from ..config import settings
 from ..database import get_db
-from ..db_session import DBSession
 from ..models import FlathubUser, StripeCustomer
 from ..utils import PLATFORMS_WITH_STRIPE, utcnow
 from .walletbase import (
@@ -51,15 +49,6 @@ def _get_transaction_recipients(
         .all()
     )
     return dict(rows)
-
-
-class _StripeWebhookObject(TypedDict):
-    id: str
-    transfer_group: NotRequired[str | None]
-
-
-class _StripeWebhookData(TypedDict):
-    object: _StripeWebhookObject
 
 
 class StripeWallet(WalletBase):
@@ -151,7 +140,7 @@ class StripeWallet(WalletBase):
             recipients = _get_transaction_recipients(db, txns)
 
             txns_needing_update = [
-                txn for txn in txns if txn.status in ["pending", "retry"]
+                txn.id for txn in txns if txn.status in ["pending", "retry"]
             ]
 
             if not txns_needing_update:
@@ -170,13 +159,14 @@ class StripeWallet(WalletBase):
                     for txn in txns
                 ]
 
-        with get_db("writer") as db:
-            for txn in txns_needing_update:
-                txn = db.session.merge(txn)
-                if self._update_transaction(user, txn, db):
+        for txn_id in txns_needing_update:
+            with get_db("writer") as db:
+                txn = db.session.get(
+                    models.Transaction, txn_id, with_for_update={"key_share": True}
+                )
+                if txn is not None and self._update_transaction(user, txn, db):
                     db.session.add(txn)
-            db.session.commit()
-
+        with get_db("writer") as db:
             user = db.session.merge(user)
             txns = models.Transaction.by_user(db, user)
             if sort == TransactionSortOrder.RECENT:
@@ -275,6 +265,7 @@ class StripeWallet(WalletBase):
                 description = "Flathub donation"
 
             payment_intent = stripe.PaymentIntent.create(
+                idempotency_key=f"payment-intent-{txn_id}",
                 amount=txn_value,
                 currency=txn_currency,
                 allowed_payment_method_types=["card"],
@@ -332,32 +323,37 @@ class StripeWallet(WalletBase):
         stripe_pi = self._get_transaction(user, txn)
         try:
             payment_intent = stripe.PaymentIntent.retrieve(stripe_pi)
-            pi_status = payment_intent["status"]
-            if pi_status == "succeeded":
-                txn.status = "success"
-                txn.reason = ""
-            elif pi_status == "cancelled":
-                txn.status = "cancelled"
-                txn.reason = "Cancellation noted from Stripe"
-            else:
-                print(f"TXN {txn.id} in retry because {pi_status}")
-                txn.status = "retry"
-                txn.reason = f"Stripe status: {pi_status}"
-            txn.update_app_ownership(db)
-            db.session.add(txn)
-            return True
+            return self._apply_intent(txn, payment_intent, db)
 
         except Exception as stripe_error:
             raise WalletError(
                 error="stripe-payment-intent-retrieve-failed"
             ) from stripe_error
 
+    @staticmethod
+    def _apply_intent(txn, intent, db):
+        pi_status = intent["status"]
+        if pi_status == "succeeded":
+            status, reason = "success", ""
+        elif pi_status == "canceled":
+            status, reason = "cancelled", "Cancellation noted from Stripe"
+        elif pi_status in {"processing", "requires_action", "requires_capture"}:
+            status, reason = "pending", ""
+        else:
+            status, reason = "retry", f"Stripe status: {pi_status}"
+        if txn.status == status and (txn.reason or "") == reason:
+            return False
+        txn.status, txn.reason, txn.updated = status, reason, utcnow()
+        if status == "success":
+            txn.update_app_ownership(db)
+        return True
+
     def transaction(
         self, request: Request, user: FlathubUser, transaction: str
     ) -> Transaction:
         with get_db("writer") as db:
             user = db.session.merge(user)
-            txn = models.Transaction.by_user_and_id(db, user, transaction)
+            txn = models.Transaction.by_user_and_id(db, user, transaction, lock=True)
             if txn is None:
                 raise WalletError(error="not found")
             if self._update_transaction(user, txn, db):
@@ -523,7 +519,9 @@ class StripeWallet(WalletBase):
 
             with get_db("writer") as db:
                 user = db.session.merge(user)
-                txn = models.Transaction.by_user_and_id(db, user, transaction)
+                txn = models.Transaction.by_user_and_id(
+                    db, user, transaction, lock=True
+                )
                 if txn is None:
                     raise WalletError(error="not found")
 
@@ -531,15 +529,13 @@ class StripeWallet(WalletBase):
                     return
 
                 if pi_data["status"] == "succeeded":
-                    txn.status = "success"
-                    txn.reason = ""
-                    db.session.add(txn)
-                    txn.update_app_ownership(db)
+                    self._apply_intent(txn, pi_data, db)
                     db.session.commit()
                 else:
                     stripe.PaymentIntent.cancel(stripe_pi)
                     txn.status = "cancelled"
                     txn.reason = "Cancelled by user"
+                    txn.updated = utcnow()
                     db.session.add(txn)
                     db.session.commit()
         except Exception as stripe_error:
@@ -576,66 +572,60 @@ class StripeWallet(WalletBase):
             event = stripe.Webhook.construct_event(
                 body, sig_header=signature, secret=settings.stripe_webhook_key
             )
-            data = event["data"]
+            data = event.to_dict()["data"]
             event_type = event["type"]
         except Exception as stripe_error:
             raise WalletError(error="stripe error") from stripe_error
 
-        def get_transaction_from_webhook(
-            data: _StripeWebhookData,
-        ) -> tuple[DBSession | None, models.Transaction | None]:
-            p_id = data["object"]["id"]
-            transfer_group = data["object"].get("transfer_group")
-            if not transfer_group or not transfer_group.startswith(GROUP_PREFIX):
-                return None, None
+        if event_type not in {
+            "payment_intent.succeeded",
+            "payment_intent.payment_failed",
+            "payment_intent.canceled",
+        }:
+            return Response(None, status_code=201)
+        obj = data["object"]
+        transfer_group = obj.get("transfer_group")
+        if not isinstance(transfer_group, str) or not transfer_group.startswith(
+            GROUP_PREFIX
+        ):
+            return Response(None, status_code=201)
+        try:
+            group = int(transfer_group[len(GROUP_PREFIX) :])
+        except ValueError:
+            return Response(None, status_code=201)
 
-            try:
-                group = int(transfer_group[len(GROUP_PREFIX) :])
-            except (TypeError, ValueError):
-                return None, None
-            with get_db("writer") as db:
-                stripe_txn = db.session.query(models.StripeTransaction).get(group)
-                if stripe_txn is None or stripe_txn.stripe_pi != p_id:
-                    return None, None
-                transaction = db.session.query(models.Transaction).get(
-                    stripe_txn.transaction
+        with get_db("writer") as db:
+            stripe_txn = db.session.get(models.StripeTransaction, group)
+            if stripe_txn is None or stripe_txn.stripe_pi != obj["id"]:
+                return Response(None, status_code=201)
+            transaction = db.session.get(
+                models.Transaction, stripe_txn.transaction, with_for_update=True
+            )
+            if transaction is None or transaction.status in {"success", "cancelled"}:
+                return Response(None, status_code=201)
+            if event_type == "payment_intent.succeeded":
+                self._apply_intent(transaction, {"status": "succeeded"}, db)
+            elif event_type == "payment_intent.payment_failed":
+                # A failure describes one attempt, not the current intent.
+                event_id = event["id"]
+                if (
+                    db.session.get(models.StripeFailedPaymentEvent, event_id)
+                    is not None
+                ):
+                    return Response(None, status_code=201)
+                db.add(models.StripeFailedPaymentEvent(event_id=event_id))
+                created = datetime.fromtimestamp(event["created"], UTC).replace(
+                    tzinfo=None
                 )
-                return db, transaction
-
-        if event_type == "payment_intent.succeeded":
-            db, transaction = get_transaction_from_webhook(data)
-            if transaction is not None and db is not None:
-                transaction.status = "success"
-                transaction.updated = utcnow()
-                transaction.reason = ""
-                db.session.add(transaction)
-                transaction.update_app_ownership(db)
-                db.session.commit()
-
-        elif event_type == "payment_intent.payment_failed":
-            db, transaction = get_transaction_from_webhook(data)
-            if transaction is not None and db is not None:
-                last_error = data["object"].get("last_payment_error", {})
-                failure_message = last_error.get("message", "Payment failed")
-
-                transaction.status = "retry"
-                transaction.updated = utcnow()
-                transaction.reason = f"Payment failed: {failure_message}"
-                db.session.add(transaction)
-                db.session.commit()
-
-        elif event_type == "payment_intent.canceled":
-            db, transaction = get_transaction_from_webhook(data)
-            if transaction is not None and db is not None:
-                cancellation_reason = data["object"].get(
-                    "cancellation_reason", "unknown"
-                )
-
-                transaction.status = "cancelled"
-                transaction.updated = utcnow()
-                transaction.reason = f"Cancelled: {cancellation_reason}"
-                db.session.add(transaction)
-                db.session.commit()
+                if (
+                    transaction.status == "pending"
+                    and created <= transaction.updated.replace(microsecond=0)
+                ):
+                    return Response(None, status_code=201)
+                current = stripe.PaymentIntent.retrieve(stripe_txn.stripe_pi)
+                self._apply_intent(transaction, current, db)
+            else:
+                self._apply_intent(transaction, {"status": "canceled"}, db)
 
         return Response(None, status_code=201)
 
@@ -644,11 +634,13 @@ class StripeWallet(WalletBase):
     ):
         with get_db("writer") as db:
             user = db.session.merge(user)
-            txn = models.Transaction.by_user_and_id(db, user, transaction)
+            txn = models.Transaction.by_user_and_id(db, user, transaction, lock=True)
             if txn is None:
                 raise WalletError(error="not found")
             if txn.status not in ["new", "retry", "pending"]:
                 raise WalletError(error="bad transaction status")
+            if txn.status == "pending":
+                return
             txn.status = "pending"
             txn.updated = utcnow()
             db.session.add(txn)
