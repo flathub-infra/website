@@ -23,6 +23,7 @@ vcr = vcr.VCR(
     cassette_library_dir="tests/cassettes",
     ignore_hosts=["localhost", "testserver"],
     filter_headers=["authorization", "cookie"],
+    record_mode="none",
 )
 
 
@@ -82,8 +83,14 @@ class Override:
 
 
 @pytest.fixture
-def client():
-    from app import main
+def client(monkeypatch):
+    from app import config, main
+
+    for provider in ("github", "gitlab", "gnome", "kde"):
+        monkeypatch.setattr(config.settings, f"{provider}_client_id", "fixture-client")
+        monkeypatch.setattr(
+            config.settings, f"{provider}_client_secret", "fixture-secret"
+        )
 
     with TestClient(main.router) as client_:
         yield client_
@@ -1393,8 +1400,7 @@ def _login(client):
     out = response.json()
     assert out["state"] == "ok"
     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
-    print(state)
-    post_body = {"code": "04f6dff87ead3551df1d", "state": state}
+    post_body = {"code": "fixture-code", "state": state}
     client.cookies.clear()
     client.cookies.update(response.cookies)
     response = client.post("/auth/login/github", json=post_body)
@@ -1648,60 +1654,22 @@ def test_verification_status_not_verified(client):
     assert response.json() == expected
 
 
-# @vcr.use_cassette(record_mode="once")
-# def test_auth_login_github(client):
-#     response = client.get("/auth/login/github")
-#     assert response.status_code == 200
-#     out = response.json()
-#     assert out["state"] == "ok"
-#     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
-#     print(state)
-#     post_body = {"code": "d57f9d32d58f76dfcce7", "state": state}
-#     client.cookies.clear()
-#     client.cookies.update(response.cookies)
-#     response = client.post("/auth/login/github", json=post_body)
-#     assert response.status_code == 200
-
-
 @pytest.mark.xfail
-@vcr.use_cassette(record_mode="once")
+@vcr.use_cassette()
 def test_auth_login_gitlab(client):
     response = client.get("/auth/login/gitlab")
     assert response.status_code == 200
     out = response.json()
     assert out["state"] == "ok"
     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
-    print(state)
     post_body = {
-        "code": "af2cd03cdcc616e01969a7975b0ae780bd25125348c03f7e3803b6b166e1c8bd",
+        "code": "fixture-code",
         "state": state,
     }
     client.cookies.clear()
     client.cookies.update(response.cookies)
     response = client.post("/auth/login/gitlab", json=post_body)
     assert response.status_code == 200
-
-
-# @vcr.use_cassette(record_mode="once")
-# def test_auth_login_google(client):
-#     response = client.get("/auth/login/google")
-#     assert response.status_code == 200
-#     out = response.json()
-#     assert out["state"] == "ok"
-#     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
-#     print(state)
-#     encodedStr = (
-#         "4%2F0AX4XfWh9fGMl1g5n_RisJiN5qV2tVUnC6d3lDoWJn-1kyQ5f2FsGkyy_cFnsQFmOU2jllg"
-#     )
-#     code = parse.unquote(encodedStr)
-#     post_body = {
-#         "code": code,
-#         "state": state,
-#     }
-#     client.cookies.clear()
-#     client.cookies.update(response.cookies)
-#     response = client.post("/auth/login/google", json=post_body)
-#     assert response.status_code == 200
 
 
 @pytest.mark.xfail
@@ -1717,7 +1685,7 @@ def test_fakewallet(client):
     response = client.get("/auth/userinfo")
     assert response.status_code == 200
     out = response.json()
-    assert out["displayname"] == "Adam"
+    assert out["displayname"] == "Fixture"
 
     # List the transactions and check the two default fakewallet ones exist
     response = client.get("/wallet/transactions?sort=recent&limit=100")
@@ -1762,7 +1730,7 @@ def test_stripewallet(client):
     out = response.json()
     assert out["state"] == "ok"
     state = dict(parse.parse_qsl(parse.urlparse(out["redirect"]).query))["state"]
-    post_body = {"code": "7dcfd37f6ea1f0d87216", "state": state}
+    post_body = {"code": "fixture-code", "state": state}
     client.cookies.update(response.cookies)
     response = client.post("/auth/login/github", json=post_body)
     assert response.status_code == 200
@@ -1771,7 +1739,7 @@ def test_stripewallet(client):
     response = client.get("/auth/userinfo")
     assert response.status_code == 200
     out = response.json()
-    assert out["displayname"] == "Adam"
+    assert out["displayname"] == "Fixture"
 
     # Write a transaction via the post /wallet/transactions
     response = client.get("/wallet/transactions?sort=recent&limit=100")
