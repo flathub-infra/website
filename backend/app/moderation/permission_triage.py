@@ -78,7 +78,7 @@ Task, for each difference:
 - Set need only when the difference adds entries. Set removal_effect only when it removes entries. A difference that does both, such as x11 to fallback-x11 and wayland, needs both.
 - In alternative, name a portal or a narrower permission that serves the same purpose. Leave it empty when none exists.
 - A missing explanation in the pull request is missing evidence. It does not show that the app does not need the access.
-- Cite the new manifest in manifest_refs as JSON pointers, such as /modules/2/sources/0. Cite upstream source files in source_refs. Cite only what you read.
+- Cite the new manifest in manifest_refs as JSON pointers, such as /modules/2/sources/0. Cite upstream source files in source_refs only after you read them with read_source_file. Cite only what you read.
 
 Output:
 - summary: at most three plain sentences on what changed and what the evidence shows.
@@ -138,6 +138,7 @@ class Deps:
     published_manifest: dict[str, JSONValue] | None
     sources: SourceWorkspace
     source_calls: int = 0
+    read_files: set[tuple[str, str]] = field(default_factory=set)
     source_lock: threading.Lock = field(default_factory=threading.Lock)
 
 
@@ -414,7 +415,13 @@ def read_manifest(
         value = resolve_pointer(manifest, pointer)
     except (KeyError, IndexError):
         return f"{pointer} does not exist in the {which} manifest."
-    text = json.dumps(value, indent=2, ensure_ascii=False)
+    if isinstance(value, list):
+        text = "\n".join(
+            f"{pointer}/{index}: {json.dumps(item, indent=2, ensure_ascii=False)}"
+            for index, item in enumerate(value)
+        )
+    else:
+        text = json.dumps(value, indent=2, ensure_ascii=False)
     if len(text) > MAX_MANIFEST_READ_CHARS:
         return text[:MAX_MANIFEST_READ_CHARS] + "\n(truncated; read a deeper pointer)"
     return text
@@ -482,14 +489,17 @@ def read_source_file(
         if ctx.deps.source_calls >= MAX_SOURCE_CALLS:
             return SOURCE_BUDGET_USED
         ctx.deps.source_calls += 1
+        ctx.deps.read_files.add((module, path))
         return ctx.deps.sources.read(module, path, start_line, end_line)
 
 
 def resolve_source_refs(
-    refs: list[SourceRef], sources: SourceWorkspace
+    refs: list[SourceRef], sources: SourceWorkspace, read_files: set[tuple[str, str]]
 ) -> list[dict[str, Any]]:
     resolved = []
     for ref in refs:
+        if (ref.module, ref.path) not in read_files:
+            continue
         lines = sources.lines(ref.module, ref.path)
         if lines is None:
             continue
@@ -516,7 +526,9 @@ def resolve_output(output: Triage, deps: Deps) -> dict[str, Any]:
                 "manifest_refs": resolve_manifest_refs(
                     change.manifest_refs, deps.candidate_manifest
                 ),
-                "source_refs": resolve_source_refs(change.source_refs, deps.sources),
+                "source_refs": resolve_source_refs(
+                    change.source_refs, deps.sources, deps.read_files
+                ),
             }
             for change in sorted(output.changes, key=lambda item: item.difference)
         ],
