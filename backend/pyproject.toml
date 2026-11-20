@@ -40,7 +40,7 @@ dependencies = [
     "email-validator>=2.3.0",
     "idna>=3.18",
     "webauthn>=3.0.1,<4",
-    "pydantic-ai-slim[openai]>=2.21.0",
+    "pydantic-ai-slim[openai]>=2.68.0",
 ]
 
 [dependency-groups]
@@ -48,7 +48,6 @@ dev = [
     "ruff>=0.16.2,<1.0.0",
     "pytest>=9.1.1,<10.0.0",
     "pytest-insta<1.0.0,>=0.3.0",
-    "watchgod<1.0,>=0.8",
     "vcrpy>=8.3.0,<10.0.0",
     "pyrefly>=1.4.0",
     "jsonschema[format-nongpl]>=4.23,<5",
