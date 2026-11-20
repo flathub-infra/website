@@ -575,7 +575,7 @@ def load_pull_request(
     observation: models.PermissionAssessmentObservation,
 ) -> dict[str, Any] | None:
     with github_errors():
-        repo = Github(config.settings.github_bot_token).get_repo(
+        repo = Github(config.settings.permission_triage_gh_token).get_repo(
             observation.source_repository
         )
         try:
