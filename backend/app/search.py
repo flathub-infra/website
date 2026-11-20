@@ -135,8 +135,10 @@ client = meilisearch.Client(
     config.settings.meilisearch_url, config.settings.meilisearch_key
 )
 
-_configure_meilisearch_index(client)
-_configure_meilisearch_index(client, HYBRID_APPS_INDEX)
+
+def configure_indexes() -> None:
+    _configure_meilisearch_index(client)
+    _configure_meilisearch_index(client, HYBRID_APPS_INDEX)
 
 
 def _localized_attributes(locale: str) -> list[str]:

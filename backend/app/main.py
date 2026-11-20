@@ -15,6 +15,7 @@ from . import (
     database,
     emails,
     logins,
+    search,
     update,
     users,
     vending,
@@ -68,6 +69,7 @@ if config.settings.sentry_dsn:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     config.settings.warn_if_signing_keys_invalid()
+    search.configure_indexes()
     await database.get_redis()
     yield
     await database.close_redis()

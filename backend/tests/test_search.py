@@ -107,6 +107,7 @@ def search_module(monkeypatch):
     sys.modules["app.models"] = fake_models
     previous_search = sys.modules.pop("app.search", None)
     module = importlib.import_module("app.search")
+    module.configure_indexes()
     monitor = FakeMonitor()
     monkeypatch.setattr(module, "monitor_hybrid_index_task", monitor)
     monkeypatch.setattr(module.search_health, "has_hybrid_task_failures", lambda: False)
