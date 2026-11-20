@@ -1,12 +1,9 @@
 import { StaticImageData } from "next/image"
-import {
-  generateImageUrl,
-  type IGenerateImageUrl,
-} from "@imgproxy/imgproxy-node"
+import type { Options } from "@imgproxy/imgproxy-js-core"
+import { generateUnsignedImageUrl } from "src/utils/imgproxy"
 import { cn } from "@/lib/utils"
 import { ConditionalWrapper } from "@/lib/helpers"
 
-type Options = NonNullable<IGenerateImageUrl["options"]>
 type Format = Options["format"]
 
 type ImgproxyProps = {
@@ -22,8 +19,6 @@ type ImgproxyProps = {
   draggable?: boolean
   pictureClassName?: string
 } & Omit<Options, "resize" | "size" | "resize_type" | "dpr" | "format">
-
-const imgproxyEndpoint = "https://imgproxy.flathub.org/"
 
 export const Imgproxy = ({
   className,
@@ -45,22 +40,18 @@ export const Imgproxy = ({
 
   const imgproxyUrl = (format: Format, dpr: number, targetWidth = width) => {
     try {
-      const url = generateImageUrl({
-        endpoint: imgproxyEndpoint,
-        url: resolvedSrc,
-        options: {
-          resize: {
-            width: targetWidth,
-            height:
-              responsiveWidths && width && height && targetWidth
-                ? Math.round((targetWidth / width) * height)
-                : height,
-            resizing_type: fill ? "fill-down" : "fit",
-          },
-          format,
-          dpr,
-          ...imgproxyOptions,
+      const url = generateUnsignedImageUrl(resolvedSrc, {
+        resize: {
+          width: targetWidth,
+          height:
+            responsiveWidths && width && height && targetWidth
+              ? Math.round((targetWidth / width) * height)
+              : height,
+          resizing_type: fill ? "fill-down" : "fit",
         },
+        format,
+        dpr,
+        ...imgproxyOptions,
       })
 
       return url
