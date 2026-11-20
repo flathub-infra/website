@@ -23,7 +23,13 @@ from sqlalchemy.sql import func
 from . import audit_log, cache, config, http_client, models, utils, worker
 from .database import get_db
 from .email_login import require_oauth_upgrade
-from .login_info import AppAuthorDep, LoggedInDep, LoggedInInformation, ModifyUsersDep
+from .login_info import (
+    AppAuthorDep,
+    LoggedInDep,
+    LoggedInInformation,
+    ModifyUsersDep,
+    can_manage_app,
+)
 from .logins import refresh_oauth_token
 from .utils import jti
 from .verification_method import VerificationMethod
@@ -563,7 +569,7 @@ def _check_app_id(
             raise HTTPException(status_code=400, detail=ErrorDetail.MALFORMED_APP_ID)
     else:
         with get_db("replica") as db:
-            if app_id not in login.user.dev_flatpaks(db):
+            if not can_manage_app(db, db.session.merge(login.user), app_id):
                 raise HTTPException(
                     status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER
                 )
@@ -956,7 +962,9 @@ def _require_direct_upload_permission(
 ) -> models.FlathubUser:
     with get_db("replica") as db:
         user = db.session.merge(user)
-        if "direct-upload" not in user.permissions():
+        if user.permissions().isdisjoint(
+            {"direct-upload", models.MANAGE_APPS_PERMISSION}
+        ):
             raise HTTPException(status_code=403, detail=ErrorDetail.NOT_UPLOADER)
     return user
 
