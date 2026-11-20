@@ -45,15 +45,15 @@ importers:
         specifier: 19.3.1
         version: 19.3.1(react@19.3.1)
       react-email:
-        specifier: 6.11.13
-        version: 6.11.13(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: 6.11.14
+        version: 6.11.14(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       zod:
         specifier: ^4.6.7
         version: 4.6.7
     devDependencies:
       '@react-email/ui':
-        specifier: 6.11.13
-        version: 6.11.13(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: 6.11.14
+        version: 6.11.14(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@types/html-to-text':
         specifier: ^9.0.4
         version: 9.0.4
@@ -743,8 +743,8 @@ packages:
     peerDependencies:
       react: ^18.0 || ^19.0 || ^19.0.0-rc
 
-  '@react-email/ui@6.11.13':
-    resolution: {integrity: sha512-+17JgfOvrIjSR+JeVnxcF/qWsklND/4RyW0JQ7vrSMilpuDLjCzG4pmAR7XIah/tsxlTGju6PM5OUq+k/eidqA==}
+  '@react-email/ui@6.11.14':
+    resolution: {integrity: sha512-jaBeuCT/XDZD5Wfts4ESvpTu615MB/PL7qSdj8+s4TcObJ1fTcx2C4kE9VaoG0WbcbNDktMqDQsqETnAtZ4CHw==}
 
   '@selderee/plugin-htmlparser2@0.12.0':
     resolution: {integrity: sha512-oELmoyA6ML9jDRMV3kgcMQFKxUfBU0yFVn6yTctVaLT5ygXnxH52I3TZEgV9EhXJC68/uFvE5Daj1/25c0Xa/A==}
@@ -959,8 +959,8 @@ packages:
     resolution: {integrity: sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==}
     engines: {node: 18 || 20 || >=22}
 
-  baseline-browser-mapping@2.11.37:
-    resolution: {integrity: sha512-QYph+vfurmaxhNwi9FprfmtkT5cx2Keg8FzZ0vnjO8ukscIybVyZGMFwdllKGlTI6qyU8ck43OM9UXh+IFJihQ==}
+  baseline-browser-mapping@2.11.38:
+    resolution: {integrity: sha512-rMgy5YW7x28SMfXHLlVZDBqlWzYZ0x2rVR/6FWrNBF0chjigARK1H6nM0hKA1Um3kPOlkQFVtjJs00d2N1ezuw==}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -1303,6 +1303,10 @@ packages:
     resolution: {integrity: sha512-nFQuYSTVrGvysVBps5Ih+0BdnYFN/Cj3C816r6+p7yK+FHrVLGE4O4N9AFwykrlNlvM2HYt+Rad1Uiro6h88Ig==}
     engines: {node: 20 || >=22}
 
+  minimatch@11.0.9:
+    resolution: {integrity: sha512-KCFkfyjqerNlSstjlhIGNXIKZGA/6O4V4RlhZ+Dsr621SPPw0mzlypE9D9ZOoPiVefHID+j7/XuMMlqfD/F60Q==}
+    engines: {node: 20 || >=22}
+
   minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
 
@@ -1436,8 +1440,8 @@ packages:
     peerDependencies:
       react: ^19.3.1
 
-  react-email@6.11.13:
-    resolution: {integrity: sha512-GyTIMXrQF4oF9L9XkEu9rZYelgjqzLKzfR+aNIR29nFN5D3S7+Tilyl9AcxhOrVU2c/dUVxnwGv+uACBZrTt4Q==}
+  react-email@6.11.14:
+    resolution: {integrity: sha512-6gmmM2tJplHZvx9Y4DIN2WhM0iYoZU8/qaJK5+Dq4vOlR9uxuOHRZFR4vBCOnioEt5uS55grbYrCSVP9OL96VQ==}
     engines: {node: '>=20.19.0'}
     hasBin: true
     peerDependencies:
@@ -2084,7 +2088,7 @@ snapshots:
     dependencies:
       react: 19.3.1
 
-  '@react-email/ui@6.11.13(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@react-email/ui@6.11.14(@types/node@26.6.6)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       esbuild: 0.28.2
       jiti: 2.6.1
@@ -2253,7 +2257,7 @@ snapshots:
 
   balanced-match@4.0.4: {}
 
-  baseline-browser-mapping@2.11.37: {}
+  baseline-browser-mapping@2.11.38: {}
 
   brace-expansion@5.0.13:
     dependencies:
@@ -2507,7 +2511,7 @@ snapshots:
 
   glob@14.0.6:
     dependencies:
-      minimatch: 11.0.8
+      minimatch: 11.0.9
       minipass: 7.1.3
       path-scurry: 3.0.0
 
@@ -2615,6 +2619,11 @@ snapshots:
       '@isaacs/nonrecursive-glob-match': 1.1.0
       brace-expansion: 5.0.13
 
+  minimatch@11.0.9:
+    dependencies:
+      '@isaacs/nonrecursive-glob-match': 1.1.0
+      brace-expansion: 5.0.13
+
   minimist@1.2.8: {}
 
   minipass@7.1.3: {}
@@ -2631,7 +2640,7 @@ snapshots:
     dependencies:
       '@next/env': 16.4.3
       '@swc/helpers': 0.5.23
-      baseline-browser-mapping: 2.11.37
+      baseline-browser-mapping: 2.11.38
       caniuse-lite: 1.0.30001826
       postcss: 8.5.23
       react: 19.3.1
@@ -2733,7 +2742,7 @@ snapshots:
       react: 19.3.1
       scheduler: 0.28.0
 
-  react-email@6.11.13(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
+  react-email@6.11.14(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
     dependencies:
       '@babel/parser': 7.29.2
       '@babel/traverse': 7.29.0
