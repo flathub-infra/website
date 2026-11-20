@@ -9,6 +9,10 @@ from .prune_oidc_tokens import prune_oidc_tokens
 from .refresh_cache import refresh_cache
 from .refresh_github_repo_list import refresh_github_repo_list
 from .republish_app import republish_app, review_check
+from .triage_permission_change import (
+    sweep_permission_triage,
+    triage_permission_change,
+)
 from .update import update
 from .update_app_picks import update_app_picks
 from .update_checker_health import update_checker_health
@@ -32,6 +36,8 @@ __all__ = [
     "send_email_login_link",
     "send_email_new",
     "send_one_email_new",
+    "sweep_permission_triage",
+    "triage_permission_change",
     "update",
     "update_app_picks",
     "update_checker_health",
