@@ -1,9 +1,9 @@
 import json
+import threading
 import time
 from collections.abc import Generator, Mapping
 from contextlib import contextmanager
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any, Literal
 
 import requests
@@ -35,6 +35,7 @@ from ..types import JSONValue
 from . import ostree_manifest
 from .ostree_permissions import runtime_permissions
 from .permission_snapshot import REVIEW_ARCH, PermissionMap
+from .source_workspace import MAX_READ_LINES, SourceWorkspace
 from .summary_decisions import _plain_text
 
 FIREWORKS_URL = "https://api.fireworks.ai/inference/v1"
@@ -44,6 +45,12 @@ MAX_COMMITS = 50
 MAX_PRIOR_DECISIONS = 20
 MAX_REF_LINES = 40
 MAX_MANIFEST_REF_CHARS = 2000
+MAX_MANIFEST_READ_CHARS = 16000
+MAX_MANIFEST_HITS = 30
+MAX_SOURCE_CALLS = 20
+SOURCE_BUDGET_USED = (
+    "The source tool budget is used up. Write the analysis with the evidence you have."
+)
 
 PROMPT_VERSION = "1"
 INSTRUCTIONS = """\
@@ -52,6 +59,11 @@ You analyse a permission change in an update of a Flatpak app on Flathub, for a 
 Input:
 - The first message lists each permission difference by index, with the entries it adds, removes, and keeps. The comparison already leaves out permissions that the runtime grants.
 - It also gives the permissions the runtime grants, the app's AppStream name, summary and description, earlier decisions on this app, the pull request title, body and commit messages, and the modules of the new manifest with their source types.
+- Tools: read_manifest and search_manifest read the new manifest (which="candidate") or the published one (which="published"). search_sources and read_source_file read the upstream source code of one manifest module. The source tools share a budget of 20 calls.
+
+Method:
+- Use the manifest to find the module and the source that provide a feature.
+- Read upstream sources to check what the code does with the access. Search for the API, D-Bus name, device or path that the access serves. Upstream sources hold no finish-args, so do not search them for manifest flags.
 
 Task, for each difference:
 - For added entries, say what the app uses the access for, with evidence. Set need:
@@ -124,7 +136,9 @@ class Deps:
     differences: list[dict[str, Any]]
     candidate_manifest: dict[str, JSONValue]
     published_manifest: dict[str, JSONValue] | None
-    source_roots: dict[str, Path] = field(default_factory=dict)
+    sources: SourceWorkspace
+    source_calls: int = 0
+    source_lock: threading.Lock = field(default_factory=threading.Lock)
 
 
 agent = Agent(
@@ -359,32 +373,126 @@ def resolve_manifest_refs(
     return resolved
 
 
-def _source_file(root: Path, path: str) -> Path | None:
-    relative = Path(path)
-    if relative.is_absolute() or ".." in relative.parts:
-        return None
-    root = root.resolve()
-    candidates = [root / relative]
-    children = list(root.iterdir())
-    if len(children) == 1 and children[0].is_dir():
-        candidates.append(children[0] / relative)
-    for candidate in candidates:
-        resolved = candidate.resolve()
-        if resolved.is_relative_to(root) and resolved.is_file():
-            return resolved
-    return None
+def _which(ctx: RunContext[Deps], which: str) -> dict[str, JSONValue] | None:
+    if which == "published":
+        return ctx.deps.published_manifest
+    return ctx.deps.candidate_manifest
+
+
+def _escape(key: str) -> str:
+    return key.replace("~", "~0").replace("/", "~1")
+
+
+def _manifest_hits(
+    value: JSONValue, pointer: str, needle: str
+) -> Generator[tuple[str, JSONValue]]:
+    if isinstance(value, dict):
+        for key, inner in value.items():
+            child = f"{pointer}/{_escape(key)}"
+            if needle in key.casefold():
+                yield child, inner
+            yield from _manifest_hits(inner, child, needle)
+    elif isinstance(value, list):
+        for index, inner in enumerate(value):
+            yield from _manifest_hits(inner, f"{pointer}/{index}", needle)
+    elif needle in str(value).casefold():
+        yield pointer, value
+
+
+@agent.tool(
+    description="Return the JSON value at a JSON pointer, such as /finish-args or "
+    "/modules/2/sources, in the new manifest (which=candidate) or the published "
+    "one (which=published). An empty pointer returns the whole manifest."
+)
+def read_manifest(
+    ctx: RunContext[Deps], which: Literal["candidate", "published"], pointer: str
+) -> str:
+    manifest = _which(ctx, which)
+    if manifest is None:
+        return "The published manifest is not available."
+    try:
+        value = resolve_pointer(manifest, pointer)
+    except (KeyError, IndexError):
+        return f"{pointer} does not exist in the {which} manifest."
+    text = json.dumps(value, indent=2, ensure_ascii=False)
+    if len(text) > MAX_MANIFEST_READ_CHARS:
+        return text[:MAX_MANIFEST_READ_CHARS] + "\n(truncated; read a deeper pointer)"
+    return text
+
+
+@agent.tool(
+    description="Return JSON pointers in the new manifest (which=candidate) or the "
+    "published one (which=published) whose key or value contains text, ignoring "
+    f"case, at most {MAX_MANIFEST_HITS} hits."
+)
+def search_manifest(
+    ctx: RunContext[Deps], which: Literal["candidate", "published"], text: str
+) -> str:
+    manifest = _which(ctx, which)
+    if manifest is None:
+        return "The published manifest is not available."
+    needle = text.casefold()
+    if not needle:
+        return "search text is empty"
+    lines = []
+    for pointer, value in _manifest_hits(manifest, "", needle):
+        if len(lines) == MAX_MANIFEST_HITS:
+            lines.append(f"(hit limit reached; only {MAX_MANIFEST_HITS} hits shown)")
+            break
+        shown = (
+            "{...}"
+            if isinstance(value, dict)
+            else "[...]"
+            if isinstance(value, list)
+            else json.dumps(value, ensure_ascii=False)[:300]
+        )
+        lines.append(f"{pointer}: {shown}")
+    return "\n".join(lines) or f"no hits for {text!r}"
+
+
+@agent.tool(
+    description="Search the upstream source files of one manifest module for text, "
+    "ignoring case. path_prefix limits the search to a directory. The first source "
+    "call for a module downloads its sources. Upstream sources hold no finish-args: "
+    "search for the API, D-Bus name, device or path the access serves."
+)
+def search_sources(
+    ctx: RunContext[Deps], module: str, text: str, path_prefix: str = ""
+) -> str:
+    with ctx.deps.source_lock:
+        if ctx.deps.source_calls >= MAX_SOURCE_CALLS:
+            return SOURCE_BUDGET_USED
+        ctx.deps.source_calls += 1
+        return ctx.deps.sources.search(module, text, path_prefix)
+
+
+@agent.tool(
+    description="Return numbered lines start_line to end_line of an upstream source "
+    f"file of one manifest module, at most {MAX_READ_LINES} lines. The first source "
+    "call for a module downloads its sources."
+)
+def read_source_file(
+    ctx: RunContext[Deps],
+    module: str,
+    path: str,
+    start_line: int = 1,
+    end_line: int = MAX_READ_LINES,
+) -> str:
+    with ctx.deps.source_lock:
+        if ctx.deps.source_calls >= MAX_SOURCE_CALLS:
+            return SOURCE_BUDGET_USED
+        ctx.deps.source_calls += 1
+        return ctx.deps.sources.read(module, path, start_line, end_line)
 
 
 def resolve_source_refs(
-    refs: list[SourceRef], roots: Mapping[str, Path]
+    refs: list[SourceRef], sources: SourceWorkspace
 ) -> list[dict[str, Any]]:
     resolved = []
     for ref in refs:
-        root = roots.get(ref.module)
-        file = _source_file(root, ref.path) if root is not None else None
-        if file is None:
+        lines = sources.lines(ref.module, ref.path)
+        if lines is None:
             continue
-        lines = file.read_text(errors="replace").splitlines()
         if not (
             1 <= ref.start_line <= ref.end_line <= len(lines)
             and ref.end_line - ref.start_line < MAX_REF_LINES
@@ -408,9 +516,7 @@ def resolve_output(output: Triage, deps: Deps) -> dict[str, Any]:
                 "manifest_refs": resolve_manifest_refs(
                     change.manifest_refs, deps.candidate_manifest
                 ),
-                "source_refs": resolve_source_refs(
-                    change.source_refs, deps.source_roots
-                ),
+                "source_refs": resolve_source_refs(change.source_refs, deps.sources),
             }
             for change in sorted(output.changes, key=lambda item: item.difference)
         ],
@@ -573,13 +679,8 @@ def load_appstream(app_id: str) -> dict[str, Any] | None:
 def triage(observation: models.PermissionAssessmentObservation) -> dict[str, Any]:
     started = time.monotonic()
     candidate, published = load_manifests(observation)
-    deps = Deps(
-        differences=observation.differences,
-        candidate_manifest=candidate,
-        published_manifest=published,
-    )
     message = first_message(
-        deps.differences,
+        observation.differences,
         runtime_permissions(_runtime(candidate), _runtime(published)),
         load_appstream(observation.app_id),
         load_decisions(observation),
@@ -592,16 +693,24 @@ def triage(observation: models.PermissionAssessmentObservation) -> dict[str, Any
             base_url=FIREWORKS_URL, api_key=config.settings.fireworks_api_key
         ),
     )
-    with model_errors():
-        result = agent.run_sync(
-            message,
-            model=model,
-            deps=deps,
-            usage_limits=UsageLimits(request_limit=20),
+    with SourceWorkspace(candidate) as sources:
+        deps = Deps(
+            differences=observation.differences,
+            candidate_manifest=candidate,
+            published_manifest=published,
+            sources=sources,
         )
+        with model_errors():
+            result = agent.run_sync(
+                message,
+                model=model,
+                deps=deps,
+                usage_limits=UsageLimits(request_limit=20),
+            )
+        resolved = resolve_output(result.output, deps)
     return {
         "status": "completed",
-        "result": resolve_output(result.output, deps),
+        "result": resolved,
         "model": config.settings.permission_triage_model,
         "prompt_version": PROMPT_VERSION,
         "input_tokens": result.usage.input_tokens,
