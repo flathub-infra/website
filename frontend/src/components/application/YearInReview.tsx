@@ -380,11 +380,12 @@ export function GeographicInsightsSection({
           />
         </div>
 
-        <div className="grid gap-7 lg:grid-cols-2 lg:gap-10">
+        {/* Share the heading, column labels, and five ranked rows on desktop. */}
+        <div className="grid gap-7 lg:grid-cols-2 lg:grid-rows-[repeat(7,auto)] lg:gap-x-10 lg:gap-y-0">
           {/* Fastest Growing Regions */}
           {geographicStats.fastest_growing_regions &&
             geographicStats.fastest_growing_regions.length > 0 && (
-              <div className="order-2 min-w-0">
+              <div className="order-2 min-w-0 lg:row-span-full lg:grid lg:grid-rows-subgrid">
                 <h3 className="mb-3 text-sm font-semibold">
                   {t("year-in-review.fastest-growing-regions")}
                 </h3>
@@ -395,6 +396,7 @@ export function GeographicInsightsSection({
                   </span>
                 </div>
                 <div
+                  className="lg:row-span-5 lg:grid lg:grid-rows-subgrid"
                   role="list"
                   aria-label={t("year-in-review.fastest-growing-regions")}
                 >
@@ -407,10 +409,7 @@ export function GeographicInsightsSection({
                         <div
                           key={region.country_code}
                           role="listitem"
-                          className={clsx(
-                            "flex items-center gap-3 border-b border-border/50 py-3.5 last:border-0",
-                            perCapita && "lg:min-h-[71px]",
-                          )}
+                          className="flex items-center gap-3 border-b border-border/50 py-3.5 last:border-0"
                         >
                           <span className="w-3 text-xs tabular-nums text-foreground/70">
                             {idx + 1}.
@@ -443,7 +442,7 @@ export function GeographicInsightsSection({
 
           {/* Top Countries */}
           {geographicStats.top_countries && (
-            <div className="order-1 min-w-0">
+            <div className="order-1 min-w-0 lg:row-span-full lg:grid lg:grid-rows-subgrid">
               <h3 className="mb-3 text-sm font-semibold">
                 {t("year-in-review.top-countries")}
               </h3>
@@ -457,7 +456,11 @@ export function GeographicInsightsSection({
                   )}
                 </span>
               </div>
-              <div role="list" aria-label={t("year-in-review.top-countries")}>
+              <div
+                className="lg:row-span-5 lg:grid lg:grid-rows-subgrid"
+                role="list"
+                aria-label={t("year-in-review.top-countries")}
+              >
                 {topCountries.slice(0, 5).map((country, idx) => {
                   const countryName =
                     regionDisplay.of(country.country_code) ||

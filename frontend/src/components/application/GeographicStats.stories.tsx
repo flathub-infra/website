@@ -71,7 +71,34 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+function expectRankingsLayout(canvas: ReturnType<typeof within>) {
+  const topCountries = canvas.getByRole("list", { name: "Top countries" })
+  const fastestGrowingRegions = canvas.getByRole("list", {
+    name: "Fastest growing regions",
+  })
+
+  if (!window.matchMedia("(min-width: 64rem)").matches) {
+    expect(topCountries.getBoundingClientRect().bottom).toBeLessThan(
+      fastestGrowingRegions.getBoundingClientRect().top,
+    )
+    return
+  }
+
+  const countryRows = within(topCountries).getAllByRole("listitem")
+  const growthRows = within(fastestGrowingRegions).getAllByRole("listitem")
+  for (const [index, row] of countryRows.entries()) {
+    const country = row.getBoundingClientRect()
+    const growth = growthRows[index].getBoundingClientRect()
+    expect(country.top).toBeCloseTo(growth.top)
+    expect(country.height).toBeCloseTo(growth.height)
+  }
+}
+
+export const Default: Story = {
+  play: ({ canvasElement }) => {
+    expectRankingsLayout(within(canvasElement))
+  },
+}
 
 export const PerCapita: Story = {
   play: async ({ canvasElement }) => {
@@ -82,6 +109,7 @@ export const PerCapita: Story = {
     await expect(canvas.getByText("Vatican City")).toBeVisible()
     await expect(canvas.getByText("20,000")).toBeVisible()
     await expect(canvas.getByText("100 total")).toBeVisible()
+    expectRankingsLayout(canvas)
     await userEvent.click(canvas.getByText("2024 population data"))
     await expect(canvas.getByText(/2024 midyear projections/)).toBeVisible()
     await userEvent.click(canvas.getByText("2024 population data"))
