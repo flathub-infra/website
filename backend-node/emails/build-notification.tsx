@@ -9,8 +9,6 @@ export interface BuildNotificationEmailProps {
   heading?: string
   previewText: string
   diagnostics: Diagnostic[]
-  anyWarnings: boolean
-  anyErrors: boolean
   buildId: number
   buildRepo: string
 }
@@ -27,12 +25,11 @@ interface Diagnostic {
     | "no_screenshot_branch"
     | "unexpected_files_in_screenshot_branch"
     | "wrong_arch_executables"
+    | "flatpak_builder_lint"
   refstring: string
-  isError?: boolean
-  isWarning?: boolean
   data?: {
     error: string
-    stdout: string
+    stdout: string | LintOutput
     stderr: string
     path: string
     appstreamPath: string
@@ -47,6 +44,26 @@ interface Diagnostic {
     }[]
   }
 }
+
+interface LintOutput {
+  errors?: string[]
+  info?: string[]
+  message?: string
+}
+
+const LintList = ({ title, items }: { title: string; items?: string[] }) =>
+  items?.length ? (
+    <Section>
+      <Heading as={"h4"}>{title}</Heading>
+      <ul>
+        {items.map((item) => (
+          <li key={item}>
+            <code>{item}</code>
+          </li>
+        ))}
+      </ul>
+    </Section>
+  ) : null
 
 const Diagnostic = ({
   appId,
@@ -75,7 +92,7 @@ const Diagnostic = ({
               The appstream file at <code>{diagnostic.data?.path}</code>{" "}
               contains errors.
             </Text>
-            {diagnostic.data?.stdout && (
+            {typeof diagnostic.data?.stdout === "string" && (
               <Section>
                 <Heading as={"h4"}>stdout</Heading>
                 <Text>{diagnostic.data?.stdout}</Text>
@@ -209,6 +226,19 @@ const Diagnostic = ({
             </Text>
           </Section>
         )}
+        {diagnostic.category === "flatpak_builder_lint" &&
+          typeof diagnostic.data?.stdout === "object" && (
+            <Section>
+              <Text>
+                flatpak-builder-lint reported problems with the build.
+              </Text>
+              <LintList title="Errors" items={diagnostic.data.stdout.errors} />
+              <LintList title="Info" items={diagnostic.data.stdout.info} />
+              {diagnostic.data.stdout.message && (
+                <Text>{diagnostic.data.stdout.message}</Text>
+              )}
+            </Section>
+          )}
       </Section>
     </Section>
   )
@@ -222,8 +252,6 @@ export const BuildNotificationEmail = ({
   heading,
   previewText,
   diagnostics,
-  anyWarnings,
-  anyErrors,
   buildId,
   buildRepo,
 }: BuildNotificationEmailProps) => {
@@ -239,39 +267,16 @@ export const BuildNotificationEmail = ({
       appName={appName}
     >
       <Text>
-        {anyErrors ? (
-          <>
-            Errors were detected during validation of build #{buildId} (
-            {buildRepo}) for <b>{appNameAndId}</b>. This build may not be
-            published. Please address the issues and upload a new build.
-          </>
-        ) : (
-          <>
-            Warnings were detected during validation of build #{buildId} for{" "}
-            <b>{appNameAndId}</b>.
-          </>
-        )}
+        Errors were detected during validation of build #{buildId} ({buildRepo})
+        for <b>{appNameAndId}</b>. This build may not be published. Please
+        address the issues and upload a new build.
       </Text>
-      {anyErrors && (
-        <Section>
-          <Heading as={"h2"}>Errors</Heading>
-          {diagnostics
-            .filter((diagnostic) => diagnostic.isError)
-            .map((diagnostic, i) => (
-              <Diagnostic key={i} appId={appId} diagnostic={diagnostic} />
-            ))}
-        </Section>
-      )}
-      {anyWarnings && (
-        <Section>
-          <Heading as={"h2"}>Warnings</Heading>
-          {diagnostics
-            .filter((diagnostic) => diagnostic.isWarning)
-            .map((diagnostic, i) => (
-              <Diagnostic key={i} appId={appId} diagnostic={diagnostic} />
-            ))}
-        </Section>
-      )}
+      <Section>
+        <Heading as={"h2"}>Errors</Heading>
+        {diagnostics.map((diagnostic, i) => (
+          <Diagnostic key={i} appId={appId} diagnostic={diagnostic} />
+        ))}
+      </Section>
     </Base>
   )
 }
@@ -285,15 +290,6 @@ BuildNotificationEmail.PreviewProps = {
   diagnostics: [
     {
       refstring: "app/org.flatpak.Hello/x86_64/master",
-      isWarning: true,
-      category: "no_local_icon",
-      data: {
-        appstreamPath: "files/share/appdata/org.flatpak.Hello.appdata.xml",
-      },
-    },
-    {
-      refstring: "app/org.flatpak.Hello/x86_64/master",
-      isWarning: false,
       category: "no_screenshot_branch",
       data: {
         expectedBranch: "screenshots/x86_64",
@@ -301,40 +297,28 @@ BuildNotificationEmail.PreviewProps = {
     },
     {
       refstring: "app/org.flatpak.Hello/x86_64/master",
-      isWarning: false,
       category: "missing_build_log_url",
     },
     {
-      refstring: "app/org.gnome.Crosswords/aarch64/master",
-      isWarning: true,
-      category: "wrong_arch_executables",
-      data: {
-        expectedArch: "aarch64",
-        executables: [
-          {
-            path: "/files/bin/crossword-editor",
-            detectedArch: "x86_64",
-            detectedArchCode: 62,
-          },
-          {
-            path: "/files/bin/crosswords",
-            detectedArch: "x86_64",
-            detectedArchCode: 62,
-          },
-        ],
-      },
-    },
-    {
       refstring: "screenshots/x86_64",
-      isWarning: false,
       category: "unexpected_files_in_screenshot_branch",
       data: {
         files: ["screenshot.png"],
       },
     },
+    {
+      refstring: "app/org.flatpak.Hello/x86_64/master",
+      category: "flatpak_builder_lint",
+      data: {
+        stdout: {
+          errors: ["finish-args-systemd-filesystem-access"],
+          message:
+            "See https://docs.flathub.org/linter for details and exceptions",
+        },
+        stderr: "",
+      },
+    },
   ],
-  anyWarnings: true,
-  anyErrors: false,
   buildId: 1,
   buildRepo: "stable",
 } as BuildNotificationEmailProps

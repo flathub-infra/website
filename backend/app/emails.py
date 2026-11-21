@@ -305,12 +305,11 @@ def build_notification(
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="invalid_token")
 
-    is_failure = any(not d["is_warning"] for d in request.diagnostics)
-    subject = (
-        f"Build #{request.build_id} failed"
-        if is_failure
-        else f"Build #{request.build_id} passed with warnings"
-    )
+    errors = [d for d in request.diagnostics if not d["is_warning"]]
+    if not errors:
+        return
+
+    subject = f"Build #{request.build_id} failed"
 
     payload = {
         "messageId": f"{request.build_repo}/{request.build_id}",
@@ -321,9 +320,7 @@ def build_notification(
             "category": EmailCategory.BUILD_NOTIFICATION,
             "appId": request.app_id,
             "appName": request.app_id,  # todo get app name
-            "diagnostics": request.diagnostics,
-            "anyWarnings": any(d["is_warning"] for d in request.diagnostics),
-            "anyErrors": any(not d["is_warning"] for d in request.diagnostics),
+            "diagnostics": errors,
             "buildId": request.build_id,
             "buildRepo": request.build_repo,
         },

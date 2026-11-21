@@ -192,8 +192,6 @@ const EmailBody = z.object({
       diagnostics: z
         .array(z.any())
         .openapi({ example: ["problem 1", "problem 2"] }),
-      anyWarnings: z.boolean().openapi({ example: true }),
-      anyErrors: z.boolean().openapi({ example: true }),
       buildId: z.number().openapi({ example: 1 }),
       buildRepo: z.string().openapi({ example: "repo" }),
     }),
