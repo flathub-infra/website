@@ -126,7 +126,7 @@ def test_saved_review_survives_incomplete_country_data(monkeypatch, reason):
     result = asyncio.run(stats.get_year_stats(2024))
 
     get_countries.assert_called_once_with(2024)
-    assert result == original
+    assert result == {**original, "top_chart_limit": 3}
     assert result["geographic_stats"].get("top_countries_per_capita") is None
     assert base == original
 

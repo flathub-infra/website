@@ -102,14 +102,43 @@ def test_missing_day_does_not_create_snapshot(annual_stats):
     assert records == {}
 
 
-def test_on_demand_rebuilds_legacy_snapshot_and_hides_bookkeeping(
-    annual_stats, monkeypatch
+def test_incomplete_rebuild_serves_previous_finalized_snapshot(annual_stats):
+    clock, _, records, writer = annual_stats
+    clock.now = datetime.datetime(2019, 1, 2, tzinfo=datetime.UTC)
+    records[2018] = {
+        "_snapshot": {"version": 1, "through": "2018-12-31"},
+        "year": 2018,
+        "updates_count": 21,
+    }
+    saved = records[2018]
+    with writer() as db:
+        db.execute(delete(models.StatsDaily))
+
+    result = asyncio.run(stats.get_year_stats(2018))
+
+    assert result["updates_count"] == 21
+    assert result["top_chart_limit"] == 3
+    assert "_snapshot" not in result
+    assert records[2018] is saved
+
+
+@pytest.mark.parametrize(
+    "snapshot",
+    [
+        {},
+        {"_snapshot": {"version": 1, "through": "2018-12-31"}},
+    ],
+    ids=["legacy", "top-three"],
+)
+def test_on_demand_rebuilds_old_snapshot_and_hides_bookkeeping(
+    annual_stats, monkeypatch, snapshot
 ):
     clock, _, records, _ = annual_stats
     clock.now = datetime.datetime(2019, 1, 2, tzinfo=datetime.UTC)
-    records[2018] = {"year": 2018, "updates_count": 7}
+    records[2018] = {"year": 2018, "updates_count": 7, **snapshot}
     result = asyncio.run(stats.get_year_stats(2018))
     assert result["updates_count"] == 21
+    assert result["top_chart_limit"] == 10
     assert "_snapshot" not in result
     assert records[2018]["_snapshot"]["through"] == "2018-12-31"
     monkeypatch.setattr(
@@ -118,6 +147,147 @@ def test_on_demand_rebuilds_legacy_snapshot_and_hides_bookkeeping(
         MagicMock(side_effect=AssertionError("Finalized year rebuilt")),
     )
     assert asyncio.run(stats.get_year_stats(2018)) == result
+
+
+def test_current_year_retries_old_snapshot_until_upgraded(annual_stats, monkeypatch):
+    _, put, records, writer = annual_stats
+    day = datetime.date(2018, 12, 29)
+    records[2018] = {
+        "_snapshot": {"version": 1, "through": "2018-12-28"},
+        "year": 2018,
+        "updates_count": 4,
+    }
+    with writer() as db:
+        db.execute(delete(models.StatsDaily).where(models.StatsDaily.date == day))
+    fallback = asyncio.run(stats.get_year_stats(2018))
+    assert fallback["top_chart_limit"] == 3
+    assert fallback["updates_count"] == 4
+
+    put(day)
+    upgraded = asyncio.run(stats.get_year_stats(2018))
+    assert upgraded["top_chart_limit"] == 10
+    assert upgraded["updates_count"] == 7
+    assert records[2018]["_snapshot"] == {"version": 2, "through": day.isoformat()}
+    monkeypatch.setattr(
+        stats, "_build_year_in_review_base", MagicMock(side_effect=AssertionError)
+    )
+    assert asyncio.run(stats.get_year_stats(2018)) == upgraded
+
+
+@pytest.mark.parametrize(("version", "limit"), [(1, 3), (2, 10)])
+def test_rollover_serves_last_published_report_until_daily_data_recovers(
+    annual_stats, version, limit
+):
+    clock, put, records, writer = annual_stats
+    day = datetime.date(2018, 12, 30)
+    published = asyncio.run(stats.get_year_stats(2018))
+    records[2018]["_snapshot"]["version"] = version
+    clock.now = datetime.datetime(2019, 1, 1, tzinfo=datetime.UTC)
+    with writer() as db:
+        db.execute(delete(models.StatsDaily).where(models.StatsDaily.date == day))
+    assert asyncio.run(stats.get_year_stats(2018)) == {
+        **published,
+        "top_chart_limit": limit,
+    }
+    assert not stats._year_in_review_is_finalized(records[2018], 2018)
+    clock.now = datetime.datetime(2019, 1, 2, tzinfo=datetime.UTC)
+    put(day)
+    assert asyncio.run(stats.get_year_stats(2018))["updates_count"] == 21
+    assert stats._year_in_review_is_finalized(records[2018], 2018)
+
+
+@pytest.mark.parametrize("on_demand", [True, False])
+def test_rebuild_preserves_published_ranks(annual_stats, monkeypatch, on_demand):
+    clock, put, records, _ = annual_stats
+    clock.now = datetime.datetime(2019, 1, 2, tzinfo=datetime.UTC)
+    downloads = {
+        "Alpha": 40,
+        "Beta": 60,
+        "Gamma": 30,
+        "Delta": 10,
+        "Epsilon": 50,
+        "Zeta": 20,
+        "Theta": 8,
+        "Eta": 8,
+        "Kappa": 7,
+        "Lambda": 5,
+        "Iota": 7,
+    }
+    apps = [
+        SimpleNamespace(
+            app_id=f"org.example.{category}{name}",
+            main_category=category,
+            sub_categories=[],
+        )
+        for category in ("Utility", "Game")
+        for name in downloads
+    ]
+    charts = {
+        chart: [
+            {"app_id": f"org.example.{category}{name}", "downloads": downloads[name]}
+            for name in (
+                "Beta",
+                "Epsilon",
+                "Alpha",
+                "Gamma",
+                "Zeta",
+                "Delta",
+                "Eta",
+                "Theta",
+                "Iota",
+                "Kappa",
+            )
+        ]
+        for chart, category in (("top_apps", "Utility"), ("top_games", "Game"))
+    }
+    records[2018] = {
+        "_snapshot": {"version": 1, "through": "2018-12-31"},
+        **{chart: entries[:3] for chart, entries in charts.items()},
+    }
+    # The first app disappeared, and the first game is now categorized as a utility.
+    apps = [app for app in apps if app.app_id != "org.example.UtilityBeta"]
+    next(
+        app for app in apps if app.app_id == "org.example.GameBeta"
+    ).main_category = "Utility"
+    apps.append(
+        SimpleNamespace(
+            app_id="org.example.Reclassified", main_category="Game", sub_categories=[]
+        )
+    )
+
+    @contextmanager
+    def app_db(*args):
+        db = MagicMock()
+        db.query.return_value.filter.return_value.all.return_value = apps
+        yield db
+
+    monkeypatch.setattr(stats.database, "get_db", app_db)
+    monkeypatch.setattr(stats.config.settings, "env", "development")
+    put(
+        datetime.date(2018, 12, 31),
+        {
+            "refs": {"org.example.Reclassified": {"x86_64": [100, 0]}}
+            | {
+                f"org.example.{category}{name}": {"x86_64": [count, 0]}
+                for category in ("Utility", "Game")
+                for name, count in downloads.items()
+            }
+        },
+    )
+
+    if on_demand:
+
+        async def translate(base, locale):
+            return base.copy()
+
+        monkeypatch.setattr(stats, "_add_translations_to_year_in_review", translate)
+        asyncio.run(stats.get_year_stats(2018))
+    else:
+        stats._generate_and_store_year_in_review_stats(None)
+
+    assert stats._year_in_review_is_finalized(records[2018], 2018)
+    for chart, entries in charts.items():
+        assert records[2018][chart] == entries
 
 
 @pytest.mark.parametrize(
