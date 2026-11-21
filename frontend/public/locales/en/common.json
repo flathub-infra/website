@@ -44,6 +44,8 @@
     "manage-app": "Manage app",
     "payments": "Payments",
     "uploads": "Upload tokens",
+    "payments-owner-only": "Only the account that set up payments for this app can change its payment settings.",
+    "payments-not-configured": "Payments haven’t been set up for this app.",
     "payment-account-status": "Account setup required",
     "switch-upload-method": "Switch upload method",
     "no-active-tokens": "No active upload tokens.",

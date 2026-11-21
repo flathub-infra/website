@@ -1,22 +1,15 @@
 import { useTranslations } from "next-intl"
-import {
-  FormEvent,
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react"
+import { FormEvent, FunctionComponent, useCallback, useState } from "react"
 import { toast } from "sonner"
 import { FLATHUB_MIN_PAYMENT, STRIPE_MAX_PAYMENT } from "../../../env"
 import { NumericInputValue } from "../../../types/Input"
 import * as Currency from "../../currency"
 import Spinner from "../../Spinner"
 import VendingSharesPreview from "./VendingSharesPreview"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import {
   GetAppstreamAppstreamAppIdGet200,
-  getAppVendingSetupVendingappAppIdSetupGet,
   postAppVendingSetupVendingappAppIdSetupPost,
   statusVendingStatusGet,
   VendingConfig,
@@ -25,10 +18,24 @@ import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Link } from "src/i18n/navigation"
 import { CreditCard } from "lucide-react"
+import { useManagementSetup } from "./useManagementSetup"
 
 interface Props {
   app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name" | "bundle">
   vendingConfig: VendingConfig
+}
+
+interface PaymentDraft {
+  vendingEnabled: boolean
+  requirePayment: boolean
+  appShare: number
+  recommendedDonation: NumericInputValue
+  minPayment: NumericInputValue
+}
+
+function paymentAmount(cents: number): NumericInputValue {
+  const amount = Math.max(cents / 100, FLATHUB_MIN_PAYMENT)
+  return { live: amount, settled: amount }
 }
 
 /**
@@ -37,9 +44,12 @@ interface Props {
  */
 const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   const t = useTranslations()
+  const client = useQueryClient()
 
-  const [vendingEnabled, setVendingEnabled] = useState(false)
-  const [requirePayment, setRequirePayment] = useState(false)
+  const [draft, setDraft] = useState<Partial<PaymentDraft>>({})
+  function edit(change: Partial<PaymentDraft>) {
+    setDraft((previous) => ({ ...previous, ...change }))
+  }
 
   const statusQuery = useQuery({
     queryKey: ["/vending/status"],
@@ -50,54 +60,27 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
   })
 
   // Need existing app vending configuration to initialise controls
-  const vendingSetup = useQuery({
-    queryKey: ["appVendingSetup", app.id],
-    queryFn: () =>
-      getAppVendingSetupVendingappAppIdSetupGet(app.id, {
-        withCredentials: true,
-      }),
-  })
+  const vendingSetup = useManagementSetup(app.id)
 
-  // State shared by controls lifted to this parent for final submission
-  const [appShare, setAppShare] = useState(50)
-  const [recommendedDonation, setRecommendedDonation] =
-    useState<NumericInputValue>({
-      live: 0,
-      settled: 0,
-    })
-  const [minPayment, setMinPayment] = useState<NumericInputValue>({
-    live: 0,
-    settled: 0,
-  })
-
-  // Controls should initialise to existing setup once known
-  useEffect(() => {
-    if (vendingSetup.data) {
-      const decimalRecommendation = Math.max(
-        vendingSetup.data.data.recommended_donation / 100,
-        FLATHUB_MIN_PAYMENT,
-      )
-      const decimalMinimum = Math.max(
-        vendingSetup.data.data.minimum_payment / 100,
-        FLATHUB_MIN_PAYMENT,
-      )
-
-      setAppShare(vendingSetup.data.data.appshare)
-      setRecommendedDonation({
-        live: decimalRecommendation,
-        settled: decimalRecommendation,
-      })
-      setMinPayment({
-        live: decimalMinimum,
-        settled: decimalMinimum,
-      })
-      setRequirePayment(vendingSetup.data.data.minimum_payment > 0)
-      setVendingEnabled(vendingSetup.data.data.recommended_donation > 0)
-    }
-  }, [vendingSetup.data])
+  const saved = vendingSetup.data?.data
+  const {
+    vendingEnabled,
+    requirePayment,
+    appShare,
+    recommendedDonation,
+    minPayment,
+  } = {
+    vendingEnabled: (saved?.recommended_donation ?? 0) > 0,
+    requirePayment: (saved?.minimum_payment ?? 0) > 0,
+    appShare: saved?.appshare ?? 50,
+    recommendedDonation: paymentAmount(saved?.recommended_donation ?? 0),
+    minPayment: paymentAmount(saved?.minimum_payment ?? 0),
+    ...draft,
+  }
 
   // Tell backend to update the setup on submission
   const setAppVendingSetupMutation = useMutation({
+    onMutate: () => vendingSetup.queryKey,
     mutationFn: () =>
       postAppVendingSetupVendingappAppIdSetupPost(
         app.id,
@@ -105,16 +88,26 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
           currency: "usd",
           appshare: appShare,
           minimum_payment:
-            vendingEnabled && requirePayment ? minPayment.settled * 100 : 0,
+            vendingEnabled && requirePayment
+              ? Math.round(minPayment.live * 100)
+              : 0,
           recommended_donation: vendingEnabled
-            ? recommendedDonation.settled * 100
+            ? Math.round(recommendedDonation.live * 100)
             : 0,
         },
         {
           withCredentials: true,
         },
       ),
-    onSuccess: (data) => {
+    onSuccess: async (data, _variables, queryKey) => {
+      if (!queryKey || !client.getQueryState(queryKey)) {
+        return
+      }
+      await client.cancelQueries({ queryKey, exact: true })
+      client.setQueryData(queryKey, (previous) =>
+        previous === undefined ? undefined : data,
+      )
+      setDraft({})
       toast.success(t("app-vending-settings-confirmed"))
     },
     onError: (error: AxiosError<{ status: string; error: string }>) => {
@@ -151,6 +144,15 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     return <Spinner size="m" />
   }
 
+  if (!statusQuery.data || !vendingSetup.data) {
+    return <p role="alert">{t("failed-to-load-refresh")}</p>
+  }
+  if (
+    vendingSetup.data.data.status === "ok" &&
+    !vendingSetup.data.data.is_owner
+  ) {
+    return <p>{t("app-management.payments-owner-only")}</p>
+  }
   if (!statusQuery.data.data || !statusQuery.data.data.details_submitted) {
     return (
       <div className="flex flex-col items-start gap-6">
@@ -180,21 +182,20 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
     )
   }
 
-  if (vendingSetup.isError) {
-    return <p>{t(vendingSetup.error.message)}</p>
-  }
-
   return (
     <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       <div className="flex items-center gap-3 border-b border-slate-400/20 pb-3">
-        <Switch checked={vendingEnabled} onCheckedChange={setVendingEnabled} />
+        <Switch
+          checked={vendingEnabled}
+          onCheckedChange={(vendingEnabled) => edit({ vendingEnabled })}
+        />
         <label>{t("enable-app-vending")}</label>
       </div>
       <div>
         <label>{t("recommended-payment")}</label>
         <Currency.Input
           inputValue={recommendedDonation}
-          setValue={setRecommendedDonation}
+          setValue={(recommendedDonation) => edit({ recommendedDonation })}
           disabled={!vendingEnabled}
           maximum={STRIPE_MAX_PAYMENT}
         />
@@ -213,21 +214,24 @@ const SetupControls: FunctionComponent<Props> = ({ app, vendingConfig }) => {
             price={recommendedDonation.live * 100}
             app={app}
             appShare={appShare}
-            setAppShare={setAppShare}
+            setAppShare={(appShare) => edit({ appShare })}
             vendingConfig={vendingConfig}
             interactive
           />
         </div>
       )}
       <div className="flex items-center gap-3 border-t border-slate-400/20 pt-3">
-        <Switch checked={requirePayment} onCheckedChange={setRequirePayment} />
+        <Switch
+          checked={requirePayment}
+          onCheckedChange={(requirePayment) => edit({ requirePayment })}
+        />
         <label>{t("require-payment")}</label>
       </div>
       <div>
         <label>{t("minimum-payment")}</label>
         <Currency.Input
           inputValue={minPayment}
-          setValue={setMinPayment}
+          setValue={(minPayment) => edit({ minPayment })}
           disabled={!vendingEnabled || !requirePayment}
           maximum={STRIPE_MAX_PAYMENT}
         />
