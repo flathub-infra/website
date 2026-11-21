@@ -688,6 +688,15 @@ def test_review_listing_filters_stored_outcome_and_superseded(db):
         published_fingerprint=FP,
         differences=[],
     )
+    persist(
+        7,
+        pull_request_number=21,
+        outcome="accepted",
+        acceptance_basis="stable_baseline",
+        published_snapshot=SNAP,
+        published_fingerprint=FP,
+        differences=[],
+    )
 
     def listed(outcome, include_superseded=False):
         result = reviews.list_permission_reviews(

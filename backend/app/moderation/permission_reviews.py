@@ -197,6 +197,7 @@ def list_permission_reviews(
     query = select(observation, current_outcome).where(
         observation.candidate_kind.in_(assessment.PR_CANDIDATE_KINDS),
         observation.acceptance_basis.is_distinct_from("baseline"),
+        observation.acceptance_basis.is_distinct_from("stable_baseline"),
     )
     if outcome != "all":
         query = query.where(current_outcome == outcome)
