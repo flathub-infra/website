@@ -4043,8 +4043,11 @@ class App(Base):
                 db.session.commit()
 
     @classmethod
-    def get_eol_data(cls, db, app_id: str, branch: str | None = None) -> bool:
-        app = App.by_appid(db, app_id)
+    def get_eol_data(
+        cls, db, app_id: str, branch: str | None = None, *, app: Optional["App"] = None
+    ) -> bool:
+        if app is None:
+            app = cls.by_appid(db, app_id)
         if not app:
             return False
 

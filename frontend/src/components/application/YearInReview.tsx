@@ -6,11 +6,14 @@ import { useState, useMemo, useCallback } from "react"
 import { formatDownloadChange } from "src/formatDownloadChange"
 import { yearInReviewSpiral } from "src/yearInReviewSpiral"
 import {
+  ArrowDown,
+  ArrowUp,
   Download,
   Layers,
   Percent,
   RefreshCw,
   Sprout,
+  Star,
   TrendingUp,
   Trophy,
 } from "lucide-react"
@@ -57,12 +60,14 @@ interface YearInReviewProps {
   hasPreviousYear?: boolean
   topApps: YearInReviewMostPopularApp[]
   topGames: YearInReviewMostPopularApp[]
+  previousCharts?: Partial<Record<"top-apps" | "top-games", string[]>>
   topEmulators: YearInReviewMostPopularApp[]
   topGameStores: YearInReviewMostPopularApp[]
   topGameUtilities: YearInReviewMostPopularApp[]
   popularAppsByCategory?: YearInReviewCategoryApp[]
   biggestGrowthByCategory?: YearInReviewCategoryGrowthApp[]
   newcomersByCategory?: YearInReviewCategoryApp[]
+  unavailableAppIds?: string[]
   mostImprovedByCategory?: YearInReviewCategoryGrowthApp[]
   geographicStats?: YearInReviewGeographicStats
   hiddenGems?: HiddenGem[]
@@ -150,20 +155,65 @@ export function YearStatsGrid({
 }
 
 export function TopAppsSection({
+  year,
   topApps,
   topGames,
+  previousCharts,
   topEmulators,
   topGameStores,
   topGameUtilities,
 }: {
+  year: number
   topApps: YearInReviewMostPopularApp[]
   topGames: YearInReviewMostPopularApp[]
+  previousCharts?: YearInReviewProps["previousCharts"]
   topEmulators: YearInReviewMostPopularApp[]
   topGameStores: YearInReviewMostPopularApp[]
   topGameUtilities: YearInReviewMostPopularApp[]
 }) {
   const t = useTranslations()
   const locale = useLocale()
+
+  function rankChange(chart: string, id: string, index: number, limit: number) {
+    if (chart !== "top-apps" && chart !== "top-games") {
+      return null
+    }
+    const previous = previousCharts?.[chart]
+    if (!previous?.length) {
+      return null
+    }
+    const prior = previous.indexOf(id)
+    if (prior === index) {
+      return null
+    }
+    const isNew = prior < 0 || prior >= limit
+    const movedUp = prior > index
+    const Icon = isNew ? Star : movedUp ? ArrowUp : ArrowDown
+    const label = isNew
+      ? t("year-in-review.chart-entry")
+      : t("year-in-review.previous-rank", { rank: prior + 1, year: year - 1 })
+    return (
+      <span
+        title={label}
+        className={clsx(
+          "inline-flex items-center justify-center gap-0.5 rounded px-1 py-0.5 text-[11px] leading-none font-bold tabular-nums",
+          isNew
+            ? "bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200"
+            : movedUp
+              ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200"
+              : "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200",
+        )}
+      >
+        <Icon size={12} strokeWidth={2.5} aria-hidden />
+        {!isNew && (
+          <span aria-hidden>
+            {Math.abs(prior - index).toLocaleString(locale)}
+          </span>
+        )}
+        <span className="sr-only">{label}</span>
+      </span>
+    )
+  }
 
   const groups = [
     [
@@ -212,15 +262,16 @@ export function TopAppsSection({
                               className={clsx(
                                 "grid items-center text-inherit hover:bg-accent",
                                 groupIndex === 0
-                                  ? "grid-cols-[24px_44px_minmax(0,1fr)_auto] gap-3 px-5 py-4 max-sm:grid-cols-[21px_36px_minmax(0,1fr)_auto] max-sm:gap-2 max-sm:px-3"
+                                  ? "grid-cols-[32px_44px_minmax(0,1fr)_auto] gap-3 px-5 py-4 max-sm:grid-cols-[32px_36px_minmax(0,1fr)_auto] max-sm:gap-2 max-sm:px-3"
                                   : "grid-cols-[20px_34px_minmax(0,1fr)_auto] gap-2 p-3",
                               )}
                               href={`/apps/${app.app_id}`}
                             >
-                              <span className="text-sm font-semibold text-[var(--subtle)]">
+                              <span className="flex flex-col items-center gap-1 text-sm font-semibold tabular-nums text-[var(--subtle)]">
                                 {(index + 1).toLocaleString(locale, {
                                   minimumIntegerDigits: 2,
                                 })}
+                                {rankChange(key, app.app_id, index, limit)}
                               </span>
                               <div>
                                 {app.icon && (
@@ -252,6 +303,21 @@ export function TopAppsSection({
                           </li>
                         ))}
                       </ol>
+                      {(key === "top-apps" || key === "top-games") &&
+                        !!previousCharts?.[key]?.length &&
+                        apps
+                          .slice(0, limit)
+                          .some(
+                            (app) =>
+                              !previousCharts[key]
+                                .slice(0, limit)
+                                .includes(app.app_id),
+                          ) && (
+                          <p className="flex items-center gap-1.5 border-t border-[var(--line)] px-4 py-2 text-xs text-[var(--subtle)]">
+                            <Star size={12} aria-hidden />
+                            {t("year-in-review.chart-entry")}
+                          </p>
+                        )}
                     </section>
                   ),
               )}
@@ -356,11 +422,16 @@ export function GeographicInsightsSection({
                           <div className="flex-1 min-w-0">
                             <div className="text-sm">{countryName}</div>
                           </div>
-                          <div className="text-sm font-semibold tabular-nums text-[color-mix(in_oklab,oklch(var(--flathub-status-green)),oklch(var(--foreground))_45%)]">
+                          <div className="ms-auto text-end text-sm font-semibold tabular-nums text-[color-mix(in_oklab,oklch(var(--flathub-status-green)),oklch(var(--foreground))_45%)]">
                             {new Intl.NumberFormat(locale, {
                               style: "percent",
                               signDisplay: "always",
                             }).format(region.growth_percentage / 100)}
+                            <small className="block text-end font-normal text-[var(--subtle)]">
+                              {t("year-in-review.more-downloads", {
+                                count: region.growth,
+                              })}
+                            </small>
                           </div>
                         </div>
                       )
@@ -811,10 +882,14 @@ export function PlatformDiversitySection({
 
 export function TrendingCategoriesSection({
   trendingCategories,
+  biggestGrowthByCategory,
+  unavailableAppIds,
   getCategoryDisplayName,
   year,
 }: {
   trendingCategories: TrendingCategory[]
+  biggestGrowthByCategory?: YearInReviewCategoryGrowthApp[]
+  unavailableAppIds?: string[]
   getCategoryDisplayName: (c: string) => string
   year: number
 }) {
@@ -825,6 +900,12 @@ export function TrendingCategoriesSection({
     return null
   }
 
+  const rows = trendingCategories.map((cat) => ({
+    cat,
+    leader: biggestGrowthByCategory?.find(
+      (app) => app.category === cat.category && app.growth > 0,
+    ),
+  }))
   const compact = new Intl.NumberFormat(locale, {
     notation: "compact",
     maximumFractionDigits: 1,
@@ -843,43 +924,67 @@ export function TrendingCategoriesSection({
         {t("year-in-review.trending-categories-description")}
       </p>
       <ul>
-        {trendingCategories.map((cat) => (
-          <li key={cat.category} className="border-t border-[var(--line)] py-3">
-            <div className="flex items-center justify-between gap-3">
-              <h3>{getCategoryDisplayName(cat.category)}</h3>
-              <strong>{percent.format(cat.growth_percentage / 100)}</strong>
-            </div>
-            {(
-              [
-                [year, cat.current_year_downloads],
-                [year - 1, cat.previous_year_downloads],
-              ] as const
-            ).map(([label, value]) => (
-              <div
-                key={label}
-                className="mt-1.5 grid grid-cols-[4ch_minmax(0,1fr)_7ch] items-center gap-3 text-sm text-[var(--subtle)] [&>span:last-child]:text-end"
-              >
-                <span>{label}</span>
-                <meter
-                  className={clsx(
-                    meterStyle,
-                    label !== year &&
-                      "dark:[&::-webkit-meter-optimum-value]:bg-muted-foreground dark:[&::-moz-meter-bar]:bg-muted-foreground",
-                  )}
-                  aria-label={String(label)}
-                  min={0}
-                  max={Math.max(
-                    1,
-                    cat.current_year_downloads,
-                    cat.previous_year_downloads,
-                  )}
-                  value={value}
-                />
-                <span>{compact.format(value)}</span>
+        {rows.map(({ cat, leader }) => {
+          return (
+            <li
+              key={cat.category}
+              className="border-t border-[var(--line)] py-3"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <h3>{getCategoryDisplayName(cat.category)}</h3>
+                <strong>{percent.format(cat.growth_percentage / 100)}</strong>
               </div>
-            ))}
-          </li>
-        ))}
+              {(
+                [
+                  [year, cat.current_year_downloads],
+                  [year - 1, cat.previous_year_downloads],
+                ] as const
+              ).map(([label, value]) => (
+                <div
+                  key={label}
+                  className="mt-1.5 grid grid-cols-[4ch_minmax(0,1fr)_7ch] items-center gap-3 text-sm text-[var(--subtle)] [&>span:last-child]:text-end"
+                >
+                  <span>{label}</span>
+                  <meter
+                    className={clsx(
+                      meterStyle,
+                      label !== year &&
+                        "dark:[&::-webkit-meter-optimum-value]:bg-muted-foreground dark:[&::-moz-meter-bar]:bg-muted-foreground",
+                    )}
+                    aria-label={String(label)}
+                    min={0}
+                    max={Math.max(
+                      1,
+                      cat.current_year_downloads,
+                      cat.previous_year_downloads,
+                    )}
+                    value={value}
+                  />
+                  <span>{compact.format(value)}</span>
+                </div>
+              ))}
+              {leader && (
+                <p className="mt-3 text-sm">
+                  {t.rich("year-in-review.category-gain", {
+                    app: leader.name,
+                    count: leader.growth,
+                    link: (text) =>
+                      unavailableAppIds?.includes(leader.app_id) ? (
+                        <bdi>{text}</bdi>
+                      ) : (
+                        <Link
+                          href={`/apps/${leader.app_id}`}
+                          className="font-semibold underline"
+                        >
+                          {text}
+                        </Link>
+                      ),
+                  })}
+                </p>
+              )}
+            </li>
+          )
+        })}
       </ul>
     </section>
   )
@@ -894,6 +999,7 @@ export function YearInReview({
   totalDownloadsChange,
   totalDownloadsChangePercentage,
   hasPreviousYear = true,
+  previousCharts,
   topApps,
   topGames,
   topEmulators,
@@ -901,6 +1007,7 @@ export function YearInReview({
   topGameUtilities,
   biggestGrowthByCategory,
   newcomersByCategory,
+  unavailableAppIds,
   mostImprovedByCategory,
   popularAppsByCategory,
   geographicStats,
@@ -912,6 +1019,12 @@ export function YearInReview({
   const t = useTranslations()
 
   const seeds = useMemo(() => yearInReviewSpiral(newAppsCount), [newAppsCount])
+  const arrivals = newcomersByCategory
+    ?.filter(
+      (app, index, all) =>
+        all.findIndex((entry) => entry.app_id === app.app_id) === index,
+    )
+    .slice(0, 3)
   const getCategoryDisplayName = useCallback(
     (category: string): string => {
       const mainCategory = stringToCategory(category)
@@ -1029,6 +1142,8 @@ export function YearInReview({
         {/* Popular Apps Section */}
         <section className="mb-24">
           <TopAppsSection
+            year={year}
+            previousCharts={previousCharts}
             topApps={topApps}
             topGames={topGames}
             topEmulators={topEmulators}
@@ -1039,9 +1154,48 @@ export function YearInReview({
 
         <div className="grid gap-[clamp(24px,3vw,44px)]">
           <section className="grid grid-cols-[minmax(90px,145px)_minmax(0,1fr)] items-center gap-[clamp(16px,3vw,42px)] rounded-2xl border border-[var(--line)] bg-[var(--paper)] px-[clamp(18px,3vw,40px)] py-5 max-md:grid-cols-[90px_minmax(0,1fr)] max-md:gap-4">
-            <h2 className="text-start text-[clamp(18px,2vw,25px)] leading-tight font-semibold only:col-span-full">
-              {t("year-in-review.arrivals", { count: newAppsCount, year })}
-            </h2>
+            <div className="min-w-0 only:col-span-full">
+              <h2 className="text-start text-[clamp(18px,2vw,25px)] leading-tight font-semibold">
+                {t("year-in-review.arrivals", { count: newAppsCount, year })}
+              </h2>
+              {newAppsCount > 0 && !!arrivals?.length && (
+                <>
+                  <p className="mt-2 text-sm text-[var(--subtle)]">
+                    {t("year-in-review.meet-arrivals")}
+                  </p>
+                  <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1">
+                    {arrivals.map((app) => {
+                      const content = (
+                        <span className="inline-flex items-center gap-2 py-1 font-semibold">
+                          {app.icon && (
+                            <LogoImage
+                              iconUrl={app.icon}
+                              appName={app.name}
+                              size={24}
+                            />
+                          )}
+                          <bdi className="wrap-anywhere">{app.name}</bdi>
+                        </span>
+                      )
+                      return (
+                        <li key={app.app_id}>
+                          {unavailableAppIds?.includes(app.app_id) ? (
+                            content
+                          ) : (
+                            <Link
+                              href={`/apps/${app.app_id}`}
+                              className="hover:underline"
+                            >
+                              {content}
+                            </Link>
+                          )}
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </>
+              )}
+            </div>
             {newAppsCount > 0 && (
               <svg
                 className="col-start-1 row-start-1 max-h-[255px] w-full max-sm:max-h-[172px]"
@@ -1092,6 +1246,8 @@ export function YearInReview({
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,350px),1fr))] gap-[clamp(24px,5vw,76px)]">
             {!!trendingCategories?.length && (
               <TrendingCategoriesSection
+                unavailableAppIds={unavailableAppIds}
+                biggestGrowthByCategory={biggestGrowthByCategory}
                 trendingCategories={trendingCategories}
                 getCategoryDisplayName={getCategoryDisplayName}
                 year={year}

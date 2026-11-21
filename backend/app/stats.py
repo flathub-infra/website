@@ -1280,11 +1280,38 @@ async def _add_translations_to_year_in_review(
         app_names: dict[str, str] = {}
         app_icons: dict[str, str] = {}
         app_summaries: dict[str, str] = {}
-
         with database.get_db() as sqldb:
-            apps = sqldb.query(models.App).filter(models.App.app_id.in_(app_ids)).all()
+            redirects = {
+                old_id: target
+                for target, old_ids in models.AppEolRebase.get_all_rebases(
+                    sqldb
+                ).items()
+                for old_id in old_ids
+            }
+            destinations = {}
+            for app_id in app_ids:
+                target = app_id
+                seen = set()
+                while target in redirects and target not in seen:
+                    seen.add(target)
+                    target = redirects[target]
+                if target not in seen:
+                    destinations[app_id] = target
+
+            available = set()
+            apps = (
+                sqldb.query(models.App)
+                .filter(models.App.app_id.in_(app_ids.union(destinations.values())))
+                .all()
+            )
             for app in apps:
                 translated_appstream = app.get_translated_appstream(locale)
+                if (translated_appstream and app.summary) or models.App.get_eol_data(
+                    sqldb, app.app_id, "stable", app=app
+                ):
+                    available.add(app.app_id)
+                if app.app_id not in app_ids:
+                    continue
                 if translated_appstream:
                     name = translated_appstream.get("name")
                     if isinstance(name, str):
@@ -1296,9 +1323,12 @@ async def _add_translations_to_year_in_review(
                     if isinstance(summary, str):
                         app_summaries[app.app_id] = summary
 
-        return app_names, app_icons, app_summaries
+        unavailable = [
+            app_id for app_id in app_ids if destinations.get(app_id) not in available
+        ]
+        return app_names, app_icons, app_summaries, sorted(unavailable)
 
-    app_names, app_icons, app_summaries = await loop.run_in_executor(
+    app_names, app_icons, app_summaries, unavailable = await loop.run_in_executor(
         None, _fetch_translations_for_apps, _collect_app_ids()
     )
 
@@ -1329,6 +1359,7 @@ async def _add_translations_to_year_in_review(
         return [item for item in value if is_json_object(item)]
 
     result = copy.deepcopy(base_data)
+    result["unavailable_app_ids"] = [*unavailable]
     result.pop("_snapshot", None)
     result["top_apps"] = _apply_translations(_get_items("top_apps"))
     result["top_games"] = _apply_translations(_get_items("top_games"))

@@ -6,6 +6,7 @@ import { expect, test, vi } from "vitest"
 import {
   CategoryHighlightsSection,
   PlatformDiversitySection,
+  TrendingCategoriesSection,
   YearStatsGrid,
   YearInReview,
 } from "./YearInReview"
@@ -14,7 +15,9 @@ import common from "../../../public/locales/en/common.json"
 vi.mock("../LogoImage", () => ({ default: () => null }))
 
 vi.mock("src/i18n/navigation", () => ({
-  Link: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  Link: ({ children, href }: { children: React.ReactNode; href: string }) => (
+    <a href={href}>{children}</a>
+  ),
 }))
 
 test.each(["en", "de", "tr", "ar", "ja"])(
@@ -140,6 +143,44 @@ test("the English growth message accepts a fully formatted percentage", () => {
   const message = common["year-in-review"]["x-growth-formatted"]
   expect(message).toContain("{percentage}")
   expect(message).not.toMatch(/[+%٪]/)
+})
+
+test("growth leaders match the displayed category and link only to available apps", () => {
+  const render = (category: string, unavailableAppIds: string[]) =>
+    renderToStaticMarkup(
+      <NextIntlClientProvider locale="en" messages={common} timeZone="UTC">
+        <TrendingCategoriesSection
+          year={2025}
+          trendingCategories={[
+            {
+              category: "utility",
+              growth: 50,
+              growth_percentage: 50,
+              current_year_downloads: 150,
+              previous_year_downloads: 100,
+            },
+          ]}
+          biggestGrowthByCategory={[
+            {
+              category,
+              app_id: "org.example.App",
+              name: "Historical app",
+              icon: "",
+              summary: "",
+              growth: 10,
+              growth_percentage: 1,
+            },
+          ]}
+          getCategoryDisplayName={(category) => category}
+          unavailableAppIds={unavailableAppIds}
+        />
+      </NextIntlClientProvider>,
+    )
+  expect(render("game", [])).not.toContain("Historical app")
+  const archived = render("utility", ["org.example.App"])
+  expect(archived).toContain("Historical app")
+  expect(archived).not.toContain('href="/apps/org.example.App"')
+  expect(render("utility", [])).toContain('href="/apps/org.example.App"')
 })
 
 test("a year without arrivals reports zero without drawing an empty spiral", () => {

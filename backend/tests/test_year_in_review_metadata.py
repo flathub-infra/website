@@ -26,6 +26,11 @@ APP_LISTS = (
     "metadata",
     [
         pytest.param("removed", id="removed-app"),
+        pytest.param("redirected", id="rebased-app"),
+        pytest.param("broken-redirect", id="removed-rebase-target"),
+        pytest.param("eol-redirect", id="eol-rebase-target"),
+        pytest.param("cycle", id="rebase-cycle"),
+        pytest.param("eol", id="end-of-life-page"),
         pytest.param(None, id="missing-appstream"),
         pytest.param({}, id="missing-fields"),
         pytest.param({"name": None, "icon": None, "summary": None}, id="null-fields"),
@@ -79,12 +84,44 @@ def test_historical_response_with_missing_metadata(monkeypatch, metadata):
         AsyncMock(side_effect=AssertionError("Finalized snapshots must not rebuild")),
     )
 
-    app = MagicMock(app_id=app_id)
-    app.get_translated_appstream.return_value = metadata
-    db = MagicMock()
-    db.query.return_value.filter.return_value.all.return_value = (
-        [] if metadata == "removed" else [app]
+    app = MagicMock(
+        app_id=app_id,
+        summary={"branch": "stable"},
+        is_eol=metadata == "eol",
+        eol_branches=None,
     )
+    app.get_translated_appstream.return_value = (
+        metadata if isinstance(metadata, dict) else None
+    )
+    db = MagicMock()
+    rebase = metadata in ("redirected", "broken-redirect", "eol-redirect", "cycle")
+    apps = [] if metadata == "removed" or rebase else [app]
+    rebases = []
+    if rebase:
+        successor = "org.example.Successor"
+        intermediate = "org.example.Intermediate"
+        rebases = [
+            MagicMock(app_id=intermediate, old_app_ids=[app_id]),
+            MagicMock(app_id=successor, old_app_ids=[intermediate]),
+        ]
+        if metadata == "cycle":
+            rebases.append(MagicMock(app_id=app_id, old_app_ids=[successor]))
+        if metadata in ("redirected", "eol-redirect"):
+            target = MagicMock(
+                app_id=successor,
+                summary=None,
+                is_eol=metadata == "eol-redirect",
+                eol_branches=None,
+            )
+            target.get_translated_appstream.return_value = None
+            if metadata == "redirected":
+                target.summary = {"branch": "stable"}
+                target.get_translated_appstream.return_value = {"name": "Successor"}
+            apps.append(target)
+    db.query.return_value.filter.side_effect = lambda condition: MagicMock(
+        all=lambda: [row for row in apps if row.app_id in condition.right.value]
+    )
+    db.query.return_value.all.return_value = rebases
     get_db = MagicMock()
     get_db.return_value.__enter__.return_value = db
     monkeypatch.setattr(stats.database, "get_db", get_db)
@@ -107,8 +144,11 @@ def test_historical_response_with_missing_metadata(monkeypatch, metadata):
         for key in ("name", "icon", "summary")
     }
     expected["name"] = expected["name"] or app_id
+    assert response.json()["unavailable_app_ids"] == (
+        [] if fields or metadata in ("redirected", "eol-redirect", "eol") else [app_id]
+    )
     for key in APP_LISTS:
         assert response.json()[key] == [{**original[key][0], **expected}]
     assert base == original  # Locale enrichment must not mutate persisted statistics.
-    if metadata != "removed":
+    if metadata != "removed" and not rebase:
         app.get_translated_appstream.assert_called_once_with("de")
