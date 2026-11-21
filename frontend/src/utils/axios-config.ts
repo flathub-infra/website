@@ -72,7 +72,22 @@ axios.interceptors.response.use(
         `after ${Math.round(delay)}ms. Error: ${error.message}`,
     )
 
-    await new Promise((resolve) => setTimeout(resolve, delay))
+    const { signal } = config
+    await new Promise<void>((resolve, reject) => {
+      const abort = () => {
+        clearTimeout(timer)
+        reject(new axios.CanceledError("canceled", config))
+      }
+      const timer = setTimeout(() => {
+        signal?.removeEventListener?.("abort", abort)
+        resolve()
+      }, delay)
+      if (signal?.aborted) {
+        abort()
+      } else {
+        signal?.addEventListener?.("abort", abort, { once: true })
+      }
+    })
 
     return axios(config)
   },

@@ -83,3 +83,45 @@ test("allows public access starting December 15 UTC", async () => {
   await expect(page("2026")).resolves.toBeTruthy()
   expect(headers).not.toHaveBeenCalled()
 })
+
+test("renders the current edition when the previous chart is unavailable", async () => {
+  vi.mocked(getYearInReviewYearInReviewYearGet).mockImplementation(
+    async (year) => {
+      if (year === 2024) {
+        throw new Error("Archive unavailable")
+      }
+      return { data: { year } } as Awaited<
+        ReturnType<typeof getYearInReviewYearInReviewYearGet>
+      >
+    },
+  )
+  await expect(page("2025")).resolves.toBeTruthy()
+  expect(getYearInReviewYearInReviewYearGet).toHaveBeenCalledWith(
+    2024,
+    { locale: "en" },
+    { signal: expect.any(AbortSignal) },
+  )
+})
+
+test("aborts a stalled optional chart request", async () => {
+  vi.mocked(getYearInReviewYearInReviewYearGet).mockImplementation(
+    async (year, _, options) => {
+      if (year === 2024) {
+        return new Promise((_, reject) =>
+          options?.signal?.addEventListener?.("abort", () =>
+            reject(new Error("timeout")),
+          ),
+        )
+      }
+      return { data: { year } } as Awaited<
+        ReturnType<typeof getYearInReviewYearInReviewYearGet>
+      >
+    },
+  )
+  await expect(page("2025")).resolves.toBeTruthy()
+})
+
+test("the earliest edition needs no previous chart", async () => {
+  await page("2018")
+  expect(getYearInReviewYearInReviewYearGet).toHaveBeenCalledTimes(1)
+})

@@ -94,6 +94,7 @@ class PlatformStats(BaseModel):
 
 
 class YearInReviewResult(BaseModel):
+    unavailable_app_ids: list[str] = []
     year: int
     total_downloads: int
     new_apps_count: int

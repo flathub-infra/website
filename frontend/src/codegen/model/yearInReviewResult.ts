@@ -13,6 +13,7 @@ import type { YearInReviewMostPopularApp } from "./yearInReviewMostPopularApp"
 import type { YearInReviewResultGeographicStats } from "./yearInReviewResultGeographicStats"
 
 export interface YearInReviewResult {
+  unavailable_app_ids?: string[]
   year: number
   total_downloads: number
   new_apps_count: number

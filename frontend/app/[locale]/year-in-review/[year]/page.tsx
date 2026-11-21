@@ -88,15 +88,24 @@ export default async function YearInReviewPage({
   const cookie = year > publicMaxYear ? (await headers()).get("cookie") : null
 
   let yearInReviewData: YearInReviewResult | null = null
+  let previous: YearInReviewResult | null = null
   try {
-    const yearInReviewResponse = await getYearInReviewYearInReviewYearGet(
-      year,
-      {
-        locale,
-      },
-      cookie ? { headers: { Cookie: cookie } } : undefined,
-    )
+    const [yearInReviewResponse, priorResponse] = await Promise.all([
+      getYearInReviewYearInReviewYearGet(
+        year,
+        { locale },
+        cookie ? { headers: { Cookie: cookie } } : undefined,
+      ),
+      year > MIN_YEAR
+        ? getYearInReviewYearInReviewYearGet(
+            year - 1,
+            { locale },
+            { signal: AbortSignal.timeout(1500) },
+          ).catch(() => null)
+        : null,
+    ])
     yearInReviewData = yearInReviewResponse.data
+    previous = priorResponse?.data
   } catch (error) {
     notFound()
   }
@@ -157,12 +166,17 @@ export default async function YearInReviewPage({
           hasPreviousYear={hasPreviousYear}
           topApps={yearInReviewData.top_apps}
           topGames={yearInReviewData.top_games}
+          previousCharts={{
+            "top-apps": previous?.top_apps?.map((app) => app.app_id),
+            "top-games": previous?.top_games?.map((app) => app.app_id),
+          }}
           topEmulators={yearInReviewData.top_emulators}
           topGameStores={yearInReviewData.top_game_stores}
           topGameUtilities={yearInReviewData.top_game_utilities}
           popularAppsByCategory={yearInReviewData.popular_apps_by_category}
           biggestGrowthByCategory={yearInReviewData.biggest_growth_by_category}
           newcomersByCategory={yearInReviewData.newcomers_by_category}
+          unavailableAppIds={yearInReviewData.unavailable_app_ids}
           mostImprovedByCategory={yearInReviewData.most_improved_by_category}
           geographicStats={yearInReviewData.geographic_stats}
           hiddenGems={yearInReviewData.hidden_gems}
