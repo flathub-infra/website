@@ -34,7 +34,7 @@ const TokenList: FunctionComponent<Props> = ({ app, canManage }) => {
         { page: currentPage, page_size: pageSize },
         { withCredentials: true },
       ),
-    enabled: !!app.id,
+    enabled: !!app.id && !!account,
   })
 
   if (query.isPending) {
