@@ -76,7 +76,7 @@ const QualityReviewButton = ({
   review_requested_at?: string
   status?: QualityModerationStatus
   app_id: string
-  mode?: "qualityModerator" | "developer"
+  mode?: "qualityModerator" | "readOnly"
 }) => {
   const t = useTranslations()
   const queryClient = useQueryClient()
@@ -170,7 +170,8 @@ export const QualityModeration = ({
   )
   const isModerator = user.info?.permissions?.includes(Permission.moderation)
   const isDeveloper = user.info?.dev_flatpaks?.includes(app.id)
-  const canViewQuality = !!(isQualityModerator || isDeveloper)
+  const canViewQualityStatus = !!(isQualityModerator || isDeveloper)
+  const canViewQualityDetails = canViewQualityStatus || isModerator
   const canManageApp =
     isDeveloper || user.info?.permissions?.includes(Permission["manage-apps"])
 
@@ -178,7 +179,7 @@ export const QualityModeration = ({
     useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {
       axios: { withCredentials: true },
       query: {
-        enabled: canViewQuality,
+        enabled: canViewQualityStatus,
         retry: (failureCount, error: any) =>
           error?.response?.status !== 404 && failureCount < 3,
       },
@@ -200,7 +201,12 @@ export const QualityModeration = ({
     },
   )
 
-  if (!canViewQuality && !canManageApp && !isModerator) {
+  const canReviewModeration =
+    isModerator &&
+    moderationStatusQuery.isSuccess &&
+    moderationStatusQuery.data.data.requests_count > 0
+
+  if (!canViewQualityDetails && !canManageApp) {
     return null
   }
 
@@ -210,14 +216,14 @@ export const QualityModeration = ({
   const isExcluded = is404 && errorDetail === "App excluded from app picks"
   const isGeneric404 = is404 && !isExcluded
 
-  const mode = isQualityModerator ? "qualityModerator" : "developer"
+  const mode = isQualityModerator ? "qualityModerator" : "readOnly"
 
   return (
     <>
       <div
         className={clsx(
           "flex px-8 h-16 items-center",
-          !canViewQuality || isExcluded
+          !canViewQualityStatus || isExcluded
             ? "bg-flathub-gainsborow/40"
             : isGeneric404
               ? "bg-flathub-electric-red/40"
@@ -228,7 +234,7 @@ export const QualityModeration = ({
                   : "bg-flathub-electric-red/40",
         )}
       >
-        {canViewQuality && (
+        {canViewQualityStatus && (
           <div className="flex items-center justify-center">
             <div className="flex items-center justify-center">
               {query.isPending ? (
@@ -250,17 +256,15 @@ export const QualityModeration = ({
           </div>
         )}
         <div className="ms-auto flex">
-          {isModerator &&
-            moderationStatusQuery.isSuccess &&
-            moderationStatusQuery.data?.data.requests_count > 0 && (
-              <Button size="lg" variant="secondary" asChild className="me-2">
-                <Link href={`/admin/moderation/${app.id}`}>
-                  <ScanEyeIcon className="w-5 h-5" />
-                  <div className="hidden sm:block">Review</div>
-                </Link>
-              </Button>
-            )}
-          {canViewQuality && !isExcluded && (
+          {canReviewModeration && (
+            <Button size="lg" variant="secondary" asChild className="me-2">
+              <Link href={`/admin/moderation/${app.id}`}>
+                <ScanEyeIcon className="w-5 h-5" />
+                <div className="hidden sm:block">Review</div>
+              </Link>
+            </Button>
+          )}
+          {canViewQualityStatus && !isExcluded && (
             <QualityReviewButton
               app_id={app.id}
               status={query?.data?.data}
@@ -276,7 +280,7 @@ export const QualityModeration = ({
               </Link>
             </Button>
           )}
-          {canViewQuality && !(isExcluded || isGeneric404) && (
+          {canViewQualityDetails && !(isExcluded || isGeneric404) && (
             <Button
               size="lg"
               onClick={() => {
@@ -286,13 +290,13 @@ export const QualityModeration = ({
               {mode === "qualityModerator" && (
                 <>
                   <ClipboardCheckIcon className="size-5" />
-                  <div className="hidden sm:block">Moderate</div>
+                  <div className="sr-only sm:not-sr-only">Moderate</div>
                 </>
               )}
-              {mode === "developer" && (
+              {mode === "readOnly" && (
                 <>
                   <EyeIcon className="size-5" />
-                  <div className="hidden sm:block">
+                  <div className="sr-only sm:not-sr-only">
                     {t("quality-guideline.details")}
                   </div>
                 </>
@@ -302,7 +306,7 @@ export const QualityModeration = ({
         </div>
       </div>
 
-      {canViewQuality && (
+      {canViewQualityDetails && (
         <QualityModerationSlideOver
           mode={mode}
           app={app}

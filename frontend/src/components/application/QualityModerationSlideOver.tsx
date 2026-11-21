@@ -264,7 +264,7 @@ const QualityCategories = ({
     >,
     unknown
   >
-  mode: "developer" | "qualityModerator"
+  mode: "readOnly" | "qualityModerator"
 }) => {
   const t = useTranslations()
 
@@ -495,7 +495,7 @@ const QualityItem = ({
   qualityGuideline,
   query,
 }: {
-  mode: "developer" | "qualityModerator"
+  mode: "readOnly" | "qualityModerator"
   appId: string
   qualityModeration?: QualityModerationType | QualityModerationModeratorType
   qualityGuideline: Guideline | undefined
@@ -559,7 +559,7 @@ const QualityItem = ({
           <ExternalLinkIcon className="rtl:-rotate-90 h-5" />
         </a>
         <div className="ms-auto">
-          {qualityGuideline.read_only || mode === "developer" ? (
+          {qualityGuideline.read_only || mode === "readOnly" ? (
             <ReadOnlyItem toggle={toggle} />
           ) : (
             <MultiToggle
@@ -625,7 +625,7 @@ const ScreenShotTypeItem = ({
   is_fullscreen_app,
   query,
 }: {
-  mode: "developer" | "qualityModerator"
+  mode: "readOnly" | "qualityModerator"
   appId: string
   is_fullscreen_app: boolean
   query: UseQueryResult<
@@ -661,7 +661,7 @@ const ScreenShotTypeItem = ({
     },
   })
 
-  if (mode === "developer") {
+  if (mode === "readOnly") {
     return null
   }
 
@@ -750,7 +750,7 @@ export const QualityModerationSlideOver = ({
   isQualityModalOpen,
   setIsQualityModalOpen,
 }: {
-  mode: "developer" | "qualityModerator"
+  mode: "readOnly" | "qualityModerator"
   app: DesktopAppstream
   isQualityModalOpen: boolean
   setIsQualityModalOpen: (value: boolean) => void
@@ -769,7 +769,7 @@ export const QualityModerationSlideOver = ({
             withCredentials: true,
             signal,
           }),
-    enabled: !!app.id,
+    enabled: isQualityModalOpen && !!app.id,
     retry: (failureCount, error: any) =>
       error?.response?.status !== 404 && failureCount < 3,
   })
