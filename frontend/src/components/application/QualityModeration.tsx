@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { useUserContext } from "src/context/user-info"
 import { QualityModerationSlideOver } from "./QualityModerationSlideOver"
@@ -165,20 +165,20 @@ export const QualityModeration = ({
 }) => {
   const t = useTranslations()
   const user = useUserContext()
-  const [isQualityModerator, setIsQualityModerator] = useState(false)
-  const [isModerator, setIsModerator] = useState(false)
-
+  const isQualityModerator = user.info?.permissions?.includes(
+    Permission["quality-moderation"],
+  )
+  const isModerator = user.info?.permissions?.includes(Permission.moderation)
+  const isDeveloper = user.info?.dev_flatpaks?.includes(app.id)
+  const canViewQuality = !!(isQualityModerator || isDeveloper)
   const canManageApp =
-    (user.info?.dev_flatpaks && user.info.dev_flatpaks.includes(app.id)) ||
-    user.info?.permissions?.includes(Permission["manage-apps"]) ||
-    false
-  const requirement = isQualityModerator || canManageApp
+    isDeveloper || user.info?.permissions?.includes(Permission["manage-apps"])
 
   const query =
     useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {
       axios: { withCredentials: true },
       query: {
-        enabled: !!requirement,
+        enabled: canViewQuality,
         retry: (failureCount, error: any) =>
           error?.response?.status !== 404 && failureCount < 3,
       },
@@ -195,26 +195,12 @@ export const QualityModeration = ({
     {
       axios: { withCredentials: true },
       query: {
-        enabled: isModerator,
+        enabled: !!isModerator,
       },
     },
   )
 
-  useEffect(() => {
-    if (
-      user.info?.permissions.some((a) => a === Permission["quality-moderation"])
-    ) {
-      setIsQualityModerator(true)
-    }
-  }, [user.info])
-
-  useEffect(() => {
-    if (user.info?.permissions.some((a) => a === Permission["moderation"])) {
-      setIsModerator(true)
-    }
-  }, [user.info])
-
-  if (!requirement && !isModerator) {
+  if (!canViewQuality && !canManageApp && !isModerator) {
     return null
   }
 
@@ -231,7 +217,7 @@ export const QualityModeration = ({
       <div
         className={clsx(
           "flex px-8 h-16 items-center",
-          isExcluded
+          !canViewQuality || isExcluded
             ? "bg-flathub-gainsborow/40"
             : isGeneric404
               ? "bg-flathub-electric-red/40"
@@ -242,25 +228,27 @@ export const QualityModeration = ({
                   : "bg-flathub-electric-red/40",
         )}
       >
-        <div className="flex items-center justify-center">
+        {canViewQuality && (
           <div className="flex items-center justify-center">
-            {query.isPending ? (
-              <Spinner size={"s"} orientation="row" />
-            ) : isExcluded ? (
-              <div className="flex gap-1">
-                <CircleQuestionMarkIcon className="text-2xl size-6" />
-                <span>{t("quality-moderation-excluded")}</span>
-              </div>
-            ) : isGeneric404 ? (
-              <div className="flex gap-1">
-                <TriangleAlertIcon className="text-2xl size-6" />
-                <span className="text-flathub-red">{t("server-error")}</span>
-              </div>
-            ) : (
-              <QualityModerationStatusComponent status={query?.data?.data} />
-            )}
+            <div className="flex items-center justify-center">
+              {query.isPending ? (
+                <Spinner size={"s"} orientation="row" />
+              ) : isExcluded ? (
+                <div className="flex gap-1">
+                  <CircleQuestionMarkIcon className="text-2xl size-6" />
+                  <span>{t("quality-moderation-excluded")}</span>
+                </div>
+              ) : isGeneric404 ? (
+                <div className="flex gap-1">
+                  <TriangleAlertIcon className="text-2xl size-6" />
+                  <span className="text-flathub-red">{t("server-error")}</span>
+                </div>
+              ) : (
+                <QualityModerationStatusComponent status={query?.data?.data} />
+              )}
+            </div>
           </div>
-        </div>
+        )}
         <div className="ms-auto flex">
           {isModerator &&
             moderationStatusQuery.isSuccess &&
@@ -272,7 +260,7 @@ export const QualityModeration = ({
                 </Link>
               </Button>
             )}
-          {!isExcluded && (
+          {canViewQuality && !isExcluded && (
             <QualityReviewButton
               app_id={app.id}
               status={query?.data?.data}
@@ -288,7 +276,7 @@ export const QualityModeration = ({
               </Link>
             </Button>
           )}
-          {!(isExcluded || isGeneric404) && (
+          {canViewQuality && !(isExcluded || isGeneric404) && (
             <Button
               size="lg"
               onClick={() => {
@@ -314,12 +302,14 @@ export const QualityModeration = ({
         </div>
       </div>
 
-      <QualityModerationSlideOver
-        mode={mode}
-        app={app}
-        isQualityModalOpen={isQualityModalOpen}
-        setIsQualityModalOpen={setIsQualityModalOpen}
-      />
+      {canViewQuality && (
+        <QualityModerationSlideOver
+          mode={mode}
+          app={app}
+          isQualityModalOpen={isQualityModalOpen}
+          setIsQualityModalOpen={setIsQualityModalOpen}
+        />
+      )}
     </>
   )
 }
