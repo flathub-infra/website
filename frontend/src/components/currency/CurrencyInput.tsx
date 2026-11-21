@@ -13,7 +13,7 @@ import { DollarSign } from "lucide-react"
 
 type Props = {
   inputValue: NumericInputValue
-  setValue: React.Dispatch<React.SetStateAction<NumericInputValue>>
+  setValue: (value: NumericInputValue) => void
   maximum: number
 } & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
 
@@ -71,7 +71,9 @@ const CurrencyInput: FunctionComponent<Props> = ({
       // Treat lone decimal point as 0 value
       const settled = isNaN(numeric) ? 0 : numeric
 
-      setValue({ ...inputValue, settled })
+      if (settled !== inputValue.settled) {
+        setValue({ ...inputValue, settled })
+      }
     },
     [inputValue, setValue],
   )
