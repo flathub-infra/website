@@ -52,7 +52,7 @@ SOURCE_BUDGET_USED = (
     "The source tool budget is used up. Write the analysis with the evidence you have."
 )
 
-PROMPT_VERSION = "1"
+PROMPT_VERSION = "2"
 INSTRUCTIONS = """\
 You analyse a permission change in an update of a Flatpak app on Flathub, for a moderator. The moderator decides whether to approve the change. You do not recommend approval or rejection.
 
@@ -78,6 +78,7 @@ Task, for each difference:
 - Set need only when the difference adds entries. Set removal_effect only when it removes entries. A difference that does both, such as x11 to fallback-x11 and wayland, needs both.
 - In alternative, name a portal or a narrower permission that serves the same purpose. Leave it empty when none exists.
 - A missing explanation in the pull request is missing evidence. It does not show that the app does not need the access.
+- When the pull request changes no manifest file and is behind its base branch, the difference comes from the outdated branch, not from the pull request. Say so in the summary.
 - Cite the new manifest in manifest_refs as JSON pointers, such as /modules/2/sources/0. Cite upstream source files in source_refs only after you read them with read_source_file. Cite only what you read.
 
 Output:
@@ -289,6 +290,9 @@ def pull_request_section(pull_request: dict[str, Any] | None) -> str:
             body or "(empty)",
             f"Commits ({len(commits)} of {pull_request['commit_count']}):",
             *(f"- {message}" for message in commits),
+            f"Commits behind the base branch: {pull_request['behind_by']}",
+            "Files changed since the base branch:",
+            *(f"- {name}" for name in pull_request["files"]),
         ]
     )
 
@@ -595,11 +599,14 @@ def load_pull_request(
         except UnknownObjectException:
             return None
         commits = [commit.commit.message for commit in pull.get_commits()[:MAX_COMMITS]]
+        comparison = repo.compare(observation.base_revision, observation.built_revision)
         return {
             "title": pull.title,
             "body": pull.body or "",
             "commits": commits,
             "commit_count": pull.commits,
+            "behind_by": comparison.behind_by,
+            "files": [file.filename for file in comparison.files],
         }
 
 
