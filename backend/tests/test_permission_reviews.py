@@ -47,6 +47,7 @@ TABLES = (
     models.PermissionDecision,
     models.PermissionRule,
     models.PermissionAssessmentObservation,
+    models.PermissionTriage,
     models.ModerationRequest,
     models.DirectUploadApp,
 )
@@ -1398,3 +1399,21 @@ def test_grouped_migration_refuses_rule_and_history_loss(db):
         db() as session,
     ):
         grouped_migration(session)["downgrade"]()
+
+
+def test_triage_runs_once_per_decision_scope(db, monkeypatch):
+    monkeypatch.setattr(assessment.config.settings, "permission_triage_enabled", True)
+    monkeypatch.setattr(assessment, "worker", MagicMock())
+    first = persist(1, **TRAY_CHANGE)
+    pending_in_scope = persist(2, **TRAY_CHANGE)
+    with db() as session:
+        session.execute(update(models.PermissionTriage).values(status="completed"))
+    persist(3, **TRAY_CHANGE)
+    other_pull_request = persist(4, pull_request_number=18, **TRAY_CHANGE)
+    with db() as session:
+        triaged = session.scalars(select(models.PermissionTriage.assessment_id)).all()
+    assert sorted(triaged) == [
+        first.assessment_id,
+        pending_in_scope.assessment_id,
+        other_pull_request.assessment_id,
+    ]

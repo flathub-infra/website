@@ -303,8 +303,20 @@ def _persist_observation(values: dict[str, object]) -> CandidateAssessmentRespon
                     rules=verdict.rules,
                 )
             elif row.differences and config.settings.permission_triage_enabled:
-                db.session.add(models.PermissionTriage(assessment_id=row.id))
-                triage_id = row.id
+                triage = models.PermissionTriage
+                scoped = aliased(models.PermissionAssessmentObservation)
+                triaged = db.session.scalar(
+                    select(
+                        exists().where(
+                            triage.assessment_id == scoped.id,
+                            triage.status == "completed",
+                            *same_scope(scoped, row),
+                        )
+                    )
+                )
+                if not triaged:
+                    db.session.add(models.PermissionTriage(assessment_id=row.id))
+                    triage_id = row.id
         response = _response(db.session, row, superseded_by(db.session, row))
     if triage_id is not None:
         worker.triage_permission_change.send(triage_id)
