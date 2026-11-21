@@ -6,6 +6,7 @@ import { expect, test, vi } from "vitest"
 import {
   CategoryHighlightsSection,
   PlatformDiversitySection,
+  TopAppsSection,
   TrendingCategoriesSection,
   YearStatsGrid,
   YearInReview,
@@ -144,6 +145,54 @@ test("the English growth message accepts a fully formatted percentage", () => {
   expect(message).toContain("{percentage}")
   expect(message).not.toMatch(/[+%٪]/)
 })
+
+test.each([3, 5, 10])(
+  "shows known chart movement and only labels absences with top-ten coverage (%i)",
+  (limit) => {
+    const games = Array.from({ length: 10 }, (_, index) => ({
+      app_id: `org.example.Game${index + 1}`,
+      name: `Game ${index + 1}`,
+      downloads: 100 - index,
+      icon: "",
+      summary: "",
+    }))
+    const prior = Array.from({ length: limit }, (_, index) => `prior-${index}`)
+    prior[limit === 10 ? 7 : 1] = games[0].app_id
+
+    const html = renderToStaticMarkup(
+      <NextIntlClientProvider locale="en" messages={common} timeZone="UTC">
+        <TopAppsSection
+          year={2025}
+          topApps={[]}
+          topGames={games}
+          topEmulators={[]}
+          topGameStores={[]}
+          topGameUtilities={[]}
+          previousCharts={{ limit, "top-apps": [], "top-games": prior }}
+        />
+      </NextIntlClientProvider>,
+    )
+    const t = createTranslator({ locale: "en", messages: common })
+
+    expect(html).toContain(
+      `title="${t("year-in-review.previous-rank", {
+        rank: limit === 10 ? 8 : 2,
+        year: 2024,
+      })}"`,
+    )
+    expect(html).toContain(
+      `<span aria-hidden="true">${limit === 10 ? 7 : 1}</span>`,
+    )
+    expect(html).toContain(`href="/apps/${games[4].app_id}"`)
+    expect(html).not.toContain(`href="/apps/${games[5].app_id}"`)
+    const outside = `title="${t("year-in-review.outside-previous-top-ten")}"`
+    if (limit === 10) {
+      expect(html).toContain(outside)
+    } else {
+      expect(html).not.toContain(outside)
+    }
+  },
+)
 
 test("growth leaders match the displayed category and link only to available apps", () => {
   const render = (category: string, unavailableAppIds: string[]) =>

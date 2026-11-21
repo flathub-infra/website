@@ -853,7 +853,7 @@
     "more-downloads": "{count, number} more downloads",
     "arrivals": "{count, number} apps joined Flathub in {year}.",
     "meet-arrivals": "Among them:",
-    "chart-entry": "Unranked last year",
+    "outside-previous-top-ten": "Outside last year’s top 10",
     "previous-rank": "#{rank, number} in {year}",
     "category-gain": "Largest increase: <link>{app}</link> (+{count, number} downloads)",
     "description": "Celebrating a year of growth and innovation on Flathub",

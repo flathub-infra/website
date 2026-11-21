@@ -21,6 +21,7 @@ export interface YearInReviewResult {
   updates_count: number
   total_downloads_change: number
   total_downloads_change_percentage: number
+  top_chart_limit?: number
   top_apps: YearInReviewMostPopularApp[]
   top_games: YearInReviewMostPopularApp[]
   top_emulators: YearInReviewMostPopularApp[]

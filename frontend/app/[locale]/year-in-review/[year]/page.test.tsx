@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, expect, test, vi } from "vitest"
 import { headers } from "next/headers"
+import { renderToStaticMarkup } from "react-dom/server"
 import { getYearInReviewYearInReviewYearGet } from "src/codegen"
+import { YearInReview } from "src/components/application/YearInReview"
 import YearInReviewPage from "./page"
 
 vi.mock("next/headers", () => ({ headers: vi.fn() }))
@@ -16,7 +18,7 @@ vi.mock("src/codegen", () => ({
   getYearInReviewYearInReviewYearGet: vi.fn(),
 }))
 vi.mock("src/components/application/YearInReview", () => ({
-  YearInReview: () => null,
+  YearInReview: vi.fn(() => null),
 }))
 vi.mock("src/i18n/navigation", () => ({ Link: "a" }))
 
@@ -28,7 +30,7 @@ beforeEach(() => {
   )
   vi.mocked(getYearInReviewYearInReviewYearGet).mockImplementation(
     async (year) =>
-      ({ data: { year } }) as Awaited<
+      ({ data: { year, top_apps: [], top_games: [] } }) as Awaited<
         ReturnType<typeof getYearInReviewYearInReviewYearGet>
       >,
   )
@@ -125,3 +127,32 @@ test("the earliest edition needs no previous chart", async () => {
   await page("2018")
   expect(getYearInReviewYearInReviewYearGet).toHaveBeenCalledTimes(1)
 })
+
+test.each([undefined, 3, 5, 10])(
+  "passes previous chart ranks and coverage through (limit: %s)",
+  async (limit) => {
+    vi.mocked(getYearInReviewYearInReviewYearGet).mockImplementation(
+      async (year) =>
+        ({
+          data: {
+            year,
+            top_chart_limit: year === 2024 ? limit : 10,
+            top_apps: [{ app_id: "org.example.App" }],
+            top_games: [],
+          },
+        }) as Awaited<ReturnType<typeof getYearInReviewYearInReviewYearGet>>,
+    )
+
+    renderToStaticMarkup(await page("2025"))
+    expect(YearInReview).toHaveBeenCalledWith(
+      expect.objectContaining({
+        previousCharts: {
+          limit: limit ?? 3,
+          "top-apps": ["org.example.App"],
+          "top-games": [],
+        },
+      }),
+      undefined,
+    )
+  },
+)

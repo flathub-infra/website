@@ -60,7 +60,11 @@ interface YearInReviewProps {
   hasPreviousYear?: boolean
   topApps: YearInReviewMostPopularApp[]
   topGames: YearInReviewMostPopularApp[]
-  previousCharts?: Partial<Record<"top-apps" | "top-games", string[]>>
+  previousCharts?: {
+    limit: number
+    "top-apps": string[]
+    "top-games": string[]
+  }
   topEmulators: YearInReviewMostPopularApp[]
   topGameStores: YearInReviewMostPopularApp[]
   topGameUtilities: YearInReviewMostPopularApp[]
@@ -174,30 +178,26 @@ export function TopAppsSection({
   const t = useTranslations()
   const locale = useLocale()
 
-  function rankChange(chart: string, id: string, index: number, limit: number) {
-    if (chart !== "top-apps" && chart !== "top-games") {
+  function rankChange(chart: string, id: string, index: number) {
+    if (!previousCharts || (chart !== "top-apps" && chart !== "top-games")) {
       return null
     }
-    const previous = previousCharts?.[chart]
-    if (!previous?.length) {
+    const prior = previousCharts[chart].indexOf(id)
+    const outsideTopTen = prior < 0
+    if (prior === index || (outsideTopTen && previousCharts.limit < 10)) {
       return null
     }
-    const prior = previous.indexOf(id)
-    if (prior === index) {
-      return null
-    }
-    const isNew = prior < 0 || prior >= limit
     const movedUp = prior > index
-    const Icon = isNew ? Star : movedUp ? ArrowUp : ArrowDown
-    const label = isNew
-      ? t("year-in-review.chart-entry")
+    const Icon = outsideTopTen ? Star : movedUp ? ArrowUp : ArrowDown
+    const label = outsideTopTen
+      ? t("year-in-review.outside-previous-top-ten")
       : t("year-in-review.previous-rank", { rank: prior + 1, year: year - 1 })
     return (
       <span
         title={label}
         className={clsx(
           "inline-flex items-center justify-center gap-0.5 rounded px-1 py-0.5 text-[11px] leading-none font-bold tabular-nums",
-          isNew
+          outsideTopTen
             ? "bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-200"
             : movedUp
               ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200"
@@ -205,7 +205,7 @@ export function TopAppsSection({
         )}
       >
         <Icon size={12} strokeWidth={2.5} aria-hidden />
-        {!isNew && (
+        {!outsideTopTen && (
           <span aria-hidden>
             {Math.abs(prior - index).toLocaleString(locale)}
           </span>
@@ -271,7 +271,7 @@ export function TopAppsSection({
                                 {(index + 1).toLocaleString(locale, {
                                   minimumIntegerDigits: 2,
                                 })}
-                                {rankChange(key, app.app_id, index, limit)}
+                                {rankChange(key, app.app_id, index)}
                               </span>
                               <div>
                                 {app.icon && (
@@ -303,21 +303,6 @@ export function TopAppsSection({
                           </li>
                         ))}
                       </ol>
-                      {(key === "top-apps" || key === "top-games") &&
-                        !!previousCharts?.[key]?.length &&
-                        apps
-                          .slice(0, limit)
-                          .some(
-                            (app) =>
-                              !previousCharts[key]
-                                .slice(0, limit)
-                                .includes(app.app_id),
-                          ) && (
-                          <p className="flex items-center gap-1.5 border-t border-[var(--line)] px-4 py-2 text-xs text-[var(--subtle)]">
-                            <Star size={12} aria-hidden />
-                            {t("year-in-review.chart-entry")}
-                          </p>
-                        )}
                     </section>
                   ),
               )}

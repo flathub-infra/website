@@ -1,4 +1,7 @@
 import copy
+import datetime
+import json
+from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
@@ -20,6 +23,49 @@ APP_LISTS = (
     "most_improved_by_category",
     "hidden_gems",
 )
+
+
+def test_cached_moderator_preview_stays_private(monkeypatch):
+    from app.routes import year_in_review
+
+    report = json.loads(
+        (
+            Path(__file__).parent
+            / "snapshots/year_in_review_smoke__year_in_review__test_year_in_review.json"
+        ).read_text()
+    )
+    year = report["year"]
+    now = datetime.datetime(year, 12, 1, tzinfo=datetime.UTC)
+    redis = AsyncMock()
+    cached = {}
+    redis.get.side_effect = cached.get
+    redis.setex.side_effect = lambda key, ttl, value: cached.update({key: value})
+    monkeypatch.setattr(
+        year_in_review.stats.database, "get_redis", AsyncMock(return_value=redis)
+    )
+    monkeypatch.setattr(
+        year_in_review.stats, "get_year_stats", AsyncMock(return_value=report)
+    )
+    get_db = MagicMock()
+    get_db.return_value.__enter__.return_value.session.merge.return_value.permissions.return_value = {
+        "quality-moderation"
+    }
+    monkeypatch.setattr(year_in_review, "get_db", get_db)
+    api = FastAPI()
+    year_in_review.register_to_app(api)
+    api.dependency_overrides[login_state] = lambda: LoginInformation(
+        state=LoginState.LOGGED_IN, user=MagicMock(), method=None
+    )
+    with patch.object(year_in_review, "datetime") as clock, TestClient(api) as client:
+        clock.datetime.now.return_value = now
+        assert client.get(f"/year-in-review/{year}").status_code == 200
+        redis.setex.assert_awaited_once()
+        redis.get.reset_mock()
+        api.dependency_overrides[login_state] = lambda: LoginInformation(
+            state=LoginState.LOGGED_OUT, user=None, method=None
+        )
+        assert client.get(f"/year-in-review/{year}").status_code == 422
+        redis.get.assert_not_awaited()
 
 
 @pytest.mark.parametrize(
@@ -58,7 +104,10 @@ def test_historical_response_with_missing_metadata(monkeypatch, metadata):
 
     app_id = "org.example.HistoricalApp"
     base = {
-        "_snapshot": {"version": 1, "through": "2020-12-31"},
+        "_snapshot": {
+            "version": stats._YEAR_IN_REVIEW_SNAPSHOT_VERSION,
+            "through": "2020-12-31",
+        },
         "year": 2020,
         "total_downloads": 100,
         "new_apps_count": 1,
@@ -126,7 +175,9 @@ def test_historical_response_with_missing_metadata(monkeypatch, metadata):
     get_db.return_value.__enter__.return_value = db
     monkeypatch.setattr(stats.database, "get_db", get_db)
     redis = AsyncMock()
-    redis.get.return_value = None
+    cached = {}
+    redis.get.side_effect = cached.get
+    redis.setex.side_effect = lambda key, ttl, value: cached.update({key: value})
     monkeypatch.setattr(stats.database, "get_redis", AsyncMock(return_value=redis))
 
     api = FastAPI()
@@ -137,6 +188,14 @@ def test_historical_response_with_missing_metadata(monkeypatch, metadata):
     with TestClient(api) as client:
         response = client.get("/year-in-review/2020", params={"locale": "de"})
         assert response.status_code == 200
+        redis.setex.assert_awaited_once()
+        monkeypatch.setattr(
+            stats, "get_year_stats", AsyncMock(side_effect=AssertionError("Cache miss"))
+        )
+        assert (
+            client.get("/year-in-review/2020", params={"locale": "de"}).json()
+            == response.json()
+        )
 
     fields = metadata if isinstance(metadata, dict) else {}
     expected = {
@@ -144,6 +203,10 @@ def test_historical_response_with_missing_metadata(monkeypatch, metadata):
         for key in ("name", "icon", "summary")
     }
     expected["name"] = expected["name"] or app_id
+    assert response.json()["top_chart_limit"] == 10
+    assert redis.get.call_args.args[0].startswith(
+        "cache:endpoint:_get_year_in_review_v2_cached:"
+    )
     assert response.json()["unavailable_app_ids"] == (
         [] if fields or metadata in ("redirected", "eol-redirect", "eol") else [app_id]
     )

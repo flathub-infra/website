@@ -594,18 +594,31 @@ def update(sqldb):
     _generate_and_store_year_in_review_stats(sqldb)
 
 
+_YEAR_IN_REVIEW_SNAPSHOT_VERSION = 2
+_TOP_CHART_LIMIT = 10
+
+
 class _IncompleteYearStats(Exception):
     """A required daily source is unavailable; retry without publishing."""
 
 
-def _year_in_review_is_finalized(data: dict[str, JSONValue], year: int) -> bool:
-    # Legacy rows have no coverage guarantee and must be rebuilt once.
+def _year_in_review_is_finalized(
+    data: dict[str, JSONValue],
+    year: int,
+    *,
+    version: int = _YEAR_IN_REVIEW_SNAPSHOT_VERSION,
+) -> bool:
     snapshot = data.get("_snapshot")
     return (
         isinstance(snapshot, dict)
-        and snapshot.get("version") == 1
+        and snapshot.get("version") == version
         and snapshot.get("through") == datetime.date(year, 12, 31).isoformat()
     )
+
+
+def _year_in_review_snapshot_version(data: dict[str, JSONValue]):
+    snapshot = data.get("_snapshot")
+    return snapshot.get("version") if isinstance(snapshot, dict) else None
 
 
 def _generate_and_store_year_in_review_stats(sqldb):
@@ -613,13 +626,15 @@ def _generate_and_store_year_in_review_stats(sqldb):
     first_year = FIRST_STATS_DATE.year
 
     for year in range(first_year, current_year + 1):
+        previous = None
         if year < current_year:
             existing = models.YearInReviewStats.get_for_year(sqldb, year)
-            if existing and _year_in_review_is_finalized(existing.data, year):
+            previous = existing.data if existing else None
+            if previous and _year_in_review_is_finalized(previous, year):
                 continue
 
         try:
-            base_stats = asyncio.run(_build_year_in_review_base(year))
+            base_stats = asyncio.run(_build_year_in_review_base(year, previous))
         except Exception:
             logger.exception("Failed to build year-in-review stats for %s", year)
             continue
@@ -782,7 +797,7 @@ def _save_year_in_review_base(year: int, base_data: dict[str, JSONValue]) -> Non
 
 def _build_base_top_list(
     app_ids: list[str], downloads_dict: dict[str, int]
-) -> list[dict[str, str | int]]:
+) -> list[JSONValue]:
     return [
         {
             "app_id": app_id,
@@ -792,7 +807,9 @@ def _build_base_top_list(
     ]
 
 
-async def _build_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
+async def _build_year_in_review_base(
+    year: int, previous: dict[str, JSONValue] | None = None
+) -> dict[str, JSONValue] | None:
     date_range = _normalize_year_date_range(year)
     if date_range is None:
         return None
@@ -915,17 +932,71 @@ async def _build_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
     game_store_app_downloads = _filter_downloads_by_ids(game_store_app_ids)
     game_utility_app_downloads = _filter_downloads_by_ids(game_utility_app_ids)
 
-    def _get_top_app_ids(downloads_dict: dict[str, int], count: int = 3) -> list[str]:
-        """Get top N app IDs from downloads dict."""
-        if not downloads_dict:
-            return []
-        sorted_items = sorted(downloads_dict.items(), key=lambda x: x[1], reverse=True)[
+    def _get_top_app_ids(downloads_dict: dict[str, int], count: int) -> list[str]:
+        return sorted(downloads_dict, key=downloads_dict.__getitem__, reverse=True)[
             :count
         ]
-        return [app_id for app_id, _ in sorted_items]
 
-    top_app_ids = _get_top_app_ids(non_game_app_downloads, 3)
-    top_game_ids = _get_top_app_ids(gaming_app_downloads, 3)
+    published = (
+        previous
+        if previous
+        and edate == datetime.date(year, 12, 31)
+        and _year_in_review_is_finalized(previous, year, version=1)
+        and isinstance(previous.get("top_apps"), list)
+        and isinstance(previous.get("top_games"), list)
+        else {}
+    )
+    chart_keys = (
+        "top_apps",
+        "top_games",
+        "top_emulators",
+        "top_game_stores",
+        "top_game_utilities",
+    )
+    published_ids = {
+        entry["app_id"]
+        for key in chart_keys
+        if isinstance(rows := published.get(key), list)
+        for entry in rows
+        if isinstance(entry, dict) and isinstance(entry.get("app_id"), str)
+    }
+
+    def expanded_chart(key: str, downloads: dict[str, int]) -> list[JSONValue]:
+        old = published.get(key)
+        prefix: list[JSONValue] = old.copy() if isinstance(old, list) else []
+        if isinstance(old, list) and len(old) < 3:
+            return prefix  # The published chart already contained every eligible app.
+        cutoff = (
+            prefix[-1].get("downloads")
+            if prefix and isinstance(prefix[-1], dict)
+            else None
+        )
+        candidates = (
+            app_id
+            for app_id, count in downloads.items()
+            if app_id not in published_ids
+            and (not isinstance(cutoff, int) or count <= cutoff)
+        )
+        ids = sorted(candidates, key=lambda app_id: (-downloads[app_id], app_id))
+        prefix.extend(
+            _build_base_top_list(ids[: _TOP_CHART_LIMIT - len(prefix)], downloads)
+        )
+        return prefix
+
+    top_apps = expanded_chart("top_apps", non_game_app_downloads)
+    top_games = expanded_chart("top_games", gaming_app_downloads)
+    snapshot: dict[str, JSONValue] = {
+        "version": _YEAR_IN_REVIEW_SNAPSHOT_VERSION,
+        "through": edate.isoformat(),
+    }
+    if published:
+        return {
+            **published,
+            "_snapshot": snapshot,
+            "top_apps": top_apps,
+            "top_games": top_games,
+        }
+
     top_emulator_ids = _get_top_app_ids(emulator_app_downloads, 3)
     top_game_store_ids = _get_top_app_ids(game_store_app_downloads, 3)
     top_game_utility_ids = _get_top_app_ids(game_utility_app_downloads, 3)
@@ -1216,7 +1287,7 @@ async def _build_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
                 )
 
     base_result = {
-        "_snapshot": {"version": 1, "through": edate.isoformat()},
+        "_snapshot": snapshot,
         "year": year,
         "total_downloads": total_downloads,
         "new_apps_count": new_apps_count,
@@ -1224,8 +1295,8 @@ async def _build_year_in_review_base(year: int) -> dict[str, JSONValue] | None:
         "updates_count": total_updates,
         "total_downloads_change": total_downloads_change,
         "total_downloads_change_percentage": total_downloads_change_percentage,
-        "top_apps": _build_base_top_list(top_app_ids, non_game_app_downloads),
-        "top_games": _build_base_top_list(top_game_ids, gaming_app_downloads),
+        "top_apps": top_apps,
+        "top_games": top_games,
         "top_emulators": _build_base_top_list(top_emulator_ids, emulator_app_downloads),
         "top_game_stores": _build_base_top_list(
             top_game_store_ids, game_store_app_downloads
@@ -1385,25 +1456,41 @@ async def _add_translations_to_year_in_review(
 
 async def get_year_stats(year: int, locale: str = "en"):
     base_data = _load_year_in_review_base(year)
-
-    if base_data is None or (
-        year < utils.utcnow().year and not _year_in_review_is_finalized(base_data, year)
+    past_year = year < utils.utcnow().year
+    if base_data is None or not (
+        _year_in_review_is_finalized(base_data, year)
+        if past_year
+        else _year_in_review_snapshot_version(base_data)
+        == _YEAR_IN_REVIEW_SNAPSHOT_VERSION
     ):
         try:
-            base_data = await _build_year_in_review_base(year)
+            rebuilt = await _build_year_in_review_base(year, base_data)
         except _IncompleteYearStats:
             logger.warning("Incomplete year-in-review stats for %s; retry later", year)
-            return None
-        if base_data:
+            rebuilt = None
+        if rebuilt:
+            base_data = rebuilt
             try:
                 _save_year_in_review_base(year, base_data)
             except Exception:
                 logger.exception("Failed to save year-in-review stats for %s", year)
+        elif base_data is None or (
+            past_year
+            and _year_in_review_snapshot_version(base_data)
+            not in (1, _YEAR_IN_REVIEW_SNAPSHOT_VERSION)
+        ):
+            return None
 
     if base_data is None:
         return None
 
     result = await _add_translations_to_year_in_review(base_data, locale)
+    result["top_chart_limit"] = (
+        _TOP_CHART_LIMIT
+        if _year_in_review_snapshot_version(base_data)
+        == _YEAR_IN_REVIEW_SNAPSHOT_VERSION
+        else 3
+    )
     population = get_country_population(year)
     geographic_stats = result.get("geographic_stats")
     if population is not None and is_json_object(geographic_stats):

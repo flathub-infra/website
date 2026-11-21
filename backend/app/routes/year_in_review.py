@@ -1,5 +1,4 @@
 import datetime
-from typing import cast
 
 from fastapi import APIRouter, FastAPI, HTTPException, Path, Response
 from pydantic import BaseModel
@@ -102,6 +101,7 @@ class YearInReviewResult(BaseModel):
     updates_count: int
     total_downloads_change: int
     total_downloads_change_percentage: float
+    top_chart_limit: int = 3
     top_apps: list[YearInReviewMostPopularApp]
     top_games: list[YearInReviewMostPopularApp]
     top_emulators: list[YearInReviewMostPopularApp]
@@ -117,14 +117,16 @@ class YearInReviewResult(BaseModel):
     platform_stats: list[PlatformStats] = []
 
 
+# The cache key includes the function name. Bypass entries from older chart versions.
 @cache.cached(ttl=86400)  # 1 day cache
-async def _get_year_in_review_cached(
+async def _get_year_in_review_v2_cached(
     response: Response,
     year: int,
     locale: str = "en",
 ) -> YearInReviewResult:
     if value := await stats.get_year_stats(year, locale):
-        return cast("YearInReviewResult", value)
+        response.status_code = 200
+        return YearInReviewResult.model_validate(value)
 
     raise HTTPException(status_code=404, detail="Year statistics not available")
 
@@ -169,4 +171,4 @@ async def get_year_in_review(
             status_code=422, detail=f"Year must be between 2018 and {max_year}"
         )
 
-    return await _get_year_in_review_cached(response, year, locale)
+    return await _get_year_in_review_v2_cached(response, year, locale)

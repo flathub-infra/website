@@ -115,6 +115,13 @@ export default async function YearInReviewPage({
   }
 
   const hasPreviousYear = yearInReviewData.year > MIN_YEAR
+  const previousCharts = previous
+    ? {
+        limit: previous.top_chart_limit ?? 3,
+        "top-apps": previous.top_apps.map((app) => app.app_id),
+        "top-games": previous.top_games.map((app) => app.app_id),
+      }
+    : undefined
   const hasGeographicData =
     yearInReviewData.year >= 2024 && !!yearInReviewData.geographic_stats
 
@@ -166,10 +173,7 @@ export default async function YearInReviewPage({
           hasPreviousYear={hasPreviousYear}
           topApps={yearInReviewData.top_apps}
           topGames={yearInReviewData.top_games}
-          previousCharts={{
-            "top-apps": previous?.top_apps?.map((app) => app.app_id),
-            "top-games": previous?.top_games?.map((app) => app.app_id),
-          }}
+          previousCharts={previousCharts}
           topEmulators={yearInReviewData.top_emulators}
           topGameStores={yearInReviewData.top_game_stores}
           topGameUtilities={yearInReviewData.top_game_utilities}
