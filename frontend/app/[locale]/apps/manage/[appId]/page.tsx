@@ -1,7 +1,6 @@
 import {
   getAppstreamAppstreamAppIdGet,
   GetAppstreamAppstreamAppIdGet200,
-  getGlobalVendingConfigVendingConfigGet,
 } from "../../../../../src/codegen"
 import { Metadata } from "next"
 import ManageClient from "./manage-client"
@@ -40,12 +39,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ManagePage({ params }: Props) {
   const { appId, locale } = await params
-  const [appResponse, vendingConfigResponse] = await Promise.all([
-    getAppstreamAppstreamAppIdGet(appId, { locale }).catch(() => null),
-    getGlobalVendingConfigVendingConfigGet(),
-  ])
-
-  const vendingConfig = vendingConfigResponse.data
+  const appResponse = await getAppstreamAppstreamAppIdGet(appId, {
+    locale,
+  }).catch(() => null)
 
   // For manage pages, we allow fallback to show the app ID if app doesn't exist or has error
   const appData = appResponse?.data
@@ -61,5 +57,5 @@ export default async function ManagePage({ params }: Props) {
         "id" | "name" | "bundle" | "type" | "icon"
       >)
 
-  return <ManageClient app={appData} vendingConfig={vendingConfig} />
+  return <ManageClient key={appId} app={appData} />
 }

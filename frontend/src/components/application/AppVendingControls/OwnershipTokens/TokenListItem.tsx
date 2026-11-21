@@ -12,9 +12,15 @@ interface Props {
   open: boolean
   token: TokenModel
   appId: string
+  canManage: boolean
 }
 
-const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
+const TokenListItem: FunctionComponent<Props> = ({
+  open,
+  token,
+  appId,
+  canManage,
+}) => {
   const t = useTranslations()
 
   const [state, setState] = useState(token.state)
@@ -37,7 +43,7 @@ const TokenListItem: FunctionComponent<Props> = ({ open, token, appId }) => {
             {t("transaction-summary-created")} {format(token.created, "PP")}
           </div>
           <div className="justify-self-end">
-            {state === "unredeemed" && (
+            {canManage && state === "unredeemed" && (
               <TokenCancelButton
                 token={token}
                 appId={appId}

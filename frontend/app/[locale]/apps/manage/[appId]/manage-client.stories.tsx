@@ -15,7 +15,7 @@ const user: UserInfo = {
   displayname: "Flathub maintainer",
   default_account: { login: "flathub-maintainer", avatar: null },
   auths: {},
-  invite_code: "",
+  invite_code: "example-maintainer",
   accepted_publisher_agreement_at: null,
 }
 
@@ -37,7 +37,12 @@ function Providers({
           info: {
             ...user,
             dev_flatpaks: [managedAppId],
-            permissions: ["direct-upload", "moderation", "modify-users"],
+            permissions: [
+              "direct-upload",
+              "moderation",
+              "modify-users",
+              "manage-apps",
+            ],
           },
         }}
       >
@@ -48,6 +53,15 @@ function Providers({
 }
 
 const handlers = [
+  http.get("*/vending/config", () =>
+    HttpResponse.json({
+      status: "ok",
+      platforms: {},
+      fee_fixed_cost: 0,
+      fee_cost_percent: 0,
+      fee_prefer_percent: 0,
+    }),
+  ),
   http.get("*/invites/:appId/developers", () =>
     HttpResponse.json({ developers: [], invites: [] }),
   ),
@@ -109,9 +123,9 @@ const handlers = [
       ],
     }),
   ),
-  http.get("*/vendingapp/:appId/setup", () =>
+  http.get("*/vendingapp/:appId/management-setup", () =>
     HttpResponse.json({
-      status: "not_setup",
+      status: "no-config",
       recommended_donation: 0,
       minimum_payment: 0,
       appshare: 50,
@@ -149,13 +163,6 @@ const meta = {
       bundle: { value: appId, type: "flatpak" },
       metadata: { "flathub::manifest": null },
     },
-    vendingConfig: {
-      status: "ok",
-      platforms: {},
-      fee_fixed_cost: 0,
-      fee_cost_percent: 0,
-      fee_prefer_percent: 0,
-    },
   },
 } satisfies Meta<typeof ManageClient>
 
@@ -177,6 +184,14 @@ export const FullPage: Story = {
 export const RepositoryManaged: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
+    await canvas.findByText("No changes awaiting review")
+    await expect(
+      canvas.queryByText("Show expired tokens"),
+    ).not.toBeInTheDocument()
+    await userEvent.click(canvas.getByRole("tab", { name: "Upload tokens" }))
+    await expect(
+      await canvas.findByText("No active upload tokens."),
+    ).toBeVisible()
     await userEvent.click(canvas.getByRole("tab", { name: "Maintenance" }))
     await expect(
       await canvas.findByRole("link", { name: "Packaging repository" }),
@@ -377,7 +392,7 @@ export const DirectUpload: Story = {
     ).toBeInTheDocument()
     await userEvent.click(canvas.getByRole("tab", { name: "Maintenance" }))
     await expect(
-      canvas.getByRole("link", { name: "Packaging repository" }),
+      await canvas.findByRole("link", { name: "Packaging repository" }),
     ).toHaveAttribute("href", `https://github.com/flathub/${appId}`)
   },
 }

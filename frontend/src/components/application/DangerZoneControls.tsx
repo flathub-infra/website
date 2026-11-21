@@ -227,8 +227,10 @@ const ArchiveApp = ({ app }: { app: { id: string } }) => {
 
 export default function DangerZoneControls({
   app,
+  canModify,
 }: {
   app: Pick<GetAppstreamAppstreamAppIdGet200, "id">
+  canModify: boolean
 }) {
   const t = useTranslations()
 
@@ -264,7 +266,7 @@ export default function DangerZoneControls({
                   {t("danger-zone-confirmation.switch.warning-consequence")}
                 </p>
               </div>
-              <SwitchToDirectUpload app={app} />
+              {canModify && <SwitchToDirectUpload app={app} />}
             </div>
             <Separator />
           </>
@@ -276,7 +278,7 @@ export default function DangerZoneControls({
               {t("app-management.archive-description")}
             </p>
           </div>
-          <ArchiveApp app={app} />
+          {canModify && <ArchiveApp app={app} />}
         </div>
       </div>
     )

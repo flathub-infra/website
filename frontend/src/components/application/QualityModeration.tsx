@@ -168,15 +168,11 @@ export const QualityModeration = ({
   const [isQualityModerator, setIsQualityModerator] = useState(false)
   const [isModerator, setIsModerator] = useState(false)
 
-  const requirement =
-    isQualityModerator ||
-    (user.info?.dev_flatpaks && user.info.dev_flatpaks.includes(app.id)) ||
-    false
-
   const canManageApp =
     (user.info?.dev_flatpaks && user.info.dev_flatpaks.includes(app.id)) ||
-    user.info?.permissions.some((a) => a === Permission["modify-users"]) ||
+    user.info?.permissions?.includes(Permission["manage-apps"]) ||
     false
+  const requirement = isQualityModerator || canManageApp
 
   const query =
     useGetQualityModerationStatusForAppQualityModerationAppIdStatusGet(app.id, {

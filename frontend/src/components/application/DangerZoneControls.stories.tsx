@@ -8,7 +8,7 @@ const app = { id: "org.example.CriticalApp" }
 const meta = {
   component: DangerZoneControls,
   title: "Components/Application/DangerZoneControls",
-  args: { app },
+  args: { app, canModify: true },
   parameters: {
     layout: "padded",
     msw: {

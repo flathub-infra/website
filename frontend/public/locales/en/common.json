@@ -41,6 +41,7 @@
     "checker-description": "Configure automatic source updates in your packaging manifest."
   },
   "app-management": {
+    "app-share-after-fees": "App share after fees: {percentage}",
     "manage-app": "Manage app",
     "payments": "Payments",
     "uploads": "Upload tokens",
