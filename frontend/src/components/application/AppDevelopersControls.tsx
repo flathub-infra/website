@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl"
 import InlineError from "../InlineError"
 import Spinner from "../Spinner"
 import ConfirmDialog from "../ConfirmDialog"
-import { useUserDispatch } from "src/context/user-info"
+import { useUserContext, useUserDispatch } from "src/context/user-info"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import Modal from "../Modal"
 import { getUserData } from "src/asyncs/login"
@@ -15,7 +15,11 @@ import {
   removeDeveloperInvitesAppIdRemoveDeveloperDelete,
   revokeInviteInvitesAppIdRevokeDelete,
 } from "src/codegen"
-import { Developer, GetAppstreamAppstreamAppIdGet200 } from "src/codegen/model"
+import {
+  Developer,
+  GetAppstreamAppstreamAppIdGet200,
+  Permission,
+} from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "src/i18n/navigation"
@@ -27,6 +31,9 @@ interface Props {
 const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
   const t = useTranslations()
   const userDispatch = useUserDispatch()
+  const canManageAllApps = useUserContext().info?.permissions?.includes(
+    Permission["manage-apps"],
+  )
   const router = useRouter()
 
   const developersQuery = useQuery({
@@ -53,9 +60,8 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
   const [inviteDialogVisible, setInviteDialogVisible] = useState(false)
   const [leaveDialogVisible, setLeaveDialogVisible] = useState(false)
 
-  const selfIsPrimary = developersQuery.data?.data.developers.find(
-    (d) => d.is_self,
-  )?.is_primary
+  const self = developersQuery.data?.data.developers.find((d) => d.is_self)
+  const canManageTeam = !!(canManageAllApps || self?.is_primary)
 
   let content: ReactElement
 
@@ -84,7 +90,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
                   developer={developer}
                   app={app}
                   refresh={() => developersQuery.refetch()}
-                  selfIsPrimary={selfIsPrimary}
+                  canManageTeam={canManageTeam}
                   isInvite={false}
                 />
               ))}
@@ -102,13 +108,13 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
                   developer={developer}
                   app={app}
                   refresh={() => developersQuery.refetch()}
-                  selfIsPrimary={selfIsPrimary}
+                  canManageTeam={canManageTeam}
                   isInvite={true}
                 />
               ))}
           </div>
 
-          {selfIsPrimary && (
+          {canManageTeam && (
             <>
               <Button
                 size="lg"
@@ -127,7 +133,7 @@ const AppDevelopersControls: FunctionComponent<Props> = ({ app }) => {
             </>
           )}
 
-          {!selfIsPrimary && (
+          {self && !self.is_primary && (
             <>
               <Button
                 size="lg"
@@ -174,7 +180,7 @@ export default AppDevelopersControls
 interface DeveloperRowProps {
   developer: Developer
   app: Pick<GetAppstreamAppstreamAppIdGet200, "id" | "name">
-  selfIsPrimary: boolean
+  canManageTeam: boolean
   isInvite: boolean
   refresh: () => void
 }
@@ -182,7 +188,7 @@ interface DeveloperRowProps {
 const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
   developer,
   app,
-  selfIsPrimary,
+  canManageTeam,
   isInvite,
   refresh,
 }) => {
@@ -237,7 +243,7 @@ const DeveloperRow: FunctionComponent<DeveloperRowProps> = ({
           )}
         </div>
 
-        {selfIsPrimary && !developer.is_self && (
+        {canManageTeam && !developer.is_self && !developer.is_primary && (
           <div>
             <Button
               size="lg"

@@ -6,6 +6,7 @@ import TokenCreateDialog from "./TokenCreateDialog"
 import TokenListItem from "./TokenListItem"
 import Pagination from "../../../Pagination"
 import { useQuery } from "@tanstack/react-query"
+import { useUserContext } from "src/context/user-info"
 import {
   GetAppstreamAppstreamAppIdGet200,
   getRedeemableTokensVendingappAppIdTokensGet,
@@ -13,18 +14,20 @@ import {
 
 interface Props {
   app: Pick<GetAppstreamAppstreamAppIdGet200, "id">
+  canManage: boolean
 }
 
 /**
  * The control elements to view and add/cancel ownership tokens for an app.
  */
-const TokenList: FunctionComponent<Props> = ({ app }) => {
+const TokenList: FunctionComponent<Props> = ({ app, canManage }) => {
   const t = useTranslations()
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 10
+  const account = useUserContext().info?.invite_code
 
   const query = useQuery({
-    queryKey: ["redeemable-tokens", app.id, currentPage],
+    queryKey: ["redeemable-tokens", app.id, currentPage, account],
     queryFn: () =>
       getRedeemableTokensVendingappAppIdTokensGet(
         app.id,
@@ -55,12 +58,18 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
 
   return (
     <div className="space-y-4">
+      {!canManage && tokens.length === 0 && <p>{t("no-tokens-to-show")}</p>}
       {tokens.length > 0 && (
         <div className="flex flex-col gap-2 rounded-2xl bg-flathub-white dark:bg-flathub-arsenic">
           {tokens.map((token) => (
             <Disclosure key={token.id}>
               {({ open }) => (
-                <TokenListItem open={open} token={token} appId={app.id} />
+                <TokenListItem
+                  open={open}
+                  token={token}
+                  appId={app.id}
+                  canManage={canManage}
+                />
               )}
             </Disclosure>
           ))}
@@ -75,7 +84,9 @@ const TokenList: FunctionComponent<Props> = ({ app }) => {
         />
       )}
 
-      <TokenCreateDialog app={app} updateCallback={handleRefetch} />
+      {canManage && (
+        <TokenCreateDialog app={app} updateCallback={handleRefetch} />
+      )}
     </div>
   )
 }

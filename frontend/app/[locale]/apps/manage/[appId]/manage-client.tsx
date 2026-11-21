@@ -1,6 +1,7 @@
 "use client"
 
-import { useTranslations } from "next-intl"
+import { useFormatter, useTranslations } from "next-intl"
+import dynamic from "next/dynamic"
 import { useState, type ReactNode } from "react"
 import { Link } from "src/i18n/navigation"
 import { Button } from "@/components/ui/button"
@@ -16,32 +17,102 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import AppDevelopersControls from "src/components/application/AppDevelopersControls"
-import UploadTokenControls from "src/components/application/AppUploadControls/UploadTokenControls"
-import * as AppVerificationControls from "src/components/application/AppVerificationControls"
 import { AppDevModeration } from "src/components/moderation/AppDevModeration"
 import { IS_PRODUCTION } from "src/env"
-import * as AppVendingControls from "src/components/application/AppVendingControls"
 import LoginGuard from "src/components/login/LoginGuard"
 import { useUserContext } from "src/context/user-info"
-import DangerZoneControls from "src/components/application/DangerZoneControls"
+import Spinner from "src/components/Spinner"
 import Breadcrumbs from "src/components/Breadcrumbs"
 import LogoImage from "src/components/LogoImage"
 import {
   Permission,
   GetUserinfoAuthUserinfoGet200,
-  VendingConfig,
-  useGetAppVendingSetupVendingappAppIdSetupGet,
+  useGetGlobalVendingConfigVendingConfigGet,
   useGetInviteStatusInvitesAppIdGet,
   GetAppstreamAppstreamAppIdGet200,
+  type VendingSetup,
 } from "src/codegen"
+import { useManagementSetup } from "src/components/application/AppVendingControls/useManagementSetup"
+
+const UploadTokenControls = dynamic(
+  () =>
+    import("src/components/application/AppUploadControls/UploadTokenControls"),
+)
+const VerificationSetup = dynamic(
+  () =>
+    import("src/components/application/AppVerificationControls/AppVerificationSetup"),
+)
+const DangerZoneControls = dynamic(
+  () => import("src/components/application/DangerZoneControls"),
+)
+const SetupControls = dynamic(
+  () => import("src/components/application/AppVendingControls/SetupControls"),
+)
+const OwnershipTokens = dynamic(
+  () =>
+    import("src/components/application/AppVendingControls/OwnershipTokens/TokenList"),
+)
+const AppDevelopersControls = dynamic(
+  () => import("src/components/application/AppDevelopersControls"),
+)
 
 interface Props {
   app: Pick<
     GetAppstreamAppstreamAppIdGet200,
     "id" | "name" | "bundle" | "type" | "icon" | "metadata"
   >
-  vendingConfig: VendingConfig
+}
+
+function EditablePaymentsPanel({ app }: Props) {
+  const t = useTranslations()
+  const config = useGetGlobalVendingConfigVendingConfigGet()
+  if (config.isPending) {
+    return <Spinner size="m" />
+  }
+  if (!config.data) {
+    return <p role="alert">{t("failed-to-load-refresh")}</p>
+  }
+  return <SetupControls app={app} vendingConfig={config.data.data} />
+}
+
+function PaymentsPanel({
+  app,
+  setup,
+  isDeveloper,
+}: Props & { setup?: VendingSetup; isDeveloper: boolean }) {
+  const t = useTranslations()
+  if (!setup) {
+    return <p role="alert">{t("failed-to-load-refresh")}</p>
+  }
+  if (isDeveloper && (setup.status === "no-config" || setup.is_owner)) {
+    return <EditablePaymentsPanel app={app} />
+  }
+  return <PaymentSummary setup={setup} />
+}
+
+function PaymentSummary({ setup }: { setup: VendingSetup }) {
+  const t = useTranslations()
+  const format = useFormatter()
+  if (setup.status === "no-config") {
+    return <p>{t("app-management.payments-not-configured")}</p>
+  }
+  const amount = (cents: number) =>
+    format.number(cents / 100, { style: "currency", currency: setup.currency })
+  return (
+    <>
+      <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2">
+        <dt>{t("recommended-payment")}</dt>
+        <dd>{amount(setup.recommended_donation)}</dd>
+        <dt>{t("minimum-payment")}</dt>
+        <dd>{amount(setup.minimum_payment)}</dd>
+      </dl>
+      <p className="mt-2">
+        {t("app-management.app-share-after-fees", {
+          percentage: format.number(setup.appshare / 100, { style: "percent" }),
+        })}
+      </p>
+    </>
+  )
 }
 
 function ManagementPanel({
@@ -68,10 +139,23 @@ function ManagementPanel({
   )
 }
 
-export default function ManageClient({ app, vendingConfig }: Props) {
+export default function ManageClient({ app }: Props) {
   const t = useTranslations()
   const user = useUserContext()
+  const canManageAllApps = user.info?.permissions?.includes(
+    Permission["manage-apps"],
+  )
+  const isDeveloper = user.info?.dev_flatpaks?.includes(app.id)
   const [selectedSection, setSelectedSection] = useState("reviews")
+  const [visitedSections, setVisitedSections] = useState(
+    () => new Set(["reviews"]),
+  )
+  function selectSection(section: string) {
+    setVisitedSections((previous) =>
+      previous.has(section) ? previous : new Set(previous).add(section),
+    )
+    setSelectedSection(section)
+  }
   const isAnApp = [
     "desktop",
     "console-application",
@@ -82,23 +166,22 @@ export default function ManageClient({ app, vendingConfig }: Props) {
     isAnApp || app.type === "runtime" || app.type === "addon"
   const canManagePayments =
     isAnApp &&
-    (!IS_PRODUCTION || user.info?.permissions?.includes(Permission.moderation))
+    (!IS_PRODUCTION ||
+      canManageAllApps ||
+      user.info?.permissions?.includes(Permission.moderation))
   const canManageUploads =
     (isAnApp || app.type === "runtime") &&
     (!IS_PRODUCTION ||
+      canManageAllApps ||
       user.info?.permissions?.includes(Permission["direct-upload"]))
 
-  const query = useGetAppVendingSetupVendingappAppIdSetupGet(app.id, {
-    query: { enabled: !!app.id && canManagePayments },
+  const canAccessApp = !!app.id && !!(isDeveloper || canManageAllApps)
+  const invite = useGetInviteStatusInvitesAppIdGet(app.id, {
     axios: { withCredentials: true },
+    query: { enabled: canAccessApp && !!canManageUploads },
   })
-  const inviteQuery = useGetInviteStatusInvitesAppIdGet(app.id, {
-    axios: { withCredentials: true },
-    query: { enabled: !!app.id },
-  })
-  const isDirectUpload = inviteQuery.isSuccess
-    ? inviteQuery.data.data.is_direct_upload_app
-    : undefined
+  const setup = useManagementSetup(app.id, canAccessApp && !!canManagePayments)
+
   const sections = [
     {
       value: "reviews",
@@ -125,7 +208,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
             value: "verification",
             title: t("verification"),
             content: (
-              <AppVerificationControls.AppVerificationSetup
+              <VerificationSetup
                 app={app}
                 isNewApp={false}
                 showHeader={false}
@@ -139,27 +222,35 @@ export default function ManageClient({ app, vendingConfig }: Props) {
           {
             value: "payment",
             title: t("app-management.payments"),
-            content: (
-              <AppVendingControls.SetupControls
+            content: setup.isPending ? (
+              <Spinner size="m" />
+            ) : (
+              <PaymentsPanel
                 app={app}
-                vendingConfig={vendingConfig}
+                setup={setup.data?.data}
+                isDeveloper={!!isDeveloper}
               />
             ),
           },
         ]
       : []),
-    ...(canManagePayments &&
-    query.isSuccess &&
-    query.data?.data?.status === "ok"
+    ...(canManagePayments && setup.isSuccess && setup.data.data.status === "ok"
       ? [
           {
             value: "ownership",
             title: t("ownership-tokens"),
-            content: <AppVendingControls.OwnershipTokens app={app} />,
+            content: (
+              <OwnershipTokens
+                app={app}
+                canManage={setup.data.data.is_owner === true}
+              />
+            ),
           },
         ]
       : []),
-    ...(canManageUploads && isDirectUpload
+    ...(canManageUploads &&
+    invite.isSuccess &&
+    invite.data.data.is_direct_upload_app
       ? [
           {
             value: "developers",
@@ -182,11 +273,16 @@ export default function ManageClient({ app, vendingConfig }: Props) {
           {
             value: "danger",
             title: t("danger-zone"),
-            content: <DangerZoneControls app={app} />,
+            content: <DangerZoneControls app={app} canModify={!!isDeveloper} />,
           },
         ]
       : []),
   ]
+  const activeSection = sections.some(
+    (section) => section.value === selectedSection,
+  )
+    ? selectedSection
+    : "reviews"
   const pages = [
     {
       name: t("developer-portal.title"),
@@ -205,7 +301,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
       <LoginGuard
         condition={(info: GetUserinfoAuthUserinfoGet200) =>
           info.dev_flatpaks?.includes(app.id) ||
-          info.permissions?.includes(Permission["modify-users"])
+          info.permissions?.includes(Permission["manage-apps"])
         }
       >
         <Breadcrumbs pages={pages} />
@@ -237,13 +333,13 @@ export default function ManageClient({ app, vendingConfig }: Props) {
           </Button>
         </header>
 
-        {isAnApp && selectedSection !== "maintenance" && (
+        {isAnApp && activeSection !== "maintenance" && (
           <AppRuntimeWarning appId={app.id} />
         )}
 
         <Tabs
-          value={selectedSection}
-          onValueChange={setSelectedSection}
+          value={activeSection}
+          onValueChange={selectSection}
           orientation="vertical"
           className="grid items-start gap-4 md:min-h-[34rem] md:grid-cols-[190px_minmax(0,1fr)] md:gap-8"
         >
@@ -258,10 +354,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
               >
                 {t("app-management.manage-app")}
               </label>
-              <Select
-                value={selectedSection}
-                onValueChange={setSelectedSection}
-              >
+              <Select value={activeSection} onValueChange={selectSection}>
                 <SelectTrigger
                   id="management-section"
                   className="w-full data-[size=default]:h-11"
@@ -303,7 +396,7 @@ export default function ManageClient({ app, vendingConfig }: Props) {
           <div className="min-w-0">
             {sections.map(({ value, title, content }) => (
               <ManagementPanel key={value} value={value} title={title}>
-                {content}
+                {visitedSections.has(value) && content}
               </ManagementPanel>
             ))}
           </div>

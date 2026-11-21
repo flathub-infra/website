@@ -8,6 +8,7 @@ import {
 } from "../../../../codegen/vending/vending.msw"
 
 const meta = {
+  args: { canManage: true },
   component: TokenList,
   title: "Components/Application/AppVendingControls/OwnershipTokens/TokenList",
 } satisfies Meta<typeof TokenList>
