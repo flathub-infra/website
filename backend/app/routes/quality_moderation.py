@@ -391,7 +391,7 @@ def set_quality_moderation_for_app(
         500: {"description": "Internal server error"},
     },
 )
-@cache.private
+@cache.no_store
 def get_quality_moderation_status_for_app(
     app_id: str = Path(
         min_length=6,

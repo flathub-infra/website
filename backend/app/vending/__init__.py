@@ -21,13 +21,14 @@ from fastapi import APIRouter, FastAPI, HTTPException, Path, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
-from .. import audit_log, cache, worker
+from .. import audit_log, cache
 from ..config import settings
 from ..database import get_db, get_json_key
-from ..login_info import LoginStatusDep
+from ..login_info import LoginStatusDep, can_manage_app
 from ..models import (
     ApplicationVendingConfig,
     AuditEventType,
+    FlathubUser,
     Pagination,
     RedeemableAppToken,
     RedeemableAppTokenState,
@@ -157,6 +158,7 @@ class VendingSetup(BaseModel):
     """
 
     status: Literal["ok", "no-config"]
+    is_owner: bool = False
     currency: str
     appshare: int
     recommended_donation: int
@@ -399,7 +401,7 @@ def get_global_vending_config() -> VendingConfig:
         500: {"description": "Internal server error"},
     },
 )
-@cache.private
+@cache.no_store
 def get_app_vending_setup(
     app_id: str = Path(
         min_length=6,
@@ -419,17 +421,49 @@ def get_app_vending_setup(
 
     with get_db("replica") as db:
         vend = ApplicationVendingConfig.by_appid(db, app_id)
-        if not vend:
-            return VendingSetup(
-                status="no-config",
-                currency="usd",
-                appshare=50,
-                recommended_donation=0,
-                minimum_payment=0,
-            )
+        return _vending_setup(vend, login["user"].id)
 
+
+class ManagementSetupAccessError(BaseModel):
+    detail: Literal["not-logged-in", "permission-denied"]
+
+
+@router.get(
+    "app/{app_id}/management-setup",
+    tags=["vending"],
+    responses={
+        401: {"model": ManagementSetupAccessError, "description": "Not logged in"},
+        403: {"model": ManagementSetupAccessError, "description": "Not an app manager"},
+    },
+)
+@cache.no_store
+def get_management_vending_setup(app_id: str, login: LoginStatusDep) -> VendingSetup:
+    if not login.state.logged_in() or login.user is None:
+        raise HTTPException(401, detail="not-logged-in")
+
+    # Managers must see newly saved settings even if the replica is behind.
+    with get_db("writer") as db:
+        user = db.session.get(FlathubUser, login.user.id)
+        if user is None or user.login_disabled:
+            raise HTTPException(401, detail="not-logged-in")
+        if not can_manage_app(db, user, app_id):
+            raise HTTPException(403, detail="permission-denied")
+        vend = ApplicationVendingConfig.by_appid(db, app_id)
+        return _vending_setup(vend, user.id)
+
+
+def _vending_setup(vend: ApplicationVendingConfig | None, user_id: int) -> VendingSetup:
+    if vend is None:
+        return VendingSetup(
+            status="no-config",
+            currency="usd",
+            appshare=50,
+            recommended_donation=0,
+            minimum_payment=0,
+        )
     return VendingSetup(
         status="ok",
+        is_owner=vend.user == user_id,
         currency=vend.currency,
         appshare=vend.appshare,
         recommended_donation=vend.recommended_donation,
@@ -486,6 +520,8 @@ def post_app_vending_setup(
             raise VendingError(error="not-onboarded")
 
         vend = ApplicationVendingConfig.by_appid(db, app_id)
+        if vend and vend.user != login["user"].id:
+            raise VendingError(error="user-mismatch")
         if setup.recommended_donation > 0:
             if not vend:
                 vend = ApplicationVendingConfig(
@@ -497,8 +533,6 @@ def post_app_vending_setup(
                     minimum_payment=setup.minimum_payment,
                 )
             else:
-                if vend.user != login["user"].id:
-                    raise VendingError(error="user-mismatch")
                 vend.currency = setup.currency
                 vend.appshare = setup.appshare
                 vend.recommended_donation = setup.recommended_donation
@@ -508,9 +542,11 @@ def post_app_vending_setup(
                 db.add(vend)
             elif vend:
                 db.delete(vend)
+                vend = None
             db.commit()
         except Exception as base_exc:
             raise VendingError(error="bad-values") from base_exc
+        result = _vending_setup(vend, login["user"].id)
 
     audit_log.enqueue_audit_log(
         http_request,
@@ -526,8 +562,10 @@ def post_app_vending_setup(
         },
     )
 
-    worker.republish_app.send(app_id)
-    return get_app_vending_setup(app_id, login=login)
+    from ..worker import republish_app
+
+    republish_app.send(app_id)
+    return result
 
 
 @router.post(
@@ -650,15 +688,20 @@ def get_redeemable_tokens(
     Tokens are paginated with default page_size of 10
     """
 
-    if not login["state"].logged_in():
+    if not login.state.logged_in() or login.user is None:
         raise VendingError(error="not-logged-in")
 
-    with get_db("replica") as db:
-        if app_id not in login["user"].dev_flatpaks(db):
+    with get_db("writer") as db:
+        user = db.session.get(FlathubUser, login.user.id)
+        if user is None or user.login_disabled:
+            raise VendingError(error="not-logged-in")
+        if not can_manage_app(db, user, app_id):
             raise VendingError(error="permission-denied")
-
-    tokens = []
-    with get_db("replica") as db:
+        show_codes = app_id in user.dev_flatpaks(db)
+        if not show_codes:
+            vend = ApplicationVendingConfig.by_appid(db, app_id)
+            show_codes = vend is not None and vend.user == user.id
+        tokens = []
         offset = (page - 1) * page_size
         query = RedeemableAppToken.by_appid(db, app_id, True)
 
@@ -674,7 +717,7 @@ def get_redeemable_tokens(
                     name=token.name,
                     created=token.created,
                     changed=token.changed,
-                    token=token.token,
+                    token=token.token if show_codes else None,
                 )
             )
 

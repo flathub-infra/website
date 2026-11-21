@@ -1483,6 +1483,7 @@ class Permission(StrEnum):
     DIRECT_UPLOAD = "direct-upload"
     VIEW_USERS = "view-users"
     MODIFY_USERS = "modify-users"
+    MANAGE_APPS = models.MANAGE_APPS_PERMISSION
 
     MANAGE_OIDC_CLIENTS = "manage-oidc-clients"
 
@@ -1508,7 +1509,7 @@ class UserInfo(BaseModel):
         204: {"description": "Not logged in"},
     },
 )
-@cache.private
+@cache.no_store
 def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
     """
     Retrieve the current login's user information.  If the user is not logged in
@@ -1538,18 +1539,23 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
     appstream = apps.get_appids(include_eol=True)
 
     with get_db("writer") as db:
-        user = db.merge(login.user)  # Reattach user to current session
+        user = db.session.get(models.FlathubUser, login.user.id)
+        if user is None or user.login_disabled:
+            response.status_code = 204
+            return None
 
-        if user.invite_code is None:
+        invite_code = user.invite_code
+        if invite_code is None:
             # Confusing letter/number pairs removed.
             # This doesn't have to be super secure, it doesn't grant access to
             # anything, we just use a code instead of the user ID to avoid enumeration.
             # 56 available chars * 12 = ~69 bits of entropy
             chars = "AaBbCcDdEeFfGgHhJjKkLlMmNnPpQqRrSsTtUuVvWwXxYyZz23456789"
-            user.invite_code = "".join(secrets.choice(chars) for _ in range(12))
+            invite_code = "".join(secrets.choice(chars) for _ in range(12))
+            user.invite_code = invite_code
             db.commit()
 
-        default_account: models.ConnectedAccount = user.get_default_account(db)
+        default_account = user.get_default_account(db)
         dev_flatpaks = user.dev_flatpaks(db)
         permissions = user.permissions()  # Now called within session context
         owned_flatpaks = {
@@ -1579,7 +1585,6 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
         default_avatar_url = default_account.avatar_url if default_account else None
         default_login = default_account.login if default_account else None
         default_provider = default_account.provider if default_account else None
-        invite_code = user.invite_code
         accepted_publisher_agreement_at = user.accepted_publisher_agreement_at
         email_login = None
         if email_account := models.EmailAccount.by_user(db, user):

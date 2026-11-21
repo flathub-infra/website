@@ -31,7 +31,12 @@ from .. import (
 )
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
-from ..login_info import LoginStatusDep, ModeratorDep
+from ..login_info import (
+    LoginStatusDep,
+    ModeratorDep,
+    can_manage_app,
+    require_active_user,
+)
 from ..types import (
     JSONValue,
     ModerationOriginKind,
@@ -560,7 +565,7 @@ def get_moderation_apps(
         500: {"description": "Internal server error"},
     },
 )
-@cache.private
+@cache.no_store
 def get_moderation_app(
     login: LoginStatusDep,
     app_id: str = Path(
@@ -579,12 +584,13 @@ def get_moderation_app(
     if login.user is None:
         raise HTTPException(status_code=401, detail="not_logged_in")
 
-    with get_db("replica") as db:
-        user = db.session.merge(login.user)
+    with get_db("writer") as db:
+        user = require_active_user(db, login.user.id)
         is_moderator = "moderation" in user.permissions()
-        if not is_moderator and app_id not in user.dev_flatpaks(db):
+        if not is_moderator and not can_manage_app(db, user, app_id):
             raise HTTPException(status_code=403, detail="forbidden")
 
+    with get_db("replica") as db:
         discussion_opener = aliased(models.FlathubUser)
         query = (
             db.session.query(

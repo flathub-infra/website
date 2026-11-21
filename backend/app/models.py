@@ -94,6 +94,9 @@ class ConnectedAccountProvider(enum.StrEnum):
     EMAIL = "email"
 
 
+MANAGE_APPS_PERMISSION = "manage-apps"
+
+
 class RoleName(enum.StrEnum):
     ADMIN = "admin"
     MODERATOR = "moderator"
@@ -759,6 +762,13 @@ class GithubRepository(Base):
             db.session.query(GithubRepository)
             .filter_by(github_account=account.id)
             .all()
+        )
+
+    @staticmethod
+    def exists_by_name(db, app_id: str) -> bool:
+        return (
+            db.session.query(GithubRepository.id).filter_by(reponame=app_id).first()
+            is not None
         )
 
 
