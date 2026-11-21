@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from .. import audit_log, cache, config, http_client, models, utils, worker
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
-from ..login_info import LoginStatusDep
+from ..login_info import LoginStatusDep, can_manage_app, require_active_user
 from ..utils import jti
 
 router = APIRouter(prefix="/upload-tokens")
@@ -66,14 +66,15 @@ class TokensResponse(BaseModel):
 UPLOAD_TOKEN_PERMISSION = "direct-upload"
 
 
-def _require_upload_token_access(app_id: str, login):
-    with get_db("replica") as db:
-        user = db.session.merge(login.user)
-        if UPLOAD_TOKEN_PERMISSION not in user.permissions():
-            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_UPLOADER)
-        if app_id not in user.dev_flatpaks(db):
-            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
-        login.user = user
+def _require_upload_token_access(db, app_id: str, user_id: int) -> models.FlathubUser:
+    user = require_active_user(db, user_id)
+    if user.permissions().isdisjoint(
+        {UPLOAD_TOKEN_PERMISSION, models.MANAGE_APPS_PERMISSION}
+    ):
+        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_UPLOADER)
+    if not can_manage_app(db, user, app_id):
+        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
+    return user
 
 
 def _token_response(token: models.UploadToken, issued_to: str | None) -> TokenResponse:
@@ -100,7 +101,7 @@ def _token_response(token: models.UploadToken, issued_to: str | None) -> TokenRe
         403: {"description": "Not an app developer or uploader"},
     },
 )
-@cache.private
+@cache.no_store
 def get_upload_tokens(
     app_id: str, include_expired: bool = False, *, login: LoginStatusDep
 ) -> TokensResponse:
@@ -110,8 +111,8 @@ def get_upload_tokens(
 
     if not login.state.logged_in() or login.user is None:
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-    _require_upload_token_access(app_id, login)
-
+    with get_db("writer") as db:
+        _require_upload_token_access(db, app_id, login.user.id)
     with get_db("replica") as db:
         tokens = (
             db.session.query(models.UploadToken, models.FlathubUser.display_name)
@@ -181,56 +182,41 @@ def create_upload_token(
 
     if not login.state.logged_in() or login.user is None:
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
-    _require_upload_token_access(app_id, login)
-
-    with get_db("replica") as db:
+    with get_db("writer") as db:
+        issued_to = _require_upload_token_access(db, app_id, login.user.id)
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
         if direct_upload_app and direct_upload_app.archived:
             raise HTTPException(status_code=403, detail=ErrorDetail.APP_ARCHIVED)
         runtime_scope = models.RuntimeScope.by_app_id(db, app_id)
 
-    if "stable" in request.repos and direct_upload_app is None:
-        # Only direct upload apps may create tokens for the stable repo.
-        raise HTTPException(
-            status_code=403,
-            detail=ErrorDetail.NOT_DIRECT_UPLOAD_APP,
+        if "stable" in request.repos and direct_upload_app is None:
+            raise HTTPException(
+                status_code=403, detail=ErrorDetail.NOT_DIRECT_UPLOAD_APP
+            )
+
+        if not all(s in ALLOWED_SCOPES for s in request.scopes):
+            raise HTTPException(status_code=400, detail=ErrorDetail.FORBIDDEN_SCOPE)
+
+        if not all(r in ALLOWED_REPOS for r in request.repos):
+            raise HTTPException(status_code=400, detail=ErrorDetail.FORBIDDEN_REPO)
+
+        prefixes = [app_id]
+        if runtime_scope is not None:
+            if not all(r in runtime_scope.repos.split() for r in request.repos):
+                raise HTTPException(status_code=400, detail=ErrorDetail.FORBIDDEN_REPO)
+            prefixes = runtime_scope.prefixes.split() + runtime_scope.extra_ids.split()
+
+        issued_at = datetime.datetime.now(datetime.UTC)
+        expires_at = issued_at + datetime.timedelta(days=180)
+        token = models.UploadToken(
+            comment=request.comment,
+            app_id=app_id,
+            scopes=" ".join(request.scopes),
+            repos=" ".join(request.repos),
+            issued_at=issued_at,
+            issued_to=issued_to.id,
+            expires_at=expires_at,
         )
-
-    if not all(s in ALLOWED_SCOPES for s in request.scopes):
-        raise HTTPException(
-            status_code=400,
-            detail=ErrorDetail.FORBIDDEN_SCOPE,
-        )
-
-    if not all(r in ALLOWED_REPOS for r in request.repos):
-        raise HTTPException(
-            status_code=400,
-            detail=ErrorDetail.FORBIDDEN_REPO,
-        )
-
-    if runtime_scope is not None and not all(
-        r in runtime_scope.repos.split() for r in request.repos
-    ):
-        raise HTTPException(
-            status_code=400,
-            detail=ErrorDetail.FORBIDDEN_REPO,
-        )
-
-    issued_at = datetime.datetime.now(datetime.UTC)
-    issued_to = login.user
-    expires_at = issued_at + datetime.timedelta(days=180)
-
-    token = models.UploadToken(
-        comment=request.comment,
-        app_id=app_id,
-        scopes=" ".join(request.scopes),
-        repos=" ".join(request.repos),
-        issued_at=issued_at,
-        issued_to=issued_to.id,
-        expires_at=expires_at,
-    )
-
-    with get_db("writer") as db:
         db.session.add(token)
         db.session.commit()
         token_details = _token_response(token, issued_to.display_name)
@@ -246,14 +232,6 @@ def create_upload_token(
             "token_id": token_details.id,
         },
     )
-
-    # Runtimes are admin-provisioned and may push a whole family of refs, so the
-    # token is scoped to the curated allow-list. Regular apps stay scoped to their
-    # single app_id.
-    if runtime_scope is not None:
-        prefixes = runtime_scope.prefixes.split() + runtime_scope.extra_ids.split()
-    else:
-        prefixes = [app_id]
 
     encoded = jwt.encode(
         {
@@ -288,7 +266,7 @@ def create_upload_token(
             "category": EmailCategory.UPLOAD_TOKEN_CREATED,
             "appId": app_id,
             "appName": app_name,
-            "issuedTo": issued_to.display_name,
+            "issuedTo": token_details.issued_to,
             "comment": request.comment,
             "expiresAt": expires_at.strftime("%-d %B %Y"),
             "scopes": request.scopes,
@@ -330,13 +308,15 @@ def revoke_upload_token(
     if not login.state.logged_in() or login.user is None:
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
 
-    with get_db("replica") as db:
+    with get_db("writer") as db:
         token = models.UploadToken.by_id(db, token_id)
-    if token is None:
-        raise HTTPException(status_code=404, detail=ErrorDetail.TOKEN_NOT_FOUND)
+        if token is None:
+            raise HTTPException(status_code=404, detail=ErrorDetail.TOKEN_NOT_FOUND)
 
-    app_id = token.app_id
-    _require_upload_token_access(app_id, login)
+        app_id = token.app_id
+        _require_upload_token_access(db, app_id, login.user.id)
+        token_jti = jti(token)
+        db.session.expunge(token)
 
     flat_manager_jwt = utils.create_flat_manager_token(
         "revoke_upload_token", ["tokenmanagement"], sub=""
@@ -346,7 +326,7 @@ def revoke_upload_token(
     response = http_client.post(
         config.settings.flat_manager_api + "/api/v1/tokens/revoke",
         headers={"Authorization": flat_manager_jwt},
-        json={"token_ids": [jti(token)]},
+        json={"token_ids": [token_jti]},
     )
     if not response.is_success:
         raise HTTPException(

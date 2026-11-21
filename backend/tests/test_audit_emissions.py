@@ -601,6 +601,12 @@ class FakeSession:
     def merge(self, user):
         return self.user
 
+    def get(self, model, user_id):
+        return self.user
+
+    def expunge(self, token):
+        pass
+
     def add(self, token):
         self.added = token
         token.id = 99
@@ -618,6 +624,7 @@ class FakeDb:
 
 class FakeUser:
     id = 1
+    login_disabled = False
     display_name = "Test User"
 
     def __init__(self, permissions, dev_flatpaks):

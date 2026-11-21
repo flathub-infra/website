@@ -6,10 +6,12 @@ from pydantic import BaseModel
 
 from .. import audit_log, cache, worker
 from ..database import get_db, get_json_key
+from ..db_session import DBSession
 from ..emails import EmailCategory
-from ..login_info import LoggedInDep
+from ..login_info import LoggedInDep, require_active_user
 from ..logins import LoginStatusDep
 from ..models import (
+    MANAGE_APPS_PERMISSION,
     AuditEventType,
     DirectUploadApp,
     DirectUploadAppDeveloper,
@@ -52,26 +54,33 @@ def _get_app(app_id: str) -> DirectUploadApp:
             raise HTTPException(status_code=404, detail=ErrorDetail.APP_NOT_FOUND)
 
 
+def _require_team_member(
+    db: DBSession, app: DirectUploadApp, user: FlathubUser
+) -> DirectUploadAppDeveloper:
+    developer = DirectUploadAppDeveloper.by_developer_and_app(db, user, app)
+    if developer is None:
+        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
+    return developer
+
+
 def _check_permission(
+    db: DBSession,
     app: DirectUploadApp,
-    user: FlathubUser,
+    caller: FlathubUser,
     require_primary: bool = False,
     require_uploader: bool = False,
-) -> DirectUploadAppDeveloper:
-    with get_db("replica") as db_session:
-        user = db_session.session.merge(user)
-        current_dev = DirectUploadAppDeveloper.by_developer_and_app(
-            db_session, user, app
+) -> FlathubUser:
+    user = require_active_user(db, caller.id)
+    if MANAGE_APPS_PERMISSION in user.permissions():
+        return user
+    current_dev = _require_team_member(db, app, user)
+    if require_primary and not current_dev.is_primary:
+        raise HTTPException(
+            status_code=403, detail=ErrorDetail.NOT_PRIMARY_APP_DEVELOPER
         )
-        if current_dev is None:
-            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_APP_DEVELOPER)
-        if require_primary and not current_dev.is_primary:
-            raise HTTPException(
-                status_code=403, detail=ErrorDetail.NOT_PRIMARY_APP_DEVELOPER
-            )
-        if require_uploader and "direct-upload" not in user.permissions():
-            raise HTTPException(status_code=403, detail=ErrorDetail.NOT_UPLOADER)
-        return current_dev
+    if require_uploader and "direct-upload" not in user.permissions():
+        raise HTTPException(status_code=403, detail=ErrorDetail.NOT_UPLOADER)
+    return user
 
 
 class InviteStatus(BaseModel):
@@ -90,7 +99,7 @@ class InviteStatus(BaseModel):
         500: {"description": "Internal server error"},
     },
 )
-@cache.private
+@cache.no_store
 def get_invite_status(
     login: LoggedInDep,
     app_id: str = Path(
@@ -100,19 +109,18 @@ def get_invite_status(
         examples=["org.gnome.Glade"],
     ),
 ) -> InviteStatus:
-    with get_db("replica") as db_session:
+    with get_db("writer") as db_session:
+        user = require_active_user(db_session, login.user.id)
         app = DirectUploadApp.by_app_id(db_session, app_id)
         if app is None:
             return InviteStatus(is_pending=False, is_direct_upload_app=False)
 
-        invite = DirectUploadAppInvite.by_developer_and_app(db_session, login.user, app)
+        invite = DirectUploadAppInvite.by_developer_and_app(db_session, user, app)
         if invite is not None:
             return InviteStatus(is_pending=True)
 
-        developer = DirectUploadAppDeveloper.by_developer_and_app(
-            db_session, login.user, app
-        )
-        if developer is not None:
+        developer = DirectUploadAppDeveloper.by_developer_and_app(db_session, user, app)
+        if developer is not None or MANAGE_APPS_PERMISSION in user.permissions():
             return InviteStatus(is_pending=False)
 
         raise HTTPException(status_code=404, detail=ErrorDetail.INVITE_NOT_FOUND)
@@ -144,10 +152,11 @@ def invite_developer(
     ),
 ):
     app = _get_app(app_id)
-    _check_permission(app, login.user, require_primary=True, require_uploader=True)
-
     payload = None
     with get_db("writer") as db_session:
+        _check_permission(
+            db_session, app, login.user, require_primary=True, require_uploader=True
+        )
         invited_user = FlathubUser.by_invite_code(
             db_session, invite_code.replace("-", "")
         )
@@ -399,10 +408,12 @@ def leave_team(
     ),
 ):
     app = _get_app(app_id)
-    developer = _check_permission(app, login.user)
     payload = None
 
     with get_db("writer") as db_session:
+        developer = _require_team_member(db_session, app, login.user)
+        if developer.is_primary:
+            raise HTTPException(status_code=403, detail=ErrorDetail.CANNOT_ABANDON_APP)
         db_session.delete(developer)
         db_session.commit()
 
@@ -460,7 +471,7 @@ class DevelopersResponse(BaseModel):
         500: {"description": "Internal server error"},
     },
 )
-@cache.private
+@cache.no_store
 def get_app_developers(
     login: LoggedInDep,
     app_id: str = Path(
@@ -471,9 +482,8 @@ def get_app_developers(
     ),
 ) -> DevelopersResponse:
     app = _get_app(app_id)
-    _check_permission(app, login.user)
-
-    with get_db("replica") as db_session:
+    with get_db("writer") as db_session:
+        caller = _check_permission(db_session, app, login.user)
         invites = DirectUploadAppInvite.by_app(db_session, app)
         developers = DirectUploadAppDeveloper.by_app(db_session, app)
 
@@ -481,7 +491,7 @@ def get_app_developers(
             developers=[
                 Developer(
                     id=dev.id,
-                    is_self=user.id == login.user.id,
+                    is_self=user.id == caller.id,
                     name=user.display_name,
                     is_primary=dev.is_primary,
                 )
@@ -490,7 +500,7 @@ def get_app_developers(
             invites=[
                 Developer(
                     id=invite.id,
-                    is_self=user.id == login.user.id,
+                    is_self=user.id == caller.id,
                     name=user.display_name,
                 )
                 for invite, user in invites
@@ -523,9 +533,10 @@ def remove_developer(
     ),
 ):
     app = _get_app(app_id)
-    _check_permission(app, login.user, require_primary=True, require_uploader=True)
-
     with get_db("writer") as db_session:
+        _check_permission(
+            db_session, app, login.user, require_primary=True, require_uploader=True
+        )
         developer = DirectUploadAppDeveloper.by_id(db_session, developer_id)
         if developer is None or developer.app_id != app.id:
             raise HTTPException(status_code=404, detail=ErrorDetail.DEVELOPER_NOT_FOUND)
@@ -570,9 +581,10 @@ def revoke_invite(
     ),
 ):
     app = _get_app(app_id)
-    _check_permission(app, login.user, require_primary=True, require_uploader=True)
-
     with get_db("writer") as db_session:
+        _check_permission(
+            db_session, app, login.user, require_primary=True, require_uploader=True
+        )
         invite = DirectUploadAppInvite.by_id(db_session, invite_id)
         if invite is None or invite.app_id != app.id:
             raise HTTPException(status_code=404, detail=ErrorDetail.DEVELOPER_NOT_FOUND)

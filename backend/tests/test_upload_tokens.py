@@ -3,6 +3,7 @@ import os
 import sys
 from contextlib import contextmanager
 from types import SimpleNamespace
+from unittest.mock import MagicMock
 
 import jwt
 import pytest
@@ -30,7 +31,7 @@ class FakeSession:
     def __init__(self, user):
         self.user = user
 
-    def merge(self, user):
+    def get(self, model, user_id):
         return self.user
 
     def add(self, token):
@@ -48,10 +49,11 @@ class FakeDb:
 
 class FakeUser:
     id = 1
+    login_disabled = False
     display_name = "Test User"
 
-    def __init__(self, permissions, dev_flatpaks):
-        self._permissions = permissions
+    def __init__(self, permissions, dev_flatpaks, is_admin=False):
+        self._permissions = permissions | ({"manage-apps"} if is_admin else set())
         self._dev_flatpaks = dev_flatpaks
 
     def permissions(self):
@@ -135,6 +137,44 @@ def test_create_upload_token_requires_direct_upload_permission(
     assert exc_info.value.detail == upload_tokens.ErrorDetail.NOT_UPLOADER
 
 
+@pytest.mark.parametrize("action", ["list", "create", "revoke"])
+@pytest.mark.parametrize("disabled", [False, True])
+def test_token_access_checks_current_writer_account(
+    monkeypatch, upload_token_config, upload_token_request, action, disabled
+):
+    stale = FakeUser(set(), set(), is_admin=True)
+    current = FakeUser({"direct-upload"}, set(), is_admin=disabled)
+    current.login_disabled = disabled
+    writer = FakeDb(current)
+    writer.session.add = MagicMock()
+    monkeypatch.setattr(
+        upload_tokens.models.UploadToken,
+        "by_id",
+        lambda *_: SimpleNamespace(app_id="org.example.App"),
+    )
+    contact_manager = MagicMock()
+    monkeypatch.setattr(upload_tokens.http_client, "post", contact_manager)
+
+    @contextmanager
+    def get_db(role):
+        yield writer if role == "writer" else FakeDb(stale)
+
+    monkeypatch.setattr(upload_tokens, "get_db", get_db)
+    login = FakeLogin(stale)
+    with pytest.raises(HTTPException) as denied:
+        if action == "list":
+            upload_tokens.get_upload_tokens("org.example.App", login=login)
+        elif action == "create":
+            upload_tokens.create_upload_token(
+                "org.example.App", upload_token_request, FakeRequest(), login
+            )
+        else:
+            upload_tokens.revoke_upload_token(1, FakeRequest(), login)
+    assert denied.value.status_code == (401 if disabled else 403)
+    writer.session.add.assert_not_called()
+    contact_manager.assert_not_called()
+
+
 def test_create_upload_token_still_requires_app_developer(
     monkeypatch, upload_token_config, upload_token_request
 ):
@@ -182,10 +222,18 @@ def _decode(token: str) -> dict:
     return jwt.decode(token, base64.b64decode(SECRET), algorithms=["HS256"])
 
 
+@pytest.mark.parametrize("is_admin", [False, True])
 def test_create_upload_token_non_runtime_uses_app_id_prefix(
-    monkeypatch, upload_token_config
+    monkeypatch, upload_token_config, is_admin
 ):
-    user = FakeUser(permissions={"direct-upload"}, dev_flatpaks={"org.example.App"})
+    user = (
+        FakeUser(set(), set(), is_admin=True)
+        if is_admin
+        else FakeUser({"direct-upload"}, {"org.example.App"})
+    )
+    monkeypatch.setattr(
+        upload_tokens.models.App, "by_appid", lambda db, app_id: object()
+    )
     set_fake_db(monkeypatch, user)
     monkeypatch.setattr(
         upload_tokens.models.DirectUploadApp, "by_app_id", lambda db, app_id: None
@@ -203,6 +251,60 @@ def test_create_upload_token_non_runtime_uses_app_id_prefix(
     )
 
     assert _decode(result.token)["prefixes"] == ["org.example.App"]
+
+
+@pytest.mark.parametrize(
+    "permissions,is_admin,expected",
+    [
+        (set(), True, 200),
+        ({"modify-users", "direct-upload"}, False, 403),
+        ({"direct-upload"}, False, 403),
+    ],
+)
+def test_list_upload_tokens_for_unassigned_user(
+    monkeypatch, permissions, is_admin, expected
+):
+    from fastapi import FastAPI
+    from fastapi.testclient import TestClient
+
+    from app.login_info import login_state
+
+    app_id = "org.duckstation.DuckStation"
+    user = FakeUser(permissions, set(), is_admin)
+    set_fake_db(monkeypatch, user)
+    monkeypatch.setattr(FakeSession, "query", MagicMock(), raising=False)
+    monkeypatch.setattr(
+        upload_tokens.models.App,
+        "by_appid",
+        lambda db, id: object() if id == app_id else None,
+    )
+    monkeypatch.setattr(
+        upload_tokens.models.DirectUploadApp, "by_app_id", lambda *_: None
+    )
+    monkeypatch.setattr(upload_tokens.models.RuntimeScope, "by_app_id", lambda *_: None)
+    monkeypatch.setattr(
+        upload_tokens.models.GithubRepository,
+        "exists_by_name",
+        lambda db, name: name == "org.example.Unpublished",
+    )
+    app = FastAPI()
+    upload_tokens.register_to_app(app)
+    app.dependency_overrides[login_state] = lambda: FakeLogin(user)
+    with TestClient(app) as client:
+        response = client.get(f"/upload-tokens/{app_id}")
+        assert response.status_code == expected
+        if expected == 200:
+            assert response.json() == {
+                "tokens": [],
+                "is_direct_upload_app": False,
+                "allowed_repos": ["beta"],
+            }
+        else:
+            assert response.json()["detail"] == "not_app_developer"
+        assert client.get("/upload-tokens/org.example.Missing").status_code == 403
+        assert (
+            client.get("/upload-tokens/org.example.Unpublished").status_code == expected
+        )
 
 
 def test_create_upload_token_runtime_uses_scope_prefixes(

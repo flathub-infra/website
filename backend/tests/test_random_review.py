@@ -3365,8 +3365,10 @@ def test_observations_are_hidden_from_moderation_endpoints_and_actions(
             id=9,
             permissions=lambda: {"moderation"},
             dev_flatpaks=lambda session: set(),
+            login_disabled=False,
         )
     )
+    monkeypatch.setattr(db.session, "get", lambda *_: login.user, raising=False)
     app = moderation.get_moderation_app(login, app_id="org.example.App")
 
     assert [item.appid for item in apps.apps] == ["org.example.App"]

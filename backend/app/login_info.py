@@ -5,7 +5,7 @@ from typing import Annotated, cast
 
 from fastapi import Depends, HTTPException, Request
 
-from . import models
+from . import models, utils
 from .database import get_db
 
 REAUTH_FRESHNESS_SECONDS = 300
@@ -212,13 +212,38 @@ def moderator_only(login: LoggedInDep):
         return login
 
 
+def require_active_user(db, user_id: int) -> models.FlathubUser:
+    user = db.session.get(models.FlathubUser, user_id)
+    if user is None or user.login_disabled:
+        raise HTTPException(status_code=401, detail="not_logged_in")
+    return user
+
+
+def can_manage_app(db, user: models.FlathubUser, app_id: str) -> bool:
+    """Check app access without treating an administrator as a team member."""
+    if app_id in user.dev_flatpaks(db):
+        return True
+    if models.MANAGE_APPS_PERMISSION not in user.permissions():
+        return False
+    return (
+        models.App.by_appid(db, app_id) is not None
+        or models.DirectUploadApp.by_app_id(db, app_id) is not None
+        or models.RuntimeScope.by_app_id(db, app_id) is not None
+        or (
+            utils.is_valid_app_id(app_id)
+            and models.GithubRepository.exists_by_name(db, app_id)
+        )
+    )
+
+
 def moderator_or_app_author_only(app_id: str, login: LoggedInDep):
-    with get_db("replica") as db:
-        user = db.session.merge(login.user)
-        if "moderation" not in user.permissions() and app_id not in user.dev_flatpaks(
-            db
+    with get_db("writer") as db:
+        user = require_active_user(db, login.user.id)
+        if "moderation" not in user.permissions() and not can_manage_app(
+            db, user, app_id
         ):
             raise HTTPException(status_code=403, detail="not_app_developer")
+        db.session.expunge(user)
         login.user = user
         return login
 
@@ -235,12 +260,12 @@ def app_author_only(app_id: str, login: LoggedInDep):
 
 def quality_moderator_or_app_author_only(app_id: str, login: LoggedInDep):
     if login.user:
-        with get_db("replica") as db:
-            user = db.session.merge(login.user)
-            if "quality-moderation" in user.permissions():
-                login.user = user
-                return login
-            if app_id in user.dev_flatpaks(db):
+        with get_db("writer") as db:
+            user = require_active_user(db, login.user.id)
+            if "quality-moderation" in user.permissions() or can_manage_app(
+                db, user, app_id
+            ):
+                db.session.expunge(user)
                 login.user = user
                 return login
 
