@@ -21,6 +21,7 @@ const unit = {
   translation: "",
   version: "v1",
 }
+const optionalName = { ...unit, id: "name", field: "name", source: "App name" }
 vi.mock("src/codegen/metadata-translations/metadata-translations", () => ({
   getTranslationQueueMetadataTranslationsQueueGet: getQueue,
   getTranslationSourceMetadataTranslationsAppIdGet: async (
@@ -33,7 +34,8 @@ vi.mock("src/codegen/metadata-translations/metadata-translations", () => ({
       metadata_license: "CC0",
       locale,
       can_submit: true,
-      units: [unit],
+      units: [unit, optionalName],
+      queue_fields: ["summary"],
     },
   }),
   saveListingTranslationsMetadataTranslationsAppIdPost: save,
@@ -246,7 +248,7 @@ async function openBetaWhileAlphaIsSaving() {
     act(async () =>
       response.resolve({
         data: {
-          units: [{ ...unit, translation: "Alt", version: "v2" }],
+          units: [{ ...unit, translation: "Alt", version: "v2" }, optionalName],
           state: "queued",
         },
       }),
@@ -320,7 +322,7 @@ it.each(["Neuer Entwurf", ""])(
     const key = JSON.stringify(["github:translator", "org.example.Alpha", "de"])
     expect(openTranslationDrafts(key).get(unit)?.text).toBe(laterEdit)
     expect(client.getQueryData(sourceKey)).toMatchObject({
-      data: { units: [{ translation: "Alt" }] },
+      data: { units: [{ translation: "Alt" }, optionalName] },
     })
     await vi.waitFor(() =>
       expect(

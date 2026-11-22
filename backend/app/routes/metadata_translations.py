@@ -23,6 +23,7 @@ from ..metadata_translation_queue import TranslationQueue, language_queue
 from ..metadata_translation_target import RecipeTarget, target_of
 from ..metadata_translations import (
     LOCALE_PATTERN,
+    QUEUE_FIELDS,
     MetadataError,
     SharedTranslationUnit,
     TranslationUnit,
@@ -37,6 +38,7 @@ Locale = Annotated[str, Query(min_length=2, max_length=40, pattern=LOCALE_PATTER
 
 
 class TranslationSource(BaseModel):
+    queue_fields: list[str] = Field(default_factory=lambda: sorted(QUEUE_FIELDS))
     revision: str
     path: str
     source_url: str
