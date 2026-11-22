@@ -2069,6 +2069,77 @@ def test_discovery_allows_unrelated_metadata_destinations():
     assert read_source(repo, APP_ID).content == XML
 
 
+@pytest.mark.parametrize(
+    "compose",
+    [
+        "appstream-compose --basename=${FLATPAK_ID} --prefix=${FLATPAK_DEST} --origin=flatpak ${FLATPAK_ID}",
+        "appstreamcli compose --components=${FLATPAK_ID} --prefix=/ --origin=${FLATPAK_ID} --result-root=${FLATPAK_DEST} --data-dir=${FLATPAK_DEST}/share/app-info/xmls ${FLATPAK_DEST}",
+    ],
+)
+def test_addon_composes_catalog_after_installing_local_listing(compose):
+    repo = fake_repo()
+    xml, manifest = repo.get_contents("", ref="a" * 40)
+    xml.decoded_content = f'<component type="addon"><id>{APP_ID}</id><extends>org.example.Host</extends><metadata_license>CC0</metadata_license><summary>Plugin</summary></component>'.encode()
+    module = yaml.safe_load(manifest.decoded_content)
+    module["build-commands"].append(compose)
+    manifest.decoded_content = yaml.safe_dump(
+        {"build-extension": True, "modules": [module]}
+    ).encode()
+    assert (
+        unit(
+            MetadataDocument(read_source(repo, APP_ID).content, APP_ID, "de"), "summary"
+        ).source
+        == "Plugin"
+    )
+    module["build-commands"][-1] += " --output-dir=/app/share/metainfo"
+    manifest.decoded_content = yaml.safe_dump(
+        {"build-extension": True, "modules": [module]}
+    ).encode()
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+
+
+@pytest.mark.parametrize(
+    ("index", "command"), [(0, "cp vendor/* ."), (1, "./install-assets.sh")]
+)
+def test_opaque_command_around_listing_requires_published_evidence(
+    monkeypatch, index, command
+):
+    repo = fake_repo()
+    manifest = repo.get_contents("", ref="a" * 40)[1]
+    module = yaml.safe_load(manifest.decoded_content)
+    module["build-commands"].insert(index, command)
+    manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
+    published = MagicMock(return_value=False)
+    monkeypatch.setattr(
+        "app.metadata_translation_github.published_listing_matches", published
+    )
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+    published.assert_called_once()
+    published.return_value = True
+    assert read_source(repo, APP_ID).content == XML
+
+
+def test_installing_an_archive_tool_is_not_archive_extraction(monkeypatch):
+    repo = fake_repo()
+    manifest = repo.get_contents("", ref="a" * 40)[1]
+    module = yaml.safe_load(manifest.decoded_content)
+    module["build-commands"].append("cp /usr/bin/ar /app/bin/ar")
+    later = {
+        "name": "helper",
+        "buildsystem": "simple",
+        "build-commands": ["install -Dm755 apply_extra /app/bin/apply_extra"],
+    }
+    manifest.decoded_content = yaml.safe_dump({"modules": [module, later]}).encode()
+    published = MagicMock(return_value=False)
+    monkeypatch.setattr(
+        "app.metadata_translation_github.published_listing_matches", published
+    )
+    assert read_source(repo, APP_ID).content == XML
+    published.assert_not_called()
+
+
 def fake_repo():
     repo = MagicMock()
     repo.archived = repo.private = False
@@ -2122,6 +2193,37 @@ def test_discovery_pins_reads_and_requires_direct_install():
     for call in repo.get_contents.call_args_list:
         assert call.kwargs["ref"] == "a" * 40
     repo.get_contents("", ref=source.revision)[1].decoded_content = b"meson setup"
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+
+
+@pytest.mark.parametrize("name", ["metainfo.xml", f"{APP_ID}.xml"])
+def test_discovery_follows_a_uniquely_named_local_metainfo_file(name):
+    repo = fake_repo()
+    xml, manifest = repo.get_contents("", ref="a" * 40)
+    xml.name = xml.path = name
+    manifest.decoded_content = f"""modules:
+  - name: listing
+    buildsystem: simple
+    sources:
+      - type: file
+        path: {name}
+      - type: patch
+        path: patches/build.patch
+    build-commands:
+      - mkdir -p "${{FLATPAK_DEST}}/share/metainfo" /app/bin
+      - install -m644 {name} /app/share/metainfo/{APP_ID}.metainfo.xml
+""".encode()
+    original = repo.get_contents.side_effect
+    repo.get_contents.side_effect = lambda path, ref: (
+        SimpleNamespace(type="file", size=10, decoded_content=b"--- a/build.c")
+        if path == "patches/build.patch"
+        else original(path, ref)
+    )
+    assert read_source(repo, APP_ID).path == name
+    manifest.decoded_content = manifest.decoded_content.replace(
+        b" /app/bin", b" /app/bin; rm metainfo.xml"
+    )
     with pytest.raises(MetadataError, match="unsupported_metadata"):
         read_source(repo, APP_ID)
 
@@ -2230,12 +2332,17 @@ def test_mixed_build_checks_pinned_patches_and_included_sources():
     manifest = repo.get_contents("", ref=revision)[1]
     module = yaml.safe_load(manifest.decoded_content)
     module["sources"] += [
-        {"type": "patch", "path": "build.patch"},
+        {
+            "type": "patch",
+            "paths": ["build.patch", "fixes/compiler.diff"],
+            "use-git": True,
+        },
         "vendor.json",
     ]
     manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
     files = {
         "build.patch": b"--- a/main.c\n+++ b/main.c",
+        "fixes/compiler.diff": b"--- a/util.c\n+++ b/util.c",
         "vendor.json": b'[{"type":"archive","dest":"vendor/lib"}]',
     }
     original = repo.get_contents.side_effect
@@ -2251,10 +2358,10 @@ def test_mixed_build_checks_pinned_patches_and_included_sources():
 
     repo.get_contents.side_effect = read
     assert read_source(repo, APP_ID).content == XML
-    files["build.patch"] = f"--- a/{APP_ID}.metainfo.xml".encode()
+    files["fixes/compiler.diff"] = f"--- a/{APP_ID}.metainfo.xml".encode()
     with pytest.raises(MetadataError, match="unsupported_metadata"):
         read_source(repo, APP_ID)
-    files["build.patch"] = b"--- a/main.c\n+++ b/main.c"
+    files["fixes/compiler.diff"] = b"--- a/util.c\n+++ b/util.c"
     files["vendor.json"] = json.dumps(
         [{"type": "inline", "dest-filename": f"{APP_ID}.metainfo.xml"}]
     ).encode()
@@ -2275,15 +2382,24 @@ def test_discovery_rejects_invalid_or_overlaid_local_source(source):
         read_source(repo, APP_ID)
 
 
-def test_archive_command_can_replace_a_local_listing_before_install():
+def test_archive_command_can_replace_a_local_listing_before_install(monkeypatch):
     repo = fake_repo()
     manifest = repo.get_contents("", ref="a" * 40)[1]
     module = yaml.safe_load(manifest.decoded_content)
     module["sources"].append({"type": "file", "path": "data.tar.gz"})
     module["build-commands"].insert(0, "tar -xf data.tar.gz")
     manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
+    published = MagicMock(return_value=False)
+    monkeypatch.setattr(
+        "app.metadata_translation_github.published_listing_matches", published
+    )
     with pytest.raises(MetadataError, match="unsupported_metadata"):
         read_source(repo, APP_ID)
+    published.assert_called_once_with(
+        APP_ID, "a" * 40, f"/app/share/metainfo/{APP_ID}.metainfo.xml", XML
+    )
+    published.return_value = True
+    assert read_source(repo, APP_ID).content == XML
 
 
 @pytest.mark.parametrize("url_suffix", [".git", ""])
@@ -2337,7 +2453,13 @@ def test_discovery_reads_shared_modules_at_the_app_gitlink(url_suffix):
 
 @pytest.mark.parametrize("extension", ["json", "yaml"])
 @pytest.mark.parametrize("section", ["build-commands", "post-install", "shell"])
-def test_discovery_verifies_local_file_in_installing_module(extension, section):
+def test_discovery_verifies_local_file_in_installing_module(
+    extension, section, monkeypatch
+):
+    published = MagicMock(return_value=False)
+    monkeypatch.setattr(
+        "app.metadata_translation_github.published_listing_matches", published
+    )
     repo = fake_repo()
     manifest = repo.get_contents("", ref="a" * 40)[1]
     module = {
@@ -2373,12 +2495,18 @@ def test_discovery_verifies_local_file_in_installing_module(extension, section):
         json.dumps(data) if extension == "json" else yaml.safe_dump(data)
     ).encode()
     assert read_source(repo, APP_ID).content == XML
+    published.assert_not_called()
     data["modules"].reverse()
     manifest.decoded_content = (
         json.dumps(data) if extension == "json" else yaml.safe_dump(data)
     ).encode()
     with pytest.raises(MetadataError, match="unsupported_metadata"):
         read_source(repo, APP_ID)
+    published.assert_called_once_with(
+        APP_ID, "a" * 40, f"/app/share/metainfo/{APP_ID}.xml", XML
+    )
+    published.return_value = True
+    assert read_source(repo, APP_ID).content == XML
     data["modules"].reverse()
     data["cleanup"] = ["/include"]
     manifest.decoded_content = (
