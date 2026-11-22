@@ -6,8 +6,10 @@ import json
 import posixpath
 import re
 import shlex
+from base64 import b64decode
 from dataclasses import dataclass
 from typing import Any
+from urllib.parse import quote
 
 import yaml
 from github import GithubException
@@ -22,6 +24,8 @@ from .metadata_translations import (
 )
 
 SOURCE_BRANCH = "master"
+SHARED_MODULES_PATH = "shared-modules"
+SHARED_MODULES_URL = "https://github.com/flathub/shared-modules"
 
 
 @dataclass
@@ -32,7 +36,7 @@ class MetadataSource:
     content: bytes
 
 
-def _load_manifest(text: str, path: str) -> dict[str, Any]:
+def _load_manifest_data(text: str, path: str):
     if path.endswith(".json"):
         # Flatpak accepts comments and literal newlines in JSON manifests.
         text = re.sub(
@@ -50,6 +54,11 @@ def _load_manifest(text: str, path: str) -> dict[str, Any]:
             manifest = yaml.safe_load(text)
         except (yaml.YAMLError, RecursionError):
             raise MetadataError("unsupported_metadata") from None
+    return manifest
+
+
+def _load_manifest(text: str, path: str) -> dict[str, Any]:
+    manifest = _load_manifest_data(text, path)
     if not isinstance(manifest, dict):
         raise MetadataError("unsupported_metadata")
     return manifest
@@ -82,11 +91,23 @@ def _install_commands(module: dict[str, Any]) -> list[str]:
 
 
 def _owns_metadata(
-    manifest: dict[str, Any], filename: str, app_id: str, *, load_module=None
+    manifest: dict[str, Any],
+    filename: str,
+    app_id: str,
+    *,
+    load_module=None,
+    read_text=None,
 ) -> bool:
     modules = [(manifest, False, False, "")]
     seen = {}
     includes = set()
+
+    def register_include(path: str) -> bool:
+        if path in includes or len(includes) >= 16:
+            return False
+        includes.add(path)
+        return True
+
     owned_destinations = set()
     other_destinations = set()
     cleanup = set()
@@ -97,13 +118,11 @@ def _owns_metadata(
                 path = posixpath.normpath(posixpath.join(directory, module))
                 if (
                     not load_module
-                    or path in includes
-                    or len(includes) >= 16
                     or not re.fullmatch(r"(?:[\w.-]+/)*[\w.-]+\.(?:json|ya?ml)", path)
                     or ".." in path.split("/")
+                    or not register_include(path)
                 ):
                     return False
-                includes.add(path)
                 module = load_module(path)
                 directory = posixpath.dirname(path)
             if not isinstance(module, dict) or id(module) in seen:
@@ -147,7 +166,7 @@ def _owns_metadata(
                 installation is not None
                 and installation[0] in (filename, f"./{filename}")
             )
-            if _desktop_install(command, app_id):
+            if _listing_asset_install(command, app_id):
                 continue
             if installation is not None:
                 source, destination = installation
@@ -175,48 +194,117 @@ def _owns_metadata(
             ):
                 return False
             continue
-        # A patch or build step can replace a local file before installation.
         cleanup.update(module.get("cleanup", []))
-        if (
-            conditional
-            or module.get("buildsystem") != "simple"
-            or any(
-                module.get(key)
-                for key in (
-                    "builddir",
-                    "subdir",
-                    "disabled",
-                    "only-arches",
-                    "skip-arches",
-                )
+        if conditional or any(
+            module.get(key)
+            for key in (
+                "builddir",
+                "subdir",
+                "disabled",
+                "only-arches",
+                "skip-arches",
             )
         ):
             return False
         files = []
-        for source in module.get("sources", []):
+        sources = list(reversed(module.get("sources", [])))
+        while sources:
+            source = sources.pop()
+            if isinstance(source, str):
+                if (
+                    not read_text
+                    or not re.fullmatch(r"[\w.-]+\.(?:json|ya?ml)", source)
+                    or not register_include(source)
+                ):
+                    return False
+                group = _load_manifest_data(read_text(source), source)
+                if not isinstance(group, list) or not all(
+                    isinstance(s, dict) for s in group
+                ):
+                    return False
+                if any(
+                    _mentions_listing(c) for c in _install_commands({"sources": group})
+                ):
+                    return False
+                sources.extend(reversed(group))
+                continue
             if not isinstance(source, dict):
                 return False
-            if source.get("type") == "shell":
-                if set(source) - {"type", "commands"}:
+            kind = source.get("type")
+            if kind == "shell":
+                if set(source) - {"type", "commands"} and any(
+                    _direct_install(c, filename, app_id)
+                    for c in _install_commands({"sources": [source]})
+                ):
                     return False
                 continue
-            if source.get("type") != "file" or set(source) - {"type", "path"}:
-                return False
             path = source.get("path")
-            if path in (filename, f"./{filename}") and not directory:
+            if kind == "patch":
+                if (
+                    not read_text
+                    or set(source) != {"type", "path"}
+                    or not isinstance(path, str)
+                    or not re.fullmatch(r"[\w.-]+\.patch", path)
+                    or _mentions_listing(read_text(path))
+                ):
+                    return False
+                continue
+            if kind == "file" and path in (filename, f"./{filename}") and not directory:
+                if set(source) != {"type", "path"}:
+                    return False
                 files.append(source)
-            elif (
-                not isinstance(path, str)
-                or not re.fullmatch(r"(?:\./)?[\w.-]+", path)
-                or path in {".", "..", "./.", "./.."}
+                continue
+            if kind not in ("archive", "git", "file", "inline", "script", "extra-data"):
+                return False
+            if path is not None and not isinstance(path, str):
+                return False
+            dest = source.get("dest", "")
+            url = source.get("url", "")
+            if not isinstance(url, str):
+                return False
+            name = (
+                source.get("dest-filename")
+                or source.get("filename")
+                or posixpath.basename(path or url.partition("?")[0])
+            )
+            if (
+                not isinstance(dest, str)
+                or not isinstance(name, str)
+                or dest.startswith("/")
+                or ".." in dest.split("/")
+                or "/" in name
+                or posixpath.normpath(posixpath.join(dest, name)) == filename
             ):
+                return False
+            if files and kind in ("archive", "git") and posixpath.normpath(dest) == ".":
                 return False
         if len(files) != 1:
             return False
+        if module.get("buildsystem") != "simple" and not any(
+            _direct_install(c, filename, app_id)
+            for c in _install_commands(
+                {k: v for k, v in module.items() if k != "build-commands"}
+            )
+        ):
+            return False
+        listing_installed = False
         for command, direct in zip(commands, installs, strict=True):
-            if _desktop_install(command, app_id):
+            if direct:
+                listing_installed = True
                 continue
-            if not direct and not re.fullmatch(
+            # A pre-install extraction explicitly rooted in /app cannot
+            # overwrite the local XML in the module's build directory.
+            if re.search(
+                r"(?:^|[\s/;&|])(?:bsdtar|tar|ar|unzip|7z)(?:\s|$)", command
+            ) and (
+                listing_installed
+                or not re.fullmatch(
+                    r'tar -xf [\w.*-]+(?: --strip [0-9]+)?(?: --exclude=[\w.-]+)? -C "(?:\$\{FLATPAK_DEST\}|/app)/?"',
+                    command,
+                )
+            ):
+                return False
+            if _mentions_listing(command) and not re.fullmatch(
                 r"mkdir -p /app/share/(?:metainfo|appdata)/?", command
             ):
                 return False
@@ -236,11 +324,23 @@ def _owns_metadata(
     )
 
 
-def _desktop_install(command: str, app_id: str) -> bool:
+def _mentions_listing(text: str) -> bool:
+    return bool(re.search(r"metainfo|appdata|appstream|[*]\.xml", text, re.IGNORECASE))
+
+
+def _listing_asset_install(command: str, app_id: str) -> bool:
     desktop = re.escape(f"{app_id}.desktop")
+    prefix = r"(?:/app|\$\{FLATPAK_DEST\})/share"
+    install_to = rf"install -D(?:m644)? -t {prefix}"
     return bool(
         re.fullmatch(
-            rf"install -Dm644 (?:\./)?{desktop} (?:/app|\$\{{FLATPAK_DEST\}})/share/applications/(?:{desktop})?",
+            rf"install -Dm644 (?:\./)?{desktop} {prefix}/applications/(?:{desktop})?",
+            command,
+        )
+        or re.fullmatch(rf"{install_to}/applications/? (?:\./)?{desktop}", command)
+        or re.fullmatch(
+            rf"{install_to}/icons/hicolor/(?:[0-9]+x[0-9]+|scalable)/apps/? "
+            rf"(?:\./)?{re.escape(app_id)}\.(?:png|svg)",
             command,
         )
     )
@@ -369,17 +469,59 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
     except UnicodeDecodeError as error:
         raise MetadataError("unsupported_metadata") from error
 
-    def load_module(path):
+    shared_revision = None
+
+    def load_shared_module(path: str) -> bytes:
+        nonlocal shared_revision
+        if shared_revision is None:
+            gitlink = repo.get_contents(SHARED_MODULES_PATH, ref=revision)
+            if (
+                isinstance(gitlink, list)
+                or gitlink.type != "submodule"
+                or gitlink.submodule_git_url.removesuffix(".git") != SHARED_MODULES_URL
+                or not re.fullmatch(r"[0-9a-f]{40}", gitlink.sha)
+            ):
+                raise MetadataError("unsupported_metadata")
+            shared_revision = gitlink.sha
+
+        relative_path = path.removeprefix(f"{SHARED_MODULES_PATH}/")
+        _, data = repo.requester.requestJsonAndCheck(
+            "GET",
+            f"/repos/flathub/shared-modules/contents/{quote(relative_path)}",
+            parameters={"ref": shared_revision},
+        )
+        if (
+            not isinstance(data, dict)
+            or data.get("type") != "file"
+            or data.get("encoding") != "base64"
+            or not isinstance(size := data.get("size"), int)
+            or size > MAX_XML_BYTES
+            or not isinstance(content := data.get("content"), str)
+        ):
+            raise MetadataError("unsupported_metadata")
+        try:
+            return b64decode("".join(content.split()), validate=True)
+        except ValueError as error:
+            raise MetadataError("unsupported_metadata") from error
+
+    def read_module(path: str) -> bytes:
         try:
             file = repo.get_contents(path, ref=revision)
+        except GithubException as error:
+            if error.status != 404 or not path.startswith(f"{SHARED_MODULES_PATH}/"):
+                raise
+            return load_shared_module(path)
+        if isinstance(file, list) or file.type != "file" or file.size > MAX_XML_BYTES:
+            raise MetadataError("unsupported_metadata")
+        return file.decoded_content
+
+    def read_text(path: str):
+        try:
+            return read_module(path).decode()
         except GithubException as error:
             if error.status != 404:
                 raise
             raise MetadataError("unsupported_metadata") from error
-        if isinstance(file, list) or file.type != "file" or file.size > MAX_XML_BYTES:
-            raise MetadataError("unsupported_metadata")
-        try:
-            return _load_manifest(file.decoded_content.decode(), path)
         except UnicodeDecodeError as error:
             raise MetadataError("unsupported_metadata") from error
 
@@ -387,7 +529,8 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
         _load_manifest(text, manifests[0].path),
         metadata.name,
         app_id,
-        load_module=load_module,
+        load_module=lambda path: _load_manifest(read_text(path), path),
+        read_text=read_text,
     ):
         raise MetadataError("unsupported_metadata")
     file = repo.get_contents(metadata.path, ref=revision)
