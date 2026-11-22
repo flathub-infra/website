@@ -2717,6 +2717,7 @@ class PermissionTriage(Base):
     output_tokens = mapped_column(Integer)
     tool_calls = mapped_column(JSONB)
     attempts = mapped_column(Integer, nullable=False, server_default=text("0"))
+    claimable_at = mapped_column(DateTime)
     duration_seconds = mapped_column(Float)
     created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
     completed_at = mapped_column(DateTime)
