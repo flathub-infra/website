@@ -80,6 +80,13 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
 }) => {
   const t = useTranslations()
 
+  const user = useUserContext()
+  const isDeveloper = user.info?.dev_flatpaks?.includes(app.id)
+  const canUseMethods = isNewApp || !!isDeveloper
+  const canModifyUsers = user.info?.permissions.includes(
+    Permission["modify-users"],
+  )
+
   const query = useQuery({
     queryKey: ["verification", app.id],
     queryFn: async () => {
@@ -98,17 +105,15 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         },
         query: {
           retry: false,
-          enabled: query.data && !query.data.data.verified,
+          enabled:
+            canUseMethods &&
+            !query.error &&
+            query.data?.data.verified === false,
         },
       },
     )
 
   const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
-
-  const user = useUserContext()
-  const isAdmin = user.info?.permissions.some(
-    (a) => a === Permission["modify-users"],
-  )
 
   const manualVerifyMutation =
     useManualVerificationVerificationAppIdManualVerificationPost({
@@ -122,44 +127,50 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
     onVerified?.()
   }, [onVerified, query])
 
-  if (query.isPending || verificationAvailableMethods.isLoading) {
+  if (query.isPending) {
     return <Spinner size="m" />
   }
 
-  let content: ReactElement
-  if (query.error) {
-    content = <InlineError shown={true} error={query.error.message} />
-  } else if (query.data.data.verified && !isNewApp) {
-    content = (
-      <div className="flex flex-col items-start gap-5">
-        <p className="font-semibold">
-          <StatusInfo status={query.data.data} />
-        </p>
-        <Button variant="outline" onClick={() => setConfirmUnverify(true)}>
-          {t("unverify")}
-        </Button>
-        <ConfirmDialog
-          isVisible={confirmUnverify}
-          prompt={t("unverify", { appId: app.id })}
-          action={t("unverify")}
-          actionVariant="destructive"
-          onConfirmed={() => {
-            setConfirmUnverify(false)
-            unverifyVerificationAppIdUnverifyPost(app.id, {
-              withCredentials: true,
-            }).then(() => query.refetch())
-          }}
-          onCancelled={() => setConfirmUnverify(false)}
-        >
-          {t("unverify-app-prompt", { appId: app.id })}
-        </ConfirmDialog>
-      </div>
-    )
-  } else if (verificationAvailableMethods.error?.response?.data) {
-    const errorData = verificationAvailableMethods.error.response.data
+  let content: ReactElement | null = null
+  let methodsReportedVerified = false
+  if (query.data?.data.verified && !isNewApp) {
+    const canUnverify =
+      canModifyUsers ||
+      (isDeveloper && query.data.data.method !== VerificationMethod.manual)
+    if (!query.error && canUnverify) {
+      content = (
+        <>
+          <Button variant="outline" onClick={() => setConfirmUnverify(true)}>
+            {t("unverify")}
+          </Button>
+          <ConfirmDialog
+            isVisible={confirmUnverify}
+            prompt={t("unverify", { appId: app.id })}
+            action={t("unverify")}
+            actionVariant="destructive"
+            onConfirmed={() => {
+              setConfirmUnverify(false)
+              unverifyVerificationAppIdUnverifyPost(app.id, {
+                withCredentials: true,
+              }).then(() => query.refetch())
+            }}
+            onCancelled={() => setConfirmUnverify(false)}
+          >
+            {t("unverify-app-prompt", { appId: app.id })}
+          </ConfirmDialog>
+        </>
+      )
+    }
+  } else if (
+    query.data &&
+    canUseMethods &&
+    verificationAvailableMethods.error
+  ) {
+    const errorData = verificationAvailableMethods.error.response?.data
     // Handle custom error responses with string detail
     let detail: string | undefined
     if (
+      errorData &&
       typeof errorData === "object" &&
       "detail" in errorData &&
       typeof errorData.detail === "string"
@@ -176,44 +187,24 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
           content = <InlineError shown={true} error={t("malformed-app-id")} />
           break
         case "app_already_verified":
+          methodsReportedVerified = true
           if (isNewApp) {
             content = (
               <InlineError shown={true} error={t("app-already-exists")} />
             )
           } else {
             content = (
-              <div>
-                <StatusInfo status={query.data.data} />
-
-                <br />
-
-                <Button
-                  size="lg"
-                  className="mt-3"
-                  onClick={() => setConfirmUnverify(true)}
-                >
-                  {t("unverify")}
-                </Button>
-
-                <ConfirmDialog
-                  isVisible={confirmUnverify}
-                  prompt={t("unverify", { appId: app.id })}
-                  action={t("unverify")}
-                  actionVariant="destructive"
-                  onConfirmed={() => {
-                    setConfirmUnverify(false)
-
-                    unverifyVerificationAppIdUnverifyPost(app.id, {
-                      withCredentials: true,
-                    }).then(() => {
-                      query.refetch()
-                    })
-                  }}
-                  onCancelled={() => setConfirmUnverify(false)}
-                >
-                  {t("unverify-app-prompt", { appId: app.id })}
-                </ConfirmDialog>
-              </div>
+              <Button
+                variant="outline"
+                onClick={async () => {
+                  const status = await query.refetch()
+                  if (status.isSuccess && !status.data.data.verified) {
+                    await verificationAvailableMethods.refetch()
+                  }
+                }}
+              >
+                {t("refresh")}
+              </Button>
             )
           }
           break
@@ -236,12 +227,14 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         />
       )
     }
-  } else {
+  } else if (query.data && !query.error && canUseMethods) {
     content = (
       <div className="flex flex-col gap-5">
-        <p className="font-semibold">
-          <StatusInfo status={query.data.data} />
-        </p>
+        {isNewApp && (
+          <p className="font-semibold">
+            <StatusInfo status={query.data.data} />
+          </p>
+        )}
         <p className="max-w-prose text-sm leading-relaxed text-foreground">
           {t.rich("app-management.verification-description", {
             doclink: (chunk) => (
@@ -310,15 +303,33 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
       {showHeader && (
         <h2 className="mb-6 text-2xl font-bold">{t("verification")}</h2>
       )}
-      {content}
+      {query.error && <InlineError shown={true} error={query.error.message} />}
+      {!isNewApp && query.data ? (
+        <div className="flex flex-col items-start gap-5">
+          <p className="font-semibold">
+            {methodsReportedVerified ? (
+              t("verified")
+            ) : (
+              <StatusInfo status={query.data.data} />
+            )}
+          </p>
+          {content}
+        </div>
+      ) : (
+        content
+      )}
 
-      {isAdmin && (
+      {canModifyUsers && !isNewApp && query.data && (
         <div className="mt-6 flex flex-col items-start gap-4">
           <Separator />
           <h3 className="text-sm font-semibold">Administrator actions</h3>
           <Button
             variant="outline"
-            disabled={query.data?.data.verified}
+            disabled={
+              !!query.error ||
+              query.data.data.verified ||
+              methodsReportedVerified
+            }
             onClick={() => {
               manualVerifyMutation.mutate(
                 { appId: app.id },
