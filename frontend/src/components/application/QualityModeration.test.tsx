@@ -40,6 +40,12 @@ it.each([0, 1])(
     const id = "org.example.App"
     mocks.info.permissions = ["moderation"]
     mocks.info.dev_flatpaks = []
+    // A disabled status query can still expose an earlier user's cached error.
+    mocks.status.mockImplementationOnce(() => ({
+      data: undefined,
+      isError: true,
+      error: { response: { status: 404 } },
+    }))
     mocks.moderation.mockReturnValueOnce({
       isSuccess: true,
       data: { data: { requests_count: count } },

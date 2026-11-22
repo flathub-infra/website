@@ -52,6 +52,8 @@ import {
 import { Link } from "src/i18n/navigation"
 import { ExternalLinkIcon } from "lucide-react"
 
+type QualityPanelMode = "readOnly" | "qualityModerator"
+
 const ShowIconButton = ({ app }: { app: Pick<DesktopAppstream, "icon"> }) => {
   const t = useTranslations()
   const [isExpanded, setIsExpanded] = useState(false)
@@ -264,7 +266,7 @@ const QualityCategories = ({
     >,
     unknown
   >
-  mode: "readOnly" | "qualityModerator"
+  mode: QualityPanelMode
 }) => {
   const t = useTranslations()
 
@@ -495,7 +497,7 @@ const QualityItem = ({
   qualityGuideline,
   query,
 }: {
-  mode: "readOnly" | "qualityModerator"
+  mode: QualityPanelMode
   appId: string
   qualityModeration?: QualityModerationType | QualityModerationModeratorType
   qualityGuideline: Guideline | undefined
@@ -625,7 +627,7 @@ const ScreenShotTypeItem = ({
   is_fullscreen_app,
   query,
 }: {
-  mode: "readOnly" | "qualityModerator"
+  mode: QualityPanelMode
   appId: string
   is_fullscreen_app: boolean
   query: UseQueryResult<
@@ -750,7 +752,7 @@ export const QualityModerationSlideOver = ({
   isQualityModalOpen,
   setIsQualityModalOpen,
 }: {
-  mode: "readOnly" | "qualityModerator"
+  mode: QualityPanelMode
   app: DesktopAppstream
   isQualityModalOpen: boolean
   setIsQualityModalOpen: (value: boolean) => void
