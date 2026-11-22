@@ -1,4 +1,5 @@
 import json
+from base64 import b64encode
 from contextlib import contextmanager
 from datetime import UTC, datetime
 from types import SimpleNamespace
@@ -2082,6 +2083,169 @@ def test_discovery_checks_external_dependencies_at_same_revision():
     )
     assert read_source(repo, APP_ID).content == XML
     repo.get_contents.assert_any_call("deps/zlib.json", ref="a" * 40)
+
+
+def test_discovery_allows_a_dedicated_listing_module_to_install_its_assets():
+    repo = fake_repo()
+    manifest = repo.get_contents("", ref="a" * 40)[1]
+    module = yaml.safe_load(manifest.decoded_content)
+    installs = [
+        (f"{APP_ID}.desktop", "/app/share/applications/"),
+        (f"{APP_ID}.png", "/app/share/icons/hicolor/256x256/apps/"),
+    ]
+    for filename, target in installs:
+        module["sources"].append({"type": "file", "path": filename})
+        module["build-commands"].insert(0, f"install -D -t {target} {filename}")
+    manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
+    assert read_source(repo, APP_ID).content == XML
+
+    module["build-commands"][0] += f"; rm {APP_ID}.metainfo.xml"
+    manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+
+
+@pytest.mark.parametrize(
+    ("buildsystem", "section", "dependency"),
+    [
+        (
+            "autotools",
+            "post-install",
+            {"type": "archive", "url": "https://example.org/app.tar.gz"},
+        ),
+        ("simple", "build-commands", {"type": "extra-data", "filename": "app.deb"}),
+        (
+            "simple",
+            "build-commands",
+            {"type": "file", "url": "https://example.org/app.deb"},
+        ),
+        ("qmake", "shell", {"type": "git", "url": "https://example.org/app.git"}),
+    ],
+)
+def test_mixed_build_discovers_recipe_owned_listing(buildsystem, section, dependency):
+    repo = fake_repo()
+    manifest = repo.get_contents("", ref="a" * 40)[1]
+    local = yaml.safe_load(manifest.decoded_content)
+    commands = ["install -Dm755 app /app/bin/app", *local.pop("build-commands")]
+    local["buildsystem"] = buildsystem
+    local["sources"].insert(0, dependency)
+    if section == "shell":
+        local["sources"].append({"type": "shell", "commands": commands})
+    else:
+        local[section] = commands
+    manifest.decoded_content = yaml.safe_dump({"modules": [local]}).encode()
+    assert read_source(repo, APP_ID).content == XML
+
+
+def test_mixed_build_checks_pinned_patches_and_included_sources():
+    repo = fake_repo()
+    revision = "a" * 40
+    manifest = repo.get_contents("", ref=revision)[1]
+    module = yaml.safe_load(manifest.decoded_content)
+    module["sources"] += [
+        {"type": "patch", "path": "build.patch"},
+        "vendor.json",
+    ]
+    manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
+    files = {
+        "build.patch": b"--- a/main.c\n+++ b/main.c",
+        "vendor.json": b'[{"type":"archive","dest":"vendor/lib"}]',
+    }
+    original = repo.get_contents.side_effect
+
+    def read(path, ref):
+        assert ref == revision
+        if path in files:
+            content = files[path]
+            return SimpleNamespace(
+                type="file", size=len(content), decoded_content=content
+            )
+        return original(path, ref)
+
+    repo.get_contents.side_effect = read
+    assert read_source(repo, APP_ID).content == XML
+    files["build.patch"] = f"--- a/{APP_ID}.metainfo.xml".encode()
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+    files["build.patch"] = b"--- a/main.c\n+++ b/main.c"
+    files["vendor.json"] = json.dumps(
+        [{"type": "inline", "dest-filename": f"{APP_ID}.metainfo.xml"}]
+    ).encode()
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+
+
+@pytest.mark.parametrize(
+    "source", [{"type": []}, {"type": "archive", "url": "https://example.org/data.tar"}]
+)
+def test_discovery_rejects_invalid_or_overlaid_local_source(source):
+    repo = fake_repo()
+    manifest = repo.get_contents("", ref="a" * 40)[1]
+    module = yaml.safe_load(manifest.decoded_content)
+    module["sources"].append(source)
+    manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+
+
+def test_archive_command_can_replace_a_local_listing_before_install():
+    repo = fake_repo()
+    manifest = repo.get_contents("", ref="a" * 40)[1]
+    module = yaml.safe_load(manifest.decoded_content)
+    module["sources"].append({"type": "file", "path": "data.tar.gz"})
+    module["build-commands"].insert(0, "tar -xf data.tar.gz")
+    manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+
+
+@pytest.mark.parametrize("url_suffix", [".git", ""])
+def test_discovery_reads_shared_modules_at_the_app_gitlink(url_suffix):
+    repo = fake_repo()
+    revision = "a" * 40
+    shared_revision = "b" * 40
+    manifest = repo.get_contents("", ref=revision)[1]
+    local = yaml.safe_load(manifest.decoded_content)
+    manifest.decoded_content = yaml.safe_dump(
+        {"modules": ["shared-modules/deps/zlib.json", local]}
+    ).encode()
+    read = repo.get_contents.side_effect
+    gitlink = SimpleNamespace(
+        type="submodule",
+        sha=shared_revision,
+        submodule_git_url=f"https://github.com/flathub/shared-modules{url_suffix}",
+    )
+    repo.get_contents.side_effect = lambda path, ref: (
+        gitlink if path == "shared-modules" and ref == revision else read(path, ref)
+    )
+    dependency = b'{"name":"zlib"}'
+    payload = {
+        "type": "file",
+        "size": len(dependency),
+        "encoding": "base64",
+        "content": b64encode(dependency).decode(),
+    }
+    repo.requester.requestJsonAndCheck.return_value = ({}, payload)
+
+    assert read_source(repo, APP_ID).content == XML
+    repo.get_contents.assert_any_call("shared-modules", ref=revision)
+    repo.requester.requestJsonAndCheck.assert_called_once_with(
+        "GET",
+        "/repos/flathub/shared-modules/contents/deps/zlib.json",
+        parameters={"ref": shared_revision},
+    )
+
+    gitlink.submodule_git_url = "https://github.com/example/shared-modules.git"
+    repo.requester.reset_mock()
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+    repo.requester.requestJsonAndCheck.assert_not_called()
+
+    gitlink.submodule_git_url = "https://github.com/flathub/shared-modules"
+    dependency = b'{"cleanup-commands":["rm -rf /app/share/metainfo"]}'
+    payload.update(size=len(dependency), content=b64encode(dependency).decode())
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
 
 
 @pytest.mark.parametrize("extension", ["json", "yaml"])
