@@ -209,6 +209,7 @@ function Queue({ language, account }: { language: string; account: string }) {
       ).data,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
+    refetchInterval: (query) => (query.state.data?.indexing ? 60_000 : false),
     retry: false,
   })
   async function refreshQueue() {
@@ -231,9 +232,12 @@ function Queue({ language, account }: { language: string; account: string }) {
   ]
   const ordered = [...maintained, ...recent]
   const available = ordered.filter((a) => !pass.skipped.includes(a.app_id))
+  const [selected, setSelected] = useState<QueueApp>()
   const app = requested
-    ? ordered.find((a) => a.app_id === requested)
+    ? (ordered.find((a) => a.app_id === requested) ??
+      (selected?.app_id === requested ? selected : undefined))
     : (available.find((a) => a.app_id === pass.current) ?? available[0])
+  useLayoutEffect(() => setSelected(app), [app])
   const appId = app?.app_id
   const activeApp = useRef<string | undefined>(undefined)
   useLayoutEffect(() => {
@@ -260,7 +264,7 @@ function Queue({ language, account }: { language: string; account: string }) {
       JSON.stringify({ ...pass, current: appId ?? pass.current }),
     )
   }, [appId, requested, pass, storageKey])
-  if (queue.isError) {
+  if (queue.isError && !queue.data) {
     return (
       <div role="alert">
         Could not load app translations.{" "}
@@ -283,6 +287,16 @@ function Queue({ language, account }: { language: string; account: string }) {
   }
   return (
     <>
+      {queue.isRefetchError && (
+        <p role="alert">
+          Could not refresh the queue. Showing the last loaded apps.
+        </p>
+      )}
+      {queue.data.indexing && (
+        <p role="status" className="text-sm text-muted-foreground">
+          Flathub is still checking other apps.
+        </p>
+      )}
       {ordered.length > 0 && (
         <AppPicker groups={groups} language={language} appId={appId} />
       )}
@@ -335,13 +349,11 @@ function Queue({ language, account }: { language: string; account: string }) {
         </div>
       ) : (
         <div className="space-y-3" role="status">
-          <p>
-            {skipped.length
-              ? "You skipped the remaining apps in this queue."
-              : queue.data.indexing
-                ? "Flathub is still checking other apps."
-                : "No more apps in this queue."}
-          </p>
+          {skipped.length > 0 ? (
+            <p>You skipped the remaining apps in this queue.</p>
+          ) : !queue.data.indexing ? (
+            <p>No more apps in this queue.</p>
+          ) : null}
           <Button
             variant="outline"
             disabled={queue.isFetching}
