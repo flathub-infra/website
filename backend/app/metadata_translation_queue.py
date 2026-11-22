@@ -12,6 +12,7 @@ from sqlalchemy.dialects.postgresql import insert
 
 from . import config
 from .database import get_db
+from .metadata_translation_artifacts import PublishedListingUnavailable
 from .metadata_translation_github import read_source
 from .metadata_translations import (
     QUEUE_FIELDS,
@@ -119,6 +120,10 @@ def refresh_index():
                 source = read_source(github.get_repo(f"flathub/{app_id}"), app_id)
                 sha = source.sha
                 counts = missing_counts(source.content, app_id)
+            except PublishedListingUnavailable:
+                logger.warning("Could not verify published listing for %s", app_id)
+                _write_listing(app_id, now)
+                continue
             except MetadataError:
                 counts = _MissingCounts(all_fields={}, core_fields={})
             except GithubException as error:

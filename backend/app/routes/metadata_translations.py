@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field, StringConstraints
 from .. import cache, config
 from ..database import get_db
 from ..login_info import ManageAppsDep
+from ..metadata_translation_artifacts import PublishedListingUnavailable
 from ..metadata_translation_batches import (
     TextConflict,
     dismiss_previous_translation,
@@ -78,6 +79,8 @@ def _repo(app_id: str, *, write: bool = False):
 
 def _error(error: MetadataError | GithubException) -> HTTPException:
     if isinstance(error, MetadataError):
+        if isinstance(error, PublishedListingUnavailable):
+            return HTTPException(503, detail=str(error))
         return HTTPException(
             409 if str(error) == "source_changed" else 422, detail=str(error)
         )

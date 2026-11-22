@@ -8,6 +8,7 @@ import re
 import shlex
 from base64 import b64decode
 from dataclasses import dataclass
+from functools import cache
 from typing import Any
 from urllib.parse import quote
 
@@ -15,6 +16,7 @@ import yaml
 from github import GithubException
 from github.Repository import Repository
 
+from .metadata_translation_artifacts import published_listing_matches
 from .metadata_translation_reconciliation import reconcile
 from .metadata_translations import (
     MAX_XML_BYTES,
@@ -64,7 +66,7 @@ def _load_manifest(text: str, path: str) -> dict[str, Any]:
     return manifest
 
 
-def _install_commands(module: dict[str, Any]) -> list[str]:
+def _command_phases(module: dict[str, Any]) -> list[tuple[str, str]]:
     commands = []
     sources = module.get("sources", [])
     if not isinstance(sources, list):
@@ -83,11 +85,15 @@ def _install_commands(module: dict[str, Any]) -> list[str]:
             raise MetadataError("unsupported_metadata")
         for value in values:
             commands.extend(
-                line.strip()
+                (key, line.strip())
                 for line in value.replace("\\\n", "").splitlines()
                 if line.strip() and not line.lstrip().startswith("#")
             )
     return commands
+
+
+def _install_commands(module: dict[str, Any]) -> list[str]:
+    return [command for _, command in _command_phases(module)]
 
 
 def _owns_metadata(
@@ -97,6 +103,7 @@ def _owns_metadata(
     *,
     load_module=None,
     read_text=None,
+    confirm_published=None,
     source_path=None,
 ) -> bool:
     modules = [(manifest, False, False, "")]
@@ -112,6 +119,7 @@ def _owns_metadata(
     owned_destinations = set()
     other_destinations = set()
     cleanup = set()
+    needs_published_check = False
     while modules:
         module, visit, conditional, directory = modules.pop()
         if not visit:
@@ -130,8 +138,15 @@ def _owns_metadata(
                 return False
             seen[id(module)] = module
             children = module.get("modules", [])
-            if not isinstance(children, list) or module.get("cleanup-commands"):
+            if not isinstance(children, list):
                 return False
+            if cleanup_commands := module.get("cleanup-commands"):
+                if not isinstance(cleanup_commands, list) or any(
+                    not isinstance(c, str) or _mentions_listing(c)
+                    for c in cleanup_commands
+                ):
+                    return False
+                needs_published_check = True
             patterns = module.get("cleanup", [])
             if not isinstance(patterns, list) or not all(
                 isinstance(p, str) for p in patterns
@@ -158,8 +173,7 @@ def _owns_metadata(
                 (child, False, conditional, directory) for child in reversed(children)
             )
             continue
-        commands = _install_commands(module)
-        shell_count = len(_install_commands({"sources": module.get("sources", [])}))
+        commands = _command_phases(module)
         build_source = _build_source_path(module, filename)
         after_install = bool(owned_destinations)
         if after_install and any(
@@ -168,19 +182,22 @@ def _owns_metadata(
             return False
         directories = set()
         installs = []
-        for index, command in enumerate(commands):
-            mkdir = re.fullmatch(
-                r"mkdir -p (/app/share/(?:metainfo|appdata))/?", command
-            )
-            if mkdir:
-                directories.add(mkdir[1])
+        for phase, command in commands:
+            created = _install_directories(command, app_id)
+            if created:
+                directories.update(created)
+                installs.append(False)
+                continue
             installation = _metadata_install(command, app_id, directories)
-            expected = filename if index < shell_count else build_source
+            expected = filename if phase == "commands" else build_source
             installs.append(
                 installation is not None
-                and installation[0].removeprefix("./") == expected
+                and (
+                    installation[0].removeprefix("./") == expected
+                    or installation[0] == f"${{FLATPAK_BUILDER_BUILDDIR}}/{filename}"
+                )
             )
-            if _listing_asset_install(command, app_id):
+            if _installs_outside_listing(command, app_id):
                 continue
             if installation is not None:
                 _, destination = installation
@@ -188,25 +205,22 @@ def _owns_metadata(
                     owned_destinations.add(destination)
                 else:
                     other_destinations.add(destination)
-            elif (
-                after_install
-                or any(
-                    re.search(
-                        r"/share/(?:metainfo|appdata)(?:/|$)", posixpath.normpath(path)
-                    )
-                    for path in re.findall(r"/[^\s\"';|&<>]+", command)
+            elif any(
+                re.search(
+                    r"/share/(?:metainfo|appdata)(?:/|$)", posixpath.normpath(path)
                 )
-            ) and not re.fullmatch(
-                r"mkdir -p /app/share/(?:metainfo|appdata)/?", command
+                for path in re.findall(r"/[^\s\"';|&<>]+", command)
             ):
                 return False
+            elif owned_destinations and not _composes_catalog(command, app_id):
+                needs_published_check = True
         if not any(installs):
             if (
                 owned_destinations
                 and module.get("buildsystem") != "simple"
                 and (module.get("buildsystem") or module.get("sources"))
             ):
-                return False
+                needs_published_check = True
             continue
         cleanup.update(module.get("cleanup", []))
         if conditional:
@@ -223,6 +237,8 @@ def _owns_metadata(
                 ):
                     return False
                 group = _load_manifest_data(read_text(source), source)
+                if isinstance(group, dict):
+                    group = [group]
                 if not isinstance(group, list) or not all(
                     isinstance(s, dict) for s in group
                 ):
@@ -245,19 +261,32 @@ def _owns_metadata(
                 continue
             path = source.get("path")
             if kind == "patch":
+                patches = source.get("paths", [path])
                 if (
                     not read_text
-                    or set(source) != {"type", "path"}
-                    or not isinstance(path, str)
-                    or not re.fullmatch(r"[\w.-]+\.patch", path)
-                    or _mentions_listing(read_text(path))
+                    or set(source)
+                    - {"type", "path", "paths", "strip-components", "use-git"}
+                    or ("path" in source and "paths" in source)
+                    or not isinstance(patches, list)
+                    or not 0 < len(patches) <= 16
+                    or any(
+                        not isinstance(p, str)
+                        or not re.fullmatch(
+                            r"(?:[\w-][\w.-]*/)*[\w.-]+\.(?:patch|diff)", p
+                        )
+                        or _mentions_listing(read_text(posixpath.join(directory, p)))
+                        for p in patches
+                    )
                 ):
                     return False
                 continue
             if (
                 kind == "file"
-                and path in (source_path or filename, f"./{source_path or filename}")
-                and not directory
+                and isinstance(path, str)
+                and not path.startswith("/")
+                and ".." not in path.split("/")
+                and posixpath.normpath(posixpath.join(directory, path))
+                == (source_path or filename)
             ):
                 if set(source) != {"type", "path"}:
                     return False
@@ -289,33 +318,33 @@ def _owns_metadata(
                 return False
         if len(files) != 1:
             return False
-        if module.get("buildsystem") != "simple":
-            build_end = shell_count + len(
-                _install_commands({"build-commands": module.get("build-commands", [])})
-            )
-            if not any(installs[:shell_count]) and not any(installs[build_end:]):
-                return False
+        if module.get("buildsystem") != "simple" and not any(
+            direct and phase != "build-commands"
+            for (phase, _), direct in zip(commands, installs, strict=True)
+        ):
+            return False
         listing_installed = False
-        for command, direct in zip(commands, installs, strict=True):
+        for (_, command), direct in zip(commands, installs, strict=True):
             if direct:
                 listing_installed = True
                 continue
+            if _installs_outside_listing(command, app_id) or (
+                listing_installed and _composes_catalog(command, app_id)
+            ):
+                continue
             # A pre-install extraction explicitly rooted in /app cannot
             # overwrite the local XML in the module's build directory.
-            if re.search(
-                r"(?:^|[\s/;&|])(?:bsdtar|tar|ar|unzip|7z)(?:\s|$)", command
-            ) and (
-                listing_installed
-                or not re.fullmatch(
+            if _install_directories(command, app_id) or (
+                not listing_installed
+                and re.fullmatch(
                     r'tar -xf [\w.*-]+(?: --strip [0-9]+)?(?: --exclude=[\w.-]+)? -C "(?:\$\{FLATPAK_DEST\}|/app)/?"',
                     command,
                 )
             ):
+                continue
+            if _mentions_listing(command):
                 return False
-            if _mentions_listing(command) and not re.fullmatch(
-                r"mkdir -p /app/share/(?:metainfo|appdata)/?", command
-            ):
-                return False
+            needs_published_check = True
     for target in owned_destinations:
         parts = target.removeprefix("/app/").strip("/").split("/")
         for i in range(len(parts)):
@@ -327,8 +356,17 @@ def _owns_metadata(
                 for p in cleanup
             ):
                 return False
-    return bool(owned_destinations) and not owned_destinations.intersection(
-        other_destinations
+    return (
+        bool(owned_destinations)
+        and not owned_destinations.intersection(other_destinations)
+        and (
+            not needs_published_check
+            or (
+                confirm_published is not None
+                and len(owned_destinations) == 1
+                and confirm_published(next(iter(owned_destinations)))
+            )
+        )
     )
 
 
@@ -350,21 +388,29 @@ def _mentions_listing(text: str) -> bool:
     return bool(re.search(r"metainfo|appdata|appstream|[*]\.xml", text, re.IGNORECASE))
 
 
-def _listing_asset_install(command: str, app_id: str) -> bool:
-    desktop = re.escape(f"{app_id}.desktop")
-    prefix = r"(?:/app|\$\{FLATPAK_DEST\})/share"
-    install_to = rf"install -D(?:m644)? -t {prefix}"
-    return bool(
-        re.fullmatch(
-            rf"install -Dm644 (?:\./)?{desktop} {prefix}/applications/(?:{desktop})?",
-            command,
-        )
-        or re.fullmatch(rf"{install_to}/applications/? (?:\./)?{desktop}", command)
-        or re.fullmatch(
-            rf"{install_to}/icons/hicolor/(?:[0-9]+x[0-9]+|scalable)/apps/? "
-            rf"(?:\./)?{re.escape(app_id)}\.(?:png|svg)",
-            command,
-        )
+def _composes_catalog(command: str, app_id: str) -> bool:
+    if not command.startswith(("appstream-compose ", "appstreamcli compose ")):
+        return False
+    words = _command_words(command, app_id)
+    if not words:
+        return False
+    if words[0] == "appstream-compose":
+        options = {f"--basename={app_id}", "--prefix=/app", "--origin=flatpak"}
+        return len(words) == 5 and words[-1] == app_id and set(words[1:-1]) == options
+    if "--no-net" in words:
+        words.remove("--no-net")
+    options = {
+        f"--components={app_id}",
+        "--prefix=/",
+        f"--origin={app_id}",
+        "--result-root=/app",
+        "--data-dir=/app/share/app-info/xmls",
+    }
+    return (
+        len(words) == 8
+        and words[:2] == ["appstreamcli", "compose"]
+        and words[-1] == "/app"
+        and set(words[2:-1]) == options
     )
 
 
@@ -373,9 +419,52 @@ def _direct_install(command: str, filename: str, app_id: str) -> bool:
     return installation is not None and installation[0] in (filename, f"./{filename}")
 
 
+def _installs_outside_listing(command: str, app_id: str) -> bool:
+    if not command.startswith(("install ", "cp ")):
+        return False
+    words = _command_words(command, app_id)
+    if not words or words[0] not in ("install", "cp"):
+        return False
+    operands = _copy_target(words)
+    if not operands:
+        return False
+    source, target, _ = operands
+    return (
+        bool(re.fullmatch(r"[\w./@+-]+", source))
+        and bool(
+            re.fullmatch(
+                r"/app/(?:bin|lib|libexec|etc|share/(?:icons|applications|licenses))(?:/[\w.@+-]+)*/?",
+                target,
+            )
+        )
+        and ".." not in target.split("/")
+    )
+
+
 def _metadata_install(
     command: str, app_id: str, directories=()
 ) -> tuple[str, str] | None:
+    words = _command_words(command, app_id)
+    if not words or words[0] not in {"install", "cp", "mv"}:
+        return None
+    return _install_operands(words, directories)
+
+
+def _install_directories(command: str, app_id: str) -> list[str]:
+    if not command.startswith(("mkdir ", "install -d ")):
+        return []
+    words = _command_words(command, app_id)
+    if not words or words[:2] not in (["mkdir", "-p"], ["install", "-d"]):
+        return []
+    if not all(
+        re.fullmatch(r"/app/(?:[\w.-]+/)*[\w.-]+/?", p) and ".." not in p.split("/")
+        for p in words[2:]
+    ):
+        return []
+    return [p.rstrip("/") for p in words[2:]]
+
+
+def _command_words(command: str, app_id: str) -> list[str] | None:
     if re.search(r"'[^']*\$[^']*'", command):
         return None
     command = command.replace("\\\n", "").strip().removesuffix(";")
@@ -384,14 +473,36 @@ def _metadata_install(
         lambda match: app_id if (match[1] or match[2]) == "FLATPAK_ID" else "/app",
         command,
     )
-    if any(char in command for char in "$`;&|<>\n"):
+    if any(
+        char in command.replace("${FLATPAK_BUILDER_BUILDDIR}/", "")
+        for char in "$`;&|<>\n"
+    ):
         return None
     try:
-        words = shlex.split(command, comments=True)
+        return shlex.split(command, comments=True)
     except ValueError:
         return None
-    if not words or words[0] not in {"install", "cp", "mv"}:
+
+
+def _install_operands(words, directories):
+    copy = _copy_target(words)
+    if copy is None:
         return None
+    source, target, target_directory = copy
+    directory_operand = target.endswith("/") or target_directory
+    target = posixpath.normpath(target)
+    if re.fullmatch(r"/app/share/(?:metainfo|appdata)/?", target):
+        if not directory_operand and target not in directories:
+            return None
+        return source, posixpath.join(target, posixpath.basename(source))
+    if target_directory or not re.fullmatch(
+        r"/app/share/(?:metainfo|appdata)/[^/]+\.xml", target
+    ):
+        return None
+    return source, target
+
+
+def _copy_target(words):
     executable = words.pop(0)
     simple_options = {
         "install": "DpvCT",
@@ -445,17 +556,7 @@ def _metadata_install(
         target = operands.pop()
     if len(operands) != 1:
         return None
-    directory_operand = target.endswith("/") or target_directory
-    target = posixpath.normpath(target)
-    if re.fullmatch(r"/app/share/(?:metainfo|appdata)/?", target):
-        if not directory_operand and target not in directories:
-            return None
-        return operands[0], posixpath.join(target, posixpath.basename(operands[0]))
-    if target_directory or not re.fullmatch(
-        r"/app/share/(?:metainfo|appdata)/[^/]+\.xml", target
-    ):
-        return None
-    return operands[0], target
+    return operands[0], target, target_directory
 
 
 def _nested_listing_paths(manifest: dict[str, Any], app_id: str) -> set[str]:
@@ -594,6 +695,7 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
         except UnicodeDecodeError as error:
             raise MetadataError("unsupported_metadata") from error
 
+    @cache
     def xml_file():
         if "/" in metadata_path:
             listing = entries
@@ -621,6 +723,9 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
         load_module=lambda path: _load_manifest(read_text(path), path),
         read_text=read_text,
         source_path=metadata_path,
+        confirm_published=lambda dest: published_listing_matches(
+            app_id, revision, dest, xml_file().decoded_content
+        ),
     ):
         raise MetadataError("unsupported_metadata")
     file = xml_file()

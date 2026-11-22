@@ -16,6 +16,7 @@ from sqlalchemy.dialects.postgresql import insert
 
 from . import config
 from .database import get_db
+from .metadata_translation_artifacts import PublishedListingUnavailable
 from .metadata_translation_github import (
     SOURCE_BRANCH,
     ClosedTranslationPull,
@@ -1053,6 +1054,9 @@ def publish_translation_batches():
                 _set_missing_texts(
                     batch, MetadataDocument(batch.content, app_id, locale).units()
                 )
+            except PublishedListingUnavailable:
+                logger.warning("Could not verify published listing for %s", app_id)
+                continue
             except (MetadataError, GithubException) as error:
                 if isinstance(error, MetadataError) and str(error) == "no_changes":
                     batch.state = "submitted"
