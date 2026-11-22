@@ -205,7 +205,7 @@ def test_historical_response_with_missing_metadata(monkeypatch, metadata):
     expected["name"] = expected["name"] or app_id
     assert response.json()["top_chart_limit"] == 10
     assert redis.get.call_args.args[0].startswith(
-        "cache:endpoint:_get_year_in_review_v2_cached:"
+        "cache:endpoint:_get_year_in_review_v3_cached:"
     )
     assert response.json()["unavailable_app_ids"] == (
         [] if fields or metadata in ("redirected", "eol-redirect", "eol") else [app_id]

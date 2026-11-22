@@ -26,6 +26,7 @@ export const getGetYearInReviewYearInReviewYearGetResponseMock = (
   total_downloads_change: faker.number.int(),
   total_downloads_change_percentage: faker.number.float({ fractionDigits: 2 }),
   top_chart_limit: faker.number.int(),
+  top_games_chart_limit: faker.number.int(),
   top_apps: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1,

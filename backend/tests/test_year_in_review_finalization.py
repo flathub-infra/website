@@ -102,13 +102,24 @@ def test_missing_day_does_not_create_snapshot(annual_stats):
     assert records == {}
 
 
-def test_incomplete_rebuild_serves_previous_finalized_snapshot(annual_stats):
+@pytest.mark.parametrize(
+    "emulator_chart", [{}, {"top_emulators": []}], ids=["missing", "empty"]
+)
+def test_incomplete_rebuild_serves_previous_finalized_snapshot(
+    annual_stats, emulator_chart
+):
     clock, _, records, writer = annual_stats
     clock.now = datetime.datetime(2019, 1, 2, tzinfo=datetime.UTC)
+    launcher = {"app_id": "org.example.Launcher", "downloads": 40}
+    apps = [{"app_id": f"org.example.App{i}", "downloads": 30 - i} for i in range(3)]
     records[2018] = {
         "_snapshot": {"version": 1, "through": "2018-12-31"},
         "year": 2018,
         "updates_count": 21,
+        "top_apps": apps,
+        "top_game_stores": [launcher],
+        "top_game_utilities": [],
+        **emulator_chart,
     }
     saved = records[2018]
     with writer() as db:
@@ -117,9 +128,50 @@ def test_incomplete_rebuild_serves_previous_finalized_snapshot(annual_stats):
     result = asyncio.run(stats.get_year_stats(2018))
 
     assert result["updates_count"] == 21
-    assert result["top_chart_limit"] == 3
+    expected = [launcher, *apps] if "top_emulators" in emulator_chart else []
+    assert result["top_chart_limit"] == len(expected)
+    assert [row["app_id"] for row in result["top_apps"]] == [
+        row["app_id"] for row in expected
+    ]
     assert "_snapshot" not in result
     assert records[2018] is saved
+    assert records[2018]["top_apps"] is apps
+
+
+@pytest.mark.parametrize(
+    ("emulator_counts", "expected_ids", "limit"),
+    [
+        ([105, 75], ["E0", "Z", "A", "C", "L", "D", "E1", "F", "G", "H"], 10),
+        ([105, 85, 80], ["E0", "Z", "A", "C", "L", "E1", "D", "E2"], 8),
+    ],
+)
+def test_fallback_reports_provable_ranks_and_preserves_ties(
+    annual_stats, emulator_counts, expected_ids, limit
+):
+    clock, _, records, writer = annual_stats
+    clock.now = datetime.datetime(2019, 1, 2, tzinfo=datetime.UTC)
+    records[2018] = {
+        "_snapshot": {"version": 2, "through": "2018-12-31"},
+        "year": 2018,
+        "top_apps": [
+            {"app_id": app_id, "downloads": count}
+            for app_id, count in zip(
+                "ZACDFGHIJK", (100, 100, 90, 80, 70, 60, 50, 40, 30, 20)
+            )
+        ],
+        "top_emulators": [
+            {"app_id": f"E{i}", "downloads": count}
+            for i, count in enumerate(emulator_counts)
+        ],
+        "top_game_stores": [{"app_id": "L", "downloads": 88}],
+        "top_game_utilities": [],
+    }
+    with writer() as db:
+        db.execute(delete(models.StatsDaily))
+
+    result = asyncio.run(stats.get_year_stats(2018))
+    assert result["top_chart_limit"] == limit
+    assert [row["app_id"] for row in result["top_apps"]] == expected_ids
 
 
 @pytest.mark.parametrize(
@@ -127,8 +179,9 @@ def test_incomplete_rebuild_serves_previous_finalized_snapshot(annual_stats):
     [
         {},
         {"_snapshot": {"version": 1, "through": "2018-12-31"}},
+        {"_snapshot": {"version": 2, "through": "2018-12-31"}},
     ],
-    ids=["legacy", "top-three"],
+    ids=["legacy", "top-three", "top-ten"],
 )
 def test_on_demand_rebuilds_old_snapshot_and_hides_bookkeeping(
     annual_stats, monkeypatch, snapshot
@@ -160,23 +213,23 @@ def test_current_year_retries_old_snapshot_until_upgraded(annual_stats, monkeypa
     with writer() as db:
         db.execute(delete(models.StatsDaily).where(models.StatsDaily.date == day))
     fallback = asyncio.run(stats.get_year_stats(2018))
-    assert fallback["top_chart_limit"] == 3
+    assert fallback["top_chart_limit"] == 0
     assert fallback["updates_count"] == 4
 
     put(day)
     upgraded = asyncio.run(stats.get_year_stats(2018))
     assert upgraded["top_chart_limit"] == 10
     assert upgraded["updates_count"] == 7
-    assert records[2018]["_snapshot"] == {"version": 2, "through": day.isoformat()}
+    assert records[2018]["_snapshot"] == {"version": 3, "through": day.isoformat()}
     monkeypatch.setattr(
         stats, "_build_year_in_review_base", MagicMock(side_effect=AssertionError)
     )
     assert asyncio.run(stats.get_year_stats(2018)) == upgraded
 
 
-@pytest.mark.parametrize(("version", "limit"), [(1, 3), (2, 10)])
+@pytest.mark.parametrize("version", [1, 2, 3])
 def test_rollover_serves_last_published_report_until_daily_data_recovers(
-    annual_stats, version, limit
+    annual_stats, version
 ):
     clock, put, records, writer = annual_stats
     day = datetime.date(2018, 12, 30)
@@ -185,10 +238,7 @@ def test_rollover_serves_last_published_report_until_daily_data_recovers(
     clock.now = datetime.datetime(2019, 1, 1, tzinfo=datetime.UTC)
     with writer() as db:
         db.execute(delete(models.StatsDaily).where(models.StatsDaily.date == day))
-    assert asyncio.run(stats.get_year_stats(2018)) == {
-        **published,
-        "top_chart_limit": limit,
-    }
+    assert asyncio.run(stats.get_year_stats(2018)) == published
     assert not stats._year_in_review_is_finalized(records[2018], 2018)
     clock.now = datetime.datetime(2019, 1, 2, tzinfo=datetime.UTC)
     put(day)
@@ -288,6 +338,110 @@ def test_rebuild_preserves_published_ranks(annual_stats, monkeypatch, on_demand)
     assert stats._year_in_review_is_finalized(records[2018], 2018)
     for chart, entries in charts.items():
         assert records[2018][chart] == entries
+
+
+@pytest.mark.parametrize("emulator_category", ["Game", "Utility"])
+def test_old_top_ten_merges_archived_tools_and_ranks_unpublished_tools(
+    annual_stats, monkeypatch, emulator_category
+):
+    clock, put, records, _ = annual_stats
+    clock.now = datetime.datetime(2019, 1, 2, tzinfo=datetime.UTC)
+    editor = {"app_id": "org.example.Editor", "downloads": 20}
+    launcher = {"app_id": "org.example.ArchivedLauncher", "downloads": 60}
+    game = {"app_id": "org.example.Game", "downloads": 80}
+    emulator = {"app_id": "org.example.Emulator", "downloads": 30}
+    reclassified = {"app_id": "org.example.Reclassified", "downloads": 100}
+    archived = [
+        {"app_id": f"org.example.Emulator{name}", "downloads": count}
+        for name, count in (("Z", 90), ("A", 90), ("B", 70))
+    ]
+    records[2018] = {
+        "_snapshot": {"version": 2, "through": "2018-12-31"},
+        "top_apps": [editor],
+        "top_games": [game],
+        "top_game_stores": [launcher],
+        "top_emulators": archived,
+        "updates_count": 123,
+    }
+
+    @contextmanager
+    def app_db(*args):
+        db = MagicMock()
+        db.query.return_value.filter.return_value.all.return_value = [
+            SimpleNamespace(
+                app_id=row["app_id"],
+                main_category=emulator_category if row == emulator else "Game",
+                sub_categories=["Emulator"],
+            )
+            for row in (emulator, game, reclassified)
+        ]
+        yield db
+
+    monkeypatch.setattr(stats.database, "get_db", app_db)
+    put(
+        datetime.date(2018, 12, 31),
+        {
+            "refs": {
+                row["app_id"]: {"x86_64": [row["downloads"], 0]}
+                for row in (game, emulator, reclassified)
+            }
+        },
+    )
+    stats._generate_and_store_year_in_review_stats(None)
+
+    assert records[2018]["top_apps"] == [*archived, launcher, emulator, editor]
+    assert records[2018]["top_games"] == [game]
+    assert records[2018]["updates_count"] == 123
+
+
+@pytest.mark.parametrize(("version", "currently_game"), [(1, False), (2, True)])
+def test_unlisted_game_below_the_original_games_cutoff(
+    annual_stats, monkeypatch, version, currently_game
+):
+    clock, put, records, _ = annual_stats
+    clock.now = datetime.datetime(2019, 1, 2, tzinfo=datetime.UTC)
+    games = [{"app_id": f"game{i}", "downloads": 100 - i * 10} for i in range(3)]
+    returning_game = {"app_id": "returning", "downloads": 60}
+    fifth_game = {"app_id": "fifth", "downloads": 50}
+    records[2018] = {
+        "_snapshot": {"version": version, "through": "2018-12-31"},
+        "top_games": games,
+        "top_apps": [],
+        "top_emulators": (
+            [{"app_id": f"emu{i}", "downloads": 72 - i} for i in range(3)]
+            if version == 2
+            else []
+        ),
+        "top_game_stores": [],
+        "top_game_utilities": [],
+    }
+
+    @contextmanager
+    def app_db(*args):
+        db = MagicMock()
+        db.query.return_value.filter.return_value.all.return_value = [
+            SimpleNamespace(
+                app_id=row["app_id"],
+                main_category="Game" if currently_game else "Utility",
+                sub_categories=[],
+            )
+            for row in (returning_game, fifth_game)
+        ]
+        yield db
+
+    monkeypatch.setattr(stats.database, "get_db", app_db)
+    put(
+        datetime.date(2018, 12, 31),
+        {
+            "refs": {
+                row["app_id"]: {"x86_64": [row["downloads"], 0]}
+                for row in (returning_game, fifth_game)
+            }
+        },
+    )
+    stats._generate_and_store_year_in_review_stats(None)
+    assert returning_game not in records[2018]["top_apps"]
+    assert records[2018]["top_games"] == [*games, returning_game, fifth_game]
 
 
 @pytest.mark.parametrize(

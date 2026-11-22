@@ -61,13 +61,10 @@ interface YearInReviewProps {
   topApps: YearInReviewMostPopularApp[]
   topGames: YearInReviewMostPopularApp[]
   previousCharts?: {
-    limit: number
+    limits: Record<"top-apps" | "top-games", number>
     "top-apps": string[]
     "top-games": string[]
   }
-  topEmulators: YearInReviewMostPopularApp[]
-  topGameStores: YearInReviewMostPopularApp[]
-  topGameUtilities: YearInReviewMostPopularApp[]
   popularAppsByCategory?: YearInReviewCategoryApp[]
   biggestGrowthByCategory?: YearInReviewCategoryGrowthApp[]
   newcomersByCategory?: YearInReviewCategoryApp[]
@@ -163,28 +160,29 @@ export function TopAppsSection({
   topApps,
   topGames,
   previousCharts,
-  topEmulators,
-  topGameStores,
-  topGameUtilities,
 }: {
   year: number
   topApps: YearInReviewMostPopularApp[]
   topGames: YearInReviewMostPopularApp[]
   previousCharts?: YearInReviewProps["previousCharts"]
-  topEmulators: YearInReviewMostPopularApp[]
-  topGameStores: YearInReviewMostPopularApp[]
-  topGameUtilities: YearInReviewMostPopularApp[]
 }) {
   const t = useTranslations()
   const locale = useLocale()
 
-  function rankChange(chart: string, id: string, index: number) {
-    if (!previousCharts || (chart !== "top-apps" && chart !== "top-games")) {
+  function rankChange(
+    chart: "top-apps" | "top-games",
+    id: string,
+    index: number,
+  ) {
+    if (!previousCharts) {
       return null
     }
     const prior = previousCharts[chart].indexOf(id)
     const outsideTopTen = prior < 0
-    if (prior === index || (outsideTopTen && previousCharts.limit < 10)) {
+    if (
+      prior === index ||
+      (outsideTopTen && previousCharts.limits[chart] < 10)
+    ) {
       return null
     }
     const movedUp = prior > index
@@ -215,102 +213,73 @@ export function TopAppsSection({
     )
   }
 
-  const groups = [
-    [
-      [topApps, "top-apps"],
-      [topGames, "top-games"],
-    ],
-    [
-      [topEmulators, "top-emulators"],
-      [topGameStores, "top-game-stores"],
-      [topGameUtilities, "top-game-utilities"],
-    ],
+  const charts = [
+    [topApps, "top-apps"],
+    [topGames, "top-games"],
   ] as const
+  if (!charts.some(([apps]) => apps?.length)) {
+    return null
+  }
+
   return (
-    <>
-      {groups.map((group, groupIndex) => {
-        const limit = groupIndex === 0 ? 5 : 3
-        return (
-          group.some((entry) => entry[0]?.length) && (
-            <div
-              key={groupIndex}
-              className={
-                groupIndex === 0
-                  ? "grid gap-7 md:grid-cols-2"
-                  : "mt-6 grid grid-cols-[repeat(auto-fit,minmax(min(100%,340px),1fr))] gap-5"
-              }
+    <div className="grid gap-7 md:grid-cols-2">
+      {charts.map(
+        ([apps, key]) =>
+          apps?.length > 0 && (
+            <section
+              key={key}
+              className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--paper)]"
             >
-              {group.map(
-                ([apps, key]) =>
-                  apps?.length > 0 && (
-                    <section
-                      key={key}
-                      className="overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--paper)]"
+              <h2 className="border-b border-[var(--line)] px-[22px] py-[18px] text-[26px] font-[750] tracking-[-.045em] dark:bg-muted/30 print:bg-white">
+                {t(`year-in-review.${key}`)}
+              </h2>
+              <ol className="divide-y divide-[var(--line)]">
+                {apps.slice(0, 5).map((app, index) => (
+                  <li key={app.app_id}>
+                    <Link
+                      className="grid grid-cols-[32px_44px_minmax(0,1fr)_auto] items-center gap-3 px-5 py-4 text-inherit hover:bg-accent max-sm:grid-cols-[32px_36px_minmax(0,1fr)_auto] max-sm:gap-2 max-sm:px-3"
+                      href={`/apps/${app.app_id}`}
                     >
-                      <h2
-                        className={clsx(
-                          "border-b border-[var(--line)] px-[22px] py-[18px] font-[750] tracking-[-.045em] dark:bg-muted/30 print:bg-white",
-                          groupIndex === 0 ? "text-[26px]" : "text-[21px]",
+                      <span className="flex flex-col items-center gap-1 text-sm font-semibold tabular-nums text-[var(--subtle)]">
+                        {(index + 1).toLocaleString(locale, {
+                          minimumIntegerDigits: 2,
+                        })}
+                        {rankChange(key, app.app_id, index)}
+                      </span>
+                      <div>
+                        {app.icon && (
+                          <LogoImage
+                            iconUrl={app.icon}
+                            appName={app.name}
+                            size={64}
+                          />
                         )}
-                      >
-                        {t(`year-in-review.${key}`)}
-                      </h2>
-                      <ol className="divide-y divide-[var(--line)]">
-                        {apps.slice(0, limit).map((app, index) => (
-                          <li key={app.app_id}>
-                            <Link
-                              className={clsx(
-                                "grid items-center text-inherit hover:bg-accent",
-                                groupIndex === 0
-                                  ? "grid-cols-[32px_44px_minmax(0,1fr)_auto] gap-3 px-5 py-4 max-sm:grid-cols-[32px_36px_minmax(0,1fr)_auto] max-sm:gap-2 max-sm:px-3"
-                                  : "grid-cols-[20px_34px_minmax(0,1fr)_auto] gap-2 p-3",
-                              )}
-                              href={`/apps/${app.app_id}`}
-                            >
-                              <span className="flex flex-col items-center gap-1 text-sm font-semibold tabular-nums text-[var(--subtle)]">
-                                {(index + 1).toLocaleString(locale, {
-                                  minimumIntegerDigits: 2,
-                                })}
-                                {rankChange(key, app.app_id, index)}
-                              </span>
-                              <div>
-                                {app.icon && (
-                                  <LogoImage
-                                    iconUrl={app.icon}
-                                    appName={app.name}
-                                    size={64}
-                                  />
-                                )}
-                              </div>
-                              <div>
-                                <strong className="text-[17px] wrap-anywhere">
-                                  {app.name}
-                                </strong>
-                                <small className="block truncate text-[13px] text-[var(--subtle)]">
-                                  {app.summary}
-                                </small>
-                              </div>
-                              <div className="text-end font-semibold">
-                                {new Intl.NumberFormat(locale, {
-                                  notation: "compact",
-                                  maximumFractionDigits: 1,
-                                }).format(app.downloads)}
-                                <small className="block text-[11px] font-normal text-[var(--subtle)]">
-                                  {t("downloads")}
-                                </small>
-                              </div>
-                            </Link>
-                          </li>
-                        ))}
-                      </ol>
-                    </section>
-                  ),
-              )}
-            </div>
-          )
-        )
-      })}
-    </>
+                      </div>
+                      <div>
+                        <strong className="text-[17px] wrap-anywhere">
+                          {app.name}
+                        </strong>
+                        <small className="block truncate text-[13px] text-[var(--subtle)]">
+                          {app.summary}
+                        </small>
+                      </div>
+                      <div className="text-end font-semibold">
+                        {new Intl.NumberFormat(locale, {
+                          notation: "compact",
+                          maximumFractionDigits: 1,
+                        }).format(app.downloads)}
+                        <small className="block text-[11px] font-normal text-[var(--subtle)]">
+                          {t("downloads")}
+                        </small>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ),
+      )}
+    </div>
   )
 }
 
@@ -990,9 +959,6 @@ export function YearInReview({
   previousCharts,
   topApps,
   topGames,
-  topEmulators,
-  topGameStores,
-  topGameUtilities,
   biggestGrowthByCategory,
   newcomersByCategory,
   unavailableAppIds,
@@ -1134,9 +1100,6 @@ export function YearInReview({
             previousCharts={previousCharts}
             topApps={topApps}
             topGames={topGames}
-            topEmulators={topEmulators}
-            topGameStores={topGameStores}
-            topGameUtilities={topGameUtilities}
           />
         </section>
 
