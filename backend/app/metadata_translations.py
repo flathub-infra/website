@@ -22,6 +22,7 @@ TEXT_FIELDS = {
     "name_variant_suffix",
     "developer_name",
 }
+QUEUE_FIELDS = {"summary", "description", "keywords", "caption"}
 
 
 class MetadataError(ValueError):
@@ -227,11 +228,13 @@ class MetadataDocument:
             )
             self.nodes[key] = UnitNode(unit, node, translated)
 
-    def missing_counts(self):
-        total = len(self.nodes)
-        counts = {"*": total}
+    def missing_counts(self, fields: set[str] | None = None):
+        counts = {}
         blocked = {"en", "en_US"}
+        total = 0
         for entry in self.nodes.values():
+            included = fields is None or entry.unit.field in fields
+            total += included
             for locale, node in (
                 self.siblings[entry.source.getparent()].get(entry.source, {}).items()
             ):
@@ -239,11 +242,13 @@ class MetadataDocument:
                     continue
                 if node is None:
                     blocked.add(locale)
-                elif (
+                elif included and (
                     any(not _translatable(child) for child in node.iter())
                     or _value(node, entry.unit.field, entry.unit.markup).strip()
                 ):
-                    counts[locale] = counts.get(locale, total) - 1
+                    counts[locale] = counts.get(locale, 0) - 1
+        counts = {locale: total + delta for locale, delta in counts.items()}
+        counts["*"] = total
         counts.update(dict.fromkeys(blocked, 0))
         return counts
 

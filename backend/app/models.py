@@ -85,11 +85,21 @@ class TranslationListing(Base):
     checked_at: Mapped[datetime] = mapped_column(DateTime)
     sha: Mapped[str | None] = mapped_column(String(40))
     missing: Mapped[dict[str, int] | None] = mapped_column(JSONB)
+    missing_listing: Mapped[dict[str, int] | None] = mapped_column(
+        JSONB(none_as_null=True)
+    )
+    indexed_at: Mapped[datetime | None] = mapped_column(DateTime)
+    index_write_id: Mapped[str | None] = mapped_column(String(32))
 
 
 class MetadataTranslationBatch(Base):
     __tablename__ = "metadatatranslationbatch"
     missing_texts: Mapped[int | None] = mapped_column(Integer)
+    missing_listing_texts: Mapped[int | None] = mapped_column(Integer)
+    listing_count_failed: Mapped[bool] = mapped_column(
+        Boolean, default=False, server_default="false"
+    )
+    listing_count_write_id: Mapped[str | None] = mapped_column(String(32))
 
     next_review_check: Mapped[datetime | None] = mapped_column(DateTime)
     publishing_since: Mapped[datetime | None] = mapped_column(DateTime)

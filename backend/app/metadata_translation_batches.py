@@ -30,14 +30,65 @@ from .metadata_translation_github import (
 )
 from .metadata_translation_reconciliation import reconcile
 from .metadata_translations import (
+    QUEUE_FIELDS,
     MetadataDocument,
     MetadataError,
     SharedTranslationUnit,
+    TranslationUnit,
     normalize_locale,
 )
 from .models import MetadataTranslationBatch
 
 logger = logging.getLogger(__name__)
+
+
+def _count_missing_listing_texts(units: list[TranslationUnit]) -> int:
+    return sum(u.field in QUEUE_FIELDS and not u.translation.strip() for u in units)
+
+
+def _set_missing_texts(
+    batch: MetadataTranslationBatch, units: list[TranslationUnit] | None
+):
+    # A legacy writer changes the content without stamping its derived count.
+    batch.listing_count_write_id = uuid4().hex
+    batch.listing_count_failed = False
+    if units is None:
+        batch.missing_texts = batch.missing_listing_texts = None
+        return
+    batch.missing_texts = sum(not u.translation.strip() for u in units)
+    batch.missing_listing_texts = _count_missing_listing_texts(units)
+
+
+def backfill_listing_counts():
+    with get_db("writer") as db:
+        batches = (
+            db.query(MetadataTranslationBatch)
+            .filter(
+                MetadataTranslationBatch.missing_listing_texts.is_(None),
+                MetadataTranslationBatch.listing_count_failed.is_(False),
+                MetadataTranslationBatch.missing_texts.is_not(None),
+                MetadataTranslationBatch.content.is_not(None),
+            )
+            .order_by(MetadataTranslationBatch.app_id, MetadataTranslationBatch.locale)
+            .limit(100)
+            .with_for_update(skip_locked=True)
+        )
+        for batch in batches:
+            if batch.content is None:
+                continue
+            try:
+                units = MetadataDocument(
+                    batch.content, batch.app_id, batch.locale
+                ).units()
+            except MetadataError as error:
+                logger.warning(
+                    "Could not recount translation batch for %s: %s",
+                    batch.app_id,
+                    error,
+                )
+                batch.listing_count_failed = True
+            else:
+                batch.missing_listing_texts = _count_missing_listing_texts(units)
 
 
 def _query(db, app_id: str, locale: str):
@@ -265,9 +316,7 @@ def read_saved_translation(repo, source, app_id, locale):
                             document,
                         )
                         batch.content = document.content
-                        batch.missing_texts = sum(
-                            not u.translation.strip() for u in document.units()
-                        )
+                        _set_missing_texts(batch, document.units())
                         previous = batch.previous_translations
         except MetadataError as conflict:
             if str(conflict) != "source_changed" or saved_content is None:
@@ -440,7 +489,7 @@ def queue_translation(
         batch.error = None
         units = _annotate(original.with_pending(output), batch.field_edits).units()
         batch.changes = {u.id: u.translation for u in units if u.id in combined}
-        batch.missing_texts = sum(not u.translation.strip() for u in units)
+        _set_missing_texts(batch, units)
         counts = Counter(_fingerprint(u) for u in units)
         edits = {}
         for unit in units:
@@ -607,10 +656,10 @@ def _rebase_batch(repo, batch, app_id, locale, revision):
     batch.content = output
     batch.changes = carried
     batch.publication_base = {k: document.nodes[k].unit.translation for k in carried}
-    batch.missing_texts = sum(not u.translation.strip() for u in rebased)
     batch.state = "queued" if carried else "submitted"
     if not carried:
-        batch.content = batch.source_content = batch.missing_texts = None
+        batch.content = batch.source_content = None
+    _set_missing_texts(batch, rebased if carried else None)
     batch.error = None
     batch.url = None
     batch.generation = generation
@@ -715,9 +764,7 @@ def prune_translation_snapshots():
                                     batch, anchored.anchored_to, anchored
                                 )
                                 batch.content = anchored.content
-                                batch.missing_texts = sum(
-                                    not u.translation.strip() for u in anchored.units()
-                                )
+                                _set_missing_texts(batch, anchored.units())
                 continue
             if pull is None or not pull.merged or not pull.merge_commit_sha:
                 continue
@@ -752,7 +799,7 @@ def prune_translation_snapshots():
             batch.source_content = None
             batch.content = None
             batch.error = None
-            batch.missing_texts = None
+            _set_missing_texts(batch, None)
             batch.published_ids = []
 
 
@@ -814,14 +861,19 @@ def _publication(app_id, locale, now):
         if current is None or current.publishing_since != now:
             return
         current.publishing_since = None
+        # Recounting an unchanged snapshot is not a concurrent translation edit.
+        recount_fields = {"missing_listing_texts", "listing_count_failed"}
         if all(
             getattr(current, k) == v
             for k, v in original.items()
-            if k != "publishing_since"
+            if k != "publishing_since" and k not in recount_fields
         ):
             for k, v in original.items():
-                if getattr(batch, k) != v:
+                if k not in recount_fields and getattr(batch, k) != v:
                     setattr(current, k, getattr(batch, k))
+            if batch.listing_count_write_id != original["listing_count_write_id"]:
+                current.missing_listing_texts = batch.missing_listing_texts
+                current.listing_count_failed = batch.listing_count_failed
             if not current.changes:
                 current.publication_attempt = {}
         elif (
@@ -960,7 +1012,8 @@ def publish_translation_batches():
                 batch.state = "queued" if remaining else "submitted"
                 if not remaining and not batch.url:
                     _retain(batch, [document.nodes[k].unit for k in conflict.fields])
-                    batch.source_content = batch.content = batch.missing_texts = None
+                    batch.source_content = batch.content = None
+                    _set_missing_texts(batch, None)
                     batch.generation += 1
                     continue
                 effective = {
@@ -971,9 +1024,8 @@ def publish_translation_batches():
                 batch.content = (
                     document.apply(effective) if effective else document.content
                 )
-                batch.missing_texts = sum(
-                    not u.translation.strip()
-                    for u in MetadataDocument(batch.content, app_id, locale).units()
+                _set_missing_texts(
+                    batch, MetadataDocument(batch.content, app_id, locale).units()
                 )
             except (MetadataError, GithubException) as error:
                 if isinstance(error, MetadataError) and str(error) == "no_changes":
@@ -983,7 +1035,7 @@ def publish_translation_batches():
                     batch.publication_base = {}
                     if not batch.url:
                         batch.source_content = batch.content = None
-                        batch.missing_texts = None
+                        _set_missing_texts(batch, None)
                     continue
                 batch.state = "failed"
                 if isinstance(error, ClosedTranslationPull):

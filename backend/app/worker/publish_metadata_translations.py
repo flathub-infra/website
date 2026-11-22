@@ -2,6 +2,7 @@ import dramatiq
 
 from .. import cron
 from ..metadata_translation_batches import (
+    backfill_listing_counts,
     prune_translation_snapshots,
     publish_translation_batches,
 )
@@ -18,4 +19,5 @@ def publish_metadata_translations():
 @cron.cron("*/5 * * * *")
 @dramatiq.actor(max_retries=0, time_limit=240_000)
 def index_translation_listings():
+    backfill_listing_counts()
     refresh_index()
