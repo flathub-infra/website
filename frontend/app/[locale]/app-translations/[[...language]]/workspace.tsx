@@ -152,6 +152,11 @@ function Queue({ language, account }: { language: string; account: string }) {
       (a) => !pass.skipped.includes(a.app_id) && !finished.includes(a.app_id),
     ) ?? []
   const app = available.find((a) => a.app_id === pass.current) ?? available[0]
+  async function refreshQueue() {
+    if ((await queue.refetch()).isSuccess) {
+      setFinished([])
+    }
+  }
   useEffect(() => {
     writePreference(
       storageKey,
@@ -162,7 +167,7 @@ function Queue({ language, account }: { language: string; account: string }) {
     return (
       <div role="alert">
         Could not load app translations.{" "}
-        <Button variant="outline" onClick={() => void queue.refetch()}>
+        <Button variant="outline" onClick={refreshQueue}>
           Try again
         </Button>
       </div>
@@ -205,7 +210,7 @@ function Queue({ language, account }: { language: string; account: string }) {
           <Button
             variant="outline"
             disabled={queue.isFetching}
-            onClick={() => void queue.refetch()}
+            onClick={refreshQueue}
           >
             Refresh queue
           </Button>

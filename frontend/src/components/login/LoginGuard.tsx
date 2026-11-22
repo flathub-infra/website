@@ -4,26 +4,30 @@ import Spinner from "../Spinner"
 import { GetUserinfoAuthUserinfoGet200 } from "src/codegen"
 import { useTranslations } from "next-intl"
 import { usePathname, useRouter } from "src/i18n/navigation"
+import { loginHref } from "./loginHref"
 
 const LoginGuard = ({
   children,
   condition,
+  returnLanguage,
 }: {
   children: React.ReactNode
   condition?: (user: GetUserinfoAuthUserinfoGet200) => boolean | undefined
+  returnLanguage?: string
 }) => {
   const t = useTranslations()
   const user = useUserContext()
   const router = useRouter()
   const pathname = usePathname()
+  const href = loginHref(pathname, returnLanguage)
 
   // Content unsuitable if not logged in, send user to login page
   useEffect(() => {
     if (!user.info && !user.loading) {
       // Avoid new entry in history stack to allow backward navigation
-      router.replace(`/login?returnTo=${encodeURIComponent(pathname)}`)
+      router.replace(href)
     }
-  }, [user, router, pathname])
+  }, [user, router, href])
 
   if (!user.info && user.loading) {
     return <Spinner size="m" />
