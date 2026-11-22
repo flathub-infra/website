@@ -97,6 +97,7 @@ def _owns_metadata(
     *,
     load_module=None,
     read_text=None,
+    source_path=None,
 ) -> bool:
     modules = [(manifest, False, False, "")]
     seen = {}
@@ -138,8 +139,18 @@ def _owns_metadata(
                 return False
             if module is manifest:
                 cleanup.update(patterns)
-            conditional = conditional or any(
-                module.get(key) for key in ("disabled", "only-arches", "skip-arches")
+            arches = module.get("only-arches")
+            conditional = bool(
+                conditional
+                or module.get("disabled")
+                or module.get("skip-arches")
+                or (
+                    arches
+                    and not (
+                        isinstance(arches, list)
+                        and all(a in arches for a in ("aarch64", "x86_64"))
+                    )
+                )
             )
             # Flatpak builds nested modules before their enclosing module.
             modules.append((module, True, conditional, directory))
@@ -148,6 +159,8 @@ def _owns_metadata(
             )
             continue
         commands = _install_commands(module)
+        shell_count = len(_install_commands({"sources": module.get("sources", [])}))
+        build_source = _build_source_path(module, filename)
         after_install = bool(owned_destinations)
         if after_install and any(
             not isinstance(s, dict) for s in module.get("sources", [])
@@ -155,22 +168,23 @@ def _owns_metadata(
             return False
         directories = set()
         installs = []
-        for command in commands:
+        for index, command in enumerate(commands):
             mkdir = re.fullmatch(
                 r"mkdir -p (/app/share/(?:metainfo|appdata))/?", command
             )
             if mkdir:
                 directories.add(mkdir[1])
             installation = _metadata_install(command, app_id, directories)
+            expected = filename if index < shell_count else build_source
             installs.append(
                 installation is not None
-                and installation[0] in (filename, f"./{filename}")
+                and installation[0].removeprefix("./") == expected
             )
             if _listing_asset_install(command, app_id):
                 continue
             if installation is not None:
-                source, destination = installation
-                if source in (filename, f"./{filename}"):
+                _, destination = installation
+                if installs[-1]:
                     owned_destinations.add(destination)
                 else:
                     other_destinations.add(destination)
@@ -195,16 +209,7 @@ def _owns_metadata(
                 return False
             continue
         cleanup.update(module.get("cleanup", []))
-        if conditional or any(
-            module.get(key)
-            for key in (
-                "builddir",
-                "subdir",
-                "disabled",
-                "only-arches",
-                "skip-arches",
-            )
-        ):
+        if conditional:
             return False
         files = []
         sources = list(reversed(module.get("sources", [])))
@@ -249,7 +254,11 @@ def _owns_metadata(
                 ):
                     return False
                 continue
-            if kind == "file" and path in (filename, f"./{filename}") and not directory:
+            if (
+                kind == "file"
+                and path in (source_path or filename, f"./{source_path or filename}")
+                and not directory
+            ):
                 if set(source) != {"type", "path"}:
                     return False
                 files.append(source)
@@ -280,13 +289,12 @@ def _owns_metadata(
                 return False
         if len(files) != 1:
             return False
-        if module.get("buildsystem") != "simple" and not any(
-            _direct_install(c, filename, app_id)
-            for c in _install_commands(
-                {k: v for k, v in module.items() if k != "build-commands"}
+        if module.get("buildsystem") != "simple":
+            build_end = shell_count + len(
+                _install_commands({"build-commands": module.get("build-commands", [])})
             )
-        ):
-            return False
+            if not any(installs[:shell_count]) and not any(installs[build_end:]):
+                return False
         listing_installed = False
         for command, direct in zip(commands, installs, strict=True):
             if direct:
@@ -322,6 +330,20 @@ def _owns_metadata(
     return bool(owned_destinations) and not owned_destinations.intersection(
         other_destinations
     )
+
+
+def _build_source_path(module: dict[str, Any], filename: str) -> str | None:
+    subdir = module.get("subdir", "")
+    if not isinstance(subdir, str) or (
+        subdir and not re.fullmatch(r"(?:[\w-][\w.-]*/)*[\w-][\w.-]*/?", subdir)
+    ):
+        return None
+    system = module.get("buildsystem", "autotools")
+    if system in ("meson", "cmake", "cmake-ninja") or module.get("builddir"):
+        if system == "simple":
+            return None
+        subdir = posixpath.join(subdir, "_flatpak_build")
+    return posixpath.relpath(filename, subdir or ".")
 
 
 def _mentions_listing(text: str) -> bool:
@@ -436,6 +458,34 @@ def _metadata_install(
     return operands[0], target
 
 
+def _nested_listing_paths(manifest: dict[str, Any], app_id: str) -> set[str]:
+    """Look for recipe-local XML sources, not files in an upstream checkout."""
+    paths = set()
+    modules = [manifest]
+    seen = set()
+    while modules:
+        module = modules.pop()
+        if not isinstance(module, dict) or id(module) in seen:
+            continue
+        seen.add(id(module))
+        if isinstance(children := module.get("modules"), list):
+            modules.extend(children)
+        if not isinstance(sources := module.get("sources"), list):
+            continue
+        for source in sources:
+            if not isinstance(source, dict) or source.get("type") != "file":
+                continue
+            path = source.get("path")
+            if isinstance(path, str):
+                path = path.removeprefix("./")
+                if re.fullmatch(
+                    rf"(?:[\w-][\w.-]*/)+{re.escape(app_id)}\.(?:metainfo|appdata)\.xml",
+                    path,
+                ):
+                    paths.add(path)
+    return paths
+
+
 def read_source(repo: Repository, app_id: str) -> MetadataSource:
     if repo.archived or repo.private:
         raise MetadataError("unsupported_repository")
@@ -449,10 +499,21 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
         if entry.type == "file"
         and entry.name in {f"{app_id}.metainfo.xml", f"{app_id}.appdata.xml"}
     ]
-    if len(candidates) != 1:
+    if not candidates:
+        candidates = [
+            entry
+            for entry in entries
+            if entry.type == "file"
+            and (
+                entry.name == f"{app_id}.xml"
+                or re.fullmatch(r"(?:[\w.-]+\.)?(?:metainfo|appdata)\.xml", entry.name)
+            )
+        ]
+    if len(candidates) > 1 or (
+        not candidates and not any(entry.type == "dir" for entry in entries)
+    ):
         raise MetadataError("metadata_not_found")
-    metadata = candidates[0]
-    if metadata.size > MAX_XML_BYTES:
+    if candidates and candidates[0].size > MAX_XML_BYTES:
         raise MetadataError("metadata_too_large")
     manifests = [
         entry
@@ -462,12 +523,20 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
     if len(manifests) != 1 or manifests[0].size > MAX_XML_BYTES:
         raise MetadataError("unsupported_metadata")
     manifest = repo.get_contents(manifests[0].path, ref=revision)
-    if isinstance(manifest, list):
+    if isinstance(manifest, list) or manifest.type != "file":
         raise MetadataError("unsupported_metadata")
     try:
         text = manifest.decoded_content.decode("utf-8")
     except UnicodeDecodeError as error:
         raise MetadataError("unsupported_metadata") from error
+    parsed = _load_manifest(text, manifests[0].path)
+    if candidates:
+        metadata_path = candidates[0].path
+    else:
+        paths = _nested_listing_paths(parsed, app_id)
+        if len(paths) != 1:
+            raise MetadataError("metadata_not_found")
+        metadata_path = paths.pop()
 
     shared_revision = None
 
@@ -525,17 +594,36 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
         except UnicodeDecodeError as error:
             raise MetadataError("unsupported_metadata") from error
 
+    def xml_file():
+        if "/" in metadata_path:
+            listing = entries
+            prefix = ""
+            for part in metadata_path.split("/")[:-1]:
+                if not any(e.type == "dir" and e.name == part for e in listing):
+                    raise MetadataError("unsupported_metadata")
+                prefix = posixpath.join(prefix, part)
+                listing = repo.get_contents(prefix, ref=revision)
+                if not isinstance(listing, list):
+                    raise MetadataError("unsupported_metadata")
+            if not any(e.type == "file" and e.path == metadata_path for e in listing):
+                raise MetadataError("unsupported_metadata")
+        file = repo.get_contents(metadata_path, ref=revision)
+        if isinstance(file, list) or file.type != "file":
+            raise MetadataError("unsupported_metadata")
+        if file.size > MAX_XML_BYTES:
+            raise MetadataError("metadata_too_large")
+        return file
+
     if not _owns_metadata(
-        _load_manifest(text, manifests[0].path),
-        metadata.name,
+        parsed,
+        posixpath.basename(metadata_path),
         app_id,
         load_module=lambda path: _load_manifest(read_text(path), path),
         read_text=read_text,
+        source_path=metadata_path,
     ):
         raise MetadataError("unsupported_metadata")
-    file = repo.get_contents(metadata.path, ref=revision)
-    if isinstance(file, list):
-        raise MetadataError("unsupported_metadata")
+    file = xml_file()
     return MetadataSource(revision, file.path, file.sha, file.decoded_content)
 
 

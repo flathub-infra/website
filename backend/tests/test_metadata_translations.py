@@ -1968,6 +1968,39 @@ def test_discovery_rejects_upstream_and_generated_metadata():
         read_source(repo, APP_ID)
 
 
+@pytest.mark.parametrize(
+    ("options", "source", "expected"),
+    [
+        ({"subdir": "build"}, "../", True),
+        ({"buildsystem": "meson"}, "../", True),
+        ({"buildsystem": "cmake", "builddir": True}, "../", True),
+        ({"subdir": "src/lib", "buildsystem": "meson"}, "../../../", True),
+        ({"only-arches": ["aarch64", "x86_64"]}, "", True),
+        ({"only-arches": ["aarch64"]}, "", False),
+        ({"subdir": "build"}, "", False),
+        ({"subdir": "build"}, "../../", False),
+        ({}, "app/data/", False),
+    ],
+)
+def test_discovery_matches_recipe_source_from_build_directory(
+    options, source, expected
+):
+    repo = fake_repo()
+    manifest = repo.get_contents("", ref="a" * 40)[1]
+    module = yaml.safe_load(manifest.decoded_content)
+    del module["build-commands"]
+    module.update(options)
+    module["post-install"] = [
+        f"install -Dm644 {source}{APP_ID}.metainfo.xml -t /app/share/metainfo"
+    ]
+    manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
+    if expected:
+        assert read_source(repo, APP_ID).content == XML
+    else:
+        with pytest.raises(MetadataError, match="unsupported_metadata"):
+            read_source(repo, APP_ID)
+
+
 def test_discovery_does_not_borrow_file_source_from_another_module():
     repo = fake_repo()
     manifest = repo.get_contents("", ref="a" * 40)[1]
@@ -2089,6 +2122,34 @@ def test_discovery_pins_reads_and_requires_direct_install():
     for call in repo.get_contents.call_args_list:
         assert call.kwargs["ref"] == "a" * 40
     repo.get_contents("", ref=source.revision)[1].decoded_content = b"meson setup"
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+
+
+def test_nested_listing_uses_the_declared_path_and_staged_basename():
+    repo = fake_repo()
+    xml, manifest = repo.get_contents("", ref="a" * 40)
+    xml.path = f"data/{xml.name}"
+    manifest.decoded_content = manifest.decoded_content.replace(
+        f"path: {xml.name}".encode(), f"path: {xml.path}".encode()
+    )
+    directory = SimpleNamespace(type="dir", name="data")
+
+    def read(path, ref):
+        assert ref == "a" * 40
+        return {
+            "": [directory, manifest],
+            "data": [xml],
+            xml.path: xml,
+            manifest.path: manifest,
+        }[path]
+
+    repo.get_contents.side_effect = read
+    assert read_source(repo, APP_ID).path == xml.path
+    manifest.decoded_content = manifest.decoded_content.replace(
+        f"install -Dm644 {xml.name}".encode(),
+        f"install -Dm644 app/data/{xml.name}".encode(),
+    )
     with pytest.raises(MetadataError, match="unsupported_metadata"):
         read_source(repo, APP_ID)
 
