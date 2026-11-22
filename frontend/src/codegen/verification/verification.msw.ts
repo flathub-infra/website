@@ -254,6 +254,9 @@ export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPos
     ...overrideResponse,
   })
 
+export const getCanUnverifyVerificationAppIdCanUnverifyGetResponseMock =
+  (): boolean => faker.datatype.boolean()
+
 export const getManualVerificationVerificationAppIdManualVerificationPostResponseMock =
   (
     overrideResponse: Partial<Extract<VerificationStatusManual, object>> = {},
@@ -471,6 +474,30 @@ export const getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPos
     )
   }
 
+export const getCanUnverifyVerificationAppIdCanUnverifyGetMockHandler = (
+  overrideResponse?:
+    | boolean
+    | ((
+        info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
+      ) => Promise<boolean> | boolean),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get<{ appId: string }>(
+    "*/verification/:appId/can-unverify",
+    async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getCanUnverifyVerificationAppIdCanUnverifyGetResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
 export const getUnverifyVerificationAppIdUnverifyPostMockHandler = (
   overrideResponse?:
     | void
@@ -574,6 +601,7 @@ export const getVerificationMock = () => [
   getConfirmWebsiteVerificationVerificationAppIdConfirmWebsiteVerificationPostMockHandler(),
   getSetupDnsVerificationVerificationAppIdSetupDnsVerificationPostMockHandler(),
   getConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPostMockHandler(),
+  getCanUnverifyVerificationAppIdCanUnverifyGetMockHandler(),
   getUnverifyVerificationAppIdUnverifyPostMockHandler(),
   getSwitchToDirectUploadVerificationAppIdSwitchToDirectUploadPostMockHandler(),
   getArchiveVerificationAppIdArchivePostMockHandler(),

@@ -583,6 +583,7 @@
   "app-is-currently-verified-manually": "Your app is currently verified by the Flathub team",
   "verify-app": "Verify app",
   "unverify": "Unverify",
+  "unverify-failed": "Could not remove verification for this app.",
   "unverify-app-prompt": "Unverify {appId}?",
   "begin": "Begin",
   "failed-to-find-token": "Failed to find token in response from {domain}.",
