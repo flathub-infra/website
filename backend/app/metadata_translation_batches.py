@@ -33,6 +33,7 @@ from .metadata_translations import (
     QUEUE_FIELDS,
     MetadataDocument,
     MetadataError,
+    ObsoleteReleaseBranch,
     SharedTranslationUnit,
     TranslationUnit,
     normalize_locale,
@@ -254,6 +255,8 @@ def read_saved_translation(repo, source, app_id, locale):
     )
     edits = batch.field_edits if batch is not None else {}
     previous = batch.previous_translations if batch is not None else []
+    if batch is not None:
+        _drop_obsolete_release_edits(batch)
     error = _batch_error(source, batch, pull) if batch is not None else None
     same_source = batch is not None and (batch.source_sha, batch.path) == (
         source.sha,
@@ -359,6 +362,20 @@ def unavailable_source_snapshot(app_id, locale):
         }
 
 
+def _drop_obsolete_release_edits(batch):
+    # Older batches could include notes from every release.
+    release_keys = MetadataDocument.release_unit_ids(batch.changes)
+    if not release_keys or batch.source_content is None:
+        return
+    document = MetadataDocument(batch.source_content, batch.app_id, batch.locale)
+    obsolete = release_keys - document.nodes.keys()
+    if obsolete:
+        batch.changes = {k: v for k, v in batch.changes.items() if k not in obsolete}
+        batch.publication_base = {
+            k: v for k, v in batch.publication_base.items() if k not in obsolete
+        }
+
+
 def queue_translation(
     repo, app_id, locale, revision, changes, user_id, *, versions=None
 ):
@@ -393,6 +410,7 @@ def queue_translation(
             .on_conflict_do_nothing()
         )
         batch = _query(db, app_id, locale).with_for_update().one()
+        _drop_obsolete_release_edits(batch)
         pull = (
             _batch_pull(repo, batch)
             if batch.url and batch.source_content is not None
@@ -962,6 +980,9 @@ def publish_translation_batches():
                     if recorded.merged and recorded.base.ref == SOURCE_BRANCH:
                         _rebase_batch(repo, batch, app_id, locale, batch.revision)
                         continue
+                _drop_obsolete_release_edits(batch)
+                if not batch.changes:
+                    raise MetadataError("no_changes")
                 source = read_source(repo, app_id)
                 if (source.sha, source.path) != (batch.source_sha, batch.path):
                     raise MetadataError("source_changed")
@@ -986,6 +1007,11 @@ def publish_translation_batches():
                     batch.url = result["url"]
                     _rebase_batch(repo, batch, app_id, locale, batch.revision)
                     continue
+            except ObsoleteReleaseBranch:
+                # Retry on a fresh branch without disturbing edits on the orphan.
+                batch.generation += 1
+                batch.state = "queued"
+                batch.error = None
             except ReviewedFieldsChanged as conflict:
                 document = conflict.document
                 batch.url = conflict.url

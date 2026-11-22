@@ -29,6 +29,10 @@ class MetadataError(ValueError):
     pass
 
 
+class ObsoleteReleaseBranch(MetadataError):
+    pass
+
+
 class TranslationUnit(BaseModel):
     id: str
     field: str
@@ -158,6 +162,14 @@ class MetadataDocument:
         self.license = (root.findtext("metadata_license") or "").strip()
         self.nodes: dict[str, UnitNode] = {}
         self.siblings = {}
+        self.latest_stable_release = next(
+            (
+                release
+                for release in root.iterfind("releases/release")
+                if release.get("type", "stable") == "stable"
+            ),
+            None,
+        )
         for node in root.iter():
             if (
                 not isinstance(node.tag, str)
@@ -196,9 +208,12 @@ class MetadataDocument:
                 owner = description.getparent()
                 if owner is root:
                     field = "description"
-                elif owner.tag == "release":
+                elif (
+                    self.latest_stable_release is not None
+                    and owner is self.latest_stable_release
+                ):
                     field = "release"
-                    context = owner.get("version", "")
+                    context = self.latest_stable_release.get("version", "")
                 elif owner.tag == "agreement_section":
                     field = "agreement"
                     context = owner.get("type", "")
@@ -259,11 +274,24 @@ class MetadataDocument:
             key=lambda unit: priority.get(unit.field, 2),
         )
 
-    def with_pending(self, content: bytes) -> "MetadataDocument":
+    @staticmethod
+    def release_unit_ids(keys):
+        return {key for key in keys if key.startswith("/component/releases/")}
+
+    def obsolete_releases(self):
+        return [
+            etree.tostring(release, with_tail=False)
+            for release in self.tree.iterfind("releases/release")
+            if release is not self.latest_stable_release
+        ]
+
+    def with_pending(self, content: bytes, *, unpublished=False) -> "MetadataDocument":
         try:
             pending = MetadataDocument(content, self.app_id, self.locale)
         except MetadataError as error:
             raise MetadataError("source_changed") from error
+        if unpublished and self.obsolete_releases() != pending.obsolete_releases():
+            raise ObsoleteReleaseBranch("source_changed")
         original_nodes = list(self.nodes.values())
         pending_nodes = list(pending.nodes.values())
         if len(original_nodes) != len(pending_nodes):

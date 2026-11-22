@@ -465,7 +465,7 @@ def read_translation_document(
         raise
     if isinstance(current, list) or getattr(current, "encoding", "base64") != "base64":
         raise MetadataError("source_changed")
-    return document.with_pending(current.decoded_content)
+    return document.with_pending(current.decoded_content, unpublished=pull is None)
 
 
 class ClosedTranslationPull(MetadataError):
@@ -537,6 +537,7 @@ def submit_translation(
         raise MetadataError("source_changed")
     if pull is not None and pull.state != "open":
         raise ClosedTranslationPull(pull.html_url)
+    reused = False
     if pull is None:
         if source_unchanged:
             try:
@@ -558,7 +559,7 @@ def submit_translation(
         raise
     if isinstance(current, list) or getattr(current, "encoding", "base64") != "base64":
         raise MetadataError("source_changed")
-    pending = document.with_pending(current.decoded_content)
+    pending = document.with_pending(current.decoded_content, unpublished=reused)
     confirmed = {}
     if expected is not None:
         expected = dict(expected)
