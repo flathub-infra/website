@@ -28,8 +28,6 @@ export const metadataTranslationText = createTranslator({
     "dismiss-recovered-confirm": "Permanently delete this saved copy?",
     intro: "Save or reload to see other translators' changes.",
     language: "Translation language",
-    "language-help":
-      "Use a language code: de for German, pt_BR for Brazilian Portuguese.",
     load: "Load translations",
     editor: "Listing translation editor",
     preview: "Preview",
@@ -89,7 +87,7 @@ export const metadataTranslationText = createTranslator({
       pull_request_closed:
         "The previous pull request is closed. Prepare a new one to continue.",
       source_locale: "Choose a language other than the source language.",
-      invalid_locale: "Enter a language code, such as de or pt_BR.",
+      invalid_locale: "Select a supported language.",
       metadata_not_found:
         "No editable listing found. Check the repository for translation instructions.",
       unsupported_metadata:

@@ -280,8 +280,8 @@ export const SharedEditConflict: Story = {
   render: Editor.render,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement)
-    await userEvent.type(
-      canvas.getByRole("textbox", { name: "Translation language" }),
+    await userEvent.selectOptions(
+      canvas.getByRole("combobox", { name: "Translation language" }),
       "de",
     )
     await userEvent.click(

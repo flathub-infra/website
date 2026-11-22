@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from "react"
 import { useLocale } from "next-intl"
+import { useSearchParams } from "next/navigation"
 import {
   useIsMutating,
   useMutation,
+  useMutationState,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
@@ -23,7 +25,11 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+import TranslationLanguageSelect from "./TranslationLanguageSelect"
+import {
+  isTranslationLanguage,
+  resolveTranslationLanguage,
+} from "./translationLanguages"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
@@ -45,6 +51,7 @@ import LoginGuard from "../login/LoginGuard"
 import Spinner from "../Spinner"
 import { metadataTranslationText as t } from "./MetadataTranslationEditor.messages"
 import {
+  type Draft,
   discardTranslationDrafts,
   hasTranslationDrafts,
   useTranslationDrafts,
@@ -60,22 +67,41 @@ function errorCode(error: unknown): string {
   return "request_failed"
 }
 
-export default function MetadataTranslationEditor({
-  appId,
-  queue,
-  initialLanguage,
-}: {
+type EditorProps = {
   appId: string
   initialLanguage?: string
-  queue?: { language: string; name: string; advance: (skip: boolean) => void }
-}) {
+  queue?: {
+    language: string
+    name: string
+    advance: (skip: boolean) => void
+    finishInBackground: () => void
+  }
+}
+
+export default function MetadataTranslationEditor(props: EditorProps) {
+  const params = useSearchParams()
+  const language =
+    props.queue?.language ??
+    (params
+      ? resolveTranslationLanguage(params.get("language"))
+      : props.initialLanguage)
+  return (
+    <ListingEditor
+      key={JSON.stringify([props.appId, language])}
+      {...props}
+      initialLanguage={language}
+    />
+  )
+}
+
+function ListingEditor({ appId, queue, initialLanguage }: EditorProps) {
   const uiLocale = useLocale()
   const user = useUserContext()
   const isAdmin = user.info?.permissions?.includes(Permission["manage-apps"])
   const account = user.info?.default_account
   const userKey = account ? `${account.provider}:${account.login}` : ""
   const [language, setLanguage] = useState(
-    initialLanguage ?? (uiLocale.startsWith("en") ? "" : uiLocale),
+    initialLanguage ?? (isTranslationLanguage(uiLocale) ? uiLocale : ""),
   )
   const [selectedLanguage, setSelectedLanguage] = useState(
     queue?.language ?? initialLanguage ?? "",
@@ -89,7 +115,12 @@ export default function MetadataTranslationEditor({
   const queryKey = ["listing-translations", appId, selectedLanguage, userKey]
   const dismissalKey = ["dismiss-listing-translation", ...queryKey]
   const saveKey = ["save-listing-translation", ...queryKey]
-  const isSaving = useIsMutating({ mutationKey: saveKey, exact: true }) > 0
+  const savingFields = useMutationState({
+    filters: { mutationKey: saveKey, exact: true, status: "pending" },
+    select: (mutation) =>
+      (mutation.state.variables as { field: SharedTranslationUnit }).field.id,
+  })
+  const isSaving = savingFields.length > 0
   const isDismissing =
     useIsMutating({ mutationKey: dismissalKey, exact: true }) > 0
   const query = useQuery({
@@ -126,7 +157,14 @@ export default function MetadataTranslationEditor({
         {queue ? (
           <header className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-semibold">{queue.name}</h2>
+              <h2 className="break-words text-2xl font-semibold">
+                <Link
+                  href={`/apps/${appId}`}
+                  className="underline decoration-1 underline-offset-4"
+                >
+                  {queue.name}
+                </Link>
+              </h2>
               {queue.name !== appId && (
                 <p className="text-sm text-muted-foreground">{appId}</p>
               )}
@@ -173,10 +211,13 @@ export default function MetadataTranslationEditor({
                     return
                   }
                   discardTranslationDrafts(draftKey)
-                  if (language.trim() === selectedLanguage) {
+                  const url = new URL(window.location.href)
+                  url.searchParams.set("language", language)
+                  window.history.replaceState(null, "", url)
+                  if (language === selectedLanguage) {
                     void query.refetch()
                   } else {
-                    setSelectedLanguage(language.trim())
+                    setSelectedLanguage(language)
                   }
                 }}
                 className="flex flex-col gap-3 rounded-xl border bg-card p-4 sm:p-5"
@@ -186,18 +227,10 @@ export default function MetadataTranslationEditor({
                     {t("language")}
                   </FieldLabel>
                   <div className="grid items-center gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
-                    <Input
-                      variant="surface"
+                    <TranslationLanguageSelect
                       id="translation-language"
                       value={language}
                       onChange={(event) => setLanguage(event.target.value)}
-                      placeholder="de, pt_BR, ar"
-                      pattern={String.raw`[a-z]{2,3}([\-_][A-Za-z0-9]{2,8})*(@[a-z]+)?`}
-                      maxLength={40}
-                      required
-                      autoCapitalize="none"
-                      spellCheck={false}
-                      aria-describedby="translation-language-help"
                     />
                     <Button
                       type="submit"
@@ -209,12 +242,6 @@ export default function MetadataTranslationEditor({
                       {t("load")}
                     </Button>
                   </div>
-                  <p
-                    className="text-sm text-muted-foreground"
-                    id="translation-language-help"
-                  >
-                    {t("language-help")}
-                  </p>
                 </Field>
               </form>
             </div>
@@ -246,10 +273,20 @@ export default function MetadataTranslationEditor({
               onNextApp={queue && (() => queue.advance(false))}
               dismissalKey={dismissalKey}
               saveKey={saveKey}
+              savingFields={savingFields}
               isReloading={query.isFetching}
               onRecovered={() => query.refetch()}
               onDirtyChange={setDirty}
-              onSharedSave={(result) =>
+              onSharedSave={async (result, revision) => {
+                await queryClient.cancelQueries({ queryKey, exact: true })
+                const current =
+                  queryClient.getQueryData<AxiosResponse<TranslationSource>>(
+                    queryKey,
+                  )
+                if (current?.data.revision !== revision) {
+                  await queryClient.invalidateQueries({ queryKey, exact: true })
+                  return
+                }
                 queryClient.setQueryData<AxiosResponse<TranslationSource>>(
                   queryKey,
                   (current) =>
@@ -268,7 +305,13 @@ export default function MetadataTranslationEditor({
                       queryClient.getQueryState(queryKey)?.dataUpdatedAt,
                   },
                 )
-              }
+                if (
+                  !result.units.some((unit) => !unit.translation.trim()) &&
+                  !hasTranslationDrafts(draftKey)
+                ) {
+                  queue?.finishInBackground()
+                }
+              }}
               onDismissed={async (previous_translations) => {
                 await queryClient.cancelQueries({ queryKey, exact: true })
                 queryClient.setQueryData<AxiosResponse<TranslationSource>>(
@@ -330,6 +373,7 @@ export function TranslationForm({
   onDismissed,
   dismissalKey,
   saveKey,
+  savingFields = [],
   isReloading = false,
 }: {
   appId: string
@@ -338,14 +382,18 @@ export function TranslationForm({
   onNextApp?: () => void
   onRecovered?: () => Promise<unknown>
   onDirtyChange?: (value: boolean) => void
-  onSharedSave?: (result: {
-    units: SharedTranslationUnit[]
-    state: string
-    url?: string | null
-  }) => void
+  onSharedSave?: (
+    result: {
+      units: SharedTranslationUnit[]
+      state: string
+      url?: string | null
+    },
+    revision: string,
+  ) => Promise<void>
   onDismissed?: (items: TranslationUnit[]) => Promise<void>
   dismissalKey?: string[]
   saveKey?: string[]
+  savingFields?: string[]
   isReloading?: boolean
 }) {
   const uiLocale = useLocale()
@@ -373,7 +421,12 @@ export function TranslationForm({
   })
   const [showList, setShowList] = useState(false)
   const unmatched = drafts.unmatched(source.units)
-  const [latest, setLatest] = useState(source.units)
+  const [localUnits, setLocalUnits] = useState<{
+    base: typeof source.units
+    units: typeof source.units
+  }>()
+  const latest =
+    localUnits?.base === source.units ? localUnits.units : source.units
   const [conflicts, setConflicts] = useState<
     Record<string, SharedTranslationUnit>
   >({})
@@ -394,55 +447,41 @@ export function TranslationForm({
   const mutation = useMutation({
     mutationKey: saveKey,
     mutationFn: ({
-      id,
+      field,
       text,
       version,
     }: {
-      id: string
       text: string
       version: string
-      next: boolean
+      field: SharedTranslationUnit
+      draft?: Draft
     }) =>
       saveListingTranslationsMetadataTranslationsAppIdPost(
         appId,
         {
           revision: source.revision,
-          changes: { [id]: text },
-          versions: { [id]: version },
+          changes: { [field.id]: text },
+          versions: { [field.id]: version },
         },
         { locale: source.locale },
         { withCredentials: true },
       ),
-    onSuccess: ({ data }, { id, next }) => {
-      setLatest(data.units)
-      onSharedSave?.(data)
-      drafts.discard(unit)
-      if (onNextApp) {
-        const anotherDraft = data.units.findIndex(
-          (u) => u.id !== id && drafts.isEdited(u),
-        )
-        const missing = data.units.findIndex((u) => !u.translation.trim())
-        if (anotherDraft >= 0) {
-          setSelected(anotherDraft)
-        } else if (missing >= 0) {
-          setSelected(missing)
-        } else {
-          if (!unmatched.length) {
-            onNextApp()
-          }
-        }
-      } else if (next) {
-        setSelected((current) => Math.min(current + 1, source.units.length - 1))
-      }
-      requestAnimationFrame(() => editor.current?.focus())
+    onSuccess: async ({ data }, { field, draft }) => {
+      drafts.acknowledgeSave(
+        field,
+        draft,
+        data.units.find((unit) => unit.id === field.id),
+      )
+      await onSharedSave?.(data, source.revision)
     },
-    onError: (error, { id }) => {
+    onError: (error, { field: { id } }) => {
       const detail = isAxiosError(error) && error.response?.data?.detail
       if (detail?.code === "text_conflict" && detail.unit?.id === id) {
         setConflicts((current) => ({ ...current, [id]: detail.unit }))
-        setLatest((current) =>
-          current.map((item) => (item.id === id ? detail.unit : item)),
-        )
+        setLocalUnits({
+          base: source.units,
+          units: latest.map((item) => (item.id === id ? detail.unit : item)),
+        })
       }
     },
     retry: false,
@@ -548,17 +587,41 @@ export function TranslationForm({
       !source.can_submit ||
       isReloading ||
       recovery.isPending ||
+      savingFields.length > 0 ||
       mutation.isPending ||
       conflicts[unit.id]
     ) {
       return
     }
-    mutation.mutate({
-      id: unit.id,
-      text: value.trim(),
-      version: draft?.version ?? unit.version,
-      next,
-    })
+    mutation.mutate(
+      {
+        text: value.trim(),
+        version: draft?.version ?? unit.version,
+        field: unit,
+        draft,
+      },
+      {
+        onSuccess: ({ data }) => {
+          setLocalUnits({ base: source.units, units: data.units })
+          if (onNextApp) {
+            const anotherDraft = data.units.findIndex(drafts.isEdited)
+            const missing = data.units.findIndex((u) => !u.translation.trim())
+            if (anotherDraft >= 0) {
+              setSelected(anotherDraft)
+            } else if (missing >= 0) {
+              setSelected(missing)
+            } else if (!unmatched.length) {
+              onNextApp()
+            }
+          } else if (next) {
+            setSelected((current) =>
+              Math.min(current + 1, source.units.length - 1),
+            )
+          }
+          requestAnimationFrame(() => editor.current?.focus())
+        },
+      },
+    )
   }
 
   return (
@@ -889,7 +952,12 @@ export function TranslationForm({
                           disabled={mutation.isPending}
                           onChange={(event) => {
                             const text = event.target.value
-                            drafts.edit(unit, text)
+                            drafts.edit(
+                              unit,
+                              text,
+                              undefined,
+                              savingFields.includes(unit.id),
+                            )
                             if (mutation.isError) {
                               mutation.reset()
                             }
@@ -988,6 +1056,7 @@ export function TranslationForm({
                     disabled={
                       !source.can_submit ||
                       !changed ||
+                      savingFields.length > 0 ||
                       Boolean(conflicts[unit.id]) ||
                       mutation.isPending ||
                       recovery.isPending ||

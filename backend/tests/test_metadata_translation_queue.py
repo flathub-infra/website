@@ -1,8 +1,12 @@
+import os
 from contextlib import nullcontext
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
+import pytest
 from github import GithubException
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 from app import metadata_translation_queue as queue
 from app.metadata_translation_queue import missing_counts
@@ -55,6 +59,47 @@ def test_queue_reads_shared_saves_before_publication_and_separates_recovery(
     assert not result.attention
     batch.error = "source_changed"
     assert [a.app_id for a in queue.language_queue("fr").attention] == [app_id]
+
+
+def test_language_queue_orders_by_update_then_app_id(monkeypatch):
+    url = os.getenv("TRANSLATION_TEST_DATABASE_URL")
+    if not url:
+        pytest.skip("TRANSLATION_TEST_DATABASE_URL is not configured")
+    engine = create_engine(url)
+    try:
+        with engine.connect() as conn, Session(conn) as session:
+            conn.exec_driver_sql(
+                """CREATE TEMP TABLE apps (
+                    app_id text, type text DEFAULT 'desktop-application',
+                    is_eol boolean DEFAULT false, appstream jsonb, last_updated_at timestamp
+                )"""
+            )
+            conn.exec_driver_sql(
+                "CREATE TEMP TABLE translationlisting (app_id text, sha text, missing jsonb)"
+            )
+            conn.exec_driver_sql(
+                """CREATE TEMP TABLE metadatatranslationbatch (
+                    app_id text, locale text, error text, previous_translations jsonb,
+                    changes jsonb, source_sha text, missing_texts integer
+                )"""
+            )
+            conn.exec_driver_sql(
+                """INSERT INTO apps (app_id, last_updated_at) VALUES
+                    ('A', NULL), ('Z', '2026-03-01'), ('C', '2026-02-01'), ('B', '2026-02-01')"""
+            )
+            conn.exec_driver_sql(
+                """INSERT INTO translationlisting (app_id, missing)
+                   SELECT app_id, '{"*": 1}'::jsonb FROM apps"""
+            )
+            monkeypatch.setattr(queue, "get_db", lambda _: nullcontext(session))
+            assert [app.app_id for app in queue.language_queue("de").apps] == [
+                "Z",
+                "B",
+                "C",
+                "A",
+            ]
+    finally:
+        engine.dispose()
 
 
 def test_index_continues_past_unavailable_repository(monkeypatch):
