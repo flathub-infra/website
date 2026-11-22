@@ -9,6 +9,7 @@ import { getWalletinfoWalletWalletinfoGet, Transaction } from "src/codegen"
 import { useRouter } from "src/i18n/navigation"
 import { useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
+import type { CheckoutIntent } from "./stripe"
 
 enum Stage {
   TermsAgreement,
@@ -40,8 +41,9 @@ export const TransactionCancelButtonPrep = ({
 
 const Checkout: FunctionComponent<{
   transaction: Transaction
-  clientSecret: string
-}> = ({ transaction, clientSecret }) => {
+  intent: CheckoutIntent
+  onError: (error: unknown) => Promise<void>
+}> = ({ transaction, intent, onError }) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { id: transactionId } = transaction.summary
@@ -105,6 +107,7 @@ const Checkout: FunctionComponent<{
     if (typeof window !== "undefined") {
       sessionStorage.setItem(termsStorageKey, "true")
     }
+    updateStage(Stage.CardSelect)
   }
 
   useEffect(() => {
@@ -165,8 +168,9 @@ const Checkout: FunctionComponent<{
     case Stage.CardSelect:
       flowContent = (
         <CardSelect
+          onError={onError}
+          intent={intent}
           transaction={transaction}
-          clientSecret={clientSecret}
           walletQuery={walletQuery}
           submit={() => router.push(`${detailsPage}/${transactionId}`)}
           skip={() => updateStage(Stage.AmountInput)}
@@ -176,6 +180,8 @@ const Checkout: FunctionComponent<{
     case Stage.AmountInput:
       flowContent = (
         <PaymentForm
+          onError={onError}
+          intent={intent}
           transactionId={transactionId}
           callbackPage={`${detailsPage}/${transactionId}`}
           canGoBack={cards.length > 0}

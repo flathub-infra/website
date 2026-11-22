@@ -5,9 +5,11 @@
  * OpenAPI spec version: 0.1.0
  */
 import type { TransactionStripeDataCard } from "./transactionStripeDataCard"
+import type { TransactionStripeDataStatus } from "./transactionStripeDataStatus"
 
 export interface TransactionStripeData {
-  status: string
+  status: TransactionStripeDataStatus
   client_secret: string
+  checkout_revision: number
   card?: TransactionStripeDataCard
 }

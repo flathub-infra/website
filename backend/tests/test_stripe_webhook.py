@@ -6,6 +6,7 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
+from datetime import UTC, datetime
 from importlib import import_module
 from threading import Barrier, local
 from types import SimpleNamespace
@@ -241,6 +242,157 @@ def test_invalid_signature_rejected_before_lookup(monkeypatch, stripewallet_modu
     get_db.assert_not_called()
 
 
+@pytest.mark.parametrize(
+    "status",
+    [
+        "requires_action",
+        "requires_payment_method",
+        "requires_confirmation",
+        "processing",
+        "requires_capture",
+    ],
+)
+def test_interrupted_checkout(monkeypatch, stripewallet_module, status):
+    wallet = stripewallet_module.StripeWallet()
+    txn = SimpleNamespace(id=42, status="pending", reason="")
+    intent = stripewallet_module.stripe.PaymentIntent.construct_from(
+        {"status": status, "client_secret": "secret", "payment_method": None}, None
+    )
+    monkeypatch.setattr(wallet, "_get_transaction", lambda *_: "pi-1")
+    monkeypatch.setattr(
+        stripewallet_module.stripe.PaymentIntent, "retrieve", lambda _: intent
+    )
+    monkeypatch.setattr(stripewallet_module, "get_db", _db_for()[0])
+    monkeypatch.setattr(
+        stripewallet_module.models.Transaction, "by_user_and_id", lambda *_, **__: txn
+    )
+    monkeypatch.setattr(
+        stripewallet_module.models.StripeTransaction,
+        "by_transaction",
+        lambda *_: SimpleNamespace(stripe_pi="pi-1", checkout_revision=0),
+    )
+    # The checkout can request its secret before a wallet read reconciles the row.
+    actionable = status in {
+        "requires_action",
+        "requires_payment_method",
+        "requires_confirmation",
+    }
+    if actionable:
+        data = wallet.get_transaction_stripedata(None, None, "42")
+        assert (data.status, data.client_secret) == (
+            status if status == "requires_action" else "ok",
+            "secret",
+        )
+    else:
+        with pytest.raises(stripewallet_module.WalletError):
+            wallet.get_transaction_stripedata(None, None, "42")
+    wallet._update_transaction(None, txn, None)
+    assert txn.status == ("retry" if actionable else "pending")
+
+
+def test_checkout_can_create_intent_with_one_writer_connection(
+    monkeypatch, stripewallet_module
+):
+    from sqlalchemy.pool import QueuePool
+
+    engine = create_engine(
+        "sqlite://", poolclass=QueuePool, pool_size=1, max_overflow=0, pool_timeout=0
+    )
+
+    @contextmanager
+    def writer(_):
+        with engine.connect() as conn:
+            yield conn
+
+    wallet = stripewallet_module.StripeWallet()
+
+    def create_intent(user, txn_id):
+        with writer("writer"):
+            assert txn_id == 42
+            return "pi-1"
+
+    monkeypatch.setattr(stripewallet_module, "get_db", writer)
+    monkeypatch.setattr(
+        stripewallet_module.models.Transaction,
+        "by_user_and_id",
+        lambda *_, **__: SimpleNamespace(id=42, status="new"),
+    )
+    monkeypatch.setattr(
+        stripewallet_module.models.StripeTransaction, "by_transaction", lambda *_: None
+    )
+    monkeypatch.setattr(wallet, "_create_payment_intent", create_intent)
+    monkeypatch.setattr(
+        stripewallet_module.stripe.PaymentIntent,
+        "retrieve",
+        lambda _: SimpleNamespace(
+            status="requires_payment_method",
+            payment_method=None,
+            client_secret="secret",
+        ),
+    )
+    try:
+        assert (
+            wallet.get_transaction_stripedata(None, None, "42").client_secret
+            == "secret"
+        )
+    finally:
+        engine.dispose()
+
+
+@pytest.mark.parametrize(
+    "seconds, current, expected",
+    [
+        (0, "requires_payment_method", "retry"),
+        (0, "processing", "pending"),
+        (-1, "requires_payment_method", "pending"),
+    ],
+)
+def test_failure_at_pending_boundary(
+    monkeypatch, stripewallet_module, seconds, current, expected
+):
+    created = 1700000000
+    event = _event("flathub-txn-1") | {
+        "type": "payment_intent.payment_failed",
+        "id": "evt_failure",
+        "created": created + seconds,
+    }
+    txn = SimpleNamespace(
+        status="pending",
+        reason="",
+        updated=datetime.fromtimestamp(created, UTC).replace(
+            tzinfo=None, microsecond=999999
+        ),
+    )
+    get_db, db = _db_for()
+    db.add = MagicMock()
+    db.session.get.side_effect = [
+        SimpleNamespace(stripe_pi="pi-1", transaction=42),
+        txn,
+        None,
+    ]
+    monkeypatch.setattr(stripewallet_module, "get_db", get_db)
+    wallet = stripewallet_module.StripeWallet()
+    monkeypatch.setattr(stripewallet_module, "utcnow", lambda: txn.updated)
+    with pytest.raises(stripewallet_module.WalletError):
+        wallet.set_transaction_pending(None, None, "42")
+    monkeypatch.setattr(
+        stripewallet_module.stripe.Webhook,
+        "construct_event",
+        lambda *a, **k: _sdk_event(stripewallet_module, event),
+    )
+    lookup = MagicMock(
+        return_value=stripewallet_module.stripe.PaymentIntent.construct_from(
+            {"status": current}, None
+        )
+    )
+    monkeypatch.setattr(stripewallet_module.stripe.PaymentIntent, "retrieve", lookup)
+    response = asyncio.run(wallet.webhook(FakeRequest(event)))
+    assert response.status_code == 201
+    assert txn.status == expected
+    assert lookup.call_count == int(seconds == 0)
+    assert db.add.call_args.args[0].event_id == "evt_failure"
+
+
 def test_signed_webhooks_preserve_settled_purchase(monkeypatch, stripewallet_module):
     from app import models
     from app.db_session import DBSession
@@ -288,21 +440,25 @@ def test_signed_webhooks_preserve_settled_purchase(monkeypatch, stripewallet_mod
 
     monkeypatch.setattr(stripewallet_module, "get_db", writer)
     wallet = stripewallet_module.StripeWallet()
-    lookup = MagicMock(return_value={"status": "processing"})
+    lookup = MagicMock(
+        return_value=stripewallet_module.stripe.PaymentIntent.construct_from(
+            {"status": "processing"}, None
+        )
+    )
     monkeypatch.setattr(stripewallet_module.stripe.PaymentIntent, "retrieve", lookup)
     with writer("writer") as db:
         original_updated = db.get(models.Transaction, 42).updated
-    for event_type in (
-        "payment_intent.payment_failed",
-        "payment_intent.payment_failed",
-        "payment_intent.succeeded",
-        "payment_intent.succeeded",
-        "payment_intent.payment_failed",
+    for event_type, event_id in (
+        ("payment_intent.payment_failed", "evt_failure"),
+        ("payment_intent.payment_failed", "evt_failure"),
+        ("payment_intent.succeeded", "evt_success"),
+        ("payment_intent.succeeded", "evt_success"),
+        ("payment_intent.payment_failed", "evt_late_failure"),
     ):
         event = _event("flathub-txn-1") | {
             "type": event_type,
             "object": "event",
-            "id": "evt_fixture",
+            "id": event_id,
             "created": int(time.time()) + 5,
         }
         payload = json.dumps(event).encode()
@@ -357,13 +513,24 @@ def payment_db():
     migration = run_path(
         str(Path(ROOT_DIR) / "alembic/versions/7ca910f76d42_track_transfer_delivery.py")
     )
+    attempts = run_path(
+        str(
+            Path(ROOT_DIR)
+            / "alembic/versions/2391df57c86a_record_stripe_payment_attempts.py"
+        )
+    )
 
     def migrate(direction):
         with (
             engine.begin() as conn,
             Operations.context(MigrationContext.configure(conn)),
         ):
-            migration[direction]()
+            for change in (
+                [migration, attempts]
+                if direction == "upgrade"
+                else [attempts, migration]
+            ):
+                change[direction]()
 
     @contextmanager
     def writer(_):
@@ -378,11 +545,15 @@ def payment_db():
                 models.Transaction,
                 models.TransactionRow,
                 models.StripeTransaction,
+                models.StripeCustomer,
                 models.StripePendingTransfer,
                 models.RedeemableAppToken,
                 models.UserOwnedApp,
             ):
                 model.__table__.create(conn)
+            conn.execute(
+                text("ALTER TABLE stripetransaction DROP COLUMN checkout_revision")
+            )
         migrate("upgrade")
         yield writer, migrate
     finally:
@@ -390,6 +561,133 @@ def payment_db():
         with admin.begin() as conn:
             conn.execute(text(f"DROP SCHEMA {schema} CASCADE"))
         admin.dispose()
+
+
+def test_concurrent_checkout_and_delayed_failure(
+    payment_db, stripewallet_module, monkeypatch
+):
+    from threading import Event
+
+    from app import models
+    from app.utils import utcnow
+    from app.wallet.walletbase import ConfirmNewCard, ConfirmSavedCard
+
+    writer, _ = payment_db
+    with writer("writer") as db:
+        db.add(
+            models.Transaction(
+                id=42,
+                user_id=1,
+                value=250,
+                currency="usd",
+                kind="purchase",
+                status="new",
+                created=utcnow(),
+                updated=utcnow(),
+            )
+        )
+        db.flush()
+        db.add(models.StripeTransaction(id=1, transaction=42, stripe_pi="pi-1"))
+        db.add(models.StripeCustomer(user_id=1, stripe_cust="cus_1"))
+    monkeypatch.setattr(stripewallet_module, "get_db", writer)
+    wallet = stripewallet_module.StripeWallet()
+    user = models.FlathubUser(id=1)
+    first, second = (
+        ConfirmNewCard(checkout_revision=revision, confirmation_token=token)
+        for revision, token in enumerate(("ct_first", "ct_second"))
+    )
+    provider = stripewallet_module.stripe.PaymentIntent
+
+    def intent(status):
+        return provider.construct_from({"status": status}, None)
+
+    current = intent("requires_payment_method")
+    monkeypatch.setattr(provider, "retrieve", lambda _: current)
+    inside_confirm, release = Event(), Event()
+    calls = []
+
+    def confirm(pi, **options):
+        nonlocal current
+        assert pi == "pi-1"
+        calls.append(options["idempotency_key"])
+        if options["confirmation_token"] == "ct_first":
+            raise stripewallet_module.stripe.CardError(
+                "declined",
+                "card",
+                "card_declined",
+                json_body={"error": {"decline_code": "insufficient_funds"}},
+            )
+        inside_confirm.set()
+        assert release.wait(timeout=5)
+        current = intent("processing")
+        return current
+
+    monkeypatch.setattr(provider, "confirm", confirm)
+    assert wallet.confirm_payment(user, "42", first) == stripewallet_module.CardDecline(
+        code="card_declined", decline_code="insufficient_funds"
+    )
+    assert (
+        wallet.confirm_payment(
+            user, "42", first.model_copy(update={"confirmation_token": "ct_delayed"})
+        )
+        == "view_details"
+    )
+    event = _event("flathub-txn-1") | {
+        "type": "payment_intent.payment_failed",
+        "id": "evt_first",
+        "created": int(time.time()),
+    }
+    monkeypatch.setattr(
+        stripewallet_module.stripe.Webhook,
+        "construct_event",
+        lambda *a, **kw: _sdk_event(stripewallet_module, event),
+    )
+
+    def deliver():
+        return asyncio.run(wallet.webhook(FakeRequest(event))).status_code
+
+    with ThreadPoolExecutor(max_workers=2) as workers:
+        next_payment = workers.submit(wallet.confirm_payment, user, "42", second)
+        assert inside_confirm.wait(timeout=5)
+        late_event = workers.submit(deliver)
+        release.set()
+        assert next_payment.result(timeout=5) == "view_details"
+        assert late_event.result(timeout=5) == 201
+    assert deliver() == 201
+    assert wallet.confirm_payment(user, "42", first) == "view_details"
+    skipped = ConfirmNewCard(checkout_revision=2, confirmation_token="ct_third")
+    current = intent("requires_action")
+    assert wallet.confirm_payment(user, "42", skipped) == "view_details"
+    with pytest.raises(stripewallet_module.WalletError):
+        wallet.set_savecard(None, user, "42", "on_session")
+    current = intent("requires_payment_method")
+    assert wallet.confirm_payment(user, "42", skipped) == "view_details"
+    assert wallet.confirm_payment(user, "42", second) == "view_details"
+    with monkeypatch.context() as m:
+        m.setattr(
+            provider,
+            "retrieve",
+            MagicMock(
+                side_effect=stripewallet_module.stripe.APIConnectionError("timeout")
+            ),
+        )
+        failed = skipped.model_copy(update={"checkout_revision": 3})
+        with pytest.raises(stripewallet_module.WalletError):
+            wallet.confirm_payment(user, "42", failed)
+    assert wallet.confirm_payment(user, "42", failed) == "view_details"
+    card = SimpleNamespace(customer="cus_other", type="card")
+    monkeypatch.setattr(
+        stripewallet_module.stripe.PaymentMethod, "retrieve", lambda _: card
+    )
+    rejected = ConfirmSavedCard(checkout_revision=4, payment_method="pm_saved")
+    with pytest.raises(stripewallet_module.WalletError):
+        wallet.confirm_payment(user, "42", rejected)
+    card.customer = "cus_1"
+    assert wallet.confirm_payment(user, "42", rejected) == "view_details"
+    assert calls == ["confirm-pi-1-0", "confirm-pi-1-1"]
+    with writer("writer") as db:
+        assert db.get(models.Transaction, 42).status == "retry"
+        assert db.get(models.StripeTransaction, 1).checkout_revision == 5
 
 
 def test_payout_workers_and_legacy_rollback(

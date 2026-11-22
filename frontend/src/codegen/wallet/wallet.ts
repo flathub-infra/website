@@ -26,7 +26,10 @@ import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import qs from "qs"
 
 import type {
+  ConfirmPaymentWalletTransactionsTxnConfirmPost200,
+  ConfirmPaymentWalletTransactionsTxnConfirmPostBody,
   GetTransactionsWalletTransactionsGetParams,
+  HTTPValidationError,
   NascentTransaction,
   PaymentCardInfo,
   PostTransactionResponse,
@@ -1360,8 +1363,8 @@ export function useGetStripedataWalletStripedataGet<
 /**
  * Return the Stripe data associated with the given transaction.
  *
- * This is only applicable to transactions in the `new` or `retry` state and
- * will only work for transactions which *are* Stripe transactions.
+ * New, retryable and pending Stripe transactions can return checkout data
+ * when the current intent accepts a payment method or requires authentication.
  * @summary Get Txn Stripedata
  */
 export const getTxnStripedataWalletTransactionsTxnStripeGet = (
@@ -1450,8 +1453,8 @@ export type GetTxnStripedataWalletTransactionsTxnStripeGetQueryError =
 /**
  * Return the Stripe data associated with the given transaction.
  *
- * This is only applicable to transactions in the `new` or `retry` state and
- * will only work for transactions which *are* Stripe transactions.
+ * New, retryable and pending Stripe transactions can return checkout data
+ * when the current intent accepts a payment method or requires authentication.
  * @summary Get Txn Stripedata
  */
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
@@ -1492,8 +1495,8 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
 /**
  * Return the Stripe data associated with the given transaction.
  *
- * This is only applicable to transactions in the `new` or `retry` state and
- * will only work for transactions which *are* Stripe transactions.
+ * New, retryable and pending Stripe transactions can return checkout data
+ * when the current intent accepts a payment method or requires authentication.
  * @summary Get Txn Stripedata
  */
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
@@ -1534,8 +1537,8 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
 /**
  * Return the Stripe data associated with the given transaction.
  *
- * This is only applicable to transactions in the `new` or `retry` state and
- * will only work for transactions which *are* Stripe transactions.
+ * New, retryable and pending Stripe transactions can return checkout data
+ * when the current intent accepts a payment method or requires authentication.
  * @summary Get Txn Stripedata
  */
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
@@ -1564,8 +1567,8 @@ export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
 /**
  * Return the Stripe data associated with the given transaction.
  *
- * This is only applicable to transactions in the `new` or `retry` state and
- * will only work for transactions which *are* Stripe transactions.
+ * New, retryable and pending Stripe transactions can return checkout data
+ * when the current intent accepts a payment method or requires authentication.
  * @summary Get Txn Stripedata
  */
 export function useGetTxnStripedataWalletTransactionsTxnStripeGet<
@@ -1736,8 +1739,131 @@ export const useSetSavecardWalletTransactionsTxnSavecardPost = <
   )
 }
 /**
- * Set the transaction as 'pending' so that we can recover if Stripe
- * flows don't quite work (e.g. webhook goes missing)
+ * @summary Confirm Payment
+ */
+export const confirmPaymentWalletTransactionsTxnConfirmPost = (
+  txn: string,
+  confirmPaymentWalletTransactionsTxnConfirmPostBody: ConfirmPaymentWalletTransactionsTxnConfirmPostBody,
+  options?: AxiosRequestConfig,
+): Promise<
+  AxiosResponse<ConfirmPaymentWalletTransactionsTxnConfirmPost200>
+> => {
+  return axios.post(
+    `/wallet/transactions/${txn}/confirm`,
+    confirmPaymentWalletTransactionsTxnConfirmPostBody,
+    options,
+  )
+}
+
+export const getConfirmPaymentWalletTransactionsTxnConfirmPostUrl = (
+  txn: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/wallet/transactions/${txn}/confirm`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getConfirmPaymentWalletTransactionsTxnConfirmPostMutationKey =
+  () => ["confirmPaymentWalletTransactionsTxnConfirmPost"] as const
+
+export const getConfirmPaymentWalletTransactionsTxnConfirmPostMutationOptions =
+  <TError = AxiosError<HTTPValidationError>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof confirmPaymentWalletTransactionsTxnConfirmPost>
+      >,
+      TError,
+      ConfirmPaymentWalletTransactionsTxnConfirmPostMutationVariables,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  }): UseMutationOptions<
+    Awaited<ReturnType<typeof confirmPaymentWalletTransactionsTxnConfirmPost>>,
+    TError,
+    ConfirmPaymentWalletTransactionsTxnConfirmPostMutationVariables,
+    TContext
+  > => {
+    const mutationKey =
+      getConfirmPaymentWalletTransactionsTxnConfirmPostMutationKey()
+    const { mutation: mutationOptions, axios: axiosOptions } = options
+      ? options.mutation &&
+        "mutationKey" in options.mutation &&
+        options.mutation.mutationKey
+        ? options
+        : { ...options, mutation: { ...options.mutation, mutationKey } }
+      : { mutation: { mutationKey }, axios: undefined }
+
+    const mutationFn: MutationFunction<
+      Awaited<
+        ReturnType<typeof confirmPaymentWalletTransactionsTxnConfirmPost>
+      >,
+      ConfirmPaymentWalletTransactionsTxnConfirmPostMutationVariables
+    > = (props) => {
+      const { txn, data } = props ?? {}
+
+      return confirmPaymentWalletTransactionsTxnConfirmPost(
+        txn,
+        data,
+        axiosOptions,
+      )
+    }
+
+    return { mutationFn, ...mutationOptions }
+  }
+
+export type ConfirmPaymentWalletTransactionsTxnConfirmPostMutationResult =
+  NonNullable<
+    Awaited<ReturnType<typeof confirmPaymentWalletTransactionsTxnConfirmPost>>
+  >
+export type ConfirmPaymentWalletTransactionsTxnConfirmPostMutationBody =
+  ConfirmPaymentWalletTransactionsTxnConfirmPostBody
+export type ConfirmPaymentWalletTransactionsTxnConfirmPostMutationError =
+  AxiosError<HTTPValidationError>
+export type ConfirmPaymentWalletTransactionsTxnConfirmPostMutationVariables = {
+  txn: string
+  data: ConfirmPaymentWalletTransactionsTxnConfirmPostBody
+}
+
+/** @summary Confirm Payment */
+export const useConfirmPaymentWalletTransactionsTxnConfirmPost = <
+  TError = AxiosError<HTTPValidationError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<
+        ReturnType<typeof confirmPaymentWalletTransactionsTxnConfirmPost>
+      >,
+      TError,
+      ConfirmPaymentWalletTransactionsTxnConfirmPostMutationVariables,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof confirmPaymentWalletTransactionsTxnConfirmPost>>,
+  TError,
+  ConfirmPaymentWalletTransactionsTxnConfirmPostMutationVariables,
+  TContext
+> => {
+  return useMutation(
+    getConfirmPaymentWalletTransactionsTxnConfirmPostMutationOptions(options),
+    queryClient,
+  )
+}
+/**
+ * Mark a fake-wallet transaction pending. Stripe checkout clients must use
+ * the confirmation endpoint instead of marking a payment pending separately.
  * @summary Set Pending
  */
 export const setPendingWalletTransactionsTxnSetpendingPost = (
@@ -1822,8 +1948,8 @@ export type SetPendingWalletTransactionsTxnSetpendingPostMutationVariables = {
 }
 
 /**
- * Set the transaction as 'pending' so that we can recover if Stripe
- * flows don't quite work (e.g. webhook goes missing)
+ * Mark a fake-wallet transaction pending. Stripe checkout clients must use
+ * the confirmation endpoint instead of marking a payment pending separately.
  * @summary Set Pending
  */
 export const useSetPendingWalletTransactionsTxnSetpendingPost = <
