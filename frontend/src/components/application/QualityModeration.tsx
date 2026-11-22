@@ -68,15 +68,13 @@ const QualityModerationStatusComponent = ({
 }
 
 const QualityReviewButton = ({
-  review_requested_at,
   status,
   app_id,
-  mode,
+  canRequestReview,
 }: {
-  review_requested_at?: string
   status?: QualityModerationStatus
   app_id: string
-  mode?: "qualityModerator" | "readOnly"
+  canRequestReview: boolean
 }) => {
   const t = useTranslations()
   const queryClient = useQueryClient()
@@ -101,11 +99,11 @@ const QualityReviewButton = ({
     return null
   }
 
-  if (mode === "qualityModerator" && !review_requested_at) {
+  if (!canRequestReview && !status?.review_requested_at) {
     return null
   }
 
-  if (!review_requested_at) {
+  if (!status?.review_requested_at) {
     return (
       <Button
         size="lg"
@@ -116,7 +114,7 @@ const QualityReviewButton = ({
         }}
       >
         <MailOpenIcon className="size-5" />
-        <div className="hidden sm:block">
+        <div className="sr-only sm:not-sr-only">
           {t("quality-guideline.request-review")}
         </div>
 
@@ -147,7 +145,7 @@ const QualityReviewButton = ({
   return (
     <Button size="lg" className="me-2" variant="secondary" disabled>
       <MailIcon className="size-5" />
-      <div className="hidden sm:block">
+      <div className="sr-only sm:not-sr-only">
         {t("quality-guideline.review-requested")}
       </div>
     </Button>
@@ -212,7 +210,7 @@ export const QualityModeration = ({
 
   const errorStatus = (query.error as any)?.response?.status
   const errorDetail = (query.error as any)?.response?.data?.detail
-  const is404 = query.isError && errorStatus === 404
+  const is404 = canViewQualityStatus && query.isError && errorStatus === 404
   const isExcluded = is404 && errorDetail === "App excluded from app picks"
   const isGeneric404 = is404 && !isExcluded
 
@@ -260,7 +258,7 @@ export const QualityModeration = ({
             <Button size="lg" variant="secondary" asChild className="me-2">
               <Link href={`/admin/moderation/${app.id}`}>
                 <ScanEyeIcon className="w-5 h-5" />
-                <div className="hidden sm:block">Review</div>
+                <div className="sr-only sm:not-sr-only">Review</div>
               </Link>
             </Button>
           )}
@@ -268,15 +266,14 @@ export const QualityModeration = ({
             <QualityReviewButton
               app_id={app.id}
               status={query?.data?.data}
-              review_requested_at={query?.data?.data?.review_requested_at}
-              mode={mode}
+              canRequestReview={!!isDeveloper && !isQualityModerator}
             />
           )}
           {canManageApp && (
             <Button size="lg" variant="secondary" asChild className="me-2">
               <Link href={`/apps/manage/${app.id}`}>
                 <SettingsIcon className="size-5" />
-                <div className="hidden sm:block">{t("manage")}</div>
+                <div className="sr-only sm:not-sr-only">{t("manage")}</div>
               </Link>
             </Button>
           )}
