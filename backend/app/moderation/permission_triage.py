@@ -139,7 +139,6 @@ class Deps:
     published_manifest: dict[str, JSONValue] | None
     sources: SourceWorkspace
     source_calls: int = 0
-    read_files: set[tuple[str, str]] = field(default_factory=set)
     source_lock: threading.Lock = field(default_factory=threading.Lock)
 
 
@@ -493,31 +492,22 @@ def read_source_file(
         if ctx.deps.source_calls >= MAX_SOURCE_CALLS:
             return SOURCE_BUDGET_USED
         ctx.deps.source_calls += 1
-        ctx.deps.read_files.add((module, path))
         return ctx.deps.sources.read(module, path, start_line, end_line)
 
 
 def resolve_source_refs(
-    refs: list[SourceRef], sources: SourceWorkspace, read_files: set[tuple[str, str]]
+    refs: list[SourceRef], sources: SourceWorkspace
 ) -> list[dict[str, Any]]:
     resolved = []
     for ref in refs:
-        if (ref.module, ref.path) not in read_files:
+        if not 0 <= ref.end_line - ref.start_line < MAX_REF_LINES:
             continue
-        lines = sources.lines(ref.module, ref.path)
-        if lines is None:
-            continue
-        if not (
-            1 <= ref.start_line <= ref.end_line <= len(lines)
-            and ref.end_line - ref.start_line < MAX_REF_LINES
-        ):
-            continue
-        resolved.append(
-            {
-                **ref.model_dump(),
-                "text": "\n".join(lines[ref.start_line - 1 : ref.end_line]),
-            }
+        excerpt = sources.shown_excerpt(
+            ref.module, ref.path, ref.start_line, ref.end_line
         )
+        if excerpt is None:
+            continue
+        resolved.append({**ref.model_dump(), "text": excerpt})
     return resolved
 
 
@@ -530,9 +520,7 @@ def resolve_output(output: Triage, deps: Deps) -> dict[str, Any]:
                 "manifest_refs": resolve_manifest_refs(
                     change.manifest_refs, deps.candidate_manifest
                 ),
-                "source_refs": resolve_source_refs(
-                    change.source_refs, deps.sources, deps.read_files
-                ),
+                "source_refs": resolve_source_refs(change.source_refs, deps.sources),
             }
             for change in sorted(output.changes, key=lambda item: item.difference)
         ],
