@@ -145,7 +145,11 @@ class MetadataDocument:
         root = self.tree.getroot()
         if self.tree.docinfo.doctype or root.tag != "component":
             raise MetadataError("unsupported_metadata")
-        if root.findtext("id") != app_id:
+        component_id = root.findtext("id")
+        if component_id != app_id and not (
+            root.get("type") in ("desktop", "desktop-application")
+            and component_id == f"{app_id}.desktop"
+        ):
             raise MetadataError("wrong_component")
         self.source_locale = (root.get(LANG) or "en").replace("-", "_")
         if self.locale == self.source_locale or (
@@ -191,9 +195,7 @@ class MetadataDocument:
                 field = "caption"
                 context = str(list(parent.getparent()).index(parent) + 1)
             elif node.tag == "keywords" and parent is root:
-                if any(child.get(LANG) for child in node):
-                    raise MetadataError("unsupported_metadata")
-                if any(not _translatable(child) for child in node):
+                if any(child.get(LANG) or not _translatable(child) for child in node):
                     continue
                 field = "keywords"
             elif node.tag == "name" and parent.tag == "agreement_section":
