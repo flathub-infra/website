@@ -102,6 +102,7 @@ class YearInReviewResult(BaseModel):
     total_downloads_change: int
     total_downloads_change_percentage: float
     top_chart_limit: int = 3
+    top_games_chart_limit: int = 3
     top_apps: list[YearInReviewMostPopularApp]
     top_games: list[YearInReviewMostPopularApp]
     top_emulators: list[YearInReviewMostPopularApp]
@@ -119,7 +120,7 @@ class YearInReviewResult(BaseModel):
 
 # The cache key includes the function name. Bypass entries from older chart versions.
 @cache.cached(ttl=86400)  # 1 day cache
-async def _get_year_in_review_v2_cached(
+async def _get_year_in_review_v3_cached(
     response: Response,
     year: int,
     locale: str = "en",
@@ -171,4 +172,4 @@ async def get_year_in_review(
             status_code=422, detail=f"Year must be between 2018 and {max_year}"
         )
 
-    return await _get_year_in_review_v2_cached(response, year, locale)
+    return await _get_year_in_review_v3_cached(response, year, locale)

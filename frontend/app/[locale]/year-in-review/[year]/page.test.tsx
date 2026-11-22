@@ -137,6 +137,7 @@ test.each([undefined, 3, 5, 10])(
           data: {
             year,
             top_chart_limit: year === 2024 ? limit : 10,
+            top_games_chart_limit: limit === 3 ? 10 : undefined,
             top_apps: [{ app_id: "org.example.App" }],
             top_games: [],
           },
@@ -147,7 +148,10 @@ test.each([undefined, 3, 5, 10])(
     expect(YearInReview).toHaveBeenCalledWith(
       expect.objectContaining({
         previousCharts: {
-          limit: limit ?? 3,
+          limits: {
+            "top-apps": limit ?? 3,
+            "top-games": limit === 3 ? 10 : (limit ?? 3),
+          },
           "top-apps": ["org.example.App"],
           "top-games": [],
         },

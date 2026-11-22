@@ -165,10 +165,11 @@ test.each([3, 5, 10])(
           year={2025}
           topApps={[]}
           topGames={games}
-          topEmulators={[]}
-          topGameStores={[]}
-          topGameUtilities={[]}
-          previousCharts={{ limit, "top-apps": [], "top-games": prior }}
+          previousCharts={{
+            limits: { "top-apps": 3, "top-games": limit },
+            "top-apps": [],
+            "top-games": prior,
+          }}
         />
       </NextIntlClientProvider>,
     )
@@ -245,9 +246,6 @@ test("a year without arrivals reports zero without drawing an empty spiral", () 
         totalDownloadsChangePercentage={11.1}
         topApps={[]}
         topGames={[]}
-        topEmulators={[]}
-        topGameStores={[]}
-        topGameUtilities={[]}
       />
     </NextIntlClientProvider>,
   )

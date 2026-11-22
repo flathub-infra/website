@@ -30,6 +30,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, year } = await params
   const t = await getTranslations()
+  const imageUrl = `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/yearInReviewOgImage/${year}?locale=${locale}&v=3`
 
   return {
     title: t("year-in-review.title", { year }),
@@ -43,7 +44,7 @@ export async function generateMetadata({
       url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/${locale}/year-in-review/${year}`,
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/yearInReviewOgImage/${year}?locale=${locale}&v=2`,
+          url: imageUrl,
           width: 1200,
           height: 630,
           alt: `Flathub ${t("year-in-review.title", { year })}`,
@@ -54,9 +55,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: `${t("year-in-review.title", { year })} - Flathub`,
       description: t("year-in-review.description"),
-      images: [
-        `${process.env.NEXT_PUBLIC_SITE_BASE_URI}/api/yearInReviewOgImage/${year}?locale=${locale}&v=2`,
-      ],
+      images: [imageUrl],
     },
   }
 }
@@ -117,7 +116,11 @@ export default async function YearInReviewPage({
   const hasPreviousYear = yearInReviewData.year > MIN_YEAR
   const previousCharts = previous
     ? {
-        limit: previous.top_chart_limit ?? 3,
+        limits: {
+          "top-apps": previous.top_chart_limit ?? 3,
+          "top-games":
+            previous.top_games_chart_limit ?? previous.top_chart_limit ?? 3,
+        },
         "top-apps": previous.top_apps.map((app) => app.app_id),
         "top-games": previous.top_games.map((app) => app.app_id),
       }
@@ -174,9 +177,6 @@ export default async function YearInReviewPage({
           topApps={yearInReviewData.top_apps}
           topGames={yearInReviewData.top_games}
           previousCharts={previousCharts}
-          topEmulators={yearInReviewData.top_emulators}
-          topGameStores={yearInReviewData.top_game_stores}
-          topGameUtilities={yearInReviewData.top_game_utilities}
           popularAppsByCategory={yearInReviewData.popular_apps_by_category}
           biggestGrowthByCategory={yearInReviewData.biggest_growth_by_category}
           newcomersByCategory={yearInReviewData.newcomers_by_category}

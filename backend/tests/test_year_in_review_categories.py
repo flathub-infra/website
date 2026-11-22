@@ -15,15 +15,20 @@ def classify_app(monkeypatch, stats_database):
     with patch("meilisearch.Client"):
         from app import stats
 
-    def build(app_id, main_category, sub_categories):
-        app = SimpleNamespace(
-            app_id=app_id, main_category=main_category, sub_categories=sub_categories
-        )
+    def build(*entries, include_subcategories=False):
+        apps = [
+            SimpleNamespace(
+                app_id=app_id,
+                main_category=main_category,
+                sub_categories=sub_categories,
+            )
+            for app_id, main_category, sub_categories, _ in entries
+        ]
 
         @contextmanager
         def app_db(*args, **kwargs):
             sqldb = MagicMock()
-            sqldb.query.return_value.filter.return_value.all.return_value = [app]
+            sqldb.query.return_value.filter.return_value.all.return_value = apps
             yield sqldb
 
         monkeypatch.setattr(
@@ -33,7 +38,12 @@ def classify_app(monkeypatch, stats_database):
         )
         stats_db.save_day(
             datetime.date(2018, 4, 29),
-            {"refs": {app_id: {"x86_64": [10, 0]}}},
+            {
+                "refs": {
+                    app_id: {"x86_64": [downloads, 0]}
+                    for app_id, _, _, downloads in entries
+                }
+            },
             datetime.datetime(2018, 5, 1, tzinfo=datetime.UTC),
         )
         monkeypatch.setattr(stats.database, "get_db", app_db)
@@ -41,17 +51,10 @@ def classify_app(monkeypatch, stats_database):
         monkeypatch.setattr(stats.config.settings, "env", "development")
 
         result = asyncio.run(stats._build_year_in_review_base(2018))
-        return {
-            key: result[key]
-            for key in (
-                "top_apps",
-                "top_games",
-                "top_emulators",
-                "top_game_stores",
-                "top_game_utilities",
-            )
-            if result[key]
-        }
+        keys = ["top_apps", "top_games"]
+        if include_subcategories:
+            keys.extend(["top_emulators", "top_game_stores", "top_game_utilities"])
+        return {key: result[key] for key in keys if result[key]}
 
     return build
 
@@ -59,42 +62,46 @@ def classify_app(monkeypatch, stats_database):
 @pytest.mark.parametrize(
     ("subcategory", "expected"),
     [
-        ("launcherStore", "top_game_stores"),
-        ("packageManager", "top_game_stores"),
-        ("gameTool", "top_game_utilities"),
-        ("utility", "top_game_utilities"),
-        ("network", "top_game_utilities"),
-        ("emulator", "top_emulators"),
-        ("actionGame", "top_games"),
+        ("launcherStore", ["top_apps", "top_game_stores"]),
+        ("packageManager", ["top_apps", "top_game_stores"]),
+        ("gameTool", ["top_apps", "top_game_utilities"]),
+        ("utility", ["top_apps", "top_game_utilities"]),
+        ("network", ["top_apps", "top_game_utilities"]),
+        ("emulator", ["top_apps", "top_emulators"]),
+        ("actionGame", ["top_games"]),
     ],
 )
 @pytest.mark.parametrize("casing", [str, str.lower, str.upper])
 def test_gaming_subcategories(classify_app, subcategory, expected, casing):
     app_id = "org.example.Game"
-    assert classify_app(app_id, "Game", [casing(subcategory)]) == {
-        expected: [{"app_id": app_id, "downloads": 10}]
-    }
+    assert classify_app(
+        (app_id, "Game", [casing(subcategory)], 10), include_subcategories=True
+    ) == {key: [{"app_id": app_id, "downloads": 10}] for key in expected}
 
 
 @pytest.mark.parametrize(
     ("main_category", "subcategories", "expected"),
     [
-        ("game", None, "top_games"),
-        ("GAME", [], "top_games"),
-        ("game", ["emulator", "launcherStore", "gameTool"], "top_emulators"),
-        ("game", ["launcherStore", "gameTool"], "top_game_stores"),
-        ("utility", ["gameTool"], "top_apps"),
+        ("game", None, ["top_games"]),
+        ("GAME", [], ["top_games"]),
+        (
+            "game",
+            ["emulator", "launcherStore", "gameTool"],
+            ["top_apps", "top_emulators"],
+        ),
+        ("game", ["launcherStore", "gameTool"], ["top_apps", "top_game_stores"]),
+        ("utility", ["gameTool"], ["top_apps"]),
     ],
 )
 def test_category_precedence(classify_app, main_category, subcategories, expected):
     app_id = "org.example.Game"
-    assert classify_app(app_id, main_category, subcategories) == {
-        expected: [{"app_id": app_id, "downloads": 10}]
-    }
+    assert classify_app(
+        (app_id, main_category, subcategories, 10), include_subcategories=True
+    ) == {key: [{"app_id": app_id, "downloads": 10}] for key in expected}
 
 
 @pytest.mark.parametrize(
-    ("app_id", "expected"),
+    ("app_id", "specialist_chart"),
     [
         ("net.lutris.Lutris", "top_game_stores"),
         ("org.scummvm.ScummVM", "top_game_utilities"),
@@ -113,7 +120,30 @@ def test_category_precedence(classify_app, main_category, subcategories, expecte
         ("utility", []),
     ],
 )
-def test_manual_overrides(classify_app, app_id, expected, main_category, subcategories):
-    assert classify_app(app_id, main_category, subcategories) == {
-        expected: [{"app_id": app_id, "downloads": 10}]
+def test_manual_overrides(
+    classify_app, app_id, specialist_chart, main_category, subcategories
+):
+    assert classify_app(
+        (app_id, main_category, subcategories, 10), include_subcategories=True
+    ) == {
+        key: [{"app_id": app_id, "downloads": 10}]
+        for key in ("top_apps", specialist_chart)
+    }
+
+
+def test_gaming_tools_compete_with_other_apps_by_downloads(classify_app):
+    assert classify_app(
+        ("org.example.Launcher", "Game", ["LauncherStore"], 20),
+        ("org.example.Editor", "Utility", [], 30),
+        ("org.example.Emulator", "Game", ["Emulator"], 40),
+        ("org.example.Game", "Game", ["ActionGame"], 50),
+        ("org.example.GameTool", "Game", ["GameTool"], 60),
+    ) == {
+        "top_apps": [
+            {"app_id": "org.example.GameTool", "downloads": 60},
+            {"app_id": "org.example.Emulator", "downloads": 40},
+            {"app_id": "org.example.Editor", "downloads": 30},
+            {"app_id": "org.example.Launcher", "downloads": 20},
+        ],
+        "top_games": [{"app_id": "org.example.Game", "downloads": 50}],
     }

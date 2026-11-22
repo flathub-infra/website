@@ -594,8 +594,9 @@ def update(sqldb):
     _generate_and_store_year_in_review_stats(sqldb)
 
 
-_YEAR_IN_REVIEW_SNAPSHOT_VERSION = 2
+_YEAR_IN_REVIEW_SNAPSHOT_VERSION = 3
 _TOP_CHART_LIMIT = 10
+_GAMING_APP_CHARTS = ("top_emulators", "top_game_stores", "top_game_utilities")
 
 
 class _IncompleteYearStats(Exception):
@@ -807,6 +808,51 @@ def _build_base_top_list(
     ]
 
 
+def _rank_top_chart(
+    downloads: dict[str, int],
+    limit: int = _TOP_CHART_LIMIT,
+) -> list[JSONValue]:
+    ids = sorted(downloads, key=lambda app_id: (-downloads[app_id], app_id))
+    return _build_base_top_list(ids[:limit], downloads)
+
+
+def _merge_archived_charts(*archived_charts: JSONValue) -> list[JSONValue]:
+    totals: dict[str, int] = {}
+    for chart in archived_charts:
+        if isinstance(chart, list):
+            for row in chart:
+                if is_json_object(row):
+                    app_id, count = row.get("app_id"), row.get("downloads")
+                    if isinstance(app_id, str) and isinstance(count, int):
+                        totals[app_id] = count
+    # Stable sorting preserves published ties, using source order across charts.
+    ids = sorted(totals, key=totals.__getitem__, reverse=True)
+    return _build_base_top_list(ids[:_TOP_CHART_LIMIT], totals)
+
+
+def _archived_top_apps(
+    data: dict[str, JSONValue], version: JSONValue
+) -> tuple[list[JSONValue], int]:
+    charts = {key: data.get(key) for key in ("top_apps", *_GAMING_APP_CHARTS)}
+    merged = _merge_archived_charts(*charts.values())
+    limit = _TOP_CHART_LIMIT
+    for key, chart in charts.items():
+        capacity = _TOP_CHART_LIMIT if key == "top_apps" and version == 2 else 3
+        if not isinstance(chart, list):
+            # An unrecorded chart could contain the overall leader.
+            return [], 0
+        if len(chart) >= capacity:
+            # An omitted entry could rank immediately after this chart's last
+            # published entry, including when the download counts are tied.
+            last = chart[-1]
+            if is_json_object(last):
+                for rank, row in enumerate(merged, 1):
+                    if is_json_object(row) and row["app_id"] == last.get("app_id"):
+                        limit = min(limit, rank)
+                        break
+    return merged[:limit], limit
+
+
 async def _build_year_in_review_base(
     year: int, previous: dict[str, JSONValue] | None = None
 ) -> dict[str, JSONValue] | None:
@@ -937,25 +983,22 @@ async def _build_year_in_review_base(
             :count
         ]
 
+    previous_version = _year_in_review_snapshot_version(previous) if previous else None
     published = (
         previous
         if previous
         and edate == datetime.date(year, 12, 31)
-        and _year_in_review_is_finalized(previous, year, version=1)
+        and (
+            _year_in_review_is_finalized(previous, year, version=1)
+            or _year_in_review_is_finalized(previous, year, version=2)
+        )
         and isinstance(previous.get("top_apps"), list)
         and isinstance(previous.get("top_games"), list)
         else {}
     )
-    chart_keys = (
-        "top_apps",
-        "top_games",
-        "top_emulators",
-        "top_game_stores",
-        "top_game_utilities",
-    )
     published_ids = {
         entry["app_id"]
-        for key in chart_keys
+        for key in ("top_apps", "top_games", *_GAMING_APP_CHARTS)
         if isinstance(rows := published.get(key), list)
         for entry in rows
         if isinstance(entry, dict) and isinstance(entry.get("app_id"), str)
@@ -964,36 +1007,82 @@ async def _build_year_in_review_base(
     def expanded_chart(key: str, downloads: dict[str, int]) -> list[JSONValue]:
         old = published.get(key)
         prefix: list[JSONValue] = old.copy() if isinstance(old, list) else []
-        if isinstance(old, list) and len(old) < 3:
-            return prefix  # The published chart already contained every eligible app.
+        if isinstance(old, list) and (
+            (previous_version == 2 and key == "top_apps")
+            or len(old) < 3
+            or len(old) >= _TOP_CHART_LIMIT
+        ):
+            return prefix
         cutoff = (
             prefix[-1].get("downloads")
             if prefix and isinstance(prefix[-1], dict)
             else None
         )
-        candidates = (
-            app_id
+        candidates = {
+            app_id: count
             for app_id, count in downloads.items()
             if app_id not in published_ids
             and (not isinstance(cutoff, int) or count <= cutoff)
-        )
-        ids = sorted(candidates, key=lambda app_id: (-downloads[app_id], app_id))
-        prefix.extend(
-            _build_base_top_list(ids[: _TOP_CHART_LIMIT - len(prefix)], downloads)
-        )
+        }
+        prefix.extend(_rank_top_chart(candidates, limit=_TOP_CHART_LIMIT - len(prefix)))
         return prefix
 
-    top_apps = expanded_chart("top_apps", non_game_app_downloads)
     top_games = expanded_chart("top_games", gaming_app_downloads)
+    gaming_support_downloads = (
+        emulator_app_downloads | game_store_app_downloads | game_utility_app_downloads
+    )
     snapshot: dict[str, JSONValue] = {
         "version": _YEAR_IN_REVIEW_SNAPSHOT_VERSION,
         "through": edate.isoformat(),
     }
     if published:
+
+        def unpublished_cutoff(key: str) -> int | None:
+            rows = published.get(key)
+            if not isinstance(rows, list):
+                return None
+            # V2 could have expanded a v1 chart when some apps were delisted.
+            # Only its original three places can rule out historical membership.
+            if len(rows) >= 3:
+                third = rows[2]
+                if is_json_object(third) and isinstance(
+                    count := third.get("downloads"), int
+                ):
+                    return count
+                return None
+            return -1
+
+        game_cutoff = unpublished_cutoff("top_games")
+        app_cutoffs = [unpublished_cutoff(k) for k in ("top_apps", *_GAMING_APP_CHARTS)]
+        app_cutoff = max((n for n in app_cutoffs if n is not None), default=-1)
+        historical_apps: dict[str, int] = {}
+        historical_games: dict[str, int] = {}
+        for app_id, count in app_downloads.items():
+            if (
+                app_id not in desktop_app_ids
+                or app_id in published_ids
+                or game_cutoff is None
+            ):
+                continue
+            if game_cutoff < count <= app_cutoff:
+                historical_apps[app_id] = count
+            elif None not in app_cutoffs and app_cutoff < count <= game_cutoff:
+                historical_games[app_id] = count
+        if historical_games:
+            top_games = expanded_chart(
+                "top_games", gaming_app_downloads | historical_games
+            )
+        # Keep archived entries even if an app was removed or recategorized.
         return {
             **published,
             "_snapshot": snapshot,
-            "top_apps": top_apps,
+            "top_apps": _merge_archived_charts(
+                expanded_chart("top_apps", non_game_app_downloads),
+                expanded_chart("top_emulators", emulator_app_downloads),
+                expanded_chart("top_game_stores", game_store_app_downloads),
+                expanded_chart("top_game_utilities", game_utility_app_downloads),
+                _rank_top_chart(historical_apps),
+            ),
             "top_games": top_games,
         }
 
@@ -1295,7 +1384,7 @@ async def _build_year_in_review_base(
         "updates_count": total_updates,
         "total_downloads_change": total_downloads_change,
         "total_downloads_change_percentage": total_downloads_change_percentage,
-        "top_apps": top_apps,
+        "top_apps": _rank_top_chart(non_game_app_downloads | gaming_support_downloads),
         "top_games": top_games,
         "top_emulators": _build_base_top_list(top_emulator_ids, emulator_app_downloads),
         "top_game_stores": _build_base_top_list(
@@ -1477,19 +1566,27 @@ async def get_year_stats(year: int, locale: str = "en"):
         elif base_data is None or (
             past_year
             and _year_in_review_snapshot_version(base_data)
-            not in (1, _YEAR_IN_REVIEW_SNAPSHOT_VERSION)
+            not in (1, 2, _YEAR_IN_REVIEW_SNAPSHOT_VERSION)
         ):
             return None
 
     if base_data is None:
         return None
 
+    version = _year_in_review_snapshot_version(base_data)
+    limit = _TOP_CHART_LIMIT
+    if version != _YEAR_IN_REVIEW_SNAPSHOT_VERSION:
+        top_apps, limit = _archived_top_apps(base_data, version)
+        base_data = {**base_data, "top_apps": top_apps}
     result = await _add_translations_to_year_in_review(base_data, locale)
-    result["top_chart_limit"] = (
-        _TOP_CHART_LIMIT
-        if _year_in_review_snapshot_version(base_data)
-        == _YEAR_IN_REVIEW_SNAPSHOT_VERSION
+    result["top_chart_limit"] = limit
+    games = base_data.get("top_games")
+    result["top_games_chart_limit"] = (
+        0
+        if not isinstance(games, list)
         else 3
+        if version not in (2, _YEAR_IN_REVIEW_SNAPSHOT_VERSION) and len(games) >= 3
+        else _TOP_CHART_LIMIT
     )
     population = get_country_population(year)
     geographic_stats = result.get("geographic_stats")
