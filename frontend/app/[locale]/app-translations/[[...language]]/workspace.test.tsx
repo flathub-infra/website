@@ -12,6 +12,7 @@ import MetadataTranslationEditor from "src/components/application/MetadataTransl
 import { openTranslationDrafts } from "src/components/application/translationDrafts"
 
 const save = vi.hoisted(() => vi.fn())
+const getQueue = vi.hoisted(() => vi.fn())
 const unit = {
   id: "summary",
   field: "summary",
@@ -21,15 +22,7 @@ const unit = {
   version: "v1",
 }
 vi.mock("src/codegen/metadata-translations/metadata-translations", () => ({
-  getTranslationQueueMetadataTranslationsQueueGet: async () => ({
-    data: {
-      apps: ["Alpha", "Beta", "Gamma"].map((name) => ({
-        app_id: `org.example.${name}`,
-        name,
-      })),
-      attention: [],
-    },
-  }),
+  getTranslationQueueMetadataTranslationsQueueGet: getQueue,
   getTranslationSourceMetadataTranslationsAppIdGet: async (
     _app: string,
     { locale }: { locale: string },
@@ -68,6 +61,71 @@ vi.mock("src/context/user-info", () => ({
     },
   }),
 }))
+
+it("explains a partial queue and adds apps when indexing progresses", async () => {
+  vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true)
+  vi.useFakeTimers()
+  notifyManager.setNotifyFunction((notify) => act(notify))
+  const host = document.body.appendChild(document.createElement("div"))
+  const root = createRoot(host)
+  const client = new QueryClient()
+  const original = location.href
+  const apps = [
+    "Alpha",
+    "Beta",
+    "Gamma",
+    "Delta",
+    "Epsilon",
+    "Zeta",
+    "Eta",
+  ].map((name) => ({ app_id: `org.example.${name}`, name }))
+  getQueue
+    .mockResolvedValueOnce({
+      data: { apps: apps.slice(0, 5), attention: [], indexing: true },
+    })
+    .mockRejectedValueOnce(new Error("Queue unavailable"))
+    .mockResolvedValue({
+      data: { apps: apps.slice(1), attention: [], indexing: false },
+    })
+  history.replaceState(null, "", "?app=org.example.Alpha")
+  onTestFinished(async () => {
+    await act(async () => root.unmount())
+    host.remove()
+    client.clear()
+    history.replaceState(null, "", original)
+    localStorage.removeItem("app-translations.pass:github:translator:de")
+    getQueue.mockReset()
+    notifyManager.setNotifyFunction((notify) => notify())
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+  await act(async () =>
+    root.render(
+      <QueryClientProvider client={client}>
+        <AppTranslations language="de" />
+      </QueryClientProvider>,
+    ),
+  )
+  await act(async () => vi.advanceTimersByTimeAsync(100))
+  expect(host.querySelector("summary")?.textContent).toBe("Choose an app (5)")
+  const statuses = () =>
+    Array.from(host.querySelectorAll('[role="status"]'), (node) =>
+      node.textContent?.trim(),
+    )
+  expect(statuses()).toContain("Flathub is still checking other apps.")
+
+  await act(async () => vi.advanceTimersByTimeAsync(60_000))
+  expect(host.querySelector("summary")?.textContent).toBe("Choose an app (5)")
+  expect(host.querySelector("h2")?.textContent).toBe("Alpha")
+
+  await act(async () => vi.advanceTimersByTimeAsync(60_000))
+  expect(host.querySelector("summary")?.textContent).toBe("Choose an app (6)")
+  expect(statuses()).not.toContain("Flathub is still checking other apps.")
+  expect(host.querySelector("h2")?.textContent).toBe("Alpha")
+
+  await act(async () => vi.advanceTimersByTimeAsync(60_000))
+  expect(getQueue).toHaveBeenCalledTimes(3)
+})
 
 it("shares the language loaded in the standalone editor", async () => {
   vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true)
@@ -122,6 +180,16 @@ async function openBetaWhileAlphaIsSaving() {
   localStorage.clear()
   save.mockClear()
   save.mockReturnValue(response.promise)
+  getQueue.mockResolvedValue({
+    data: {
+      apps: ["Alpha", "Beta", "Gamma"].map((name) => ({
+        app_id: `org.example.${name}`,
+        name,
+      })),
+      attention: [],
+      indexing: false,
+    },
+  })
   const render = () =>
     act(async () =>
       root.render(
@@ -155,6 +223,7 @@ async function openBetaWhileAlphaIsSaving() {
     await act(async () => root.unmount())
     host.remove()
     client.clear()
+    getQueue.mockReset()
     notifyManager.setNotifyFunction((notify) => notify())
     vi.restoreAllMocks()
     vi.unstubAllGlobals()
