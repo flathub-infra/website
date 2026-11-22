@@ -108,6 +108,7 @@ export default function MetadataTranslationEditor({
 
   return (
     <LoginGuard
+      returnLanguage={initialLanguage}
       condition={(info) =>
         info.permissions?.includes(Permission["manage-apps"])
       }

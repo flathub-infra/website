@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { usePathname, Link } from "../../i18n/navigation"
+import { Link } from "../../i18n/navigation"
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/solid"
 import { OrganizationJsonLd } from "next-seo"
 import { useTranslations, useLocale } from "next-intl"
@@ -34,6 +34,7 @@ import {
 } from "src/codegen"
 import { getLangDir } from "rtl-detect"
 import SearchBarWithSuspense from "./SearchBarWithSuspense"
+import HeaderLoginLink from "./HeaderLoginLink"
 
 const MobileMenuButton = ({ open }) => {
   const t = useTranslations()
@@ -53,7 +54,6 @@ const MobileMenuButton = ({ open }) => {
 const Header = () => {
   const t = useTranslations()
   const locale = useLocale()
-  const pathname = usePathname()
   const user = useUserContext()
   const [userAvatarUrl, setUserAvatarUrl] = useState<string | null>(null)
   const [clickedLogout, setClickedLogout] = useState(false)
@@ -262,13 +262,12 @@ const Header = () => {
                     }
                   })}
                   {!user.info && (
-                    <Link
-                      href={`/login?returnTo=${encodeURIComponent(pathname)}`}
+                    <HeaderLoginLink
                       key="login"
                       className="ms-4 inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-black transition hover:bg-black/5 dark:text-white dark:hover:bg-white/5"
                     >
                       {t("login")}
-                    </Link>
+                    </HeaderLoginLink>
                   )}
 
                   {/* Profile dropdown */}
@@ -385,8 +384,8 @@ const Header = () => {
                       }
                     })}
                     {!user.info && (
-                      <Link
-                        href="/login"
+                      <HeaderLoginLink
+                        mobile
                         key="login"
                         className={clsx(
                           "block rounded-md px-3 py-2 text-base font-medium text-black transition hover:bg-black/5 dark:text-flathub-gainsborow dark:hover:bg-white/5",
@@ -396,7 +395,7 @@ const Header = () => {
                         }}
                       >
                         {t("login")}
-                      </Link>
+                      </HeaderLoginLink>
                     )}
                   </div>
                   {user.info && (

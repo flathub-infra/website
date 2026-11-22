@@ -1,4 +1,6 @@
-import type { AnchorHTMLAttributes } from "react"
+// @vitest-environment jsdom
+import { act, type AnchorHTMLAttributes } from "react"
+import { createRoot } from "react-dom/client"
 import { renderToStaticMarkup } from "react-dom/server"
 import { NextIntlClientProvider } from "next-intl"
 import { QueryClient } from "@tanstack/react-query"
@@ -18,9 +20,13 @@ import { metadataTranslationText } from "./MetadataTranslationEditor.messages"
 const user = vi.hoisted(() => ({
   loading: false,
   info: { permissions: [] as string[] },
+  signedOut: false,
 }))
-const query = vi.hoisted(() => vi.fn<() => object>(() => ({})))
+const query = vi.hoisted(() =>
+  vi.fn<(options: { queryKey: string[] }) => object>(() => ({})),
+)
 const getQueryClient = vi.hoisted(() => vi.fn())
+const replace = vi.hoisted(() => vi.fn())
 const mutating = vi.hoisted(() => vi.fn(() => 0))
 const mutation = vi.hoisted(() =>
   vi.fn<
@@ -30,7 +36,10 @@ const mutation = vi.hoisted(() =>
   >(() => ({})),
 )
 
-vi.mock("src/context/user-info", () => ({ useUserContext: () => user }))
+vi.mock("src/context/user-info", () => ({
+  useUserContext: () =>
+    user.signedOut ? { loading: false, info: null } : user,
+}))
 vi.mock("@tanstack/react-query", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@tanstack/react-query")>()),
   useQuery: query,
@@ -46,12 +55,12 @@ vi.mock("src/i18n/navigation", () => ({
   Link: ({ children, ...props }: AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a {...props}>{children}</a>
   ),
-  useRouter: () => ({ replace: vi.fn() }),
+  useRouter: () => ({ replace }),
   usePathname: () => "/apps/org.example.App/translate",
 }))
 
-function render(children: React.ReactNode) {
-  return renderToStaticMarkup(
+function withMessages(children: React.ReactNode) {
+  return (
     <NextIntlClientProvider
       locale="de"
       timeZone="UTC"
@@ -65,8 +74,28 @@ function render(children: React.ReactNode) {
       }}
     >
       {children}
-    </NextIntlClientProvider>,
+    </NextIntlClientProvider>
   )
+}
+
+function render(children: React.ReactNode) {
+  return renderToStaticMarkup(withMessages(children))
+}
+
+async function mounted(
+  children: React.ReactNode,
+  check: (host: HTMLElement) => Promise<void>,
+) {
+  vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true)
+  const host = document.createElement("div")
+  const root = createRoot(host)
+  try {
+    await act(async () => root.render(withMessages(children)))
+    await check(host)
+  } finally {
+    await act(async () => root.unmount())
+    vi.unstubAllGlobals()
+  }
 }
 
 describe("admin-only listing translations", () => {
@@ -237,6 +266,57 @@ describe("admin-only listing translations", () => {
     expect(html).toContain("https://hosted.weblate.org/engage/flathub/")
     expect(html).not.toContain("Change language")
     expect(query).not.toHaveBeenCalled()
+  })
+  it("includes the shared language in the login return URL", async () => {
+    user.signedOut = true
+    try {
+      await mounted(
+        <MetadataTranslationEditor
+          appId="org.example.App"
+          initialLanguage="de"
+        />,
+        async () => {
+          expect(replace).toHaveBeenCalledWith(
+            `/login?returnTo=${encodeURIComponent("/apps/org.example.App/translate?language=de")}`,
+          )
+        },
+      )
+    } finally {
+      user.signedOut = false
+    }
+  })
+
+  it("refreshes finished apps without revisiting skipped apps", async () => {
+    user.info.permissions = ["manage-apps"]
+    const refetch = vi.fn(async () => ({ isSuccess: true }))
+    const apps = ["Skipped", "Finished"].map((name) => ({
+      app_id: `org.example.${name}`,
+      name,
+    }))
+    query.mockImplementation(({ queryKey }) =>
+      queryKey[0] === "app-translation-queue"
+        ? { data: { apps, attention: [] }, refetch }
+        : { data: { data: { units: [] } } },
+    )
+    try {
+      await mounted(<AppTranslations language="de" />, async (host) => {
+        const click = async (name: string) => {
+          const button = Array.from(host.querySelectorAll("button")).find(
+            (el) => el.textContent === name,
+          )
+          expect(button).toBeDefined()
+          await act(async () => button!.click())
+        }
+        await click("Skip app")
+        await click("Continue to next app")
+        await click("Refresh queue")
+        expect(refetch).toHaveBeenCalledOnce()
+        expect(host.querySelector("h2")?.textContent).toBe("Finished")
+      })
+    } finally {
+      query.mockImplementation(() => ({}))
+      localStorage.clear()
+    }
   })
   it("offers a refresh when only listings needing attention remain", () => {
     user.info.permissions = ["manage-apps"]

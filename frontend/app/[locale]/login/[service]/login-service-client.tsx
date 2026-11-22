@@ -60,18 +60,17 @@ const LoginServiceClient = ({
         router.push("/purchase", { locale })
         return
       } else if (returnTo) {
-        const redirect = decodeURIComponent(returnTo)
         setReturnTo(null)
 
         // Must validate the redirect to prevent open redirect and code execution
-        if (isInternalRedirect(redirect)) {
-          if (isBackendRedirect(redirect)) {
+        if (isInternalRedirect(returnTo)) {
+          if (isBackendRedirect(returnTo)) {
             // OIDC /authorize is a backend endpoint, not a Next.js route. Resuming
             // the authorization-code flow needs a full-page navigation so the browser
             // hits the backend with the session cookie and no locale prefix.
-            window.location.assign(redirect)
+            window.location.assign(returnTo)
           } else {
-            router.push(redirect, { locale })
+            router.push(returnTo, { locale })
           }
           return
         }
