@@ -94,6 +94,9 @@ class TranslationListing(Base):
 
 class MetadataTranslationBatch(Base):
     __tablename__ = "metadatatranslationbatch"
+    recipe_target: Mapped[dict[str, str] | None] = mapped_column(
+        JSON(none_as_null=True)
+    )
     missing_texts: Mapped[int | None] = mapped_column(Integer)
     missing_listing_texts: Mapped[int | None] = mapped_column(Integer)
     listing_count_failed: Mapped[bool] = mapped_column(

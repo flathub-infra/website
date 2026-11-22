@@ -18,7 +18,6 @@ from . import config
 from .database import get_db
 from .metadata_translation_artifacts import PublishedListingUnavailable
 from .metadata_translation_github import (
-    SOURCE_BRANCH,
     ClosedTranslationPull,
     MetadataSource,
     ReviewedFieldsChanged,
@@ -30,6 +29,7 @@ from .metadata_translation_github import (
     translation_pull_request,
 )
 from .metadata_translation_reconciliation import reconcile
+from .metadata_translation_target import RecipeTarget, target_of
 from .metadata_translations import (
     QUEUE_FIELDS,
     MetadataDocument,
@@ -148,7 +148,11 @@ def _annotate(document, edits):
 def _source(batch: MetadataTranslationBatch) -> MetadataSource:
     assert batch.source_content is not None
     return MetadataSource(
-        batch.revision, batch.path, batch.source_sha, batch.source_content
+        batch.revision,
+        batch.path,
+        batch.source_sha,
+        batch.source_content,
+        RecipeTarget.saved(batch.app_id, batch.recipe_target),
     )
 
 
@@ -229,7 +233,7 @@ def _reviewed_document(repo, pull, path, app_id, locale):
 def _batch_error(source, batch, pull):
     if batch.source_content is None:
         return None
-    if pull is not None and pull.base.ref != SOURCE_BRANCH:
+    if pull is not None and pull.base.ref != source.base_branch:
         return "source_changed"
     changed = (batch.source_sha, batch.path) != (source.sha, source.path)
     if changed and batch.changes:
@@ -249,6 +253,10 @@ def read_saved_translation(repo, source, app_id, locale):
         batch: MetadataTranslationBatch | None = _query(db, app_id, locale).first()
         if batch is not None:
             db.expunge(batch)
+    if batch is not None and not target_of(repo, app_id).matches_saved(
+        app_id, batch.recipe_target
+    ):
+        raise MetadataError("source_changed")
     pull = (
         _batch_pull(repo, batch)
         if batch is not None and batch.url and batch.source_content is not None
@@ -359,7 +367,7 @@ def unavailable_source_snapshot(app_id, locale):
             "batch_state": "failed",
             "batch_error": "source_unavailable",
             "can_submit": False,
-            "source_url": f"https://github.com/flathub/{app_id}/blob/{batch.revision}/{batch.path}",
+            "source_url": f"https://github.com/flathub/{RecipeTarget.saved(app_id, batch.recipe_target).repository}/blob/{batch.revision}/{batch.path}",
         }
 
 
@@ -401,6 +409,7 @@ def queue_translation(
                 app_id=app_id,
                 locale=document.locale,
                 revision=source.revision,
+                recipe_target=target_of(repo, app_id).storage(app_id),
                 source_sha=source.sha,
                 path=source.path,
                 source_content=source.content,
@@ -411,13 +420,16 @@ def queue_translation(
             .on_conflict_do_nothing()
         )
         batch = _query(db, app_id, locale).with_for_update().one()
+        if not target_of(repo, app_id).matches_saved(app_id, batch.recipe_target):
+            raise MetadataError("source_changed")
+        batch.recipe_target = target_of(repo, app_id).storage(app_id)
         _drop_obsolete_release_edits(batch)
         pull = (
             _batch_pull(repo, batch)
             if batch.url and batch.source_content is not None
             else None
         )
-        if pull is not None and pull.base.ref != SOURCE_BRANCH:
+        if pull is not None and pull.base.ref != source.base_branch:
             raise MetadataError("source_changed")
         if (batch.source_sha, batch.path) != (source.sha, source.path):
             if batch.changes or (
@@ -537,6 +549,8 @@ def rebase_translation(repo, app_id, locale, revision):
 
 def _rebase_batch(repo, batch, app_id, locale, revision):
     source = read_source(repo, app_id)
+    if not target_of(repo, app_id).matches_saved(app_id, batch.recipe_target):
+        raise MetadataError("source_changed")
     same_source = (source.sha, source.path) == (batch.source_sha, batch.path)
     if revision != batch.revision and not (same_source and revision == source.revision):
         raise MetadataError("source_changed")
@@ -572,10 +586,10 @@ def _rebase_batch(repo, batch, app_id, locale, revision):
     if same_source:
         document = previous.with_pending(document.content)
     queued = dict(batch.changes)
-    merged_to_master = (
-        pull is not None and pull.base.ref == SOURCE_BRANCH and pull.merged
+    merged_to_base = (
+        pull is not None and pull.base.ref == source.base_branch and pull.merged
     )
-    if merged_to_master:
+    if merged_to_base:
         _retain_omitted_edits(
             batch,
             previous,
@@ -635,7 +649,7 @@ def _rebase_batch(repo, batch, app_id, locale, revision):
         previous,
         document,
         {**saved_changes, **queued},
-        expected=batch.publication_base if merged_to_master else None,
+        expected=batch.publication_base if merged_to_base else None,
     )
     carried = result.apply
     output = document.content
@@ -683,7 +697,11 @@ def _rebase_batch(repo, batch, app_id, locale, revision):
     batch.url = None
     batch.generation = generation
     batch.published_ids = []
-    if pull is not None and pull.state == "open" and pull.base.ref == SOURCE_BRANCH:
+    if (
+        pull is not None
+        and pull.state == "open"
+        and pull.base.ref == source.base_branch
+    ):
         pull.edit(state="closed")
 
 
@@ -732,11 +750,12 @@ def prune_translation_snapshots():
                 batch.next_review_check = now + timedelta(hours=3)
         if snapshot is None:
             continue
-        url, path, _, original, content, published_ids = snapshot
+        url, path, _, original, content, published_ids, target_json = snapshot
+        target = RecipeTarget.saved(app_id, target_json)
         try:
-            repo = github.get_repo(f"flathub/{app_id}")
+            repo = target.open(github)
             pull = _recorded_pull(repo, url)
-            if pull is not None and pull.base.ref != SOURCE_BRANCH:
+            if pull is not None and pull.base.ref != target.branch:
                 with get_db("writer") as db:
                     batch = (
                         _query(db, app_id, locale)
@@ -839,6 +858,7 @@ def _prunable_snapshot(batch):
         batch.source_content,
         batch.content,
         tuple(batch.published_ids),
+        batch.recipe_target,
     )
 
 
@@ -973,12 +993,13 @@ def publish_translation_batches():
             if batch is None:
                 continue
             try:
-                repo = github.get_repo(f"flathub/{app_id}")
+                target = RecipeTarget.saved(app_id, batch.recipe_target)
+                repo = target.open(github)
                 # GitHub may have opened and merged the PR before we recorded its URL.
                 recorded = _batch_pull(repo, batch)
                 if recorded is not None:
                     batch.url = recorded.html_url
-                    if recorded.merged and recorded.base.ref == SOURCE_BRANCH:
+                    if recorded.merged and recorded.base.ref == target.branch:
                         _rebase_batch(repo, batch, app_id, locale, batch.revision)
                         continue
                 _drop_obsolete_release_edits(batch)

@@ -20,6 +20,7 @@ from ..metadata_translation_github import (
     read_source,
 )
 from ..metadata_translation_queue import TranslationQueue, language_queue
+from ..metadata_translation_target import RecipeTarget, target_of
 from ..metadata_translations import (
     LOCALE_PATTERN,
     MetadataError,
@@ -70,11 +71,13 @@ class TranslationSave(BaseModel):
 
 def _repo(app_id: str, *, write: bool = False):
     with get_db("replica") as db:
-        if App.by_appid(db, app_id) is None:
+        app = App.by_appid(db, app_id)
+        if app is None:
             raise HTTPException(404, detail="app_not_found")
+        target = RecipeTarget.for_app(db, app_id, app.type, app.appstream)
     if write and not config.settings.github_bot_token:
         raise HTTPException(503, detail="submission_unavailable")
-    return Github(config.settings.github_bot_token).get_repo(f"flathub/{app_id}")
+    return target.open(Github(config.settings.github_bot_token), discover=True)
 
 
 def _error(error: MetadataError | GithubException) -> HTTPException:
@@ -109,7 +112,7 @@ def get_translation_source(
         return TranslationSource(
             revision=source.revision,
             path=source.path,
-            source_url=f"https://github.com/flathub/{app_id}/blob/{source.revision}/{source.path}",
+            source_url=f"https://github.com/flathub/{target_of(repo, app_id).repository}/blob/{source.revision}/{source.path}",
             metadata_license=document.license,
             locale=document.locale,
             units=document.units(),
