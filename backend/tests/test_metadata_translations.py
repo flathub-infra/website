@@ -183,6 +183,140 @@ def test_batch_saves_reload_without_github_writes_then_publish_once(
     repo.create_pull.assert_called_once()
 
 
+def with_obsolete_release_translation(content):
+    return content.replace(
+        b"<p>Preview</p>", b'<p>Preview</p><p xml:lang="de">Vorschau</p>'
+    )
+
+
+@pytest.fixture
+def legacy_release_batch(batch_db, publishing_repo):
+    repo, saved = publishing_repo
+    metadata = repo.get_contents("", ref="a" * 40)[0]
+    saved.decoded_content = metadata.decoded_content = XML.replace(
+        b"</releases>",
+        b'<release version="0.9"><description><p>Preview</p></description></release></releases>',
+    )
+    latest = unit(document(metadata.decoded_content), "release").id
+    obsolete = latest.replace("release[1]", "release[2]")
+    batches.queue_translation(repo, APP_ID, "de", "a" * 40, {latest: "Aktuell"}, 42)
+    with batch_db() as db:
+        batch = db.query(MetadataTranslationBatch).one()
+        batch.content = with_obsolete_release_translation(batch.content)
+        batch.changes = {**batch.changes, obsolete: "Vorschau"}
+        batch.publication_base = dict.fromkeys(batch.changes, "")
+    return repo, saved, latest
+
+
+@pytest.mark.parametrize("save_again", [False, True])
+def test_obsolete_queued_release_edits_do_not_block_publication(
+    batch_db, legacy_release_batch, save_again
+):
+    repo, saved, latest = legacy_release_batch
+    if save_again:
+        batches.queue_translation(repo, APP_ID, "de", "a" * 40, {latest: "Neu"}, 42)
+    batches.publish_translation_batches()
+    with batch_db() as db:
+        batch = db.query(MetadataTranslationBatch).one()
+        assert batch.state == "submitted" and not batch.changes
+    repo.create_pull.assert_called_once()
+    assert unit(document(saved.decoded_content), "release").translation == (
+        "Neu" if save_again else "Aktuell"
+    )
+    assert b"Vorschau" not in saved.decoded_content
+
+
+@pytest.fixture
+def repo_with_obsolete_only_batch(batch_db, legacy_release_batch):
+    repo, _, latest = legacy_release_batch
+    with batch_db() as db:
+        batch = db.query(MetadataTranslationBatch).one()
+        batch.changes = {k: v for k, v in batch.changes.items() if k != latest}
+        batch.publication_base = dict.fromkeys(batch.changes, "")
+        batch.content = with_obsolete_release_translation(batch.source_content)
+    return repo
+
+
+def test_obsolete_only_batch_needs_no_publication(
+    batch_db, repo_with_obsolete_only_batch
+):
+    batches.publish_translation_batches()
+    repo_with_obsolete_only_batch.create_pull.assert_not_called()
+    with batch_db() as db:
+        batch = db.query(MetadataTranslationBatch).one()
+        assert batch.state == "submitted" and not batch.changes
+
+
+def test_obsolete_only_batch_allows_new_source(batch_db, repo_with_obsolete_only_batch):
+    repo = repo_with_obsolete_only_batch
+    metadata = repo.get_contents("", ref="a" * 40)[0]
+    metadata.sha = "new-sha"
+    metadata.decoded_content = metadata.decoded_content.replace(
+        b"Read &amp; write", b"New summary"
+    )
+    source, doc, _, error, _, _ = batches.read_saved_translation(
+        repo, read_source(repo, APP_ID), APP_ID, "de"
+    )
+    assert error is None and source.sha == metadata.sha
+    summary = unit(doc, "summary")
+    assert summary.source == "New summary"
+    batches.queue_translation(
+        repo, APP_ID, "de", source.revision, {summary.id: "Neu"}, 42
+    )
+    with batch_db() as db:
+        assert db.query(MetadataTranslationBatch).one().changes == {summary.id: "Neu"}
+
+
+@pytest.mark.parametrize("orphan_edit", [b"Aktuell", b"First release"])
+def test_retry_omits_obsolete_notes_already_written_to_branch(
+    batch_db, legacy_release_batch, orphan_edit
+):
+    repo, saved, _ = legacy_release_batch
+    with batch_db() as db:
+        legacy_content = db.query(MetadataTranslationBatch).one().content
+    create = repo.create_pull.side_effect
+    repo.create_pull.side_effect = ConnectionResetError()
+    with pytest.raises(ConnectionResetError):
+        batches.publish_translation_batches()
+    orphan = legacy_content.replace(orphan_edit, b"Orphan wording").replace(
+        b"Vorschau</p>", b'Korrektur</p><p xml:lang="fr">Aper\xc3\xa7u</p>'
+    )
+    saved.decoded_content = orphan
+    repo.create_pull.side_effect = create
+    batches.publish_translation_batches()
+    batches.publish_translation_batches()
+    pull = repo.pulls[1]
+    published = repo.get_contents(saved.path, ref=pull.head.sha).decoded_content
+    assert saved.decoded_content == orphan
+    source = read_source(repo, APP_ID)
+    assert (
+        document(published).obsolete_releases()
+        == document(source.content).obsolete_releases()
+    )
+    assert unit(document(published), "release").translation == "Aktuell"
+
+
+def test_obsolete_release_comparison_preserves_locale_spelling_and_markup():
+    old = b'<p xml:lang="pt-BR"><code>antigo</code></p>'
+    xml = XML.replace(
+        b"</releases>",
+        b'<release version="0.9"><description><p><code>old</code></p>'
+        + old
+        + b"</description></release></releases>",
+    )
+    doc = document(xml, "pt-BR")
+    valid = doc.apply({unit(doc, "summary").id: "Novo"})
+    orphan = valid.replace(old, b'<p xml:lang="pt_BR"><code>old</code></p>')
+    assert (
+        document(xml, "pt-BR").obsolete_releases()
+        == document(valid, "pt-BR").obsolete_releases()
+    )
+    assert (
+        document(xml, "pt-BR").obsolete_releases()
+        != document(orphan, "pt-BR").obsolete_releases()
+    )
+
+
 @pytest.mark.parametrize(
     ("state", "merged", "queued", "review", "pruned"),
     [
@@ -1585,6 +1719,20 @@ def test_all_translatable_fields_and_exclusions():
     assert unit(doc, "keywords").translation == "Editor\nText"
     assert unit(doc, "release").context == "1.0"
     assert not any("Do not translate" in u.source for u in doc.units())
+
+
+@pytest.mark.parametrize(
+    "latest_notes", [b"<description><p>Latest</p></description>", b""]
+)
+def test_only_latest_release_notes_are_translatable(latest_notes):
+    xml = XML.replace(
+        b"<releases>",
+        b'<releases><release version="3.0" type="development">'
+        b"<description><p>Preview</p></description></release>"
+        b'<release version="2.0" type="stable">' + latest_notes + b"</release>",
+    )
+    notes = [u.source for u in document(xml).units() if u.field == "release"]
+    assert notes == (["Latest"] if latest_notes else [])
 
 
 def test_only_requested_locale_and_units_change():
