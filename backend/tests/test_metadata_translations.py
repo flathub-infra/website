@@ -1840,6 +1840,32 @@ def test_unknown_unit_and_noop_rejected():
         doc.apply({unit(doc, "summary").id: "Lesen und schreiben"})
 
 
+@pytest.mark.parametrize("component_type", ["desktop", "desktop-application"])
+def test_legacy_desktop_id_indexes_and_preserves_listing_identity(component_type):
+    xml = f"""<component type="{component_type}"><id>{APP_ID}.desktop</id>
+    <metadata_license>CC0</metadata_license><summary>Hello</summary></component>""".encode()
+    assert MetadataDocument(xml, APP_ID, None).missing_counts()["*"] == 1
+    doc = MetadataDocument(xml, APP_ID, "de")
+    saved = etree.fromstring(doc.apply({unit(doc, "summary").id: "Hallo"}))
+    assert saved.findtext("id") == f"{APP_ID}.desktop"
+    with pytest.raises(MetadataError, match="wrong_component"):
+        MetadataDocument(xml, "org.example.Other", "de")
+
+
+def test_localized_keyword_children_do_not_block_other_listing_fields():
+    keywords = b"""<keywords><keyword>Database</keyword>
+    <keyword xml:lang="de">Datenbank</keyword><keyword translate="no">SQL</keyword></keywords>"""
+    xml = (
+        f"<component><id>{APP_ID}</id><metadata_license>CC0</metadata_license>".encode()
+        + keywords
+        + b"<summary>Hello</summary></component>"
+    )
+    assert MetadataDocument(xml, APP_ID, None).missing_counts()["*"] == 1
+    doc = MetadataDocument(xml, APP_ID, "de")
+    assert [u.field for u in doc.units()] == ["summary"]
+    assert keywords in doc.apply({unit(doc, "summary").id: "Hallo"})
+
+
 def test_xml_external_entities_and_wrong_component_rejected():
     with pytest.raises(MetadataError):
         document(
