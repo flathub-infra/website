@@ -127,6 +127,11 @@ def test_language_queue_orders_by_update_then_app_id(monkeypatch):
                     ('A', NULL), ('Z', '2026-03-01'), ('C', '2026-02-01'), ('B', '2026-02-01')"""
             )
             conn.exec_driver_sql(
+                """INSERT INTO apps (app_id, type, is_eol) VALUES
+                   ('Plugin', 'addon', false), ('Retired', 'addon', true),
+                   ('SDK', 'runtime', false)"""
+            )
+            conn.exec_driver_sql(
                 """INSERT INTO translationlisting (app_id, missing)
                    SELECT app_id, '{"*": 1}'::jsonb FROM apps"""
             )
@@ -136,21 +141,18 @@ def test_language_queue_orders_by_update_then_app_id(monkeypatch):
                 "B",
                 "C",
                 "A",
+                "Plugin",
             ]
     finally:
         engine.dispose()
 
 
-def test_index_continues_past_unavailable_repository(monkeypatch):
+def test_index_continues_past_unavailable_repository(monkeypatch, translation_db):
+    conn, app_id, _ = translation_db
     monkeypatch.setattr(queue.config.settings, "github_bot_token", "test")
-    db = MagicMock()
-    monkeypatch.setattr(queue, "get_db", lambda _: nullcontext(db))
-    apps = MagicMock()
-    apps.outerjoin.return_value.filter.return_value.order_by.return_value.limit.return_value.all.return_value = [
-        ("org.example.Blocked",),
-        ("org.example.Available",),
-    ]
-    monkeypatch.setattr(queue, "_apps", lambda _: apps)
+    conn.exec_driver_sql(
+        "INSERT INTO apps (app_id,type,is_eol) VALUES ('org.example.Blocked','desktop-application',false)"
+    )
     github = MagicMock()
     monkeypatch.setattr(queue, "Github", lambda _: nullcontext(github))
     github.get_repo.side_effect = [
@@ -166,14 +168,16 @@ def test_index_continues_past_unavailable_repository(monkeypatch):
         ),
     )
     queue.refresh_index()
-    deferred, indexed = [
-        call.args[0].compile().params for call in db.execute.call_args_list
-    ]
-    assert deferred["app_id"] == "org.example.Blocked"
-    assert "missing" not in deferred
-    assert indexed["app_id"] == "org.example.Available"
-    assert indexed["missing"]["*"] == 2
-    assert indexed["missing_listing"]["*"] == 1
+    deferred = conn.exec_driver_sql(
+        "SELECT missing_listing FROM translationlisting WHERE app_id = 'org.example.Blocked'"
+    ).one()
+    assert deferred == (None,)
+    indexed = conn.exec_driver_sql(
+        "SELECT missing, missing_listing FROM translationlisting WHERE app_id = %s",
+        (app_id,),
+    ).one()
+    assert indexed.missing["*"] == 2
+    assert indexed.missing_listing["*"] == 1
 
 
 @pytest.fixture
@@ -210,6 +214,7 @@ def translation_db(monkeypatch):
             )
             with Operations.context(MigrationContext.configure(conn)):
                 migration.module.upgrade()
+                scripts.get_revision("18cc6e5235d9").module.upgrade()
 
             @contextmanager
             def get_db(_):

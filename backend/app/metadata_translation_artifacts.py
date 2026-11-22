@@ -22,7 +22,13 @@ class PublishedListingUnavailable(MetadataError):
 
 
 def published_listing_matches(
-    app_id: str, revision: str, destination: str, content: bytes
+    app_id: str,
+    revision: str,
+    destination: str,
+    content: bytes,
+    *,
+    kind: str = "app",
+    branch: str = "stable",
 ) -> bool:
     # A libostree pull can crash in native error handling. Keep a failed
     # verification from terminating a queue worker or API process.
@@ -37,6 +43,8 @@ def published_listing_matches(
                     app_id,
                     revision,
                     destination,
+                    kind,
+                    branch,
                 ],
                 input=content,
                 timeout=40,
@@ -51,7 +59,13 @@ def published_listing_matches(
 
 
 def _check_published_listing(
-    url: str, app_id: str, revision: str, destination: str, content: bytes
+    url: str,
+    app_id: str,
+    revision: str,
+    destination: str,
+    content: bytes,
+    kind: str,
+    branch: str,
 ) -> bool:
     if not re.fullmatch(r"/app/share/(?:metainfo|appdata)/[\w.-]+\.xml", destination):
         return False
@@ -60,7 +74,7 @@ def _check_published_listing(
     try:
         commits = {}
         for arch in ("x86_64", "aarch64"):
-            ref = f"app/{app_id}/{arch}/stable"
+            ref = f"{kind}/{app_id}/{arch}/{branch}"
             response = http_client.get(f"{url}/refs/heads/{ref}", timeout=5)
             if response.status_code == 404:
                 continue
@@ -155,10 +169,10 @@ def _check_published_listing(
 
 
 if __name__ == "__main__":
-    url, app_id, revision, destination = sys.argv[1:]
+    url, app_id, revision, destination, kind, branch = sys.argv[1:]
     try:
         matches = _check_published_listing(
-            url, app_id, revision, destination, sys.stdin.buffer.read()
+            url, app_id, revision, destination, sys.stdin.buffer.read(), kind, branch
         )
     except PublishedListingUnavailable:
         sys.exit(1)

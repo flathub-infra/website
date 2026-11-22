@@ -18,6 +18,7 @@ from github.Repository import Repository
 
 from .metadata_translation_artifacts import published_listing_matches
 from .metadata_translation_reconciliation import reconcile
+from .metadata_translation_target import RecipeRepository, RecipeTarget, target_of
 from .metadata_translations import (
     MAX_XML_BYTES,
     MetadataDocument,
@@ -25,7 +26,6 @@ from .metadata_translations import (
     normalize_locale,
 )
 
-SOURCE_BRANCH = "master"
 SHARED_MODULES_PATH = "shared-modules"
 SHARED_MODULES_URL = "https://github.com/flathub/shared-modules"
 
@@ -36,6 +36,11 @@ class MetadataSource:
     path: str
     sha: str
     content: bytes
+    target: RecipeTarget | None = None
+
+    @property
+    def base_branch(self):
+        return self.target.branch if self.target else "master"
 
 
 def _load_manifest_data(text: str, path: str):
@@ -105,8 +110,11 @@ def _owns_metadata(
     read_text=None,
     confirm_published=None,
     source_path=None,
+    bundled_prefix=None,
+    parent_id=None,
+    module_directory="",
 ) -> bool:
-    modules = [(manifest, False, False, "")]
+    modules = [(manifest, False, False, module_directory)]
     seen = {}
     includes = set()
 
@@ -119,7 +127,7 @@ def _owns_metadata(
     owned_destinations = set()
     other_destinations = set()
     cleanup = set()
-    needs_published_check = False
+    needs_published_check = bool(bundled_prefix)
     while modules:
         module, visit, conditional, directory = modules.pop()
         if not visit:
@@ -174,6 +182,34 @@ def _owns_metadata(
             )
             continue
         commands = _command_phases(module)
+        if bundled_prefix and parent_id:
+            options = module.get("build-options", {})
+            env = options.get("env", {}) if isinstance(options, dict) else {}
+            variables = (
+                [
+                    k
+                    for k, v in env.items()
+                    if v == bundled_prefix and re.fullmatch(r"[A-Z_][A-Z0-9_]*", k)
+                ]
+                if isinstance(env, dict)
+                else []
+            )
+            normalized = []
+            for phase, command in commands:
+                if _mentions_listing(command):
+                    if re.search(r"'[^']*\$[^']*'", command):
+                        return False
+                    command = command.replace("${FLATPAK_DEST}", "/app")
+                    if "/app/share/" in command:
+                        return False
+                    for variable in variables:
+                        command = command.replace("${" + variable + "}", bundled_prefix)
+                    command = command.replace("${FLATPAK_ID}", parent_id)
+                    command = re.sub(
+                        re.escape(bundled_prefix) + r'(?=/|[\s"\']|$)', "/app", command
+                    )
+                normalized.append((phase, command))
+            commands = normalized
         build_source = _build_source_path(module, filename)
         after_install = bool(owned_destinations)
         if after_install and any(
@@ -587,10 +623,51 @@ def _nested_listing_paths(manifest: dict[str, Any], app_id: str) -> set[str]:
     return paths
 
 
-def read_source(repo: Repository, app_id: str) -> MetadataSource:
+def _bundled_contributor(parsed, app_id, read_text):
+    contributors = []
+    modules = parsed.get("modules", [])
+    if not isinstance(modules, list):
+        raise MetadataError("unsupported_metadata")
+    includes = 0
+    for module in modules:
+        directory = ""
+        if isinstance(module, str):
+            path = module.removeprefix("./")
+            includes += 1
+            if includes > 16 or not re.fullmatch(
+                r"(?:[\w-][\w.-]*/)*[\w-][\w.-]*\.(?:json|ya?ml)", path
+            ):
+                raise MetadataError("unsupported_metadata")
+            module = _load_manifest(read_text(path), path)
+            directory = posixpath.dirname(path)
+        if not isinstance(module, dict) or not isinstance(module.get("sources"), list):
+            continue
+        for item in module["sources"]:
+            if (
+                not isinstance(item, dict)
+                or item.get("type") != "file"
+                or not isinstance(item.get("path"), str)
+            ):
+                continue
+            path = item["path"].removeprefix("./")
+            if not re.fullmatch(
+                rf"(?:[\w-][\w.-]*/)*{re.escape(app_id)}\.(?:metainfo|appdata)\.xml",
+                path,
+            ):
+                continue
+            contributors.append((module, directory, posixpath.join(directory, path)))
+    if len(contributors) != 1:
+        raise MetadataError("unsupported_metadata")
+    return contributors[0]
+
+
+def read_source(repo: Repository | RecipeRepository, app_id: str) -> MetadataSource:
     if repo.archived or repo.private:
         raise MetadataError("unsupported_repository")
-    revision = repo.get_branch(SOURCE_BRANCH).commit.sha
+    target = target_of(repo, app_id)
+    revision = (
+        repo.revision if isinstance(repo, RecipeRepository) else None
+    ) or repo.get_branch(target.branch).commit.sha
     entries = repo.get_contents("", ref=revision)
     if not isinstance(entries, list):
         raise MetadataError("unsupported_metadata")
@@ -600,7 +677,7 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
         if entry.type == "file"
         and entry.name in {f"{app_id}.metainfo.xml", f"{app_id}.appdata.xml"}
     ]
-    if not candidates:
+    if not candidates and target.repository == app_id:
         candidates = [
             entry
             for entry in entries
@@ -619,7 +696,12 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
     manifests = [
         entry
         for entry in entries
-        if entry.name in {f"{app_id}.json", f"{app_id}.yml", f"{app_id}.yaml"}
+        if entry.name
+        in {
+            f"{target.repository}.json",
+            f"{target.repository}.yml",
+            f"{target.repository}.yaml",
+        }
     ]
     if len(manifests) != 1 or manifests[0].size > MAX_XML_BYTES:
         raise MetadataError("unsupported_metadata")
@@ -631,14 +713,27 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
     except UnicodeDecodeError as error:
         raise MetadataError("unsupported_metadata") from error
     parsed = _load_manifest(text, manifests[0].path)
-    if candidates:
-        metadata_path = candidates[0].path
-    else:
-        paths = _nested_listing_paths(parsed, app_id)
-        if len(paths) != 1:
-            raise MetadataError("metadata_not_found")
-        metadata_path = paths.pop()
-
+    if (
+        target.branch == "master"
+        and target.flatpak_branch != "stable"
+        and parsed.get("branch") != target.flatpak_branch
+    ):
+        raise MetadataError("unsupported_metadata")
+    bundled_prefix = None
+    if target.repository != app_id:
+        extensions = parsed.get("add-extensions")
+        ext = extensions.get(app_id) if isinstance(extensions, dict) else None
+        if (
+            not isinstance(ext, dict)
+            or ext.get("bundle") is not True
+            or not isinstance(directory := ext.get("directory"), str)
+            or not re.fullmatch(r"[\w-]+(?:/[\w-]+)*", directory)
+        ):
+            raise MetadataError("unsupported_metadata")
+        bundled_prefix = "/app/" + directory
+        # The parent manifest installs both its own XML and its bundled add-on.
+        # Only inspect the top-level module declaring this add-on's local file;
+        # final byte verification below covers other modules and parent cleanup.
     shared_revision = None
 
     def load_shared_module(path: str) -> bytes:
@@ -695,6 +790,19 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
         except UnicodeDecodeError as error:
             raise MetadataError("unsupported_metadata") from error
 
+    module_directory = ""
+    if bundled_prefix:
+        parsed, module_directory, metadata_path = _bundled_contributor(
+            parsed, app_id, read_text
+        )
+    elif candidates:
+        metadata_path = candidates[0].path
+    else:
+        paths = _nested_listing_paths(parsed, app_id)
+        if len(paths) != 1:
+            raise MetadataError("metadata_not_found")
+        metadata_path = paths.pop()
+
     @cache
     def xml_file():
         if "/" in metadata_path:
@@ -716,6 +824,16 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
             raise MetadataError("metadata_too_large")
         return file
 
+    def confirm(destination):
+        return published_listing_matches(
+            app_id,
+            revision,
+            destination,
+            xml_file().decoded_content,
+            kind=target.kind,
+            branch=target.flatpak_branch,
+        )
+
     if not _owns_metadata(
         parsed,
         posixpath.basename(metadata_path),
@@ -723,19 +841,23 @@ def read_source(repo: Repository, app_id: str) -> MetadataSource:
         load_module=lambda path: _load_manifest(read_text(path), path),
         read_text=read_text,
         source_path=metadata_path,
-        confirm_published=lambda dest: published_listing_matches(
-            app_id, revision, dest, xml_file().decoded_content
-        ),
+        confirm_published=confirm,
+        bundled_prefix=bundled_prefix,
+        module_directory=module_directory,
+        parent_id=target.repository,
     ):
         raise MetadataError("unsupported_metadata")
     file = xml_file()
-    return MetadataSource(revision, file.path, file.sha, file.decoded_content)
+    return MetadataSource(revision, file.path, file.sha, file.decoded_content, target)
 
 
 def _translation_branch(
     source: MetadataSource, locale: str, generation: int = 0
 ) -> str:
-    digest = hashlib.sha256(source.sha.encode() + source.path.encode()).hexdigest()[:20]
+    identity = source.sha + source.path
+    if source.base_branch != "master":
+        identity += ":" + source.base_branch
+    digest = hashlib.sha256(identity.encode()).hexdigest()[:20]
     branch = f"translations/{normalize_locale(locale)}/{digest}"
     return f"{branch}-{generation}" if generation else branch
 
@@ -761,7 +883,7 @@ def merged_translation_content(repo, pull, path: str) -> bytes | None:
 
 
 def read_translation_document(
-    repo: Repository,
+    repo: Repository | RecipeRepository,
     source: MetadataSource,
     app_id: str,
     locale: str,
@@ -779,7 +901,7 @@ def read_translation_document(
             if pull_number is not None
             else translation_pull_request(repo, source, locale, generation)
         )
-    if pull is not None and pull.base.ref != SOURCE_BRANCH:
+    if pull is not None and pull.base.ref != source.base_branch:
         raise MetadataError("source_changed")
     if pull is not None and pull.merged:
         return document
@@ -836,7 +958,7 @@ def read_reviewed_fields(repo, path, app_id, locale, pull):
 
 
 def submit_translation(
-    repo: Repository,
+    repo: Repository | RecipeRepository,
     app_id: str,
     locale: str,
     revision: str,
@@ -869,7 +991,7 @@ def submit_translation(
         if pull_number is not None
         else translation_pull_request(repo, source, locale, generation)
     )
-    if pull is not None and pull.base.ref != SOURCE_BRANCH:
+    if pull is not None and pull.base.ref != source.base_branch:
         raise MetadataError("source_changed")
     if pull is not None and pull.state != "open":
         raise ClosedTranslationPull(pull.html_url)
@@ -953,7 +1075,7 @@ def submit_translation(
     if pull is not None:
         # The branch can still accept commits after the PR has closed.
         pull = repo.get_pull(pull.number)
-        if pull.base.ref != SOURCE_BRANCH:
+        if pull.base.ref != source.base_branch:
             raise MetadataError("source_changed")
         if pull.state != "open" and not pull.merged:
             raise ClosedTranslationPull(pull.html_url)
@@ -969,14 +1091,16 @@ def submit_translation(
                 "Merge to include their changes in the next build."
             ),
             head=branch,
-            base=SOURCE_BRANCH,
+            base=source.base_branch,
         )
     except GithubException as error:
         if error.status != 422:
             raise
         existing = list(
             repo.get_pulls(
-                state="open", head=f"{repo.owner.login}:{branch}", base=SOURCE_BRANCH
+                state="open",
+                head=f"{repo.owner.login}:{branch}",
+                base=source.base_branch,
             )
         )
         if not existing:
@@ -997,7 +1121,7 @@ def _create_branch(repo, branch, revision):
 
 
 def _check_branch_diff(repo, source, branch):
-    comparison = repo.compare(SOURCE_BRANCH, branch)
+    comparison = repo.compare(source.base_branch, branch)
     if any(
         file.filename != source.path or file.status != "modified"
         for file in comparison.files

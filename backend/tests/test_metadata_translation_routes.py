@@ -195,6 +195,7 @@ def test_published_branch_conflict_returns_recoverable_snapshot(monkeypatch, con
     document = MetadataDocument(content, "org.example.App", "de")
     saved = document.apply({document.units()[0].id: "Saved translation"})
     batch = SimpleNamespace(
+        recipe_target=None,
         revision=source.revision,
         path=source.path,
         source_sha=source.sha,

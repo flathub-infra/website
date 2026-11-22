@@ -2396,7 +2396,12 @@ def test_archive_command_can_replace_a_local_listing_before_install(monkeypatch)
     with pytest.raises(MetadataError, match="unsupported_metadata"):
         read_source(repo, APP_ID)
     published.assert_called_once_with(
-        APP_ID, "a" * 40, f"/app/share/metainfo/{APP_ID}.metainfo.xml", XML
+        APP_ID,
+        "a" * 40,
+        f"/app/share/metainfo/{APP_ID}.metainfo.xml",
+        XML,
+        kind="app",
+        branch="stable",
     )
     published.return_value = True
     assert read_source(repo, APP_ID).content == XML
@@ -2503,7 +2508,12 @@ def test_discovery_verifies_local_file_in_installing_module(
     with pytest.raises(MetadataError, match="unsupported_metadata"):
         read_source(repo, APP_ID)
     published.assert_called_once_with(
-        APP_ID, "a" * 40, f"/app/share/metainfo/{APP_ID}.xml", XML
+        APP_ID,
+        "a" * 40,
+        f"/app/share/metainfo/{APP_ID}.xml",
+        XML,
+        kind="app",
+        branch="stable",
     )
     published.return_value = True
     assert read_source(repo, APP_ID).content == XML
@@ -2760,17 +2770,31 @@ def test_discovery_accepts_direct_file_copy_or_move(executable):
     assert read_source(repo, APP_ID).content == XML
 
 
-def test_submission_writes_only_branch_then_opens_pr():
+@pytest.mark.parametrize("branch_name", ["stable", "25.08"])
+def test_submission_writes_only_branch_then_opens_pr(branch_name):
+    from app.metadata_translation_target import RecipeTarget
+
     repo, _ = saving_repo()
     repo.default_branch = "main"
     changes = {unit(document(), "summary").id: "Neue Zusammenfassung"}
-    result = submit_translation(repo, APP_ID, "de", "a" * 40, changes)
+    target = RecipeTarget.for_app(
+        MagicMock(
+            **{"query.return_value.filter.return_value.first.return_value": None}
+        ),
+        APP_ID,
+        "addon",
+        {"bundle": {"value": f"runtime/{APP_ID}/x86_64/{branch_name}"}},
+    )
+    github = MagicMock()
+    github.get_repo.return_value = repo
+    result = submit_translation(target.open(github), APP_ID, "de", "a" * 40, changes)
     assert result["state"] == "open"
     branch = repo.update_file.call_args.kwargs["branch"]
     assert branch.startswith("translations/de/")
-    assert repo.get_branch.call_args_list[0].args == ("master",)
+    base = "master" if branch_name == "stable" else "branch/25.08"
+    assert repo.get_branch.call_args_list[0].args == (base,)
     assert repo.create_git_ref.call_args.args == (f"refs/heads/{branch}", "a" * 40)
-    assert repo.create_pull.call_args.kwargs["base"] == "master"
+    assert repo.create_pull.call_args.kwargs["base"] == base
     assert repo.create_pull.call_args.kwargs["head"] == branch
 
 
@@ -2781,6 +2805,143 @@ def test_stale_submission_does_not_write():
     repo.create_git_ref.assert_not_called()
     repo.update_file.assert_not_called()
     repo.create_pull.assert_not_called()
+
+
+def test_missing_version_branch_requires_matching_master_manifest():
+    from app.metadata_translation_target import RecipeTarget
+
+    repo = fake_repo()
+    manifest = repo.get_contents("", ref="a" * 40)[1]
+    branch = repo.get_branch.return_value
+
+    def lookup(name):
+        if name == "master":
+            return branch
+        raise GithubException(404, {})
+
+    repo.get_branch.side_effect = lookup
+    github = MagicMock()
+    github.get_repo.return_value = repo
+    resolved = RecipeTarget(APP_ID, "branch/1", "runtime", "1").open(
+        github, discover=True
+    )
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(resolved, APP_ID)
+    manifest.decoded_content = b'branch: "1"\n' + manifest.decoded_content
+    assert read_source(resolved, APP_ID).base_branch == "master"
+
+
+def test_bundled_addon_in_relative_module(monkeypatch):
+    from app.metadata_translation_target import RecipeRepository, RecipeTarget
+
+    repo = fake_repo()
+    xml, manifest = repo.get_contents("", ref="a" * 40)
+    parent = "org.example"
+    xml.path = "plugins/listings/" + xml.name
+    manifest.name = manifest.path = f"{parent}.yml"
+    manifest.decoded_content = yaml.safe_dump(
+        {
+            "add-extensions": {APP_ID: {"bundle": True, "directory": "plugins/reader"}},
+            "modules": ["./plugins/reader.yml"],
+        }
+    ).encode()
+    module = SimpleNamespace(
+        type="file",
+        size=100,
+        decoded_content=yaml.safe_dump(
+            {
+                "buildsystem": "simple",
+                "sources": [{"type": "file", "path": "./listings/" + xml.name}],
+                "build-commands": [
+                    f"install -Dm644 --target-directory=${{FLATPAK_DEST}}/plugins/reader/share/metainfo ${{FLATPAK_BUILDER_BUILDDIR}}/{xml.name}"
+                ],
+            }
+        ).encode(),
+    )
+    files = {
+        "": [manifest, SimpleNamespace(type="dir", name="plugins")],
+        manifest.path: manifest,
+        "plugins/reader.yml": module,
+        "plugins": [SimpleNamespace(type="dir", name="listings")],
+        "plugins/listings": [xml],
+        xml.path: xml,
+    }
+    repo.get_contents.side_effect = lambda path, ref: files[path]
+    target = RecipeRepository(repo, RecipeTarget(parent, kind="runtime"))
+    published = MagicMock(return_value=False)
+    monkeypatch.setattr(
+        "app.metadata_translation_github.published_listing_matches", published
+    )
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(target, APP_ID)
+    published.return_value = True
+    assert read_source(target, APP_ID).path == xml.path
+    published.assert_called_with(
+        APP_ID,
+        "a" * 40,
+        f"/app/share/metainfo/{xml.name}",
+        XML,
+        kind="runtime",
+        branch="stable",
+    )
+
+
+def test_bundled_addon_publication_uses_saved_parent(batch_db, monkeypatch):
+    from app.metadata_translation_target import RecipeTarget
+    from app.models import AppExtensionLookup
+
+    parent = "org.example"
+    repo, _ = saving_repo()
+    xml, manifest = repo.get_contents("", ref="a" * 40)
+    manifest.name = manifest.path = f"{parent}.yml"
+    module = yaml.safe_load(manifest.decoded_content)
+    module["build-commands"] = [
+        f"install -Dm644 {xml.name} /app/extensions/plugin/share/metainfo/{xml.name}"
+    ]
+    manifest.decoded_content = yaml.safe_dump(
+        {
+            "add-extensions": {
+                APP_ID: {"bundle": True, "directory": "extensions/plugin"}
+            },
+            "modules": [module],
+        }
+    ).encode()
+    with batch_db() as db:
+        AppExtensionLookup.__table__.create(db.get_bind())
+        db.add(AppExtensionLookup(extension_id=APP_ID, parent_app_id=parent))
+        db.flush()
+        target = RecipeTarget.for_app(
+            db,
+            APP_ID,
+            "addon",
+            {"bundle": {"value": f"runtime/{APP_ID}/x86_64/stable"}},
+        )
+    github = MagicMock()
+    github.get_repo.return_value = repo
+    monkeypatch.setattr(batches, "Github", lambda _: github)
+    published = MagicMock(return_value=True)
+    monkeypatch.setattr(
+        "app.metadata_translation_github.published_listing_matches", published
+    )
+    changes = {unit(document(), "summary").id: "Neue Zusammenfassung"}
+    batches.queue_translation(target.open(github), APP_ID, "de", "a" * 40, changes, 42)
+    with batch_db() as db:
+        batch = db.query(MetadataTranslationBatch).one()
+        pinned = batch.recipe_target
+        batch.recipe_target = {**pinned, "branch": "branch/25.08"}
+    with pytest.raises(MetadataError, match="source_changed"):
+        batches.queue_translation(
+            target.open(github), APP_ID, "de", "a" * 40, changes, 42
+        )
+    repo.update_file.assert_not_called()
+    with batch_db() as db:
+        db.query(MetadataTranslationBatch).one().recipe_target = pinned
+    github.reset_mock()
+    batches.publish_translation_batches()
+    github.get_repo.assert_called_once_with(f"flathub/{parent}")
+    assert repo.create_pull.call_args.kwargs["base"] == "master"
+    assert repo.update_file.call_args.args[0] == xml.path
+    assert published.call_args.kwargs == {"kind": "runtime", "branch": "stable"}
 
 
 def test_retry_refuses_unrelated_orphan_branch_changes():

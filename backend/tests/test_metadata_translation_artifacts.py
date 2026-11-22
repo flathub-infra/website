@@ -24,8 +24,9 @@ def test_native_verifier_failure_is_retryable(monkeypatch):
         )
 
 
+@pytest.mark.parametrize(("kind", "branch"), [("app", "stable"), ("runtime", "25.08")])
 def test_requires_matching_published_revision_and_xml_on_every_arch(
-    tmp_path, monkeypatch
+    tmp_path, monkeypatch, kind, branch
 ):
     app = "org.example.App"
     revision = "abc123" * 6 + "abcd"
@@ -38,7 +39,7 @@ def test_requires_matching_published_revision_and_xml_on_every_arch(
     xml.parent.mkdir(parents=True)
 
     def publish(arch, git_revision, content):
-        ref = f"app/{app}/{arch}/stable"
+        ref = f"{kind}/{app}/{arch}/{branch}"
         xml.write_bytes(content)
         mtree = OSTree.MutableTree.new()
         repo.write_directory_to_mtree(
@@ -69,7 +70,7 @@ def test_requires_matching_published_revision_and_xml_on_every_arch(
 
         def matches():
             return artifacts.published_listing_matches(
-                app, revision, destination, b"recipe"
+                app, revision, destination, b"recipe", kind=kind, branch=branch
             )
 
         assert matches()

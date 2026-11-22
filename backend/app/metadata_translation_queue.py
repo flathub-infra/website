@@ -14,6 +14,7 @@ from . import config
 from .database import get_db
 from .metadata_translation_artifacts import PublishedListingUnavailable
 from .metadata_translation_github import read_source
+from .metadata_translation_target import RecipeTarget
 from .metadata_translations import (
     QUEUE_FIELDS,
     MetadataDocument,
@@ -43,7 +44,7 @@ def missing_counts(content: bytes, app_id: str) -> _MissingCounts:
 
 def _apps(db):
     return db.query(App.app_id).filter(
-        App.type.in_(["desktop-application", "console-application"]),
+        App.type.in_(["desktop-application", "console-application", "addon"]),
         App.is_eol.is_(False),
     )
 
@@ -97,6 +98,7 @@ def refresh_index():
     with get_db("writer") as db:
         ids = (
             _apps(db)
+            .add_columns(App.type, App.appstream["bundle"])
             .outerjoin(TranslationListing, TranslationListing.app_id == App.app_id)
             .filter(
                 or_(
@@ -114,10 +116,14 @@ def refresh_index():
             .all()
         )
     with Github(config.settings.github_bot_token) as github:
-        for (app_id,) in ids:
+        for app_id, app_type, bundle in ids:
             sha = None
             try:
-                source = read_source(github.get_repo(f"flathub/{app_id}"), app_id)
+                with get_db("writer") as db:
+                    target = RecipeTarget.for_app(
+                        db, app_id, app_type, {"bundle": bundle}
+                    )
+                source = read_source(target.open(github, discover=True), app_id)
                 sha = source.sha
                 counts = missing_counts(source.content, app_id)
             except PublishedListingUnavailable:
