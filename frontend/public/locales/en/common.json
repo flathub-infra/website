@@ -399,6 +399,7 @@
   "no-transactions": "No transactions",
   "remove-saved-card": "Remove saved card",
   "retry-checkout": "Retry checkout",
+  "resume-payment-authentication": "Continue payment authentication",
   "save-card-for-reuse": "Save card for reuse",
   "saved-cards": "Saved Cards",
   "select-donation-amount": "Select an amount to donate",

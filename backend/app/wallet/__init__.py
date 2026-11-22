@@ -13,6 +13,9 @@ from .. import cache
 from ..config import settings
 from ..login_info import LoggedInDep
 from .walletbase import (
+    ConfirmationOutcome,
+    ConfirmNewCard,
+    ConfirmSavedCard,
     NascentTransaction,
     PaymentCardInfo,
     StripeKeys,
@@ -261,8 +264,8 @@ def get_txn_stripedata(
     """
     Return the Stripe data associated with the given transaction.
 
-    This is only applicable to transactions in the `new` or `retry` state and
-    will only work for transactions which *are* Stripe transactions.
+    New, retryable and pending Stripe transactions can return checkout data
+    when the current intent accepts a payment method or requires authentication.
     """
 
     return Wallet().get_transaction_stripedata(request, login["user"], txn)
@@ -298,6 +301,13 @@ def set_savecard(
     return Response(None, status_code=201)
 
 
+@router.post("/transactions/{txn}/confirm", tags=["wallet"])
+def confirm_payment(
+    txn: str, payment: ConfirmSavedCard | ConfirmNewCard, login: LoggedInDep
+) -> ConfirmationOutcome:
+    return Wallet().confirm_payment(login["user"], txn, payment)
+
+
 @router.post(
     "/transactions/{txn}/setpending",
     tags=["wallet"],
@@ -311,8 +321,8 @@ def set_savecard(
 )
 def set_pending(txn: str, request: Request, login: LoggedInDep):
     """
-    Set the transaction as 'pending' so that we can recover if Stripe
-    flows don't quite work (e.g. webhook goes missing)
+    Mark a fake-wallet transaction pending. Stripe checkout clients must use
+    the confirmation endpoint instead of marking a payment pending separately.
     """
     Wallet().set_transaction_pending(request, login["user"], txn)
     return Response(None, status_code=201)

@@ -68,8 +68,9 @@ export const Generated = () => {
   return (
     <Elements stripe={stripePromise} options={options}>
       <CardSelect
+        onError={async () => {}}
+        intent={{ checkout_revision: 0, client_secret: clientSecret }}
         transaction={transaction}
-        clientSecret={clientSecret}
         submit={() => {}}
         skip={() => {}}
         walletQuery={{ data: { data: { cards } } }}

@@ -7,6 +7,7 @@ This will be used if the app starts with Stripe credentials available
 import logging
 from datetime import UTC, datetime, timedelta
 from itertools import dropwhile
+from typing import TYPE_CHECKING
 
 import stripe
 from fastapi import Request, Response
@@ -18,6 +19,10 @@ from ..database import get_db
 from ..models import FlathubUser, StripeCustomer
 from ..utils import PLATFORMS_WITH_STRIPE, utcnow
 from .walletbase import (
+    CardDecline,
+    ConfirmationOutcome,
+    ConfirmNewCard,
+    ConfirmSavedCard,
     NascentTransaction,
     PaymentCardInfo,
     StripeKeys,
@@ -32,7 +37,11 @@ from .walletbase import (
     WalletInfo,
 )
 
+if TYPE_CHECKING:
+    from stripe.params import PaymentIntentConfirmParams, PaymentIntentModifyParams
+
 GROUP_PREFIX = "flathub-txn-"
+CONFIRMABLE = {"requires_payment_method", "requires_confirmation"}
 logger = logging.getLogger(__name__)
 
 
@@ -205,9 +214,16 @@ class StripeWallet(WalletBase):
                 if stxn is not None:
                     return stxn.stripe_pi
 
-            # Transaction doesn't exist, need to create it
+        except Exception as stripe_error:
+            raise WalletError(
+                error="stripe-payment-intent-build-failed"
+            ) from stripe_error
+        return self._create_payment_intent(user, txn.id)
+
+    def _create_payment_intent(self, user: FlathubUser, txn_id: int) -> str:
+        try:
             with get_db("replica") as db:
-                fresh_txn = db.session.query(models.Transaction).get(txn.id)
+                fresh_txn = db.session.get(models.Transaction, txn_id)
                 if fresh_txn is None:
                     raise WalletError(error="not found")
 
@@ -250,7 +266,6 @@ class StripeWallet(WalletBase):
 
                 txn_value = fresh_txn.value
                 txn_currency = fresh_txn.currency
-                txn_id = fresh_txn.id
                 txn_kind = fresh_txn.kind
 
             customer_id = self._get_customer(user)
@@ -337,7 +352,7 @@ class StripeWallet(WalletBase):
             status, reason = "success", ""
         elif pi_status == "canceled":
             status, reason = "cancelled", "Cancellation noted from Stripe"
-        elif pi_status in {"processing", "requires_action", "requires_capture"}:
+        elif pi_status in {"processing", "requires_capture"}:
             status, reason = "pending", ""
         else:
             status, reason = "retry", f"Stripe status: {pi_status}"
@@ -459,50 +474,52 @@ class StripeWallet(WalletBase):
         cards = [c for pm in pms.data if (c := self._cardinfo(pm)) is not None]
         if card not in cards:
             raise WalletError(error="not found")
-        with get_db("replica") as db:
-            user = db.session.merge(user)
-            txn = models.Transaction.by_user_and_id(db, user, transaction)
-            if txn is None:
-                raise WalletError("not found")
-            if txn.status not in ["new", "retry"]:
-                raise WalletError(error="bad transaction status")
-
-        stripe_pi = self._get_transaction(user, txn)
-        try:
-            stripe.PaymentIntent.modify(
-                stripe_pi,
-                payment_method=card.id,
-            )
-        except WalletError:
-            raise
-        except Exception as stripe_error:
-            raise WalletError("not found") from stripe_error
+        self._modify_checkout(user, transaction, {"payment_method": card.id})
 
     def get_transaction_stripedata(
         self, request: Request, user: FlathubUser, transaction: str
     ) -> TransactionStripeData:
-        with get_db("replica") as db:
-            user = db.session.merge(user)
-            txn = models.Transaction.by_user_and_id(db, user, transaction)
+        with get_db("writer") as db:
+            txn = models.Transaction.by_user_and_id(db, user, transaction, lock=True)
             if txn is None:
                 raise WalletError(error="not found")
-            if txn.status not in ["new", "retry"]:
+            if txn.status not in ["new", "retry", "pending"]:
                 raise WalletError(error="bad transaction status")
+            stxn = models.StripeTransaction.by_transaction(db, txn)
+            if stxn is not None:
+                return self._checkout_data(stxn.stripe_pi, stxn.checkout_revision)
+            txn_id = txn.id
 
-        stripe_pi = self._get_transaction(user, txn)
+        stripe_pi = self._create_payment_intent(user, txn_id)
+        return self._checkout_data(stripe_pi, 0)
+
+    def _checkout_data(self, stripe_pi: str, revision: int) -> TransactionStripeData:
         card = None
         try:
             payment_intent = stripe.PaymentIntent.retrieve(stripe_pi)
+            if payment_intent.status == "requires_action":
+                return TransactionStripeData(
+                    status="requires_action",
+                    checkout_revision=revision,
+                    client_secret=payment_intent.client_secret or "",
+                )
+            if payment_intent.status not in CONFIRMABLE:
+                raise WalletError(error="bad transaction status")
             pm_field = payment_intent.payment_method
             if pm_field is not None:
                 pm_id = pm_field if isinstance(pm_field, str) else pm_field.id
                 payment_method = stripe.PaymentMethod.retrieve(pm_id)
                 card = self._cardinfo(payment_method)
+        except WalletError:
+            raise
         except Exception as stripe_error:
             raise WalletError("stripe error") from stripe_error
 
         return TransactionStripeData(
-            status="ok", client_secret=payment_intent.client_secret or "", card=card
+            status="ok",
+            checkout_revision=revision,
+            client_secret=payment_intent.client_secret or "",
+            card=card,
         )
 
     def cancel_transaction(self, request: Request, user: FlathubUser, transaction: str):
@@ -548,21 +565,30 @@ class StripeWallet(WalletBase):
         transaction: str,
         state: TransactionSaveCardKind | None,
     ):
-        with get_db("replica") as db:
-            user = db.session.merge(user)
-            txn = models.Transaction.by_user_and_id(db, user, transaction)
+        self._modify_checkout(user, transaction, {"setup_future_usage": state or ""})
+
+    def _modify_checkout(
+        self, user: FlathubUser, transaction: str, options: "PaymentIntentModifyParams"
+    ):
+        with get_db("writer") as db:
+            txn = models.Transaction.by_user_and_id(db, user, transaction, lock=True)
             if txn is None:
                 raise WalletError(error="not found")
             if txn.status not in ["new", "retry"]:
                 raise WalletError(error="bad transaction status")
-        stripe_pi = self._get_transaction(user, txn)
-        try:
-            stripe.PaymentIntent.modify(
-                stripe_pi,
-                setup_future_usage=state if state is not None else "",
-            )
-        except Exception as stripe_error:
-            raise WalletError("stripe error") from stripe_error
+            stxn = models.StripeTransaction.by_transaction(db, txn)
+            if stxn is None:
+                raise WalletError(error="not found")
+            try:
+                if (
+                    stripe.PaymentIntent.retrieve(stxn.stripe_pi).status
+                    not in CONFIRMABLE
+                ):
+                    raise WalletError(error="bad transaction status")
+                stripe.PaymentIntent.modify(stxn.stripe_pi, **options)
+                stxn.checkout_revision += 1
+            except stripe.StripeError as error:
+                raise WalletError("stripe error") from error
 
     async def webhook(self, request: Request) -> Response:
         # Deal with the incoming webhook request
@@ -619,7 +645,7 @@ class StripeWallet(WalletBase):
                 )
                 if (
                     transaction.status == "pending"
-                    and created <= transaction.updated.replace(microsecond=0)
+                    and created < transaction.updated.replace(microsecond=0)
                 ):
                     return Response(None, status_code=201)
                 current = stripe.PaymentIntent.retrieve(stripe_txn.stripe_pi)
@@ -629,22 +655,93 @@ class StripeWallet(WalletBase):
 
         return Response(None, status_code=201)
 
-    def set_transaction_pending(
-        self, request: Request, user: FlathubUser, transaction: str
-    ):
+    def confirm_payment(
+        self,
+        user: FlathubUser,
+        transaction: str,
+        payment: ConfirmSavedCard | ConfirmNewCard,
+    ) -> ConfirmationOutcome:
         with get_db("writer") as db:
-            user = db.session.merge(user)
             txn = models.Transaction.by_user_and_id(db, user, transaction, lock=True)
             if txn is None:
                 raise WalletError(error="not found")
-            if txn.status not in ["new", "retry", "pending"]:
-                raise WalletError(error="bad transaction status")
-            if txn.status == "pending":
-                return
-            txn.status = "pending"
-            txn.updated = utcnow()
-            db.session.add(txn)
-            db.session.commit()
+            stxn = models.StripeTransaction.by_transaction(db, txn)
+            if stxn is None:
+                raise WalletError(error="not found")
+            pi = stxn.stripe_pi
+            if payment.checkout_revision != stxn.checkout_revision:
+                return "view_details"
+            stxn.checkout_revision += 1
+            try:
+                intent = stripe.PaymentIntent.retrieve(pi)
+                can_confirm = (
+                    txn.status
+                    in {
+                        "new",
+                        "pending",
+                        "retry",
+                    }
+                    and intent.status in CONFIRMABLE
+                )
+                if can_confirm:
+                    options: PaymentIntentConfirmParams = {
+                        "use_stripe_sdk": True,
+                        "return_url": f"{settings.frontend_url.rstrip('/')}/payment/details/{txn.id}",
+                        "idempotency_key": f"confirm-{pi}-{payment.checkout_revision}",
+                    }
+                    if isinstance(payment, ConfirmSavedCard):
+                        customer = StripeCustomer.by_user(db, user)
+                        method = stripe.PaymentMethod.retrieve(payment.payment_method)
+                        if (
+                            customer is None
+                            or method.customer != customer.stripe_cust
+                            or method.type != "card"
+                        ):
+                            db.session.commit()
+                            raise WalletError(error="not found")
+                        options["payment_method"] = payment.payment_method
+                    else:
+                        options["confirmation_token"] = payment.confirmation_token
+                        options["setup_future_usage"] = (
+                            "on_session" if payment.save_card else ""
+                        )
+                    try:
+                        intent = stripe.PaymentIntent.confirm(pi, **options)
+                    except stripe.CardError as error:
+                        # A decline is a completed submission; don't resubmit it on replay.
+                        intent = stripe.PaymentIntent.retrieve(pi)
+                        self._apply_intent(txn, intent, db)
+                        if intent.status != "requires_payment_method":
+                            return "view_details"
+                        decline_code = (
+                            error.error.to_dict().get("decline_code")
+                            if error.error
+                            else None
+                        )
+                        return CardDecline(
+                            decline_code="generic_decline"
+                            if decline_code in {"lost_card", "stolen_card"}
+                            else decline_code,
+                            code=error.code,
+                        )
+                if txn.status not in {"success", "cancelled"}:
+                    self._apply_intent(txn, intent, db)
+                return (
+                    "requires_action"
+                    if can_confirm and intent.status == "requires_action"
+                    else "view_details"
+                )
+            except stripe.StripeError as error:
+                if txn.status == "new":
+                    txn.status, txn.updated = "pending", utcnow()
+                db.session.commit()
+                raise WalletError(error="stripe error") from error
+
+    def set_transaction_pending(
+        self, request: Request, user: FlathubUser, transaction: str
+    ):
+        # Legacy clients must reload before confirming outside the transaction lock.
+        raise WalletError(error="failed-to-load-refresh")
 
     def perform_pending_transfers(self):
         while True:

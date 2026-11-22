@@ -2,13 +2,9 @@ import { useStripe } from "@stripe/react-stripe-js"
 import { useTranslations } from "next-intl"
 import { FunctionComponent, ReactElement, useState } from "react"
 import { CardInfo, CardInfoSkeleton } from "../cards/CardInfo"
-import { handleStripeError } from "./stripe"
+import { type CheckoutIntent, confirmWalletPayment } from "./stripe"
 import { useMutation, UseQueryResult } from "@tanstack/react-query"
-import { AxiosError, AxiosResponse } from "axios"
-import {
-  setPendingWalletTransactionsTxnSetpendingPost,
-  setTransactionCardWalletTransactionsTxnSetcardPost,
-} from "src/codegen"
+import { AxiosResponse } from "axios"
 import { PaymentCardInfo, Transaction, WalletInfo } from "src/codegen/model"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
@@ -17,7 +13,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 interface Props {
   transaction: Transaction
-  clientSecret: string
+  intent: CheckoutIntent
+  onError: (error: unknown) => Promise<void>
   submit: () => void
   skip: () => void
   walletQuery: UseQueryResult<AxiosResponse<WalletInfo, any>, Error>
@@ -25,7 +22,8 @@ interface Props {
 
 const CardSelect: FunctionComponent<Props> = ({
   transaction,
-  clientSecret,
+  intent,
+  onError,
   submit,
   skip,
   walletQuery,
@@ -41,47 +39,15 @@ const CardSelect: FunctionComponent<Props> = ({
     cards[0] ?? null,
   )
 
-  const [isProcessing, setIsProcessing] = useState(false)
-
   const mutation = useMutation({
-    mutationFn: async ({ id }: { id: string }) => {
-      if (!useCard) {
-        return
-      }
-
-      setIsProcessing(true)
-
-      await setTransactionCardWalletTransactionsTxnSetcardPost(id, useCard, {
-        withCredentials: true,
-      })
-      return await setPendingWalletTransactionsTxnSetpendingPost(id, {
-        withCredentials: true,
-      })
-    },
-    onSuccess: async () => {
-      if (!stripe) {
-        return
-      }
-
-      if (!useCard) {
-        return
-      }
-
-      const result = await stripe.confirmCardPayment(clientSecret, {
+    mutationFn: () =>
+      confirmWalletPayment(stripe, transaction.summary.id, intent, {
         payment_method: useCard.id,
-      })
-
-      if (result.error) {
-        handleStripeError(result.error)
-        setIsProcessing(false)
-      } else {
-        submit()
-      }
-    },
-    onError: (err: AxiosError) => {
-      setIsProcessing(false)
-    },
+      }),
+    onSuccess: submit,
+    onError,
   })
+  const isProcessing = mutation.isPending
 
   let cardSection: ReactElement
   if (error) {
@@ -175,7 +141,7 @@ const CardSelect: FunctionComponent<Props> = ({
             className="w-full sm:w-auto"
             onClick={() => {
               if (stripe && useCard) {
-                mutation.mutate({ id: transaction.summary.id })
+                mutation.mutate()
               }
             }}
             disabled={!useCard || isProcessing}

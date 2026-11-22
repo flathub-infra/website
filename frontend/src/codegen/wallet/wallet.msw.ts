@@ -14,6 +14,8 @@ import type {
 } from "msw"
 
 import type {
+  ConfirmPaymentWalletTransactionsTxnConfirmPost200,
+  ConfirmPaymentWalletTransactionsTxnConfirmPostBody,
   NascentTransaction,
   PaymentCardInfo,
   PostTransactionResponse,
@@ -144,8 +146,9 @@ export const getGetStripedataWalletStripedataGetResponseMock = (
 export const getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock = (
   overrideResponse: Partial<Extract<TransactionStripeData, object>> = {},
 ): TransactionStripeData => ({
-  status: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  status: faker.helpers.arrayElement(["ok", "requires_action"] as const),
   client_secret: faker.string.alpha({ length: { min: 10, max: 20 } }),
+  checkout_revision: faker.number.int(),
   card: faker.helpers.arrayElement([
     {
       id: faker.string.alpha({ length: { min: 10, max: 20 } }),
@@ -159,6 +162,22 @@ export const getGetTxnStripedataWalletTransactionsTxnStripeGetResponseMock = (
   ]),
   ...overrideResponse,
 })
+
+export const getConfirmPaymentWalletTransactionsTxnConfirmPostResponseMock =
+  (): ConfirmPaymentWalletTransactionsTxnConfirmPost200 =>
+    faker.helpers.arrayElement([
+      faker.helpers.arrayElement(["requires_action", "view_details"] as const),
+      {
+        decline_code: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+        code: faker.helpers.arrayElement([
+          faker.string.alpha({ length: { min: 10, max: 20 } }),
+          null,
+        ]),
+      },
+    ])
 
 export const getGetWalletinfoWalletWalletinfoGetMockHandler = (
   overrideResponse?:
@@ -410,6 +429,47 @@ export const getSetSavecardWalletTransactionsTxnSavecardPostMockHandler = (
   )
 }
 
+export const getConfirmPaymentWalletTransactionsTxnConfirmPostMockHandler = (
+  overrideResponse?:
+    | ConfirmPaymentWalletTransactionsTxnConfirmPost200
+    | ((
+        info: Parameters<
+          HttpResponseResolver<
+            { txn: string },
+            ConfirmPaymentWalletTransactionsTxnConfirmPostBody
+          >
+        >[0],
+      ) =>
+        | Promise<ConfirmPaymentWalletTransactionsTxnConfirmPost200>
+        | ConfirmPaymentWalletTransactionsTxnConfirmPost200),
+  options?: RequestHandlerOptions,
+) => {
+  return http.post<
+    { txn: string },
+    ConfirmPaymentWalletTransactionsTxnConfirmPostBody
+  >(
+    "*/wallet/transactions/:txn/confirm",
+    async (
+      info: Parameters<
+        HttpResponseResolver<
+          { txn: string },
+          ConfirmPaymentWalletTransactionsTxnConfirmPostBody
+        >
+      >[0],
+    ) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getConfirmPaymentWalletTransactionsTxnConfirmPostResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
 export const getSetPendingWalletTransactionsTxnSetpendingPostMockHandler = (
   overrideResponse?:
     | unknown
@@ -463,6 +523,7 @@ export const getWalletMock = () => [
   getGetStripedataWalletStripedataGetMockHandler(),
   getGetTxnStripedataWalletTransactionsTxnStripeGetMockHandler(),
   getSetSavecardWalletTransactionsTxnSavecardPostMockHandler(),
+  getConfirmPaymentWalletTransactionsTxnConfirmPostMockHandler(),
   getSetPendingWalletTransactionsTxnSetpendingPostMockHandler(),
   getWebhookWalletWebhookStripePostMockHandler(),
 ]

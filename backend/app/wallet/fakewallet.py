@@ -271,7 +271,10 @@ class FakeWallet(WalletBase):
             raise WalletError(error="transaction not changeable")
         txnid = txn.summary.id
         return TransactionStripeData(
-            status="ok", client_secret=f"stripe-secret-{txnid}", card=txn.card
+            status="ok",
+            client_secret=f"stripe-secret-{txnid}",
+            card=txn.card,
+            checkout_revision=0,
         )
 
     def cancel_transaction(self, request: Request, user: FlathubUser, transaction: str):

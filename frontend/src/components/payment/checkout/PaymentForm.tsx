@@ -2,13 +2,13 @@ import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useTranslations } from "next-intl"
 import { FormEvent, FunctionComponent, useState } from "react"
 import Spinner from "../../Spinner"
-import { handleStripeError } from "./stripe"
-import { useMutation } from "@tanstack/react-query"
-import { AxiosError } from "axios"
 import {
-  setPendingWalletTransactionsTxnSetpendingPost,
-  setSavecardWalletTransactionsTxnSavecardPost,
-} from "src/codegen"
+  type CheckoutIntent,
+  confirmWalletPayment,
+  createCardToken,
+} from "./stripe"
+import { useMutation } from "@tanstack/react-query"
+import { useRouter } from "src/i18n/navigation"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { TransactionCancelButtonPrep } from "./Checkout"
@@ -16,6 +16,8 @@ import { TransactionCancelButtonPrep } from "./Checkout"
 interface Props {
   transactionId: string
   callbackPage: string
+  intent: CheckoutIntent
+  onError: (error: unknown) => Promise<void>
   canGoBack: boolean
   goBack: () => void
 }
@@ -23,53 +25,28 @@ interface Props {
 const PaymentForm: FunctionComponent<Props> = ({
   transactionId,
   callbackPage,
+  intent,
+  onError,
   canGoBack,
   goBack,
 }) => {
   const t = useTranslations()
   const stripe = useStripe()
   const elements = useElements()
+  const router = useRouter()
 
   // UI control state
   const [checked, setChecked] = useState(false)
-  const [processing, setProcessing] = useState(false)
-
   const mutation = useMutation({
     mutationFn: async () => {
-      setProcessing(true)
-
-      if (checked) {
-        await setSavecardWalletTransactionsTxnSavecardPost(
-          transactionId,
-          { save_card: "on_session" },
-          {
-            withCredentials: true,
-          },
-        )
-      }
-      return await setPendingWalletTransactionsTxnSetpendingPost(
-        transactionId,
-        {
-          withCredentials: true,
-        },
-      )
-    },
-    onSuccess: async () => {
-      const result = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: callbackPage,
-        },
+      const token = await createCardToken(stripe, elements, checked)
+      await confirmWalletPayment(stripe, transactionId, intent, {
+        confirmation_token: token,
+        save_card: checked,
       })
-
-      // Redirect will have occurred otherwise
-      if (result.error) {
-        handleStripeError(result.error)
-      }
     },
-    onError: (err: AxiosError) => {
-      setProcessing(false)
-    },
+    onSuccess: () => router.push(callbackPage),
+    onError,
   })
 
   return (
@@ -79,7 +56,7 @@ const PaymentForm: FunctionComponent<Props> = ({
     >
       <h3 className="text-xl font-semibold m-0">{t("payment-details")}</h3>
       <PaymentElement />
-      {processing ? (
+      {mutation.isPending ? (
         <Spinner size="s" />
       ) : (
         <>
@@ -88,7 +65,7 @@ const PaymentForm: FunctionComponent<Props> = ({
               id="save-card"
               checked={checked}
               onCheckedChange={(event) => {
-                setChecked(Boolean(event))
+                setChecked(event === true)
               }}
             />
             <div className="grid gap-1.5 leading-none">

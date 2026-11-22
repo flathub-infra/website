@@ -2054,6 +2054,7 @@ class StripeTransaction(Base):
         Integer, ForeignKey(Transaction.id), nullable=False, unique=True, index=True
     )
     stripe_pi = mapped_column(String, nullable=False)
+    checkout_revision = mapped_column(Integer, nullable=False, server_default="0")
 
     @classmethod
     def by_transaction(cls, db, txn: Transaction):

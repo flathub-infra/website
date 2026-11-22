@@ -97,9 +97,29 @@ class StripeKeys(BaseModel):
 
 
 class TransactionStripeData(BaseModel):
-    status: str
+    status: Literal["ok", "requires_action"]
     client_secret: str
+    checkout_revision: int
     card: PaymentCardInfo | None = None
+
+
+class ConfirmSavedCard(BaseModel):
+    checkout_revision: int
+    payment_method: str
+
+
+class ConfirmNewCard(BaseModel):
+    checkout_revision: int
+    confirmation_token: str
+    save_card: bool = False
+
+
+class CardDecline(BaseModel):
+    decline_code: str | None
+    code: str | None
+
+
+ConfirmationOutcome = Literal["requires_action", "view_details"] | CardDecline
 
 
 TransactionSaveCardKind = Literal["off_session", "on_session"]
@@ -127,6 +147,14 @@ class WalletBase:
         """
         Initialise this wallet
         """
+
+    def confirm_payment(
+        self,
+        user: FlathubUser,
+        transaction: str,
+        payment: ConfirmSavedCard | ConfirmNewCard,
+    ) -> ConfirmationOutcome:
+        raise WalletError(error="stripe error")
 
     @classmethod
     def webhook_name(cls):
