@@ -131,7 +131,7 @@ def language_queue(locale: str) -> TranslationQueue:
                 TranslationListing.missing,
             )
             .outerjoin(TranslationListing, TranslationListing.app_id == App.app_id)
-            .order_by(App.app_id)
+            .order_by(App.last_updated_at.desc().nullslast(), App.app_id)
         )
         for app_id, name, sha, counts in rows:
             item = QueueApp(app_id=app_id, name=name or app_id)

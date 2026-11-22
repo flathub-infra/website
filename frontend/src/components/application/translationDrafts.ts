@@ -2,7 +2,7 @@ import { useReducer, useState } from "react"
 import type { SharedTranslationUnit } from "src/codegen/model/sharedTranslationUnit"
 
 type Field = SharedTranslationUnit
-type Draft = { text: string; version: string; source: string }
+export type Draft = { text: string; version: string; source: string }
 const pending = new Map<string, Map<string, Draft>>()
 
 export function hasTranslationDrafts(key: string) {
@@ -20,8 +20,9 @@ function identity(field: Field) {
 
 // Keep drafts in memory so Back can restore them without writing them to disk.
 export function openTranslationDrafts(key?: string, changed = () => {}) {
-  const entries = new Map(key ? pending.get(key) : undefined)
-  function commit() {
+  const local = new Map<string, Draft>()
+  const current = () => (key && pending.get(key)) || local
+  function commit(entries: Map<string, Draft>) {
     if (key && entries.size) {
       pending.set(key, entries)
     } else {
@@ -30,34 +31,61 @@ export function openTranslationDrafts(key?: string, changed = () => {}) {
     changed()
   }
   function discard(field: Field | string) {
+    const entries = current()
     entries.delete(typeof field === "string" ? field : identity(field))
-    commit()
+    commit(entries)
   }
   return {
     get(field: Field) {
-      return entries.get(identity(field))
+      return current().get(identity(field))
     },
     isEdited(field: Field) {
-      const draft = entries.get(identity(field))
+      const draft = current().get(identity(field))
       return draft !== undefined && draft.text.trim() !== field.translation
     },
     edit(
       field: Field,
       text: string,
-      version = entries.get(identity(field))?.version ?? field.version,
+      version = current().get(identity(field))?.version ?? field.version,
+      keepOriginal = false,
     ) {
-      if (text === field.translation) {
+      if (text === field.translation && !keepOriginal) {
         discard(field)
       } else {
+        const entries = key
+          ? (pending.get(key) ?? new Map<string, Draft>())
+          : local
         entries.set(identity(field), { source: field.source, text, version })
-        commit()
+        commit(entries)
       }
     },
     unmatched(fields: Field[]) {
       const present = new Set(fields.map(identity))
-      return [...entries].filter(([id]) => !present.has(id))
+      return [...current()].filter(([id]) => !present.has(id))
     },
     discard,
+    acknowledgeSave(field: Field, submitted: Draft | undefined, saved?: Field) {
+      const entries = current()
+      const id = identity(field)
+      const draft = entries.get(id)
+      if (!submitted || !draft) {
+        return
+      }
+      if (draft === submitted) {
+        discard(field)
+      } else if (
+        saved &&
+        identity(saved) === id &&
+        draft.version === submitted.version
+      ) {
+        if (draft.text === saved.translation) {
+          discard(field)
+        } else {
+          entries.set(id, { ...draft, version: saved.version })
+          commit(entries)
+        }
+      }
+    },
   }
 }
 

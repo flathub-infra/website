@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { isValidAppId } from "@/lib/helpers"
+import { resolveTranslationLanguage } from "src/components/application/translationLanguages"
 import MetadataTranslationEditor from "src/components/application/MetadataTranslationEditor"
 import { metadataTranslationText } from "src/components/application/MetadataTranslationEditor.messages"
 
@@ -23,10 +24,14 @@ export default async function TranslatePage({
     notFound()
   }
   const { language } = await searchParams
+  const initialLanguage = resolveTranslationLanguage(language)
+  if (language !== undefined && !initialLanguage) {
+    notFound()
+  }
   return (
     <MetadataTranslationEditor
       appId={appId}
-      initialLanguage={typeof language === "string" ? language : undefined}
+      initialLanguage={initialLanguage}
     />
   )
 }

@@ -1,14 +1,19 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useLocale } from "next-intl"
+import { useSearchParams } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { isValidAppId } from "@/lib/helpers"
 import { getLanguageName, languages } from "src/localize"
+import TranslationLanguageSelect from "src/components/application/TranslationLanguageSelect"
+import { resolveTranslationLanguage } from "src/components/application/translationLanguages"
 import { Link, useRouter } from "src/i18n/navigation"
 import { useUserContext } from "src/context/user-info"
 import { Permission } from "src/codegen/model/permission"
+import type { QueueApp } from "src/codegen/model/queueApp"
 import { getTranslationQueueMetadataTranslationsQueueGet } from "src/codegen/metadata-translations/metadata-translations"
 import MetadataTranslationEditor from "src/components/application/MetadataTranslationEditor"
 import {
@@ -22,15 +27,15 @@ export default function AppTranslations({ language }: { language?: string }) {
   const user = useUserContext()
   const allowed = user.info?.permissions.includes(Permission["manage-apps"])
   const account = user.info?.default_account
-  const [last] = useState(
-    () =>
-      readPreference("app-translations.language") ||
-      (locale === "en" ? "" : locale),
-  )
-  const [choice, setChoice] = useState(
-    last && !languages.some((l) => l === last) ? "other" : last,
-  )
-  const [custom, setCustom] = useState(choice === "other" ? last : "")
+  const knownLanguage = languages.find((l) => l === language)
+  const [choice, setChoice] = useState<string>(() => {
+    const last = readPreference("app-translations.language")
+    return (
+      resolveTranslationLanguage(last) ??
+      resolveTranslationLanguage(locale) ??
+      ""
+    )
+  })
   useEffect(() => {
     if (language) {
       writePreference("app-translations.language", language)
@@ -38,8 +43,17 @@ export default function AppTranslations({ language }: { language?: string }) {
   }, [language])
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8 sm:px-6 sm:py-12">
-      <header>
-        <h1 className="text-3xl font-bold tracking-tight">App translations</h1>
+      <header className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          App translations
+        </h1>
+        {allowed && (
+          <p className="max-w-prose text-muted-foreground">
+            {language
+              ? `Translate app listings into ${knownLanguage ? getLanguageName(knownLanguage) : language}.`
+              : "Help people discover apps in their language by translating names, summaries, and descriptions."}
+          </p>
+        )}
       </header>
       {!allowed ? (
         !user.loading && <p>Only admins can translate app listings for now.</p>
@@ -56,56 +70,29 @@ export default function AppTranslations({ language }: { language?: string }) {
         </>
       ) : (
         <form
-          className="max-w-lg space-y-2"
+          className="max-w-2xl space-y-4 rounded-xl border bg-card p-5 sm:p-8"
           onSubmit={(e) => {
             e.preventDefault()
-            router.push(
-              `/app-translations/${encodeURIComponent((choice === "other" ? custom : choice).replaceAll("_", "-"))}`,
-            )
+            router.push(`/app-translations/${choice}`)
           }}
         >
-          <label htmlFor="queue-language">
-            Choose a language to translate app listings.
+          <label
+            className="block text-xl font-semibold"
+            htmlFor="queue-language"
+          >
+            Choose a translation language
           </label>
-          <div className="flex flex-wrap items-center gap-2">
-            <select
-              className="min-h-10 min-w-40 flex-1 rounded-md border bg-card px-3 text-foreground"
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <TranslationLanguageSelect
               id="queue-language"
               value={choice}
-              required
               onChange={(e) => setChoice(e.target.value)}
-            >
-              <option value="" disabled>
-                Select a language
-              </option>
-              {languages
-                .filter((l) => l !== "en")
-                .sort((a, b) =>
-                  getLanguageName(a).localeCompare(getLanguageName(b), locale),
-                )
-                .map((l) => (
-                  <option key={l} value={l}>
-                    {getLanguageName(l)}
-                  </option>
-                ))}
-              <option value="other">Another language…</option>
-            </select>
-            {choice === "other" && (
-              <Input
-                aria-label="Language code"
-                value={custom}
-                onChange={(e) => setCustom(e.target.value)}
-                required
-                maxLength={40}
-                pattern={String.raw`[a-z]{2,3}([\-_][A-Za-z0-9]{2,8})*(@[a-z]+)?`}
-                placeholder="Language code, e.g. ast"
-              />
-            )}
-            <Button type="submit">Continue</Button>
+            />
+            <Button type="submit">Open translation queue</Button>
           </div>
         </form>
       )}
-      <p className="text-sm">
+      <p className="border-t pt-5 text-sm text-muted-foreground">
         <a
           href="https://hosted.weblate.org/engage/flathub/"
           className="underline underline-offset-4"
@@ -119,8 +106,85 @@ export default function AppTranslations({ language }: { language?: string }) {
 
 type Pass = { current: string; skipped: string[] }
 const emptyPass: Pass = { current: "", skipped: [] }
+type AppGroup = { title: string; apps: QueueApp[] }
+
+function AppPicker({
+  groups,
+  language,
+  appId,
+}: {
+  groups: AppGroup[]
+  language: string
+  appId?: string
+}) {
+  const [filter, setFilter] = useState("")
+  const [choosing, setChoosing] = useState(false)
+  const search = filter.trim().toLowerCase()
+  const matching = choosing
+    ? groups
+        .map(({ title, apps }) => ({
+          title,
+          apps: apps.filter((a) =>
+            `${a.name} ${a.app_id}`.toLowerCase().includes(search),
+          ),
+        }))
+        .filter(({ apps }) => apps.length)
+    : []
+  return (
+    <details
+      onToggle={(event) => setChoosing(event.currentTarget.open)}
+      className="rounded-xl border bg-card p-4"
+    >
+      <summary className="cursor-pointer font-semibold">
+        Choose an app (
+        {groups.reduce((count, group) => count + group.apps.length, 0)})
+      </summary>
+      {choosing && (
+        <div className="mt-4 space-y-3">
+          <Input
+            aria-label="Find an app by name or ID"
+            placeholder="Find an app by name or ID"
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+          />
+          <div className="max-h-72 overflow-y-auto">
+            {matching.map(({ title, apps }) => (
+              <section key={title}>
+                <h2 className="py-2 text-sm font-semibold text-muted-foreground">
+                  {title}
+                </h2>
+                <ul>
+                  {apps.map((a) => (
+                    <li key={a.app_id}>
+                      <Link
+                        prefetch={false}
+                        scroll={false}
+                        href={`/app-translations/${language}?app=${encodeURIComponent(a.app_id)}`}
+                        aria-current={a.app_id === appId ? "page" : undefined}
+                        className="flex flex-wrap items-baseline justify-between gap-x-4 rounded-md px-2 py-2 hover:bg-muted aria-[current=page]:bg-muted"
+                      >
+                        <span>{a.name}</span>
+                        <span className="break-all text-sm text-muted-foreground">
+                          {a.app_id}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+            {!matching.length && <p role="status">No matching apps.</p>}
+          </div>
+        </div>
+      )}
+    </details>
+  )
+}
 
 function Queue({ language, account }: { language: string; account: string }) {
+  const requested = useSearchParams()?.get("app")
+  const { info } = useUserContext()
+  const mine = new Set(info?.dev_flatpaks)
   const storageKey = `app-translations.pass:${account}:${language}`
   const [pass, setPass] = useState<Pass>(() => {
     try {
@@ -147,22 +211,55 @@ function Queue({ language, account }: { language: string; account: string }) {
     refetchOnReconnect: false,
     retry: false,
   })
-  const available =
-    queue.data?.apps.filter(
-      (a) => !pass.skipped.includes(a.app_id) && !finished.includes(a.app_id),
-    ) ?? []
-  const app = available.find((a) => a.app_id === pass.current) ?? available[0]
   async function refreshQueue() {
     if ((await queue.refetch()).isSuccess) {
       setFinished([])
     }
   }
+  const maintained: QueueApp[] = []
+  const recent: QueueApp[] = []
+  for (const app of queue.data?.apps ?? []) {
+    if (finished.includes(app.app_id)) {
+      continue
+    }
+    const group = mine.has(app.app_id) ? maintained : recent
+    group.push(app)
+  }
+  const groups = [
+    { title: "My apps", apps: maintained },
+    { title: "Recently updated", apps: recent },
+  ]
+  const ordered = [...maintained, ...recent]
+  const available = ordered.filter((a) => !pass.skipped.includes(a.app_id))
+  const app = requested
+    ? ordered.find((a) => a.app_id === requested)
+    : (available.find((a) => a.app_id === pass.current) ?? available[0])
+  const appId = app?.app_id
+  const activeApp = useRef<string | undefined>(undefined)
+  useLayoutEffect(() => {
+    activeApp.current = appId
+    return () => {
+      activeApp.current = undefined
+    }
+  }, [appId])
+  function updateAddress(id?: string) {
+    const url = new URL(window.location.href)
+    if (id) {
+      url.searchParams.set("app", id)
+    } else {
+      url.searchParams.delete("app")
+    }
+    window.history.replaceState(null, "", url)
+  }
   useEffect(() => {
+    if (!requested && appId) {
+      updateAddress(appId)
+    }
     writePreference(
       storageKey,
-      JSON.stringify({ ...pass, current: app?.app_id ?? pass.current }),
+      JSON.stringify({ ...pass, current: appId ?? pass.current }),
     )
-  }, [app?.app_id, pass, storageKey])
+  }, [appId, requested, pass, storageKey])
   if (queue.isError) {
     return (
       <div role="alert">
@@ -176,9 +273,19 @@ function Queue({ language, account }: { language: string; account: string }) {
   if (!queue.data) {
     return <p role="status">Loading translations…</p>
   }
-  const skipped = queue.data.apps.filter((a) => pass.skipped.includes(a.app_id))
+  const skipped = ordered.filter((a) => pass.skipped.includes(a.app_id))
+  function finish(id: string) {
+    setFinished((previous) => [...previous, id])
+    setPass((previous) => ({
+      current: activeApp.current === id ? "" : previous.current,
+      skipped: previous.skipped.filter((skippedId) => skippedId !== id),
+    }))
+  }
   return (
     <>
+      {ordered.length > 0 && (
+        <AppPicker groups={groups} language={language} appId={appId} />
+      )}
       {app ? (
         <MetadataTranslationEditor
           key={app.app_id}
@@ -186,18 +293,46 @@ function Queue({ language, account }: { language: string; account: string }) {
           queue={{
             language,
             name: app.name,
-            advance: (skip) => {
-              if (!skip) {
-                setFinished((previous) => [...previous, app.app_id])
+            finishInBackground: () => {
+              if (activeApp.current !== app.app_id) {
+                finish(app.app_id)
               }
-              setPass({
-                current:
-                  available.find((a) => a.app_id !== app.app_id)?.app_id ?? "",
-                skipped: skip ? [...pass.skipped, app.app_id] : pass.skipped,
-              })
+            },
+            advance: (skip) => {
+              const stillActive = activeApp.current === app.app_id
+              if (stillActive) {
+                updateAddress()
+              }
+              if (skip) {
+                setPass((previous) => ({
+                  current: stillActive ? "" : previous.current,
+                  skipped: [...new Set([...previous.skipped, app.app_id])],
+                }))
+              } else {
+                finish(app.app_id)
+              }
             },
           }}
         />
+      ) : requested ? (
+        <div role="status" className="space-y-2">
+          <p className="break-words">
+            {requested} is not in this translation queue.
+          </p>
+          {isValidAppId(requested) && (
+            <p>
+              <Link
+                className="underline"
+                href={`/apps/${requested}/translate?language=${encodeURIComponent(language)}`}
+              >
+                Open the translation editor for {requested}
+              </Link>
+            </p>
+          )}
+          <Button variant="outline" onClick={() => updateAddress()}>
+            Return to queue
+          </Button>
+        </div>
       ) : (
         <div className="space-y-3" role="status">
           <p>

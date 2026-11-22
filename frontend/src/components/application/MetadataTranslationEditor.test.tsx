@@ -12,6 +12,7 @@ import {
   discardTranslationDrafts,
 } from "./translationDrafts"
 import AppTranslations from "../../../app/[locale]/app-translations/[[...language]]/workspace"
+import TranslatePage from "../../../app/[locale]/apps/[appId]/translate/page"
 import MetadataTranslationEditor, {
   TranslationForm,
 } from "./MetadataTranslationEditor"
@@ -19,14 +20,23 @@ import { metadataTranslationText } from "./MetadataTranslationEditor.messages"
 
 const user = vi.hoisted(() => ({
   loading: false,
-  info: { permissions: [] as string[] },
   signedOut: false,
+  info: {
+    permissions: [] as string[],
+    dev_flatpaks: [] as string[],
+    owned_flatpaks: [] as string[],
+  },
 }))
 const query = vi.hoisted(() =>
   vi.fn<(options: { queryKey: string[] }) => object>(() => ({})),
 )
 const getQueryClient = vi.hoisted(() => vi.fn())
 const replace = vi.hoisted(() => vi.fn())
+const searchParams = vi.hoisted(() => new URLSearchParams())
+vi.mock("next/navigation", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("next/navigation")>()),
+  useSearchParams: () => searchParams,
+}))
 const mutating = vi.hoisted(() => vi.fn(() => 0))
 const mutation = vi.hoisted(() =>
   vi.fn<
@@ -45,6 +55,7 @@ vi.mock("@tanstack/react-query", async (importOriginal) => ({
   useQuery: query,
   useQueryClient: getQueryClient,
   useIsMutating: mutating,
+  useMutationState: () => [],
   useMutation: mutation,
 }))
 vi.mock("@mitresthen/matomo-tracker-react", () => ({
@@ -269,11 +280,12 @@ describe("admin-only listing translations", () => {
   })
   it("includes the shared language in the login return URL", async () => {
     user.signedOut = true
+    searchParams.set("language", "de")
     try {
       await mounted(
         <MetadataTranslationEditor
           appId="org.example.App"
-          initialLanguage="de"
+          initialLanguage="fr"
         />,
         async () => {
           expect(replace).toHaveBeenCalledWith(
@@ -283,6 +295,7 @@ describe("admin-only listing translations", () => {
       )
     } finally {
       user.signedOut = false
+      searchParams.delete("language")
     }
   })
 
@@ -333,6 +346,25 @@ describe("admin-only listing translations", () => {
     expect(html).toContain("Needs attention (1)")
   })
 
+  it("opens the linked listing ahead of the first app in the queue", () => {
+    user.info.permissions = ["manage-apps"]
+    const entries = ["First", "Linked"].map((name) => ({
+      name,
+      app_id: `org.example.${name}`,
+    }))
+    searchParams.set("app", entries[1].app_id)
+    try {
+      query.mockReturnValueOnce({
+        data: { apps: entries, attention: [], indexing: false },
+      })
+      const html = render(<AppTranslations language="de" />)
+      expect(html).toContain('href="/apps/org.example.Linked"')
+      expect(html).not.toContain('href="/apps/org.example.First"')
+    } finally {
+      searchParams.delete("app")
+    }
+  })
+
   it("offers admins the language picker away from the app detail page", () => {
     user.info.permissions = ["manage-apps"]
     expect(render(<AppTranslations />)).toContain("queue-language")
@@ -346,5 +378,66 @@ describe("admin-only listing translations", () => {
       metadataTranslationText("translated-count", { count: 1, total: 3 }),
     ).toBe("1 of 3 translated")
     expect(metadataTranslationText("fields.summary")).toBe("Summary")
+  })
+
+  it("preserves the editor link after the app leaves the queue", () => {
+    user.info.permissions = ["manage-apps"]
+    searchParams.set("app", "org.example.Reader")
+    try {
+      query.mockReturnValueOnce({
+        data: { apps: [], attention: [], indexing: false },
+      })
+      expect(render(<AppTranslations language="de" />)).toContain(
+        'href="/apps/org.example.Reader/translate?language=de"',
+      )
+    } finally {
+      searchParams.delete("app")
+    }
+  })
+
+  it("starts with a maintained app ahead of a newer purchase", () => {
+    user.info.permissions = ["manage-apps"]
+    user.info.dev_flatpaks = ["org.example.Mine"]
+    user.info.owned_flatpaks = ["org.example.Bought"]
+    try {
+      query.mockReturnValueOnce({
+        data: {
+          apps: ["Bought", "Mine"].map((name) => ({
+            name,
+            app_id: `org.example.${name}`,
+          })),
+          attention: [],
+          indexing: false,
+        },
+      })
+      expect(render(<AppTranslations language="de" />)).toContain(
+        'href="/apps/org.example.Mine"',
+      )
+    } finally {
+      user.info.dev_flatpaks = []
+      user.info.owned_flatpaks = []
+    }
+  })
+
+  it.each([
+    ["pt_BR", "pt-BR"],
+    ["pt_br", "pt-BR"],
+    ["zh-hans", "zh-Hans"],
+  ])("opens legacy language %s as %s", async (language, canonical) => {
+    const params = Promise.resolve({ appId: "org.example.Reader" })
+    const page = await TranslatePage({
+      params,
+      searchParams: Promise.resolve({ language }),
+    })
+    expect(page.props.initialLanguage).toBe(canonical)
+  })
+
+  it("rejects custom languages", async () => {
+    await expect(
+      TranslatePage({
+        params: Promise.resolve({ appId: "org.example.Reader" }),
+        searchParams: Promise.resolve({ language: "qaa" }),
+      }),
+    ).rejects.toThrow()
   })
 })
