@@ -1,5 +1,6 @@
 import json
 from contextlib import contextmanager
+from datetime import UTC, datetime
 from types import SimpleNamespace
 from unittest.mock import MagicMock
 
@@ -72,6 +73,75 @@ def batch_db(monkeypatch):
     monkeypatch.setattr(batches.config.settings, "github_bot_token", "test-token")
     yield database
     engine.dispose()
+
+
+def test_batch_counts_only_core_listing_fields_as_missing(batch_db, publishing_repo):
+    repo, _ = publishing_repo
+    fields = {
+        u.id: u.source
+        for u in document().units()
+        if u.field in {"summary", "description", "keywords", "caption"}
+        and not u.translation
+    }
+    batches.queue_translation(repo, APP_ID, "de", "a" * 40, fields, 42)
+    with batch_db() as db:
+        batch = db.query(MetadataTranslationBatch).one()
+        assert batch.missing_listing_texts == 0
+        assert batch.missing_texts == 6
+        saved = batch.content
+        batch.missing_listing_texts = None
+    batches.backfill_listing_counts()
+    with batch_db() as db:
+        batch = db.query(MetadataTranslationBatch).one()
+        assert batch.missing_listing_texts == 0
+        assert batch.missing_texts == 6
+        assert batch.content == saved
+    _, loaded, _, _, _, _ = batches.read_saved_translation(
+        repo, read_source(repo, APP_ID), APP_ID, "de"
+    )
+    assert {u.field for u in loaded.units() if not u.translation} == {
+        "name",
+        "name_variant_suffix",
+        "developer_name",
+        "release",
+        "agreement",
+    }
+
+
+@pytest.mark.parametrize("clear_snapshot", [False, True])
+def test_backfill_does_not_discard_publication_result(
+    batch_db, publishing_repo, clear_snapshot
+):
+    repo, _ = publishing_repo
+    field = unit(document(), "summary")
+    batches.queue_translation(repo, APP_ID, "de", "a" * 40, {field.id: "Neu"}, 42)
+    with batch_db() as db:
+        db.query(MetadataTranslationBatch).one().missing_listing_texts = None
+
+    now = datetime.now(UTC).replace(tzinfo=None)
+    with batches._publication(APP_ID, "de", now) as batch:
+        assert batch is not None
+        batches.backfill_listing_counts()
+        if clear_snapshot:
+            source = repo.get_contents("", ref=batch.revision)[0]
+            source.decoded_content = batch.content
+            source.sha = "new-sha"
+            batches._rebase_batch(repo, batch, APP_ID, "de", batch.revision)
+        else:
+            batch.state = "submitted"
+            batch.url = "https://github.com/flathub/org.example.App/pull/1"
+            batch.changes = {}
+
+    with batch_db() as db:
+        stored = db.query(MetadataTranslationBatch).one()
+        assert stored.state == "submitted"
+        assert stored.url == batch.url
+        if clear_snapshot:
+            assert stored.content is None and stored.source_sha == "new-sha"
+            assert stored.missing_texts is None
+            assert stored.missing_listing_texts is None
+        else:
+            assert stored.missing_listing_texts is not None
 
 
 def test_batch_saves_reload_without_github_writes_then_publish_once(

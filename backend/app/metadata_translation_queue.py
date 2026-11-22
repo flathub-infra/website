@@ -1,16 +1,20 @@
 """Index recipe-owned texts once for all language queues."""
 
 import logging
+from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
+from uuid import uuid4
 
 from github import Github, GithubException
 from pydantic import BaseModel
 from sqlalchemy import func, or_
+from sqlalchemy.dialects.postgresql import insert
 
 from . import config
 from .database import get_db
 from .metadata_translation_github import read_source
 from .metadata_translations import (
+    QUEUE_FIELDS,
     MetadataDocument,
     MetadataError,
     normalize_locale,
@@ -20,11 +24,20 @@ from .models import App, MetadataTranslationBatch, TranslationListing
 logger = logging.getLogger(__name__)
 
 
-def missing_counts(content: bytes, app_id: str):
+@dataclass(frozen=True)
+class _MissingCounts:
+    all_fields: dict[str, int]
+    core_fields: dict[str, int]
+
+
+def missing_counts(content: bytes, app_id: str) -> _MissingCounts:
     original = MetadataDocument(content, app_id, None)
     if not original.license:
-        return {}
-    return original.missing_counts()
+        return _MissingCounts(all_fields={}, core_fields={})
+    return _MissingCounts(
+        all_fields=original.missing_counts(),
+        core_fields=original.missing_counts(QUEUE_FIELDS),
+    )
 
 
 def _apps(db):
@@ -32,6 +45,48 @@ def _apps(db):
         App.type.in_(["desktop-application", "console-application"]),
         App.is_eol.is_(False),
     )
+
+
+@dataclass(frozen=True)
+class _ListingIndex:
+    sha: str | None
+    counts: _MissingCounts
+
+
+def _write_listing(
+    app_id: str, checked_at: datetime, index: _ListingIndex | None = None
+):
+    values = {"checked_at": checked_at, "index_write_id": uuid4().hex}
+    if index is not None:
+        values = {
+            **values,
+            "indexed_at": checked_at,
+            "sha": index.sha,
+            "missing": index.counts.all_fields,
+            "missing_listing": index.counts.core_fields,
+        }
+    statement = insert(TranslationListing).values(app_id=app_id, **values)
+    updates = {
+        **{key: statement.excluded[key] for key in values},
+        "checked_at": func.greatest(
+            TranslationListing.checked_at, statement.excluded.checked_at
+        ),
+    }
+    with get_db("writer") as db:
+        db.execute(
+            statement.on_conflict_do_update(
+                index_elements=[TranslationListing.app_id],
+                set_=updates,
+                where=(
+                    or_(
+                        TranslationListing.indexed_at.is_(None),
+                        TranslationListing.indexed_at <= statement.excluded.indexed_at,
+                    )
+                    if index is not None
+                    else None
+                ),
+            )
+        )
 
 
 def refresh_index():
@@ -45,6 +100,10 @@ def refresh_index():
             .filter(
                 or_(
                     TranslationListing.checked_at.is_(None),
+                    (
+                        TranslationListing.missing_listing.is_(None)
+                        & (TranslationListing.checked_at < now - timedelta(hours=1))
+                    ),
                     TranslationListing.checked_at < now - timedelta(days=7),
                     TranslationListing.checked_at < App.last_updated_at,
                 )
@@ -59,9 +118,9 @@ def refresh_index():
             try:
                 source = read_source(github.get_repo(f"flathub/{app_id}"), app_id)
                 sha = source.sha
-                missing = missing_counts(source.content, app_id)
+                counts = missing_counts(source.content, app_id)
             except MetadataError:
-                missing = {}
+                counts = _MissingCounts(all_fields={}, core_fields={})
             except GithubException as error:
                 if error.status != 404:
                     logger.warning(
@@ -76,20 +135,10 @@ def refresh_index():
                     ):
                         return
                     # Defer this repository without discarding its last good index.
-                    with get_db("writer") as db:
-                        row = db.get(TranslationListing, app_id)
-                        if row is None:
-                            row = TranslationListing(app_id=app_id)
-                            db.add(row)
-                        row.checked_at = now
+                    _write_listing(app_id, now)
                     continue
-                missing = {}
-            with get_db("writer") as db:
-                db.merge(
-                    TranslationListing(
-                        app_id=app_id, sha=sha, checked_at=now, missing=missing
-                    )
-                )
+                counts = _MissingCounts(all_fields={}, core_fields={})
+            _write_listing(app_id, now, _ListingIndex(sha, counts))
 
 
 class QueueApp(BaseModel):
@@ -121,6 +170,8 @@ def language_queue(locale: str) -> TranslationQueue:
                 (MetadataTranslationBatch.changes != {}).label("pending"),
                 MetadataTranslationBatch.source_sha,
                 MetadataTranslationBatch.missing_texts,
+                MetadataTranslationBatch.missing_listing_texts,
+                MetadataTranslationBatch.listing_count_failed,
             ).filter_by(locale=locale)
         }
         rows = (
@@ -129,30 +180,37 @@ def language_queue(locale: str) -> TranslationQueue:
                 App.appstream["name"].astext,
                 TranslationListing.sha,
                 TranslationListing.missing,
+                TranslationListing.missing_listing,
             )
             .outerjoin(TranslationListing, TranslationListing.app_id == App.app_id)
             .order_by(App.last_updated_at.desc().nullslast(), App.app_id)
         )
-        for app_id, name, sha, counts in rows:
+        for app_id, name, sha, previous_counts, listing_counts in rows:
             item = QueueApp(app_id=app_id, name=name or app_id)
             batch = batches.pop(app_id, None)
-            if counts is None:
+            if listing_counts is None:
                 queue.indexing = True
+            counts = previous_counts if listing_counts is None else listing_counts
             if batch and (
                 batch.error
                 or batch.recovered
-                or (batch.pending and counts is not None and batch.source_sha != sha)
+                or (
+                    batch.pending
+                    and (sha is not None or counts is not None)
+                    and batch.source_sha != sha
+                )
             ):
                 queue.attention.append(item)
                 continue
-            if (
-                batch
-                and batch.missing_texts is not None
-                and (batch.source_sha == sha or counts is None)
-            ):
-                needs_work = batch.missing_texts
-            else:
-                needs_work = counts and counts.get(locale, counts.get("*", 0))
+            needs_work = counts and counts.get(locale, counts.get("*", 0))
+            if batch and (batch.source_sha == sha or counts is None):
+                if batch.missing_listing_texts is not None:
+                    needs_work = batch.missing_listing_texts
+                elif batch.missing_texts is not None:
+                    if listing_counts is None:
+                        needs_work = batch.missing_texts
+                    elif not batch.listing_count_failed:
+                        queue.indexing = True
             if needs_work:
                 queue.apps.append(item)
         queue.attention.extend(
