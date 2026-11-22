@@ -11,6 +11,7 @@ import type { TranslationSourcePullRequestUrl } from "./translationSourcePullReq
 import type { TranslationUnit } from "./translationUnit"
 
 export interface TranslationSource {
+  queue_fields?: string[]
   revision: string
   path: string
   source_url: string

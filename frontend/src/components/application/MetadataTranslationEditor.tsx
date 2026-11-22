@@ -67,6 +67,10 @@ function errorCode(error: unknown): string {
   return "request_failed"
 }
 
+function missingQueueText(unit: TranslationUnit, fields?: string[]) {
+  return (fields?.includes(unit.field) ?? true) && !unit.translation.trim()
+}
+
 type EditorProps = {
   appId: string
   initialLanguage?: string
@@ -254,11 +258,13 @@ function ListingEditor({ appId, queue, initialLanguage }: EditorProps) {
         {queue &&
         query.data &&
         !query.data.data.batch_error &&
-        !query.data.data.units.some((u) => !u.translation.trim()) &&
+        !query.data.data.units.some((u) =>
+          missingQueueText(u, query.data?.data.queue_fields),
+        ) &&
         !dirty &&
         !hasTranslationDrafts(draftKey) ? (
           <div className="space-y-3">
-            <p>This listing is already translated.</p>
+            <p>No more listing texts in this queue.</p>
             <Button onClick={() => queue.advance(false)}>
               Continue to next app
             </Button>
@@ -306,7 +312,9 @@ function ListingEditor({ appId, queue, initialLanguage }: EditorProps) {
                   },
                 )
                 if (
-                  !result.units.some((unit) => !unit.translation.trim()) &&
+                  !result.units.some((u) =>
+                    missingQueueText(u, current.data.queue_fields),
+                  ) &&
                   !hasTranslationDrafts(draftKey)
                 ) {
                   queue?.finishInBackground()
@@ -415,7 +423,9 @@ export function TranslationForm({
     return onNextApp
       ? Math.max(
           0,
-          source.units.findIndex((u) => !u.translation.trim()),
+          source.units.findIndex((u) =>
+            missingQueueText(u, source.queue_fields),
+          ),
         )
       : 0
   })
@@ -437,7 +447,10 @@ export function TranslationForm({
   const value = draft?.text ?? unit?.translation ?? ""
   const changed = Boolean(unit && value.trim() !== unit.translation)
   const lastMissing =
-    onNextApp && !latest.some((u) => u.id !== unit?.id && !u.translation.trim())
+    onNextApp &&
+    !latest.some(
+      (u) => u.id !== unit?.id && missingQueueText(u, source.queue_fields),
+    )
   const unsaved = unmatched.length > 0 || latest.some(drafts.isEdited)
   const translatedCount = latest.filter((item) =>
     item.translation.trim(),
@@ -605,7 +618,9 @@ export function TranslationForm({
           setLocalUnits({ base: source.units, units: data.units })
           if (onNextApp) {
             const anotherDraft = data.units.findIndex(drafts.isEdited)
-            const missing = data.units.findIndex((u) => !u.translation.trim())
+            const missing = data.units.findIndex((u) =>
+              missingQueueText(u, source.queue_fields),
+            )
             if (anotherDraft >= 0) {
               setSelected(anotherDraft)
             } else if (missing >= 0) {
