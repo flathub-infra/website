@@ -794,6 +794,7 @@ def _missing(module: _Module, relpath: str) -> str:
 class SourceWorkspace:
     def __init__(self, manifest: Mapping[str, JSONValue]) -> None:
         self._modules: dict[str, _Module] = {}
+        self._read_lines: dict[tuple[str, str], dict[int, str]] = {}
         self._collect(manifest.get("modules"), 0)
         self._total_bytes = 0
         self._file_count = 0
@@ -944,11 +945,14 @@ class SourceWorkspace:
             )
         end = min(requested, window, len(lines))
         output = [header]
+        shown = self._read_lines.setdefault((module, relpath), {})
+        self._read_lines[module, path] = shown
         for number in range(start, end + 1):
             line = lines[number - 1]
             if len(line) > MAX_LINE_CHARS:
                 line = line[:MAX_LINE_CHARS] + " [line truncated]"
             output.append(f"{number}: {line}")
+            shown[number] = line
         if truncated:
             output.append(f"(read truncated at {READ_MAX_BYTES} bytes)")
         else:
@@ -957,18 +961,12 @@ class SourceWorkspace:
             output.append(f"(read window ended at line {end})")
         return "\n".join(output)
 
-    def lines(self, module: str, path: str) -> list[str] | None:
-        entry = self._modules.get(module)
-        if self._closed or entry is None:
-            return None
+    def shown_excerpt(self, module: str, path: str, start: int, end: int) -> str | None:
+        lines = self._read_lines.get((module, path), {})
         try:
-            found = _lookup(entry, _safe_relpath(path))
-        except _SourceError:
+            return "\n".join(lines[number] for number in range(start, end + 1))
+        except KeyError:
             return None
-        if found is None or found[1].binary:
-            return None
-        data = self._read_bytes(entry, found[1], READ_MAX_BYTES)
-        return None if data is None else _decode_lines(data)
 
     def _collect(self, value: JSONValue, depth: int) -> None:
         if not isinstance(value, list) or depth >= MAX_NESTING:
