@@ -716,16 +716,14 @@
     "most-improved-description": "Приложението с най-висок процентен растеж в сравнение с предходната година",
     "biggest-growth-description": "Приложението с най-много нови изтегляния в сравнение с предходната година",
     "most-popular-description": "Приложението с най-много изтегляния тази година",
-    "top-game-stores": "Водещи магазини за игри",
-    "top-game-utilities": "Водещи помощни програми за игри",
-    "top-emulators": "Водещи емулатори",
     "x-growth-formatted": "{percentage} растеж",
     "per-capita-description": "Държави без данни за населението са изключени.",
     "annual-growth": "Годишен растеж",
     "all-categories": "Показване на всички категории",
     "more-downloads": "{count, number} повече изтегляния",
     "arrivals": "{count, number} приложения се присъединиха във „Flathub“ през {year} година.",
-    "award-guide": "Как избираме победителите"
+    "award-guide": "Как избираме победителите",
+    "previous-rank": "№{rank, number} през {year} година"
   },
   "year-in-review-banner": {
     "title": "Равносметка на „Flathub“ за {year} година",

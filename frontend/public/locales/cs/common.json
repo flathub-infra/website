@@ -709,10 +709,7 @@
     "downloads-vs-previous-year": "Stažení vs rok {year}",
     "hidden-gems": "Skryté poklady",
     "hidden-gems-description": "Aplikace s rostoucí popularitou",
-    "platform-downloads": "Stažení z platformy",
-    "top-emulators": "Nejlepší emulátory",
-    "top-game-utilities": "Nejlepší herní nástroje",
-    "top-game-stores": "Nejlepší herní obchody"
+    "platform-downloads": "Stažení z platformy"
   },
   "year-in-review-banner": {
     "description": "Znovu si prohlédněte nejlepší aplikace a trendy roku",

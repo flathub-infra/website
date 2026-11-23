@@ -624,9 +624,6 @@
     "app-updates": "Aktualizácie aplikácií",
     "top-apps": "Top aplikácie",
     "top-games": "Top hry",
-    "top-game-stores": "Top herné obchody",
-    "top-game-utilities": "Top herné nástroje",
-    "top-emulators": "Top emulátory",
     "biggest-growth": "Najväčší rast",
     "biggest-growth-description": "Aplikácia, ktorá získala najviac nových stiahnutí v porovnaní s predchádzajúcim rokom",
     "newcomer-of-year": "Nováčik roka",
@@ -650,7 +647,11 @@
     "award-guide": "Ako vyberáme víťazov",
     "more-downloads": "o {count, number} viac stiahnutí",
     "arrivals": "V roku {year} pribudlo na Flathub {count, number} aplikácií.",
-    "hidden-gems-description": "Niekoľko aplikácií, ktoré vám tento rok mohli uniknúť."
+    "hidden-gems-description": "Niekoľko aplikácií, ktoré vám tento rok mohli uniknúť.",
+    "meet-arrivals": "Medzi nimi:",
+    "outside-previous-top-ten": "Mimo minuloročnej prvej desiatky",
+    "previous-rank": "#{rank, number} v roku {year}",
+    "category-gain": "Najväčší nárast: <link>{app}</link> (+{count, number} stiahnutí)"
   },
   "quality": {
     "missing-brand-colors": "Chýbajú farby značky",
@@ -1021,7 +1022,10 @@
     "set-up-payments": "Nastaviť platby",
     "uploads-description": "Vytvorte tokeny na nahrávanie, aby ste mohli publikovať zostavenia z vašich vývojárskych nástrojov alebo CI. Tu môžete spravovať a rušiť existujúce tokeny.",
     "archive-description": "Zrušte všetky tokeny na nahrávanie a označte túto aplikáciu ako na konci životnosti. Pre existujúcich používateľov môžete poskytnúť správu a náhradnú aplikáciu.",
-    "verification-description": "Ukážte používateľom, že táto aplikácia je schválená jej vývojárom. Vyberte si nižšie metódu, ktorou dokážete, že ovládate jej doménu alebo hostingový účet zdrojového kódu. Podrobnosti nájdete v <doclink>príručke na overenie</doclink>."
+    "verification-description": "Ukážte používateľom, že táto aplikácia je schválená jej vývojárom. Vyberte si nižšie metódu, ktorou dokážete, že ovládate jej doménu alebo hostingový účet zdrojového kódu. Podrobnosti nájdete v <doclink>príručke na overenie</doclink>.",
+    "app-share-after-fees": "Podiel aplikácie po poplatkoch: {percentage}",
+    "payments-owner-only": "Nastavenia platieb pre túto aplikáciu môže zmeniť iba účet, ktorý ich nastavil.",
+    "payments-not-configured": "Platby pre túto aplikáciu ešte neboli nastavené."
   },
   "country-downloads": {
     "country": "Krajina",
@@ -1050,5 +1054,6 @@
     "description": "Sadzby počítajú inštalácie, nie používateľov.",
     "per-capita-map-label": "Inštalácie na 100 000 obyvateľov v každej krajine",
     "x-per-100000": "{x} inštalácií na 100 000 obyvateľov"
-  }
+  },
+  "resume-payment-authentication": "Pokračovať v overení platby"
 }
