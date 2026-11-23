@@ -699,9 +699,6 @@
     "app-updates": "Rakenduste uuendamisi",
     "top-apps": "Lemmikrakendused",
     "top-games": "Lemmikmängud",
-    "top-game-stores": "Populaarseimad mängupoed",
-    "top-game-utilities": "Populaarseimad mängutarvikud",
-    "top-emulators": "Populaarseimad emulaatorid",
     "biggest-growth": "Suurim kasv",
     "biggest-growth-description": "Rakendused, mille allalaadimiste arv kasvas eelmise aastaga võrreldes enim",
     "newcomer-of-year": "Aasta uustulija",
@@ -725,7 +722,11 @@
     "all-categories": "Näita kõiki kategooriaid",
     "award-guide": "Kuidad me valime välja võitjad",
     "arrivals": "Flathubiga liitus {year}. aastal {count, number} rakendust.",
-    "more-downloads": "{count, number} täiendavat allalaadimist"
+    "more-downloads": "{count, number} täiendavat allalaadimist",
+    "previous-rank": "#{rank, number} {year}. aastal",
+    "outside-previous-top-ten": "Väljaspool eelmise aasta kümmet parimat",
+    "meet-arrivals": "Nende seas:",
+    "category-gain": "Suurim kasv: <link>{app}</link> (+{count, number} allalaadimist)"
   },
   "year-in-review-banner": {
     "title": "Flathubi {year}. aasta kokkuvõte",
@@ -1021,7 +1022,10 @@
     "payments-description": "Ühenda Stripe Expressi konto, et saada oma rakenduse eest makseid. Kui konto on seadistatud, saad siin määratleda soovituslikud annetussummad ja hinnad.",
     "uploads-description": "Loo üleslaadimise tunnusload, et avaldada kompileeritud versioone oma arendustööriistadest või pideva lõimingu (CI) liidestusest. Siin saad olemasolevaid tunnuslube hallata ja tühistada.",
     "archive-description": "Tühista kõik üleslaadimise tunnusload ja märgi see rakendus kasutuselt kõrvaldatuks. Saad lisada sõnumi ja soovitada olemasolevatele kasutajatele asendusrakendust.",
-    "verification-description": "Näita kasutajatele, et see rakendus on arendaja poolt heaks kiidetud. Vali allpool üks meetod, et tõendada, et sa kontrollid seda domeeni või lähtekoodi halduskontot. Täpsema teabe saamiseks loe <doclink>tuvastusjuhendit</doclink>."
+    "verification-description": "Näita kasutajatele, et see rakendus on arendaja poolt heaks kiidetud. Vali allpool üks meetod, et tõendada, et sa kontrollid seda domeeni või lähtekoodi halduskontot. Täpsema teabe saamiseks loe <doclink>tuvastusjuhendit</doclink>.",
+    "app-share-after-fees": "Rakenduse jagu peale teenustasusid: {percentage}",
+    "payments-not-configured": "Maksete kasutamine pole selle rakenduse jaoks veel seadistatud.",
+    "payments-owner-only": "Vaid see kasutajakonto, kes selle rakenduse jaoks maksed seadistas, saab neid ka muuta."
   },
   "country-downloads": {
     "description": "Allalaadimiste, mitte kasutajate arv.",

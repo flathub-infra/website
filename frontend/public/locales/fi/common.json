@@ -689,9 +689,6 @@
     "app-updates": "sovelluspäivitystä",
     "top-apps": "Suosituimmat sovellukset",
     "top-games": "Suosituimmat pelit",
-    "top-game-stores": "Suosituimmat pelikaupat",
-    "top-game-utilities": "Suosituimmat pelityökalut",
-    "top-emulators": "Suosituimmat emulaattorit",
     "biggest-growth": "Suurin kasvu",
     "biggest-growth-description": "Sovellus, joka keräsi eniten uusia latauksia edelliseen vuoteen verrattuna",
     "newcomer-of-year": "Vuoden tulokas",
@@ -707,11 +704,19 @@
     "year-over-year-growth": "Vuosittainen kasvu",
     "downloads-vs-previous-year": "Latauksia vrt. {year}",
     "hidden-gems": "Piilotetut aarteet",
-    "hidden-gems-description": "Kasvavaa vetoa keräävät sovellukset",
+    "hidden-gems-description": "Sovelluksia jotka saattoivat jäädä sinulta huomiotta.",
     "platform-downloads": "Alustakohtaiset lataukset",
     "per-capita-description": "Maat vailla väestötietoa ohitetaan.",
     "annual-growth": "Vuosittainen kasvu",
-    "x-growth-formatted": "{percentage} kasvu"
+    "x-growth-formatted": "{percentage} kasvu",
+    "all-categories": "Näytä kaikki luokat",
+    "award-guide": "Miten valitsemme voittajat",
+    "more-downloads": "{count, number} latausta enemmän",
+    "arrivals": "{count, number} sovellusta lisättiin Flathubiin vuonna {year}.",
+    "meet-arrivals": "Mukana:",
+    "outside-previous-top-ten": "Viime vuoden 10 kärjen ulkopuolella",
+    "previous-rank": "#{rank, number} vuonna {year}",
+    "category-gain": "Suurin nousu: <link>{app}</link> (+{count, number} latausta)"
   },
   "app-information": "Sovelluksen tiedot",
   "sub-header": {
@@ -939,7 +944,7 @@
     "summary": "Asennuksia, ei käyttäjiä.",
     "no-country-data": "Ei maakohtaisia tietoja vielä.",
     "population-source": "Vuoden {year} väestötieto",
-    "methodology": "Asteet ilmaisevat latauksia, ei käyttäjiä. Asteita ei ole ilman väestötietoa.",
+    "methodology": "Suhdelukemat ilmaisevat asennuksia, ei käyttäjiä. Suhdelukemia ei ole ilman väestötietoa.",
     "description": "Latauksia, ei käyttäjiä.",
     "country": "Maa",
     "lower": "Vähemmän",
@@ -949,12 +954,13 @@
     "per-capita-map-label": "Latauksia 100 000 asukasta kohden maittain",
     "x-per-100000": "{x} latausta 100 000 asukasta kohden",
     "x-total": "{x} yhteensä",
-    "population-unavailable": "Väestötietoa ei ole saatavilla"
+    "population-unavailable": "Väestötietoa ei ole saatavilla",
+    "source": "Vuoden {year} puolivuotisennusteiden lähde on <source>UN World Population Prospects {revision}</source>, ja sen lisenssi on <license>CC BY 3.0 IGO</license>."
   },
   "country-installs": {
     "title": "Asennukset maittain",
     "total-installs": "Asennuksia yhteensä",
-    "description": "Asteet laskevat asennuksia, ei käyttäjiä.",
+    "description": "Suhdelukemat ilmaisevat asennuksia, ei käyttäjiä.",
     "per-capita-map-label": "Asennukset 100 000 asukasta kohden maittain",
     "x-per-100000": "{x} asennusta 100 000 asukasta kohden"
   },
@@ -965,7 +971,9 @@
     "payment-account-status": "Tilin määritys vaaditaan",
     "switch-upload-method": "Vaihda lähetysmenetelmää",
     "no-active-tokens": "Ei aktiivisia lähetyspoletteja.",
-    "set-up-payments": "Määritä maksut"
+    "set-up-payments": "Määritä maksut",
+    "payments-not-configured": "Tälle sovellukselle ei ole määritetty maksuja.",
+    "reviews": "Arviot"
   },
   "copy-success": "Kopioitu leikepöydälle",
   "copy-failed": "Ei voitu kopioida automaattisesti. Valitse teksti ja kopioi se manuaalisesti.",
@@ -976,5 +984,6 @@
     "switch": {
       "warning-title": "Tätä muutosta ei voi perua"
     }
-  }
+  },
+  "resume-payment-authentication": "Jatka maksun todennusta"
 }

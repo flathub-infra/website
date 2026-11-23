@@ -703,10 +703,7 @@
     "downloads-vs-previous-year": "Завантаження проти {year}",
     "hidden-gems": "Приховані перлини",
     "hidden-gems-description": "Додатки зі зростаючою популярністю",
-    "platform-downloads": "Завантаження платформи",
-    "top-game-stores": "Найпопулярніші крамниці ігор",
-    "top-game-utilities": "Найпопулярніші інструменти ігор",
-    "top-emulators": "Найпопулярніші емулятори"
+    "platform-downloads": "Завантаження платформи"
   },
   "year-in-review-banner": {
     "title": "Огляд року на Flathub {year}",

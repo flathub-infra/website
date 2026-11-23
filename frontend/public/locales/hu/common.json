@@ -707,10 +707,7 @@
     "downloads-vs-previous-year": "Letöltések az előző évhez képest ({year})",
     "hidden-gems": "Rejtett gyöngyszemek",
     "hidden-gems-description": "Egyre nagyobb népszerűségnek örvendő alkalmazások",
-    "platform-downloads": "Letöltések platform szerint",
-    "top-game-stores": "Legnépszerűbb játékáruházak",
-    "top-game-utilities": "Legnépszerűbb játékeszközök",
-    "top-emulators": "Legnépszerűbb emulátorok"
+    "platform-downloads": "Letöltések platform szerint"
   },
   "or-enter-custom-amount": "Vagy adjon meg egy egyedi összeget",
   "special-code-description": "Ez az alkalmazás speciális licenc alatt készült. A forráskód nem feltétlenül nyilvános.",

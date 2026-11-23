@@ -716,16 +716,17 @@
     "hidden-gems": "گوهرهای پنهان",
     "hidden-gems-description": "چند کاره‌ای که ممکن است امسال از دستشان داده باشید.",
     "platform-downloads": "بارگیری‌های بن‌سازه",
-    "top-emulators": "برترین شبیه‌سازها",
-    "top-game-stores": "برترین فروشگاه‌های بازی",
-    "top-game-utilities": "برترین ابزارهای بازی",
     "x-growth-formatted": "{percentage} رشد",
     "annual-growth": "رشد سالانه",
     "per-capita-description": "کشورهای بدون داده‌ّای جمعیتی کنار گذاشته شده‌اند.",
     "all-categories": "نمایش همهٔ دسته‌ها",
     "award-guide": "چگونگی گزینش برندگان",
     "more-downloads": "{count, number} بارگیری بیش‌تر",
-    "arrivals": "‫‏{count, number} کاره در {year} به فلت‌هاب پیوسته‌اند."
+    "arrivals": "‫‏{count, number} کاره در {year} به فلت‌هاب پیوسته‌اند.",
+    "outside-previous-top-ten": "خارج از ۱۰ برتر پارسال",
+    "previous-rank": "شمارهٔ {rank, number} در {year}",
+    "category-gain": "بیش‌ترین افزایش: <link>{app}</link> (بیش از {count, number} بارگیری)",
+    "meet-arrivals": "در میانشان:"
   },
   "year-in-review-banner": {
     "title": "بازبینی سال {year} فلت‌هاب",
@@ -1021,7 +1022,10 @@
     "payments-description": "وصل کردن حساب استرایپ اکسپرس برای دریافت پرداخت‌های کاره‌تان. پس از آماده بودن حسابتان می‌توانید در این‌جا قیمت‌ها و مشارکت‌های پیشنهادی را پیکربندی کنید.",
     "uploads-description": "ایجاد ژتون‌های بارگذاری برای انتشار ساخت‌ها از ابزار توسعه یا خط‌لوله‌تان. مدیریت و فسخ ژتون‌های موجود در این‌جا.",
     "archive-description": "فسخ تمامی ژتون‌های بارگذاری و علامت زدن این کاره به پایان عمر. می‌توانید پیام و کارهٔ جایگزینی به کاربران موجود نشان دهید.",
-    "verification-description": "نشان دادن تأیید این کاره از سوی توسعه‌دهنده‌اش به کاربران. گزینش روشی از زیر برای اثبات واپایشتان روی دامنه یا حساب میزبانی مبدأش. خواندن <doclink>راهنمای تأیید</doclink> برای جزییات."
+    "verification-description": "نشان دادن تأیید این کاره از سوی توسعه‌دهنده‌اش به کاربران. گزینش روشی از زیر برای اثبات واپایشتان روی دامنه یا حساب میزبانی مبدأش. خواندن <doclink>راهنمای تأیید</doclink> برای جزییات.",
+    "app-share-after-fees": "سهم کاره پس از هزینه‌ها: {percentage}",
+    "payments-owner-only": "تنها حسابی که پرداخت‌های این کاره را برپا کرده می‌تواند تنظیماتش را تغییر دهد.",
+    "payments-not-configured": "پرداختی برای این کاره تنظیم نشده."
   },
   "moderation-approved-on": "تأیید شده روی {handledAt} ({handledAtRel})",
   "moderation-rejected-on": "رد شده روی {handledAt} ({handledAtRel})",
@@ -1050,5 +1054,6 @@
     "x-per-100000": "{x} نصب به ازای هر ۱۰۰٬۰۰۰ نفر",
     "per-capita-map-label": "نصب به ازای هر ۱۰۰٬۰۰۰ نفر در هر کشور",
     "description": "رتبه‌ها نصب‌ها را می‌شمارند؛ نه کاربران را."
-  }
+  },
+  "resume-payment-authentication": "ادامهٔ هویت‌سنجی پرداخت"
 }

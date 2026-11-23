@@ -860,11 +860,8 @@
     "downloads-vs-previous-year": "Descărcări față de {year}",
     "fastest-growing-regions": "Regiunile cu cea mai rapidă creștere",
     "hidden-gems": "Comori ascunse",
-    "top-emulators": "Cei mai buni emulatori",
     "hidden-gems-description": "Aplicații cu tracțiune în creștere",
-    "top-game-stores": "Cele mai bune magazine de jocuri",
     "platform-downloads": "Descărcări pe platformă",
-    "top-game-utilities": "Cele mai bune instrumente de joc",
     "x-growth-formatted": "Creștere de {percentage}"
   },
   "year-in-review-banner": {

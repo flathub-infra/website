@@ -699,9 +699,6 @@
     "app-updates": "應用程式更新",
     "top-apps": "熱門應用程式",
     "top-games": "熱門遊戲",
-    "top-game-stores": "熱門遊戲商店",
-    "top-game-utilities": "熱門遊戲工具",
-    "top-emulators": "熱門模擬器",
     "biggest-growth": "增長最多",
     "biggest-growth-description": "相較於去年新增下載量最高的應用程式",
     "newcomer-of-year": "年度新秀",
@@ -725,7 +722,11 @@
     "award-guide": "我們如何選出贏家",
     "more-downloads": "還有 {count, number} 次下載",
     "arrivals": "在 {year} 年，共有 {count, number} 個應用程式加入 Flathub。",
-    "annual-growth": "年度增長"
+    "annual-growth": "年度增長",
+    "meet-arrivals": "其中包含：",
+    "outside-previous-top-ten": "未進入去年的前十名",
+    "previous-rank": "#{rank, number} 於 {year}",
+    "category-gain": "增幅最大：<link>{app}</link>（+{count, number} 次下載）"
   },
   "year-in-review-banner": {
     "title": "Flathub {year} 年度回顧",
@@ -1038,7 +1039,10 @@
     "view-listing": "檢視應用程式清單",
     "review-history": "包含先前的審閱",
     "no-pending-reviews": "沒有待審核的變更",
-    "no-pending-description": "您已全部跟上進度。開啟「過往審閱」功能，即可重新檢視先前的變更。"
+    "no-pending-description": "您已全部跟上進度。開啟「過往審閱」功能，即可重新檢視先前的變更。",
+    "app-share-after-fees": "扣除費用後的應用程式分潤比例：{percentage}",
+    "payments-owner-only": "只有設定此應用程式付款方式的帳號，才能變更其付款設定。",
+    "payments-not-configured": "此應用程式尚未設定付款功能。"
   },
   "moderation-approved": "已核准",
   "moderation-rejected": "已拒絕",
@@ -1050,5 +1054,6 @@
     "description": "統計數字以安裝次數為單位，而非使用者人數。",
     "per-capita-map-label": "各國每 10 萬人的安裝量",
     "x-per-100000": "每 100,000 人中有 {x} 個安裝"
-  }
+  },
+  "resume-payment-authentication": "繼續付款驗證"
 }
