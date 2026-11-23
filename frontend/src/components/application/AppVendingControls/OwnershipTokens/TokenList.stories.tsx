@@ -1,4 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { type ReactNode, useState } from "react"
+import { UserContext } from "src/context/user-info"
+import type { UserState } from "src/types/Login"
+import { expect } from "storybook/test"
 
 import TokenList from "./TokenList"
 
@@ -7,29 +12,51 @@ import {
   getGetRedeemableTokensVendingappAppIdTokensGetMockHandler,
 } from "../../../../codegen/vending/vending.msw"
 
+const user = {
+  loading: false,
+  info: {
+    invite_code: "storybook-token-manager",
+    default_account: { login: "token-manager", provider: "github" },
+    auths: {},
+    accepted_publisher_agreement_at: null,
+  },
+} satisfies UserState
+
+function TokenListStoryProviders({ children }: { children: ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient())
+
+  return (
+    <UserContext value={user}>
+      <QueryClientProvider client={queryClient}>
+        <div className="rounded-xl bg-flathub-white p-4 shadow-md dark:bg-flathub-arsenic">
+          {children}
+        </div>
+      </QueryClientProvider>
+    </UserContext>
+  )
+}
+
 const meta = {
-  args: { canManage: true },
+  args: { app: { id: "tv.abc.TestApp" }, canManage: true },
   component: TokenList,
   title: "Components/Application/AppVendingControls/OwnershipTokens/TokenList",
+  decorators: [
+    (Story, { id }) => (
+      <TokenListStoryProviders key={id}>
+        <Story />
+      </TokenListStoryProviders>
+    ),
+  ],
 } satisfies Meta<typeof TokenList>
 
 export default meta
 
 type Story = StoryObj<typeof meta>
 
-const decorator = [
-  (Story: React.ComponentType) => (
-    <div className="p-4 rounded-xl bg-flathub-white shadow-md dark:bg-flathub-arsenic">
-      <Story />
-    </div>
-  ),
-]
-
 export const Default: Story = {
-  args: {
-    app: { id: "tv.abc.TestApp" },
+  play: async ({ canvas }) => {
+    await expect(await canvas.findByText("Test Token 1")).toBeVisible()
   },
-  decorators: decorator,
   parameters: {
     msw: {
       handlers: [
@@ -67,10 +94,12 @@ export const Default: Story = {
 }
 
 export const Empty: Story = {
-  args: {
-    app: { id: "tv.abc.TestApp" },
+  play: async ({ canvas }) => {
+    await expect(
+      await canvas.findByRole("button", { name: "Create tokens" }),
+    ).toBeVisible()
+    await expect(canvas.getAllByRole("button")).toHaveLength(1)
   },
-  decorators: decorator,
   parameters: {
     msw: {
       handlers: [
@@ -91,11 +120,13 @@ export const Empty: Story = {
 }
 
 export const WithPagination: Story = {
-  args: {
-    app: { id: "tv.abc.TestApp" },
+  play: async ({ canvas }) => {
+    await expect(
+      await canvas.findByRole("navigation", { name: "pagination" }),
+    ).toBeVisible()
   },
-  decorators: decorator,
   parameters: {
+    nextjs: { appDirectory: true },
     msw: {
       handlers: [
         getGetRedeemableTokensVendingappAppIdTokensGetMockHandler({
@@ -127,10 +158,9 @@ export const WithPagination: Story = {
 }
 
 export const MixedStates: Story = {
-  args: {
-    app: { id: "tv.abc.TestApp" },
+  play: async ({ canvas }) => {
+    await expect(await canvas.findByText("Cancelled Token")).toBeVisible()
   },
-  decorators: decorator,
   parameters: {
     msw: {
       handlers: [
