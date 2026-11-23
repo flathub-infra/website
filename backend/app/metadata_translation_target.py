@@ -4,9 +4,40 @@ import re
 from dataclasses import asdict, dataclass, replace
 
 from github import GithubException
+from sqlalchemy import String, case, func, select
+from sqlalchemy.orm import aliased
 
 from .metadata_translations import MetadataError
-from .models import AppExtensionLookup
+from .models import App, AppExtensionLookup
+
+APPLICATION_TYPES = ("desktop-application", "console-application")
+
+
+def excluded_addon_ids():
+    host = aliased(App)
+    extends = App.appstream["extends"].as_string()
+    bundle = App.appstream["bundle"]["value"].as_string()
+    parent = App.summary["extension_parents"].op("->>", return_type=String())(bundle)
+    # AppStream can name an extension point rather than the app that provides it.
+    parent_id = case(
+        (parent.startswith("app/"), func.substr(parent, len("app/") + 1)),
+        (parent.is_(None), extends),
+    )
+    legacy_id = case(
+        (
+            parent.is_(None) & extends.endswith(".desktop"),
+            func.substr(extends, 1, func.length(extends) - len(".desktop")),
+        )
+    )
+    has_host = (
+        select(host.app_id)
+        .where(
+            host.type.in_(APPLICATION_TYPES), host.app_id.in_((parent_id, legacy_id))
+        )
+        .correlate(App)
+        .exists()
+    )
+    return select(App.app_id).where(App.type == "addon", ~has_host)
 
 
 @dataclass(frozen=True)

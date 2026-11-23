@@ -1,8 +1,30 @@
 import os
 import sys
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
+
+
+def test_summary_keeps_extension_parent_for_each_published_ref(monkeypatch):
+    with patch("meilisearch.Client"):
+        from app import summary
+
+    addon = "org.example.Videosite.Plugin"
+    refs = {
+        f"runtime/{addon}/x86_64/stable": "app/org.example.Player/x86_64/stable",
+        f"runtime/{addon}/x86_64/1": "runtime/org.example.Sdk/x86_64/1",
+    }
+    cache = {
+        ref: (1, 1, f"[Runtime]\nname={addon}\n[ExtensionOf]\nref={parent}\n")
+        for ref, parent in refs.items()
+    }
+    monkeypatch.setattr(summary, "_unpack_summary", lambda _: ([], {"xa.cache": cache}))
+    apps, _, _ = summary.parse_summary(b"", MagicMock())
+    assert apps[addon]["extension_parents"] == {
+        f"runtime/{addon}/x86_64/stable": "app/org.example.Player",
+        f"runtime/{addon}/x86_64/1": "runtime/org.example.Sdk",
+    }
+
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)

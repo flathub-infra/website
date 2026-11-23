@@ -63,6 +63,10 @@ XML = b"""<?xml version="1.0" encoding="UTF-8"?>
 def batch_db(monkeypatch):
     engine = create_engine("sqlite://")
     MetadataTranslationBatch.__table__.create(engine)
+    with engine.begin() as conn:
+        conn.exec_driver_sql(
+            "CREATE TABLE apps (app_id text PRIMARY KEY, type text, appstream json, summary json)"
+        )
 
     @contextmanager
     def database(kind="writer"):
@@ -2907,6 +2911,11 @@ def test_bundled_addon_publication_uses_saved_parent(batch_db, monkeypatch):
         }
     ).encode()
     with batch_db() as db:
+        db.connection().exec_driver_sql(
+            """INSERT INTO apps (app_id, type, appstream) VALUES
+               (?, 'desktop-application', NULL), (?, 'addon', ?)""",
+            (parent, APP_ID, json.dumps({"extends": parent})),
+        )
         AppExtensionLookup.__table__.create(db.get_bind())
         db.add(AppExtensionLookup(extension_id=APP_ID, parent_app_id=parent))
         db.flush()
@@ -2942,6 +2951,30 @@ def test_bundled_addon_publication_uses_saved_parent(batch_db, monkeypatch):
     assert repo.create_pull.call_args.kwargs["base"] == "master"
     assert repo.update_file.call_args.args[0] == xml.path
     assert published.call_args.kwargs == {"kind": "runtime", "branch": "stable"}
+
+
+def test_publication_skips_existing_runtime_addon_draft(batch_db, monkeypatch):
+    repo, _ = saving_repo()
+    github = MagicMock()
+    monkeypatch.setattr(batches, "Github", lambda _: github)
+    with batch_db() as db:
+        db.connection().exec_driver_sql(
+            """INSERT INTO apps (app_id, type, appstream) VALUES
+               ('org.example.SDK', 'runtime', NULL),
+               (?, 'addon', '{"extends": "org.example.SDK"}')""",
+            (APP_ID,),
+        )
+    field = unit(document(), "summary")
+    changes = {field.id: "Neue Zusammenfassung"}
+    batches.queue_translation(repo, APP_ID, "de", "a" * 40, changes, 42)
+
+    batches.publish_translation_batches()
+
+    github.get_repo.assert_not_called()
+    with batch_db() as db:
+        batch = db.query(MetadataTranslationBatch).one()
+        assert batch.state == "queued"
+        assert batch.changes == changes
 
 
 def test_retry_refuses_unrelated_orphan_branch_changes():

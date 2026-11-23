@@ -20,7 +20,7 @@ from ..metadata_translation_github import (
     read_source,
 )
 from ..metadata_translation_queue import TranslationQueue, language_queue
-from ..metadata_translation_target import RecipeTarget, target_of
+from ..metadata_translation_target import RecipeTarget, excluded_addon_ids, target_of
 from ..metadata_translations import (
     LOCALE_PATTERN,
     QUEUE_FIELDS,
@@ -76,6 +76,13 @@ def _repo(app_id: str, *, write: bool = False):
         app = App.by_appid(db, app_id)
         if app is None:
             raise HTTPException(404, detail="app_not_found")
+        if (
+            app.type == "addon"
+            and db.query(
+                excluded_addon_ids().where(App.app_id == app_id).exists()
+            ).scalar()
+        ):
+            raise MetadataError("unsupported_metadata")
         target = RecipeTarget.for_app(db, app_id, app.type, app.appstream)
     if write and not config.settings.github_bot_token:
         raise HTTPException(503, detail="submission_unavailable")
