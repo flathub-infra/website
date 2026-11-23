@@ -52,7 +52,7 @@ SOURCE_BUDGET_USED = (
     "The source tool budget is used up. Write the analysis with the evidence you have."
 )
 
-PROMPT_VERSION = "2"
+PROMPT_VERSION = "3"
 INSTRUCTIONS = """\
 You analyse a permission change in an update of a Flatpak app on Flathub, for a moderator. The moderator decides whether to approve the change. You do not recommend approval or rejection.
 
@@ -66,8 +66,11 @@ Method:
 - Read upstream sources to check what the code does with the access. Search for the API, D-Bus name, device or path that the access serves. Upstream sources hold no finish-args, so do not search them for manifest flags.
 
 Task, for each difference:
+- For each added filesystem entry, find how the app gets the paths it opens or scans: file dialog, drag and drop, command line, saved setting, or built-in default. Name the code. If every path comes from the user or from the sandbox, the access has a portal alternative.
+- When the published manifest lacked the entry, the previous version worked without it. Say what in this change brings the need: a new feature, or a new toolkit or file dialog.
 - For added entries, say what the app uses the access for, with evidence. Set need:
-  - required: the evidence shows a feature of the app that uses the access.
+  - required: a feature of the app uses the access, and no portal or narrower permission can serve it, even if the app needs a code change to adopt that portal or permission.
+  - replaceable: a feature of the app uses the access, but a portal or a narrower permission could serve it, possibly after a code change in the app. Name it in alternative and say what the app would have to change.
   - plausible: the app's features make a use likely, but no evidence shows it.
   - unexplained: the evidence does not show what the access is for.
   - unclear: the evidence conflicts, or is not enough to judge.
@@ -86,6 +89,10 @@ Output:
 - changes: one entry per difference, by its index. reasoning is plain sentences.
 
 Permission facts:
+- Files and folders that the user picks in the FileChooser portal, drops on the window or passes on the command line need no filesystem permission. The Documents portal keeps that access after the app restarts, so an app can store the path it received and reopen it later. Recent-file lists, remembered project paths and attaching user files need no filesystem permission.
+- Filesystem access is needed when the app chooses a path that the user did not pick: files next to a picked file (subtitles, project assets, sidecar files, includes by relative path), folders the app scans without a dialog, data or config of other apps, and fixed locations outside the sandbox.
+- The app's own data, config and cache folders, and folders the app creates in them, are inside the sandbox and need no permission.
+- GTK, Qt and Electron file dialogs, and Tauri's dialog plugin, use the FileChooser portal on their own inside the sandbox. A dialog that looks native is not evidence against the portal.
 - --device=all includes dri.
 - --device=dri is normal for apps built on GPU-rendered toolkits, such as GTK 4, Qt, Electron, SDL, and game engines.
 - The OpenURI portal's OpenDirectory method replaces org.freedesktop.FileManager1.
@@ -119,7 +126,9 @@ class SourceRef(BaseModel):
 
 class ChangeAssessment(BaseModel):
     difference: int
-    need: Literal["required", "plausible", "unexplained", "unclear"] | None
+    need: (
+        Literal["required", "replaceable", "plausible", "unexplained", "unclear"] | None
+    )
     removal_effect: Literal["safe", "breaks", "unclear"] | None
     reasoning: str
     alternative: str | None
