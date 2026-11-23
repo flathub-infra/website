@@ -29,7 +29,7 @@ from .metadata_translation_github import (
     translation_pull_request,
 )
 from .metadata_translation_reconciliation import reconcile
-from .metadata_translation_target import RecipeTarget, target_of
+from .metadata_translation_target import RecipeTarget, excluded_addon_ids, target_of
 from .metadata_translations import (
     QUEUE_FIELDS,
     MetadataDocument,
@@ -981,7 +981,8 @@ def publish_translation_batches():
                     & MetadataTranslationBatch.error.not_in(
                         ["source_changed", "pull_request_closed"]
                     )
-                )
+                ),
+                MetadataTranslationBatch.app_id.not_in(excluded_addon_ids()),
             )
             .all()
         )

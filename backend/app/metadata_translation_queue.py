@@ -14,7 +14,11 @@ from . import config
 from .database import get_db
 from .metadata_translation_artifacts import PublishedListingUnavailable
 from .metadata_translation_github import read_source
-from .metadata_translation_target import RecipeTarget
+from .metadata_translation_target import (
+    APPLICATION_TYPES,
+    RecipeTarget,
+    excluded_addon_ids,
+)
 from .metadata_translations import (
     QUEUE_FIELDS,
     MetadataDocument,
@@ -44,7 +48,8 @@ def missing_counts(content: bytes, app_id: str) -> _MissingCounts:
 
 def _apps(db):
     return db.query(App.app_id).filter(
-        App.type.in_(["desktop-application", "console-application", "addon"]),
+        App.type.in_((*APPLICATION_TYPES, "addon")),
+        App.app_id.not_in(excluded_addon_ids()),
         App.is_eol.is_(False),
     )
 
@@ -183,7 +188,10 @@ def language_queue(locale: str) -> TranslationQueue:
                 MetadataTranslationBatch.missing_texts,
                 MetadataTranslationBatch.missing_listing_texts,
                 MetadataTranslationBatch.listing_count_failed,
-            ).filter_by(locale=locale)
+            ).filter(
+                MetadataTranslationBatch.locale == locale,
+                MetadataTranslationBatch.app_id.not_in(excluded_addon_ids()),
+            )
         }
         rows = (
             _apps(db)

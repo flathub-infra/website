@@ -44,6 +44,7 @@ class _AppSummary(TypedDict, total=False):
     installed_size: int
     metadata: dict[str, JSONValue] | None
     branches: dict[str, _SummaryBranch]
+    extension_parents: dict[str, str]
 
 
 def _is_xa_cache(value: object) -> TypeGuard[dict[str, tuple[int, int, str]]]:
@@ -161,14 +162,17 @@ def parse_eol_data(
     return eol_rebase, eol_message
 
 
-def parse_metadata(ini: str) -> dict[str, JSONValue] | None:
+def _key_file(ini: str) -> GLib.KeyFile | None:
     key_file = GLib.KeyFile.new()
     try:
         key_file.load_from_data(ini, len(ini), GLib.KeyFileFlags.NONE)
     except GLib.Error:
         return None
+    return key_file
 
-    if key_file.get_start_group() != "Application":
+
+def parse_metadata(key_file: GLib.KeyFile | None) -> dict[str, JSONValue] | None:
+    if key_file is None or key_file.get_start_group() != "Application":
         return None
 
     metadata: dict[str, JSONValue] = {}
@@ -319,7 +323,18 @@ def parse_summary(
         installed_size_be_uint = struct.pack("<Q", xa_cache[ref][0])
         installed_size = struct.unpack(">Q", installed_size_be_uint)[0]
 
-        parsed_metadata = parse_metadata(xa_cache[ref][2])
+        key_file = _key_file(xa_cache[ref][2])
+        parsed_metadata = parse_metadata(key_file)
+        if key_file is not None and key_file.has_group("ExtensionOf"):
+            try:
+                parent = key_file.get_string("ExtensionOf", "ref")
+            except GLib.Error:
+                parent = ""
+            parts = parent.split("/")
+            if len(parts) == 4 and parts[0] in ("app", "runtime") and all(parts):
+                summary_dict[app_id].setdefault("extension_parents", {})[ref] = (
+                    f"{parts[0]}/{parts[1]}"
+                )
 
         if stable_permissions_by_app is not None:
             permission_stats.add_stable_permissions(

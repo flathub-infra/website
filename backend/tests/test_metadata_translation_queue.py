@@ -76,7 +76,7 @@ def test_queue_reads_shared_saves_before_publication_and_separates_recovery(
         listing_count_failed=False,
     )
     db = MagicMock()
-    db.query.return_value.filter_by.return_value = [batch]
+    db.query.return_value.filter.return_value = [batch]
     monkeypatch.setattr(queue, "get_db", lambda _: nullcontext(db))
     apps = MagicMock()
     rows = [
@@ -98,7 +98,7 @@ def test_queue_reads_shared_saves_before_publication_and_separates_recovery(
     assert [a.app_id for a in queue.language_queue("fr").attention] == [app_id]
 
 
-def test_language_queue_orders_by_update_then_app_id(monkeypatch):
+def test_language_queue_filters_addon_hosts_and_orders_by_update_then_id(monkeypatch):
     url = os.getenv("TRANSLATION_TEST_DATABASE_URL")
     if not url:
         pytest.skip("TRANSLATION_TEST_DATABASE_URL is not configured")
@@ -108,7 +108,8 @@ def test_language_queue_orders_by_update_then_app_id(monkeypatch):
             conn.exec_driver_sql(
                 """CREATE TEMP TABLE apps (
                     app_id text, type text DEFAULT 'desktop-application',
-                    is_eol boolean DEFAULT false, appstream jsonb, last_updated_at timestamp
+                    is_eol boolean DEFAULT false, appstream jsonb, summary jsonb,
+                    last_updated_at timestamp
                 )"""
             )
             conn.exec_driver_sql(
@@ -127,22 +128,47 @@ def test_language_queue_orders_by_update_then_app_id(monkeypatch):
                     ('A', NULL), ('Z', '2026-03-01'), ('C', '2026-02-01'), ('B', '2026-02-01')"""
             )
             conn.exec_driver_sql(
-                """INSERT INTO apps (app_id, type, is_eol) VALUES
-                   ('Plugin', 'addon', false), ('Retired', 'addon', true),
-                   ('SDK', 'runtime', false)"""
+                """INSERT INTO apps (app_id, type, is_eol, appstream) VALUES
+                   ('CLI', 'console-application', false, NULL),
+                   ('SDK', 'runtime', false, NULL),
+                   ('DesktopPlugin', 'addon', false, '{"extends": "B.desktop"}'),
+                   ('ConsolePlugin', 'addon', false, '{"extends": "CLI"}'),
+                   ('RuntimePlugin', 'addon', false, '{"extends": "SDK"}'),
+                   ('UnknownPlugin', 'addon', false, '{"extends": "Missing"}'),
+                   ('OrphanPlugin', 'addon', false, NULL),
+                   ('Retired', 'addon', true, '{"extends": "B"}')"""
+            )
+            conn.exec_driver_sql(
+                """INSERT INTO apps (app_id, type, appstream, summary) VALUES
+                   ('VideositePlugin', 'addon',
+                    '{"extends":"B.Videosite","bundle":{"value":"runtime/VideositePlugin/x86_64/stable"}}',
+                    '{"extension_parents":{"runtime/VideositePlugin/x86_64/stable":"app/B"}}'),
+                   ('MisleadingPlugin', 'addon',
+                    '{"extends":"B","bundle":{"value":"runtime/MisleadingPlugin/x86_64/stable"}}',
+                    '{"extension_parents":{"runtime/MisleadingPlugin/x86_64/stable":"runtime/SDK"}}')"""
+            )
+            conn.exec_driver_sql(
+                """INSERT INTO metadatatranslationbatch (app_id, locale, changes) VALUES
+                   ('RuntimePlugin', 'de', '{"summary":"Text"}'),
+                   ('RemovedApp', 'de', '{"summary":"Text"}')"""
             )
             conn.exec_driver_sql(
                 """INSERT INTO translationlisting (app_id, missing)
                    SELECT app_id, '{"*": 1}'::jsonb FROM apps"""
             )
             monkeypatch.setattr(queue, "get_db", lambda _: nullcontext(session))
-            assert [app.app_id for app in queue.language_queue("de").apps] == [
+            result = queue.language_queue("de")
+            assert [app.app_id for app in result.apps] == [
                 "Z",
                 "B",
                 "C",
                 "A",
-                "Plugin",
+                "CLI",
+                "ConsolePlugin",
+                "DesktopPlugin",
+                "VideositePlugin",
             ]
+            assert [app.app_id for app in result.attention] == ["RemovedApp"]
     finally:
         engine.dispose()
 
@@ -197,7 +223,7 @@ def translation_db(monkeypatch):
             conn.exec_driver_sql(f'SET LOCAL search_path TO "{schema}"')
             conn.exec_driver_sql(
                 "CREATE TABLE apps (app_id varchar PRIMARY KEY, type varchar, "
-                "is_eol boolean, appstream jsonb, last_updated_at timestamp)"
+                "is_eol boolean, appstream jsonb, summary jsonb, last_updated_at timestamp)"
             )
             app_id = "org.example.App"
             with Operations.context(MigrationContext.configure(conn)):
