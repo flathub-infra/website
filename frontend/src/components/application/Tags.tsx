@@ -30,7 +30,7 @@ const Tags: FunctionComponent<Props> = ({ keywords }) => {
               return (
                 <Link
                   key={index}
-                  className="inline-flex min-h-11 min-w-0 max-w-full items-center rounded-full bg-flathub-gainsborow/70 px-3 py-2 text-flathub-dark-gunmetal no-underline transition-colors hover:bg-flathub-gainsborow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flathub-celestial-blue dark:bg-flathub-granite-gray/70 dark:text-flathub-lotion dark:hover:bg-flathub-granite-gray"
+                  className="inline-flex min-h-11 min-w-0 max-w-full items-center rounded-full bg-flathub-gainsborow/70 px-3 py-2 text-flathub-dark-gunmetal no-underline transition-colors hover:bg-flathub-gainsborow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-flathub-celestial-blue sm:not-any-pointer-coarse:min-h-6 sm:not-any-pointer-coarse:px-2.5 sm:not-any-pointer-coarse:py-0.5 sm:not-any-pointer-coarse:text-xs dark:bg-flathub-granite-gray/70 dark:text-flathub-lotion dark:hover:bg-flathub-granite-gray"
                   href={
                     synteticTag
                       ? `/apps/search?q=${item}`
