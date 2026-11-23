@@ -278,8 +278,8 @@ importers:
         specifier: ^9.39.2
         version: 9.39.2(jiti@2.7.0)
       eslint-config-next:
-        specifier: 16.4.3
-        version: 16.4.3(@typescript-eslint/parser@8.72.1(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3)
+        specifier: 16.4.6
+        version: 16.4.6(@typescript-eslint/parser@8.72.1(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3)
       eslint-config-prettier:
         specifier: ^10.1.8
         version: 10.1.8(eslint@9.39.2(jiti@2.7.0))
@@ -1380,9 +1380,6 @@ packages:
 
   '@next/env@16.4.6':
     resolution: {integrity: sha512-SunBjJ6t+oBtecS3dTjdVuMhUogP5wD/vrGL5EVuQYM1iS4O5ilL51HkiJ3sPjMzRHiCChvr4dbaSJbR7F3lxA==}
-
-  '@next/eslint-plugin-next@16.4.3':
-    resolution: {integrity: sha512-oxuC06wt/71h6ACYCV9GbKOfnf5a7VlRe/p80YHTut15TNgDEmynDnaq8t/xhy5rlvk7dhItIPs6H3rvIM4kyw==}
 
   '@next/eslint-plugin-next@16.4.6':
     resolution: {integrity: sha512-HdqERVOafOD8JaUSAkwf9aSu/1rsHlkN8C5GcXYBH3C/z1MxBhZFxB5rz/xqMMRiIj7r9tIv8OCLQ9JWUxCvWA==}
@@ -4943,8 +4940,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-config-next@16.4.3:
-    resolution: {integrity: sha512-j9IqBma6abp800frdUURaizYMgXOK+jNGyq6CsYcM9AxpSJs5D/TgMNGeAmRUilZvA7g9V1Tr71gNg9/SVTuMQ==}
+  eslint-config-next@16.4.6:
+    resolution: {integrity: sha512-IBGGrVf9E6pL0NGL0hmeicVGeSyv1VEzIWq6IecDqkw+YFByhEtDJS9u1r6s6a1VxK6rssh69KyNFQUgfaacqw==}
     peerDependencies:
       eslint: '>=9.0.0'
       typescript: '>=3.3.1'
@@ -5474,10 +5471,6 @@ packages:
     resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
     engines: {node: '>= 0.4'}
 
-  is-core-module@2.17.0:
-    resolution: {integrity: sha512-J/vG0zBCbIKOQFfufSwyXdMrsohyJIUNkrnmo6WZGzoM7tr/lsbfW5b2BvisL6zsyMzK9UxV9L6c7AoFbyXHOA==}
-    engines: {node: '>= 0.4'}
-
   is-core-module@2.18.0:
     resolution: {integrity: sha512-qyax9fgaKOEC4qK8WZn7Q4IcoZC9RC1O1fFxRcRTq/oMMkWT/uXpqpXa12kzWR409zAt1drYN9N9BO26UmBCmw==}
     engines: {node: '>= 0.4'}
@@ -5875,8 +5868,8 @@ packages:
     resolution: {integrity: sha512-vpLQEs+VLCr1nU0BXS07maYoFwlDAH0gngQuuttxIwutDFEMHq2blX+8vpgxDdK3J1PwjCJiep77OitTZ4Ll1A==}
     engines: {node: 18 || 20 || >=22}
 
-  minimatch@11.0.8:
-    resolution: {integrity: sha512-nFQuYSTVrGvysVBps5Ih+0BdnYFN/Cj3C816r6+p7yK+FHrVLGE4O4N9AFwykrlNlvM2HYt+Rad1Uiro6h88Ig==}
+  minimatch@11.0.9:
+    resolution: {integrity: sha512-KCFkfyjqerNlSstjlhIGNXIKZGA/6O4V4RlhZ+Dsr621SPPw0mzlypE9D9ZOoPiVefHID+j7/XuMMlqfD/F60Q==}
     engines: {node: 20 || >=22}
 
   minimatch@3.1.5:
@@ -5936,8 +5929,8 @@ packages:
     engines: {node: ^18 || >=20}
     hasBin: true
 
-  napi-postinstall@0.3.7:
-    resolution: {integrity: sha512-jyU4cU4kVAmy/3qjP+DcoQTNXfINHc+dFw54gGqWC8nu0mpV0kOnk7kff+J+Q18SbX0k3Np8Rm7yFjd3phatNQ==}
+  napi-postinstall@0.3.8:
+    resolution: {integrity: sha512-dHbDC5V1g/EI8OLEtL4Iuwbu0fgzmyykxenn2KnlsX9XdhTXL3gWnfbbP+ab+oUcgV6CFpb8QGyQt/ZXA0UXig==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
     hasBin: true
 
@@ -6052,6 +6045,10 @@ packages:
 
   object-inspect@1.13.4:
     resolution: {integrity: sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==}
+    engines: {node: '>= 0.4'}
+
+  object-inspect@1.14.0:
+    resolution: {integrity: sha512-IVgHNlp/jwQX271+Xzoq9LZNTWXxZK+cEOrGBOBxXNbn7fapnZ+Ts6TVMgNOuAezwG2wdtnMX97tTPK6VEnuOQ==}
     engines: {node: '>= 0.4'}
 
   object-keys@1.1.1:
@@ -8399,13 +8396,6 @@ snapshots:
   '@next/env@16.4.5': {}
 
   '@next/env@16.4.6': {}
-
-  '@next/eslint-plugin-next@16.4.3(eslint@9.39.2(jiti@2.7.0))':
-    dependencies:
-      '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.2(jiti@2.7.0))
-      fast-glob: 3.3.1
-    transitivePeerDependencies:
-      - eslint
 
   '@next/eslint-plugin-next@16.4.6(eslint@9.39.2(jiti@2.7.0))':
     dependencies:
@@ -11604,7 +11594,7 @@ snapshots:
       es-errors: 1.3.0
       es-object-atoms: 1.1.2
       is-callable: 1.2.7
-      object-inspect: 1.13.4
+      object-inspect: 1.14.0
 
   es-abstract@1.24.1:
     dependencies:
@@ -11700,7 +11690,7 @@ snapshots:
       is-typed-array: 1.1.15
       is-weakref: 1.1.1
       math-intrinsics: 1.1.0
-      object-inspect: 1.13.4
+      object-inspect: 1.14.0
       object-keys: 1.1.1
       object.assign: 4.1.7
       own-keys: 1.0.2
@@ -11841,9 +11831,9 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-config-next@16.4.3(@typescript-eslint/parser@8.72.1(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3):
+  eslint-config-next@16.4.6(@typescript-eslint/parser@8.72.1(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3):
     dependencies:
-      '@next/eslint-plugin-next': 16.4.3(eslint@9.39.2(jiti@2.7.0))
+      '@next/eslint-plugin-next': 16.4.6(eslint@9.39.2(jiti@2.7.0))
       eslint: 9.39.2(jiti@2.7.0)
       eslint-import-resolver-node: 0.3.10
       eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.2(jiti@2.7.0))
@@ -11868,7 +11858,7 @@ snapshots:
   eslint-import-resolver-node@0.3.10:
     dependencies:
       debug: 3.2.7
-      is-core-module: 2.17.0
+      is-core-module: 2.18.0
       resolve: 2.0.0-next.7
     transitivePeerDependencies:
       - supports-color
@@ -11912,7 +11902,7 @@ snapshots:
       eslint-import-resolver-node: 0.3.10
       eslint-module-utils: 2.14.0(@typescript-eslint/parser@8.72.1(eslint@9.39.2(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.2(jiti@2.7.0))
       hasown: 2.0.4
-      is-core-module: 2.17.0
+      is-core-module: 2.18.0
       is-glob: 4.0.3
       minimatch: 3.1.5
       object.fromentries: 2.0.8
@@ -12298,7 +12288,7 @@ snapshots:
 
   glob@14.0.6:
     dependencies:
-      minimatch: 11.0.8
+      minimatch: 11.0.9
       minipass: 7.1.3
       path-scurry: 3.0.0
 
@@ -12453,10 +12443,6 @@ snapshots:
   is-callable@1.2.7: {}
 
   is-core-module@2.16.1:
-    dependencies:
-      hasown: 2.0.4
-
-  is-core-module@2.17.0:
     dependencies:
       hasown: 2.0.4
 
@@ -12830,7 +12816,7 @@ snapshots:
     dependencies:
       brace-expansion: 5.0.12
 
-  minimatch@11.0.8:
+  minimatch@11.0.9:
     dependencies:
       '@isaacs/nonrecursive-glob-match': 1.1.0
       brace-expansion: 5.0.13
@@ -12891,7 +12877,7 @@ snapshots:
 
   nanoid@5.1.16: {}
 
-  napi-postinstall@0.3.7: {}
+  napi-postinstall@0.3.8: {}
 
   natural-compare@1.4.0: {}
 
@@ -12999,6 +12985,8 @@ snapshots:
   object-assign@4.1.1: {}
 
   object-inspect@1.13.4: {}
+
+  object-inspect@1.14.0: {}
 
   object-keys@1.1.1: {}
 
@@ -13557,7 +13545,7 @@ snapshots:
   resolve@2.0.0-next.7:
     dependencies:
       es-errors: 1.3.0
-      is-core-module: 2.17.0
+      is-core-module: 2.18.0
       node-exports-info: 1.6.2
       object-keys: 1.1.1
       path-parse: 1.0.7
@@ -14268,7 +14256,7 @@ snapshots:
 
   unrs-resolver@1.13.0:
     dependencies:
-      napi-postinstall: 0.3.7
+      napi-postinstall: 0.3.8
     optionalDependencies:
       '@unrs/resolver-binding-android-arm-eabi': 1.13.0
       '@unrs/resolver-binding-android-arm64': 1.13.0
