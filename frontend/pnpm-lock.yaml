@@ -109,11 +109,11 @@ importers:
         specifier: 4.8.0
         version: 4.8.0
       linkify-html:
-        specifier: ^4.3.3
-        version: 4.3.3(linkifyjs@4.3.3)
+        specifier: ^4.4.0
+        version: 4.4.0(linkifyjs@4.4.0)
       linkifyjs:
-        specifier: ^4.3.3
-        version: 4.3.3
+        specifier: ^4.4.0
+        version: 4.4.0
       lucide-react:
         specifier: ^1.66.0
         version: 1.66.0(@types/react@19.3.0)(react@19.3.1)
@@ -5624,16 +5624,16 @@ packages:
     resolution: {integrity: sha512-NXYBzinNrblfraPGyrbPoD19C1h9lfI/1mzgWYvXUTe414Gz/X1FD2XBZSZM7rRTrMA8JL3OtAaGifrIKhQ5yQ==}
     engines: {node: '>= 12.0.0'}
 
-  linkify-html@4.3.3:
-    resolution: {integrity: sha512-VQH0xk8QilyWvRNQqyervP/zfe/KqE1bXB5NcwWoz8Oj9Yz5hWM0VvXs9vkLy7NlTao1jrmM1cqQv8rTmerctg==}
+  linkify-html@4.4.0:
+    resolution: {integrity: sha512-qjcJ0gcY0JDfasIf6tlcla/M367wOKuYS6Yyq2WZejY6Un8ABRWZmypmecFUAFlPxmiMtQLGrFZJY9I/6+f3mg==}
     peerDependencies:
-      linkifyjs: '==4.3.3'
+      linkifyjs: 4.4.0
 
   linkify-it@5.0.2:
     resolution: {integrity: sha512-ONTm2jCMAVZjgQa/Fy1kScXsuOoF5NPTsoFBdE1KVIZ2vAh/r9+Bqo+0jINCBYnavTPQZz38QzFTme79ENoN3Q==}
 
-  linkifyjs@4.3.3:
-    resolution: {integrity: sha512-P8aEP5U/D1/IlTY2OeYsErdwh9bGuLE30NcXtKEjgdHcahveQoQwM2yZNsioQHsWFz0P7KKudisbrzCgR0sDHg==}
+  linkifyjs@4.4.0:
+    resolution: {integrity: sha512-InTexvtbai+2c+dEVGcc6O6P2DMVIiwD9a/i4zFroazOIYLOS6FSVmAJ7kFeumnCMx6/gQqNAkbUvgMubV4+MA==}
 
   loader-runner@4.3.2:
     resolution: {integrity: sha512-DFEqQ3ihfS9blba08cLfYf1NRAIEm+dDjic073DRDc3/JspI/8wYmtDsHwd3+4hwvdxSK7PGaElfTmm0awWJ4w==}
@@ -12493,16 +12493,16 @@ snapshots:
       lightningcss-win32-arm64-msvc: 1.32.0
       lightningcss-win32-x64-msvc: 1.32.0
 
-  linkify-html@4.3.3(linkifyjs@4.3.3):
+  linkify-html@4.4.0(linkifyjs@4.4.0):
     dependencies:
-      linkifyjs: 4.3.3
+      linkifyjs: 4.4.0
 
   linkify-it@5.0.2:
     dependencies:
       uc.micro: 2.1.0
     optional: true
 
-  linkifyjs@4.3.3: {}
+  linkifyjs@4.4.0: {}
 
   loader-runner@4.3.2:
     optional: true
