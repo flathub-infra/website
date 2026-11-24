@@ -182,9 +182,6 @@ class CallbackHarness:
         build_summary=None,
         build_summary_metadata=None,
         current_summary_metadata=None,
-        enabled=True,
-        rate=0.5,
-        secret="test-random-review-secret",
         target_repo="stable",
         token_name="builder",
         build_refs=None,
@@ -221,9 +218,6 @@ class CallbackHarness:
             ]
         )
 
-        monkeypatch.setattr(config.settings, "random_review_enabled", enabled)
-        monkeypatch.setattr(config.settings, "random_review_rate", rate)
-        monkeypatch.setattr(config.settings, "random_review_secret", secret)
         monkeypatch.setattr(
             config.settings,
             "flat_manager_build_secret",
@@ -363,138 +357,22 @@ class CallbackHarness:
         )
 
 
-def test_settings_default_rate_and_disabled_by_default(monkeypatch):
+def test_settings_default_ostree_manifest_timeout(monkeypatch):
     for name in (
-        "RANDOM_REVIEW_ENABLED",
-        "RANDOM_REVIEW_RATE",
-        "RANDOM_REVIEW_SECRET",
         "OSTREE_MANIFEST_TIMEOUT_SECONDS",
-        "random_review_enabled",
-        "random_review_rate",
-        "random_review_secret",
         "ostree_manifest_timeout_seconds",
     ):
         monkeypatch.delenv(name, raising=False)
 
     settings = config.Settings(_env_file=None)
 
-    assert settings.random_review_enabled is False
-    assert settings.random_review_rate == 0.01
-    assert settings.random_review_secret is None
     assert settings.ostree_manifest_timeout_seconds == 60.0
-
-
-@pytest.mark.parametrize("rate", [-0.001, 1.001])
-def test_settings_reject_rates_outside_unit_interval(rate):
-    with pytest.raises(ValidationError):
-        config.Settings(random_review_rate=rate)
 
 
 @pytest.mark.parametrize("timeout_seconds", [0, -0.001])
 def test_settings_reject_non_positive_ostree_manifest_timeout(timeout_seconds):
     with pytest.raises(ValidationError):
         config.Settings(ostree_manifest_timeout_seconds=timeout_seconds)
-
-
-@pytest.mark.parametrize("secret", [None, "", "   "])
-def test_settings_require_secret_when_enabled(secret):
-    with pytest.raises(ValidationError):
-        config.Settings(random_review_enabled=True, random_review_secret=secret)
-
-
-def test_canonical_identity_is_independent_of_reference_order():
-    metadata = {"repo": "stable"}
-    refs = [
-        {"ref_name": "app/org.example/aarch64/stable", "commit": "def456"},
-        {"ref_name": "app/org.example/x86_64/stable", "commit": "abc123"},
-    ]
-
-    assert moderation._canonical_random_review_identity(
-        metadata, refs
-    ) == moderation._canonical_random_review_identity(metadata, list(reversed(refs)))
-
-
-def test_canonical_identity_keeps_duplicate_references():
-    metadata = {"repo": "stable"}
-    ref = {"ref_name": "app/org.example/x86_64/stable", "commit": "abc123"}
-
-    assert moderation._canonical_random_review_identity(metadata, [ref, ref]) != (
-        moderation._canonical_random_review_identity(metadata, [ref])
-    )
-
-
-def test_random_review_sample_is_deterministic_and_bounded():
-    identity = moderation._canonical_random_review_identity(
-        {"repo": "stable"},
-        [{"ref_name": "app/org.example/x86_64/stable", "commit": "abc123"}],
-    )
-
-    first = moderation._random_review_sample_value(identity, "secret")
-    second = moderation._random_review_sample_value(identity, "secret")
-
-    assert first == second
-    assert 0 <= first < 1
-
-
-def test_random_review_sample_value_stays_below_one(monkeypatch):
-    monkeypatch.setattr(
-        moderation.hmac,
-        "new",
-        lambda *args, **kwargs: SimpleNamespace(digest=lambda: b"\xff" * 32),
-    )
-
-    assert moderation._random_review_sample_value(b"identity", "secret") < 1
-
-
-def test_disabled_feature_produces_no_random_request(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=False,
-        current_values={
-            "org.example.App": {
-                "name": "Example App",
-                "summary": "An example",
-                "developer_name": "Example",
-                "project_license": "MIT",
-            }
-        },
-    )
-    monkeypatch.setattr(
-        moderation, "_random_review_sample_value", lambda *args: pytest.fail("sampled")
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is False
-    assert harness.db.session.add_calls == 0
-    assert harness.db.session.persisted == []
-
-
-def test_enabled_selected_creates_random_request(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        current_values={
-            "org.example.App": {
-                "name": "Example App",
-                "summary": "An example",
-                "developer_name": "Example",
-                "project_license": "MIT",
-            }
-        },
-    )
-    monkeypatch.setattr(moderation, "_random_review_sample_value", lambda *args: 0.0)
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    assert len(harness.db.session.persisted) == 1
-    request = harness.db.session.persisted[0]
-    assert request.appid == "org.example.App"
-    assert json.loads(request.request_data) == moderation._random_review_request_data()
-    assert harness.emails
-    assert harness.emails[0]["subject"] == "Review of build #42"
-    assert harness.emails[0]["heading"] == "Build #42 held for review"
-    assert harness.emails[0]["previewText"] == "Build #42 held for review"
 
 
 def test_beta_permission_hold_sends_held_email(monkeypatch):
@@ -525,14 +403,13 @@ def test_email_uses_request_data_after_committed_objects_expire(monkeypatch):
         monkeypatch,
         current_values={
             "org.example.App": {
-                "name": "Example App",
+                "name": "Changed App",
                 "summary": "An example",
                 "developer_name": "Example",
                 "project_license": "MIT",
             }
         },
     )
-    monkeypatch.setattr(moderation, "_random_review_sample_value", lambda *args: 0.0)
     original_commit = harness.db.session.commit
 
     def expire_committed_requests():
@@ -550,88 +427,21 @@ def test_email_uses_request_data_after_committed_objects_expire(monkeypatch):
     assert harness.emails[0]["messageInfo"]["requests"] == [
         {
             "requestType": ModerationRequestType.APPDATA,
-            "requestData": moderation._random_review_request_data(),
+            "requestData": {
+                "keys": {"name": "Example App"},
+                "current_values": {
+                    "name": "Changed App",
+                    "summary": "An example",
+                    "developer_name": "Example",
+                    "project_license": "MIT",
+                },
+            },
             "isNewSubmission": False,
         }
     ]
 
 
-def test_enabled_unselected_creates_no_random_request(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        current_values={
-            "org.example.App": {
-                "name": "Example App",
-                "summary": "An example",
-                "developer_name": "Example",
-                "project_license": "MIT",
-            }
-        },
-    )
-    monkeypatch.setattr(moderation, "_random_review_sample_value", lambda *args: 1.0)
-
-    result = harness.call()
-
-    assert result.requires_review is False
-    assert harness.db.session.persisted == []
-    assert harness.emails == []
-
-
-@pytest.mark.parametrize(
-    ("rate", "sampled", "selected"),
-    [(0.0, 0.0, False), (1.0, 1.0, False), (1.0, 0.0, True)],
-)
-def test_random_review_rate_boundaries(monkeypatch, rate, sampled, selected):
-    harness = CallbackHarness(
-        monkeypatch,
-        rate=rate,
-        current_values={
-            "org.example.App": {
-                "name": "Example App",
-                "summary": "An example",
-                "developer_name": "Example",
-                "project_license": "MIT",
-            }
-        },
-    )
-    monkeypatch.setattr(
-        moderation, "_random_review_sample_value", lambda *args: sampled
-    )
-
-    result = harness.call()
-
-    assert bool(harness.db.session.persisted) is selected
-    assert result.requires_review is selected
-
-
-def test_deterministic_request_suppresses_random_selection(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        current_values={
-            "org.example.App": {
-                "name": "Changed App",
-                "summary": "An example",
-                "developer_name": "Example",
-                "project_license": "MIT",
-            }
-        },
-    )
-    monkeypatch.setattr(
-        moderation, "_random_review_sample_value", lambda *args: pytest.fail("sampled")
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    assert len(harness.db.session.persisted) == 1
-    assert (
-        json.loads(harness.db.session.persisted[0].request_data)["keys"]["name"]
-        == "Example App"
-    )
-    assert harness.db.session.persisted[0].is_new_submission is False
-
-
-def test_extra_data_origin_request_suppresses_random_selection(monkeypatch):
+def test_extra_data_origin_change_creates_summary_request(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
         current_values={
@@ -661,9 +471,6 @@ def test_extra_data_origin_request_suppresses_random_selection(monkeypatch):
                 }
             }
         },
-    )
-    monkeypatch.setattr(
-        moderation, "_random_review_sample_value", lambda *args: pytest.fail("sampled")
     )
 
     result = harness.call()
@@ -720,7 +527,6 @@ def _summary_request_data(harness):
 
 def _eol_harness(monkeypatch, current=None, candidate=None, **kwargs):
     options = {
-        "enabled": False,
         "current_values": _unchanged_values(),
         "current_summary_metadata": _eol_metadata(current or {}),
         "build_summary_metadata": _eol_metadata(candidate or {}),
@@ -920,7 +726,6 @@ def test_empty_eol_message_is_preserved(monkeypatch):
 def test_permission_only_request_is_summary(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
         current_summaries={
             "org.example.App": {
@@ -964,7 +769,6 @@ def test_permission_keys_absent_from_published_build_are_summary(monkeypatch, cu
     }
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
         current_summaries={"org.example.App": {"metadata": {"permissions": current}}},
         build_summary={
@@ -1010,7 +814,6 @@ def test_runtime_inherited_permissions_are_not_summary_changes(monkeypatch):
     }
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
         current_summaries={
             "org.example.App": {
@@ -1044,7 +847,6 @@ def test_runtime_inherited_permissions_are_not_summary_changes(monkeypatch):
 def test_architecture_only_request_is_summary(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
         current_summaries={"org.example.App": {"arches": ["x86_64"]}},
         build_summary={"org.example.App": {"arches": {"aarch64", "x86_64"}}},
@@ -1066,7 +868,6 @@ def test_unchanged_parsed_summary_does_not_require_review(monkeypatch):
     metadata = {"permissions": {"shared": ["network"]}}
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
         current_summaries={
             "org.example.App": {"arches": ["x86_64"], "metadata": metadata}
@@ -1084,7 +885,6 @@ def test_appstream_and_summary_changes_create_disjoint_requests(monkeypatch):
     current_values["org.example.App"]["name"] = "Old name"
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=current_values,
         current_summaries={
             "org.example.App": {
@@ -1129,150 +929,6 @@ def test_appstream_and_summary_changes_create_disjoint_requests(monkeypatch):
             "current_values": {"shared": ["network"]},
         },
     }
-
-
-def test_initial_submission_suppresses_random_selection(monkeypatch):
-    harness = CallbackHarness(monkeypatch, current_values=None)
-    monkeypatch.setattr(
-        moderation, "_random_review_sample_value", lambda *args: pytest.fail("sampled")
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    assert len(harness.db.session.persisted) == 1
-    assert harness.db.session.persisted[0].is_new_submission is True
-
-
-def test_all_skipped_apps_suppress_selection(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        app_ids=("org.example.App", "org.example.Other"),
-        skipped=("org.example.App", "org.example.Other"),
-    )
-    monkeypatch.setattr(
-        moderation, "_random_review_sample_value", lambda *args: pytest.fail("sampled")
-    )
-
-    result = harness.call()
-
-    assert result.requires_review is False
-    assert harness.db.session.persisted == []
-
-
-def test_mixed_skipped_apps_only_create_eligible_random_requests(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        app_ids=("org.example.App", "org.example.Skipped"),
-        skipped=("org.example.Skipped",),
-        current_values={
-            "org.example.App": {
-                "name": "Example App",
-                "summary": "An example",
-                "developer_name": "Example",
-                "project_license": "MIT",
-            },
-            "org.example.Skipped": {
-                "name": "Example App",
-                "summary": "An example",
-                "developer_name": "Example",
-                "project_license": "MIT",
-            },
-        },
-    )
-    monkeypatch.setattr(moderation, "_random_review_sample_value", lambda *args: 0.0)
-
-    harness.call()
-
-    assert [request.appid for request in harness.db.session.persisted] == [
-        "org.example.App"
-    ]
-
-
-def test_repeated_callback_reuses_marker_without_side_effects(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        current_values={
-            "org.example.App": {
-                "name": "Example App",
-                "summary": "An example",
-                "developer_name": "Example",
-                "project_license": "MIT",
-            }
-        },
-    )
-    monkeypatch.setattr(moderation, "_random_review_sample_value", lambda *args: 0.0)
-
-    first = harness.call()
-    add_calls = harness.db.session.add_calls
-    email_count = len(harness.emails)
-
-    monkeypatch.setattr(config.settings, "random_review_rate", 0.0)
-    monkeypatch.setattr(config.settings, "random_review_secret", "changed-secret")
-    monkeypatch.setattr(
-        moderation,
-        "_random_review_sample_value",
-        lambda *args: pytest.fail("resampled"),
-    )
-
-    second = harness.call()
-
-    assert first.requires_review is True
-    assert second.requires_review is True
-    assert len(harness.db.session.persisted) == 1
-    assert harness.db.session.add_calls == add_calls
-    assert len(harness.emails) == email_count
-    assert _is_marker(harness.db.session.persisted[0])
-
-
-@pytest.mark.parametrize("is_approved", [True, False])
-def test_repeated_callback_preserves_terminal_review_state(monkeypatch, is_approved):
-    harness = CallbackHarness(
-        monkeypatch,
-        current_values={
-            "org.example.App": {
-                "name": "Example App",
-                "summary": "An example",
-                "developer_name": "Example",
-                "project_license": "MIT",
-            }
-        },
-    )
-    monkeypatch.setattr(moderation, "_random_review_sample_value", lambda *args: 0.0)
-    first = harness.call()
-    request = harness.db.session.persisted[0]
-    request.handled_at = True
-    request.is_approved = is_approved
-
-    monkeypatch.setattr(
-        moderation,
-        "_random_review_sample_value",
-        lambda *args: pytest.fail("resampled"),
-    )
-    second = harness.call()
-
-    assert first.requires_review is True
-    assert second.requires_review is False
-    assert len(harness.db.session.persisted) == 1
-
-
-def _is_marker(request):
-    return (
-        request.request_type == ModerationRequestType.APPDATA
-        and moderation._is_random_review_request(request)
-    )
-
-
-def test_random_request_marker_parser_rejects_malformed_data():
-    request = SimpleNamespace(request_data="not-json")
-
-    assert moderation._is_random_review_request(request) is False
-    assert (
-        moderation._is_random_review_request(
-            SimpleNamespace(request_data=json.dumps({"keys": {}, "current_values": {}}))
-        )
-        is False
-    )
 
 
 @pytest.mark.parametrize("comment", [None, "", "   ", "\t"])
@@ -1345,27 +1001,6 @@ def test_build_issue_excludes_moderation_details(monkeypatch, discussion):
         assert private not in created["title"] + created["body"]
 
 
-def test_random_review_missing_secret_fails_only_when_selection_needed(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        secret=None,
-        current_values={
-            "org.example.App": {
-                "name": "Example App",
-                "summary": "An example",
-                "developer_name": "Example",
-                "project_license": "MIT",
-            }
-        },
-    )
-
-    with pytest.raises(HTTPException) as exc_info:
-        harness.call()
-
-    assert exc_info.value.status_code == 500
-    assert exc_info.value.detail == "random_review_not_configured"
-
-
 def _unchanged_values():
     return {
         "org.example.App": {
@@ -1406,7 +1041,7 @@ def test_equivalent_summary_does_not_request_review(
         published, candidate = candidate, published
     current_values = _unchanged_values()
     current_values["org.example.App"]["summary"] = published
-    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    harness = CallbackHarness(monkeypatch, current_values=current_values)
     metadata = _unchanged_values()["org.example.App"]
     metadata["summary"] = candidate
     monkeypatch.setattr(
@@ -1447,7 +1082,7 @@ def test_equivalent_summary_does_not_request_review(
 def test_significant_summary_change_requests_review(monkeypatch, published, candidate):
     current_values = _unchanged_values()
     current_values["org.example.App"]["summary"] = published
-    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    harness = CallbackHarness(monkeypatch, current_values=current_values)
     metadata = _unchanged_values()["org.example.App"]
     metadata["summary"] = candidate
     monkeypatch.setattr(
@@ -1471,7 +1106,7 @@ def test_significant_summary_change_requests_review(monkeypatch, published, cand
 def test_exact_equal_summary_does_not_request_review(monkeypatch, summary):
     current_values = _unchanged_values()
     current_values["org.example.App"]["summary"] = summary
-    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    harness = CallbackHarness(monkeypatch, current_values=current_values)
     metadata = _unchanged_values()["org.example.App"]
     metadata["summary"] = summary
     monkeypatch.setattr(
@@ -1506,7 +1141,7 @@ def test_exact_equal_summary_does_not_request_review(monkeypatch, summary):
 def test_equivalent_license_does_not_request_review(monkeypatch, published, candidate):
     current_values = _unchanged_values()
     current_values["org.example.App"]["project_license"] = published
-    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    harness = CallbackHarness(monkeypatch, current_values=current_values)
     metadata = _unchanged_values()["org.example.App"]
     metadata["project_license"] = candidate
     monkeypatch.setattr(
@@ -1533,7 +1168,7 @@ def test_equivalent_license_does_not_request_review(monkeypatch, published, cand
 def test_license_change_requests_review(monkeypatch, published, candidate):
     current_values = _unchanged_values()
     current_values["org.example.App"]["project_license"] = published
-    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    harness = CallbackHarness(monkeypatch, current_values=current_values)
     metadata = _unchanged_values()["org.example.App"]
     metadata["project_license"] = candidate
     monkeypatch.setattr(
@@ -1571,7 +1206,7 @@ def _summary_change_harness(
     harness = CallbackHarness(
         monkeypatch,
         current_values=None if initial else current_values,
-        **{"enabled": False, **options},
+        **options,
     )
     metadata = _unchanged_values()["org.example.App"]
     metadata["summary"] = candidate
@@ -1727,17 +1362,6 @@ def test_ineligible_summary_change_skips_decision(monkeypatch, options, expected
     assert _appdata_keys(harness) == expected_keys
 
 
-def test_approved_summary_keeps_random_review(monkeypatch):
-    harness = _summary_change_harness(monkeypatch, decision_post(), enabled=True)
-    monkeypatch.setattr(moderation, "_random_review_sample_value", lambda *args: 0.0)
-
-    result = harness.call()
-
-    assert result.requires_review is True
-    [request] = _moderation_requests(harness)
-    assert _is_marker(request)
-
-
 @pytest.mark.parametrize(
     ("published", "candidate"),
     [
@@ -1758,7 +1382,7 @@ def test_equivalent_summary_preserves_other_metadata_review(
 ):
     current_values = _unchanged_values()
     current_values["org.example.App"]["summary"] = published
-    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    harness = CallbackHarness(monkeypatch, current_values=current_values)
     metadata = _unchanged_values()["org.example.App"]
     metadata.update({"summary": candidate, field: candidate_value})
     monkeypatch.setattr(
@@ -1781,7 +1405,6 @@ def test_equivalent_summary_preserves_permission_review(monkeypatch):
     current_values["org.example.App"]["summary"] = "Edit phatos"
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=current_values,
         current_summaries={
             "org.example.App": {"metadata": {"permissions": {"shared": ["network"]}}}
@@ -1811,9 +1434,7 @@ def test_equivalent_summary_preserves_permission_review(monkeypatch):
 
 
 def test_new_submission_keeps_original_summary(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch, enabled=False, current_values=None, token_name="builder"
-    )
+    harness = CallbackHarness(monkeypatch, current_values=None, token_name="builder")
     metadata = _unchanged_values()["org.example.App"]
     metadata["summary"] = "  Use THE editor. "
     monkeypatch.setattr(
@@ -1916,7 +1537,6 @@ def test_manifest_observations_record_source_status(
 ):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     pair = pair_factory()
@@ -1946,7 +1566,6 @@ def test_published_baseline_failures_leave_source_status_unavailable(
 ):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     monkeypatch.setattr(
@@ -1971,7 +1590,6 @@ def test_published_baseline_failures_leave_source_status_unavailable(
 def test_initial_vorarbeiter_observation_preserves_policy_context(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         token_name="vorarbeiter",
         current_values=None,
     )
@@ -1995,7 +1613,6 @@ def test_initial_vorarbeiter_observation_preserves_policy_context(monkeypatch):
 def test_analysis_observation_upsert_identity_uses_build_and_app(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     monkeypatch.setattr(
@@ -2041,7 +1658,6 @@ def test_enabled_manifest_comparison_uses_all_refs_and_logs_counts(monkeypatch, 
     ]
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
         build_refs=build_refs,
         manifest_timeout=12.5,
@@ -2163,7 +1779,6 @@ def test_missing_published_manifest_ref_keeps_initial_submission(monkeypatch):
 def test_manifest_only_change_creates_no_request_on_repeated_callback(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
         build_refs=[
             {
@@ -2193,7 +1808,6 @@ def test_manifest_only_change_creates_no_request_on_repeated_callback(monkeypatc
 def test_direct_upload_app_allows_missing_candidate_manifest(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
         direct_upload_app_ids=("org.example.App",),
         build_refs=[
@@ -2234,7 +1848,6 @@ def test_runtime_generated_app_allows_missing_candidate_manifest(monkeypatch):
         monkeypatch,
         app_ids=(app_id,),
         skipped=(app_id,),
-        enabled=False,
         build_refs=[
             {
                 "ref_name": f"app/{app_id}/x86_64/24.08",
@@ -2329,7 +1942,6 @@ def test_invalid_manifest_build_refs_translate_to_invalid_build(monkeypatch):
 def test_initial_submission_does_not_create_manifest_request(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=None,
     )
     monkeypatch.setattr(
@@ -2352,7 +1964,6 @@ def test_initial_submission_does_not_create_manifest_request(monkeypatch):
 def test_skip_list_does_not_create_manifest_request(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         skipped=("org.example.App",),
         current_values=_unchanged_values(),
     )
@@ -2410,7 +2021,6 @@ def test_manifest_source_gate_requires_added_origin(
 ):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     pair = _source_transition_manifest_pair(published_urls, candidate_urls)
@@ -2451,7 +2061,6 @@ def test_removal_only_source_does_not_create_gate(
 ):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     pair = _source_transition_manifest_pair(
@@ -2480,7 +2089,6 @@ def test_removal_only_source_does_not_create_gate(
 def test_manifest_gate_request_retains_removed_origin_context(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     pair = _source_transition_manifest_pair(
@@ -2553,7 +2161,6 @@ def test_manifest_source_gate_ignores_allowlisted_origins(
 ):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     _install_origin_allowlist(monkeypatch, entries)
@@ -2598,7 +2205,6 @@ def test_manifest_retry_preserves_request_after_allowlist_change(
 ):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     entries = set()
@@ -2654,7 +2260,6 @@ def test_extra_data_change_ignores_allowlisted_origins(
 ):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
         current_summaries={
             "org.example.App": {
@@ -2700,7 +2305,6 @@ def test_extra_data_change_ignores_allowlisted_origins(
 def test_mirror_only_addition_does_not_gate(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     pair = _manifest_pair("x86_64", changed=True)
@@ -2749,7 +2353,6 @@ def test_mirror_only_addition_does_not_gate(monkeypatch):
 def test_manifest_gate_creates_exact_stable_request(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     monkeypatch.setattr(
@@ -2831,7 +2434,6 @@ def test_manifest_gate_records_repository_origin(
 ):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     pair = _source_transition_manifest_pair(
@@ -2876,7 +2478,6 @@ def test_identical_manifest_callback_reuses_request(
 ):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     monkeypatch.setattr(
@@ -2899,33 +2500,9 @@ def test_identical_manifest_callback_reuses_request(
     assert len(harness.emails) == 1
 
 
-def test_manifest_request_suppresses_random_sampling(monkeypatch):
-    harness = CallbackHarness(
-        monkeypatch,
-        enabled=True,
-        current_values=_unchanged_values(),
-    )
-    monkeypatch.setattr(
-        moderation.ostree_manifest,
-        "collect_manifest_pairs",
-        lambda **kwargs: (_source_manifest_pair(),),
-    )
-    monkeypatch.setattr(
-        moderation,
-        "_random_review_sample_value",
-        lambda *args: pytest.fail("random review sampled"),
-    )
-
-    assert harness.call().requires_review is True
-    assert (
-        harness.db.session.persisted[0].request_type == ModerationRequestType.MANIFEST
-    )
-
-
 def test_manifest_request_is_persisted_in_observe_only_mode(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     monkeypatch.setattr(config.settings, "moderation_observe_only", True)
@@ -2951,7 +2528,6 @@ def test_manifest_finding_without_appstream_is_logged_not_persisted(
     harness = CallbackHarness(
         monkeypatch,
         app_ids=(),
-        enabled=False,
         current_values=_unchanged_values(),
     )
     monkeypatch.setattr(
@@ -2980,7 +2556,6 @@ def test_manifest_finding_without_appstream_is_logged_not_persisted(
 def test_conflicting_manifest_request_fails(monkeypatch, conflict):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     monkeypatch.setattr(
@@ -3007,7 +2582,6 @@ def test_conflicting_manifest_request_fails(monkeypatch, conflict):
 def test_manifest_retry_keeps_reused_request_data_loaded(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     monkeypatch.setattr(
@@ -3050,7 +2624,6 @@ def test_replacement_only_outdates_fully_superseded_refs(
     current_values["org.example.App"]["name"] = "Old name"
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=current_values,
         build_refs=build_refs(original_refs),
     )
@@ -3072,7 +2645,6 @@ def test_replacement_only_outdates_fully_superseded_refs(
 def test_clean_replacement_build_outdates_only_older_requests_for_its_app(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     requests = [
@@ -3110,7 +2682,6 @@ def test_clean_replacement_build_outdates_only_older_requests_for_its_app(monkey
 def test_replacement_outdates_legacy_requests_without_refs(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     request = models.ModerationRequest(
@@ -3132,7 +2703,6 @@ def test_replacement_outdates_legacy_requests_without_refs(monkeypatch):
 def test_legacy_observation_row_is_promoted(monkeypatch):
     harness = CallbackHarness(
         monkeypatch,
-        enabled=False,
         current_values=_unchanged_values(),
     )
     monkeypatch.setattr(
@@ -3483,7 +3053,7 @@ def test_separate_architecture_builds_can_be_reviewed_and_published_independentl
 ):
     current_values = _unchanged_values()
     current_values["org.example.App"]["name"] = "Old name"
-    harness = CallbackHarness(monkeypatch, enabled=False, current_values=current_values)
+    harness = CallbackHarness(monkeypatch, current_values=current_values)
     assert harness.call().requires_review is True
 
     harness.build_id = 43

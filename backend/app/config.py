@@ -2,7 +2,7 @@ import base64
 import logging
 import os
 
-from pydantic import Field, model_validator
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -110,20 +110,6 @@ class Settings(BaseSettings):
     decisions_api: str | None = None
     decisions_api_key: str | None = None
     decisions_model: str = "mammoth-1"
-
-    random_review_enabled: bool = False
-    random_review_rate: float = Field(default=0.01, ge=0.0, le=1.0)
-    random_review_secret: str | None = None
-
-    @model_validator(mode="after")
-    def validate_random_review_config(self):
-        if self.random_review_enabled and (
-            not self.random_review_secret or not self.random_review_secret.strip()
-        ):
-            raise ValueError(
-                "RANDOM_REVIEW_SECRET is required when RANDOM_REVIEW_ENABLED is true"
-            )
-        return self
 
     smtp_host: str | None = None
     smtp_port: int | None = None

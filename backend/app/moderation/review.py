@@ -1,6 +1,4 @@
 import base64
-import hashlib
-import hmac
 import itertools
 import json
 import logging
@@ -57,9 +55,6 @@ from .permission_snapshot import PermissionMap
 
 router = APIRouter(prefix="/moderation")
 logger = logging.getLogger(__name__)
-
-
-_RANDOM_REVIEW_MARKER = "Randomly selected for human review"
 
 
 def _within_one_edit(current: str, candidate: str) -> bool:
@@ -213,67 +208,6 @@ def _eol_moderation_values(
     return values
 
 
-def _canonical_random_review_identity(
-    build_metadata: dict[str, JSONValue],
-    build_refs: list[dict[str, JSONValue]],
-) -> bytes:
-    if not isinstance(build_metadata, dict) or not isinstance(build_refs, list):
-        raise TypeError("build metadata or references are missing")
-
-    repository = build_metadata.get("repo")
-    if not isinstance(repository, str) or not repository:
-        raise ValueError("build repository is missing")
-
-    ref_commits: list[tuple[str, str]] = []
-    for build_ref in build_refs:
-        if not isinstance(build_ref, dict):
-            raise TypeError("build reference is invalid")
-
-        ref_name = build_ref.get("ref_name")
-        commit = build_ref.get("commit")
-        if not isinstance(ref_name, str) or not ref_name:
-            raise ValueError("build reference name is missing")
-        if not isinstance(commit, str) or not commit:
-            raise ValueError("build reference commit is missing")
-
-        ref_commits.append((ref_name, commit))
-
-    if not ref_commits:
-        raise ValueError("build references are missing")
-
-    return json.dumps(
-        {"repo": repository, "refs": sorted(ref_commits)},
-        ensure_ascii=True,
-        separators=(",", ":"),
-    ).encode("utf-8")
-
-
-def _random_review_sample_value(identity: bytes, secret: str) -> float:
-    digest = hmac.new(
-        secret.encode("utf-8"),
-        identity,
-        hashlib.sha256,
-    ).digest()
-    sample_bits = int.from_bytes(digest, byteorder="big") >> (len(digest) * 8 - 53)
-    return sample_bits / (1 << 53)
-
-
-def _random_review_request_data() -> dict[str, dict[str, str]]:
-    return {
-        "keys": {"human_review": _RANDOM_REVIEW_MARKER},
-        "current_values": {},
-    }
-
-
-def _is_random_review_request(request: models.ModerationRequest) -> bool:
-    try:
-        request_data = json.loads(request.request_data)
-    except (TypeError, json.JSONDecodeError):
-        return False
-
-    return request_data == _random_review_request_data()
-
-
 def _has_appdata_request(app_id: str, build_id: int, job_id: int) -> bool:
     with get_db("writer") as db:
         requests = (
@@ -286,7 +220,7 @@ def _has_appdata_request(app_id: str, build_id: int, job_id: int) -> bool:
             )
             .all()
         )
-        return any(not _is_random_review_request(request) for request in requests)
+        return bool(requests)
 
 
 class ModerationAppItem(BaseModel):
@@ -951,17 +885,6 @@ def submit_review_request(
     review_request: ReviewRequest,
     authorization: Annotated[HTTPAuthorizationCredentials, Depends(HTTPBearer())],
 ) -> ReviewRequestResponse:
-    random_review_enabled = getattr(config.settings, "random_review_enabled", False)
-    random_review_rate = getattr(config.settings, "random_review_rate", 0.01)
-    random_review_secret = getattr(config.settings, "random_review_secret", None)
-    logger.info(
-        "Random review configuration",
-        extra={
-            "random_review_enabled": random_review_enabled,
-            "random_review_rate": random_review_rate if random_review_enabled else None,
-        },
-    )
-
     secret = config.settings.flat_manager_build_secret
     if secret is None:
         raise HTTPException(
@@ -1148,8 +1071,6 @@ def submit_review_request(
             comparable_refs_by_app.setdefault(pair.app_id, set()).add(
                 (pair.ref_name, pair.arch, pair.branch)
             )
-    if random_review_enabled and not isinstance(build_refs, list):
-        raise HTTPException(status_code=500, detail="invalid_build")
     build_ref_arches = {
         ref_parts[2]
         for build_ref in (build_refs if isinstance(build_refs, list) else [])
@@ -1164,8 +1085,6 @@ def submit_review_request(
     analysis_observations: dict[str, dict[str, JSONValue]] = {}
     manifest_newly_actionable_requests: list[models.ModerationRequest] = []
     manifest_newly_actionable_app_ids: set[str] = set()
-    eligible_app_ids: list[str] = []
-    has_initial_submission = False
     manifest_reused_app_ids: set[str] = set()
     manifest_reuse_requires_review = False
     permission_requests, permission_handled, permission_held = (
@@ -1410,10 +1329,6 @@ def submit_review_request(
         origin_should_gate = not is_new_submission and source_would_gate
         appdata_request: models.ModerationRequest | None = None
         summary_request: models.ModerationRequest | None = None
-
-        if random_review_enabled:
-            eligible_app_ids.append(app_id)
-            has_initial_submission = has_initial_submission or is_new_submission
 
         current_summary: dict[str, JSONValue] | None = None
         current_permissions: dict[str, JSONValue] | None = None
@@ -1878,142 +1793,6 @@ def submit_review_request(
             findings=findings,
         )
 
-    random_review_reused_app_ids: set[str] = set()
-    random_review_reuse_requires_review = False
-    if random_review_enabled:
-        logger.info(
-            "Evaluating random review eligibility",
-            extra={
-                "build_id": review_request.build_id,
-                "job_id": review_request.job_id,
-                "random_review_rate": random_review_rate,
-                "eligible_app_count": len(eligible_app_ids),
-                "deterministic_request_count": len(new_requests)
-                + len(manifest_reused_app_ids),
-                "has_initial_submission": has_initial_submission,
-            },
-        )
-
-        if new_requests or manifest_reused_app_ids:
-            logger.info(
-                "Random review suppressed by deterministic moderation",
-                extra={
-                    "build_id": review_request.build_id,
-                    "job_id": review_request.job_id,
-                    "eligible_app_count": len(eligible_app_ids),
-                    "random_review_rate": random_review_rate,
-                },
-            )
-        elif has_initial_submission:
-            logger.info(
-                "Random review suppressed by initial submission",
-                extra={
-                    "build_id": review_request.build_id,
-                    "job_id": review_request.job_id,
-                    "eligible_app_count": len(eligible_app_ids),
-                    "random_review_rate": random_review_rate,
-                },
-            )
-        elif not eligible_app_ids:
-            logger.info(
-                "Random review suppressed because build has no eligible apps",
-                extra={
-                    "build_id": review_request.build_id,
-                    "job_id": review_request.job_id,
-                    "eligible_app_count": 0,
-                    "random_review_rate": random_review_rate,
-                },
-            )
-        else:
-            with get_db("writer") as db:
-                existing_requests = (
-                    db.session.query(models.ModerationRequest)
-                    .filter(
-                        models.ModerationRequest.build_id == review_request.build_id,
-                        models.ModerationRequest.job_id == review_request.job_id,
-                        models.ModerationRequest.request_type
-                        == ModerationRequestType.APPDATA,
-                        models.ModerationRequest.appid.in_(eligible_app_ids),
-                    )
-                    .all()
-                )
-                random_review_reused_requests = [
-                    request
-                    for request in existing_requests
-                    if _is_random_review_request(request)
-                ]
-                random_review_reused_app_ids = {
-                    request.appid for request in random_review_reused_requests
-                }
-                random_review_reuse_requires_review = not any(
-                    request.handled_at is not None and request.is_approved is False
-                    for request in random_review_reused_requests
-                ) and any(
-                    request.handled_at is None or request.is_approved is None
-                    for request in random_review_reused_requests
-                )
-
-            if random_review_reused_app_ids:
-                logger.info(
-                    "Reusing random review requests",
-                    extra={
-                        "build_id": review_request.build_id,
-                        "job_id": review_request.job_id,
-                        "callback_reuse": True,
-                        "reused_request_count": len(random_review_reused_app_ids),
-                        "reused_request_requires_review": random_review_reuse_requires_review,
-                    },
-                )
-            else:
-                try:
-                    identity = _canonical_random_review_identity(
-                        build_metadata, build_refs
-                    )
-                except (TypeError, ValueError) as exc:
-                    raise HTTPException(
-                        status_code=500, detail="invalid_build"
-                    ) from exc
-
-                if random_review_secret is None:
-                    raise HTTPException(
-                        status_code=500, detail="random_review_not_configured"
-                    )
-                if not 0 <= random_review_rate <= 1:
-                    raise HTTPException(
-                        status_code=500, detail="invalid_random_review_rate"
-                    )
-
-                selected = (
-                    _random_review_sample_value(identity, random_review_secret)
-                    < random_review_rate
-                )
-                logger.info(
-                    "Random review outcome",
-                    extra={
-                        "build_id": review_request.build_id,
-                        "job_id": review_request.job_id,
-                        "random_review_selected": selected,
-                        "random_review_rate": random_review_rate,
-                        "eligible_app_count": len(eligible_app_ids),
-                    },
-                )
-
-                if selected:
-                    for app_id in eligible_app_ids:
-                        random_request = models.ModerationRequest(
-                            appid=app_id,
-                            request_type=ModerationRequestType.APPDATA,
-                            request_data=json.dumps(_random_review_request_data()),
-                            is_new_submission=False,
-                            is_observation=False,
-                            is_outdated=False,
-                            build_id=review_request.build_id,
-                            job_id=review_request.job_id,
-                            build_log_url=build_log_url,
-                        )
-                        persisted_requests.append(random_request)
-                        new_requests.append(random_request)
-
     email_requests = _email_requests(new_requests + manifest_newly_actionable_requests)
 
     # A newer build only supersedes requests whose app refs it fully replaces.
@@ -2069,10 +1848,7 @@ def submit_review_request(
         return ReviewRequestResponse(requires_review=False)
 
     requires_review = (
-        bool(new_requests)
-        or permission_held
-        or manifest_reuse_requires_review
-        or random_review_reuse_requires_review
+        bool(new_requests) or permission_held or manifest_reuse_requires_review
     )
     if not requires_review:
         permission_publication.advance_published(

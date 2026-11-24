@@ -1,11 +1,6 @@
 import { Heading, Section, Text } from "react-email"
 import { Base, buildAppName } from "./base"
-import {
-  ModerationEmailProps,
-  RANDOM_REVIEW_MARKER,
-  Request,
-  isRandomReviewRequest,
-} from "./moderation-held"
+import { ModerationEmailProps, Request } from "./moderation-held"
 import { BuildLog } from "./buildlog"
 
 export const ModerationRejectedEmail = ({
@@ -25,8 +20,6 @@ export const ModerationRejectedEmail = ({
 }) => {
   const appNameAndId = buildAppName(appId, appName)
 
-  const isRandomReview = isRandomReviewRequest(request)
-
   return (
     <Base
       previewText={previewText}
@@ -37,20 +30,10 @@ export const ModerationRejectedEmail = ({
       appName={appName}
     >
       <Text>
-        {isRandomReview ? (
-          <>
-            Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
-            <b>{appNameAndId}</b> was selected for human review and rejected by
-            the Flathub team.
-          </>
-        ) : (
-          <>
-            A change in build{" "}
-            <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
-            <b>{appNameAndId}</b> has been reviewed by the Flathub team, and the
-            build has been rejected for the following reason.
-          </>
-        )}
+        A change in build{" "}
+        <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
+        <b>{appNameAndId}</b> has been reviewed by the Flathub team, and the
+        build has been rejected for the following reason.
       </Text>
       {comment && (
         <Section>
@@ -58,7 +41,6 @@ export const ModerationRejectedEmail = ({
           <blockquote className="text-sm">{comment}</blockquote>
         </Section>
       )}
-      {isRandomReview && <Text>Reason: {RANDOM_REVIEW_MARKER}.</Text>}
     </Base>
   )
 }

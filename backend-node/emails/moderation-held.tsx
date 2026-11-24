@@ -65,19 +65,6 @@ export interface PermissionsRequest {
 export type Request =
   AppdataRequest | SummaryRequest | ManifestRequest | PermissionsRequest
 
-export const RANDOM_REVIEW_MARKER = "Randomly selected for human review"
-
-export function isRandomReviewRequest(
-  request: Request,
-): request is AppdataRequest {
-  return (
-    request.requestType === "appdata" &&
-    request.requestData.keys.human_review === RANDOM_REVIEW_MARKER &&
-    Object.keys(request.requestData.keys).length === 1 &&
-    Object.keys(request.requestData.current_values).length === 0
-  )
-}
-
 export const ModerationHeldEmail = ({
   category,
   appId,
@@ -87,12 +74,8 @@ export const ModerationHeldEmail = ({
   previewText,
   buildId,
   buildLogUrl,
-  requests,
 }: ModerationEmailProps) => {
   const appNameAndId = buildAppName(appId, appName)
-
-  const isRandomReview =
-    requests.length > 0 && requests.every(isRandomReviewRequest)
   return (
     <Base
       previewText={previewText}
@@ -102,33 +85,18 @@ export const ModerationHeldEmail = ({
       appId={appId}
       appName={appName}
     >
-      {isRandomReview ? (
-        <Text>
-          Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
-          <b>{appNameAndId}</b> has been selected for human review. Check the
-          status of the review in the{" "}
-          <Link href={`https://flathub.org/apps/manage/${appId}`}>
-            app developer settings
-          </Link>
-          .
-        </Text>
-      ) : (
-        <Text>
-          Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
-          <b>{appNameAndId}</b> has been held for review. Check the status of
-          the review in the{" "}
-          <Link href={`https://flathub.org/apps/manage/${appId}`}>
-            app developer settings
-          </Link>
-          .
-        </Text>
-      )}
       <Text>
-        {isRandomReview
-          ? "You'll receive another email when the review is approved or rejected."
-          : "You'll receive another email when the changes are approved or rejected."}
+        Build <BuildLog buildId={buildId} buildLogUrl={buildLogUrl} /> of{" "}
+        <b>{appNameAndId}</b> has been held for review. Check the status of the
+        review in the{" "}
+        <Link href={`https://flathub.org/apps/manage/${appId}`}>
+          app developer settings
+        </Link>
+        .
       </Text>
-      {isRandomReview && <Text>Reason: {RANDOM_REVIEW_MARKER}.</Text>}
+      <Text>
+        You'll receive another email when the changes are approved or rejected.
+      </Text>
     </Base>
   )
 }
