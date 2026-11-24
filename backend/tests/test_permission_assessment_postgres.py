@@ -35,9 +35,9 @@ PERMISSION_TABLES = [
 
 
 def test_concurrent_identical_observations_persist_once(monkeypatch):
-    database_url = os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL")
+    database_url = os.getenv("TEST_DATABASE_URL")
     if not database_url:
-        pytest.skip("PERMISSION_ASSESSMENT_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
 
     schema_name = f"permission_assessment_test_{uuid4().hex}"
     admin_engine = create_engine(database_url)
@@ -170,9 +170,9 @@ def test_concurrent_identical_observations_persist_once(monkeypatch):
 
 
 def test_push_links_latest_matching_pull_request_assessment(monkeypatch):
-    database_url = os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL")
+    database_url = os.getenv("TEST_DATABASE_URL")
     if not database_url:
-        pytest.skip("PERMISSION_ASSESSMENT_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
 
     schema_name = f"permission_assessment_test_{uuid4().hex}"
     admin_engine = create_engine(database_url)
@@ -306,9 +306,9 @@ def test_push_links_latest_matching_pull_request_assessment(monkeypatch):
 
 
 def test_stored_baseline_lookup_and_acceptance_constraint(monkeypatch):
-    database_url = os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL")
+    database_url = os.getenv("TEST_DATABASE_URL")
     if not database_url:
-        pytest.skip("PERMISSION_ASSESSMENT_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
 
     schema_name = f"permission_assessment_test_{uuid4().hex}"
     admin_engine = create_engine(database_url)

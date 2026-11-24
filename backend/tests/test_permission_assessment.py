@@ -20,8 +20,8 @@ from tests.shared_fixtures import APP, ARM, REF, SourceRepo
 
 SECRET = "permission-assessment-test-secret-32-bytes"
 needs_database = pytest.mark.skipif(
-    not os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL"),
-    reason="PERMISSION_ASSESSMENT_TEST_DATABASE_URL is not configured",
+    not os.getenv("TEST_DATABASE_URL"),
+    reason="TEST_DATABASE_URL is not configured",
 )
 
 

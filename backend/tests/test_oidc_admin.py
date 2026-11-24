@@ -45,12 +45,8 @@ def _assert_secret_hash_absent(response):
 def _create_tables(connection):
     statements = [
         """
-        CREATE TEMP TABLE flathubuser (
-            id integer PRIMARY KEY, display_name varchar, default_account varchar,
-            deleted boolean NOT NULL DEFAULT false, banned boolean NOT NULL DEFAULT false,
-            accepted_publisher_agreement_at timestamp, oidc_subject varchar UNIQUE,
-            invite_code varchar UNIQUE
-        ) ON COMMIT PRESERVE ROWS
+        CREATE TEMP TABLE flathubuser (LIKE public.flathubuser INCLUDING ALL)
+        ON COMMIT PRESERVE ROWS
         """,
         """
         CREATE TEMP TABLE permission (
@@ -139,9 +135,9 @@ def _create_tables(connection):
 
 @pytest.fixture
 def admin_api():
-    database_url = os.getenv("OIDC_TEST_DATABASE_URL")
+    database_url = os.getenv("TEST_DATABASE_URL")
     if not database_url:
-        pytest.skip("OIDC_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     engine = create_engine(database_url)
     connection = engine.connect()
     _create_tables(connection)

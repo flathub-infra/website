@@ -75,9 +75,9 @@ class FakeGithub:
 
 @pytest.fixture
 def discussion_api(monkeypatch):
-    url = os.getenv("OIDC_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("OIDC_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
 
     schema = f"moderation_discussion_{uuid4().hex}"
     admin = create_engine(url)

@@ -4594,6 +4594,46 @@ class UserFavoriteApp(Base):
         return {app_id: count for app_id, count in result}
 
     @staticmethod
+    def recommended_apps(db: DBSession, app_id: str, locale: str):
+        # For a fixed source app, cosine similarity ranks by shared / sqrt(total).
+        return (
+            db.session.execute(
+                text("""
+            WITH shared AS (
+                SELECT other.app_id, count(*) AS overlap
+                FROM user_favorite_app source
+                JOIN user_favorite_app other ON other.account = source.account
+                WHERE source.app_id = :app_id AND other.app_id <> :app_id
+                GROUP BY other.app_id
+                HAVING count(*) >= 3
+            ), ranked AS (
+                SELECT shared.app_id, shared.overlap,
+                       shared.overlap / sqrt(count(*)) AS score
+                FROM shared JOIN user_favorite_app fav ON fav.app_id = shared.app_id
+                GROUP BY shared.app_id, shared.overlap
+            )
+            SELECT a.app_id AS id,
+                   coalesce(nullif(a.localization -> :locale ->> 'name', ''),
+                            nullif(a.localization -> :language ->> 'name', ''),
+                            a.appstream ->> 'name') AS name,
+                   coalesce(nullif(a.localization -> :locale ->> 'summary', ''),
+                            nullif(a.localization -> :language ->> 'summary', ''),
+                            a.appstream ->> 'summary') AS summary,
+                   a.appstream ->> 'icon' AS icon, a.appstream -> 'metadata' AS metadata
+            FROM ranked JOIN apps a ON a.app_id = ranked.app_id
+            WHERE NOT a.is_eol AND a.type IN ('desktop-application', 'console-application')
+              AND nullif(a.appstream ->> 'icon', '') IS NOT NULL
+              AND a.appstream ->> 'name' IS NOT NULL AND a.appstream ->> 'summary' IS NOT NULL
+            ORDER BY ranked.score DESC, ranked.overlap DESC, a.app_id
+            LIMIT 6
+            """),
+                {"app_id": app_id, "locale": locale, "language": locale.split("-")[0]},
+            )
+            .mappings()
+            .all()
+        )
+
+    @staticmethod
     def delete_user(db, user: FlathubUser):
         """
         Delete any app ownerships associated with this user

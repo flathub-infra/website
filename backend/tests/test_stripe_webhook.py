@@ -499,9 +499,9 @@ def payment_db():
     from app import models
     from app.db_session import DBSession
 
-    url = os.getenv("PAYMENTS_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("PAYMENTS_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     schema = f"wallet_{uuid4().hex}"
     admin = create_engine(url)
     with admin.begin() as conn:

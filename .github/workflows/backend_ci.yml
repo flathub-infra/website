@@ -53,11 +53,7 @@ jobs:
       ENV: test
       DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
       DATABASE_REPLICA_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
-      MAINTENANCE_TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
-      TRANSLATION_TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
-      PAYMENTS_TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
-      PERMISSION_ASSESSMENT_TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
-      STATS_TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
+      TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@localhost:5432/maintenance
     services:
       postgres:
         image: postgres:17-alpine
@@ -110,8 +106,13 @@ jobs:
           --ignore=tests/test_storefront_smoke.py
           --ignore=tests/test_year_in_review_smoke.py
           --ignore=tests/api_smoke
+          --ignore=tests/test_email_login.py
+          --ignore=tests/test_email_login_transactions.py
+          --ignore=tests/test_passkeys.py
 
   smoketests:
+    env:
+      TEST_DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/postgres
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -154,11 +155,11 @@ jobs:
           docker compose --env-file .env.ci up --no-build -d
           bash tests/run_tests.sh
 
-      - name: Execute passkey integration tests
+      - name: Execute login integration tests with PostgreSQL and Valkey
         run: >-
           docker compose --env-file .env.ci exec -T
-          -e OIDC_TEST_DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/postgres
-          backend pytest -q tests/test_passkeys.py
+          -e TEST_DATABASE_URL
+          backend pytest -q tests/test_email_login.py tests/test_email_login_transactions.py tests/test_passkeys.py
 
       - name: Diagnose smoke test process failures
         if: failure()

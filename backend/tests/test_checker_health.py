@@ -722,9 +722,9 @@ def test_archive_redirect_does_not_forward_github_credentials():
 
 @pytest.fixture
 def health_db():
-    url = os.getenv("CHECKER_HEALTH_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("CHECKER_HEALTH_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     from sqlalchemy import create_engine, text
     from sqlalchemy.orm import Session
 

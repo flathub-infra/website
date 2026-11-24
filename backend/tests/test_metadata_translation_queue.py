@@ -99,9 +99,9 @@ def test_queue_reads_shared_saves_before_publication_and_separates_recovery(
 
 
 def test_language_queue_filters_addon_hosts_and_orders_by_update_then_id(monkeypatch):
-    url = os.getenv("TRANSLATION_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("TRANSLATION_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     engine = create_engine(url)
     try:
         with engine.connect() as conn, Session(conn) as session:
@@ -208,9 +208,9 @@ def test_index_continues_past_unavailable_repository(monkeypatch, translation_db
 
 @pytest.fixture
 def translation_db(monkeypatch):
-    url = os.getenv("TRANSLATION_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("TRANSLATION_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     scripts = ScriptDirectory(str(Path(__file__).parents[1] / "alembic"))
     migration = scripts.get_revision("7bbc44db5503")
     previous = scripts.get_revision("d5064a8eb13c")

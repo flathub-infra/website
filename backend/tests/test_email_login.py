@@ -199,9 +199,9 @@ def test_email_confirmation_resumes_oidc_authorization(monkeypatch, existing_acc
 
 
 def test_email_identity_and_deletion():
-    url = os.getenv("OIDC_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("OIDC_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     engine = create_engine(url)
     with Session(engine) as session:
         db = DBSession(session)
@@ -249,9 +249,9 @@ def test_email_identity_and_deletion():
 
 
 def test_request_hides_membership_and_worker_skips_disabled(monkeypatch):
-    url = os.getenv("OIDC_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("OIDC_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     engine = create_engine(url)
     blocked_email = f"blocked-{uuid4().hex}@example.com"
     new_email = f"new-{uuid4().hex}@example.com"
@@ -401,9 +401,9 @@ def test_request_hides_membership_and_worker_skips_disabled(monkeypatch):
 
 
 def test_failed_enqueue_releases_address_reservation(monkeypatch):
-    url = os.getenv("OIDC_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("OIDC_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     store = redis.Redis(
         host=config.settings.redis_state_host,
         port=config.settings.redis_state_port,

@@ -237,9 +237,9 @@ def test_pagination_clamps_after_snoozing_the_last_result():
 
 @pytest.fixture
 def maintenance_api():
-    database_url = os.getenv("MAINTENANCE_TEST_DATABASE_URL")
+    database_url = os.getenv("TEST_DATABASE_URL")
     if not database_url:
-        pytest.skip("MAINTENANCE_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     from fastapi import FastAPI
     from fastapi.testclient import TestClient
     from sqlalchemy import create_engine
@@ -825,9 +825,9 @@ def test_maintenance_migration_is_the_only_head():
 
 
 def test_triage_migration_upgrade_and_downgrade():
-    database_url = os.getenv("MAINTENANCE_TEST_DATABASE_URL")
+    database_url = os.getenv("TEST_DATABASE_URL")
     if not database_url:
-        pytest.skip("MAINTENANCE_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     import importlib.util
     from pathlib import Path
     from uuid import uuid4

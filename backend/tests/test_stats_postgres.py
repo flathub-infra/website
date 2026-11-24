@@ -18,9 +18,9 @@ from app import database, models, stats, stats_db
 
 @pytest.fixture
 def stats_database(monkeypatch):
-    database_url = os.getenv("STATS_TEST_DATABASE_URL")
+    database_url = os.getenv("TEST_DATABASE_URL")
     if not database_url:
-        pytest.skip("STATS_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
 
     schema = f"stats_test_{uuid4().hex}"
     admin_engine = create_engine(database_url)

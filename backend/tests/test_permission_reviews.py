@@ -65,9 +65,9 @@ FP, OLD_FP = (fingerprint_snapshot(PermissionSnapshot(**s)) for s in (SNAP, OLD_
 
 @pytest.fixture
 def db(monkeypatch):
-    url = os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("PERMISSION_ASSESSMENT_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
     schema = f"permission_review_test_{uuid4().hex}"
     admin = create_engine(url)
     with admin.begin() as connection:
