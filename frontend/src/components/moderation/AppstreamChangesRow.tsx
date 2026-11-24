@@ -9,8 +9,6 @@ interface Props {
   grouped?: boolean
 }
 
-const RANDOM_REVIEW_MARKER = "Randomly selected for human review"
-
 function alignArrays(a?: string[], b?: string[]): { a: string[]; b: string[] } {
   const orig = [a ?? [], b ?? []]
 
@@ -290,11 +288,6 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({
     return null
   }
 
-  const isRandomReview =
-    requestData.keys.human_review === RANDOM_REVIEW_MARKER &&
-    Object.keys(requestData.keys).length === 1 &&
-    Object.keys(requestData.current_values).length === 0
-
   const currentValuesFiltered = Object.keys(requestData.current_values).filter(
     (a) =>
       // these keys are special, but we don't want to act on them - so ignore
@@ -308,66 +301,55 @@ const AppstreamChangesRow: FunctionComponent<Props> = ({
     new Set([...Object.keys(requestData.keys), ...currentValuesFiltered]),
   ).sort()
 
-  const title = isRandomReview
-    ? t("moderation-random-review")
-    : request.request_type === "summary"
+  const title =
+    request.request_type === "summary"
       ? t("moderation-summary-changes")
       : request.is_new_submission
         ? t("moderation-appstream")
         : t("moderation-appstream-changes")
 
   const content = (
-    <>
-      {isRandomReview ? (
-        <div className="rounded-lg border border-flathub-gainsborow p-4 dark:border-flathub-dark-gunmetal">
-          <p className="text-sm text-flathub-sonic-silver dark:text-flathub-spanish-gray">
-            {t("moderation-random-review")}
-          </p>
-        </div>
-      ) : (
-        <div className="overflow-x-auto rounded-lg border border-border">
-          <table className="w-full table-fixed text-sm leading-relaxed [overflow-wrap:anywhere] max-sm:[&_tr]:flex max-sm:[&_tr]:flex-col max-sm:[&_td]:block max-sm:[&_td]:py-2 max-sm:[&_td:first-child]:bg-muted/50 max-sm:[&_td:not(:first-child)]:grid max-sm:[&_td:not(:first-child)]:grid-cols-[4.5rem_minmax(0,1fr)] max-sm:[&_td:not(:first-child)]:gap-x-3 max-sm:[&_td:not(:first-child)]:before:font-sans max-sm:[&_td:not(:first-child)]:before:text-xs max-sm:[&_td:not(:first-child)]:before:font-semibold max-sm:[&_td:not(:first-child)]:before:text-muted-foreground max-sm:[&_td:not(:first-child)]:before:content-[attr(data-label)] [&_td:not(:first-child)]:font-mono [&_td:not(:first-child)]:text-[13px]">
-            <thead className="max-sm:sr-only">
-              <tr className="border-b border-border bg-muted/50 text-start">
-                <th
-                  scope="col"
-                  className="w-1/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-foreground/75"
-                >
-                  {t("moderation-key")}
-                </th>
-                {!request.is_new_submission && (
-                  <th
-                    scope="col"
-                    className="w-2/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-foreground/75"
-                  >
-                    {t("moderation-old-value")}
-                  </th>
-                )}
-                <th
-                  scope="col"
-                  className="w-2/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-foreground/75"
-                >
-                  {request.is_new_submission
-                    ? t("moderation-value")
-                    : t("moderation-new-value")}
-                </th>
-              </tr>
-            </thead>
+    <div className="overflow-x-auto rounded-lg border border-border">
+      <table className="w-full table-fixed text-sm leading-relaxed [overflow-wrap:anywhere] max-sm:[&_tr]:flex max-sm:[&_tr]:flex-col max-sm:[&_td]:block max-sm:[&_td]:py-2 max-sm:[&_td:first-child]:bg-muted/50 max-sm:[&_td:not(:first-child)]:grid max-sm:[&_td:not(:first-child)]:grid-cols-[4.5rem_minmax(0,1fr)] max-sm:[&_td:not(:first-child)]:gap-x-3 max-sm:[&_td:not(:first-child)]:before:font-sans max-sm:[&_td:not(:first-child)]:before:text-xs max-sm:[&_td:not(:first-child)]:before:font-semibold max-sm:[&_td:not(:first-child)]:before:text-muted-foreground max-sm:[&_td:not(:first-child)]:before:content-[attr(data-label)] [&_td:not(:first-child)]:font-mono [&_td:not(:first-child)]:text-[13px]">
+        <thead className="max-sm:sr-only">
+          <tr className="border-b border-border bg-muted/50 text-start">
+            <th
+              scope="col"
+              className="w-1/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-foreground/75"
+            >
+              {t("moderation-key")}
+            </th>
+            {!request.is_new_submission && (
+              <th
+                scope="col"
+                className="w-2/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-foreground/75"
+              >
+                {t("moderation-old-value")}
+              </th>
+            )}
+            <th
+              scope="col"
+              className="w-2/5 px-4 py-3 text-start text-xs font-semibold uppercase tracking-wider text-foreground/75"
+            >
+              {request.is_new_submission
+                ? t("moderation-value")
+                : t("moderation-new-value")}
+            </th>
+          </tr>
+        </thead>
 
-            <tbody className="divide-y divide-border">
-              {uniqueKeys.map((key) => (
-                <DiffRow
-                  key={key}
-                  valueKey={key.toString()}
-                  request={request}
-                  requestData={requestData}
-                />
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </>
+        <tbody className="divide-y divide-border">
+          {uniqueKeys.map((key) => (
+            <DiffRow
+              key={key}
+              valueKey={key.toString()}
+              request={request}
+              requestData={requestData}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 
   if (grouped) {
