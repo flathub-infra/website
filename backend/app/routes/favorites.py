@@ -5,9 +5,9 @@ from http import HTTPStatus
 from fastapi import APIRouter, Response
 from pydantic import BaseModel
 
-from .. import cache, models
+from .. import api_models, cache, models
 from ..database import get_db
-from ..login_info import LoggedInDep
+from ..login_info import LoggedInDep, ModifyUsersDep
 
 logger = logging.getLogger(__name__)
 
@@ -85,6 +85,26 @@ async def remove_from_favorites(
 class FavoriteApp(BaseModel):
     app_id: str
     created_at: datetime.datetime
+
+
+class RecommendedApp(BaseModel):
+    id: str
+    name: str
+    summary: str
+    icon: str
+    metadata: api_models.Metadata | None = None
+
+
+@router.get("/favorites/{app_id}/recommendations", tags=["favorite-recommendations"])
+@cache.private
+def get_favorite_recommendations(
+    app_id: str, login: ModifyUsersDep, locale: str = "en"
+) -> list[RecommendedApp]:
+    with get_db("replica") as db:
+        return [
+            RecommendedApp.model_validate(row)
+            for row in models.UserFavoriteApp.recommended_apps(db, app_id, locale)
+        ]
 
 
 @router.get(

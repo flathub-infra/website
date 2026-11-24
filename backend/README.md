@@ -78,6 +78,20 @@ This should allow code completion and type checking to work, if you setup the in
 You can use a redis tool of your choice to interact with the database.
 Just connect to localhost:6379.
 
+### Running PostgreSQL tests locally
+
+Set `TEST_DATABASE_URL` to a disposable PostgreSQL database to run database
+tests. Apply migrations to the same database first. For example, from `backend`:
+
+```bash
+export TEST_DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/flathub_test
+DATABASE_URL="$TEST_DATABASE_URL" uv run alembic upgrade head
+DATABASE_URL="$TEST_DATABASE_URL" DATABASE_REPLICA_URL="$TEST_DATABASE_URL" \
+  uv run pytest tests/test_favorites.py
+```
+
+Without `TEST_DATABASE_URL`, pytest skips tests that require this database.
+
 ### Running smoke tests locally
 
 Smoke tests are executed against non-production data for reproducibility. To

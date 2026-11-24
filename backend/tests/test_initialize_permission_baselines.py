@@ -164,9 +164,9 @@ def test_listing_failure_exits_without_planning(monkeypatch, capsys, tmp_path):
 
 
 def test_write_and_read_baselines_in_postgres(source, monkeypatch):
-    database_url = os.getenv("PERMISSION_ASSESSMENT_TEST_DATABASE_URL")
+    database_url = os.getenv("TEST_DATABASE_URL")
     if not database_url:
-        pytest.skip("PERMISSION_ASSESSMENT_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
 
     schema_name = f"permission_baseline_test_{uuid4().hex}"
     admin_engine = create_engine(database_url)

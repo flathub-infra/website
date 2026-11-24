@@ -8,6 +8,9 @@ import { Summary } from "../../types/Summary"
 import Releases from "./Releases"
 
 import ApplicationSection from "./ApplicationSection"
+import FavoriteRecommendations from "./FavoriteRecommendations"
+import { useUserContext } from "src/context/user-info"
+import { Permission } from "src/codegen/model"
 
 import { mapAppsIndexToAppstreamListItem } from "src/meilisearch"
 import Tags from "./Tags"
@@ -51,6 +54,7 @@ const Details: FunctionComponent<Props> = ({
   keywords,
 }) => {
   const t = useTranslations()
+  const user = useUserContext()
 
   const { data: vendingSetup } = useQuery({
     queryKey: ["appVendingSetup", app.id],
@@ -135,6 +139,10 @@ const Details: FunctionComponent<Props> = ({
               numberOfApps={developerApps.totalHits}
               showMore={developerApps.totalHits > 6}
             />
+          )}
+
+          {user.info?.permissions.includes(Permission["modify-users"]) && (
+            <FavoriteRecommendations appId={app.id} />
           )}
 
           {/* Tags & Architectures */}

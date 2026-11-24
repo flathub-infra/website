@@ -1096,7 +1096,8 @@ def test_email_reauth_requests_only_own_linked_address(
             send.assert_not_called()
         else:
             send.assert_called_once()
-    assert response.headers["cache-control"] == "private, no-store"
+    # This test calls the handler directly, before CacheControlMiddleware adds private.
+    assert response.headers["cache-control"] == "no-store"
     assert session["user-id"] == user.id
     assert session["auth-method"] == "passkey"
     assert session["passkey-id"] == 42

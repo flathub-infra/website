@@ -3448,9 +3448,9 @@ def test_userinfo_no_email_scope(client, monkeypatch):
 
 
 def test_authorization_code_failure_burns_code_in_postgres():
-    database_url = os.getenv("OIDC_TEST_DATABASE_URL")
+    database_url = os.getenv("TEST_DATABASE_URL")
     if not database_url:
-        pytest.skip("OIDC_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
 
     engine = create_engine(database_url)
     with engine.connect() as connection:

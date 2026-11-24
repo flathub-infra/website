@@ -10,9 +10,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 @pytest.fixture
 def isolated_email_db(monkeypatch):
-    url = os.getenv("OIDC_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("OIDC_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
 
     from sqlalchemy import create_engine, text
     from sqlalchemy.orm import Session
@@ -79,9 +79,9 @@ def isolated_email_db(monkeypatch):
 
 @pytest.fixture
 def stats_database(monkeypatch):
-    url = os.getenv("STATS_TEST_DATABASE_URL")
+    url = os.getenv("TEST_DATABASE_URL")
     if not url:
-        pytest.skip("STATS_TEST_DATABASE_URL is not configured")
+        pytest.skip("TEST_DATABASE_URL is not configured")
 
     from sqlalchemy import create_engine, text
     from sqlalchemy.orm import Session
