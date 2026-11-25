@@ -4,7 +4,6 @@ import runpy
 import sys
 from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
-from importlib import import_module
 from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 from uuid import uuid4
@@ -48,7 +47,6 @@ TABLES = (
     models.PermissionDecision,
     models.PermissionRule,
     models.PermissionAssessmentObservation,
-    models.PermissionTriage,
     models.ModerationRequest,
     models.DirectUploadApp,
 )
@@ -143,89 +141,6 @@ def decide(assessment_id, decision="approved", fingerprint=FP, rationale=None):
     )
     login = SimpleNamespace(user=SimpleNamespace(id=1))
     return reviews.decide_permission_review(assessment_id, body, MagicMock(), login)
-
-
-@pytest.fixture
-def pending_triage(db, monkeypatch):
-    worker = import_module("app.worker.triage_permission_change")
-    now = datetime(2026, 1, 1)
-    clock = MagicMock(return_value=now)
-    monkeypatch.setattr(worker.utils, "utcnow", clock)
-    monkeypatch.setattr(worker, "get_db", db)
-    assessment_id = persist(1).assessment_id
-    with db() as session:
-        session.add(
-            models.PermissionTriage(
-                assessment_id=assessment_id, created_at=now - timedelta(days=1)
-            )
-        )
-    return worker, clock, assessment_id
-
-
-def test_sweep_and_duplicate_delivery_during_triage(
-    pending_triage, monkeypatch, db, caplog
-):
-    worker, clock, assessment_id = pending_triage
-    actor = worker.triage_permission_change
-    sent = MagicMock()
-    monkeypatch.setattr(actor, "send", sent)
-    worker.sweep_permission_triage()
-    sent.assert_called_once_with(assessment_id)
-    sent.reset_mock()
-    assert worker._claim(assessment_id) is not None
-    worker.sweep_permission_triage()
-    sent.assert_not_called()
-    assert worker._claim(assessment_id) is None
-
-    clock.return_value += worker.CLAIM_LEASE
-    worker.sweep_permission_triage()
-    sent.assert_called_once_with(assessment_id)
-    assert worker._claim(assessment_id) is not None
-    with caplog.at_level("INFO", logger=worker.logger.name):
-        worker._end(assessment_id, 1, "failed", "stale failure")
-    assert "Permission triage ended without result" not in caplog.messages
-    with db() as session:
-        row = session.get(models.PermissionTriage, assessment_id)
-        assert (row.status, row.attempts) == ("pending", 2)
-
-
-@pytest.mark.parametrize("rate_limited", [False, True])
-def test_sweep_respects_triage_backoff(pending_triage, monkeypatch, rate_limited):
-    worker, clock, assessment_id = pending_triage
-    actor = worker.triage_permission_change
-    failure = (
-        worker.permission_triage.RateLimited(3600)
-        if rate_limited
-        else worker.permission_triage.TransientError("unavailable")
-    )
-    run = MagicMock(side_effect=[failure, {"status": "completed"}])
-    monkeypatch.setattr(worker.permission_triage, "triage", run)
-    scheduled, swept = MagicMock(), MagicMock()
-    monkeypatch.setattr(actor, "send_with_options", scheduled)
-    monkeypatch.setattr(actor, "send", swept)
-    jittered_delay_ms = 74_040
-    backoff = MagicMock(return_value=(1, jittered_delay_ms))
-    monkeypatch.setattr(worker, "compute_backoff", backoff)
-    actor(assessment_id)
-    if rate_limited:
-        backoff.assert_not_called()
-    else:
-        backoff.assert_called_once_with(
-            0, factor=worker.MIN_BACKOFF_MS, max_backoff=worker.MAX_BACKOFF_MS
-        )
-    delay_ms = 3_600_000 if rate_limited else jittered_delay_ms
-    scheduled.assert_called_once_with(args=(assessment_id,), delay=delay_ms)
-    clock.return_value += timedelta(milliseconds=delay_ms - 1)
-    worker.sweep_permission_triage()
-    swept.assert_not_called()
-    actor(assessment_id)
-    assert run.call_count == 1
-    clock.return_value += timedelta(milliseconds=1)
-    worker.sweep_permission_triage()
-    swept.assert_called_once_with(assessment_id)
-    actor(assessment_id)
-    actor(assessment_id)
-    assert run.call_count == 2
 
 
 def test_decisions_apply_to_lineage_scope_and_fingerprint(db):
@@ -1369,38 +1284,6 @@ def test_old_rule_history_defaults_grouped_arrays_to_none():
     assert history.added is None
 
 
-def test_triage_migration_preserves_existing_backoff(db):
-    states = [("pending", 1), ("pending", 0), ("completed", 1)]
-    ids = [persist(i).assessment_id for i in range(1, len(states) + 1)]
-    with db() as session:
-        for assessment_id, (status, attempts) in zip(ids, states, strict=True):
-            session.add(
-                models.PermissionTriage(
-                    assessment_id=assessment_id, status=status, attempts=attempts
-                )
-            )
-        session.flush()
-        migration = runpy.run_path(
-            os.path.join(
-                ROOT_DIR,
-                "alembic",
-                "versions",
-                "923dcb518ee1_add_permission_triage_claim_time.py",
-            )
-        )
-        with Operations.context(MigrationContext.configure(session.connection())):
-            migration["downgrade"]()
-            before = session.scalar(text("SELECT clock_timestamp() AT TIME ZONE 'UTC'"))
-            migration["upgrade"]()
-        deadlines = session.scalars(
-            select(models.PermissionTriage.claimable_at).order_by(
-                models.PermissionTriage.assessment_id
-            )
-        ).all()
-        assert deadlines[0] >= before + timedelta(hours=1)
-        assert deadlines[1:] == [None, None]
-
-
 def grouped_migration(session):
     migration = runpy.run_path(
         os.path.join(
@@ -1524,21 +1407,3 @@ def test_grouped_migration_refuses_rule_and_history_loss(db):
         db() as session,
     ):
         grouped_migration(session)["downgrade"]()
-
-
-def test_triage_runs_once_per_decision_scope(db, monkeypatch):
-    monkeypatch.setattr(assessment.config.settings, "permission_triage_enabled", True)
-    monkeypatch.setattr(assessment, "worker", MagicMock())
-    first = persist(1, **TRAY_CHANGE)
-    pending_in_scope = persist(2, **TRAY_CHANGE)
-    with db() as session:
-        session.execute(update(models.PermissionTriage).values(status="completed"))
-    persist(3, **TRAY_CHANGE)
-    other_pull_request = persist(4, pull_request_number=18, **TRAY_CHANGE)
-    with db() as session:
-        triaged = session.scalars(select(models.PermissionTriage.assessment_id)).all()
-    assert sorted(triaged) == [
-        first.assessment_id,
-        pending_in_scope.assessment_id,
-        other_pull_request.assessment_id,
-    ]

@@ -41,7 +41,6 @@ dependencies = [
     "email-validator>=2.3.0",
     "idna>=3.18",
     "webauthn>=3.0.1,<4",
-    "pydantic-ai-slim[openai]>=2.68.0",
 ]
 
 [dependency-groups]

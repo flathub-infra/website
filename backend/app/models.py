@@ -18,7 +18,6 @@ from sqlalchemy import (
     Date,
     DateTime,
     Enum,
-    Float,
     ForeignKey,
     Identity,
     Index,
@@ -2700,37 +2699,6 @@ class PermissionAssessmentObservation(Base):
         ),
         Index("ix_permissionassessmentobservation_created_at", created_at),
         Index("ix_pao_pr", forge_instance, source_repository, pull_request_number),
-    )
-
-
-class PermissionTriage(Base):
-    __tablename__ = "permissiontriage"
-
-    assessment_id = mapped_column(
-        Integer,
-        ForeignKey(PermissionAssessmentObservation.id),
-        primary_key=True,
-        autoincrement=False,
-    )
-    status = mapped_column(String, nullable=False, server_default="pending")
-    result = mapped_column(JSONB)
-    error = mapped_column(String)
-    model = mapped_column(String)
-    prompt_version = mapped_column(String)
-    input_tokens = mapped_column(Integer)
-    output_tokens = mapped_column(Integer)
-    tool_calls = mapped_column(JSONB)
-    attempts = mapped_column(Integer, nullable=False, server_default=text("0"))
-    claimable_at = mapped_column(DateTime)
-    duration_seconds = mapped_column(Float)
-    created_at = mapped_column(DateTime, nullable=False, server_default=func.now())
-    completed_at = mapped_column(DateTime)
-
-    __table_args__ = (
-        CheckConstraint(
-            "status IN ('pending', 'completed', 'failed', 'skipped')",
-            name="permissiontriage_status",
-        ),
     )
 
 

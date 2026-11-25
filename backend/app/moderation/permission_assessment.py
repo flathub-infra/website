@@ -14,7 +14,7 @@ from sqlalchemy import cast, exists, func, select, update
 from sqlalchemy.dialects.postgresql import JSONB, insert
 from sqlalchemy.orm import aliased
 
-from .. import config, http_client, models, utils, worker
+from .. import config, http_client, models, utils
 from ..database import get_db
 from ..types import JSONValue, ModerationRequestType, is_json_object
 from . import permission_rules
@@ -257,7 +257,6 @@ def _response(
 
 
 def _persist_observation(values: dict[str, object]) -> CandidateAssessmentResponse:
-    triage_id = None
     with get_db("writer") as db:
         if values.get("pull_request_number"):
             lock_pull_request(db.session, SimpleNamespace(**values))
@@ -306,24 +305,7 @@ def _persist_observation(values: dict[str, object]) -> CandidateAssessmentRespon
                     rationale=verdict.rationale,
                     rules=verdict.rules,
                 )
-            elif row.differences and config.settings.permission_triage_enabled:
-                triage = models.PermissionTriage
-                scoped = aliased(models.PermissionAssessmentObservation)
-                triaged = db.session.scalar(
-                    select(
-                        exists().where(
-                            triage.assessment_id == scoped.id,
-                            triage.status == "completed",
-                            *same_scope(scoped, row),
-                        )
-                    )
-                )
-                if not triaged:
-                    db.session.add(models.PermissionTriage(assessment_id=row.id))
-                    triage_id = row.id
         response = _response(db.session, row, superseded_by(db.session, row))
-    if triage_id is not None:
-        worker.triage_permission_change.send(triage_id)
     logger.info(
         "Recorded permission assessment observation",
         extra={
