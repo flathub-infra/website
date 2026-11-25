@@ -31,9 +31,7 @@ def test_citations_use_only_returned_source_lines(monkeypatch):
                 manifest_refs=[],
                 source_refs=[ref],
             )
-            output = triage.resolve_output(
-                triage.Triage(summary="", changes=[change]), deps
-            )
+            output = triage.resolve_output(triage.Triage(changes=[change]), deps)
             return [r["text"] for r in output["changes"][0]["source_refs"]]
 
         read(end + 1, end + 5)
