@@ -9,12 +9,84 @@ from threading import Timer
 
 import gi
 import httpx
+from lxml import etree
 
 gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, GLib, OSTree  # type: ignore
 
 from . import config, http_client
-from .metadata_translations import MetadataError
+from .metadata_translations import MAX_XML_BYTES, MetadataError
+
+
+def is_listing_destination(path: str) -> bool:
+    return (
+        re.fullmatch(r"/app/share/(?:metainfo|appdata)/[\w.-]+\.xml", path) is not None
+    )
+
+
+def _same_listing(source: bytes, installed: bytes) -> bool:
+    if source == installed:
+        return True
+
+    def canonical(xml):
+        root = etree.fromstring(
+            xml,
+            etree.XMLParser(
+                resolve_entities=False, no_network=True, remove_comments=True
+            ),
+        )
+        if root.getroottree().docinfo.doctype:
+            raise ValueError
+        # Only strip indentation in AppStream containers, never mixed content
+        # such as a paragraph containing inline markup.
+        for node in root.iter(
+            "component",
+            "description",
+            "ul",
+            "ol",
+            "releases",
+            "release",
+            "screenshots",
+            "screenshot",
+            "keywords",
+            "categories",
+            "provides",
+            "branding",
+            "content_rating",
+            "developer",
+            "recommends",
+            "requires",
+            "supports",
+            "custom",
+            "artifacts",
+            "artifact",
+            "issues",
+            "languages",
+            "mimetypes",
+            "kudos",
+            "suggests",
+            "replaces",
+            "tags",
+            "references",
+            "agreement",
+            "agreement_section",
+        ):
+            if not len(node) or any(
+                parent.get("{http://www.w3.org/XML/1998/namespace}space") == "preserve"
+                for parent in (node, *node.iterancestors())
+            ):
+                continue
+            if node.text and not node.text.strip(" \t\r\n"):
+                node.text = None
+            for child in node:
+                if child.tail and not child.tail.strip(" \t\r\n"):
+                    child.tail = None
+        return etree.tostring(root, method="c14n", with_comments=False)
+
+    try:
+        return canonical(source) == canonical(installed)
+    except (etree.LxmlError, ValueError):
+        return False
 
 
 class PublishedListingUnavailable(MetadataError):
@@ -67,9 +139,11 @@ def _check_published_listing(
     kind: str,
     branch: str,
 ) -> bool:
-    if not re.fullmatch(r"/app/share/(?:metainfo|appdata)/[\w.-]+\.xml", destination):
+    if not is_listing_destination(destination):
         return False
-    path = "/files/" + destination.removeprefix("/app/")
+    paths = ["/files/" + destination.removeprefix("/app/")]
+    if destination == f"/app/share/appdata/{app_id}.appdata.xml":
+        paths.append(f"/files/share/metainfo/{app_id}.metainfo.xml")
     url = url.rstrip("/")
     try:
         commits = {}
@@ -110,7 +184,7 @@ def _check_published_listing(
                         "a{sv}",
                         {
                             "refs": GLib.Variant("as", list(commits.values())),
-                            "subdirs": GLib.Variant("as", [path]),
+                            "subdirs": GLib.Variant("as", paths),
                             "disable-static-deltas": GLib.Variant("b", True),
                             "http-headers": GLib.Variant(
                                 "a(ss)", [("User-Agent", "flathub-backend")]
@@ -131,36 +205,43 @@ def _check_published_listing(
                     if not subject.endswith(f" ({revision[:12]})"):
                         return False
                     _, root, _ = repo.read_commit(checksum, cancel)
-                    file = root.resolve_relative_path(path.lstrip("/"))
-                    try:
-                        info = file.query_info(
-                            "standard::type,standard::size",
-                            Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
-                            cancel,
-                        )
+                    found = False
+                    for path in paths:
+                        file = root.resolve_relative_path(path.lstrip("/"))
+                        try:
+                            info = file.query_info(
+                                "standard::type,standard::size",
+                                Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+                                cancel,
+                            )
+                        except GLib.Error as error:
+                            if error.matches(
+                                Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND
+                            ):
+                                continue
+                            raise
                         if (
                             info.get_file_type() != Gio.FileType.REGULAR
-                            or info.get_size() != len(content)
+                            or info.get_size() > MAX_XML_BYTES
                         ):
                             return False
                         stream = file.read(cancel)
                         try:
-                            offset = 0
-                            while offset < len(content):
+                            data = bytearray()
+                            while len(data) < info.get_size():
                                 chunk = stream.read_bytes(
-                                    len(content) - offset, cancel
-                                ).get_data()
-                                if not chunk or not content.startswith(chunk, offset):
+                                    info.get_size() - len(data), cancel
+                                )
+                                if not chunk.get_size():
                                     return False
-                                offset += len(chunk)
+                                data.extend(chunk.get_data())
                         finally:
                             stream.close(cancel)
-                    except GLib.Error as error:
-                        if error.matches(
-                            Gio.io_error_quark(), Gio.IOErrorEnum.NOT_FOUND
-                        ):
+                        if not _same_listing(content, bytes(data)):
                             return False
-                        raise
+                        found = True
+                    if not found:
+                        return False
             finally:
                 timer.cancel()
         return True

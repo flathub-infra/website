@@ -16,7 +16,10 @@ import yaml
 from github import GithubException
 from github.Repository import Repository
 
-from .metadata_translation_artifacts import published_listing_matches
+from .metadata_translation_artifacts import (
+    is_listing_destination,
+    published_listing_matches,
+)
 from .metadata_translation_reconciliation import reconcile
 from .metadata_translation_target import RecipeRepository, RecipeTarget, target_of
 from .metadata_translations import (
@@ -101,6 +104,27 @@ def _install_commands(module: dict[str, Any]) -> list[str]:
     return [command for _, command in _command_phases(module)]
 
 
+class _ListingDestinations:
+    def __init__(self):
+        self.owned: set[str] = set()
+        self.competing: set[str] = set()
+        self.removed: set[str] = set()
+
+    def remove(self, path, conditional):
+        self.removed.add(path)
+        if not conditional:
+            self.competing.discard(path)
+
+    def install_owned(self, path):
+        self.owned.add(path)
+        replaces_removed = path in self.removed
+        self.removed.discard(path)
+        return replaces_removed
+
+    def unambiguous(self):
+        return bool(self.owned) and self.owned.isdisjoint(self.removed | self.competing)
+
+
 def _owns_metadata(
     manifest: dict[str, Any],
     filename: str,
@@ -124,8 +148,7 @@ def _owns_metadata(
         includes.add(path)
         return True
 
-    owned_destinations = set()
-    other_destinations = set()
+    destinations = _ListingDestinations()
     cleanup = set()
     needs_published_check = bool(bundled_prefix)
     while modules:
@@ -211,36 +234,46 @@ def _owns_metadata(
                 normalized.append((phase, command))
             commands = normalized
         build_source = _build_source_path(module, filename)
-        after_install = bool(owned_destinations)
+        after_install = bool(destinations.owned)
         if after_install and any(
             not isinstance(s, dict) for s in module.get("sources", [])
         ):
             return False
         directories = set()
-        installs = []
+        install_phases = set()
+        installs_other_listing = False
+        unchecked_commands = []
         for phase, command in commands:
             created = _install_directories(command, app_id)
             if created:
                 directories.update(created)
-                installs.append(False)
                 continue
             installation = _metadata_install(command, app_id, directories)
             expected = filename if phase == "commands" else build_source
-            installs.append(
-                installation is not None
-                and (
-                    installation[0].removeprefix("./") == expected
-                    or installation[0] == f"${{FLATPAK_BUILDER_BUILDDIR}}/{filename}"
-                )
-            )
             if _installs_outside_listing(command, app_id):
                 continue
+            words = _command_words(command, app_id)
+            if (
+                words
+                and words[:-1]
+                in (["rm"], ["rm", "-f"], ["rm", "--"], ["rm", "-f", "--"])
+                and is_listing_destination(words[-1])
+            ):
+                destinations.remove(words[-1], conditional)
+                continue
             if installation is not None:
-                _, destination = installation
-                if installs[-1]:
-                    owned_destinations.add(destination)
+                source, destination = installation
+                if (
+                    source.removeprefix("./") == expected
+                    or source == f"${{FLATPAK_BUILDER_BUILDDIR}}/{filename}"
+                ):
+                    if destinations.install_owned(destination):
+                        needs_published_check = True
+                    install_phases.add(phase)
                 else:
-                    other_destinations.add(destination)
+                    destinations.competing.add(destination)
+                    installs_other_listing = True
+                continue
             elif any(
                 re.search(
                     r"/share/(?:metainfo|appdata)(?:/|$)", posixpath.normpath(path)
@@ -248,17 +281,20 @@ def _owns_metadata(
                 for path in re.findall(r"/[^\s\"';|&<>]+", command)
             ):
                 return False
-            elif owned_destinations and not _composes_catalog(command, app_id):
+            elif destinations.owned and not _composes_catalog(command, app_id):
                 needs_published_check = True
-        if not any(installs):
+            unchecked_commands.append((command, bool(install_phases)))
+        if not install_phases:
             if (
-                owned_destinations
+                destinations.owned
                 and module.get("buildsystem") != "simple"
                 and (module.get("buildsystem") or module.get("sources"))
             ):
                 needs_published_check = True
             continue
         cleanup.update(module.get("cleanup", []))
+        if installs_other_listing:
+            needs_published_check = True
         if conditional:
             return False
         files = []
@@ -351,37 +387,27 @@ def _owns_metadata(
             ):
                 return False
             if files and kind in ("archive", "git") and posixpath.normpath(dest) == ".":
-                return False
+                needs_published_check = True
         if len(files) != 1:
             return False
-        if module.get("buildsystem") != "simple" and not any(
-            direct and phase != "build-commands"
-            for (phase, _), direct in zip(commands, installs, strict=True)
-        ):
-            return False
-        listing_installed = False
-        for (_, command), direct in zip(commands, installs, strict=True):
-            if direct:
-                listing_installed = True
-                continue
-            if _installs_outside_listing(command, app_id) or (
-                listing_installed and _composes_catalog(command, app_id)
-            ):
+        if module.get("buildsystem") != "simple":
+            if install_phases == {"build-commands"}:
+                return False
+            needs_published_check = True
+        for command, listing_installed in unchecked_commands:
+            if listing_installed and _composes_catalog(command, app_id):
                 continue
             # A pre-install extraction explicitly rooted in /app cannot
             # overwrite the local XML in the module's build directory.
-            if _install_directories(command, app_id) or (
-                not listing_installed
-                and re.fullmatch(
-                    r'tar -xf [\w.*-]+(?: --strip [0-9]+)?(?: --exclude=[\w.-]+)? -C "(?:\$\{FLATPAK_DEST\}|/app)/?"',
-                    command,
-                )
+            if not listing_installed and re.fullmatch(
+                r'tar -xf [\w.*-]+(?: --strip [0-9]+)?(?: --exclude=[\w.-]+)? -C "(?:\$\{FLATPAK_DEST\}|/app)/?"',
+                command,
             ):
                 continue
             if _mentions_listing(command):
                 return False
             needs_published_check = True
-    for target in owned_destinations:
+    for target in destinations.owned:
         parts = target.removeprefix("/app/").strip("/").split("/")
         for i in range(len(parts)):
             path = "/" + "/".join(parts[: i + 1])
@@ -392,16 +418,12 @@ def _owns_metadata(
                 for p in cleanup
             ):
                 return False
-    return (
-        bool(owned_destinations)
-        and not owned_destinations.intersection(other_destinations)
-        and (
-            not needs_published_check
-            or (
-                confirm_published is not None
-                and len(owned_destinations) == 1
-                and confirm_published(next(iter(owned_destinations)))
-            )
+    return destinations.unambiguous() and (
+        not needs_published_check
+        or (
+            confirm_published is not None
+            and len(destinations.owned) == 1
+            and confirm_published(next(iter(destinations.owned)))
         )
     )
 

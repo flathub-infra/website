@@ -1987,17 +1987,16 @@ def test_discovery_rejects_upstream_and_generated_metadata():
     ],
 )
 def test_discovery_matches_recipe_source_from_build_directory(
-    options, source, expected
+    options, source, expected, published
 ):
+    published.return_value = True
     repo = fake_repo()
-    manifest = repo.get_contents("", ref="a" * 40)[1]
-    module = yaml.safe_load(manifest.decoded_content)
-    del module["build-commands"]
-    module.update(options)
-    module["post-install"] = [
-        f"install -Dm644 {source}{APP_ID}.metainfo.xml -t /app/share/metainfo"
-    ]
-    manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
+    with edit_listing_module(repo) as module:
+        del module["build-commands"]
+        module.update(options)
+        module["post-install"] = [
+            f"install -Dm644 {source}{APP_ID}.metainfo.xml -t /app/share/metainfo"
+        ]
     if expected:
         assert read_source(repo, APP_ID).content == XML
     else:
@@ -2315,18 +2314,23 @@ def test_discovery_allows_a_dedicated_listing_module_to_install_its_assets():
         ("qmake", "shell", {"type": "git", "url": "https://example.org/app.git"}),
     ],
 )
-def test_mixed_build_discovers_recipe_owned_listing(buildsystem, section, dependency):
+def test_mixed_build_discovers_recipe_owned_listing(
+    buildsystem, section, dependency, published
+):
     repo = fake_repo()
-    manifest = repo.get_contents("", ref="a" * 40)[1]
-    local = yaml.safe_load(manifest.decoded_content)
-    commands = ["install -Dm755 app /app/bin/app", *local.pop("build-commands")]
-    local["buildsystem"] = buildsystem
-    local["sources"].insert(0, dependency)
-    if section == "shell":
-        local["sources"].append({"type": "shell", "commands": commands})
-    else:
-        local[section] = commands
-    manifest.decoded_content = yaml.safe_dump({"modules": [local]}).encode()
+    with edit_listing_module(repo) as local:
+        commands = ["install -Dm755 app /app/bin/app", *local.pop("build-commands")]
+        local["buildsystem"] = buildsystem
+        local["sources"].insert(0, dependency)
+        if section == "shell":
+            local["sources"].append({"type": "shell", "commands": commands})
+        else:
+            local[section] = commands
+    if buildsystem != "simple":
+        with pytest.raises(MetadataError, match="unsupported_metadata"):
+            read_source(repo, APP_ID)
+        published.assert_called_once()
+        published.return_value = True
     assert read_source(repo, APP_ID).content == XML
 
 
@@ -2373,30 +2377,42 @@ def test_mixed_build_checks_pinned_patches_and_included_sources():
         read_source(repo, APP_ID)
 
 
-@pytest.mark.parametrize(
-    "source", [{"type": []}, {"type": "archive", "url": "https://example.org/data.tar"}]
-)
-def test_discovery_rejects_invalid_or_overlaid_local_source(source):
-    repo = fake_repo()
+@contextmanager
+def edit_listing_module(repo):
     manifest = repo.get_contents("", ref="a" * 40)[1]
     module = yaml.safe_load(manifest.decoded_content)
-    module["sources"].append(source)
+    yield module
     manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
+
+
+@pytest.fixture
+def published(monkeypatch):
+    matcher = MagicMock(return_value=False)
+    monkeypatch.setattr(
+        "app.metadata_translation_github.published_listing_matches", matcher
+    )
+    return matcher
+
+
+def test_discovery_rejects_invalid_source_type():
+    repo = fake_repo()
+    with edit_listing_module(repo) as module:
+        module["sources"].append({"type": []})
     with pytest.raises(MetadataError, match="unsupported_metadata"):
         read_source(repo, APP_ID)
 
 
-def test_archive_command_can_replace_a_local_listing_before_install(monkeypatch):
+@pytest.mark.parametrize("archive_source", [False, True])
+def test_archive_can_replace_a_local_listing_before_install(published, archive_source):
     repo = fake_repo()
-    manifest = repo.get_contents("", ref="a" * 40)[1]
-    module = yaml.safe_load(manifest.decoded_content)
-    module["sources"].append({"type": "file", "path": "data.tar.gz"})
-    module["build-commands"].insert(0, "tar -xf data.tar.gz")
-    manifest.decoded_content = yaml.safe_dump({"modules": [module]}).encode()
-    published = MagicMock(return_value=False)
-    monkeypatch.setattr(
-        "app.metadata_translation_github.published_listing_matches", published
-    )
+    with edit_listing_module(repo) as module:
+        if archive_source:
+            module["sources"].append(
+                {"type": "archive", "url": "https://example.org/data.tar"}
+            )
+        else:
+            module["sources"].append({"type": "file", "path": "data.tar.gz"})
+            module["build-commands"].insert(0, "tar -xf data.tar.gz")
     with pytest.raises(MetadataError, match="unsupported_metadata"):
         read_source(repo, APP_ID)
     published.assert_called_once_with(
@@ -2409,6 +2425,53 @@ def test_archive_command_can_replace_a_local_listing_before_install(monkeypatch)
     )
     published.return_value = True
     assert read_source(repo, APP_ID).content == XML
+
+
+@pytest.mark.parametrize("remove_owned", [False, True])
+@pytest.mark.parametrize("before_install", [False, True])
+@pytest.mark.parametrize("remove", ["rm", "rm -f", "rm --", "rm -f --"])
+def test_removing_an_obsolete_listing(remove_owned, before_install, remove, published):
+    repo = fake_repo()
+    target = (
+        f"metainfo/{APP_ID}.metainfo.xml" if remove_owned else "appdata/old.appdata.xml"
+    )
+    with edit_listing_module(repo) as module:
+        commands = module["build-commands"]
+        commands.insert(
+            0 if before_install else len(commands), f"{remove} /app/share/{target}"
+        )
+    if remove_owned:
+        with pytest.raises(MetadataError, match="unsupported_metadata"):
+            read_source(repo, APP_ID)
+        if before_install:
+            published.assert_called_once()
+            published.return_value = True
+            assert read_source(repo, APP_ID).content == XML
+        else:
+            published.assert_not_called()
+    else:
+        assert read_source(repo, APP_ID).content == XML
+
+
+@pytest.mark.parametrize("replace_last", [False, True])
+def test_verifies_only_the_final_recipe_install(published, replace_last):
+    repo = fake_repo()
+    target = f"/app/share/metainfo/{APP_ID}.metainfo.xml"
+    with edit_listing_module(repo) as module:
+        old = f"install -Dm644 vendor.xml {target}"
+        remove = f"rm -f -- {target}"
+        (local,) = module["build-commands"]
+        module["build-commands"] = (
+            [old, remove, local] if replace_last else [local, remove, old]
+        )
+    with pytest.raises(MetadataError, match="unsupported_metadata"):
+        read_source(repo, APP_ID)
+    if replace_last:
+        published.assert_called_once()
+        published.return_value = True
+        assert read_source(repo, APP_ID).content == XML
+    else:
+        published.assert_not_called()
 
 
 @pytest.mark.parametrize("url_suffix", [".git", ""])
