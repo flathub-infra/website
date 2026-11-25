@@ -47,6 +47,7 @@ class ErrorDetail(StrEnum):
         200: {"description": "Storefront information for the app"},
     },
 )
+@cache.no_store
 async def get_storefront_info(app_id: str) -> StorefrontInfo:
     """
     This endpoint is used by the flathub-hooks scripts to get information about an app to insert into the appstream
