@@ -22,8 +22,8 @@ import type {
   AddonAppstream,
   DesktopAppstream,
   FavoriteApp,
+  FavoritesCount,
   GenericAppstream,
-  GetAppFavoritesCountFavoritesAppIdCountGet200,
   GetAppstreamAppstreamAppIdGet200,
   GetEolMessageAppidEolMessageAppIdGet200,
   GetEolMessageEolMessageGet200,
@@ -1577,9 +1577,19 @@ export const getGetFavoritesFavoritesGetResponseMock = (): FavoriteApp[] =>
 export const getIsFavoritedFavoritesAppIdGetResponseMock = (): boolean =>
   faker.datatype.boolean()
 
-export const getGetAppFavoritesCountFavoritesAppIdCountGetResponseMock =
-  (): GetAppFavoritesCountFavoritesAppIdCountGet200 => ({
-    [faker.string.alphanumeric(5)]: faker.number.int(),
+export const getGetAppFavoritesCountFavoritesAppIdCountGetResponseMock = (
+  overrideResponse: Partial<Extract<FavoritesCount, object>> = {},
+): FavoritesCount => ({
+  favorites_count: faker.number.int(),
+  ...overrideResponse,
+})
+
+export const getGetCurrentFavoritesCountFavoritesAppIdCountCurrentGetResponseMock =
+  (
+    overrideResponse: Partial<Extract<FavoritesCount, object>> = {},
+  ): FavoritesCount => ({
+    favorites_count: faker.number.int(),
+    ...overrideResponse,
   })
 
 export const getGetEolRebaseEolRebaseGetMockHandler = (
@@ -2015,12 +2025,10 @@ export const getIsFavoritedFavoritesAppIdGetMockHandler = (
 
 export const getGetAppFavoritesCountFavoritesAppIdCountGetMockHandler = (
   overrideResponse?:
-    | GetAppFavoritesCountFavoritesAppIdCountGet200
+    | FavoritesCount
     | ((
         info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
-      ) =>
-        | Promise<GetAppFavoritesCountFavoritesAppIdCountGet200>
-        | GetAppFavoritesCountFavoritesAppIdCountGet200),
+      ) => Promise<FavoritesCount> | FavoritesCount),
   options?: RequestHandlerOptions,
 ) => {
   return http.get<{ appId: string }>(
@@ -2038,6 +2046,31 @@ export const getGetAppFavoritesCountFavoritesAppIdCountGetMockHandler = (
     options,
   )
 }
+
+export const getGetCurrentFavoritesCountFavoritesAppIdCountCurrentGetMockHandler =
+  (
+    overrideResponse?:
+      | FavoritesCount
+      | ((
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
+        ) => Promise<FavoritesCount> | FavoritesCount),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get<{ appId: string }>(
+      "*/favorites/:appId/count/current",
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetCurrentFavoritesCountFavoritesAppIdCountCurrentGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
 export const getAppMock = () => [
   getGetEolRebaseEolRebaseGetMockHandler(),
   getGetEolRebaseAppidEolRebaseAppIdGetMockHandler(),
@@ -2058,4 +2091,5 @@ export const getAppMock = () => [
   getGetFavoritesFavoritesGetMockHandler(),
   getIsFavoritedFavoritesAppIdGetMockHandler(),
   getGetAppFavoritesCountFavoritesAppIdCountGetMockHandler(),
+  getGetCurrentFavoritesCountFavoritesAppIdCountCurrentGetMockHandler(),
 ]

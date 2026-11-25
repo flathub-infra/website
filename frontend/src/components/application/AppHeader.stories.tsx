@@ -2,13 +2,17 @@ import React from "react"
 import { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { faker } from "@faker-js/faker"
 import { AppHeader } from "./AppHeader"
-import { UserContext, UserInfoProvider } from "../../../src/context/user-info"
+import { UserContext } from "../../../src/context/user-info"
 import { expect, within } from "storybook/test"
+import { http, HttpResponse } from "msw"
+import { publicBookmarkCount, withSignedOutUser } from "./bookmark-story"
 
 const meta = {
   component: AppHeader,
   title: "Components/Application/AppHeader",
+  decorators: [withSignedOutUser],
   parameters: {
+    msw: { handlers: [publicBookmarkCount] },
     nextjs: {
       appDirectory: true,
     },
@@ -22,6 +26,7 @@ type Story = StoryObj<typeof meta>
 export const Install: Story = {
   args: {
     app: {
+      type: "desktop-application",
       id: faker.string.uuid(),
       icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
       name: "App name that's too long",
@@ -31,18 +36,12 @@ export const Install: Story = {
     verificationStatus: { verified: true, method: "manual" },
     isQualityModalOpen: false,
   },
-  decorators: [
-    (Story) => (
-      <UserInfoProvider>
-        <Story />
-      </UserInfoProvider>
-    ),
-  ],
 }
 
 export const InstallNotVerified: Story = {
   args: {
     app: {
+      type: "desktop-application",
       id: faker.string.uuid(),
       icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
       name: faker.commerce.product(),
@@ -52,18 +51,19 @@ export const InstallNotVerified: Story = {
     verificationStatus: { verified: false },
     isQualityModalOpen: false,
   },
-  decorators: [
-    (Story) => (
-      <UserInfoProvider>
-        <Story />
-      </UserInfoProvider>
-    ),
-  ],
 }
 
 export const InstallWithDonate: Story = {
+  play: async ({ canvasElement, globals }) => {
+    const count = await within(canvasElement).findByText(
+      new Intl.NumberFormat(globals.locale).format(674),
+    )
+    await expect(count.closest("a")).toHaveRole("link")
+    await expect(count).toBeVisible()
+  },
   args: {
     app: {
+      type: "desktop-application",
       id: faker.string.uuid(),
       icon: "https://dl.flathub.org/media/tv/kodi/Kodi/4f8cbfae09dc6c8c55501a5d3f604fbb/icons/128x128/tv.kodi.Kodi.png",
       name: faker.commerce.product(),
@@ -71,16 +71,14 @@ export const InstallWithDonate: Story = {
       urls: { donation: faker.internet.url() },
     },
     vendingSetup: undefined,
-    verificationStatus: { verified: true },
+    verificationStatus: {
+      verified: true,
+      method: "login_provider",
+      login_provider: "github",
+      login_name: "example",
+    },
     isQualityModalOpen: false,
   },
-  decorators: [
-    (Story) => (
-      <UserInfoProvider>
-        <Story />
-      </UserInfoProvider>
-    ),
-  ],
 }
 
 export const WithVending: Story = {
@@ -98,16 +96,33 @@ export const WithVending: Story = {
     verificationStatus: { verified: true },
     isQualityModalOpen: false,
   },
-  decorators: [
-    (Story) => (
-      <UserInfoProvider>
-        <Story />
-      </UserInfoProvider>
-    ),
-  ],
 }
 
+let bookmarked = true
 export const WithVendingOwnedApp: Story = {
+  beforeEach: () => {
+    bookmarked = true
+  },
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/favorites/org.example.OwnedApp", () =>
+          HttpResponse.json(bookmarked),
+        ),
+        http.get("*/favorites/org.example.OwnedApp/count/current", () =>
+          HttpResponse.json({ favorites_count: bookmarked ? 675 : 674 }),
+        ),
+        http.post("*/favorites/org.example.OwnedApp/add", () => {
+          bookmarked = true
+          return new HttpResponse(null, { status: 200 })
+        }),
+        http.delete("*/favorites/org.example.OwnedApp/remove", () => {
+          bookmarked = false
+          return new HttpResponse(null, { status: 200 })
+        }),
+      ],
+    },
+  },
   args: {
     app: {
       id: "org.example.OwnedApp",
@@ -129,10 +144,21 @@ export const WithVendingOwnedApp: Story = {
       <AppHeader {...args} />
     </UserContext>
   ),
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, globals }) => {
     const canvas = within(canvasElement)
-    expect(canvas.queryByRole("link", { name: "Purchase" })).toBeNull()
-    expect(canvas.getByRole("link", { name: "Donate" })).toBeInTheDocument()
+    const count = await canvas.findByText(
+      new Intl.NumberFormat(globals.locale).format(675),
+    )
+    await expect(count).toBeVisible()
+    await expect(count.closest("button")).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    )
+    const links = canvas
+      .getAllByRole("link")
+      .map((link) => link.getAttribute("href"))
+    expect(links.some((href) => href?.includes("/apps/purchase/"))).toBe(false)
+    expect(links).toContain("https://example.org/donate")
   },
 }
 
@@ -150,13 +176,6 @@ export const WithQualityModalOpen: Story = {
     verificationStatus: { verified: true },
     isQualityModalOpen: true,
   },
-  decorators: [
-    (Story) => (
-      <UserInfoProvider>
-        <Story />
-      </UserInfoProvider>
-    ),
-  ],
 }
 export const WithQualityModalOpenAndTooLongAppName: Story = {
   args: {
@@ -172,11 +191,4 @@ export const WithQualityModalOpenAndTooLongAppName: Story = {
     verificationStatus: { verified: true },
     isQualityModalOpen: true,
   },
-  decorators: [
-    (Story) => (
-      <UserInfoProvider>
-        <Story />
-      </UserInfoProvider>
-    ),
-  ],
 }

@@ -27,7 +27,7 @@ import qs from "qs"
 
 import type {
   FavoriteApp,
-  GetAppFavoritesCountFavoritesAppIdCountGet200,
+  FavoritesCount,
   GetAppstreamAppstreamAppIdGet200,
   GetAppstreamAppstreamAppIdGetParams,
   GetEolMessageAppidEolMessageAppIdGet200,
@@ -3318,7 +3318,7 @@ export function useIsFavoritedFavoritesAppIdGet<
 export const getAppFavoritesCountFavoritesAppIdCountGet = (
   appId: string,
   options?: AxiosRequestConfig,
-): Promise<AxiosResponse<GetAppFavoritesCountFavoritesAppIdCountGet200>> => {
+): Promise<AxiosResponse<FavoritesCount>> => {
   return axios.get(`/favorites/${appId}/count`, options)
 }
 
@@ -3517,6 +3517,263 @@ export function useGetAppFavoritesCountFavoritesAppIdCountGet<
 } {
   const queryOptions =
     getGetAppFavoritesCountFavoritesAppIdCountGetQueryOptions(appId, options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * Read the committed count after a signed-in user's bookmark changes.
+ * @summary Get Current Favorites Count
+ */
+export const getCurrentFavoritesCountFavoritesAppIdCountCurrentGet = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<FavoritesCount>> => {
+  return axios.get(`/favorites/${appId}/count/current`, options)
+}
+
+export const getGetCurrentFavoritesCountFavoritesAppIdCountCurrentGetUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/favorites/${appId}/count/current`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getGetCurrentFavoritesCountFavoritesAppIdCountCurrentGetQueryKey =
+  (appId: string) => {
+    return [`/favorites/${appId}/count/current`] as const
+  }
+
+export const getGetCurrentFavoritesCountFavoritesAppIdCountCurrentGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet>
+    >,
+    TError = AxiosError<HTTPValidationError>,
+  >(
+    appId: string,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetCurrentFavoritesCountFavoritesAppIdCountCurrentGetQueryKey(appId)
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet>
+      >
+    > = ({ signal }) =>
+      getCurrentFavoritesCountFavoritesAppIdCountCurrentGet(appId, {
+        signal,
+        ...axiosOptions,
+      })
+
+    return {
+      queryKey,
+      queryFn,
+      enabled: appId !== null && appId !== undefined,
+      ...queryOptions,
+    } as UseQueryOptions<
+      Awaited<
+        ReturnType<typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet>
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetCurrentFavoritesCountFavoritesAppIdCountCurrentGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet>
+    >
+  >
+export type GetCurrentFavoritesCountFavoritesAppIdCountCurrentGetQueryError =
+  AxiosError<HTTPValidationError>
+
+/**
+ * Read the committed count after a signed-in user's bookmark changes.
+ * @summary Get Current Favorites Count
+ */
+export function useGetCurrentFavoritesCountFavoritesAppIdCountCurrentGet<
+  TData = Awaited<
+    ReturnType<typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * Read the committed count after a signed-in user's bookmark changes.
+ * @summary Get Current Favorites Count
+ */
+export function useGetCurrentFavoritesCountFavoritesAppIdCountCurrentGet<
+  TData = Awaited<
+    ReturnType<typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * Read the committed count after a signed-in user's bookmark changes.
+ * @summary Get Current Favorites Count
+ */
+export function useGetCurrentFavoritesCountFavoritesAppIdCountCurrentGet<
+  TData = Awaited<
+    ReturnType<typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/**
+ * Read the committed count after a signed-in user's bookmark changes.
+ * @summary Get Current Favorites Count
+ */
+export function useGetCurrentFavoritesCountFavoritesAppIdCountCurrentGet<
+  TData = Awaited<
+    ReturnType<typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getCurrentFavoritesCountFavoritesAppIdCountCurrentGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetCurrentFavoritesCountFavoritesAppIdCountCurrentGetQueryOptions(
+      appId,
+      options,
+    )
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

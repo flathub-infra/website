@@ -16,79 +16,63 @@ import { GetVerificationStatusVerificationAppIdStatusGet200 } from "src/codegen"
 
 interface Props {
   appId: string
+  developerName?: string
   verificationStatus: GetVerificationStatusVerificationAppIdStatusGet200
 }
 
 const Verification: FunctionComponent<Props> = ({
   appId,
+  developerName,
   verificationStatus,
 }) => {
   const t = useTranslations()
-  const verificationText = VerificationText(verificationStatus)
-  let verifiedLink = null
-
-  switch (verificationStatus.method) {
-    case "manual":
-      verifiedLink = verificationText
-      break
-
-    case "dns":
-      verifiedLink = verificationText
-      break
-
-    case "website":
-      verifiedLink = (
-        <a
-          className="no-underline hover:underline"
-          href={`https://${verificationStatus.website}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {verificationText}
-        </a>
-      )
-      break
-
-    case "login_provider":
-      let link: string
-      switch (verificationStatus.login_provider) {
-        case "github":
-          link = `https://github.com/${verificationStatus.login_name}`
-          break
-        case "gitlab":
-          link = `https://gitlab.com/${verificationStatus.login_name}`
-          break
-        case "gnome":
-          link = `https://gitlab.gnome.org/${verificationStatus.login_name}`
-          break
-        case "kde":
-          link = `https://invent.kde.org/${verificationStatus.login_name}`
-          break
-      }
-      verifiedLink = (
-        <a
-          className="no-underline hover:underline"
-          href={link}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {verificationText}
-        </a>
-      )
-      break
+  const fallbackText = VerificationText(verificationStatus)
+  const verificationText = developerName || fallbackText
+  let href: string | undefined
+  if (verificationStatus.method === "website") {
+    href = `https://${verificationStatus.website}`
+  } else if (verificationStatus.method === "login_provider") {
+    const hosts = {
+      github: "github.com",
+      gitlab: "gitlab.com",
+      gnome: "gitlab.gnome.org",
+      kde: "invent.kde.org",
+    }
+    const host = hosts[verificationStatus.login_provider]
+    if (host) {
+      href = `https://${host}/${verificationStatus.login_name}`
+    }
   }
 
   return verificationStatus?.verified == true ? (
-    <div className="flex pt-1 items-center justify-center text-xs font-semibold text-flathub-celestial-blue sm:justify-start">
+    <div className="min-w-0 text-center text-sm font-semibold text-flathub-celestial-blue-dark [overflow-wrap:anywhere] dark:text-flathub-celestial-blue-light sm:text-start">
+      {href ? (
+        <a
+          className="text-inherit no-underline hover:underline"
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {verificationText}
+        </a>
+      ) : (
+        verificationText
+      )}
+      {"\u00a0"}
       <VerificationIcon appId={appId} verificationStatus={verificationStatus} />
-      {verifiedLink}
     </div>
   ) : (
-    <div className="flex pt-1 items-center justify-center sm:justify-start">
+    <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 sm:justify-start">
+      {developerName && (
+        <span className="min-w-0 text-center text-sm text-flathub-granite-gray [overflow-wrap:anywhere] dark:text-flathub-spanish-gray sm:text-start">
+          {t("developed-by", { developer: developerName })}
+        </span>
+      )}
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger asChild>
-            <div
+          <TooltipTrigger asChild keepOpenOnTouch>
+            <button
+              type="button"
               className={clsx(
                 "rounded-full w-fit",
                 "text-flathub-black dark:text-flathub-white",
@@ -96,11 +80,11 @@ const Verification: FunctionComponent<Props> = ({
                 "py-0.5 ps-1 pe-2 cursor-pointer",
               )}
             >
-              <div className="text-xs flex gap-1 items-center">
+              <span className="text-xs flex gap-1 items-center">
                 <InfoIcon className="size-3.5" />
                 {t("unverified")}
-              </div>
-            </div>
+              </span>
+            </button>
           </TooltipTrigger>
           <TooltipContent side="right" className="max-w-xs">
             {t.rich("unverified-tooltip", {
