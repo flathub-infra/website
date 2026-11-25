@@ -25,8 +25,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       '@meilisearch/instant-meilisearch':
-        specifier: ^0.31.4
-        version: 0.31.4(meilisearch@0.57.0)
+        specifier: ^0.31.5
+        version: 0.31.5(meilisearch@0.57.0)
       '@mitresthen/matomo-tracker-react':
         specifier: ^0.1.1
         version: 0.1.1(react@19.3.1)
@@ -1347,8 +1347,8 @@ packages:
       '@types/react': 19.3.0
       react: '>=16'
 
-  '@meilisearch/instant-meilisearch@0.31.4':
-    resolution: {integrity: sha512-NtlLncCJ5fSEMXMg3ClXYkHtDPng0PFKKoBu+eZlPOz9wdOzZSL9dMSIl6o1JxLDX0KKmej819Jiv/oR7xO2zQ==}
+  '@meilisearch/instant-meilisearch@0.31.5':
+    resolution: {integrity: sha512-k/2uEKkA1qh3Tox2jvZZjSQrvgxKlmrzMmu0A0zpBc9wW4/z+YeaeqLjzGBhMDGWYMs+2W67yFNxkB8CwQZ5Lg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       meilisearch: ^0.57
@@ -8364,7 +8364,7 @@ snapshots:
       '@types/react': 19.3.0
       react: 19.3.1
 
-  '@meilisearch/instant-meilisearch@0.31.4(meilisearch@0.57.0)':
+  '@meilisearch/instant-meilisearch@0.31.5(meilisearch@0.57.0)':
     dependencies:
       meilisearch: 0.57.0
 
