@@ -108,7 +108,7 @@ const DecisionForm = ({
     review.superseded_by !== null ||
     review.outcome === "error" ||
     !review.snapshot_fingerprint ||
-    review.acceptance_basis === "baseline"
+    ["baseline", "missing_baseline"].includes(review.acceptance_basis ?? "")
   ) {
     return <p>This assessment cannot be reviewed.</p>
   }

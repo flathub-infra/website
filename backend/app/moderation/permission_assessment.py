@@ -94,7 +94,11 @@ class _BuildCheck(TypedDict):
 
 
 AcceptanceBasis = Literal[
-    "baseline", "permission_decision", "stable_baseline", "beta_approval"
+    "baseline",
+    "permission_decision",
+    "stable_baseline",
+    "beta_approval",
+    "missing_baseline",
 ]
 
 
@@ -360,11 +364,12 @@ def _stored_baseline(
         }
 
 
+def stable_branch(flatpak_branch: str) -> str:
+    return "stable" if flatpak_branch == "beta" else flatpak_branch.removesuffix("beta")
+
+
 def stable_baseline(app_id: str, flatpak_branch: str) -> dict[str, Any] | None:
-    branch = (
-        "stable" if flatpak_branch == "beta" else flatpak_branch.removesuffix("beta")
-    )
-    return _stored_baseline(app_id, "stable", branch)
+    return _stored_baseline(app_id, "stable", stable_branch(flatpak_branch))
 
 
 def cross_channel_basis(app_id: str, channel: str, fingerprint: str) -> str | None:
@@ -735,6 +740,16 @@ def assess_candidate(
             if published is None and request.destination_channel == "beta":
                 baseline = stable_baseline(request.app_id, request.flatpak_branch)
                 from_stable = baseline is not None
+                if baseline is None:
+                    try:
+                        published = collect_permissions(
+                            repository_url=config.settings.repo_url,
+                            app_id=request.app_id,
+                            flatpak_branch=stable_branch(request.flatpak_branch),
+                        )
+                    except PermissionSnapshotError as exc:
+                        if exc.code != "missing_baseline":
+                            raise
         if baseline is not None:
             comparison = PermissionSnapshot(**baseline["snapshot"])
             comparison_artifacts = baseline["artifacts"]
@@ -793,7 +808,9 @@ def assess_candidate(
     ).hexdigest()
     accepted = error is None and baseline is not None and differences == []
     basis = ("stable_baseline" if from_stable else "baseline") if accepted else None
-    if error is None and not accepted and fingerprint is not None:
+    if error is None and comparison is None:
+        basis = "missing_baseline"
+    elif error is None and not accepted and fingerprint is not None:
         basis = cross_channel_basis(
             request.app_id, request.destination_channel, fingerprint
         )

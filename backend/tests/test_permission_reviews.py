@@ -903,6 +903,15 @@ def test_publication_accepts_matching_baseline(db, publish):
     assert baseline(db) == ("initialized", FP)
 
 
+def test_publication_trusts_only_accepted_missing_baseline(db, publish):
+    persist(1, candidate_kind="push")
+    (request,), _, _ = publish()
+    assert json.loads(request.request_data)["comparison_source"] is None
+    missing = {"outcome": "accepted", "acceptance_basis": "missing_baseline"}
+    persist(2, candidate_kind="push", **missing)
+    assert publish() == ([], {APP}, False)
+
+
 def test_publication_accepts_runtime_inherited_permissions(db, publish, monkeypatch):
     set_baseline(db, SNAP, FP)
     persist(1, candidate_kind="push")

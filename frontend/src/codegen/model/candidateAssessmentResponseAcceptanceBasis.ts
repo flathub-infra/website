@@ -14,4 +14,5 @@ export const CandidateAssessmentResponseAcceptanceBasis = {
   permission_decision: "permission_decision",
   stable_baseline: "stable_baseline",
   beta_approval: "beta_approval",
+  missing_baseline: "missing_baseline",
 } as const

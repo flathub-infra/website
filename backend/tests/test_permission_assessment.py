@@ -195,14 +195,12 @@ def candidate_source(tmp_path, monkeypatch):
 
 
 @needs_database
-def test_missing_baseline_preserves_candidate_without_authorization(
-    candidate_source, observed
-):
+def test_missing_baseline_is_accepted_silently(candidate_source, observed):
     response = assessment.assess_candidate(
         assessment.CandidateAssessmentRequest(**request_body())
     )
-    assert response.outcome == "pending"
-    assert response.acceptance_basis is None
+    assert response.outcome == "accepted"
+    assert response.acceptance_basis == "missing_baseline"
     assert response.review_url.endswith("/admin/moderation/permissions/1")
     assert response.published_comparison_available is False
     assert response.differences is None
@@ -496,6 +494,22 @@ def test_beta_destination_compares_with_beta_repo(
     assert response.outcome == "pending"
     assert response.published_comparison_available is True
     assert observed[0]["intended_channel"] == "beta"
+
+
+@needs_database
+def test_first_beta_build_compares_with_published_stable(
+    test_branch_source, observed, monkeypatch, tmp_path
+):
+    beta = SourceRepo(tmp_path / "beta")
+    beta.commit(f"app/{APP}/x86_64/other", "[Context]\nshared=ipc;\n")
+    monkeypatch.setattr(config.settings, "beta_repo_url", beta.url)
+    response = assessment.assess_candidate(
+        assessment.CandidateAssessmentRequest(
+            **request_body(destination_channel="beta", flatpak_branch="beta")
+        )
+    )
+    assert response.outcome == "pending"
+    assert response.published_comparison_available is True
 
 
 def test_unsupported_destination_channel_is_an_error(test_branch_source, observed):

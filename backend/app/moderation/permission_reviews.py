@@ -198,6 +198,7 @@ def list_permission_reviews(
         observation.candidate_kind.in_(assessment.PR_CANDIDATE_KINDS),
         observation.acceptance_basis.is_distinct_from("baseline"),
         observation.acceptance_basis.is_distinct_from("stable_baseline"),
+        observation.acceptance_basis.is_distinct_from("missing_baseline"),
     )
     if outcome != "all":
         query = query.where(current_outcome == outcome)
@@ -260,7 +261,7 @@ def decide_permission_review(
             raise HTTPException(status_code=409, detail="assessment_not_reviewable")
         if body.fingerprint != row.fingerprint:
             raise HTTPException(status_code=409, detail="snapshot_mismatch")
-        if row.acceptance_basis == "baseline":
+        if row.acceptance_basis in ("baseline", "missing_baseline"):
             raise HTTPException(status_code=409, detail="no_review_needed")
         unchanged = assessment.decision_outcome(body.decision, row.decision_id)
         if body.decision != "snoozed" and all(

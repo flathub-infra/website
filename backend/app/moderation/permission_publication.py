@@ -169,9 +169,9 @@ def _evaluate(
                 comparison_fingerprint=baseline["fingerprint"],
                 differences=differences,
             )
-        if (push.fingerprint, push.acceptance_basis) == (
-            fingerprint,
-            "permission_decision",
+        if (push.fingerprint, push.acceptance_basis) in (
+            (fingerprint, "permission_decision"),
+            (fingerprint, "missing_baseline"),
         ) or assessment.cross_channel_basis(app_id, channel, fingerprint):
             return None
     except PermissionSnapshotError as exc:
