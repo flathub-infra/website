@@ -15,7 +15,7 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.testclient import TestClient
 from joserfc import jwk, jwt
 from sqlalchemy import create_engine, text
@@ -748,6 +748,21 @@ def test_authorize_invalid_client_returns_400(authorize_client):
 
     assert response.status_code == 400
     assert response.json() == {"detail": "invalid_client"}
+
+
+def test_authorize_rejects_client_id_with_nul_before_database_lookup():
+    params = {**AUTHORIZE_PARAMS, "client_id": "test-client\x00"}
+    request = MagicMock(session={})
+
+    with (
+        patch.object(oidc_routes, "get_db") as get_db,
+        pytest.raises(HTTPException) as error,
+    ):
+        oidc_routes.authorize(request, _make_logged_out_login(), **params)
+
+    get_db.assert_not_called()
+    assert error.value.status_code == 400
+    assert error.value.detail == "invalid_client"
 
 
 def test_authorize_disabled_client_returns_400(authorize_client):
@@ -1779,6 +1794,27 @@ def _basic_auth_header(client_id, client_secret, scheme="Basic"):
     credentials = f"{encoded_client_id}:{encoded_client_secret}"
     encoded = base64.b64encode(credentials.encode()).decode()
     return {"Authorization": f"{scheme} {encoded}"}
+
+
+@pytest.mark.parametrize("auth_method", ["client_secret_post", "client_secret_basic"])
+def test_token_rejects_client_id_with_nul_before_database_lookup(
+    token_client, auth_method
+):
+    client_id = "test-client\x00"
+    data = {"grant_type": "refresh_token", "refresh_token": "test-refresh-token"}
+    headers = {}
+    if auth_method == "client_secret_basic":
+        headers = _basic_auth_header(client_id, CLIENT_SECRET)
+    else:
+        data.update(client_id=client_id, client_secret=CLIENT_SECRET)
+
+    with patch.object(oidc_routes, "get_db") as get_db:
+        response = token_client.post("/oidc/token", data=data, headers=headers)
+
+    get_db.assert_not_called()
+    assert response.status_code == 401
+    assert response.json() == {"error": "invalid_client"}
+    assert response.headers["WWW-Authenticate"] == 'Basic realm="oidc/token"'
 
 
 def test_token_valid_exchange_with_client_secret_post(token_client):
