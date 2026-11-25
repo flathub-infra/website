@@ -7,6 +7,7 @@ import SubHeader from "./sub-header/SubHeader"
 import { UserContext } from "src/context/user-info"
 import { AppRouterContext } from "next/dist/shared/lib/app-router-context.shared-runtime"
 import { fn } from "storybook/test"
+import { publicBookmarkCount } from "./bookmark-story"
 
 const router = {
   back: fn(),
@@ -39,7 +40,11 @@ const summary = {
 const meta = {
   title: "Components/Application/App detail polish",
   // Next 16.4 changed LayoutRouterContext; avoid Storybook's legacy layout mock.
-  parameters: { layout: "fullscreen", nextjs: { appDirectory: false } },
+  parameters: {
+    layout: "fullscreen",
+    nextjs: { appDirectory: false },
+    msw: { handlers: [publicBookmarkCount] },
+  },
   args: { stress: false },
   render: ({ stress }) => (
     <AppRouterContext value={router}>

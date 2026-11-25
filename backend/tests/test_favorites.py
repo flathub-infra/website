@@ -1,9 +1,9 @@
 import json
 import os
 import sys
-from contextlib import nullcontext
+from contextlib import contextmanager, nullcontext
 from types import SimpleNamespace
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from fastapi import FastAPI, HTTPException
@@ -52,9 +52,14 @@ def test_authenticated_favorites_routes_are_private(client, path):
 
 
 @pytest.mark.parametrize(
-    "path", ["/favorites", "/favorites/org.example.App/recommendations"]
+    ("path", "policy"),
+    [
+        ("/favorites", "private"),
+        ("/favorites/org.example.App/recommendations", "private"),
+        ("/favorites/org.example.App/count/current", "private, no-store"),
+    ],
 )
-def test_unauthenticated_favorites_route_is_private(client, path):
+def test_unauthenticated_favorites_route_is_private(client, path, policy):
     def reject_login():
         raise HTTPException(status_code=401, detail="not_logged_in")
 
@@ -63,7 +68,7 @@ def test_unauthenticated_favorites_route_is_private(client, path):
 
     assert response.status_code == 401
     assert response.json() == {"detail": "not_logged_in"}
-    assert response.headers["Cache-Control"] == "private"
+    assert response.headers["Cache-Control"] == policy
 
 
 def test_recommendations_rank_eligible_apps_and_localize_cards(monkeypatch):
@@ -163,3 +168,41 @@ def test_recommendations_require_admin(client, monkeypatch, admin, status):
     assert response.status_code == status
     assert response.headers["Cache-Control"] == "private"
     assert query.call_count == int(admin)
+
+
+def test_count_after_bookmark_changes(client, monkeypatch, tmp_path):
+    engines = {
+        role: create_engine(f"sqlite:///{tmp_path}/{role}.db")
+        for role in ("writer", "replica")
+    }
+    for engine in engines.values():
+        favorites.models.UserFavoriteApp.__table__.create(engine)
+
+    @contextmanager
+    def get_db(role):
+        with Session(engines[role]) as session:
+            yield session
+
+    monkeypatch.setattr(favorites, "get_db", get_db)
+    redis = AsyncMock()
+    # An overlapping read can leave a pre-mutation count in Redis.
+    redis.get.return_value = '{"value":{"favorites_count":0}}'
+    monkeypatch.setattr(cache.database, "get_redis", AsyncMock(return_value=redis))
+
+    path = "/favorites/org.example.App"
+
+    def assert_count(expected):
+        response = client.get(f"{path}/count/current")
+        assert response.status_code == 200
+        assert response.json() == {"favorites_count": expected}
+        assert response.headers["Cache-Control"] == "private, no-store"
+        assert client.get(path).json() is bool(expected)
+
+    assert_count(0)
+    assert client.post(f"{path}/add").status_code == 200
+    assert_count(1)
+    public_count = client.get(f"{path}/count")
+    assert public_count.json() == {"favorites_count": 0}
+    assert public_count.headers["Cache-Control"] == "public, max-age=0, s-maxage=60"
+    assert client.delete(f"{path}/remove").status_code == 200
+    assert_count(0)

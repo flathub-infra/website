@@ -3,11 +3,14 @@ import Details from "./Details"
 import { faker } from "@faker-js/faker"
 import { GetAppstreamAppstreamAppIdGet200, StatsResultApp } from "../../codegen"
 import { Summary } from "../../types/Summary"
+import { publicBookmarkCount, withSignedOutUser } from "./bookmark-story"
 
 export default {
   title: "Components/Application/Details",
   component: Details,
+  decorators: [withSignedOutUser],
   parameters: {
+    msw: { handlers: [publicBookmarkCount] },
     nextjs: {
       appDirectory: true,
     },

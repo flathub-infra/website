@@ -1,6 +1,7 @@
 import datetime
 import logging
 from http import HTTPStatus
+from typing import Literal
 
 from fastapi import APIRouter, Response
 from pydantic import BaseModel
@@ -38,11 +39,6 @@ async def add_to_favorites(
             models.UserFavoriteApp.add_app(db_session, login["user"].id, app_id)
             db_session.commit()
 
-            # Invalidate the favorites count cache for this app
-            await cache.invalidate_cache_by_pattern(
-                f"cache:endpoint:get_app_favorites_count:*{app_id}*"
-            )
-
             return Response(status_code=HTTPStatus.OK)
         except Exception:
             db_session.rollback()
@@ -70,11 +66,6 @@ async def remove_from_favorites(
             models.UserFavoriteApp.remove_app(db_session, login["user"].id, app_id)
             db_session.commit()
 
-            # Invalidate the favorites count cache for this app
-            await cache.invalidate_cache_by_pattern(
-                f"cache:endpoint:get_app_favorites_count:*{app_id}*"
-            )
-
             return Response(status_code=HTTPStatus.OK)
         except Exception:
             db_session.rollback()
@@ -85,6 +76,10 @@ async def remove_from_favorites(
 class FavoriteApp(BaseModel):
     app_id: str
     created_at: datetime.datetime
+
+
+class FavoritesCount(BaseModel):
+    favorites_count: int
 
 
 class RecommendedApp(BaseModel):
@@ -142,7 +137,7 @@ def is_favorited(
     app_id: str,
     login: LoggedInDep,
 ) -> bool:
-    with get_db("replica") as db_session:
+    with get_db("writer") as db_session:
         return models.UserFavoriteApp.is_favorited_by_user(
             db_session, login["user"].id, app_id
         )
@@ -155,17 +150,29 @@ def is_favorited(
         200: {"description": "Number of users who favorited the app"},
     },
 )
-@cache.cached(ttl=3600)
-async def get_app_favorites_count(
+def get_app_favorites_count(
     app_id: str,
-) -> dict[str, int]:
+    response: Response,
+) -> FavoritesCount:
     """
     Get the total number of users who have favorited a specific app.
     """
-    with get_db("replica") as db_session:
+    response.headers["Cache-Control"] = "public, max-age=0, s-maxage=60"
+    return _favorites_count(app_id, "replica")
+
+
+@router.get("/favorites/{app_id}/count/current", tags=["app"])
+@cache.no_store
+def get_current_favorites_count(app_id: str, login: LoggedInDep) -> FavoritesCount:
+    """Read the committed count after a signed-in user's bookmark changes."""
+    return _favorites_count(app_id, "writer")
+
+
+def _favorites_count(app_id: str, role: Literal["writer", "replica"]) -> FavoritesCount:
+    with get_db(role) as db_session:
         count = (
             db_session.query(models.UserFavoriteApp)
             .filter(models.UserFavoriteApp.app_id == app_id)
             .count()
         )
-        return {"favorites_count": count}
+        return FavoritesCount(favorites_count=count)

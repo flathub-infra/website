@@ -499,6 +499,8 @@
   "open-menu": "Open Menu",
   "open-user-menu": "Open User Menu",
   "favorite": "Bookmark",
+  "login-to-bookmark": "Log in to bookmark this app",
+  "bookmark-count": "{count, plural, one {# bookmark} other {# bookmarks}}",
   "favorite-apps": "Bookmarks",
   "remove-bookmark": "Remove bookmark",
   "remove-from-favorites": "Remove {app} from bookmarks",
