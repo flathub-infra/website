@@ -331,6 +331,9 @@ def authorize(
                 raise HTTPException(status_code=400, detail="invalid_request")
     if not client_id or not redirect_uri or not response_type or not scope:
         raise HTTPException(status_code=400, detail="invalid_request")
+    if "\x00" in client_id:
+        raise HTTPException(status_code=400, detail="invalid_client")
+
     with get_db("replica") as db:
         client = (
             db.session.query(models.OidcClient)
@@ -715,15 +718,15 @@ def _resolve_client_credentials(
     ):
         raise OidcTokenError("invalid_request")
 
-    if basic_header_present:
-        if not basic_client_id or not basic_client_secret:
-            raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
-        return basic_client_id, basic_client_secret
-
-    if not post_client_id or not post_client_secret:
+    client_id, client_secret = (
+        (basic_client_id, basic_client_secret)
+        if basic_header_present
+        else (post_client_id, post_client_secret)
+    )
+    if not client_id or not client_secret or "\x00" in client_id:
         raise OidcTokenError("invalid_client", status_code=401, authenticate=True)
 
-    return post_client_id, post_client_secret
+    return client_id, client_secret
 
 
 def _check_token_rate_limit(request: Request, client_id: str):
