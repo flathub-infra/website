@@ -375,3 +375,32 @@ def test_create_upload_token_runtime_rejects_repo_outside_scope(
 
     assert exc_info.value.status_code == 400
     assert exc_info.value.detail == upload_tokens.ErrorDetail.FORBIDDEN_REPO
+
+
+@pytest.mark.parametrize("success", [True, False])
+def test_revoke_user_upload_tokens(monkeypatch, upload_token_config, success):
+    tokens = [
+        SimpleNamespace(id=3, revoked=False),
+        SimpleNamespace(id=7, revoked=False),
+    ]
+    db = MagicMock()
+    db.session.query.return_value.filter.return_value.filter.return_value.all.return_value = tokens
+    post = MagicMock(return_value=SimpleNamespace(is_success=success))
+
+    @contextmanager
+    def get_db(role):
+        assert role == "writer"
+        yield db
+
+    monkeypatch.setattr(upload_tokens, "get_db", get_db)
+    monkeypatch.setattr(upload_tokens.http_client, "post", post)
+
+    if success:
+        upload_tokens.revoke_user_upload_tokens(1, "org.example.App")
+    else:
+        with pytest.raises(HTTPException):
+            upload_tokens.revoke_user_upload_tokens(1, "org.example.App")
+
+    assert post.call_args.kwargs["json"] == {"token_ids": ["backend_3", "backend_7"]}
+    assert [token.revoked for token in tokens] == [success, success]
+    assert db.session.commit.called is success

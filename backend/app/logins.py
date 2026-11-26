@@ -87,6 +87,7 @@ from .login_info import (
     require_recent_authentication,
     set_authenticated_session,
 )
+from .routes.upload_tokens import revoke_user_upload_tokens
 from .types import JSONValue
 
 if TYPE_CHECKING:
@@ -1749,6 +1750,7 @@ def do_deleteuser(
             user_id,
             models.AuditEventType.ACCOUNT_DELETED,
         )
+        revoke_user_upload_tokens(user_id)
     else:
         raise HTTPException(status_code=400, detail=ret.status)
 

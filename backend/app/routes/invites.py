@@ -18,6 +18,7 @@ from ..models import (
     DirectUploadAppInvite,
     FlathubUser,
 )
+from .upload_tokens import revoke_user_upload_tokens
 
 router = APIRouter(prefix="/invites")
 
@@ -446,6 +447,8 @@ def leave_team(
     if payload:
         worker.send_email_new.send(payload)
 
+    revoke_user_upload_tokens(login.user.id, app.app_id)
+
 
 class Developer(BaseModel):
     id: int
@@ -554,6 +557,8 @@ def remove_developer(
             target_user_id=removed_user_id,
             details={"app_id": app.app_id, "developer_id": developer_id},
         )
+
+    revoke_user_upload_tokens(removed_user_id, app.app_id)
 
 
 @router.delete(

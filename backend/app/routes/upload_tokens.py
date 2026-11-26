@@ -350,6 +350,38 @@ def revoke_upload_token(
     )
 
 
+def revoke_user_upload_tokens(user_id: int, app_id: str | None = None) -> None:
+    if not config.settings.flat_manager_api:
+        return
+
+    with get_db("writer") as db:
+        query = db.session.query(models.UploadToken).filter(
+            models.UploadToken.issued_to == user_id,
+            models.UploadToken.revoked.is_(False),
+        )
+        if app_id is not None:
+            query = query.filter(models.UploadToken.app_id == app_id)
+        tokens = query.all()
+        if not tokens:
+            return
+
+        response = http_client.post(
+            config.settings.flat_manager_api + "/api/v1/tokens/revoke",
+            headers={
+                "Authorization": utils.create_flat_manager_token(
+                    "revoke_upload_token", ["tokenmanagement"], sub=""
+                )
+            },
+            json={"token_ids": [jti(token) for token in tokens]},
+        )
+        if not response.is_success:
+            raise HTTPException(status_code=500, detail=ErrorDetail.FLAT_MANAGER_ERROR)
+
+        for token in tokens:
+            token.revoked = True
+        db.session.commit()
+
+
 def register_to_app(app: FastAPI):
     """
     Register the login and authentication flows with the FastAPI application

@@ -3,6 +3,7 @@ from fastapi import APIRouter, FastAPI, HTTPException, Request
 from . import audit_log, cache, models
 from .database import get_db
 from .login_info import LoggedInDep, ModifyUsersDep, ViewUsersDep
+from .routes.upload_tokens import revoke_user_upload_tokens
 
 router = APIRouter(prefix="/users")
 
@@ -146,6 +147,8 @@ def ban_user(
             models.AuditEventType.USER_BANNED,
             target_user_id=user_id,
         )
+
+    revoke_user_upload_tokens(user_id)
     return result
 
 
