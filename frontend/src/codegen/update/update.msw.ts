@@ -48,29 +48,7 @@ export const getUpdateStatsUpdateStatsPostMockHandler = (
     options,
   )
 }
-
-export const getUpdateAppPicksUpdateAppPicksPostMockHandler = (
-  overrideResponse?:
-    | unknown
-    | ((
-        info: Parameters<HttpResponseResolver>[0],
-      ) => Promise<unknown> | unknown),
-  options?: RequestHandlerOptions,
-) => {
-  return http.post(
-    "*/update/app-picks",
-    async (info: Parameters<HttpResponseResolver>[0]) => {
-      if (typeof overrideResponse === "function") {
-        await overrideResponse(info)
-      }
-
-      return new HttpResponse(null, { status: 200 })
-    },
-    options,
-  )
-}
 export const getUpdateMock = () => [
   getUpdateUpdatePostMockHandler(),
   getUpdateStatsUpdateStatsPostMockHandler(),
-  getUpdateAppPicksUpdateAppPicksPostMockHandler(),
 ]
