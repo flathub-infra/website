@@ -6,6 +6,7 @@ from unittest.mock import Mock
 from urllib import parse
 
 import gi
+import jwt
 import pytest
 import vcr
 from fastapi.testclient import TestClient
@@ -96,7 +97,15 @@ def client(monkeypatch):
         yield client_
 
 
-def test_update(client):
+def test_update(client, monkeypatch):
+    from app import config
+
+    monkeypatch.setattr(config.settings, "update_shared_secret", "test-secret")
+    assert client.post("/update").status_code == 401
+
+    token = jwt.encode({"sub": "update"}, "test-secret", algorithm="HS256")
+    client.headers["Authorization"] = f"Bearer {token}"
+
     update = client.post("/update")
     assert update.status_code == 200
     time.sleep(3)
