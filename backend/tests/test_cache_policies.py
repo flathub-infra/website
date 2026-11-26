@@ -4,9 +4,12 @@ import sys
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(ROOT_DIR)
 
+import time
 from collections.abc import Iterator
 from typing import Annotated
+from unittest.mock import AsyncMock
 
+import orjson
 import pytest
 from fastapi import Depends, FastAPI, HTTPException, Response
 from fastapi.responses import JSONResponse, RedirectResponse, StreamingResponse
@@ -104,6 +107,11 @@ def client() -> Iterator[TestClient]:
     async def cached_response():
         return {"ok": True}
 
+    @app.get("/ttl")
+    @cache.cached(ttl=300)
+    async def ttl_response() -> int:
+        return 1
+
     with TestClient(
         cache.CacheControlMiddleware(app), raise_server_exceptions=False
     ) as client_:
@@ -179,7 +187,7 @@ def test_explicit_cache_headers_preserved_and_unmatched_routes_not_cached(client
     for method in ("GET", "HEAD"):
         response = client.request(method, "/default")
         assert response.status_code == 200
-        assert response.headers["cache-control"] == "public, max-age=0, s-maxage=86400"
+        assert response.headers["cache-control"] == "public, max-age=0, s-maxage=3600"
         assert "pragma" not in response.headers
     response = client.post("/default")
     assert response.status_code == 200
@@ -190,3 +198,30 @@ def test_cached_wrapper_retains_policy_metadata():
     endpoint = cache.private(cache.cached()(lambda: None))
 
     assert getattr(endpoint, cache.CACHE_CONTROL_POLICY) == ("private", None)
+
+
+@pytest.mark.parametrize(
+    ("entry_age", "is_stale", "lock_acquired", "expected_ttl"),
+    [
+        (None, False, True, 300),
+        (100.5, False, True, 199),
+        (100.5, True, False, 0),
+    ],
+)
+def test_cached_route_cdn_ttl_does_not_outlive_redis_entry(
+    client, monkeypatch, entry_age, is_stale, lock_acquired, expected_ttl
+):
+    redis = AsyncMock()
+    redis.get.return_value = entry_age and orjson.dumps(
+        {"value": 1, "created_at": time.time() - entry_age, "is_stale": is_stale}
+    )
+    redis.set.return_value = lock_acquired
+    monkeypatch.setattr(cache.database, "get_redis", AsyncMock(return_value=redis))
+
+    response = client.get("/ttl")
+
+    assert response.json() == 1
+    assert (
+        response.headers["cache-control"]
+        == f"public, max-age=0, s-maxage={expected_ttl}"
+    )

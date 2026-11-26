@@ -356,8 +356,14 @@ function _M.try_cache()
 
     if cached_data and cached_data.value ~= nil and cached_data.value ~= cjson.null then
         ngx.header["Content-Type"] = "application/json"
-        -- Match backend app.cache.PUBLIC_CACHE_CONTROL when bypassing it.
-        ngx.header["Cache-Control"] = "public, max-age=0, s-maxage=86400"
+        local ttl = 0
+        if not cached_data.is_stale then
+            ttl = red:ttl(cache_key)
+            if type(ttl) ~= "number" or ttl < 0 then
+                ttl = 0
+            end
+        end
+        ngx.header["Cache-Control"] = "public, max-age=0, s-maxage=" .. ttl
 
         if cached_data.is_stale then
             ngx.header["X-Cache-Status"] = "STALE"

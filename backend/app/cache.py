@@ -4,6 +4,7 @@ import inspect
 import logging
 import time
 from collections.abc import Awaitable, Callable, Mapping
+from contextvars import ContextVar
 from enum import Enum
 from typing import (
     Annotated,
@@ -173,6 +174,10 @@ def cached(
                     cache_entry = orjson.loads(cached_data)
 
                     if not _is_cache_stale(cache_entry, ttl):
+                        age = time.time() - (
+                            cache_entry.get("created_at") or time.time()
+                        )
+                        _limit_response_ttl(max(0, int(ttl - age)))
                         return _deserialize_value(
                             cache_entry,
                             adapter,
@@ -196,12 +201,14 @@ def cached(
                                         await redis.setex(
                                             cache_key, ttl, orjson.dumps(serialized)
                                         )
+                                    _limit_response_ttl(ttl)
                                     return fresh_result
                                 finally:
                                     await redis.delete(refresh_lock_key)
                         except Exception:
                             logger.exception("Cache refresh error for %s", func_name)
 
+                        _limit_response_ttl(0)
                         return _deserialize_value(
                             cache_entry,
                             adapter,
@@ -223,6 +230,7 @@ def cached(
                 except Exception:
                     logger.exception("Cache set error for %s", func_name)
 
+            _limit_response_ttl(ttl)
             return result
 
         return wrapper
@@ -232,8 +240,15 @@ def cached(
 
 CACHE_CONTROL_POLICY = "__cache_control_policy__"
 CachePolicy = tuple[str, str | None]
-PUBLIC_CACHE_CONTROL = "public, max-age=0, s-maxage=86400"
+DEFAULT_PUBLIC_TTL = 3600
+_response_ttl: ContextVar[int | None] = ContextVar("_response_ttl", default=None)
 NO_STORE_CACHE_CONTROL = "private, no-store"
+
+
+def _limit_response_ttl(seconds: int) -> None:
+    current = _response_ttl.get()
+    if current is None or seconds < current:
+        _response_ttl.set(seconds)
 
 
 def private[**P, R](func: Callable[P, R]) -> Callable[P, R]:
@@ -270,7 +285,10 @@ class CacheControlMiddleware:
                     if scope["method"] in {"GET", "HEAD"} and (
                         200 <= message["status"] < 300
                     ):
-                        headers["Cache-Control"] = PUBLIC_CACHE_CONTROL
+                        ttl = _response_ttl.get()
+                        if ttl is None:
+                            ttl = DEFAULT_PUBLIC_TTL
+                        headers["Cache-Control"] = f"public, max-age=0, s-maxage={ttl}"
                     else:
                         headers["Cache-Control"] = NO_STORE_CACHE_CONTROL
                         headers["Pragma"] = "no-cache"
@@ -291,7 +309,11 @@ class CacheControlMiddleware:
 
             await send(message)
 
-        await self.app(scope, receive, send_with_cache_policy)
+        token = _response_ttl.set(None)
+        try:
+            await self.app(scope, receive, send_with_cache_policy)
+        finally:
+            _response_ttl.reset(token)
 
 
 async def mark_stale_by_pattern(pattern: str) -> int:
