@@ -65,10 +65,14 @@ ReplicaSessionLocal = sessionmaker(
 
 
 @contextmanager
-def get_db(db_type: Literal["writer", "replica"] = "replica"):
+def get_db(
+    db_type: Literal["writer", "replica"] = "replica", *, repeatable_read: bool = False
+):
     SessionClass = WriterSessionLocal if db_type == "writer" else ReplicaSessionLocal
     db = SessionClass()
     try:
+        if repeatable_read:
+            db.connection(execution_options={"isolation_level": "REPEATABLE READ"})
         yield DBSession(db)
         if db_type == "writer":
             db.commit()

@@ -45,11 +45,19 @@ def client(monkeypatch, *, authenticated=True, permissions=("manage-apps",)):
     return TestClient(app), repo
 
 
-def test_both_endpoints_require_login(monkeypatch):
+PROTECTED_GET_PATHS = (
+    "/metadata-translations/org.example.App?locale=de",
+    "/metadata-translations/queue?locale=de",
+    "/metadata-translations/index-status",
+    "/metadata-translations/index-status/org.example.App?locale=de",
+)
+
+
+def test_metadata_translation_routes_require_login(monkeypatch):
     http, repo = client(monkeypatch, authenticated=False)
     url = "/metadata-translations/org.example.App?locale=de"
-    assert http.get(url).status_code == 401
-    assert http.get("/metadata-translations/queue?locale=de").status_code == 401
+    for path in PROTECTED_GET_PATHS:
+        assert http.get(path).status_code == 401
     assert (
         http.post(
             "/metadata-translations/org.example.App/rebase?locale=de",
@@ -69,15 +77,15 @@ def test_both_endpoints_require_login(monkeypatch):
 @pytest.mark.parametrize(
     "permissions", [(), ("moderation",), ("view-users",), ("modify-users",)]
 )
-def test_both_endpoints_require_admin(monkeypatch, permissions):
+def test_metadata_translation_routes_require_admin(monkeypatch, permissions):
     http, repo = client(monkeypatch, permissions=permissions)
     queue = MagicMock()
     source = MagicMock()
     monkeypatch.setattr(routes, "queue_translation", queue)
     monkeypatch.setattr(routes, "read_source", source)
     url = "/metadata-translations/org.example.App?locale=de"
-    assert http.get(url).status_code == 403
-    assert http.get("/metadata-translations/queue?locale=de").status_code == 403
+    for path in PROTECTED_GET_PATHS:
+        assert http.get(path).status_code == 403
     assert (
         http.post(
             "/metadata-translations/org.example.App/rebase?locale=de",

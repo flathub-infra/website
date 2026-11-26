@@ -19,7 +19,14 @@ from ..metadata_translation_batches import (
 from ..metadata_translation_github import (
     read_source,
 )
-from ..metadata_translation_queue import TranslationQueue, language_queue
+from ..metadata_translation_queue import (
+    TranslationIndexStatus,
+    TranslationLookup,
+    TranslationQueue,
+    language_queue,
+    lookup_translation,
+    translation_index_status,
+)
 from ..metadata_translation_target import RecipeTarget, excluded_addon_ids, target_of
 from ..metadata_translations import (
     LOCALE_PATTERN,
@@ -105,6 +112,20 @@ def _error(error: MetadataError | GithubException) -> HTTPException:
 @cache.no_store
 def get_translation_queue(locale: Locale, login: ManageAppsDep) -> TranslationQueue:
     return language_queue(locale)
+
+
+@router.get("/index-status")
+@cache.no_store
+def get_index_status(login: ManageAppsDep) -> TranslationIndexStatus:
+    return translation_index_status()
+
+
+@router.get("/index-status/{app_id}")
+@cache.no_store
+def get_listing_check(
+    app_id: AppId, locale: Locale, login: ManageAppsDep
+) -> TranslationLookup:
+    return lookup_translation(app_id, locale)
 
 
 @router.get("/{app_id}")

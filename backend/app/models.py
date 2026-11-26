@@ -91,6 +91,18 @@ class TranslationListing(Base):
     index_write_id: Mapped[str | None] = mapped_column(String(32))
 
 
+class TranslationListingCheck(Base):
+    __tablename__ = "translationlistingcheck"
+
+    app_id: Mapped[str] = mapped_column(
+        ForeignKey("apps.app_id", ondelete="CASCADE"), primary_key=True
+    )
+    outcome: Mapped[str] = mapped_column(String)
+    checked_at: Mapped[datetime] = mapped_column(DateTime)
+    http_status: Mapped[int | None] = mapped_column(Integer)
+    ambiguous_locales: Mapped[list[str] | None] = mapped_column(JSON)
+
+
 class MetadataTranslationBatch(Base):
     __tablename__ = "metadatatranslationbatch"
     recipe_target: Mapped[dict[str, str] | None] = mapped_column(

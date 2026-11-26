@@ -27,6 +27,7 @@ import qs from "qs"
 
 import type {
   DismissRecoveredTranslationMetadataTranslationsAppIdDismissPostParams,
+  GetListingCheckMetadataTranslationsIndexStatusAppIdGetParams,
   GetTranslationQueueMetadataTranslationsQueueGetParams,
   GetTranslationSourceMetadataTranslationsAppIdGetParams,
   HTTPValidationError,
@@ -34,6 +35,8 @@ import type {
   SaveListingTranslationsMetadataTranslationsAppIdPostParams,
   TranslationChanges,
   TranslationConflict,
+  TranslationIndexStatus,
+  TranslationLookup,
   TranslationQueue,
   TranslationRevision,
   TranslationSave,
@@ -267,6 +270,479 @@ export function useGetTranslationQueueMetadataTranslationsQueueGet<
 } {
   const queryOptions =
     getGetTranslationQueueMetadataTranslationsQueueGetQueryOptions(
+      params,
+      options,
+    )
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Get Index Status
+ */
+export const getIndexStatusMetadataTranslationsIndexStatusGet = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<TranslationIndexStatus>> => {
+  return axios.get(`/metadata-translations/index-status`, options)
+}
+
+export const getGetIndexStatusMetadataTranslationsIndexStatusGetUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/metadata-translations/index-status`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getGetIndexStatusMetadataTranslationsIndexStatusGetQueryKey =
+  () => {
+    return [`/metadata-translations/index-status`] as const
+  }
+
+export const getGetIndexStatusMetadataTranslationsIndexStatusGetQueryOptions = <
+  TData = Awaited<
+    ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+  >,
+  TError = AxiosError<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<
+        ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+      >,
+      TError,
+      TData
+    >
+  >
+  axios?: AxiosRequestConfig
+}) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getGetIndexStatusMetadataTranslationsIndexStatusGetQueryKey()
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>>
+  > = ({ signal }) =>
+    getIndexStatusMetadataTranslationsIndexStatusGet({
+      signal,
+      ...axiosOptions,
+    })
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<
+      ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+    >,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetIndexStatusMetadataTranslationsIndexStatusGetQueryResult =
+  NonNullable<
+    Awaited<ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>>
+  >
+export type GetIndexStatusMetadataTranslationsIndexStatusGetQueryError =
+  AxiosError<unknown>
+
+/** @summary Get Index Status */
+export function useGetIndexStatusMetadataTranslationsIndexStatusGet<
+  TData = Awaited<
+    ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+  >,
+  TError = AxiosError<unknown>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+          >,
+          TError,
+          Awaited<
+            ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Index Status */
+export function useGetIndexStatusMetadataTranslationsIndexStatusGet<
+  TData = Awaited<
+    ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+  >,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+          >,
+          TError,
+          Awaited<
+            ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Index Status */
+export function useGetIndexStatusMetadataTranslationsIndexStatusGet<
+  TData = Awaited<
+    ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+  >,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Index Status */
+export function useGetIndexStatusMetadataTranslationsIndexStatusGet<
+  TData = Awaited<
+    ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+  >,
+  TError = AxiosError<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<typeof getIndexStatusMetadataTranslationsIndexStatusGet>
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetIndexStatusMetadataTranslationsIndexStatusGetQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
+ * @summary Get Listing Check
+ */
+export const getListingCheckMetadataTranslationsIndexStatusAppIdGet = (
+  appId: string,
+  params: GetListingCheckMetadataTranslationsIndexStatusAppIdGetParams,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<TranslationLookup>> => {
+  return axios.get(`/metadata-translations/index-status/${appId}`, {
+    ...options,
+    params: { ...params, ...options?.params },
+    paramsSerializer: (params) =>
+      qs.stringify(params, { arrayFormat: "repeat" }),
+  })
+}
+
+export const getGetListingCheckMetadataTranslationsIndexStatusAppIdGetUrl = (
+  appId: string,
+  params: GetListingCheckMetadataTranslationsIndexStatusAppIdGetParams,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/metadata-translations/index-status/${appId}`,
+      baseURL: "",
+      params,
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getGetListingCheckMetadataTranslationsIndexStatusAppIdGetQueryKey =
+  (
+    appId: string,
+    params?: GetListingCheckMetadataTranslationsIndexStatusAppIdGetParams,
+  ) => {
+    return [
+      `/metadata-translations/index-status/${appId}`,
+      ...(params ? [params] : []),
+    ] as const
+  }
+
+export const getGetListingCheckMetadataTranslationsIndexStatusAppIdGetQueryOptions =
+  <
+    TData = Awaited<
+      ReturnType<typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet>
+    >,
+    TError = AxiosError<HTTPValidationError>,
+  >(
+    appId: string,
+    params: GetListingCheckMetadataTranslationsIndexStatusAppIdGetParams,
+    options?: {
+      query?: Partial<
+        UseQueryOptions<
+          Awaited<
+            ReturnType<
+              typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+            >
+          >,
+          TError,
+          TData
+        >
+      >
+      axios?: AxiosRequestConfig
+    },
+  ) => {
+    const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+    const queryKey =
+      queryOptions?.queryKey ??
+      getGetListingCheckMetadataTranslationsIndexStatusAppIdGetQueryKey(
+        appId,
+        params,
+      )
+
+    const queryFn: QueryFunction<
+      Awaited<
+        ReturnType<
+          typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+        >
+      >
+    > = ({ signal }) =>
+      getListingCheckMetadataTranslationsIndexStatusAppIdGet(appId, params, {
+        signal,
+        ...axiosOptions,
+      })
+
+    return {
+      queryKey,
+      queryFn,
+      enabled: appId !== null && appId !== undefined,
+      ...queryOptions,
+    } as UseQueryOptions<
+      Awaited<
+        ReturnType<
+          typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+        >
+      >,
+      TError,
+      TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> }
+  }
+
+export type GetListingCheckMetadataTranslationsIndexStatusAppIdGetQueryResult =
+  NonNullable<
+    Awaited<
+      ReturnType<typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet>
+    >
+  >
+export type GetListingCheckMetadataTranslationsIndexStatusAppIdGetQueryError =
+  AxiosError<HTTPValidationError>
+
+/** @summary Get Listing Check */
+export function useGetListingCheckMetadataTranslationsIndexStatusAppIdGet<
+  TData = Awaited<
+    ReturnType<typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: GetListingCheckMetadataTranslationsIndexStatusAppIdGetParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Listing Check */
+export function useGetListingCheckMetadataTranslationsIndexStatusAppIdGet<
+  TData = Awaited<
+    ReturnType<typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: GetListingCheckMetadataTranslationsIndexStatusAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+          >
+        >,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<
+              typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+            >
+          >,
+          TError,
+          Awaited<
+            ReturnType<
+              typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+            >
+          >
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Listing Check */
+export function useGetListingCheckMetadataTranslationsIndexStatusAppIdGet<
+  TData = Awaited<
+    ReturnType<typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: GetListingCheckMetadataTranslationsIndexStatusAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Get Listing Check */
+export function useGetListingCheckMetadataTranslationsIndexStatusAppIdGet<
+  TData = Awaited<
+    ReturnType<typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  params: GetListingCheckMetadataTranslationsIndexStatusAppIdGetParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<
+          ReturnType<
+            typeof getListingCheckMetadataTranslationsIndexStatusAppIdGet
+          >
+        >,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getGetListingCheckMetadataTranslationsIndexStatusAppIdGetQueryOptions(
+      appId,
       params,
       options,
     )
