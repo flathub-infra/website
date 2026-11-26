@@ -11,6 +11,8 @@ import type { HttpResponseResolver, RequestHandlerOptions } from "msw"
 
 import type {
   TranslationChanges,
+  TranslationIndexStatus,
+  TranslationLookup,
   TranslationQueue,
   TranslationRevision,
   TranslationSave,
@@ -38,6 +40,49 @@ export const getGetTranslationQueueMetadataTranslationsQueueGetResponseMock = (
   indexing: faker.datatype.boolean(),
   ...overrideResponse,
 })
+
+export const getGetIndexStatusMetadataTranslationsIndexStatusGetResponseMock = (
+  overrideResponse: Partial<Extract<TranslationIndexStatus, object>> = {},
+): TranslationIndexStatus => ({
+  eligible_apps: faker.number.int(),
+  never_checked: faker.number.int(),
+  due_for_recheck: faker.number.int(),
+  ...overrideResponse,
+})
+
+export const getGetListingCheckMetadataTranslationsIndexStatusAppIdGetResponseMock =
+  (
+    overrideResponse: Partial<Extract<TranslationLookup, object>> = {},
+  ): TranslationLookup => ({
+    eligibility: faker.helpers.arrayElement([
+      "eligible",
+      "eol",
+      "excluded",
+      "unknown",
+    ] as const),
+    checked_at: faker.helpers.arrayElement([
+      faker.date.past().toISOString().slice(0, 19) + "Z",
+      null,
+    ]),
+    outcome: faker.helpers.arrayElement([
+      faker.helpers.arrayElement([
+        "indexed",
+        "no_editable_metadata",
+        "verification_failed",
+        "github_error",
+        "ambiguous_translations",
+      ] as const),
+      null,
+    ]),
+    http_status: faker.helpers.arrayElement([faker.number.int(), null]),
+    queue_state: faker.helpers.arrayElement([
+      "listed",
+      "attention",
+      "absent",
+    ] as const),
+    missing: faker.helpers.arrayElement([faker.number.int(), null]),
+    ...overrideResponse,
+  })
 
 export const getGetTranslationSourceMetadataTranslationsAppIdGetResponseMock = (
   overrideResponse: Partial<Extract<TranslationSource, object>> = {},
@@ -152,6 +197,55 @@ export const getGetTranslationQueueMetadataTranslationsQueueGetMockHandler = (
     options,
   )
 }
+
+export const getGetIndexStatusMetadataTranslationsIndexStatusGetMockHandler = (
+  overrideResponse?:
+    | TranslationIndexStatus
+    | ((
+        info: Parameters<HttpResponseResolver>[0],
+      ) => Promise<TranslationIndexStatus> | TranslationIndexStatus),
+  options?: RequestHandlerOptions,
+) => {
+  return http.get(
+    "*/metadata-translations/index-status",
+    async (info: Parameters<HttpResponseResolver>[0]) => {
+      return HttpResponse.json(
+        overrideResponse !== undefined
+          ? typeof overrideResponse === "function"
+            ? await overrideResponse(info)
+            : overrideResponse
+          : getGetIndexStatusMetadataTranslationsIndexStatusGetResponseMock(),
+        { status: 200 },
+      )
+    },
+    options,
+  )
+}
+
+export const getGetListingCheckMetadataTranslationsIndexStatusAppIdGetMockHandler =
+  (
+    overrideResponse?:
+      | TranslationLookup
+      | ((
+          info: Parameters<HttpResponseResolver<{ appId: string }>>[0],
+        ) => Promise<TranslationLookup> | TranslationLookup),
+    options?: RequestHandlerOptions,
+  ) => {
+    return http.get<{ appId: string }>(
+      "*/metadata-translations/index-status/:appId",
+      async (info: Parameters<HttpResponseResolver<{ appId: string }>>[0]) => {
+        return HttpResponse.json(
+          overrideResponse !== undefined
+            ? typeof overrideResponse === "function"
+              ? await overrideResponse(info)
+              : overrideResponse
+            : getGetListingCheckMetadataTranslationsIndexStatusAppIdGetResponseMock(),
+          { status: 200 },
+        )
+      },
+      options,
+    )
+  }
 
 export const getGetTranslationSourceMetadataTranslationsAppIdGetMockHandler = (
   overrideResponse?:
@@ -268,6 +362,8 @@ export const getDismissRecoveredTranslationMetadataTranslationsAppIdDismissPostM
   }
 export const getMetadataTranslationsMock = () => [
   getGetTranslationQueueMetadataTranslationsQueueGetMockHandler(),
+  getGetIndexStatusMetadataTranslationsIndexStatusGetMockHandler(),
+  getGetListingCheckMetadataTranslationsIndexStatusAppIdGetMockHandler(),
   getGetTranslationSourceMetadataTranslationsAppIdGetMockHandler(),
   getSaveListingTranslationsMetadataTranslationsAppIdPostMockHandler(),
   getRebaseTranslationSourceMetadataTranslationsAppIdRebasePostMockHandler(),

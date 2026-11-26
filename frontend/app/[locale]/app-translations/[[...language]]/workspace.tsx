@@ -25,7 +25,9 @@ export default function AppTranslations({ language }: { language?: string }) {
   const router = useRouter()
   const locale = useLocale()
   const user = useUserContext()
-  const allowed = user.info?.permissions.includes(Permission["manage-apps"])
+  const canManageApps = user.info?.permissions.includes(
+    Permission["manage-apps"],
+  )
   const account = user.info?.default_account
   const knownLanguage = languages.find((l) => l === language)
   const [choice, setChoice] = useState<string>(() => {
@@ -47,7 +49,7 @@ export default function AppTranslations({ language }: { language?: string }) {
         <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
           App translations
         </h1>
-        {allowed && (
+        {canManageApps && (
           <p className="max-w-prose text-muted-foreground">
             {language
               ? `Translate app listings into ${knownLanguage ? getLanguageName(knownLanguage) : language}.`
@@ -55,7 +57,7 @@ export default function AppTranslations({ language }: { language?: string }) {
           </p>
         )}
       </header>
-      {!allowed ? (
+      {!canManageApps ? (
         !user.loading && <p>Only admins can translate app listings for now.</p>
       ) : language ? (
         <>
@@ -93,6 +95,14 @@ export default function AppTranslations({ language }: { language?: string }) {
         </form>
       )}
       <p className="border-t pt-5 text-sm text-muted-foreground">
+        {canManageApps && (
+          <Link
+            className="mb-2 block w-fit underline underline-offset-4"
+            href="/app-translations/index-status"
+          >
+            Translation index status
+          </Link>
+        )}
         <a
           href="https://hosted.weblate.org/engage/flathub/"
           className="underline underline-offset-4"

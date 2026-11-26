@@ -166,6 +166,7 @@ class MetadataDocument:
         self.license = (root.findtext("metadata_license") or "").strip()
         self.nodes: dict[str, UnitNode] = {}
         self.siblings = {}
+        self.ambiguous_locales: set[str] = set()
         self.latest_stable_release = next(
             (
                 release
@@ -227,6 +228,9 @@ class MetadataDocument:
             if parent not in self.siblings:
                 self.siblings[parent] = _sibling_translations(parent)
             siblings = self.siblings[parent].get(node, {})
+            self.ambiguous_locales.update(
+                language for language, match in siblings.items() if match is None
+            )
             translated = siblings.get(self.locale)
             if self.locale in siblings and translated is None:
                 raise MetadataError("ambiguous_translations")

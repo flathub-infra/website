@@ -11,6 +11,7 @@ from alembic.migration import MigrationContext
 from alembic.operations import Operations
 from alembic.script import ScriptDirectory
 from github import GithubException
+from requests.exceptions import Timeout
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
@@ -173,6 +174,64 @@ def test_language_queue_filters_addon_hosts_and_orders_by_update_then_id(monkeyp
         engine.dispose()
 
 
+def test_index_skips_eol_apps_before_fetching(monkeypatch, translation_db):
+    conn, active_id, _ = translation_db
+    conn.exec_driver_sql(
+        "INSERT INTO apps (app_id,type,is_eol) "
+        "VALUES ('org.example.Retired','desktop-application',true)"
+    )
+    monkeypatch.setattr(queue.config.settings, "github_bot_token", "test")
+    github = MagicMock()
+    github.get_repo.side_effect = GithubException(404, {})
+    monkeypatch.setattr(queue, "Github", lambda _: nullcontext(github))
+
+    queue.refresh_index()
+
+    github.get_repo.assert_called_once_with(f"flathub/{active_id}")
+    assert not queue.language_queue("de").indexing
+
+
+def test_catalog_update_during_batch_keeps_later_app_due(translation_db, monkeypatch):
+    conn, app_id, _ = translation_db
+    clock = MagicMock(wraps=queue.datetime)
+    start = queue.datetime.now(queue.UTC)
+    clock.now.return_value = start
+    monkeypatch.setattr(queue, "datetime", clock)
+    conn.exec_driver_sql(
+        "INSERT INTO apps (app_id, type, is_eol) VALUES ('First', 'desktop-application', false)"
+    )
+    monkeypatch.setattr(queue.config.settings, "github_bot_token", "test")
+    github = MagicMock()
+
+    def fetch(repo):
+        if repo == "flathub/First":
+            conn.exec_driver_sql(
+                "UPDATE apps SET last_updated_at = %s WHERE app_id = %s",
+                ((start + timedelta(seconds=1)).replace(tzinfo=None), app_id),
+            )
+            clock.now.return_value = start + timedelta(seconds=2)
+        raise GithubException(404, {})
+
+    github.get_repo.side_effect = fetch
+    monkeypatch.setattr(queue, "Github", lambda _: nullcontext(github))
+    queue.refresh_index()
+    assert github.get_repo.call_count == 2
+    assert queue.translation_index_status().due_for_recheck == 1
+
+
+def test_status_counts_first_checks_separately_from_due_rechecks(translation_db):
+    conn, _, _ = translation_db
+    conn.exec_driver_sql(
+        """INSERT INTO apps (app_id, type, is_eol) VALUES
+           ('New', 'desktop-application', false), ('Retired', 'desktop-application', true)"""
+    )
+    assert queue.translation_index_status().model_dump() == {
+        "eligible_apps": 2,
+        "never_checked": 1,
+        "due_for_recheck": 1,
+    }
+
+
 def test_index_continues_past_unavailable_repository(monkeypatch, translation_db):
     conn, app_id, _ = translation_db
     monkeypatch.setattr(queue.config.settings, "github_bot_token", "test")
@@ -204,6 +263,98 @@ def test_index_continues_past_unavailable_repository(monkeypatch, translation_db
     ).one()
     assert indexed.missing["*"] == 2
     assert indexed.missing_listing["*"] == 1
+    blocked = queue.lookup_translation("org.example.Blocked", "de")
+    assert (blocked.outcome, blocked.http_status) == ("github_error", 451)
+    assert blocked.checked_at is not None
+    assert blocked.queue_state == "absent" and blocked.missing is None
+    listed = queue.lookup_translation(app_id, "de")
+    assert (listed.outcome, listed.queue_state, listed.missing) == (
+        "indexed",
+        "listed",
+        1,
+    )
+
+
+@pytest.mark.parametrize("status", [401, 429, 403, None])
+def test_lookup_records_aborted_check_without_delaying_retry(
+    translation_db, monkeypatch, status
+):
+    conn, _, _ = translation_db
+    app_id = "org.example.New"
+    conn.exec_driver_sql(
+        "INSERT INTO apps (app_id, type, is_eol) VALUES (%s, 'desktop-application', false)",
+        (app_id,),
+    )
+    monkeypatch.setattr(queue.config.settings, "github_bot_token", "test")
+    github = MagicMock()
+    github.get_repo.side_effect = (
+        GithubException(status, {}, {"x-ratelimit-remaining": "0"})
+        if status
+        else Timeout()
+    )
+    monkeypatch.setattr(queue, "Github", lambda _: nullcontext(github))
+    with pytest.raises(Timeout) if status is None else nullcontext():
+        queue.refresh_index()
+    github.get_repo.assert_called_once_with(f"flathub/{app_id}")
+    result = queue.lookup_translation(app_id, "de")
+    assert (result.outcome, result.http_status) == ("github_error", status)
+    assert result.checked_at and result.queue_state == "absent"
+    assert (
+        conn.exec_driver_sql(
+            "SELECT checked_at FROM translationlisting WHERE app_id=%s", (app_id,)
+        ).first()
+        is None
+    )
+
+
+@pytest.mark.parametrize(
+    ("fields", "outcome"),
+    [
+        ("", "no_editable_metadata"),
+        (
+            '<summary>Hello</summary><summary xml:lang="de">Hallo</summary><summary xml:lang="de">Hi</summary><description><p>Open</p></description>',
+            "ambiguous_translations",
+        ),
+        ('<summary>Hello</summary><summary xml:lang="de">Hallo</summary>', "indexed"),
+    ],
+)
+def test_lookup_distinguishes_empty_ambiguous_and_translated_listings(
+    translation_db, monkeypatch, fields, outcome
+):
+    _, app_id, _ = translation_db
+    monkeypatch.setattr(queue.config.settings, "github_bot_token", "test")
+    monkeypatch.setattr(queue, "Github", lambda _: nullcontext(MagicMock()))
+    content = f"<component><id>{app_id}</id><metadata_license>CC0</metadata_license>{fields}</component>".encode()
+    monkeypatch.setattr(
+        queue, "read_source", lambda *_: SimpleNamespace(sha="sha", content=content)
+    )
+    queue.refresh_index()
+    result = queue.lookup_translation(app_id, "de")
+    assert result.outcome == outcome and result.queue_state == "absent"
+
+
+def test_lookup_uses_catalog_and_legacy_results_without_guessing(translation_db):
+    conn, app_id, _ = translation_db
+    conn.exec_driver_sql("""INSERT INTO apps (app_id, type, is_eol) VALUES
+        ('org.example.Retired','desktop-application',true),
+        ('org.example.SDK','runtime',false),
+        ('org.example.New','desktop-application',false)""")
+    assert (
+        queue.lookup_translation("org.example.Missing", "de").eligibility == "unknown"
+    )
+    assert queue.lookup_translation("org.example.Retired", "de").eligibility == "eol"
+    assert queue.lookup_translation("org.example.SDK", "de").eligibility == "excluded"
+    new = queue.lookup_translation("org.example.New", "de")
+    assert new.checked_at is None and new.eligibility == "eligible"
+    legacy = queue.lookup_translation(app_id, "fr")
+    assert legacy.checked_at and legacy.outcome is None
+    assert legacy.queue_state == "listed" and legacy.missing == 4
+    _insert_legacy_batch(conn, app_id)
+    conn.exec_driver_sql("UPDATE metadatatranslationbatch SET missing_listing_texts=0")
+    completed = queue.lookup_translation(app_id, "fr")
+    assert completed.queue_state == "absent" and completed.missing == 0
+    conn.exec_driver_sql("UPDATE metadatatranslationbatch SET error='source_changed'")
+    assert queue.lookup_translation(app_id, "fr").queue_state == "attention"
 
 
 @pytest.fixture
@@ -241,9 +392,10 @@ def translation_db(monkeypatch):
             with Operations.context(MigrationContext.configure(conn)):
                 migration.module.upgrade()
                 scripts.get_revision("18cc6e5235d9").module.upgrade()
+                scripts.get_revision("d18b529f34bc").module.upgrade()
 
             @contextmanager
-            def get_db(_):
+            def get_db(_, *, repeatable_read=False):
                 with Session(bind=conn) as db:
                     yield db
                     db.flush()

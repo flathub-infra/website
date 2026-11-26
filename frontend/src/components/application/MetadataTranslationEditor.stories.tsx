@@ -1,13 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite"
 import { http, HttpResponse } from "msw"
 import { expect, userEvent, within } from "storybook/test"
-import { useState } from "react"
+import { type ReactNode, useState } from "react"
 import MetadataTranslationEditor, {
   TranslationForm,
 } from "./MetadataTranslationEditor"
 import { UserContext } from "src/context/user-info"
 import { Permission } from "src/codegen/model/permission"
 import AppTranslations from "../../../app/[locale]/app-translations/[[...language]]/workspace"
+import IndexStatus from "../../../app/[locale]/app-translations/index-status/status"
 
 const meta = {
   component: TranslationForm,
@@ -118,13 +119,19 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
 
-export const Editor: Story = {
-  render: () => (
+function TranslationAdmin({
+  login,
+  children,
+}: {
+  login: string
+  children: ReactNode
+}) {
+  return (
     <UserContext
       value={{
         loading: false,
         info: {
-          default_account: { login: "contributor", provider: "github" },
+          default_account: { login, provider: "github" },
           auths: {},
           invite_code: "",
           accepted_publisher_agreement_at: null,
@@ -132,8 +139,16 @@ export const Editor: Story = {
         },
       }}
     >
-      <MetadataTranslationEditor appId="net.filebot.FileBot" />
+      {children}
     </UserContext>
+  )
+}
+
+export const Editor: Story = {
+  render: () => (
+    <TranslationAdmin login="contributor">
+      <MetadataTranslationEditor appId="net.filebot.FileBot" />
+    </TranslationAdmin>
   ),
   parameters: {
     msw: {
@@ -198,20 +213,9 @@ export const ReturnToDraft: Story = {
 
 export const LanguageQueue: Story = {
   render: () => (
-    <UserContext
-      value={{
-        loading: false,
-        info: {
-          default_account: { login: "translator", provider: "github" },
-          auths: {},
-          invite_code: "",
-          accepted_publisher_agreement_at: null,
-          permissions: [Permission["manage-apps"]],
-        },
-      }}
-    >
+    <TranslationAdmin login="translator">
       <AppTranslations language="de" />
-    </UserContext>
+    </TranslationAdmin>
   ),
   parameters: {
     msw: {
@@ -273,6 +277,39 @@ export const LanguageQueue: Story = {
     await expect(
       await canvas.findByRole("heading", { name: "Reader" }),
     ).toBeVisible()
+  },
+}
+
+export const TranslationIndexStatus: Story = {
+  render: () => (
+    <TranslationAdmin login="admin">
+      <IndexStatus />
+    </TranslationAdmin>
+  ),
+  parameters: {
+    msw: {
+      handlers: [
+        http.get("*/metadata-translations/index-status", () =>
+          HttpResponse.json({
+            eligible_apps: 120,
+            never_checked: 4,
+            due_for_recheck: 3,
+          }),
+        ),
+        http.get(
+          "*/metadata-translations/index-status/net.filebot.FileBot",
+          () =>
+            HttpResponse.json({
+              eligibility: "eligible",
+              checked_at: "2026-11-26T12:00:00Z",
+              outcome: "indexed",
+              http_status: null,
+              queue_state: "listed",
+              missing: 15,
+            }),
+        ),
+      ],
+    },
   },
 }
 
