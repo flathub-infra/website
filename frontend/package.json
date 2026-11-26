@@ -72,7 +72,7 @@
     "tailwindcss-animate": "^1.0.7",
     "takumi-js": "^2.22.1",
     "topojson-client": "^3.1.0",
-    "yet-another-react-lightbox": "^3.32.1"
+    "yet-another-react-lightbox": "^3.33.1"
   },
   "devDependencies": {
     "@babel/core": "^8.1.3",
