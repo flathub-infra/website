@@ -10,16 +10,16 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: ^2.1.11
-        version: 2.1.11(hono@4.13.19)
+        version: 2.1.11(hono@4.13.20)
       '@hono/sentry':
         specifier: ^1.2.2
-        version: 1.2.2(hono@4.13.19)
+        version: 1.2.2(hono@4.13.20)
       '@hono/swagger-ui':
         specifier: 0.6.2
-        version: 0.6.2(hono@4.13.19)
+        version: 0.6.2(hono@4.13.20)
       '@hono/zod-openapi':
         specifier: ^1.6.3
-        version: 1.6.3(hono@4.13.19)(zod@4.6.7)
+        version: 1.6.3(hono@4.13.20)(zod@4.6.7)
       '@react-email/render':
         specifier: 2.3.1
         version: 2.3.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -33,8 +33,8 @@ importers:
         specifier: ^18.0.10
         version: 18.0.10
       hono:
-        specifier: ^4.13.19
-        version: 4.13.19
+        specifier: ^4.13.20
+        version: 4.13.20
       nodemailer:
         specifier: 10.6.1
         version: 10.6.1
@@ -1169,8 +1169,8 @@ packages:
     resolution: {integrity: sha512-iZyKG96/JwPz1N55vj2Ie2vXbhu440zfUfJvSwEqEbeLluk7NnapfGqa7LH0mOsnDxTF85Mx8/dyR6HfqcbmbQ==}
     engines: {node: '>=20'}
 
-  hono@4.13.19:
-    resolution: {integrity: sha512-KmXvQAXwcAHV+muzbIwoJ23niEB5nMoDVr9WcRkU8mvjUECm/1+7v4Jgp7P7a+H6MLFrh+vXrGonGrGS+RQfkA==}
+  hono@4.13.20:
+    resolution: {integrity: sha512-xo6gecEJQ+CjTtOUUbcLHE8CdRKMeF4qITe+DT+OhFnSUmZR/ZBa9XavAfiGh4HlukmlaHFdaK4dz5tkTYFNmA==}
     engines: {node: '>=16.9.0'}
 
   hookified@1.15.1:
@@ -1788,30 +1788,30 @@ snapshots:
       '@eslint/core': 1.2.1
       levn: 0.4.1
 
-  '@hono/node-server@2.1.11(hono@4.13.19)':
+  '@hono/node-server@2.1.11(hono@4.13.20)':
     dependencies:
-      hono: 4.13.19
+      hono: 4.13.20
 
-  '@hono/sentry@1.2.2(hono@4.13.19)':
+  '@hono/sentry@1.2.2(hono@4.13.20)':
     dependencies:
-      hono: 4.13.19
+      hono: 4.13.20
       toucan-js: 4.1.1
 
-  '@hono/swagger-ui@0.6.2(hono@4.13.19)':
+  '@hono/swagger-ui@0.6.2(hono@4.13.20)':
     dependencies:
-      hono: 4.13.19
+      hono: 4.13.20
 
-  '@hono/zod-openapi@1.6.3(hono@4.13.19)(zod@4.6.7)':
+  '@hono/zod-openapi@1.6.3(hono@4.13.20)(zod@4.6.7)':
     dependencies:
       '@asteasolutions/zod-to-openapi': 9.1.0(zod@4.6.7)
-      '@hono/zod-validator': 0.9.1(hono@4.13.19)(zod@4.6.7)
-      hono: 4.13.19
+      '@hono/zod-validator': 0.9.1(hono@4.13.20)(zod@4.6.7)
+      hono: 4.13.20
       openapi3-ts: 4.6.1
       zod: 4.6.7
 
-  '@hono/zod-validator@0.9.1(hono@4.13.19)(zod@4.6.7)':
+  '@hono/zod-validator@0.9.1(hono@4.13.20)(zod@4.6.7)':
     dependencies:
-      hono: 4.13.19
+      hono: 4.13.20
       zod: 4.6.7
 
   '@humanfs/core@0.19.2':
@@ -2493,7 +2493,7 @@ snapshots:
     dependencies:
       hookified: 1.15.1
 
-  hono@4.13.19: {}
+  hono@4.13.20: {}
 
   hookified@1.15.1: {}
 
