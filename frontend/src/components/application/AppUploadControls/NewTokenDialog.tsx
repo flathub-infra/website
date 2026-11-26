@@ -10,6 +10,7 @@ import { NewTokenResponse } from "src/codegen/model"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { toast } from "sonner"
+import { useReauth } from "src/hooks/useReauth"
 interface Props {
   app_id: string
   repo: Repo
@@ -34,22 +35,29 @@ const NewTokenDialog: FunctionComponent<Props> = ({
   const [comment, setComment] = useState("")
   const [scopes, setScopes] = useState(["build", "upload", "publish", "jobs"])
   const [token, setToken] = useState("")
+  const { withReauth, reauthDialog } = useReauth()
 
   const createUploadTokenMutation = useMutation({
     mutationKey: ["create-upload-token", app_id, scopes, repo, comment],
     mutationFn: () =>
-      createUploadTokenUploadTokensAppIdPost(
-        app_id,
-        {
-          comment,
-          scopes,
-          repos: [repo],
-        },
-        {
-          withCredentials: true,
-        },
+      withReauth(() =>
+        createUploadTokenUploadTokensAppIdPost(
+          app_id,
+          {
+            comment,
+            scopes,
+            repos: [repo],
+          },
+          {
+            withCredentials: true,
+          },
+        ),
       ),
     onSuccess: (response) => {
+      if (response === undefined) {
+        setState("new")
+        return
+      }
       setToken(response.data.token)
       setState("copy-token")
       created?.(response.data)
@@ -140,15 +148,18 @@ const NewTokenDialog: FunctionComponent<Props> = ({
   }
 
   return (
-    <Modal
-      shown={visible}
-      onClose={hideDialog}
-      title={title}
-      cancelButton={cancelButton}
-      submitButton={submitButton}
-    >
-      {content}
-    </Modal>
+    <>
+      <Modal
+        shown={visible}
+        onClose={hideDialog}
+        title={title}
+        cancelButton={cancelButton}
+        submitButton={submitButton}
+      >
+        {content}
+      </Modal>
+      {reauthDialog}
+    </>
   )
 }
 

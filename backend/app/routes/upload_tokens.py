@@ -9,7 +9,12 @@ from pydantic import BaseModel
 from .. import audit_log, cache, config, http_client, models, utils, worker
 from ..database import get_db, get_json_key
 from ..emails import EmailCategory
-from ..login_info import LoginStatusDep, can_manage_app, require_active_user
+from ..login_info import (
+    LoginStatusDep,
+    can_manage_app,
+    require_active_user,
+    require_recent_authentication,
+)
 from ..utils import jti
 
 router = APIRouter(prefix="/upload-tokens")
@@ -184,6 +189,7 @@ def create_upload_token(
         raise HTTPException(status_code=401, detail=ErrorDetail.NOT_LOGGED_IN)
     with get_db("writer") as db:
         issued_to = _require_upload_token_access(db, app_id, login.user.id)
+        require_recent_authentication(http_request)
         direct_upload_app = models.DirectUploadApp.by_app_id(db, app_id)
         if direct_upload_app and direct_upload_app.archived:
             raise HTTPException(status_code=403, detail=ErrorDetail.APP_ARCHIVED)

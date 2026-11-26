@@ -9,6 +9,7 @@ change anything must NOT emit).
 import json
 import os
 import sys
+import time
 from contextlib import contextmanager
 from types import SimpleNamespace
 from typing import ClassVar
@@ -691,8 +692,10 @@ def test_upload_token_issued_emits_audit(
     request = upload_tokens.UploadTokenRequest(
         comment="test token", scopes=["build"], repos=["beta"]
     )
+    http_request = FakeRequest()
+    http_request.session = {"auth-time": int(time.time())}
     upload_tokens.create_upload_token(
-        "org.example.App", request, http_request=FakeRequest(), login=FakeLogin(user)
+        "org.example.App", request, http_request=http_request, login=FakeLogin(user)
     )
 
     assert len(recorded_calls) == 1

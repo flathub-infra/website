@@ -1,6 +1,7 @@
 import base64
 import os
 import sys
+import time
 from contextlib import contextmanager
 from types import SimpleNamespace
 from unittest.mock import MagicMock
@@ -80,6 +81,7 @@ class FakeRequest:
 
     def __init__(self, user_agent="test-ua"):
         self.headers = {"user-agent": user_agent}
+        self.session = {"auth-time": int(time.time())}
 
 
 @pytest.fixture
@@ -375,6 +377,30 @@ def test_create_upload_token_runtime_rejects_repo_outside_scope(
 
     assert exc_info.value.status_code == 400
     assert exc_info.value.detail == upload_tokens.ErrorDetail.FORBIDDEN_REPO
+
+
+def test_create_upload_token_requires_recent_authentication(
+    monkeypatch, upload_token_config, upload_token_request
+):
+    user = FakeUser(permissions={"direct-upload"}, dev_flatpaks={"org.example.App"})
+    writer = FakeDb(user)
+    writer.session.add = MagicMock()
+
+    @contextmanager
+    def get_db(role):
+        yield writer
+
+    monkeypatch.setattr(upload_tokens, "get_db", get_db)
+    request = FakeRequest()
+    request.session = {"auth-time": int(time.time()) - 301}
+
+    with pytest.raises(HTTPException) as exc_info:
+        upload_tokens.create_upload_token(
+            "org.example.App", upload_token_request, request, FakeLogin(user)
+        )
+
+    assert exc_info.value.detail == "reauthentication_required"
+    writer.session.add.assert_not_called()
 
 
 @pytest.mark.parametrize("success", [True, False])
