@@ -213,7 +213,7 @@ def create_upload_token(
             prefixes = runtime_scope.prefixes.split() + runtime_scope.extra_ids.split()
 
         issued_at = datetime.datetime.now(datetime.UTC)
-        expires_at = issued_at + datetime.timedelta(days=180)
+        expires_at = issued_at + datetime.timedelta(days=90)
         token = models.UploadToken(
             comment=request.comment,
             app_id=app_id,
