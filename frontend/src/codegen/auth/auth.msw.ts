@@ -616,6 +616,25 @@ export const getGetUserinfoAuthUserinfoGetMockHandler = (
   )
 }
 
+export const getRenewUserinfoAuthUserinfoHeadMockHandler = (
+  overrideResponse?:
+    | void
+    | ((info: Parameters<HttpResponseResolver>[0]) => Promise<void> | void),
+  options?: RequestHandlerOptions,
+) => {
+  return http.head(
+    "*/auth/userinfo",
+    async (info: Parameters<HttpResponseResolver>[0]) => {
+      if (typeof overrideResponse === "function") {
+        await overrideResponse(info)
+      }
+
+      return new HttpResponse(null, { status: 200 })
+    },
+    options,
+  )
+}
+
 export const getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMockHandler = (
   overrideResponse?:
     | RefreshDevFlatpaksReturn
@@ -794,6 +813,7 @@ export const getAuthMock = () => [
   getContinueKdeFlowAuthLoginKdePostMockHandler(),
   getContinueGoogleFlowAuthLoginGooglePostMockHandler(),
   getGetUserinfoAuthUserinfoGetMockHandler(),
+  getRenewUserinfoAuthUserinfoHeadMockHandler(),
   getDoRefreshDevFlatpaksAuthRefreshDevFlatpaksPostMockHandler(),
   getDoLogoutAuthLogoutPostMockHandler(),
   getGetDeleteuserAuthDeleteuserGetMockHandler(),

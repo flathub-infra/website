@@ -68,6 +68,11 @@ from . import (
     oauth_providers,
     utils,
 )
+from .browsing_session import (
+    SESSION_MAX_AGE,
+    BrowsingSessionMiddleware,
+    browsing_lookup,
+)
 from .database import get_db
 from .email_login import (
     email_login_allowed,
@@ -1502,9 +1507,36 @@ class UserInfo(BaseModel):
     email_login: EmailLoginInfo | None = None
 
 
+@router.head(
+    "/userinfo",
+    tags=["auth"],
+    dependencies=[Depends(browsing_lookup)],
+    response_class=Response,
+    responses={
+        200: {
+            "description": "Session renewed",
+            "headers": {
+                "Flathub-Account-Invite-Code": {
+                    "description": "The current account's invite_code, when assigned",
+                    "schema": {"type": "string"},
+                }
+            },
+        },
+        204: {"description": "Not logged in"},
+    },
+)
+@cache.no_store
+def renew_userinfo(login: LoginStatusDep, response: Response):
+    if login.user is None:
+        response.status_code = 204
+    elif login.user.invite_code:
+        response.headers["Flathub-Account-Invite-Code"] = login.user.invite_code
+
+
 @router.get(
     "/userinfo",
     tags=["auth"],
+    dependencies=[Depends(browsing_lookup)],
     responses={
         200: {"description": "User information retrieved successfully"},
         204: {"description": "Not logged in"},
@@ -1533,7 +1565,7 @@ def get_userinfo(login: LoginStatusDep, response: Response) -> UserInfo | None:
     dev_flatpaks is filtered against IDs available in AppStream
     """
 
-    if not login.user or not login.state.logged_in():
+    if login.user is None:
         response.status_code = 204
         return None
 
@@ -2417,9 +2449,12 @@ def register_to_app(app: FastAPI):
     This also enables session middleware
     """
     app.add_middleware(
+        BrowsingSessionMiddleware, secret_key=config.settings.session_secret_key
+    )
+    app.add_middleware(
         SessionMiddleware,
         secret_key=config.settings.session_secret_key,
-        max_age=86400,
+        max_age=SESSION_MAX_AGE,
         https_only=True,
     )
     app.include_router(router)

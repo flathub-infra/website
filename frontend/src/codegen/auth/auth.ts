@@ -2556,6 +2556,101 @@ export function useGetUserinfoAuthUserinfoGet<
 }
 
 /**
+ * @summary Renew Userinfo
+ */
+export const renewUserinfoAuthUserinfoHead = (
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<void>> => {
+  return axios.head(`/auth/userinfo`, options)
+}
+
+export const getRenewUserinfoAuthUserinfoHeadUrl = () => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/auth/userinfo`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getRenewUserinfoAuthUserinfoHeadMutationKey = () =>
+  ["renewUserinfoAuthUserinfoHead"] as const
+
+export const getRenewUserinfoAuthUserinfoHeadMutationOptions = <
+  TError = AxiosError<unknown>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof renewUserinfoAuthUserinfoHead>>,
+    TError,
+    void,
+    TContext
+  >
+  axios?: AxiosRequestConfig
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof renewUserinfoAuthUserinfoHead>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationKey = getRenewUserinfoAuthUserinfoHeadMutationKey()
+  const { mutation: mutationOptions, axios: axiosOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, axios: undefined }
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof renewUserinfoAuthUserinfoHead>>,
+    void
+  > = () => {
+    return renewUserinfoAuthUserinfoHead(axiosOptions)
+  }
+
+  return { mutationFn, ...mutationOptions }
+}
+
+export type RenewUserinfoAuthUserinfoHeadMutationResult = NonNullable<
+  Awaited<ReturnType<typeof renewUserinfoAuthUserinfoHead>>
+>
+
+export type RenewUserinfoAuthUserinfoHeadMutationError = AxiosError<unknown>
+
+/** @summary Renew Userinfo */
+export const useRenewUserinfoAuthUserinfoHead = <
+  TError = AxiosError<unknown>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof renewUserinfoAuthUserinfoHead>>,
+      TError,
+      void,
+      TContext
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof renewUserinfoAuthUserinfoHead>>,
+  TError,
+  void,
+  TContext
+> => {
+  return useMutation(
+    getRenewUserinfoAuthUserinfoHeadMutationOptions(options),
+    queryClient,
+  )
+}
+/**
  * @summary Do Refresh Dev Flatpaks
  */
 export const doRefreshDevFlatpaksAuthRefreshDevFlatpaksPost = (

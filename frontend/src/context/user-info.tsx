@@ -1,13 +1,19 @@
 "use client"
 
+import { usePathname, useSearchParams } from "next/navigation"
 import {
   createContext,
   Dispatch,
+  Suspense,
+  useCallback,
   useContext,
   useEffect,
+  useEffectEvent,
   useReducer,
+  useRef,
 } from "react"
 import { getUserData } from "../asyncs/login"
+import { renewUserinfoAuthUserinfoHead } from "../codegen/auth/auth"
 import { UserState, UserStateAction } from "../types/Login"
 import { contextReducer } from "./reducer"
 
@@ -17,6 +23,62 @@ export const UserContext = createContext<UserState>(initialState)
 export const UserDispatchContext = createContext<
   Dispatch<UserStateAction> | undefined
 >(undefined)
+
+function SessionRenewal({
+  startLookup,
+}: {
+  startLookup: () => Dispatch<UserStateAction>
+}) {
+  const user = useUserContext()
+  const pathname = usePathname()
+  const search = useSearchParams().toString()
+  const accountChecked = useRef(false)
+  const check = useEffectEvent(async (signal: AbortSignal) => {
+    const applyIfCurrent = startLookup()
+    if (!accountChecked.current) {
+      const checked = await getUserData(applyIfCurrent, { signal })
+      if (!signal.aborted) {
+        accountChecked.current = checked
+      }
+      return
+    }
+    if (user.loading) {
+      return
+    }
+    try {
+      const response = await renewUserinfoAuthUserinfoHead({
+        withCredentials: true,
+        signal,
+      })
+      if (signal.aborted) {
+        return
+      }
+      if (response.status === 204 && user.info) {
+        applyIfCurrent({ type: "logout" })
+      } else if (
+        response.status === 200 &&
+        (!user.info ||
+          response.headers["flathub-account-invite-code"] !==
+            user.info.invite_code)
+      ) {
+        if (user.info) {
+          applyIfCurrent({ type: "logout" })
+        }
+        await getUserData(applyIfCurrent, { signal, background: true })
+      }
+    } catch {
+      // Keep the account visible on a network error and retry on navigation.
+    }
+  })
+
+  useEffect(() => {
+    const controller = new AbortController()
+    void check(controller.signal)
+    return () => controller.abort()
+  }, [pathname, search])
+
+  return null
+}
 
 export const UserInfoProvider = ({
   children,
@@ -29,19 +91,27 @@ export const UserInfoProvider = ({
     contextReducer,
     userContext ?? initialState,
   )
-
-  // Fetch the user data only the first time the provider is created
-  // This works thanks to Next.js Link components, as soon as a new
-  // session is created this will re-fetch
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      getUserData(dispatch)
-    }
+  const revision = useRef(0)
+  const dispatchUserAction = useCallback((action: UserStateAction) => {
+    revision.current++
+    dispatch(action)
   }, [])
-
+  function startLookup(): Dispatch<UserStateAction> {
+    const previousRevision = revision.current
+    return (action) => {
+      if (revision.current === previousRevision) {
+        dispatch(action)
+      }
+    }
+  }
   return (
     <UserContext value={user}>
-      <UserDispatchContext value={dispatch}>{children}</UserDispatchContext>
+      <UserDispatchContext value={dispatchUserAction}>
+        <Suspense fallback={null}>
+          <SessionRenewal startLookup={startLookup} />
+        </Suspense>
+        {children}
+      </UserDispatchContext>
     </UserContext>
   )
 }
