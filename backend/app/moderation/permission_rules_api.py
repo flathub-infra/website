@@ -249,7 +249,8 @@ def preview_permission_rules(
                 assessment_id=row.id, app_id=row.app_id, decision=verdict.decision
             )
             for row in _pending(db.session)
-            if (verdict := evaluate(row.differences or [], rules)) is not None
+            if (verdict := evaluate(row.differences or [], rules, row.app_id))
+            is not None
         ]
         decided = db.session.execute(
             select(decision, observation)
@@ -270,7 +271,8 @@ def preview_permission_rules(
                 moderator_decision=item.decision,
             )
             for item, row in decided
-            if (verdict := evaluate(row.differences or [], rules)) is not None
+            if (verdict := evaluate(row.differences or [], rules, row.app_id))
+            is not None
             and verdict.decision != item.decision
         ]
     return PermissionRulePreview(pending=pending, conflicts=conflicts)
@@ -289,7 +291,8 @@ def apply_permission_rules(
             if (
                 row.outcome != "pending"
                 or assessment.superseded_by(db.session, row) is not None
-                or (verdict := evaluate(row.differences or [], rules)) is None
+                or (verdict := evaluate(row.differences or [], rules, row.app_id))
+                is None
             ):
                 continue
             item = assessment.record_decision(

@@ -290,6 +290,24 @@ def test_bus_pattern_rule_covers_its_subnames(name, expected):
 
 
 @pytest.mark.parametrize(
+    "name,expected",
+    [
+        ("org.mpris.MediaPlayer2.org.example.App", None),
+        ("org.mpris.MediaPlayer2.org.example.App.instance1", None),
+        ("org.mpris.MediaPlayer2.org.example.AppExtra", "rejected"),
+        ("org.mpris.MediaPlayer2.org.example", "rejected"),
+    ],
+)
+def test_bus_pattern_rule_skips_names_the_app_owns_by_default(name, expected):
+    pattern = rule(
+        4, "rejected", "org.mpris.MediaPlayer2.*", "own", match_type="transition"
+    )
+    differences = [change([SESSION, name], None, "own")]
+    verdict = evaluate(differences, [pattern], "org.example.App")
+    assert (verdict.decision if verdict else None) == expected
+
+
+@pytest.mark.parametrize(
     "before,after,expected",
     [
         (["dri"], ["all", "if:all:!has-input-device", "dri", "input"], "approved"),

@@ -78,6 +78,12 @@ def _covers(pattern: str, name: str) -> bool:
     return prefix != pattern and (name == prefix or name.startswith(f"{prefix}."))
 
 
+def _owned_by_default(app_id: str, name: str) -> bool:
+    return _covers(f"{app_id}.*", name) or _covers(
+        f"org.mpris.MediaPlayer2.{app_id}.*", name
+    )
+
+
 def _endpoints(
     path: tuple[str, ...], rule: models.PermissionRule
 ) -> tuple[list[str], list[str], list[str]] | None:
@@ -124,7 +130,9 @@ def _unambiguous(
 
 
 def evaluate(
-    differences: list[dict[str, Any]], rules: Iterable[models.PermissionRule]
+    differences: list[dict[str, Any]],
+    rules: Iterable[models.PermissionRule],
+    app_id: str | None = None,
 ) -> Verdict | None:
     changes, complete = flatten(differences)
     by_path: dict[tuple[str, ...], list[models.PermissionRule]] = {}
@@ -139,10 +147,17 @@ def evaluate(
     approving: list[models.PermissionRule] = []
     rejecting: list[models.PermissionRule] = []
     for path, before, after in changes:
+        default = (
+            path[0] == "Session Bus Policy"
+            and app_id is not None
+            and _owned_by_default(app_id, path[1])
+        )
         candidates = by_path.get(path, []) + [
             rule
             for rule in patterns
-            if rule.permission_group == path[0] and _covers(rule.key, path[1])
+            if not default
+            and rule.permission_group == path[0]
+            and _covers(rule.key, path[1])
         ]
         if isinstance(before, list) or isinstance(after, list):
             left = [] if before is None else before

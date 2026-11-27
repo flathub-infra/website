@@ -296,6 +296,7 @@ def _persist_observation(values: dict[str, object]) -> CandidateAssessmentRespon
             verdict = permission_rules.evaluate(
                 row.differences or [],
                 db.session.scalars(select(models.PermissionRule)),
+                row.app_id,
             )
             if verdict is not None:
                 record_decision(
