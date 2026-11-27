@@ -10,7 +10,7 @@ from starlette.requests import HTTPConnection
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 SESSION_MAX_AGE = 24 * 60 * 60
-_IDENTITY_COOKIE = "__Host-flathub-browsing"
+_IDENTITY_PREFIX = "__Host-flathub-browsing-"
 _GENERATION_COOKIE = "__Host-flathub-session-generation"
 _IDENTITY_FIELDS = ("user-id", "auth-method", "passkey-id", "auth-time")
 
@@ -21,6 +21,10 @@ def browsing_lookup(request: Request) -> None:
 
 def _identity_fields(session: dict[str, object]) -> dict[str, object]:
     return {key: session[key] for key in _IDENTITY_FIELDS if key in session}
+
+
+def _generation_key(generation: str | None) -> str:
+    return hashlib.sha256((generation or "").encode()).hexdigest()
 
 
 class BrowsingSessionMiddleware:
@@ -38,7 +42,16 @@ class BrowsingSessionMiddleware:
         connection = HTTPConnection(scope)
         session: Session = scope["session"]
         generation = connection.cookies.get(_GENERATION_COOKIE)
-        cookie = connection.cookies.get(_IDENTITY_COOKIE)
+        identity_cookie = _IDENTITY_PREFIX + _generation_key(generation)
+        if not session and not generation:
+            # Active browsing can outlast the generation marker. Older generations'
+            # signed renewals have already expired by the time the marker expires.
+            remaining = [
+                name for name in connection.cookies if name.startswith(_IDENTITY_PREFIX)
+            ]
+            if len(remaining) == 1:
+                identity_cookie = remaining[0]
+        cookie = connection.cookies.get(identity_cookie)
         if not session and cookie:
             try:
                 identity = self.signer.loads(cookie, max_age=SESSION_MAX_AGE)
@@ -51,8 +64,7 @@ class BrowsingSessionMiddleware:
                     scope["session"] = session = Session(_identity_fields(identity))
 
         # A delayed rejection must only invalidate the generation it inspected.
-        generation_hash = hashlib.sha256((generation or "").encode()).hexdigest()
-        rejected_cookie = f"__Host-flathub-rejected-{generation_hash}"
+        rejected_cookie = "__Host-flathub-rejected-" + _generation_key(generation)
         if rejected_cookie in connection.cookies:
             scope["session"] = session = Session()
         previous_user = session.get("user-id")
@@ -75,7 +87,7 @@ class BrowsingSessionMiddleware:
                     identity = _identity_fields(session)
                     identity["generation"] = generation
                     cookies.set_cookie(
-                        _IDENTITY_COOKIE,
+                        identity_cookie,
                         self.signer.dumps(identity),
                         max_age=SESSION_MAX_AGE,
                         secure=True,
@@ -85,7 +97,7 @@ class BrowsingSessionMiddleware:
                     return
             elif session.modified:
                 if cookie:
-                    cookies.delete_cookie(_IDENTITY_COOKIE, secure=True, httponly=True)
+                    cookies.delete_cookie(identity_cookie, secure=True, httponly=True)
                 # Outlive older browsing responses still in flight.
                 cookies.set_cookie(
                     _GENERATION_COOKIE,

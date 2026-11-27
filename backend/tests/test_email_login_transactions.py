@@ -640,6 +640,29 @@ def test_late_renewal_preserves_reauthentication(delayed_renewal):
     assert client.get("/auth-time").json() == int(time.time())
 
 
+def test_late_renewal_preserves_newer_renewal(delayed_renewal, monkeypatch):
+    client, old_renewal = delayed_renewal
+    signed_in_at = int(time.time())
+    assert client.post("/sign-in").is_success
+    now = signed_in_at + 23 * 60 * 60
+    monkeypatch.setattr(time, "time", lambda: now)
+    assert client.head("/auth/userinfo").status_code == 200
+    client.cookies.extract_cookies(old_renewal)
+    now += 2 * 60 * 60
+    assert client.get("/auth-time").json() == signed_in_at
+
+
+def test_browsing_outlasts_the_generation_cookie(browsing_app, monkeypatch):
+    now = signed_in_at = int(time.time())
+    monkeypatch.setattr(time, "time", lambda: now)
+    with TestClient(browsing_app, base_url="https://testserver") as client:
+        assert client.post("/sign-in").is_success
+        for _ in range(4):
+            now += 23 * 60 * 60
+            assert client.head("/auth/userinfo").status_code == 200
+        assert client.get("/auth-time").json() == signed_in_at
+
+
 def test_rejected_session_does_not_return_after_account_is_enabled(browsing_app):
     with TestClient(browsing_app, base_url="https://testserver") as client:
         assert client.post("/sign-in").is_success

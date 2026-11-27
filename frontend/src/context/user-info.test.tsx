@@ -203,6 +203,27 @@ it("refreshes the profile when another tab switches accounts", async () => {
   expect(host.textContent).toBe("Second account")
 })
 
+it("rechecks an in-flight navigation after a foreground refresh fails", async () => {
+  const profile = Promise.withResolvers<AxiosResponse>()
+  vi.spyOn(axios, "get")
+    .mockResolvedValueOnce({ status: 200, data: { displayname: "Reader" } })
+    .mockReturnValueOnce(profile.promise)
+  const renewal = Promise.withResolvers<AxiosResponse>()
+  vi.spyOn(axios, "head")
+    .mockReturnValueOnce(renewal.promise)
+    .mockResolvedValueOnce({ status: 204 })
+  await navigate("/en")
+  await navigate("/en/apps")
+  await act(async () =>
+    host
+      .querySelector<HTMLButtonElement>('[aria-label="Refresh profile"]')!
+      .click(),
+  )
+  await act(async () => renewal.resolve({ status: 204 } as AxiosResponse))
+  await act(async () => profile.reject(new Error("offline")))
+  expect(host.textContent).toBe("Signed out")
+})
+
 it("keeps the last known account state when a background lookup is interrupted", async () => {
   const get = vi.spyOn(axios, "get").mockResolvedValueOnce({ status: 204 })
   const head = vi.spyOn(axios, "head").mockResolvedValueOnce({ status: 200 })

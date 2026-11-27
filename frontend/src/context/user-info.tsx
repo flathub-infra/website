@@ -11,6 +11,7 @@ import {
   useEffectEvent,
   useReducer,
   useRef,
+  useState,
 } from "react"
 import { getUserData } from "../asyncs/login"
 import { renewUserinfoAuthUserinfoHead } from "../codegen/auth/auth"
@@ -26,14 +27,15 @@ export const UserDispatchContext = createContext<
 
 function SessionRenewal({
   createGuardedDispatch,
+  foregroundLoading,
 }: {
   createGuardedDispatch: () => Dispatch<UserStateAction>
+  foregroundLoading: boolean
 }) {
   const user = useUserContext()
   const pathname = usePathname()
   const search = useSearchParams().toString()
   const accountChecked = useRef(false)
-  const deferredNavigation = useRef<AbortSignal>(undefined)
   const check = useEffectEvent(async (signal: AbortSignal) => {
     const applyIfCurrent = createGuardedDispatch()
     if (!accountChecked.current) {
@@ -41,10 +43,6 @@ function SessionRenewal({
       if (!signal.aborted) {
         accountChecked.current = checked
       }
-      return
-    }
-    if (user.loading) {
-      deferredNavigation.current = signal
       return
     }
     try {
@@ -74,20 +72,13 @@ function SessionRenewal({
   })
 
   useEffect(() => {
+    if (foregroundLoading) {
+      return
+    }
     const controller = new AbortController()
     void check(controller.signal)
     return () => controller.abort()
-  }, [pathname, search])
-
-  useEffect(() => {
-    const signal = deferredNavigation.current
-    if (!user.loading && signal) {
-      deferredNavigation.current = undefined
-      if (!signal.aborted) {
-        void check(signal)
-      }
-    }
-  }, [user.loading])
+  }, [pathname, search, foregroundLoading])
 
   return null
 }
@@ -104,9 +95,11 @@ export const UserInfoProvider = ({
     userContext ?? initialState,
   )
   const revision = useRef(0)
+  const [foregroundLoading, setForegroundLoading] = useState(false)
   const dispatchUserAction = useCallback((action: UserStateAction) => {
     if (action.type !== "update-dev-flatpaks") {
       revision.current++
+      setForegroundLoading(action.type === "loading")
     }
     dispatch(action)
   }, [])
@@ -122,7 +115,10 @@ export const UserInfoProvider = ({
     <UserContext value={user}>
       <UserDispatchContext value={dispatchUserAction}>
         <Suspense fallback={null}>
-          <SessionRenewal createGuardedDispatch={createGuardedDispatch} />
+          <SessionRenewal
+            createGuardedDispatch={createGuardedDispatch}
+            foregroundLoading={foregroundLoading}
+          />
         </Suspense>
         {children}
       </UserDispatchContext>
