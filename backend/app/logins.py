@@ -84,6 +84,7 @@ from .email_login import (
 )
 from .emails import EmailCategory
 from .login_info import (
+    SESSION_IDENTITY_FIELDS,
     LoggedInDep,
     LoginInformation,
     LoginState,
@@ -1694,12 +1695,8 @@ def do_logout(request: Request, login: LoginStatusDep):
         if login.state == LoginState.LOGGED_OUT:
             return {}
 
-        # Clear the login ID
-        if "user-id" in request.session:
-            del request.session["user-id"]
-        request.session.pop("auth-method", None)
-        request.session.pop("auth-time", None)
-        request.session.pop("passkey-id", None)
+        for field in SESSION_IDENTITY_FIELDS:
+            request.session.pop(field, None)
 
         if login.state.logging_in():
             # Also clear any pending login-flow from the session

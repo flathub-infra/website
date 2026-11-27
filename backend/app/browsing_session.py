@@ -9,10 +9,11 @@ from starlette.middleware.sessions import Session
 from starlette.requests import HTTPConnection
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
+from .login_info import SESSION_IDENTITY_FIELDS
+
 SESSION_MAX_AGE = 24 * 60 * 60
 _IDENTITY_PREFIX = "__Host-flathub-browsing-"
 _GENERATION_COOKIE = "__Host-flathub-session-generation"
-_IDENTITY_FIELDS = ("user-id", "auth-method", "passkey-id", "auth-time")
 
 
 def browsing_lookup(request: Request) -> None:
@@ -20,7 +21,7 @@ def browsing_lookup(request: Request) -> None:
 
 
 def _identity_fields(session: dict[str, object]) -> dict[str, object]:
-    return {key: session[key] for key in _IDENTITY_FIELDS if key in session}
+    return {key: session[key] for key in SESSION_IDENTITY_FIELDS if key in session}
 
 
 def _generation_key(generation: str | None) -> str:

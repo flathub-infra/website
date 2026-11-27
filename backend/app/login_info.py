@@ -9,6 +9,7 @@ from . import models, utils
 from .database import get_db
 
 REAUTH_FRESHNESS_SECONDS = 300
+SESSION_IDENTITY_FIELDS = ("user-id", "auth-method", "passkey-id", "auth-time")
 
 
 def mark_recently_authenticated(request: Request) -> None:
