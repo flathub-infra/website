@@ -626,6 +626,24 @@ def test_late_renewal_preserves_logout(delayed_renewal):
     assert client.get("/auth/userinfo").status_code == 200
 
 
+def test_logout_at_expiry_invalidates_pending_renewal(browsing_app, monkeypatch):
+    now = int(time.time())
+    monkeypatch.setattr(time, "time", lambda: now)
+    with (
+        TestClient(browsing_app, base_url="https://testserver") as client,
+        TestClient(browsing_app, base_url="https://testserver") as browsing_tab,
+    ):
+        assert client.post("/sign-in").is_success
+        browsing_tab.cookies.update(client.cookies)
+        now += 24 * 60 * 60 - 10
+        renewed = browsing_tab.head("/auth/userinfo")
+        assert renewed.status_code == 200
+        now += 20
+        assert client.post("/auth/logout").is_success
+        client.cookies.extract_cookies(renewed)
+        assert client.get("/auth/userinfo").status_code == 204
+
+
 def test_late_renewal_preserves_linking(delayed_renewal):
     client, renewal = delayed_renewal
     assert client.post("/start-linking").is_success

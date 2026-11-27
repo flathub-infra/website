@@ -1693,6 +1693,8 @@ def do_logout(request: Request, login: LoginStatusDep):
     try:
         request.session.pop("passkey-flow", None)
         if login.state == LoginState.LOGGED_OUT:
+            # Rotate the generation even if the main session expired during renewal.
+            request.state.invalidate_browsing_session = True
             return {}
 
         for field in SESSION_IDENTITY_FIELDS:

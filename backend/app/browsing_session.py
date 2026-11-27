@@ -96,7 +96,9 @@ class BrowsingSessionMiddleware:
                     )
                 else:
                     return
-            elif session.modified:
+            elif session.modified or getattr(
+                connection.state, "invalidate_browsing_session", False
+            ):
                 if cookie:
                     cookies.delete_cookie(identity_cookie, secure=True, httponly=True)
                 # Outlive older browsing responses still in flight.
