@@ -479,7 +479,7 @@
     "problems": "Ако имате въпроси, натиснете <link>тук</link>.",
     "light": "Светъл",
     "dark": "Тъмен",
-    "failing-x-checks": "{count, plural, one {# неуспешна проверка} other {# неуспешни проверки}}",
+    "failing-x-checks": "{count, plural, one {неуспешна проверка} other {неуспешни проверки}}",
     "general-runtime-not-eol": "Средата за изпълнение не е с изтекъл експлоатационен живот",
     "stats-by-category": "Състояние на рецензиите по категория",
     "last-edited": "Редактирано от {editor} на {time}",
@@ -723,7 +723,10 @@
     "more-downloads": "{count, number} повече изтегляния",
     "arrivals": "{count, number} приложения се присъединиха във „Flathub“ през {year} година.",
     "award-guide": "Как избираме победителите",
-    "previous-rank": "№{rank, number} през {year} година"
+    "previous-rank": "№{rank, number} през {year} година",
+    "meet-arrivals": "Сред тях са:",
+    "outside-previous-top-ten": "Извън топ 10 от миналата година",
+    "category-gain": "Най-голям ръст: „<link>{app}</link>“ (+{count, number} изтегляния)"
   },
   "year-in-review-banner": {
     "title": "Равносметка на „Flathub“ за {year} година",
@@ -847,7 +850,6 @@
   "app-is-currently-verified-by-dns": "Вашето приложение е проверено чрез DNS контрол на <domain></domain>",
   "dns-lookup-failed": "Неуспешно търсене на TXT записи за {record}.",
   "dns-token-not-present": "TXT записите за {record} не съдържат жетона.",
-  "moderation-random-review": "Избрано на случаен принцип за рецензия",
   "moderation-build-log": "Дневник на компилацията",
   "moderation-summary-changes": "Промени в обобщението",
   "moderation-manifest-source-origin": "Промени в източника на манифеста",
@@ -1019,7 +1021,10 @@
     "verification-description": "Покажете на потребителите, че това приложение е одобрено от неговия разработчик. Изберете метод по-долу, за да докажете, че имате достъп до приложението чрез уебсайтa на разработчика или уебсайта с изходния код на приложението. Прочетете <doclink>документацията</doclink> за повече информация.",
     "switch-upload-method": "Превключване на метода за качване",
     "payment-account-status": "Изисква се настройване на профила",
-    "set-up-payments": "Настройване на плащанията"
+    "set-up-payments": "Настройване на плащанията",
+    "app-share-after-fees": "Дял на приложението след таксуване: {percentage}",
+    "payments-not-configured": "Плащанията не са настроени за това приложение.",
+    "payments-owner-only": "Само профилът, който е настроил плащанията за това приложение, може да промени тези настройки."
   },
   "moderation-approved": "Одобрена",
   "moderation-rejected": "Отхвърлена",
@@ -1048,5 +1053,8 @@
     "total-installs": "Общо инсталирания по държава",
     "title": "Инсталирания по държава",
     "description": "Коефициентите отчитат изтеглянията, а не потребителите."
-  }
+  },
+  "resume-payment-authentication": "Продължаване на удостоверяването за плащане",
+  "bookmark-count": "{count, plural, one {отметка} other {отметки}}",
+  "login-to-bookmark": "Трябва да влезете за да отметнете това приложение"
 }

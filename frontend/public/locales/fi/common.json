@@ -830,7 +830,6 @@
   "moderation-build-log": "Koostamisloki",
   "app-is-currently-verified-by-dns": "Sovelluksesi on tällä hetkellä vahvistettu verkkotunnuksen <domain></domain> DNS-hallinnan kautta",
   "dns-record-not-found": "TXT-tietuetta ei löytynyt verkkotunnuksesta {record}.",
-  "moderation-random-review": "Satunnaisesti valittu katselmointiin",
   "share": "Jaa",
   "more-healthfitness": "Lisää terveys- ja kuntoilusovelluksia",
   "login-failed": "Kirjautuminen epäonnistui",

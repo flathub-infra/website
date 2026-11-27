@@ -74,7 +74,11 @@
       "name": "Añade el repositorio de Flathub",
       "text": "<text>Flathub es el mejor lugar para obtener aplicaciones de Flatpak. Para habilitarlo, descarga e instala el <filelink>archivo de repositorio de Flathub</filelink> o ejecuta lo siguiente en una terminal:</text> <code></code>"
     },
-    "introduction": "<text>La compatibilidad con Flatpak está integrada en Solus 4.7 y versiones posteriores, ¡no requiere instalación! Las aplicaciones Flatpak pueden ser instaladas usando GNOME Software y/o KDE Discover.</text> <text>Si Flatpak no está instalado, siga las instrucciones de abajo para empezar.</text>"
+    "introduction": "<text>La compatibilidad con Flatpak está integrada en Solus 4.7 y versiones posteriores, ¡no requiere instalación! Las aplicaciones Flatpak pueden ser instaladas usando GNOME Software y/o KDE Discover.</text> <text>Si Flatpak no está instalado, siga las instrucciones de abajo para empezar.</text>",
+    "install-bazaar": {
+      "text": "<text>Con Flathub habilitado, instala Bazaar directamente desde flathub ejecutando:</text><code></code><text> Después, lanzarla desde tu escritorio para instalar apps de Flatpak de forma gráfica.</text>",
+      "name": "Instalar Bazaar"
+    }
   },
   "alpine": {
     "distroName": "Alpine",
@@ -89,6 +93,10 @@
     "step-4": {
       "name": "Reinicia",
       "text": "<text>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <link>instalar aplicaciones</link>!</text>"
+    },
+    "install-bazaar": {
+      "text": "<text>Con Flathub habilitado, instala Bazaar directamente desde flathub ejecutando:</text><code></code><text> Después, lanzarla desde tu escritorio para instalar apps de Flatpak de forma gráfica.</text>",
+      "name": "Instalar Bazaar"
     }
   },
   "elementary_os": {
@@ -156,6 +164,10 @@
     "step-1": {
       "name": "Instalar Flatpak",
       "text": "<text>Hay un paquete flatpak disponible en Pardus 2019 y versiones posteriores. Para instalarlo, ejecute lo siguiente como root:</text> <code></code>"
+    },
+    "install-bazaar": {
+      "text": "<text>Con Flathub habilitado, instala Bazaar directamente desde flathub ejecutando:</text><code></code><text> Después, lanzarla desde tu escritorio para instalar apps de Flatpak de forma gráfica.</text>",
+      "name": "Instalar Bazaar"
     }
   },
   "mx_linux": {
@@ -263,6 +275,10 @@
     "step-4": {
       "name": "Reinicia",
       "text": "<text>Para completar la configuración, reinicia tu sistema. ¡Ahora todo lo que tienes que hacer es <link>instalar aplicaciones</link>!</text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar Bazaar",
+      "text": "<text>Con Flathub habilitado, instala Bazaar directamente desde flathub ejecutando:</text><code></code><text> Después, lanzarla desde tu escritorio para instalar apps de Flatpak de forma gráfica.</text>"
     }
   },
   "ubuntu": {
@@ -278,6 +294,10 @@
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para completar la configuración, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <link>instalar aplicaciones</link>! </text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar Bazaar",
+      "text": "<text>Con Flathub habilitado, instala Bazaar directamente desde flathub ejecutando:</text><code></code><text> Después, lanzarla desde tu escritorio para instalar apps de Flatpak de forma gráfica.</text>"
     }
   },
   "manjaro": {
@@ -358,6 +378,10 @@
     "step-4": {
       "name": "Reiniciar",
       "text": "<text>Para completar la configuración, reinicie el sistema. ¡Ahora todo lo que tiene que hacer es <link>instalar aplicaciones</link>! </text>"
+    },
+    "install-bazaar": {
+      "name": "Instalar Bazaar",
+      "text": "<text>Con Flathub habilitado, instala Bazaar directamente desde flathub ejecutando:</text><code></code><text> Después, lanzarla desde tu escritorio para instalar apps de Flatpak de forma gráfica.</text>"
     }
   },
   "pop_os": {
@@ -424,5 +448,9 @@
   "t2_sde": {
     "distroName": "T2 SDE",
     "introduction": "<header>Flatpak se instala por defecto en T2 SDE desde la versión 26.6 — ¡no se requiere configuración! </header> <text>Flatpak viene pre‐configurado con el repositorio Flathub y las herramientas de integración de escritorio se incluyen para permitir la instalación de 1 clic desde Flathub.</text> ¡<text>Todo lo que tiene que hacer es <link>instalar aplicaciones</link>!</text>"
+  },
+  "nura": {
+    "distroName": "Nura",
+    "introduction": "<header>Flatpak esta instalado por defecto en Nura!</header> <text>Solo necesitas <link>instalar apps</link>!</text>"
   }
 }

@@ -804,7 +804,6 @@
   "quality-moderation-excluded": "Bu uygulama kalite kontrollerinin kapsamı dışındadır",
   "moderation-manifest-added": "Eklendi",
   "moderation-manifest-removed": "Kaldırıldı",
-  "moderation-random-review": "İnceleme için rastgele seçildi",
   "moderation-build-log": "Derleme günlüğü",
   "user-id": "Flathub Kullanıcı ID",
   "default-account": "Varsayılan",

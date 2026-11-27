@@ -850,7 +850,6 @@
   "app-is-currently-verified-by-dns": "您的應用程式目前是透過對 <domain></domain> 的 DNS 控制來進行驗證的",
   "verified-dns-tooltip": "<appid></appid> 應用程式 ID 的所有權已透過對 <domain></domain> 的 DNS 控制權驗證",
   "dns-verification": "DNS 驗證",
-  "moderation-random-review": "隨機選中進行審核",
   "moderation-summary-changes": "摘要變更",
   "moderation-manifest-source-origin": "Manifest 來源變更",
   "moderation-manifest-added": "已新增",
@@ -1055,5 +1054,7 @@
     "per-capita-map-label": "各國每 10 萬人的安裝量",
     "x-per-100000": "每 100,000 人中有 {x} 個安裝"
   },
-  "resume-payment-authentication": "繼續付款驗證"
+  "resume-payment-authentication": "繼續付款驗證",
+  "login-to-bookmark": "登入以將此應用程式加入書籤",
+  "bookmark-count": "{count, plural, one {# 個書籤} other {# 個書籤}}"
 }

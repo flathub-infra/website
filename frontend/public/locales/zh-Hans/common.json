@@ -850,7 +850,6 @@
   "app-is-currently-verified-by-dns": "您的应用已通过 <domain></domain> 的 DNS 控制来验证",
   "verified-dns-tooltip": "<appid></appid> 应用 ID 的所有权已通过 <domain></domain> 的 DNS 控制验证",
   "dns-verification": "DNS 验证",
-  "moderation-random-review": "随机选择进行审核",
   "moderation-summary-changes": "摘要更改",
   "moderation-manifest-source-origin": "清单源更改",
   "moderation-manifest-added": "已添加",
@@ -1055,5 +1054,7 @@
     "per-capita-map-label": "每个地区每 10 万人的安装量",
     "x-per-100000": "每 10 万人 {x} 次安装"
   },
-  "resume-payment-authentication": "继续付款认证"
+  "resume-payment-authentication": "继续付款认证",
+  "login-to-bookmark": "登录将此应用加入书签",
+  "bookmark-count": "{count, plural, one {# 书签} other {# 书签}}"
 }

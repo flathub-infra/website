@@ -811,7 +811,6 @@
   "moderation-manifest-source-origin": "Applica le modifiche alla sorgente",
   "moderation-manifest-added": "Aggiunto",
   "moderation-manifest-removed": "Rimosso",
-  "moderation-random-review": "Selezionato casualmente per una revisione umana",
   "moderation-build-log": "Registro di costruzione",
   "user-id": "ID utente Flathub",
   "unverified-app-disclaimer-package": "Questo pacchetto fornito dalla comunità non è verificato, affiliato o supportato da {developer}.",

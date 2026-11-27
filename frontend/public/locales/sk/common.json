@@ -847,7 +847,6 @@
   "app-is-currently-verified-by-dns": "Vaša aplikácia je momentálne overená prostredníctvom kontroly DNS domény <domain></domain>",
   "verified-dns-tooltip": "Vlastníctvo ID aplikácie <appid></appid> bolo overené prostredníctvom kontroly DNS domény <domain></domain>",
   "dns-verification": "Overenie DNS",
-  "moderation-random-review": "Náhodne vybraté na recenziu",
   "moderation-summary-changes": "Zmeny v zhrnutí",
   "moderation-manifest-source-origin": "Zmeny zdroja manifestu",
   "moderation-manifest-added": "Pridané",
@@ -1055,5 +1054,7 @@
     "per-capita-map-label": "Inštalácie na 100 000 obyvateľov v každej krajine",
     "x-per-100000": "{x} inštalácií na 100 000 obyvateľov"
   },
-  "resume-payment-authentication": "Pokračovať v overení platby"
+  "resume-payment-authentication": "Pokračovať v overení platby",
+  "login-to-bookmark": "Prihláste sa, ak si chcete túto aplikáciu uložiť do záložiek",
+  "bookmark-count": "{count, plural, one {# záložka} few {# záložky} other {# záložiek}}"
 }

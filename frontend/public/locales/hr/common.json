@@ -945,7 +945,6 @@
   "transaction-cancelled-description": "Ova je transakcija otkazana. Plaćanje nije završeno.",
   "passkeys-empty": "Još nisi dodao/la jedan pristupni ključ.",
   "dns-record-not-found": "Za {record} nije pronađen nijedan TXT zapis.",
-  "moderation-random-review": "Nasumično odabrano za pregled",
   "user-login-unavailable": "Prijava putem e-mail adrese trenutačno nije dostupna. Pokušaj kasnije ponovo.",
   "reauth-return-hint": "Nakon potvrde identiteta vrati se ovamo, zatvori ovaj dijalog ako je još otvoren i pokušaj ponovo promijeniti pristupni ključ.",
   "unverified-app-disclaimer-package": "Ovaj paket koji pruža zajednica nije potvrđen, nije povezan s njim niti ga podržava {developer}.",
