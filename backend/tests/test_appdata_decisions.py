@@ -7,9 +7,8 @@ import pytest
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app import config, http_client
-from app.moderation import summary_decisions
+from app.moderation import appdata_decisions
 from tests.shared_fixtures import (
-    DECISION_RISKS,
     decision_post,
     decision_reply,
     enable_decisions,
@@ -17,15 +16,19 @@ from tests.shared_fixtures import (
 
 
 def _decide(
-    old_summary="Import games from other launchers into Steam",
-    new_summary="Import all your games into Steam",
+    field="summary",
+    old_value="Import games from other launchers into Steam",
+    new_value="Import all your games into Steam",
+    description=None,
 ):
-    return summary_decisions.auto_approve_summary_change(
+    return appdata_decisions.auto_approve_change(
+        field=field,
         app_id="dev.creeperkatze.full-steam-ahead",
         app_name="Full Steam Ahead",
-        description=None,
-        old_summary=old_summary,
-        new_summary=new_summary,
+        summary="Import all your games into Steam",
+        description=description,
+        old_value=old_value,
+        new_value=new_value,
         build_id=42,
         job_id=7,
     )
@@ -45,23 +48,43 @@ def _timeout(url, **kwargs):
     raise httpx.ReadTimeout("timed out")
 
 
-@pytest.mark.parametrize(
-    ("scores", "approved"),
-    [
-        pytest.param({"benign": 0.9}, True, id="benign-at-threshold"),
-        pytest.param({"same_app": 0.9}, True, id="same-app-at-threshold"),
-        pytest.param({"benign": 0.89}, False, id="benign-below-threshold"),
-        pytest.param({"same_app": 0.89}, False, id="same-app-below-threshold"),
+def _threshold_cases(field, threshold, risk_limit, risks):
+    below = round(threshold - 0.01, 2)
+    return [
+        pytest.param(field, {"benign": threshold}, True, id=f"{field}-benign-at"),
+        pytest.param(field, {"benign": below}, False, id=f"{field}-benign-below"),
+        pytest.param(field, {"same_app": threshold}, True, id=f"{field}-same-app-at"),
+        pytest.param(field, {"same_app": below}, False, id=f"{field}-same-app-below"),
         *(
-            pytest.param({risk: 0.3}, False, id=f"{risk}-at-threshold")
-            for risk in DECISION_RISKS
+            pytest.param(field, {risk: risk_limit}, False, id=f"{field}-{risk}-at")
+            for risk in risks
+        ),
+    ]
+
+
+@pytest.mark.parametrize(
+    ("field", "scores", "approved"),
+    [
+        *_threshold_cases(
+            "summary", 0.9, 0.3, ("promo", "hype", "brand", "harmful", "junk")
+        ),
+        *_threshold_cases(
+            "name", 0.95, 0.2, ("brand", "stuffing", "junk", "harmful", "promo")
         ),
     ],
 )
-def test_decision_thresholds(monkeypatch, scores, approved):
-    enable_decisions(monkeypatch, decision_post(decision_reply(**scores)))
+def test_decision_thresholds(monkeypatch, field, scores, approved):
+    enable_decisions(monkeypatch, decision_post(decision_reply(field, **scores)))
 
-    assert _decide().approved is approved
+    decision = _decide(field, "Old", "New")
+
+    assert (decision.field, decision.approved) == (field, approved)
+
+
+def test_decision_rejects_reply_for_other_field(monkeypatch):
+    enable_decisions(monkeypatch, decision_post(decision_reply("summary")))
+
+    assert _decide("name", "Old", "New") is None
 
 
 @pytest.mark.parametrize(
@@ -102,26 +125,26 @@ def test_decision_failure_retains_review(monkeypatch, post):
 
 
 @pytest.mark.parametrize(
-    ("settings", "summaries"),
+    ("settings", "values"),
     [
         pytest.param({"decisions_api": None}, {}, id="missing-endpoint"),
         pytest.param({"decisions_api": " "}, {}, id="blank-endpoint"),
         pytest.param({"decisions_api_key": None}, {}, id="missing-key"),
         pytest.param({"decisions_api_key": ""}, {}, id="blank-key"),
         pytest.param({"decisions_model": " "}, {}, id="blank-model"),
-        pytest.param({}, {"old_summary": " "}, id="blank-old-summary"),
-        pytest.param({}, {"new_summary": ""}, id="blank-new-summary"),
+        pytest.param({}, {"old_value": " "}, id="blank-old-value"),
+        pytest.param({}, {"new_value": ""}, id="blank-new-value"),
     ],
 )
-def test_unconfigured_decision_skips_request(monkeypatch, settings, summaries):
+def test_unconfigured_decision_skips_request(monkeypatch, settings, values):
     def post(url, **kwargs):
-        pytest.fail("summary decision requested")
+        pytest.fail("appdata decision requested")
 
     enable_decisions(monkeypatch, post)
     for name, value in settings.items():
         monkeypatch.setattr(config.settings, name, value)
 
-    assert _decide(**summaries) is None
+    assert _decide(**values) is None
 
 
 def test_decision_sends_plain_text_description(monkeypatch):
@@ -133,15 +156,9 @@ def test_decision_sends_plain_text_description(monkeypatch):
 
     enable_decisions(monkeypatch, post)
 
-    summary_decisions.auto_approve_summary_change(
-        app_id="dev.creeperkatze.full-steam-ahead",
-        app_name="Full Steam Ahead",
+    _decide(
         description="<p>Import <em>games</em>\n  from &amp; to\n Steam.</p>"
         "<ul><li>Heroic</li><li>Lutris</li></ul>",
-        old_summary="Import games from other launchers into Steam",
-        new_summary="Import all your games into Steam",
-        build_id=42,
-        job_id=7,
     )
 
     assert requests[0]["state"]["description"] == (

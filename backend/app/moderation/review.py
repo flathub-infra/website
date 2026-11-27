@@ -45,9 +45,9 @@ from ..types import (
 )
 from ..verification import is_appid_runtime
 from . import (
+    appdata_decisions,
     ostree_manifest,
     permission_publication,
-    summary_decisions,
     url_origin,
 )
 from .constants import should_skip_review
@@ -107,6 +107,41 @@ def _summaries_equivalent(current: str | None, candidate: str | None) -> bool:
         normalized.append(" ".join(tokens))
 
     return _within_one_edit(normalized[0], normalized[1])
+
+
+_NAME_SEPARATORS = re.compile(r"[\s\-_.,:;'’]+")
+_DEVELOPER_NAME_AFFIXES = frozenset(
+    {
+        "the",
+        "inc",
+        "ltd",
+        "llc",
+        "gmbh",
+        "team",
+        "project",
+        "developers",
+        "contributors",
+    }
+)
+
+
+def _names_equivalent(
+    current: JSONValue,
+    candidate: JSONValue,
+    ignored: AbstractSet[str] = frozenset(),
+) -> bool:
+    if not isinstance(current, str) or not isinstance(candidate, str):
+        return False
+
+    normalized = [
+        "".join(
+            token
+            for token in _NAME_SEPARATORS.split(value.casefold())
+            if token not in ignored
+        )
+        for value in (current, candidate)
+    ]
+    return bool(normalized[0]) and normalized[0] == normalized[1]
 
 
 def _is_free_license(value: JSONValue) -> bool:
@@ -1079,7 +1114,7 @@ def submit_review_request(
 
     new_requests: list[models.ModerationRequest] = []
     persisted_requests: list[models.ModerationRequest] = []
-    summary_decision_records: list[models.SummaryDecision] = []
+    appdata_decision_records: list[models.AppdataDecision] = []
     analysis_observations: dict[str, dict[str, JSONValue]] = {}
     manifest_newly_actionable_requests: list[models.ModerationRequest] = []
     manifest_newly_actionable_app_ids: set[str] = set()
@@ -1247,6 +1282,13 @@ def submit_review_request(
                     or (
                         key == "project_license"
                         and _licenses_equivalent(value, candidate_value)
+                    )
+                    or (key == "name" and _names_equivalent(value, candidate_value))
+                    or (
+                        key == "developer_name"
+                        and _names_equivalent(
+                            value, candidate_value, _DEVELOPER_NAME_AFFIXES
+                        )
                     )
                 ):
                     keys.pop(key, None)
@@ -1620,33 +1662,48 @@ def submit_review_request(
                 )
             # keys may become empty after pop above but empty keys
             # still triggers a moderation request, so re-check
-        if not is_new_submission and set(keys) == {"summary"}:
-            old_summary = current_values.get("summary")
-            new_summary = keys["summary"]
-            app_name = current_values.get("name")
-            description = app_data.get("description")
-            if (
-                isinstance(old_summary, str)
-                and old_summary
-                and isinstance(new_summary, str)
-                and new_summary
-                and not _has_appdata_request(
-                    app_id, review_request.build_id, review_request.job_id
-                )
+        if (
+            not is_new_submission
+            and keys
+            and set(keys) <= appdata_decisions.FIELDS.keys()
+        ):
+            changes = {
+                key: (old_value, new_value)
+                for key in keys
+                if isinstance(old_value := current_values.get(key), str)
+                and old_value
+                and isinstance(new_value := keys[key], str)
+                and new_value
+            }
+            if changes.keys() == keys.keys() and not _has_appdata_request(
+                app_id, review_request.build_id, review_request.job_id
             ):
-                summary_decision = summary_decisions.auto_approve_summary_change(
-                    app_id=app_id,
-                    app_name=app_name if isinstance(app_name, str) else None,
-                    description=description if isinstance(description, str) else None,
-                    old_summary=old_summary,
-                    new_summary=new_summary,
-                    build_id=review_request.build_id,
-                    job_id=review_request.job_id,
+                app_name = current_values.get("name")
+                app_summary = keys.get("summary", current_values.get("summary"))
+                description = app_data.get("description")
+                decisions = [
+                    appdata_decisions.auto_approve_change(
+                        field=key,
+                        app_id=app_id,
+                        app_name=app_name if isinstance(app_name, str) else None,
+                        summary=app_summary if isinstance(app_summary, str) else None,
+                        description=description
+                        if isinstance(description, str)
+                        else None,
+                        old_value=old_value,
+                        new_value=new_value,
+                        build_id=review_request.build_id,
+                        job_id=review_request.job_id,
+                    )
+                    for key, (old_value, new_value) in changes.items()
+                ]
+                appdata_decision_records.extend(
+                    decision for decision in decisions if decision is not None
                 )
-                if summary_decision is not None:
-                    summary_decision_records.append(summary_decision)
-                    if summary_decision.approved:
-                        keys.pop("summary")
+                if all(
+                    decision is not None and decision.approved for decision in decisions
+                ):
+                    keys.clear()
         if len(keys) > 0:
             keys = sort_lists_in_dict(keys)
             current_values = sort_lists_in_dict(current_values)
@@ -1828,7 +1885,7 @@ def submit_review_request(
         for request in persisted_requests:
             request.app_refs = sorted(build_refs_by_app.get(request.appid, ())) or None
             db.session.add(request)
-        for decision in summary_decision_records:
+        for decision in appdata_decision_records:
             db.session.add(decision)
         _upsert_manifest_analysis_observations(
             db.session,
@@ -1836,7 +1893,7 @@ def submit_review_request(
         )
         if (
             persisted_requests
-            or summary_decision_records
+            or appdata_decision_records
             or analysis_observations
             or outdated_count
         ):

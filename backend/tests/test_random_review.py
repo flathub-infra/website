@@ -1102,6 +1102,70 @@ def test_significant_summary_change_requests_review(monkeypatch, published, cand
     assert data["current_values"]["summary"] == published
 
 
+@pytest.mark.parametrize(
+    ("field", "published", "candidate"),
+    [
+        ("name", "Example App", "example-app"),
+        ("name", "Example App", "Example  App."),
+        ("developer_name", "Example", "The Example Project"),
+        ("developer_name", "Example Inc.", "Example"),
+        ("developer_name", "GnuCash Project", "The GnuCash Project"),
+    ],
+)
+def test_equivalent_name_does_not_request_review(
+    monkeypatch, field, published, candidate
+):
+    current_values = _unchanged_values()
+    current_values["org.example.App"][field] = published
+    harness = CallbackHarness(monkeypatch, current_values=current_values)
+    metadata = _unchanged_values()["org.example.App"]
+    metadata[field] = candidate
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is False
+    assert harness.db.session.persisted == []
+
+
+@pytest.mark.parametrize(
+    ("field", "published", "candidate"),
+    [
+        ("name", "Example App", "Example App Official"),
+        ("name", "Example App", "Example Ap"),
+        ("name", "Example App", "The Example App"),
+        ("name", "The", "Project"),
+        ("developer_name", "Example", "Exampl"),
+        ("developer_name", "Example", "Example contact@example.org"),
+        ("developer_name", "Team", "Project"),
+        ("developer_name", "Example", None),
+    ],
+)
+def test_significant_name_change_requests_review(
+    monkeypatch, field, published, candidate
+):
+    current_values = _unchanged_values()
+    current_values["org.example.App"][field] = published
+    harness = CallbackHarness(monkeypatch, current_values=current_values)
+    metadata = _unchanged_values()["org.example.App"]
+    metadata[field] = candidate
+    monkeypatch.setattr(
+        moderation.utils,
+        "appstream2dict",
+        lambda url: {"org.example.App": metadata},
+    )
+
+    result = harness.call()
+
+    assert result.requires_review is True
+    data = json.loads(harness.db.session.persisted[0].request_data)
+    assert data["keys"] == {field: candidate}
+
+
 @pytest.mark.parametrize("summary", [None, "Edit photos"])
 def test_exact_equal_summary_does_not_request_review(monkeypatch, summary):
     current_values = _unchanged_values()
@@ -1199,12 +1263,14 @@ def _summary_change_harness(
     post,
     published=_OLD_SUMMARY,
     candidate=_NEW_SUMMARY,
-    published_name="Example App",
+    published_values=None,
     initial=False,
     **options,
 ):
     current_values = _unchanged_values()
-    current_values["org.example.App"].update(summary=published, name=published_name)
+    current_values["org.example.App"].update(
+        summary=published, **(published_values or {})
+    )
     harness = CallbackHarness(
         monkeypatch,
         current_values=None if initial else current_values,
@@ -1244,14 +1310,18 @@ def test_approved_summary_rewrite_needs_no_review(monkeypatch):
 
     assert result.requires_review is False
     [decision] = harness.db.session.persisted
-    assert isinstance(decision, models.SummaryDecision)
+    assert isinstance(decision, models.AppdataDecision)
     assert (decision.app_id, decision.build_id, decision.approved) == (
         "org.example.App",
         harness.build_id,
         True,
     )
     assert decision.model == "mammoth-1"
-    assert (decision.old_summary, decision.new_summary) == (_OLD_SUMMARY, _NEW_SUMMARY)
+    assert (decision.field, decision.old_value, decision.new_value) == (
+        "summary",
+        _OLD_SUMMARY,
+        _NEW_SUMMARY,
+    )
 
 
 @pytest.mark.parametrize(
@@ -1280,7 +1350,7 @@ def test_unapproved_summary_rewrite_requests_review(monkeypatch, post, recorded)
     assert [
         request.approved
         for request in harness.db.session.persisted
-        if isinstance(request, models.SummaryDecision)
+        if isinstance(request, models.AppdataDecision)
     ] == recorded
 
 
@@ -1322,9 +1392,25 @@ def test_approved_summary_keeps_permission_review(monkeypatch):
     ("options", "expected_keys"),
     [
         pytest.param(
-            {"published_name": "Old name"},
-            [{"name": "Example App", "summary": _NEW_SUMMARY}],
+            {"published_values": {"project_license": "LicenseRef-proprietary"}},
+            [{"project_license": "MIT", "summary": _NEW_SUMMARY}],
             id="mixed-metadata",
+        ),
+        pytest.param(
+            {"published_values": {"name": "Old name", "developer_name": None}},
+            [
+                {
+                    "developer_name": "Example",
+                    "name": "Example App",
+                    "summary": _NEW_SUMMARY,
+                }
+            ],
+            id="missing-published-developer-name",
+        ),
+        pytest.param(
+            {"published_values": {"developer_name": "Old developer"}},
+            [{"developer_name": "Example", "summary": _NEW_SUMMARY}],
+            id="developer-name-change",
         ),
         pytest.param(
             {"initial": True},
@@ -1362,6 +1448,58 @@ def test_ineligible_summary_change_skips_decision(monkeypatch, options, expected
     harness.call()
 
     assert _appdata_keys(harness) == expected_keys
+
+
+def _field_post(held=()):
+    def post(url, **kwargs):
+        state = kwargs["json"]["state"]
+        field = next(field for field in ("summary", "name") if f"old_{field}" in state)
+        reply = (
+            decision_reply(field, choice="needs_review", benign=0.1)
+            if field in held
+            else decision_reply(field)
+        )
+        return decision_post(reply)(url, **kwargs)
+
+    return post
+
+
+@pytest.mark.parametrize(
+    ("held", "expected_keys"),
+    [
+        pytest.param((), [], id="all-approved"),
+        pytest.param(
+            ("name",),
+            [
+                {
+                    "name": "Example App",
+                    "summary": _NEW_SUMMARY,
+                }
+            ],
+            id="name-held",
+        ),
+        pytest.param(
+            ("summary",),
+            [{"name": "Example App", "summary": _NEW_SUMMARY}],
+            id="summary-held",
+        ),
+    ],
+)
+def test_metadata_change_needs_every_field_approved(monkeypatch, held, expected_keys):
+    harness = _summary_change_harness(
+        monkeypatch,
+        _field_post(held),
+        published_values={"name": "Old name"},
+    )
+
+    harness.call()
+
+    assert _appdata_keys(harness) == expected_keys
+    assert sorted(
+        (request.field, request.approved)
+        for request in harness.db.session.persisted
+        if isinstance(request, models.AppdataDecision)
+    ) == sorted((field, field not in held) for field in ("name", "summary"))
 
 
 @pytest.mark.parametrize(

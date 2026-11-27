@@ -8,11 +8,11 @@ gi.require_version("OSTree", "1.0")
 from gi.repository import Gio, OSTree  # type: ignore
 
 from app import config, http_client
+from app.moderation import appdata_decisions
 
 APP = "org.example.App"
 REF = f"app/{APP}/x86_64/stable"
 ARM = f"app/{APP}/aarch64/stable"
-DECISION_RISKS = ("promo", "hype", "brand", "harmful", "junk")
 
 
 class SourceRepo:
@@ -44,15 +44,20 @@ class SourceRepo:
         return checksum
 
 
-def decision_reply(choice="benign_rewrite", benign=0.95, **scores):
-    nouls = {"same_app": 0.95, **dict.fromkeys(DECISION_RISKS, 0.05), **scores}
+def decision_reply(field="summary", choice=None, benign=0.95, **scores):
+    spec = appdata_decisions.FIELDS[field]
+    nouls = {
+        "same_app": 0.95,
+        **dict.fromkeys(spec.risks, 0.05),
+        **scores,
+    }
     return {
         "model": "mammoth-1",
         "answers": {
             "disposition": {
                 "type": "choice",
-                "choice": choice,
-                "probabilities": {"benign_rewrite": benign, "needs_review": 1 - benign},
+                "choice": choice or spec.benign,
+                "probabilities": {spec.benign: benign, "needs_review": 1 - benign},
                 "confidence": 0.9,
             },
             **{name: {"type": "noul", "noul": value} for name, value in nouls.items()},
