@@ -83,9 +83,22 @@ it("explains a partial queue and adds apps when indexing progresses", async () =
   ].map((name) => ({ app_id: `org.example.${name}`, name }))
   getQueue
     .mockResolvedValueOnce({
-      data: { apps: apps.slice(0, 5), attention: [], indexing: true },
+      data: {
+        apps: apps.slice(0, 5),
+        attention: [],
+        indexing: true,
+        first_checks_pending: true,
+      },
     })
     .mockRejectedValueOnce(new Error("Queue unavailable"))
+    .mockResolvedValueOnce({
+      data: {
+        apps: apps.slice(1),
+        attention: [],
+        indexing: true,
+        first_checks_pending: false,
+      },
+    })
     .mockResolvedValue({
       data: { apps: apps.slice(1), attention: [], indexing: false },
     })
@@ -126,7 +139,8 @@ it("explains a partial queue and adds apps when indexing progresses", async () =
   expect(host.querySelector("h2")?.textContent).toBe("Alpha")
 
   await act(async () => vi.advanceTimersByTimeAsync(60_000))
-  expect(getQueue).toHaveBeenCalledTimes(3)
+  await act(async () => vi.advanceTimersByTimeAsync(60_000))
+  expect(getQueue).toHaveBeenCalledTimes(4)
 })
 
 it("shares the language loaded in the standalone editor", async () => {

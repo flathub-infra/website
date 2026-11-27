@@ -38,6 +38,7 @@ export const getGetTranslationQueueMetadataTranslationsQueueGetResponseMock = (
     name: faker.string.alpha({ length: { min: 10, max: 20 } }),
   })),
   indexing: faker.datatype.boolean(),
+  first_checks_pending: faker.datatype.boolean(),
   ...overrideResponse,
 })
 

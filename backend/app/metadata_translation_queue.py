@@ -251,6 +251,7 @@ class TranslationQueue(BaseModel):
     apps: list[QueueApp]
     attention: list[QueueApp]
     indexing: bool
+    first_checks_pending: bool
 
 
 class TranslationIndexStatus(BaseModel):
@@ -344,7 +345,9 @@ def language_queue(locale: str) -> TranslationQueue:
 
 
 def _language_queue(db, locale, lookup_id=None):
-    queue = TranslationQueue(apps=[], attention=[], indexing=False)
+    queue = TranslationQueue(
+        apps=[], attention=[], indexing=False, first_checks_pending=False
+    )
     missing = None
     batch_query = db.query(
         MetadataTranslationBatch.app_id,
@@ -373,13 +376,16 @@ def _language_queue(db, locale, lookup_id=None):
             TranslationListing.sha,
             TranslationListing.missing,
             TranslationListing.missing_listing,
+            TranslationListing.checked_at.is_(None).label("unchecked"),
         )
         .outerjoin(TranslationListing, TranslationListing.app_id == App.app_id)
         .order_by(App.last_updated_at.desc().nullslast(), App.app_id)
     )
-    for app_id, name, sha, previous_counts, listing_counts in rows:
+    for app_id, name, sha, previous_counts, listing_counts, unchecked in rows:
         item = QueueApp(app_id=app_id, name=name or app_id)
         batch = batches.pop(app_id, None)
+        if unchecked:
+            queue.first_checks_pending = True
         if listing_counts is None:
             queue.indexing = True
         counts = previous_counts if listing_counts is None else listing_counts

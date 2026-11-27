@@ -302,7 +302,7 @@ function Queue({ language, account }: { language: string; account: string }) {
           Could not refresh the queue. Showing the last loaded apps.
         </p>
       )}
-      {queue.data.indexing && (
+      {queue.data.first_checks_pending && (
         <p role="status" className="text-sm text-muted-foreground">
           Flathub is still checking other apps.
         </p>
@@ -361,7 +361,7 @@ function Queue({ language, account }: { language: string; account: string }) {
         <div className="space-y-3" role="status">
           {skipped.length > 0 ? (
             <p>You skipped the remaining apps in this queue.</p>
-          ) : !queue.data.indexing ? (
+          ) : !queue.data.first_checks_pending ? (
             <p>No more apps in this queue.</p>
           ) : null}
           <Button
