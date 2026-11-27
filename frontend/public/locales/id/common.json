@@ -839,7 +839,6 @@
       "description": "Aplikasi yang membantu Anda menyelesaikan pekerjaan"
     }
   },
-  "moderation-random-review": "Dipilih secara acak untuk ditinjau",
   "unverified-app-disclaimer-package": "Paket yang disediakan komunitas ini tidak diverifikasi oleh, berafiliasi dengan, atau didukung oleh {developer}.",
   "unverified-app-disclaimer-unknown-developer": "pengembang aplikasi",
   "dns-verification-main-instruction": "Verifikasi hak Anda untuk menggunakan app ID <bold>{id}</bold> dengan memublikasikan DNS TXT record untuk <bold>{domain}</bold>.",

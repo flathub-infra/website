@@ -726,7 +726,11 @@
     "all-categories": "Pokaż wszystkie kategorie",
     "award-guide": "Jak wybieramy zwycięzców",
     "more-downloads": "{count, number} więcej pobrań",
-    "arrivals": "{count, number} aplikacji pojawiło się na Flathubie w {year}."
+    "arrivals": "{count, number} aplikacji pojawiło się na Flathubie w {year}.",
+    "meet-arrivals": "Wśród nich:",
+    "outside-previous-top-ten": "Poza zeszłoroczną dziesiątką",
+    "previous-rank": "#{rank, number} w {year}",
+    "category-gain": "Największy wzrost: <link>{app}</link> (+{count, number} pobrań)"
   },
   "quality-moderation-excluded": "Ta aplikacja nie podlega kontroli jakości",
   "app-information": "Informacje o aplikacji",
@@ -846,7 +850,6 @@
   "dns-lookup-failed": "Nie udało się wyszukać rekordów TXT dla {record}.",
   "app-is-currently-verified-by-dns": "Twoja aplikacja jest obecnie zweryfikowana poprzez kontrolę DNS <domain></domain>",
   "verified-dns-tooltip": "Prawo własności do identyfikatora aplikacji <appid></appid> zostało zweryfikowane poprzez kontrolę DNS domeny <domain></domain>",
-  "moderation-random-review": "Wybrana losowo do przeglądu",
   "moderation-summary-changes": "Podsumowanie zmian",
   "moderation-manifest-source-origin": "Zmiany w źródle manifestu",
   "moderation-manifest-added": "Dodane",
@@ -1018,7 +1021,10 @@
     "set-up-payments": "Skonfiguruj płatności",
     "uploads-description": "Utwórz tokeny do przesyłania plików, aby publikować kompilacje z poziomu narzędzi programistycznych lub systemu CI. Tutaj możesz zarządzać istniejącymi tokenami i je cofać.",
     "archive-description": "Unieważnij wszystkie tokeny do przesyłania danych i oznacz tę aplikację jako wycofaną z użytku. Możesz zamieścić komunikat oraz wskazać aplikację zastępczą dla obecnych użytkowników.",
-    "verification-description": "Pokaż użytkownikom, że ta aplikacja została zatwierdzona przez jej twórcę. Wybierz jedną z poniższych metod, aby potwierdzić, że masz kontrolę nad domeną lub kontem hostingowym, z którego pochodzi aplikacja. Szczegółowe informacje znajdziesz w <doclink>przewodniku po weryfikacji</doclink>."
+    "verification-description": "Pokaż użytkownikom, że ta aplikacja została zatwierdzona przez jej twórcę. Wybierz jedną z poniższych metod, aby potwierdzić, że masz kontrolę nad domeną lub kontem hostingowym, z którego pochodzi aplikacja. Szczegółowe informacje znajdziesz w <doclink>przewodniku po weryfikacji</doclink>.",
+    "app-share-after-fees": "Udział w przychodach z aplikacji po potrąceniu opłat: {percentage}",
+    "payments-owner-only": "Tylko użytkownik, który skonfigurował płatności dla tej aplikacji, może zmienić jej ustawienia płatności.",
+    "payments-not-configured": "Dla tej aplikacji nie skonfigurowano jeszcze płatności."
   },
   "moderation-approved": "Zatwierdzono",
   "moderation-rejected": "Odrzucono",
@@ -1047,5 +1053,8 @@
     "description": "Wskaźniki uwzględniają instalacje, nie użytkowników.",
     "per-capita-map-label": "Liczba instalacji na 100 000 osób w każdym kraju",
     "x-per-100000": "{x} instalacji na 100 000 osób"
-  }
+  },
+  "resume-payment-authentication": "Kontynuuj uwierzytelnianie płatności",
+  "login-to-bookmark": "Zaloguj się, aby dodać tę aplikację do zakładek",
+  "bookmark-count": "{count, plural, one {# zakładka} few {# zakładki} many {# zakładek} other {# zakładki}}"
 }

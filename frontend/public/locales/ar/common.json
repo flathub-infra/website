@@ -836,7 +836,6 @@
   "app-is-currently-verified-by-dns": "تحققَ من تطبيقك حاليًا من خلال التحكم في DNS الخاص بـ <domain></domain>",
   "verified-dns-tooltip": "تحققَ من ملكية معرِّف التطبيق <appid></appid> من خلال التحقق من DNS الخاص بـ <domain></domain>",
   "dns-verification": "تحقُق DNS",
-  "moderation-random-review": "حُدّد عشوائيًا للتحقُق",
   "moderation-summary-changes": "مُلخص التغييرات",
   "moderation-manifest-source-origin": "تغييرات في مصدر البيان",
   "moderation-manifest-added": "أُضيف",

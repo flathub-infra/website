@@ -243,5 +243,12 @@
     "download": "داگرتن",
     "free": "خۆڕایی"
   },
-  "app-information": "زانیاری بەرنامە"
+  "app-information": "زانیاری بەرنامە",
+  "app-maintenance": {
+    "title": "چاکسازی",
+    "update-checker": "پشکنەری وەشان"
+  },
+  "app-management": {
+    "manage-app": "بەرنامە بەڕێوەببە"
+  }
 }

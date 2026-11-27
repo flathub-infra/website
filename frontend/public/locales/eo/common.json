@@ -850,7 +850,6 @@
   "dns-verification-main-instruction": "Konfirmi vian rajton uzi la apidentigilon <bold>{id}</bold> publikigante TXT-registron pri la DNS-nomregno <bold>{domain}</bold>.",
   "unverified-app-disclaimer-package": "Jen komunume provizata pako ne konfirmita, nek oficialigita, nek subtenata de {developer}.",
   "dns-validation-instruction": "Enmetu la jenan DNS-registron sen forigi ajnan ekzistantan TXT-registron. Vi eble atendu iomete por la propagado de ŝanĝoj pri DNS.",
-  "moderation-random-review": "Hazarde elektita por reviziado",
   "could-not-find-match-with-filters": "Ni ne povis trovi bonan rezulton kongruan kun tiuj filtriloj.",
   "moderation-manifest-removed": "Forigita",
   "moderation-summary-changes": "Ŝanĝoj pri resumo",
@@ -1054,5 +1053,6 @@
     "x-per-100000": "{x} instaloj por 100 000 homoj",
     "per-capita-map-label": "Instaloj por 100 000 homoj en iu lando",
     "description": "Proporcio kalkulas elŝutojn, ne uzantojn."
-  }
+  },
+  "resume-payment-authentication": "Daŭrigi aŭtentikigon pri pago"
 }

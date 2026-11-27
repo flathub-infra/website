@@ -830,7 +830,6 @@
   "dns-token-not-present": "Die TXT-Einträge unter {record} enthalten kein Verifizierungstoken.",
   "app-is-currently-verified-by-dns": "Ihre App ist derzeit durch eine DNS-Überprüfung von <domain></domain> verifiziert",
   "dns-verification": "DNS-Verifizierung",
-  "moderation-random-review": "Zufällig zur Überprüfung ausgewählt",
   "dns-verification-main-instruction": "Verifiziere dein Recht, die App-ID <bold>{id}</bold> zu verwenden, indem du einen DNS-TXT-Eintrag für <bold>{domain}</bold> veröffentlichst.",
   "dns-lookup-failed": "Die Abfrage der TXT-Einträge für {record} ist fehlgeschlagen.",
   "verified-dns-tooltip": "Der Besitz der App-Kennung <appid></appid> wurde durch die DNS-Kontrolle von <domain></domain> verifiziert",

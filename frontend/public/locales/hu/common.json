@@ -833,7 +833,6 @@
   "app-is-currently-verified-by-dns": "Az alkalmazás jelenleg DNS-hitelesítéssel igazolt a(z) <domain></domain> domain feletti rendelkezés alapján",
   "verified-dns-tooltip": "A(z) <appid></appid> alkalmazásazonosító tulajdonjoga a(z) <domain></domain> domain feletti DNS-vezérlés alapján igazolt",
   "dns-verification": "DNS-hitelesítés",
-  "moderation-random-review": "Véletlenszerűen kiválasztva ellenőrzésre",
   "moderation-manifest-removed": "Eltávolítva",
   "moderation-manifest-added": "Hozzáadva",
   "chart-description": "Diagram, amely ezt mutatja: {chart}. A pontos értékhez vigye az egérmutatót egy adatpontra, vagy fókuszálja azt.",

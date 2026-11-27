@@ -841,7 +841,6 @@
   },
   "unverified-app-disclaimer-unknown-developer": "توسعه‌دهندهٔ کاره",
   "unverified-app-disclaimer-package": "این بستهٔ فراهم شده به دست اجتماع از سوی {developer} تأیید یا پشتیبانی نمی‌شود.",
-  "moderation-random-review": "گزیدهٔ کاتوره‌ای برای بازبینی",
   "dns-verification-main-instruction": "تأیید حق استفاده‌تان از شناسهٔ کارهٔ <bold>{id}</bold> با انتشار رکورد TXT ساناد برای <bold>{domain}</bold>.",
   "dns-record-value": "مقدار",
   "dns-record-not-found": "هیچ رکورد TXTای در {record} پیدا نشد.",

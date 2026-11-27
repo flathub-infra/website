@@ -710,7 +710,6 @@
   "moderation-manifest-source-origin": "Ändringar i manifestkällan",
   "moderation-manifest-added": "Tillagd",
   "moderation-manifest-removed": "Borttagen",
-  "moderation-random-review": "Slumpmässigt vald för granskning",
   "moderation-build-log": "Bygglogg",
   "user-id": "Flathub-användar-ID",
   "unverified-tooltip": "Ägarskapet för app-ID:t <appid></appid> har inte verifierats och det kan vara ett communitypaket",

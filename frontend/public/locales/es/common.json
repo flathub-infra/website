@@ -830,7 +830,38 @@
   "could-not-find-match-with-filters": "No hemos podido encontrar ningún resultado que se ajuste a estos filtros.",
   "other-apps-to-explore": "Aquí tiene otras aplicaciones geniales que puede descubrir.",
   "moderation-build-log": "Registro de construcción",
-  "moderation-random-review": "Seleccionado al azar para su revisión",
   "moderation-manifest-removed": "Eliminado",
-  "moderation-manifest-added": "Añadido"
+  "moderation-manifest-added": "Añadido",
+  "country-downloads": {
+    "summary": "Descargas, no usarios.",
+    "no-country-data": "Aún no hay datos de país.",
+    "population-source": "Datos de populación de {year}",
+    "description": "Descargas, no usarios.",
+    "country": "País",
+    "lower": "Menos",
+    "higher": "Más",
+    "total-downloads": "Descargas total",
+    "per-100000": "Por 100,000 personal",
+    "per-capita-map-label": "Descargas por 100,000 personas en cada país",
+    "x-per-100000": "{x} descargas por 100,000 people",
+    "x-total": "{x} total",
+    "population-unavailable": "Datos de populación no disponible"
+  },
+  "country-installs": {
+    "title": "Instalaciones por país",
+    "total-installs": "Instalaciones total",
+    "per-capita-map-label": "Instalaciones por 100,000 personas en cada país",
+    "x-per-100000": "{x} instalaciones por 100,000 personas"
+  },
+  "app-maintenance": {
+    "title": "Mantenimiento",
+    "loading-runtime": "Cargando informacion del entorno de ejecución",
+    "runtime": "Entorno de ejecución publicado",
+    "runtime-unavailable": "Informacion del entorno de ejecución no esta disponible."
+  },
+  "app-management": {
+    "manage-app": "Gestionar app",
+    "payments": "Pagos"
+  },
+  "category": "Categoría"
 }

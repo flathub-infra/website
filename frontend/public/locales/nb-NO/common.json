@@ -959,7 +959,6 @@
   "reauth-account-mismatch": "Innloggingen samsvarte ikke med denne kontoen. Logg inn med en av dine tilkoblede kontoer.",
   "oauth-account-email-already-used": "Denne e-posten er allerede assosiert med en Flathub-konto. Logg inn med din tidligere innloggingsmetode (e-post eller gjennom leverandøren din), og lenk deretter kontoen til leverandøren fra innstillinger. Flathub-kontoer kan ikke slås sammen automatisk.",
   "health-fitness-description": "Helse- og treningsapper til Linux.",
-  "moderation-random-review": "Valgt ut tilfeldig til gjennomgang",
   "quality-metadata-changed-since-review": "Endret siden siste kvalitetssjekk",
   "dns-validation-instruction": "Legg til følgende DNS-oppføring uten å fjerne noen andre TXT-oppføringer. Det kan ta tid før DNS-endringene er synlige for oss.",
   "dns-token-not-present": "TXT-oppføringene på {record} inneholder ikke verifiseringsnøkkelen.",

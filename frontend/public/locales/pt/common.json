@@ -866,7 +866,6 @@
   "moderation-manifest-source-origin": "Alterações à origem do manifesto",
   "moderation-manifest-added": "Adicionado",
   "moderation-manifest-removed": "Removido",
-  "moderation-random-review": "Selecionado aleatoriamente para revisão",
   "quality-metadata-changed": "Metadados alterados {time}",
   "quality-metadata-changed-since-review": "Alterado desde a revisão de qualidade",
   "moderation-build-log": "Registo da build",

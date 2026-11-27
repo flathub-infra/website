@@ -1,9 +1,9 @@
 {
-  "publish": "Publica",
+  "publish": "Publică",
   "about": "Despre",
   "about-pagename": "Despre Flathub: Magazinul de aplicații Linux",
   "apps": "Aplicații",
-  "popular": "Popular",
+  "popular": "Populare",
   "rss-feeds": "Feed-uri RSS",
   "community": "Comunitate",
   "developers": "Dezvoltatori",
@@ -230,7 +230,6 @@
   "moderation-manifest-source-origin": "Modificări ale sursei manifestului",
   "moderation-manifest-added": "Adăugat",
   "moderation-manifest-removed": "Șters",
-  "moderation-random-review": "Selectat aleatoriu pentru evaluare",
   "moderation-key": "Cheie",
   "moderation-old-value": "Valoarea anterioară",
   "moderation-new-value": "Valoare nouă",
@@ -855,14 +854,24 @@
     "most-improved-description": "Aplicația cu cea mai mare rată de creștere procentuală față de anul precedent",
     "trending-categories": "Categorii în tendințe",
     "trending-categories-description": "Categoriile cu cea mai mare creștere în acest an",
-    "top-countries": "Cele mai importante țări",
+    "top-countries": "Top țări",
     "year-over-year-growth": "Creștere de la un an la altul",
     "downloads-vs-previous-year": "Descărcări față de {year}",
     "fastest-growing-regions": "Regiunile cu cea mai rapidă creștere",
     "hidden-gems": "Comori ascunse",
-    "hidden-gems-description": "Aplicații cu tracțiune în creștere",
+    "hidden-gems-description": "Câteva aplicații pe care poate le-ai ratat anul acesta.",
     "platform-downloads": "Descărcări pe platformă",
-    "x-growth-formatted": "Creștere de {percentage}"
+    "x-growth-formatted": "Creștere de {percentage}",
+    "per-capita-description": "Țările fără date despre populație sunt excluse.",
+    "all-categories": "Afișează toate categoriile",
+    "award-guide": "Cum alegem câștigătorii",
+    "more-downloads": "{count, number} descărcări în plus",
+    "arrivals": "{count, number} aplicații s-au alăturat Flathub în {year}.",
+    "meet-arrivals": "Printre acestea:",
+    "outside-previous-top-ten": "În afara topului 10 din anul trecut",
+    "previous-rank": "#{rank, number} în {year}",
+    "category-gain": "Cea mai mare creștere: <link>{app}</link> (+{count, number} descărcări)",
+    "annual-growth": "Creștere anuală"
   },
   "year-in-review-banner": {
     "description": "Revedeți cele mai bune aplicații și tendințe ale anului",
@@ -1009,7 +1018,10 @@
     "set-up-payments": "Configurați plățile",
     "verification-description": "Arătați utilizatorilor că această aplicație este aprobată de dezvoltatorul ei. Alegeți o metodă mai jos pentru a dovedi că vă controlați domeniul sau contul de găzduire a codului sursă. Citiți <doclink>ghidul de verificare</doclink> pentru detalii.",
     "uploads-description": "Creați token-uri de încărcare pentru a publica compilări din instrumentele dvs. de dezvoltare sau din CI. Gestionați și revocați token-urile existente aici.",
-    "archive-description": "Revocați toate token-urile de încărcare și marcați această aplicație ca ajunsă la sfârșitul vieții. Puteți furniza un mesaj și o aplicație de înlocuire pentru utilizatorii existenți."
+    "archive-description": "Revocați toate token-urile de încărcare și marcați această aplicație ca ajunsă la sfârșitul vieții. Puteți furniza un mesaj și o aplicație de înlocuire pentru utilizatorii existenți.",
+    "app-share-after-fees": "Partea aplicației după taxe: {percentage}",
+    "payments-owner-only": "Doar contul care a configurat plățile pentru această aplicație poate modifica setările de plată.",
+    "payments-not-configured": "Plățile nu au fost configurate pentru această aplicație."
   },
   "moderation-approved": "Aprobat",
   "moderation-approved-on": "Aprobat la {handledAt} ({handledAtRel})",
@@ -1017,5 +1029,30 @@
   "moderation-rejected": "Respins",
   "moderation-appstream-changes": "Modificări Appstream",
   "moderation-appstream": "Metadate Appstream",
-  "confirm": "Confirmați"
+  "confirm": "Confirmați",
+  "country-downloads": {
+    "summary": "Descărcări, nu utilizatori.",
+    "no-country-data": "Încă nu există date despre țări.",
+    "population-source": "Date despre populație pentru anul {year}",
+    "methodology": "Ratele numără descărcările, nu utilizatorii. Nicio rată fără date despre populație.",
+    "description": "Descărcări, nu utilizatori.",
+    "country": "Țară",
+    "lower": "Mai puține",
+    "higher": "Mai multe",
+    "total-downloads": "Total descărcări",
+    "per-100000": "La 100.000 de persoane",
+    "per-capita-map-label": "Descărcări la 100.000 de persoane în fiecare țară",
+    "x-per-100000": "{x} descărcări la 100.000 de persoane",
+    "x-total": "{x} în total",
+    "population-unavailable": "Date despre populație indisponibile",
+    "source": "Proiecții de la mijlocul anului {year} din <source>UN World Population Prospects {revision}</source>, licențiate sub <license>CC BY 3.0 IGO</license>."
+  },
+  "country-installs": {
+    "title": "Instalări pe țară",
+    "total-installs": "Total instalări",
+    "description": "Ratele numără instalările, nu utilizatorii.",
+    "per-capita-map-label": "Instalări la 100.000 de persoane în fiecare țară",
+    "x-per-100000": "{x} instalări la 100.000 de persoane"
+  },
+  "resume-payment-authentication": "Continuă autentificarea plății"
 }

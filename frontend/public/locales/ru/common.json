@@ -829,7 +829,6 @@
       "description": "Добейтесь успехов в делах с этими приложениями"
     }
   },
-  "moderation-random-review": "Выбрано случайным образом для проверки",
   "unverified-app-disclaimer-package": "Этот пакет, предоставленный сообществом, не проверен, не связан и не поддерживается {developer}.",
   "unverified-app-disclaimer-unknown-developer": "разработчиком приложения",
   "dns-verification-main-instruction": "Подтвердите своё право на использование идентификатора приложения <bold>{id}</bold>, опубликовав DNS-запись типа TXT для <bold>{domain}</bold>.",

@@ -726,7 +726,11 @@
     "award-guide": "An chaoi a roghnaímid na buaiteoirí",
     "more-downloads": "{count, number} íoslódáil eile",
     "arrivals": "Tháinig {count, number} aip isteach i Flathub sa bhliain {year}.",
-    "annual-growth": "Fás bliantúil"
+    "annual-growth": "Fás bliantúil",
+    "meet-arrivals": "Ina measc:",
+    "outside-previous-top-ten": "Lasmuigh de na 10 barr anuraidh",
+    "previous-rank": "#{rank, number} i {year}",
+    "category-gain": "An méadú is mó: <link>{app}</link> (+{count, number} íoslódáil)"
   },
   "app-information": "Faisnéis faoin aip",
   "sub-header": {
@@ -846,7 +850,6 @@
   "app-is-currently-verified-by-dns": "Tá d'aip fíoraithe faoi láthair trí rialú DNS ar <domain></domain>",
   "verified-dns-tooltip": "Tá úinéireacht ID an aip <appid></appid> fíoraithe trí rialú DNS ar <domain></domain>",
   "dns-verification": "Fíorú DNS",
-  "moderation-random-review": "Roghnaithe go randamach le haghaidh athbhreithnithe",
   "moderation-summary-changes": "Athruithe Achoimre",
   "moderation-manifest-source-origin": "Athruithe soiléire ar fhoinse",
   "moderation-manifest-added": "Cuireadh leis",
@@ -1018,7 +1021,10 @@
     "view-listing": "Féach ar liostú an aip",
     "review-history": "Cuir léirmheasanna roimhe seo san áireamh",
     "no-pending-reviews": "Níl aon athruithe ag fanacht le hathbhreithniú",
-    "no-pending-description": "Tá gach rud cothrom le dáta agat. Cuir athbhreithnithe san am atá thart ar siúl chun breathnú arís ar athruithe a rinneadh cheana."
+    "no-pending-description": "Tá gach rud cothrom le dáta agat. Cuir athbhreithnithe san am atá thart ar siúl chun breathnú arís ar athruithe a rinneadh cheana.",
+    "app-share-after-fees": "Sciar ón aip tar éis táillí: {percentage}",
+    "payments-owner-only": "Ní féidir ach leis an gcuntas a bhunaigh íocaíochtaí don aip seo a shocruithe íocaíochta a athrú.",
+    "payments-not-configured": "Níl íocaíochtaí socraithe don aip seo."
   },
   "moderation-approved-on": "Ceadaithe ar {handledAt} ({handledAtRel})",
   "moderation-rejected-on": "Diúltaithe ar {handledAt} ({handledAtRel})",
@@ -1047,5 +1053,8 @@
     "description": "Áiríonn rátaí suiteálacha, ní úsáideoirí.",
     "per-capita-map-label": "Suiteálacha in aghaidh gach 100,000 duine i ngach tír",
     "x-per-100000": "{x} suiteáil in aghaidh gach 100,000 duine"
-  }
+  },
+  "resume-payment-authentication": "Lean ar aghaidh le fíordheimhniú íocaíochta",
+  "login-to-bookmark": "Logáil isteach chun an aip seo a chur i do leabharmharcanna",
+  "bookmark-count": "{count, plural, one {# leabharmharc} other {# leabharmharc}}"
 }

@@ -850,7 +850,6 @@
   "app-is-currently-verified-by-dns": "Sinu rakendus on hetkel kinnitatud seeläbi, et oleme tuvastanud sinu kontrolli <domain></domain> domeeni üle",
   "verified-dns-tooltip": "<appid></appid> rakenduse tunnuse omand on kinnitatud seeläbi, et oleme tuvastanud kontrolli <domain></domain> domeeni üle",
   "dns-verification": "Nimelahenduse-põhine verifitseerimine",
-  "moderation-random-review": "Juhuslikult valitud ülevaatamiseks",
   "moderation-manifest-added": "Lisatud",
   "moderation-manifest-removed": "Eemaldatud",
   "moderation-build-log": "Kompileerimislogi",
@@ -1054,5 +1053,6 @@
     "description": "Suhtarvud arvestavad paigalduste, mitte kasutajate arvu.",
     "per-capita-map-label": "Paigaldusi riikide kaupa 100000 elaniku kohta",
     "x-per-100000": "{x} paigaldust 100000 elaniku kohta"
-  }
+  },
+  "resume-payment-authentication": "Jätka makse autentimisega"
 }
