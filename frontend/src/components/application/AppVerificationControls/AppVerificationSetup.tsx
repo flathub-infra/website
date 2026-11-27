@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactElement, useCallback, useState } from "react"
+import { FunctionComponent, ReactElement, useState } from "react"
 import { verificationProviderToHumanReadable } from "src/verificationProvider"
 import { useUserContext } from "src/context/user-info"
 import ConfirmDialog from "../../ConfirmDialog"
@@ -16,7 +16,9 @@ import {
 } from "src/codegen/model"
 import {
   getVerificationStatusVerificationAppIdStatusGet,
-  unverifyVerificationAppIdUnverifyPost,
+  getCanUnverifyVerificationAppIdCanUnverifyGetQueryKey,
+  useCanUnverifyVerificationAppIdCanUnverifyGet,
+  useUnverifyVerificationAppIdUnverifyPost,
   useGetAvailableMethodsVerificationAppIdAvailableMethodsGet,
   useManualVerificationVerificationAppIdManualVerificationPost,
 } from "src/codegen"
@@ -95,6 +97,8 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
     enabled: !!app.id,
   })
 
+  const methodsEnabled =
+    canUseMethods && !query.error && query.data?.data.verified === false
   const verificationAvailableMethods =
     useGetAvailableMethodsVerificationAppIdAvailableMethodsGet(
       app.id,
@@ -105,15 +109,34 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         },
         query: {
           retry: false,
-          enabled:
-            canUseMethods &&
-            !query.error &&
-            query.data?.data.verified === false,
+          enabled: methodsEnabled,
         },
       },
     )
 
   const [confirmUnverify, setConfirmUnverify] = useState<boolean>(false)
+  const account = user.info?.invite_code
+  const checkRevocation = !!account && !!app.id && !isNewApp
+  const revocation = useCanUnverifyVerificationAppIdCanUnverifyGet(app.id, {
+    axios: { withCredentials: true },
+    query: {
+      enabled: checkRevocation,
+      queryKey: [
+        ...getCanUnverifyVerificationAppIdCanUnverifyGetQueryKey(app.id),
+        account,
+      ],
+    },
+  })
+  const refreshVerification = () =>
+    Promise.all([
+      query.refetch(),
+      checkRevocation && revocation.refetch(),
+      !isNewApp && methodsEnabled && verificationAvailableMethods.refetch(),
+    ])
+  const unverify = useUnverifyVerificationAppIdUnverifyPost({
+    axios: { withCredentials: true },
+    mutation: { onSettled: refreshVerification },
+  })
 
   const manualVerifyMutation =
     useManualVerificationVerificationAppIdManualVerificationPost({
@@ -122,10 +145,10 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
       },
     })
 
-  const onChildVerified = useCallback(() => {
-    query.refetch()
+  const onChildVerified = () => {
+    refreshVerification()
     onVerified?.()
-  }, [onVerified, query])
+  }
 
   if (query.isPending) {
     return <Spinner size="m" />
@@ -133,39 +156,8 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
 
   let content: ReactElement | null = null
   let methodsReportedVerified = false
-  if (query.data?.data.verified && !isNewApp) {
-    const canUnverify =
-      canModifyUsers ||
-      (isDeveloper && query.data.data.method !== VerificationMethod.manual)
-    if (!query.error && canUnverify) {
-      content = (
-        <>
-          <Button variant="outline" onClick={() => setConfirmUnverify(true)}>
-            {t("unverify")}
-          </Button>
-          <ConfirmDialog
-            isVisible={confirmUnverify}
-            prompt={t("unverify", { appId: app.id })}
-            action={t("unverify")}
-            actionVariant="destructive"
-            onConfirmed={() => {
-              setConfirmUnverify(false)
-              unverifyVerificationAppIdUnverifyPost(app.id, {
-                withCredentials: true,
-              }).then(() => query.refetch())
-            }}
-            onCancelled={() => setConfirmUnverify(false)}
-          >
-            {t("unverify-app-prompt", { appId: app.id })}
-          </ConfirmDialog>
-        </>
-      )
-    }
-  } else if (
-    query.data &&
-    canUseMethods &&
-    verificationAvailableMethods.error
-  ) {
+  const showMethods = canUseMethods && (isNewApp || !query.data?.data.verified)
+  if (query.data && showMethods && verificationAvailableMethods.error) {
     const errorData = verificationAvailableMethods.error.response?.data
     // Handle custom error responses with string detail
     let detail: string | undefined
@@ -227,7 +219,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
         />
       )
     }
-  } else if (query.data && !query.error && canUseMethods) {
+  } else if (query.data && !query.error && showMethods) {
     content = (
       <div className="flex flex-col gap-5">
         {isNewApp && (
@@ -314,6 +306,36 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
             )}
           </p>
           {content}
+          {!query.error &&
+            checkRevocation &&
+            revocation.isSuccess &&
+            revocation.data.data && (
+              <>
+                <Button
+                  variant="outline"
+                  disabled={unverify.isPending}
+                  onClick={() => setConfirmUnverify(true)}
+                >
+                  {t("unverify")}
+                </Button>
+                <ConfirmDialog
+                  isVisible={confirmUnverify}
+                  prompt={t("unverify", { appId: app.id })}
+                  action={t("unverify")}
+                  actionVariant="destructive"
+                  onConfirmed={() => {
+                    setConfirmUnverify(false)
+                    unverify.mutate({ appId: app.id })
+                  }}
+                  onCancelled={() => setConfirmUnverify(false)}
+                >
+                  {t("unverify-app-prompt", { appId: app.id })}
+                </ConfirmDialog>
+              </>
+            )}
+          {unverify.isError && (
+            <InlineError shown error={t("unverify-failed")} />
+          )}
         </div>
       ) : (
         content
@@ -334,10 +356,7 @@ const AppVerificationSetup: FunctionComponent<Props> = ({
               manualVerifyMutation.mutate(
                 { appId: app.id },
                 {
-                  onSuccess: () => {
-                    query.refetch()
-                    onVerified?.()
-                  },
+                  onSuccess: onChildVerified,
                 },
               )
             }}

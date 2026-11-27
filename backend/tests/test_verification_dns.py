@@ -195,6 +195,46 @@ def test_verification_status_is_not_http_cached(monkeypatch):
     assert response.headers["pragma"] == "no-cache"
 
 
+@pytest.mark.parametrize(
+    ("developer", "admin", "method", "account", "allowed"),
+    [
+        (True, False, "website", 42, True),
+        (True, False, "website", 99, False),
+        (False, False, "dns", 42, False),
+        (True, False, "manual", 42, False),
+        (False, True, "manual", 99, True),
+        (True, True, "dns", 99, True),
+        (True, True, None, None, False),
+    ],
+)
+def test_can_unverify(monkeypatch, developer, admin, method, account, allowed):
+    from app.login_info import logged_in
+
+    verification = _load_verification_module(monkeypatch)
+    app_id = "org.example.App"
+    user = SimpleNamespace(
+        id=42,
+        permissions=lambda: {"modify-users"} if admin else set(),
+        dev_flatpaks=lambda db: [app_id] if developer else [],
+    )
+
+    @contextmanager
+    def get_db(_db_type):
+        yield SimpleNamespace(session=SimpleNamespace(merge=lambda u: u))
+
+    monkeypatch.setattr(verification, "get_db", get_db)
+    existing = SimpleNamespace(method=method, account=account) if method else None
+    monkeypatch.setattr(verification, "_get_existing_verification", lambda _: existing)
+    app = FastAPI()
+    verification.register_to_app(app)
+    app.dependency_overrides[logged_in] = lambda: SimpleNamespace(user=user)
+    with TestClient(verification.cache.CacheControlMiddleware(app)) as client:
+        response = client.get(f"/verification/{app_id}/can-unverify")
+    assert response.status_code == 200
+    assert response.json() is allowed
+    assert response.headers["cache-control"] == "private, no-store"
+
+
 def test_dns_verification_status_reports_domain(monkeypatch):
     verification_module = _load_verification_module(monkeypatch)
     persisted = SimpleNamespace(

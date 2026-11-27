@@ -1610,6 +1610,208 @@ export const useConfirmDnsVerificationVerificationAppIdConfirmDnsVerificationPos
     )
   }
 /**
+ * @summary Can Unverify
+ */
+export const canUnverifyVerificationAppIdCanUnverifyGet = (
+  appId: string,
+  options?: AxiosRequestConfig,
+): Promise<AxiosResponse<boolean>> => {
+  return axios.get(`/verification/${appId}/can-unverify`, options)
+}
+
+export const getCanUnverifyVerificationAppIdCanUnverifyGetUrl = (
+  appId: string,
+) => {
+  return axios
+    .create({
+      baseURL: "",
+      params: null,
+    })
+    .getUri({
+      url: `/verification/${appId}/can-unverify`,
+      baseURL: "",
+
+      paramsSerializer: (params) =>
+        qs.stringify(params, { arrayFormat: "repeat" }),
+    })
+}
+
+export const getCanUnverifyVerificationAppIdCanUnverifyGetQueryKey = (
+  appId: string,
+) => {
+  return [`/verification/${appId}/can-unverify`] as const
+}
+
+export const getCanUnverifyVerificationAppIdCanUnverifyGetQueryOptions = <
+  TData = Awaited<
+    ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {}
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getCanUnverifyVerificationAppIdCanUnverifyGetQueryKey(appId)
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>>
+  > = ({ signal }) =>
+    canUnverifyVerificationAppIdCanUnverifyGet(appId, {
+      signal,
+      ...axiosOptions,
+    })
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: appId !== null && appId !== undefined,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type CanUnverifyVerificationAppIdCanUnverifyGetQueryResult = NonNullable<
+  Awaited<ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>>
+>
+export type CanUnverifyVerificationAppIdCanUnverifyGetQueryError =
+  AxiosError<HTTPValidationError>
+
+/** @summary Can Unverify */
+export function useCanUnverifyVerificationAppIdCanUnverifyGet<
+  TData = Awaited<
+    ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>
+          >,
+          TError,
+          Awaited<ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Can Unverify */
+export function useCanUnverifyVerificationAppIdCanUnverifyGet<
+  TData = Awaited<
+    ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<
+            ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>
+          >,
+          TError,
+          Awaited<ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>>
+        >,
+        "initialData"
+      >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Can Unverify */
+export function useCanUnverifyVerificationAppIdCanUnverifyGet<
+  TData = Awaited<
+    ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+}
+/** @summary Can Unverify */
+export function useCanUnverifyVerificationAppIdCanUnverifyGet<
+  TData = Awaited<
+    ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>
+  >,
+  TError = AxiosError<HTTPValidationError>,
+>(
+  appId: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof canUnverifyVerificationAppIdCanUnverifyGet>>,
+        TError,
+        TData
+      >
+    >
+    axios?: AxiosRequestConfig
+  },
+  queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>
+} {
+  const queryOptions =
+    getCanUnverifyVerificationAppIdCanUnverifyGetQueryOptions(appId, options)
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> }
+
+  return withQueryKey(query, queryOptions.queryKey)
+}
+
+/**
  * If the current account has verified the given app, mark it as no longer verified.
  * @summary Unverify
  */

@@ -10,6 +10,7 @@ const mocks = vi.hoisted(() => ({
   status: { verified: false, method: "none" } as
     { verified: boolean; method: string } | undefined,
   refreshStatus: vi.fn(),
+  canUnverify: false,
   statusError: null as Error | null,
   methods: vi.fn(
     (
@@ -22,7 +23,7 @@ const mocks = vi.hoisted(() => ({
   ),
 }))
 vi.mock("src/context/user-info", () => ({
-  useUserContext: () => ({ info: mocks.user }),
+  useUserContext: () => ({ info: { ...mocks.user, invite_code: "account" } }),
 }))
 vi.mock("@tanstack/react-query", () => ({
   useQuery: () => ({
@@ -32,6 +33,12 @@ vi.mock("@tanstack/react-query", () => ({
   }),
 }))
 vi.mock("src/codegen", () => ({
+  getCanUnverifyVerificationAppIdCanUnverifyGetQueryKey: () => ["can-unverify"],
+  useCanUnverifyVerificationAppIdCanUnverifyGet: () => ({
+    isSuccess: true,
+    data: { data: mocks.canUnverify },
+  }),
+  useUnverifyVerificationAppIdUnverifyPost: () => ({}),
   useGetAvailableMethodsVerificationAppIdAvailableMethodsGet: mocks.methods,
   useManualVerificationVerificationAppIdManualVerificationPost: () => ({}),
 }))
@@ -89,9 +96,14 @@ it.each([
 ] as const)(
   "shows verified $method status with unverify=$unverify for $role",
   ({ role, method, unverify }) => {
-    const html = render(role, method)
-    expect(html).toContain("app-is-currently-verified")
-    expect(html.includes(">unverify<")).toBe(unverify)
+    mocks.canUnverify = unverify
+    try {
+      const html = render(role, method)
+      expect(html).toContain("app-is-currently-verified")
+      expect(html.includes(">unverify<")).toBe(unverify)
+    } finally {
+      mocks.canUnverify = false
+    }
   },
 )
 
