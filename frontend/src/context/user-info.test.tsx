@@ -36,6 +36,16 @@ function SignIn() {
   )
 }
 
+function RefreshApps() {
+  const dispatch = useUserDispatch()
+  return (
+    <button
+      aria-label="Refresh apps"
+      onClick={() => dispatch({ type: "update-dev-flatpaks", devFlatpaks: [] })}
+    />
+  )
+}
+
 const host = document.createElement("div")
 let root: ReturnType<typeof createRoot>
 
@@ -57,6 +67,7 @@ function navigate(url: string, showSignIn = false) {
       <UserInfoProvider>
         <AccountStatus />
         {showSignIn && <SignIn />}
+        <RefreshApps />
       </UserInfoProvider>,
     ),
   )
@@ -106,6 +117,24 @@ it("recognizes sign-in from another tab on the next navigation", async () => {
   get.mockResolvedValueOnce({ status: 200, data: { displayname: "Reader" } })
   await navigate("/en/apps/search?q=music")
   expect(host.textContent).toBe("Reader")
+})
+
+it("applies a cross-tab logout during an app list refresh", async () => {
+  vi.spyOn(axios, "get").mockResolvedValueOnce({
+    status: 200,
+    data: { displayname: "Reader", invite_code: "reader" },
+  })
+  const renewal = Promise.withResolvers<AxiosResponse>()
+  vi.spyOn(axios, "head").mockReturnValueOnce(renewal.promise)
+  await navigate("/en")
+  await navigate("/en/apps")
+  await act(async () =>
+    host
+      .querySelector<HTMLButtonElement>('[aria-label="Refresh apps"]')!
+      .click(),
+  )
+  await act(async () => renewal.resolve({ status: 204 } as AxiosResponse))
+  expect(host.textContent).toBe("Signed out")
 })
 
 it("retries an interrupted initial account lookup on navigation", async () => {

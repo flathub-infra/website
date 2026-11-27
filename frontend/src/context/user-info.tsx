@@ -25,16 +25,16 @@ export const UserDispatchContext = createContext<
 >(undefined)
 
 function SessionRenewal({
-  startLookup,
+  createGuardedDispatch,
 }: {
-  startLookup: () => Dispatch<UserStateAction>
+  createGuardedDispatch: () => Dispatch<UserStateAction>
 }) {
   const user = useUserContext()
   const pathname = usePathname()
   const search = useSearchParams().toString()
   const accountChecked = useRef(false)
   const check = useEffectEvent(async (signal: AbortSignal) => {
-    const applyIfCurrent = startLookup()
+    const applyIfCurrent = createGuardedDispatch()
     if (!accountChecked.current) {
       const checked = await getUserData(applyIfCurrent, { signal })
       if (!signal.aborted) {
@@ -93,10 +93,12 @@ export const UserInfoProvider = ({
   )
   const revision = useRef(0)
   const dispatchUserAction = useCallback((action: UserStateAction) => {
-    revision.current++
+    if (action.type !== "update-dev-flatpaks") {
+      revision.current++
+    }
     dispatch(action)
   }, [])
-  function startLookup(): Dispatch<UserStateAction> {
+  function createGuardedDispatch(): Dispatch<UserStateAction> {
     const previousRevision = revision.current
     return (action) => {
       if (revision.current === previousRevision) {
@@ -108,7 +110,7 @@ export const UserInfoProvider = ({
     <UserContext value={user}>
       <UserDispatchContext value={dispatchUserAction}>
         <Suspense fallback={null}>
-          <SessionRenewal startLookup={startLookup} />
+          <SessionRenewal createGuardedDispatch={createGuardedDispatch} />
         </Suspense>
         {children}
       </UserDispatchContext>

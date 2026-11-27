@@ -1,5 +1,6 @@
 """Extend login identity without reissuing a snapshot of an in-flight login flow."""
 
+import hashlib
 import secrets
 
 from fastapi import Request, Response
@@ -16,6 +17,10 @@ _IDENTITY_FIELDS = ("user-id", "auth-method", "passkey-id", "auth-time")
 
 def browsing_lookup(request: Request) -> None:
     request.state.browsing_lookup = True
+
+
+def _identity_fields(session: dict) -> dict:
+    return {key: session[key] for key in _IDENTITY_FIELDS if key in session}
 
 
 class BrowsingSessionMiddleware:
@@ -40,43 +45,45 @@ class BrowsingSessionMiddleware:
             except BadSignature:
                 pass
             else:
-                if not generation or identity.pop("generation") == generation:
+                if not generation or identity["generation"] == generation:
+                    generation = identity["generation"]
                     # Construct a clean session, like Starlette decoding its cookie.
-                    scope["session"] = session = Session(
-                        {
-                            key: identity[key]
-                            for key in _IDENTITY_FIELDS
-                            if key in identity
-                        }
-                    )
+                    scope["session"] = session = Session(_identity_fields(identity))
 
+        # A delayed rejection must only invalidate the generation it inspected.
+        generation_hash = hashlib.sha256((generation or "").encode()).hexdigest()
+        rejected_cookie = f"__Host-flathub-rejected-{generation_hash}"
+        if rejected_cookie in connection.cookies:
+            scope["session"] = session = Session()
         previous_user = session.get("user-id")
 
         def update_cookies(message: Message) -> None:
             identity_removed = previous_user is not None and "user-id" not in session
-            if (
-                getattr(connection.state, "browsing_lookup", False)
-                and not identity_removed
-            ):
-                # Do not persist incidental changes such as tagging a legacy login.
-                # Deliberate credential invalidation still follows Starlette's clear path.
+            cookies = Response()
+            if getattr(connection.state, "browsing_lookup", False):
+                # A browsing response must never rewrite the main session cookie.
                 session.modified = False
-                if message["status"] != 200 or "user-id" not in session:
+                if identity_removed:
+                    cookies.set_cookie(
+                        rejected_cookie,
+                        "1",
+                        max_age=2 * SESSION_MAX_AGE,
+                        secure=True,
+                        httponly=True,
+                    )
+                elif message["status"] == 200 and "user-id" in session:
+                    identity = _identity_fields(session)
+                    identity["generation"] = generation
+                    cookies.set_cookie(
+                        _IDENTITY_COOKIE,
+                        self.signer.dumps(identity),
+                        max_age=SESSION_MAX_AGE,
+                        secure=True,
+                        httponly=True,
+                    )
+                else:
                     return
-                identity = {
-                    key: session[key] for key in _IDENTITY_FIELDS if key in session
-                }
-                identity["generation"] = generation
-                cookies = Response()
-                cookies.set_cookie(
-                    _IDENTITY_COOKIE,
-                    self.signer.dumps(identity),
-                    max_age=SESSION_MAX_AGE,
-                    secure=True,
-                    httponly=True,
-                )
             elif session.modified:
-                cookies = Response()
                 if cookie:
                     cookies.delete_cookie(_IDENTITY_COOKIE, secure=True, httponly=True)
                 # Outlive older browsing responses still in flight.

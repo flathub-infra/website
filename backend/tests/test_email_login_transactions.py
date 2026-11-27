@@ -594,18 +594,15 @@ def test_userinfo_renews_the_session_without_refreshing_auth_time(
         assert "set-cookie" not in expired.headers
 
 
-@pytest.mark.parametrize("action", ["logout", "link", "reauth"])
-@pytest.mark.parametrize("legacy", [False, True])
-def test_late_browsing_response_preserves_newer_auth_state(
-    browsing_app, monkeypatch, action, legacy
-):
+@pytest.fixture(params=[False, True], ids=["current", "legacy"])
+def delayed_renewal(browsing_app, monkeypatch, request):
     now = int(time.time())
     monkeypatch.setattr(time, "time", lambda: now)
     with (
         TestClient(browsing_app, base_url="https://testserver") as client,
         TestClient(browsing_app, base_url="https://testserver") as browsing_tab,
     ):
-        assert client.post("/sign-in", params={"legacy": legacy}).is_success
+        assert client.post("/sign-in", params={"legacy": request.param}).is_success
         browsing_tab.cookies.update(client.cookies)
         now += 3600
         renewal = browsing_tab.get("/auth/userinfo")
@@ -613,17 +610,30 @@ def test_late_browsing_response_preserves_newer_auth_state(
         assert "set-cookie" in renewal.headers
         assert "session" not in renewal.cookies
 
-        path = {"logout": "/auth/logout", "link": "/start-linking", "reauth": "/reauth"}
-        assert client.post(path[action]).is_success
-        client.cookies.extract_cookies(renewal)
-        if action == "logout":
-            assert client.get("/auth/userinfo").status_code == 204
-            assert client.post("/sign-in").is_success
-            assert client.get("/auth/userinfo").status_code == 200
-        elif action == "link":
-            assert client.get("/flow").json() == "github"
-        else:
-            assert client.get("/auth-time").json() == now
+        yield client, renewal
+
+
+def test_late_renewal_preserves_logout(delayed_renewal):
+    client, renewal = delayed_renewal
+    assert client.post("/auth/logout").is_success
+    client.cookies.extract_cookies(renewal)
+    assert client.get("/auth/userinfo").status_code == 204
+    assert client.post("/sign-in").is_success
+    assert client.get("/auth/userinfo").status_code == 200
+
+
+def test_late_renewal_preserves_linking(delayed_renewal):
+    client, renewal = delayed_renewal
+    assert client.post("/start-linking").is_success
+    client.cookies.extract_cookies(renewal)
+    assert client.get("/flow").json() == "github"
+
+
+def test_late_renewal_preserves_reauthentication(delayed_renewal):
+    client, renewal = delayed_renewal
+    assert client.post("/reauth").is_success
+    client.cookies.extract_cookies(renewal)
+    assert client.get("/auth-time").json() == int(time.time())
 
 
 def test_rejected_session_does_not_return_after_account_is_enabled(browsing_app):
@@ -634,6 +644,23 @@ def test_rejected_session_does_not_return_after_account_is_enabled(browsing_app)
         assert client.head("/auth/userinfo").status_code == 204
         assert client.post("/login-disabled/false").is_success
         assert client.get("/auth/userinfo").status_code == 204
+
+
+def test_late_rejected_lookup_preserves_new_sign_in(browsing_app):
+    with (
+        TestClient(browsing_app, base_url="https://testserver") as client,
+        TestClient(browsing_app, base_url="https://testserver") as browsing_tab,
+    ):
+        assert client.post("/sign-in").is_success
+        browsing_tab.cookies.update(client.cookies)
+        assert client.post("/login-disabled/true").is_success
+        rejected = browsing_tab.head("/auth/userinfo")
+        assert rejected.status_code == 204
+
+        assert client.post("/login-disabled/false").is_success
+        assert client.post("/sign-in").is_success
+        client.cookies.extract_cookies(rejected)
+        assert client.get("/auth/userinfo").status_code == 200
 
 
 def stored_names(engine, user_id):
