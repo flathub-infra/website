@@ -1494,6 +1494,9 @@ class Permission(StrEnum):
     MANAGE_OIDC_CLIENTS = "manage-oidc-clients"
 
 
+ACCOUNT_INVITE_CODE_HEADER = "Flathub-Account-Invite-Code"
+
+
 class UserInfo(BaseModel):
     displayname: str | None = None
     dev_flatpaks: list[str] = []
@@ -1516,7 +1519,7 @@ class UserInfo(BaseModel):
         200: {
             "description": "Session renewed",
             "headers": {
-                "Flathub-Account-Invite-Code": {
+                ACCOUNT_INVITE_CODE_HEADER: {
                     "description": "The current account's invite_code, when assigned",
                     "schema": {"type": "string"},
                 }
@@ -1530,7 +1533,7 @@ def renew_userinfo(login: LoginStatusDep, response: Response):
     if login.user is None:
         response.status_code = 204
     elif login.user.invite_code:
-        response.headers["Flathub-Account-Invite-Code"] = login.user.invite_code
+        response.headers[ACCOUNT_INVITE_CODE_HEADER] = login.user.invite_code
 
 
 @router.get(

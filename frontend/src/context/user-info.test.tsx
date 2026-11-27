@@ -225,7 +225,9 @@ it("keeps a newer sign-in when a background account lookup finishes", async () =
   const lookup = Promise.withResolvers<AxiosResponse>()
   get.mockReturnValueOnce(lookup.promise)
   await navigate("/en/apps/search?q=music", true)
-  await act(async () => host.querySelector("button")!.click())
+  await act(async () =>
+    host.querySelector<HTMLButtonElement>('[aria-label="Sign in"]')!.click(),
+  )
   await act(async () =>
     lookup.resolve({
       status: 200,
