@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/tooltip"
 import { useTranslations } from "next-intl"
 import { InfoIcon } from "lucide-react"
-import { clsx } from "yet-another-react-lightbox"
+import { clsx } from "clsx"
 import { GetVerificationStatusVerificationAppIdStatusGet200 } from "src/codegen"
 
 interface Props {
