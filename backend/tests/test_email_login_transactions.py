@@ -521,6 +521,193 @@ def add_user(writer, provider, name):
     return user
 
 
+@pytest.fixture
+def browsing_app(isolated_email_db, monkeypatch):
+    writer, _ = isolated_email_db
+    user = add_user(writer, "email", "Session User")
+    monkeypatch.setattr(logins.apps, "get_appids", lambda **kwargs: set())
+    monkeypatch.setattr(logins.audit_log, "enqueue_audit_log", Mock())
+    app = FastAPI()
+    logins.register_to_app(app)
+    app.add_middleware(cache.CacheControlMiddleware)
+
+    @app.post("/sign-in")
+    def sign_in(request: Request, linking: bool = False, legacy: bool = False):
+        logins.set_authenticated_session(request, user.id, "email")
+        if legacy:
+            request.session.pop("auth-method")
+        if linking:
+            request.session["active-login-flow"] = "github"
+
+    @app.get("/auth-time")
+    def auth_time(request: Request, login: LoginStatusDep):
+        return request.session["auth-time"] if login.user else None
+
+    @app.post("/start-linking")
+    def start_linking(request: Request):
+        request.session["active-login-flow"] = "github"
+
+    @app.post("/reauth")
+    def reauth(request: Request):
+        logins.mark_recently_authenticated(request)
+
+    @app.get("/flow")
+    def current_flow(login: LoginStatusDep):
+        return login.method
+
+    @app.post("/login-disabled/{disabled}")
+    def set_login_disabled(disabled: bool):
+        with writer() as db:
+            db.session.get(models.FlathubUser, user.id).banned = disabled
+
+    return app
+
+
+@pytest.mark.parametrize("linking", [False, True])
+def test_userinfo_renews_the_session_without_refreshing_auth_time(
+    browsing_app, monkeypatch, linking
+):
+    signed_in_at = int(time.time())
+    now = signed_in_at
+    monkeypatch.setattr(time, "time", lambda: now)
+    with TestClient(browsing_app, base_url="https://testserver") as client:
+        anonymous = client.get("/auth/userinfo")
+        assert anonymous.status_code == 204
+        assert "set-cookie" not in anonymous.headers
+        assert client.post("/sign-in", params={"linking": linking}).status_code == 200
+        account = client.get("/auth/userinfo").json()
+
+        now += 23 * 60 * 60
+        renewed = client.head("/auth/userinfo")
+        assert renewed.status_code == 200
+        assert renewed.headers["flathub-account-invite-code"] == account["invite_code"]
+        assert "Max-Age=86400" in renewed.headers.get("set-cookie", "")
+        assert renewed.headers["cache-control"] == "private, no-store"
+        assert "session" not in renewed.cookies
+
+        now += 2 * 60 * 60
+        assert client.get("/auth-time").json() == signed_in_at
+
+        now += 22 * 60 * 60 + 1
+        expired = client.get("/auth/userinfo")
+        assert expired.status_code == 204
+        assert "set-cookie" not in expired.headers
+
+
+@pytest.fixture(params=[False, True], ids=["current", "legacy"])
+def delayed_renewal(browsing_app, monkeypatch, request):
+    now = int(time.time())
+    monkeypatch.setattr(time, "time", lambda: now)
+    with (
+        TestClient(browsing_app, base_url="https://testserver") as client,
+        TestClient(browsing_app, base_url="https://testserver") as browsing_tab,
+    ):
+        assert client.post("/sign-in", params={"legacy": request.param}).is_success
+        if request.param:
+            for cookie in list(client.cookies.jar):
+                if cookie.name != "session":
+                    client.cookies.jar.clear(cookie.domain, cookie.path, cookie.name)
+        browsing_tab.cookies.update(client.cookies)
+        now += 3600
+        renewal = browsing_tab.get("/auth/userinfo")
+        assert renewal.status_code == 200
+        assert "set-cookie" in renewal.headers
+        assert "session" not in renewal.cookies
+
+        yield client, renewal
+
+
+def test_late_renewal_preserves_logout(delayed_renewal):
+    client, renewal = delayed_renewal
+    assert client.post("/auth/logout").is_success
+    client.cookies.extract_cookies(renewal)
+    assert client.get("/auth/userinfo").status_code == 204
+    assert client.post("/sign-in").is_success
+    assert client.get("/auth/userinfo").status_code == 200
+
+
+def test_logout_at_expiry_invalidates_pending_renewal(browsing_app, monkeypatch):
+    now = int(time.time())
+    monkeypatch.setattr(time, "time", lambda: now)
+    with (
+        TestClient(browsing_app, base_url="https://testserver") as client,
+        TestClient(browsing_app, base_url="https://testserver") as browsing_tab,
+    ):
+        assert client.post("/sign-in").is_success
+        browsing_tab.cookies.update(client.cookies)
+        now += 24 * 60 * 60 - 10
+        renewed = browsing_tab.head("/auth/userinfo")
+        assert renewed.status_code == 200
+        now += 20
+        assert client.post("/auth/logout").is_success
+        client.cookies.extract_cookies(renewed)
+        assert client.get("/auth/userinfo").status_code == 204
+
+
+def test_late_renewal_preserves_linking(delayed_renewal):
+    client, renewal = delayed_renewal
+    assert client.post("/start-linking").is_success
+    client.cookies.extract_cookies(renewal)
+    assert client.get("/flow").json() == "github"
+
+
+def test_late_renewal_preserves_reauthentication(delayed_renewal):
+    client, renewal = delayed_renewal
+    assert client.post("/reauth").is_success
+    client.cookies.extract_cookies(renewal)
+    assert client.get("/auth-time").json() == int(time.time())
+
+
+def test_late_renewal_preserves_renewal_after_new_sign_in(delayed_renewal, monkeypatch):
+    client, old_renewal = delayed_renewal
+    signed_in_at = int(time.time())
+    assert client.post("/sign-in").is_success
+    now = signed_in_at + 23 * 60 * 60
+    monkeypatch.setattr(time, "time", lambda: now)
+    assert client.head("/auth/userinfo").status_code == 200
+    client.cookies.extract_cookies(old_renewal)
+    now += 2 * 60 * 60
+    assert client.get("/auth-time").json() == signed_in_at
+
+
+def test_browsing_outlasts_the_generation_cookie(browsing_app, monkeypatch):
+    now = signed_in_at = int(time.time())
+    monkeypatch.setattr(time, "time", lambda: now)
+    with TestClient(browsing_app, base_url="https://testserver") as client:
+        assert client.post("/sign-in").is_success
+        for _ in range(4):
+            now += 23 * 60 * 60
+            assert client.head("/auth/userinfo").status_code == 200
+        assert client.get("/auth-time").json() == signed_in_at
+
+
+def test_rejected_session_does_not_return_after_account_is_enabled(browsing_app):
+    with TestClient(browsing_app, base_url="https://testserver") as client:
+        assert client.post("/sign-in").is_success
+        assert client.get("/auth/userinfo").status_code == 200
+        assert client.post("/login-disabled/true").is_success
+        assert client.head("/auth/userinfo").status_code == 204
+        assert client.post("/login-disabled/false").is_success
+        assert client.get("/auth/userinfo").status_code == 204
+
+
+def test_late_rejected_lookup_preserves_new_sign_in(browsing_app):
+    with (
+        TestClient(browsing_app, base_url="https://testserver") as client,
+        TestClient(browsing_app, base_url="https://testserver") as browsing_tab,
+    ):
+        assert client.post("/sign-in").is_success
+        browsing_tab.cookies.update(client.cookies)
+        assert client.post("/login-disabled/true").is_success
+        rejected = browsing_tab.head("/auth/userinfo")
+        assert rejected.status_code == 204
+
+        assert client.post("/login-disabled/false").is_success
+        assert client.post("/sign-in").is_success
+        client.cookies.extract_cookies(rejected)
+        assert client.get("/auth/userinfo").status_code == 200
+
+
 def stored_names(engine, user_id):
     with Session(engine) as session:
         user = session.get(models.FlathubUser, user_id)

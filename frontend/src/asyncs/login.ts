@@ -75,15 +75,23 @@ export async function login(
  */
 export async function getUserData(
   dispatch: Dispatch<UserStateAction>,
-): Promise<void> {
-  // Indicate the user data is being fetched
-  dispatch({ type: "loading" })
+  {
+    signal,
+    background = false,
+  }: { signal?: AbortSignal; background?: boolean } = {},
+): Promise<boolean> {
+  if (!background) {
+    dispatch({ type: "loading" })
+  }
 
   // On network error just assume user state is unchanged
   let res: AxiosResponse<void | GetUserinfoAuthUserinfoGet200, any>
   try {
     // Gets data for user with current session cookie
-    res = await getUserinfoAuthUserinfoGet({ withCredentials: true })
+    res = await getUserinfoAuthUserinfoGet({ withCredentials: true, signal })
+    if (signal?.aborted) {
+      return false
+    }
 
     // Assuming a bad status indicates unchanged user state
     // A no content status response indicates the user is not logged in
@@ -96,7 +104,11 @@ export async function getUserData(
         info,
       })
     }
+    return true
   } catch {
-    dispatch({ type: "interrupt" })
+    if (!signal?.aborted && !background) {
+      dispatch({ type: "interrupt" })
+    }
+    return false
   }
 }

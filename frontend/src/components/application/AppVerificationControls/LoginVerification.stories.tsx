@@ -13,6 +13,7 @@ const meta = {
   component: LoginVerification,
   title: "Components/Application/AppVerificationControls/LoginVerification",
   parameters: {
+    nextjs: { appDirectory: true },
     msw: {
       handlers: [
         getGetLoginMethodsAuthLoginGetMockHandler([]),

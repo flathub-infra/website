@@ -89,7 +89,7 @@ router.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["Retry-After"],
+    expose_headers=["Retry-After", logins.ACCOUNT_INVITE_CODE_HEADER],
 )
 
 apps.register_to_app(router)
