@@ -19,7 +19,7 @@ def browsing_lookup(request: Request) -> None:
     request.state.browsing_lookup = True
 
 
-def _identity_fields(session: dict) -> dict:
+def _identity_fields(session: dict[str, object]) -> dict[str, object]:
     return {key: session[key] for key in _IDENTITY_FIELDS if key in session}
 
 

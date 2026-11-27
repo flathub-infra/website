@@ -3,6 +3,7 @@ import axios, { type AxiosResponse } from "axios"
 import { act } from "react"
 import { createRoot } from "react-dom/client"
 import { afterEach, beforeEach, expect, it, vi } from "vitest"
+import { getUserData } from "../asyncs/login"
 import { UserInfoProvider, useUserContext, useUserDispatch } from "./user-info"
 
 vi.mock("next/navigation", () => ({
@@ -46,6 +47,16 @@ function RefreshApps() {
   )
 }
 
+function RefreshProfile() {
+  const dispatch = useUserDispatch()
+  return (
+    <button
+      aria-label="Refresh profile"
+      onClick={() => void getUserData(dispatch)}
+    />
+  )
+}
+
 const host = document.createElement("div")
 let root: ReturnType<typeof createRoot>
 
@@ -68,6 +79,7 @@ function navigate(url: string, showSignIn = false) {
         <AccountStatus />
         {showSignIn && <SignIn />}
         <RefreshApps />
+        <RefreshProfile />
       </UserInfoProvider>,
     ),
   )
@@ -134,6 +146,28 @@ it("applies a cross-tab logout during an app list refresh", async () => {
       .click(),
   )
   await act(async () => renewal.resolve({ status: 204 } as AxiosResponse))
+  expect(host.textContent).toBe("Signed out")
+})
+
+it("checks a navigation deferred by a foreground profile refresh", async () => {
+  const reader = {
+    status: 200,
+    data: { displayname: "Reader", invite_code: "reader" },
+  }
+  const lookup = Promise.withResolvers<AxiosResponse>()
+  vi.spyOn(axios, "get")
+    .mockResolvedValueOnce(reader)
+    .mockReturnValueOnce(lookup.promise)
+  const head = vi.spyOn(axios, "head").mockResolvedValueOnce({ status: 204 })
+  await navigate("/en")
+  await act(async () =>
+    host
+      .querySelector<HTMLButtonElement>('[aria-label="Refresh profile"]')!
+      .click(),
+  )
+  await navigate("/en/apps")
+  expect(head).not.toHaveBeenCalled()
+  await act(async () => lookup.resolve(reader as AxiosResponse))
   expect(host.textContent).toBe("Signed out")
 })
 

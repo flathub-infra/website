@@ -33,6 +33,7 @@ function SessionRenewal({
   const pathname = usePathname()
   const search = useSearchParams().toString()
   const accountChecked = useRef(false)
+  const deferredNavigation = useRef<AbortSignal>(undefined)
   const check = useEffectEvent(async (signal: AbortSignal) => {
     const applyIfCurrent = createGuardedDispatch()
     if (!accountChecked.current) {
@@ -43,6 +44,7 @@ function SessionRenewal({
       return
     }
     if (user.loading) {
+      deferredNavigation.current = signal
       return
     }
     try {
@@ -76,6 +78,16 @@ function SessionRenewal({
     void check(controller.signal)
     return () => controller.abort()
   }, [pathname, search])
+
+  useEffect(() => {
+    const signal = deferredNavigation.current
+    if (!user.loading && signal) {
+      deferredNavigation.current = undefined
+      if (!signal.aborted) {
+        void check(signal)
+      }
+    }
+  }, [user.loading])
 
   return null
 }

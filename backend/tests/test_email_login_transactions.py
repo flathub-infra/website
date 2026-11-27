@@ -603,6 +603,10 @@ def delayed_renewal(browsing_app, monkeypatch, request):
         TestClient(browsing_app, base_url="https://testserver") as browsing_tab,
     ):
         assert client.post("/sign-in", params={"legacy": request.param}).is_success
+        if request.param:
+            for cookie in list(client.cookies.jar):
+                if cookie.name != "session":
+                    client.cookies.jar.clear(cookie.domain, cookie.path, cookie.name)
         browsing_tab.cookies.update(client.cookies)
         now += 3600
         renewal = browsing_tab.get("/auth/userinfo")
