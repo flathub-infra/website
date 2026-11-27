@@ -8,6 +8,7 @@ from collections.abc import Set as AbstractSet
 from datetime import UTC, datetime
 from typing import Annotated, Any, cast
 
+import gi
 import jwt
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -52,6 +53,9 @@ from . import (
 from .constants import should_skip_review
 from .ostree_permissions import runtime_permissions
 from .permission_snapshot import PermissionMap
+
+gi.require_version("AppStream", "1.0")
+from gi.repository import AppStream  # pyrefly: ignore[missing-module-attribute]
 
 router = APIRouter(prefix="/moderation")
 logger = logging.getLogger(__name__)
@@ -105,18 +109,12 @@ def _summaries_equivalent(current: str | None, candidate: str | None) -> bool:
     return _within_one_edit(normalized[0], normalized[1])
 
 
-_OR_LATER_OPERATOR = re.compile(r"(?<=[0-9A-Za-z.])\+")
+def _is_free_license(value: JSONValue) -> bool:
+    return isinstance(value, str) and AppStream.license_is_free_license(value)
 
 
 def _licenses_equivalent(current: JSONValue, candidate: JSONValue) -> bool:
-    if current == candidate:
-        return True
-    if not isinstance(current, str) or not isinstance(candidate, str):
-        return False
-
-    return _OR_LATER_OPERATOR.sub("-or-later", current) == _OR_LATER_OPERATOR.sub(
-        "-or-later", candidate
-    )
+    return _is_free_license(current) == _is_free_license(candidate)
 
 
 def _extra_data_origins(extra_data: Mapping[str, JSONValue]) -> list[str] | None:

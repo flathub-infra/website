@@ -1136,6 +1136,10 @@ def test_exact_equal_summary_does_not_request_review(monkeypatch, summary):
             "GPL-2.0+ WITH Bison-exception-2.2",
             "GPL-2.0-or-later WITH Bison-exception-2.2",
         ),
+        ("GPL-3.0+", "GPL-2.0-or-later"),
+        ("GPL-3.0+", "GPL-3.0-only"),
+        ("GPL-3.0+ AND MIT", "GPL-3.0-or-later AND Apache-2.0"),
+        ("LicenseRef-proprietary", "LicenseRef-proprietary=https://example.com"),
     ],
 )
 def test_equivalent_license_does_not_request_review(monkeypatch, published, candidate):
@@ -1157,12 +1161,10 @@ def test_equivalent_license_does_not_request_review(monkeypatch, published, cand
 @pytest.mark.parametrize(
     ("published", "candidate"),
     [
-        ("GPL-3.0+", "GPL-2.0-or-later"),
-        ("GPL-3.0+", "GPL-3.0-only"),
-        ("GPL-3.0-or-later", "GPL-3.0"),
-        ("LGPL-3.0+", "LGPL-2.1-or-later"),
-        ("GPL-3.0+ AND MIT", "GPL-3.0-or-later AND Apache-2.0"),
-        ("GPL-3.0+ WITH Classpath-exception-2.0", "GPL-3.0-or-later"),
+        ("GPL-3.0-or-later", "LicenseRef-proprietary"),
+        ("LicenseRef-proprietary", "GPL-3.0-or-later"),
+        ("MIT", "LicenseRef-proprietary=https://example.com/license"),
+        ("GPL-3.0+", None),
     ],
 )
 def test_license_change_requests_review(monkeypatch, published, candidate):
