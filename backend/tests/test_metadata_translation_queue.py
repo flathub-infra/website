@@ -81,21 +81,22 @@ def test_queue_reads_shared_saves_before_publication_and_separates_recovery(
     monkeypatch.setattr(queue, "get_db", lambda _: nullcontext(db))
     apps = MagicMock()
     rows = [
-        (app_id, "Example", "sha", {"*": 1}, None),
-        ("org.example.Other", "Other", "other", {"*": 2}, None),
-        ("org.example.Optional", "Optional", "optional", {"*": 5}, {"*": 0}),
-        ("org.example.Unknown", None, None, None, None),
+        (app_id, "Example", "sha", {"*": 1}, None, False),
+        ("org.example.Other", "Other", "other", {"*": 2}, None, False),
+        ("org.example.Optional", "Optional", "optional", {"*": 5}, {"*": 0}, False),
+        ("org.example.Unknown", None, None, None, None, True),
     ]
     apps.add_columns.return_value.outerjoin.return_value.order_by.return_value = rows
     monkeypatch.setattr(queue, "_apps", lambda _: apps)
     result = queue.language_queue("fr")
     assert result.indexing and [a.name for a in result.apps] == ["Other"]
+    assert result.first_checks_pending
     assert not result.attention
     batch.error = "source_changed"
     assert [a.app_id for a in queue.language_queue("fr").attention] == [app_id]
     batch.error = None
     batch.source_sha = "old-sha"
-    rows[0] = (app_id, "Example", "sha", None, None)
+    rows[0] = (app_id, "Example", "sha", None, None, False)
     assert [a.app_id for a in queue.language_queue("fr").attention] == [app_id]
 
 
@@ -115,7 +116,8 @@ def test_language_queue_filters_addon_hosts_and_orders_by_update_then_id(monkeyp
             )
             conn.exec_driver_sql(
                 "CREATE TEMP TABLE translationlisting "
-                "(app_id text, sha text, missing jsonb, missing_listing jsonb)"
+                "(app_id text, sha text, missing jsonb, missing_listing jsonb, "
+                "checked_at timestamp NOT NULL DEFAULT now())"
             )
             conn.exec_driver_sql(
                 """CREATE TEMP TABLE metadatatranslationbatch (
@@ -263,6 +265,8 @@ def test_index_continues_past_unavailable_repository(monkeypatch, translation_db
     ).one()
     assert indexed.missing["*"] == 2
     assert indexed.missing_listing["*"] == 1
+    assert queue.translation_index_status().never_checked == 0
+    assert not queue.language_queue("de").first_checks_pending
     blocked = queue.lookup_translation("org.example.Blocked", "de")
     assert (blocked.outcome, blocked.http_status) == ("github_error", 451)
     assert blocked.checked_at is not None

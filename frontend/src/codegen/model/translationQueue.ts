@@ -10,4 +10,5 @@ export interface TranslationQueue {
   apps: QueueApp[]
   attention: QueueApp[]
   indexing: boolean
+  first_checks_pending: boolean
 }
