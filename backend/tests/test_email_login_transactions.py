@@ -658,7 +658,7 @@ def test_late_renewal_preserves_reauthentication(delayed_renewal):
     assert client.get("/auth-time").json() == int(time.time())
 
 
-def test_late_renewal_preserves_newer_renewal(delayed_renewal, monkeypatch):
+def test_late_renewal_preserves_renewal_after_new_sign_in(delayed_renewal, monkeypatch):
     client, old_renewal = delayed_renewal
     signed_in_at = int(time.time())
     assert client.post("/sign-in").is_success
