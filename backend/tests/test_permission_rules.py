@@ -271,6 +271,25 @@ def test_exact_bus_transition_and_rejection_precedence(before, after):
 
 
 @pytest.mark.parametrize(
+    "name,expected",
+    [
+        ("org.mpris.MediaPlayer2.*", "rejected"),
+        ("org.mpris.MediaPlayer2.gridplayer.*", "rejected"),
+        ("org.mpris.MediaPlayer2.vlc", "rejected"),
+        ("org.mpris.MediaPlayer2", "rejected"),
+        ("org.mpris.MediaPlayer2Extra", None),
+        ("org.mpris", None),
+    ],
+)
+def test_bus_pattern_rule_covers_its_subnames(name, expected):
+    pattern = rule(
+        4, "rejected", "org.mpris.MediaPlayer2.*", "own", match_type="transition"
+    )
+    verdict = evaluate([change([SESSION, name], None, "own")], [pattern])
+    assert (verdict.decision if verdict else None) == expected
+
+
+@pytest.mark.parametrize(
     "before,after,expected",
     [
         (["dri"], ["all", "if:all:!has-input-device", "dri", "input"], "approved"),

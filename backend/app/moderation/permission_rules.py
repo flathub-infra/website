@@ -73,6 +73,11 @@ def _canonical(path: tuple[str, ...], item: str) -> str:
     return name if name and mode == "rw" else item
 
 
+def _covers(pattern: str, name: str) -> bool:
+    prefix = pattern.removesuffix(".*")
+    return prefix != pattern and (name == prefix or name.startswith(f"{prefix}."))
+
+
 def _endpoints(
     path: tuple[str, ...], rule: models.PermissionRule
 ) -> tuple[list[str], list[str], list[str]] | None:
@@ -123,13 +128,22 @@ def evaluate(
 ) -> Verdict | None:
     changes, complete = flatten(differences)
     by_path: dict[tuple[str, ...], list[models.PermissionRule]] = {}
+    patterns: list[models.PermissionRule] = []
     for rule in rules:
-        if rule.enabled:
+        if not rule.enabled:
+            continue
+        if rule.permission_group in BUS_GROUPS and rule.key.endswith(".*"):
+            patterns.append(rule)
+        else:
             by_path.setdefault((rule.permission_group, rule.key), []).append(rule)
     approving: list[models.PermissionRule] = []
     rejecting: list[models.PermissionRule] = []
     for path, before, after in changes:
-        candidates = by_path.get(path, [])
+        candidates = by_path.get(path, []) + [
+            rule
+            for rule in patterns
+            if rule.permission_group == path[0] and _covers(rule.key, path[1])
+        ]
         if isinstance(before, list) or isinstance(after, list):
             left = [] if before is None else before
             right = [] if after is None else after
