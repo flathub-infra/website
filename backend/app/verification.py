@@ -1,9 +1,12 @@
 import functools
 import importlib.resources
 import json
+import re
 import xml.etree.ElementTree as ET
 from datetime import UTC, datetime
 from enum import StrEnum
+from threading import Lock
+from time import monotonic
 from typing import Annotated, Literal
 from uuid import uuid4
 
@@ -14,6 +17,7 @@ import github
 import gitlab
 import httpx
 import publicsuffixlist
+import sentry_sdk
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Path, Request
 from github import Github
 from github.GithubException import UnknownObjectException
@@ -199,6 +203,40 @@ def _get_dns_record_name(app_id: str) -> str | None:
     return f"_flathub.{domain}" if domain else None
 
 
+_GNOME_GITLAB_ORIGIN = "https://gitlab.gnome.org"
+_GNOME_DOAP_WARNING_LIMIT = 50
+_gnome_doap_warning_lock = Lock()
+_gnome_doap_warning_hour = -1
+_gnome_doap_warnings: set[tuple[str, str, str]] = set()
+
+
+def _capture_gnome_doap_failure(app_id: str, url: str, reason: str) -> None:
+    global _gnome_doap_warning_hour
+
+    key = (app_id, url, reason)
+    with _gnome_doap_warning_lock:
+        hour_bucket = int(monotonic() // 3600)
+        if hour_bucket != _gnome_doap_warning_hour:
+            _gnome_doap_warnings.clear()
+            _gnome_doap_warning_hour = hour_bucket
+        if (
+            key in _gnome_doap_warnings
+            or len(_gnome_doap_warnings) >= _GNOME_DOAP_WARNING_LIMIT
+        ):
+            return
+        _gnome_doap_warnings.add(key)
+
+    with sentry_sdk.new_scope() as scope:
+        scope.set_tag("app_id", app_id)
+        scope.set_context("gnome_doap", {"url": url, "reason": reason})
+        sentry_sdk.capture_message("GNOME DOAP lookup failed", level="warning")
+
+
+def _report_gnome_doap_failure(app_id: str, url: str, reason: str) -> list[str]:
+    _capture_gnome_doap_failure(app_id, url, reason)
+    return []
+
+
 def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
     match app_id:
         case "org.gnome.World.PikaBackup":
@@ -212,6 +250,8 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
             return ["jrb"]
         case "org.gnome.Mahjongg":
             repo_name = "gnome-mahjongg"
+        case "org.gnome.Music":
+            repo_name = "gnome-music"
         case "org.gnome.Decibels":
             group = "GNOME/Incubator"
             repo_name = "decibels"
@@ -248,42 +288,76 @@ def _get_gnome_doap_maintainers(app_id: str, group: str = "World") -> list[str]:
     if not repo_name:
         repo_name = app_id.split(".")[-1].lower()
 
+    url = f"{_GNOME_GITLAB_ORIGIN}/{group}/{repo_name}/-/raw/HEAD/{repo_name}.doap"
     try:
-        r = http_client.get(
-            f"https://gitlab.gnome.org/{group}/{repo_name}/-/raw/HEAD/{repo_name}.doap",
-            follow_redirects=True,
-        )
+        r = http_client.get(url, follow_redirects=True)
     except httpx.HTTPError:
-        return []
+        return _report_gnome_doap_failure(app_id, url, "request_failed")
+
+    if any(
+        response.url.path.rstrip("/") == "/users/sign_in"
+        for response in (*r.history, r)
+    ):
+        return _report_gnome_doap_failure(app_id, url, "unexpected_html")
 
     if r.status_code != 200:
-        return []
+        return _report_gnome_doap_failure(app_id, url, f"http_{r.status_code}")
+
+    media_type = r.headers.get("content-type", "").split(";", 1)[0].strip().lower()
+    if media_type in {"text/html", "application/xhtml+xml"}:
+        return _report_gnome_doap_failure(app_id, url, "unexpected_html")
+
+    body = r.text
+    # A login page need not be well-formed XML or have the right media type.
+    if re.match(
+        r"\ufeff?\s*(?>(?:<!--.*?-->|<\?xml\s+.*?\?>)\s*)*"
+        r"(?:<!doctype\s+html\b|<html(?=[\s>/]))",
+        body,
+        re.IGNORECASE | re.DOTALL,
+    ):
+        return _report_gnome_doap_failure(app_id, url, "unexpected_html")
 
     try:
-        root = ET.fromstring(r.text)
+        root = ET.fromstring(body)
     except ET.ParseError:
-        return []
+        return _report_gnome_doap_failure(app_id, url, "invalid_xml")
 
+    if root.tag.rsplit("}", 1)[-1].lower() == "html":
+        return _report_gnome_doap_failure(app_id, url, "unexpected_html")
+
+    maintainers = _parse_gnome_doap_maintainers(root)
+    if not maintainers:
+        return _report_gnome_doap_failure(app_id, url, "no_maintainers")
+    return maintainers
+
+
+def _parse_gnome_doap_maintainers(root: ET.Element) -> list[str]:
     maintainers: list[str] = []
-
     foaf_prefix = "{http://xmlns.com/foaf/0.1/}"
+    rdf_resource = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource"
     maintainer_tags = root.findall("{http://usefulinc.com/ns/doap#}maintainer")
     for maintainer_tag in maintainer_tags:
         person_tags = maintainer_tag.findall(f"{foaf_prefix}Person")
         for person_tag in person_tags:
-            if (account_tag := person_tag.find(f"{foaf_prefix}account")) and (
-                online_account := account_tag.find(f"{foaf_prefix}OnlineAccount")
+            for online_account in person_tag.findall(
+                f"{foaf_prefix}account/{foaf_prefix}OnlineAccount"
             ):
-                account_name = online_account.find(f"{foaf_prefix}accountName")
-                if account_name is not None and account_name.text:
-                    maintainers.append(account_name.text)
-                    break
+                homepage = online_account.find(f"{foaf_prefix}accountServiceHomepage")
+                service = homepage.get(rdf_resource, "") if homepage is not None else ""
+                if service.strip().rstrip("/").lower() != _GNOME_GITLAB_ORIGIN:
+                    continue
 
-            if gnome_userid := person_tag.findall(
-                "{http://api.gnome.org/doap-extensions#}userid"
-            ):
-                if gnome_userid[0].text is not None:
-                    maintainers.append(gnome_userid[0].text)
+                if username := online_account.findtext(
+                    f"{foaf_prefix}accountName", ""
+                ).strip():
+                    break
+            else:
+                username = person_tag.findtext(
+                    "{http://api.gnome.org/doap-extensions#}userid", ""
+                ).strip()
+
+            if username:
+                maintainers.append(username)
                 break
 
     return maintainers
@@ -943,7 +1017,7 @@ def _check_login_provider_verification(
             login.user,
             models.GnomeAccount,
             LoginProvider.GNOME_GITLAB,
-            "https://gitlab.gnome.org",
+            _GNOME_GITLAB_ORIGIN,
         )
     elif provider == LoginProvider.KDE_GITLAB:
         return _verify_by_gitlab(
